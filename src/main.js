@@ -27,13 +27,14 @@ import JeeplusGencode from 'jeeplus-gencode'
 import JeeplusFlow from 'jeeplus-flowable'
 import 'jeeplus-flowable/lib/jeeplus-flowable.css'
 import './directive'
-import FormMaking from 'jeeplus-form-make/dist/JpFormMaking.common'
-import 'jeeplus-form-make/dist/JpFormMaking.css'
+import FormMaking from 'jeeplus-form/dist/JpFormMaking.common'
+import 'jeeplus-form/dist/JpFormMaking.css'
 import VueEditor from 'vue2-editor'
-
 import Treetable from 'jeeplus-treetable'
 
 Vue.use(VueEditor)
+Vue.use(FormMaking)
+
 Vue.use(JeeplusGencode)
 Vue.use(JeeplusFlow)
 VueClipboard.config.autoSetContainer = true

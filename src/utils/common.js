@@ -175,8 +175,8 @@ export default {
       return true;
     }
   },
-  getUrlParam(paramName){
-    var url = window.location.href ;             //获取当前url
+  getUrlParam(paramName,urlStr){
+    var url = urlStr||window.location.href ;             //获取当前url
     var tmp=url.split('?');                //获取?之后的参数字符串
     if(tmp.length>1){
       var cs =  tmp[1]; 

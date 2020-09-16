@@ -14,10 +14,9 @@
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small">查询</el-button>
             <el-button @click="resetSearch()" size="small">重置</el-button>
-            <el-button @click="test()" size="small">测试</el-button>
           </el-form-item>
       </el-form>
-
+  
       <el-row>
         <el-button-group class="pull-right">
             <el-button
@@ -114,13 +113,11 @@
     </el-pagination>
         <!-- 弹窗, 新增 / 修改 -->
     <FormDefinitionJsonForm  ref="formDefinitionJsonForm" @refreshDataList="refreshList"></FormDefinitionJsonForm>
-    <formDefinitionTestForm  ref="formDefinitionTestForm" @refreshDataList="refreshList"></formDefinitionTestForm>
   </div>
 </template>
 
 <script>
   import FormDefinitionJsonForm from './FormDefinitionJsonForm'
-  import FormDefinitionTestForm from './FormDefinitionTestForm'
   export default {
     data () {
       return {
@@ -142,8 +139,7 @@
       }
     },
     components: {
-      FormDefinitionJsonForm,
-      FormDefinitionTestForm
+      FormDefinitionJsonForm
     },
     activated () {
       this.refreshList()
@@ -201,9 +197,6 @@
       view (id) {
         this.$refs.formDefinitionJsonForm.init(id)
       },
-      test () {
-        this.$refs.formDefinitionTestForm.init()
-      },
       // 删除
       del (id) {
         let ids = id || this.dataListSelections.map(item => {
@@ -220,11 +213,11 @@
             method: 'delete',
             params: {'ids': ids}
           }).then(({data}) => {
+            this.loading = false
             if (data && data.success) {
               this.$message.success(data.msg)
               this.refreshList()
             }
-            this.loading = false
           })
         })
       },
@@ -241,11 +234,11 @@
             method: 'post',
             data: {'id': id}
           }).then(({data}) => {
+            this.loading = false
             if (data && data.success) {
               this.$message.success(data.msg)
               this.refreshList()
             }
-            this.loading = false
           })
         })
       },

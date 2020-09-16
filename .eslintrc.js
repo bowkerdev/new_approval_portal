@@ -24,6 +24,7 @@ module.exports = {
   rules: {
     'indent': ["off", "tab"],   
     // allow async-await
+    "space-before-function-paren": 0,
     'generator-star-spacing': 'off',
     // allow paren-less arrow functions    
     'arrow-parens': 0,          

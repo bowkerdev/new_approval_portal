@@ -39,23 +39,6 @@
               <el-form-item>
                 <el-button type="primary" :loading="loading" class="login-submit" @click="login">登录</el-button>
               </el-form-item>
-              <el-form-item>
-              <div class="block">
-               
-                <el-image class="mobile" src="/static/img/mobile.png"></el-image>
-                  <span class="demonstration">H5</span>
-              </div>
-                  <div class="block">
-               
-                <el-image class="mobile" src="/static/img/mobile.png"></el-image>
-                  <span class="demonstration">Android</span>
-              </div>
-                  <div class="block">
-               
-                <el-image class="mobile" src="/static/img/mobile.png"></el-image>
-                 <span class="demonstration">IOS</span>
-              </div>
-              </el-form-item>
             </el-form>
         </div>
          <el-image class="right" src="/static/img/right.png"></el-image>

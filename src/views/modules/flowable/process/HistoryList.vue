@@ -204,12 +204,12 @@
         }).then(() => {
           this.loading = true
           this.$http.delete('/flowable/process/history/deleteAllProcIns', {params: {'procInsIds': ids}}).then(({data}) => {
-            this.loading = false
             if (data && data.success) {
               this.$message.success({dangerouslyUseHTMLString: true,
                 message: data.msg})
               this.refreshList()
             }
+            this.loading = false
           })
         })
       }

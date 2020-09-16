@@ -117,12 +117,12 @@
               method: 'post',
               data: this.inputForm
             }).then(({data}) => {
-              this.loading = false
               if (data && data.success) {
                 this.visible = false
                 this.$message.success(data.msg)
                 this.$emit('refreshTree')
               }
+              this.loading = false
             })
           }
         })

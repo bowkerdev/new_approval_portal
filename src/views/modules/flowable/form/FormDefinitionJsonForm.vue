@@ -39,7 +39,9 @@
           url: `/extension/formDefinitionJson/queryById?id=${id}`,
           method: 'get'
         }).then(({data}) => {
+          debugger
           this.options = JSON.parse(data.formDefinitionJson.json)
+          
           this.visible = true
           this.loading = false
         })

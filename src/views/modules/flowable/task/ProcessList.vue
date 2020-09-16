@@ -5,7 +5,7 @@
     <el-card  shadow="never" :body-style="contentViewHeight">
      <el-tag
         closable
-        size="small" 
+        size="small"
         style="margin-bottom:5px"
         v-if="selectCategoryName"
         :disable-transitions="false"
@@ -172,11 +172,12 @@
         this.refreshList()
       },
       start (row) {
-              // 读取流程表单
+        // 读取流程表单
         this.$http.get('/flowable/task/getTaskDef', {params: {
           procDefId: row.id,
           status: 'start'
         }}).then(({data}) => {
+          console.log('getTaskDef结果：', data)
           if (data.success) {
             this.$router.push({
               path: '/flowable/task/TaskForm',

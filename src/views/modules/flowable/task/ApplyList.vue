@@ -23,7 +23,7 @@
       <el-row>
            <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button 
+            <el-button
               type="default"
               size="small"
               icon="el-icon-search"
@@ -31,13 +31,13 @@
             </el-button>
           </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
-            <el-button 
+            <el-button
               type="default"
               size="small"
               icon="el-icon-refresh"
               @click="refreshList">
             </el-button>
-          </el-tooltip>     
+          </el-tooltip>
         </el-button-group>
       </el-row>
         <el-table
@@ -56,7 +56,7 @@
           <el-table-column
             prop="vars.title"
             show-overflow-tooltip
-            label="实例标题">       
+            label="实例标题">
           </el-table-column>
           <el-table-column
             prop="procDef.name"
@@ -68,10 +68,10 @@
             show-overflow-tooltip
             label="状态">
             <template slot-scope="scope">
-              <el-tag v-if="scope.row.procIns.code === 0 
+              <el-tag v-if="scope.row.procIns.code === 0
                || scope.row.procIns.code === 3
-               || scope.row.procIns.code === 4 
-               || scope.row.procIns.code === 5" type="danger">{{scope.row.procIns.status}}</el-tag> 
+               || scope.row.procIns.code === 4
+               || scope.row.procIns.code === 5" type="danger">{{scope.row.procIns.status}}</el-tag>
                 <span v-if="scope.row.procIns.deleteReason">原因: {{scope.row.procIns.deleteReason}}</span>
                 <el-tag v-if="scope.row.procIns.code === 1" type="primary">{{scope.row.procIns.status}}  [{{scope.row.procIns.currentTask.name}}]</el-tag>
                 <el-tag v-if="scope.row.procIns.code === 2" type="success">{{scope.row.procIns.status}}</el-tag>
@@ -128,7 +128,7 @@
         :visible.sync="visible"
          v-dialogDrag
         height="600px">
-       
+
           <iframe :src="processPhotoUrl" frameborder="0" scrolling="auto" width="100%" height="600px"></iframe>
         </el-dialog>
         <urge-form ref="urgeForm"></urge-form>
@@ -253,7 +253,7 @@
           }
         })
       },
-          // 撤销申请
+      // 撤销申请
       callback (row) {
         this.$confirm(`确定要撤销该流程吗?`, '提示', {
           confirmButtonText: '确定',

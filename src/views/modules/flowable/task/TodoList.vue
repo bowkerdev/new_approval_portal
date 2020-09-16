@@ -23,7 +23,7 @@
       <el-row>
         <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button 
+            <el-button
               type="default"
               size="small"
               icon="el-icon-search"
@@ -31,13 +31,13 @@
             </el-button>
           </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
-            <el-button 
+            <el-button
               type="default"
               size="small"
               icon="el-icon-refresh"
               @click="refreshList">
             </el-button>
-          </el-tooltip>     
+          </el-tooltip>
         </el-button-group>
       </el-row>
         <el-table
@@ -114,11 +114,11 @@
          v-dialogDrag
         width="70%"
         height="600px">
-       
+
           <flow-chart ref="preview" :processInstanceId="processInstanceId"></flow-chart>
         </el-dialog>
         <user-select ref="userSelect" :limit="1" @doSubmit="selectUsersToTransferTask"></user-select>
-        
+
   </div>
 </template>
 
@@ -243,6 +243,7 @@
         })
       },
       todo (row) {
+        console.log('aaaa: ', row)
         this.$http.get('/flowable/task/getTaskDef', {params: {
           taskId: row.task.id,
           taskName: row.task.name,

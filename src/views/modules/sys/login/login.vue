@@ -99,6 +99,7 @@
       setInterval(() => {
         this.getTime()
       }, 1000)
+      this.checkLoginPage();
     },
     mounted () {
       this.$http.get('/sys/sysConfig/queryById').then(({data}) => {
@@ -107,8 +108,22 @@
       })
     },
     methods: {
+      checkLoginPage(){
+        this.$http({
+          url: '/sys/hasAllowLoginkey',
+          method: 'get'
+        }).then(({data}) => {
+          if (data && data.success && data.hasAllowLoginkey &&
+          (Vue.cookie.get('token')==null && Vue.cookie.get('token') == '')) {
+            window.location.href = data.loginOutUrl;
+          }
+        }).catch((e) => {
+          console.log(e.message)
+        })
+      },
       // 提交表单
       login () {
+        this.checkLoginPage();
         this.$refs['inputForm'].validate((valid) => {
           if (valid) {
             this.loading = true

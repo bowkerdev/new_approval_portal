@@ -86,6 +86,10 @@
         </template>
       </el-table-column>
       <el-table-column
+        prop="createBy.name"
+        label="发布者">
+      </el-table-column>
+      <el-table-column
         width="200"
         label="操作">
         <template  slot-scope="scope">

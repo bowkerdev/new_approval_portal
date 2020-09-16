@@ -4,6 +4,7 @@
     title="创建菜单"
     :close-on-click-modal="false"
      v-dialogDrag
+     width="1000px"
     :visible.sync="visible">
     <el-form :model="inputForm"  ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="120px" @submit.native.prevent>
@@ -28,7 +29,7 @@
         <el-form-item v-if="inputForm.type !== '2'" label="菜单图标" prop="icon">
             <el-input v-model="inputForm.icon" @focus="selectIcon" clearable :readonly="true" style="width:100%" placeholder="菜单图标名称"></el-input>
         </el-form-item>
-    
+        <data-rule-list  ref="dataRuleList" :form="form"></data-rule-list>
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="visible = false">关闭</el-button>
@@ -36,17 +37,20 @@
     </span>
   </el-dialog>
   <Icon ref="icon" @getValue="value => inputForm.icon = value"></Icon>
+  
 </div>
 </template>
 
 <script>
   import Icon from '@/components/icon'
   import SelectTree from '@/components/treeSelect/treeSelect.vue'
+  import DataRuleList from './DataRuleList'
   export default {
     data () {
       return {
         visible: false,
         menuList: [],
+        form: {},
         menuListTreeProps: {
           label: 'name',
           children: 'children'
@@ -58,16 +62,19 @@
           name: '',
           id: '',
           icon: '',
+          dataRuleList: [],
           formId: ''
         }
       }
     },
     components: {
       SelectTree,
+      DataRuleList,
       Icon
     },
     methods: {
       init (form) {
+        this.form = form
         this.inputForm.name = form.name
         this.inputForm.formId = form.id
         this.$http({
@@ -79,6 +86,7 @@
         this.visible = true
         this.$nextTick(() => {
           this.$refs['inputForm'].resetFields()
+          this.$refs.dataRuleList.dataRuleList = []
           this.$refs.menuParentTree.clearHandle()
         })
       },
@@ -93,6 +101,7 @@
       doSubmit () {
         this.$refs['inputForm'].validate((valid) => {
           if (valid) {
+            this.inputForm.dataRuleList = this.$refs.dataRuleList.dataRuleList
             this.$http.post('/form/make/createMenu',
                this.inputForm
             ).then(({data}) => {

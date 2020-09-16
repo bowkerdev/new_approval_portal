@@ -1,3 +1,4 @@
+import $http from './httpRequest'
 
 export function getDictLabel (type, value, defaultLabel) {
   if ((!value && value !== 0) || (!type && type !== 0)) {
@@ -56,4 +57,10 @@ export function getDictList (type) {
   return dicts || []
 }
 
-export default {getDictLabel, getDictValue, getDictList}
+export function refreshDictList () {
+  $http.get('/sys/dict/getDictMap').then(({data}) => {
+    sessionStorage.setItem('dictList', JSON.stringify(data.dictList || '[]'))
+  })
+}
+
+export default {getDictLabel, getDictValue, getDictList, refreshDictList}

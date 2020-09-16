@@ -10,6 +10,7 @@
         highlight-current
         :node-key="props.value"    
         :default-expanded-keys="defaultExpandedKey"
+        @check-change="handleCheckChange"
         @node-click="handleNodeClick">
       </el-tree>
     </el-option>
@@ -77,6 +78,12 @@ export default {
     size: {
       type: String,
       default: () => { return 'default' }
+    },
+    isOnlySelectLeaf: {
+      type: Boolean,
+      default: () => {
+        return false
+      }
     }
   },
   data () {
@@ -85,6 +92,7 @@ export default {
       valueTitle: this.label,
       defaultExpandedKey: [],
       placeholder: '请选择',
+      treeList: [],
       valueData: this.data
     }
   },
@@ -99,6 +107,7 @@ export default {
         method: 'get'
       }).then(({data}) => {
         this.valueData = data.treeData
+        this.setTreeList(this.valueData)
         this.$nextTick(() => {
           this.initHandle()
           this.placeholder = '请选择'
@@ -107,17 +116,44 @@ export default {
       })
     } else {
       this.valueData = this.data
+      this.setTreeList(this.valueData)
     }
   },
   methods: {
+    setTreeList (datas) { // 遍历树  获取id数组
+      for (var i in datas) {
+        this.treeList.push(datas[i])
+        if (datas[i].children) {
+          this.setTreeList(datas[i].children)
+        }
+      }
+    },
     // 初始化值
     initHandle () {
-      if (this.valueId && this.valueId !== '0' && this.$refs.selectTree.getNode(this.valueId)) {
-        this.valueTitle = this.$refs.selectTree.getNode(this.valueId).data[this.props.label]     // 初始化显示
-        this.$refs.selectTree.setCurrentKey(this.valueId)       // 设置默认选中
-        this.defaultExpandedKey = [this.valueId]      // 设置默认展开
+      if (this.valueId) {
+        if (this.showCheckbox) {
+          let ids = this.valueId.split(',')
+          this.$refs.selectTree.setCheckedKeys(ids)
+          let titles = []
+          ids.forEach((id) => {
+            this.treeList.forEach((d) => {
+              if (id === d[this.props.value]) {
+                titles.push(d[this.props.label])
+              }
+            })
+          })
+
+          this.valueTitle = titles.join(',')
+        } else if (this.valueId !== '1' && this.$refs.selectTree.getNode(this.valueId)) {
+          this.valueTitle = this.$refs.selectTree.getNode(this.valueId).data[this.props.label]     // 初始化显示
+          this.$refs.selectTree.setCurrentKey(this.valueId)       // 设置默认选中
+          this.defaultExpandedKey = [this.valueId]      // 设置默认展开
+        }
       }
       this.initScroll()
+    },
+    getNode (id) {
+      return this.$refs.selectTree.getNode(id)
     },
     // 初始化滚动条
     initScroll () {
@@ -135,14 +171,30 @@ export default {
     },
     // 切换选项
     handleNodeClick (node) {
+      if (this.showCheckbox) {
+        return
+      }
       if (node['disabled']) {
+        this.$message.warning('节点（' + node[this.props.label] + '）被禁止选择，请重新选择。')
+        return
+      }
+      if (this.isOnlySelectLeaf && node.children.length > 0) {
         this.$message.warning('不能选择根节点（' + node[this.props.label] + '）请重新选择。')
         return
       }
       this.valueTitle = node[this.props.label]
       this.valueId = node[this.props.value]
       this.$emit('getValue', this.valueId, this.valueTitle, node)
-      this.defaultExpandedKey = []
+    },
+    handleCheckChange (data, checked, indeterminate) {
+      let nodes = this.$refs.selectTree.getCheckedNodes()
+      this.valueTitle = nodes.map((node) => {
+        return node[this.props.label]
+      }).join(',')
+      this.valueId = nodes.map((node) => {
+        return node[this.props.value]
+      }).join(',')
+      this.$emit('getValue', this.valueId, this.valueTitle)
     },
     // 清除选中
     clearHandle () {

@@ -3,28 +3,24 @@ export default {
   state: {
     // 页面文档可视高度(随窗口改变大小)
     documentClientHeight: 0,
-        // 导航条, 布局风格, defalut(默认) / inverse(反向)
-    navbarLayoutType: localStorage.getItem('navbarLayoutType') || '5', // 主题风格
-        // 侧边栏, 布局皮肤, light(浅色) / dark(黑色)
-    sidebarLayoutSkin: localStorage.getItem('sidebarLayoutSkin') || '1', // 皮肤色
-        // 侧边栏, 折叠状态
+    // 导航条, 布局风格, defalut(默认) / inverse(反向)
+    navbarLayoutType: localStorage.getItem('navbarLayoutType') || '1',
+    // 侧边栏, 布局皮肤, light(浅色) / dark(黑色)
+    sidebarLayoutSkin: localStorage.getItem('sidebarLayoutSkin') || '1',
+    // 侧边栏, 折叠状态
     sidebarFold: false,
-        // 开启tab
+    // 开启tab
     isTab: localStorage.getItem('isTab') !== 'false',
-        // 侧边栏, 菜单
+    // 侧边栏, 菜单
     leftMenuList: [],
-        // 当前活动的tab标签页
+    // 当前活动的tab标签页
     menuActiveName: '',
-        // 侧边栏类型名
+    // 侧边栏类型名
     leftMenuCategory: '',
-        // 主入口标签页
-    mainTabs: [{
-      name: 'home',
-      title: '首页',
-      fullPath: '/home'
-    }],
+    // 主入口标签页
+    mainTabs: [{name: 'home', title: '首页', fullPath: '/home'}],
     mainTabsActiveName: 'home',
-        // 当前选中的top menu的index
+    // 当前选中的top menu的index
     topMenuActiveIndex: '0'
   },
   mutations: {

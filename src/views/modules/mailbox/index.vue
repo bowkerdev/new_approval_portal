@@ -11,6 +11,7 @@
           <el-menu-item index="1">收件箱 ({{' '+ noReadCount}}/{{mailBoxCount + ' ' }})</el-menu-item>
           <el-menu-item index="2">已发送 ({{' '+ mailComposeCount +' '}})</el-menu-item>
           <el-menu-item index="3">草稿箱 ({{' '+ mailDraftCount+' ' }})</el-menu-item>
+          <el-menu-item index="4">已删除 ({{' '+ mailTrashCount+' ' }})</el-menu-item>
         </el-menu-item-group>
    
         
@@ -60,10 +61,12 @@
           align="center"
           width="50">
         </el-table-column>
-          <el-table-column prop="status"  v-if="index === '2' || index === '3'" label="状态" >
+          <el-table-column prop="status"  v-if="index === '2' || index === '3'|| index === '4'" label="状态" >
             <template slot-scope="scope">
               <el-tag type="success" v-if="scope.row.status === '1'">已发送</el-tag>
               <el-tag type="danger" v-if="scope.row.status === '0'">草稿</el-tag>
+              <el-tag type="danger" v-if="scope.row.status === '2'">未读</el-tag>
+              <el-tag type="success" v-if="scope.row.status === '3'">已读</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="readstatus" v-if="index === '1'" label="状态" >
@@ -72,16 +75,15 @@
               <el-tag type="danger" v-if="scope.row.readstatus === '0'">未读</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="sender.name" v-if="index === '1'" label="发件人" >
+        <el-table-column prop="sender.name" v-if="index === '1' || index === '4'" label="发件人" >
         </el-table-column>
-        <el-table-column prop="receiverNames"  v-if="index !== '1'" label="收件人">
+        <el-table-column prop="receiverNames"  v-if="index !== '1'|| index === '4'" label="收件人">
         </el-table-column>
         <el-table-column prop="mail.title" show-overflow-tooltip label="标题">
         </el-table-column>
          <el-table-column show-overflow-tooltip prop="sendtime" label="时间" >
         </el-table-column>
          <el-table-column
-            fixed="right"
             header-align="center"
             align="center"
             width="210"
@@ -114,12 +116,14 @@
   <SendEmail @refreshList="refreshList" ref="sendEmail"></SendEmail>
   <SentMailDetail @refreshList="refreshList" ref="sentMailDetail"></SentMailDetail>
   <ReceivedMailDetail @refreshList="refreshList" ref="receivedMailDetail"></ReceivedMailDetail>
+  <TrashMailDetail @refreshList="refreshList" ref="trashMailDetail"></TrashMailDetail>
 </el-container>
 </template>
 <script>
   import SendEmail from './SendEmail'
   import ReceivedMailDetail from './ReceivedMailDetail'
   import SentMailDetail from './SentMailDetail'
+  import TrashMailDetail from './TrashMailDetail'
   export default {
     data () {
       return {
@@ -133,7 +137,7 @@
         pageNo: 1,
         pageSize: 10,
         total: 0,
-        index: '1', // 1收件箱 2发件箱 3草稿箱
+        index: '4', // 1收件箱 2发件箱 3草稿箱
         dataListSelections: [],
         dataUrl: '/mailBox/list',
         delUrl: '/mailBox/delete',
@@ -141,14 +145,16 @@
         noReadCount: 0,
         mailBoxCount: 0,
         mailComposeCount: 0,
-        mailDraftCount: 0
+        mailDraftCount: 0,
+        mailTrashCount: 0
 
       }
     },
     components: {
       SendEmail,
       SentMailDetail,
-      ReceivedMailDetail
+      ReceivedMailDetail,
+      TrashMailDetail
     },
     activated () {
       this.refreshList()
@@ -161,6 +167,7 @@
           this.mailBoxCount = data.mailBoxCount
           this.mailComposeCount = data.mailComposeCount
           this.mailDraftCount = data.mailDraftCount
+          this.mailTrashCount = data.mailTrashCount
         })
       },
       // 获取数据列表
@@ -209,6 +216,9 @@
         } else if (val === '3') {
           this.dataUrl = '/mailCompose/list?status=0'
           this.delUrl = '/mailCompose/delete'
+        } else if (val === '4') {
+          this.dataUrl = '/mail/mailTrash/list'
+          this.delUrl = '/mail/mailTrash/delete'
         }
         this.refreshList()
       },
@@ -240,6 +250,8 @@
           this.$refs.sentMailDetail.init(id)
         } else if (this.index === '3') {
           this.$refs.sendEmail.init('edit', id)
+        } else if (this.index === '4') {
+          this.$refs.trashMailDetail.init(id)
         }
       },
       reply (row) {

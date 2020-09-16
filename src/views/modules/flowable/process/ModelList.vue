@@ -21,7 +21,7 @@
         </el-button>
         <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button
+            <el-button 
               type="default"
               size="small"
               icon="el-icon-search"
@@ -29,13 +29,13 @@
             </el-button>
           </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
-            <el-button
+            <el-button 
               type="default"
               size="small"
               icon="el-icon-refresh"
               @click="refreshList">
             </el-button>
-          </el-tooltip>
+          </el-tooltip>     
         </el-button-group>
       </el-row>
         <el-table
@@ -68,14 +68,14 @@
           <el-table-column
             prop="version"
             label="流程版本">
-            <template slot-scope="scope">
+            <template slot-scope="scope">       
               <el-tag>{{scope.row.procDef.version || '0'}}</el-tag>
              </template>
           </el-table-column>
           <el-table-column
             prop="version"
             label="流程状态">
-            <template slot-scope="scope">
+            <template slot-scope="scope">       
               <el-tag :type="scope.row.procDef.suspended===false?'success':(scope.row.procDef.suspended===undefined?'primary':'danger')">{{scope.row.procDef.suspended===false?'已发布':(scope.row.procDef.suspended===undefined?'草稿':'已挂起')}}</el-tag>
              </template>
           </el-table-column>
@@ -119,15 +119,15 @@
         :visible.sync="visible"
          v-dialogDrag
         height="600px">
-
+       
           <iframe :src="processPhotoUrl" frameborder="0" scrolling="auto" width="100%" height="600px"></iframe>
         </el-dialog>
 
-
+        
     <!-- 弹窗, 新增 / 修改 -->
     <model-form  ref="modelForm"  @create="create"></model-form>
     <!--模型编辑-->
-    <design-form ref="designForm" @refreshList="refreshList" title="流程设计器"></design-form>
+    <design-form ref="designForm" @refreshList="refreshList"></design-form>
     <category-form ref="categoryForm" @refreshList="refreshList"></category-form>
 
   </div>
@@ -284,11 +284,11 @@
         }).then(() => {
           this.loading = true
           this.$http.delete('/flowable/model/delete', {params: {'ids': ids}}).then(({data}) => {
+            this.loading = false
             if (data && data.success) {
               this.$message.success(data.msg)
               this.refreshList()
             }
-            this.loading = false
           })
         })
       },

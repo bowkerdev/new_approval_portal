@@ -11,7 +11,7 @@
     <el-col :span="5">
       <el-tag
         closable
-        size="small"
+        size="small" 
         style="margin-bottom:5px"
         v-if="selectOfficeName"
         :disable-transitions="false"
@@ -40,7 +40,7 @@
     </el-col>
     <el-col :span="14">
      <el-form :inline="true" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-
+    
          <el-form-item prop="loginName">
           <el-input size="small" v-model="searchForm.loginName" placeholder="登录名" clearable></el-input>
          </el-form-item>
@@ -73,7 +73,7 @@
         align="center"
         label="头像">
         <template slot-scope="scope">
-          <img :src="(!scope.row.photo || scope.row.photo === '')?'/static/img/avatar.png':scope.row.photo" style="height:50px"/>
+          <img :src="scope.row.photo === ''?'/static/img/avatar.png':scope.row.photo" style="height:50px"/>
         </template>
       </el-table-column>
       <el-table-column
@@ -162,7 +162,7 @@
       <el-button type="primary" @click="doSubmit()">确定</el-button>
     </span>
     </el-dialog>
-
+  
   </div>
 </template>
 

@@ -353,7 +353,7 @@ export function isTel (value) {
  * 匹配QQ
  */
 export function isQq (value) {
-  return /^[1-9]\d{4,12}$/
+  return /^[1-9]\d{4,12}$/.test(value)
 }
 
 /*

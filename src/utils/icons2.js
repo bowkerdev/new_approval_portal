@@ -4,6 +4,7 @@ export default [
   'fa fa-assistive-listening-systems',
   'fa fa-audio-description',
   'fa fa-blind',
+  'fa fa-address-card-o',
   'fa fa-braille',
   'fa fa-deaf',
   'fa fa-deafness',

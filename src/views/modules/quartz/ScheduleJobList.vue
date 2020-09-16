@@ -106,12 +106,6 @@
         show-overflow-tooltip
         label="描述">
       </el-table-column>
-	  <el-table-column
-	    prop="param"
-	    sortable="custom"
-	    show-overflow-tooltip
-	    label="参数">
-	  </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
@@ -243,11 +237,11 @@
             method: 'delete',
             params: {'ids': ids}
           }).then(({data}) => {
+            this.loading = false
             if (data && data.success) {
               this.$message.success(data.msg)
               this.refreshList()
             }
-            this.loading = false
           })
         })
       },
@@ -263,11 +257,11 @@
         }).then(() => {
           this.loading = true
           this.$http.post(`/quartz/scheduleJob/resume?id=${id}`).then(({data}) => {
+            this.loading = false
             if (data && data.success) {
               this.$message.success(data.msg)
               this.refreshList()
             }
-            this.loading = false
           })
         })
       },
@@ -283,11 +277,11 @@
         }).then(() => {
           this.loading = true
           this.$http.post(`/quartz/scheduleJob/stop?id=${id}`).then(({data}) => {
+            this.loading = false
             if (data && data.success) {
               this.$message.success(data.msg)
               this.refreshList()
             }
-            this.loading = false
           })
         })
       },
@@ -303,11 +297,11 @@
         }).then(() => {
           this.loading = true
           this.$http.post(`/quartz/scheduleJob/startNow?id=${id}`).then(({data}) => {
+            this.loading = false
             if (data && data.success) {
               this.$message.success(data.msg)
               this.refreshList()
             }
-            this.loading = false
           })
         })
       },

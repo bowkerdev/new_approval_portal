@@ -5,7 +5,7 @@
   <el-tabs type="border-card" v-model="taskSelectedTab">
     <el-tab-pane label="表单信息" name="form-first">
       <component :formReadOnly="formReadOnly" v-if="formType === '2'" :class="formReadOnly?'readonly':''"  ref="form" :businessId="businessId" :is="form"></component>
-
+      
       <PreviewForm   v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="true" :taskFormData="taskFormData" ref="form"/>
     </el-tab-pane>
     <el-tab-pane label="流程信息" v-if="procInsId"  name="form-second">
@@ -148,7 +148,6 @@
   const _import = require('@/router/import-' + process.env.NODE_ENV)
   export default {
     activated () {
-      // console.log('流程表单页面TaskForm.vue：', this)
       this.init()
       if (this.formType === '2') {
         if (this.formUrl === '/404') {
@@ -198,8 +197,6 @@
       this.$http.get(`/flowable/task/histoicFlowList?procInsId=${this.procInsId}`).then(({data}) => {
         this.histoicFlowList = data.histoicFlowList
       })
-
-      console.log('this.$refs-加载完毕： ', this.$refs)
     },
     components: {
       UserSelect,
@@ -241,9 +238,7 @@
         this.auditForm.assign = null
         this.auditForm.userIds = null
         this.auditForm.comment = ''
-        console.log(this)
       },
-      // 流程抄送
       cc (data) {
         if (this.isCC && this.auditForm.userIds) {
           this.$refs['auditForm'].validate((valid) => {
@@ -263,15 +258,18 @@
       submit (currentBtn, buttons) {
         let vars = {}
         buttons.forEach((btn) => {
-          vars[btn.code] = false
+          if (btn.code) {
+            vars[btn.code] = false
+          }
         })
-        vars[currentBtn.code] = true
+        // 当前按钮的编码对应的流程变量值设置为true，其余按钮编码对应的流程变量值为false
+        if (currentBtn.code) {
+          vars[currentBtn.code] = true
+        }
         vars.title = this.title
         vars.assign = this.auditForm.assign
-        // console.log('流程变量：', vars)
         if (currentBtn.id === 'start') {
           if (this.formType === '2') {
-            // console.log('this.$refs： ', this.$refs)
             this.$refs.form.saveForm((businessTable, businessId) => {
               this.$http.post('/flowable/task/start', {
                 procDefKey: this.procDefKey,

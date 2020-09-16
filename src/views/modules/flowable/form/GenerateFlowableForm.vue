@@ -1,8 +1,8 @@
 <template>
  <div v-loading="loading" style="min-height:50px">
-        <fm-generate-form
-
-              :data="options"
+        <fm-generate-form 
+        
+              :data="options" 
               :edit="edit"
               v-if="visible"
               class="readonly"
@@ -57,7 +57,7 @@
           } else {
             // 处理老版本没有dataBind值的情况，默认绑定数据
             if (genList[i].options.dataBind) {
-              this.dataBindMap.set(genList[i].model, genList[i].type)
+              this.dataBindMap.set(genList[i].model, genList[i])
             }
           }
         }
@@ -95,11 +95,17 @@
                     }
                   })
                   for (let key in this.formData) {
-                    if (this.dataBindMap.get(key) === 'checkbox' ||
-                this.dataBindMap.get(key) === 'imgupload' ||
-                this.dataBindMap.get(key) === 'table' ||
-                this.dataBindMap.get(key) === 'fileupload') {
-                      this.formData[key] = JSON.parse(this.formData[key])
+                    let dataField = this.dataBindMap.get(key)
+                    if (dataField && (dataField['type'] === 'checkbox' ||
+                      dataField['type'] === 'imgupload' ||
+                      dataField['type'] === 'table' ||
+                      (dataField['type'] === 'select' && dataField.options.multiple) ||
+                      dataField['type'] === 'fileupload')) {
+                      if (this.formData[key] !== undefined) {
+                        this.formData[key] = JSON.parse(this.formData[key])
+                      } else {
+                        this.formData[key] = []
+                      }
                     }
                   }
                   this.$refs.generateForm.hide(hideArra)
@@ -118,7 +124,6 @@
         }
       },
       submitStartFormData (vars, callback) {
-        console.log('submitStartFormData() vars: ', vars)
         this.$refs.generateForm.getData().then(data => {
           this.loading = true
           this.$http({

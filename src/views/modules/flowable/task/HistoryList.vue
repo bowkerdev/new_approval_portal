@@ -249,11 +249,11 @@
               'currentTaskId': row.currentTask.id,
               'currentTaskDefKey': row.currentTask.taskDefinitionKey
             }).then(({data}) => {
+              this.loading = false
               if (data && data.success) {
                 this.$message.success(data.msg)
                 this.refreshList()
               }
-              this.loading = false
             })
         })
       },

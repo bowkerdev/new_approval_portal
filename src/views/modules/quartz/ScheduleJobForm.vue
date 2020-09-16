@@ -36,7 +36,7 @@
                 :rules="[
                   {required: true, message:'定时规则不能为空', trigger:'blur'}
                  ]">
-			        <el-input v-model="inputForm.cronExpression" placeholder="请填写定时规则"     ></el-input>
+			        <el-input v-model="inputForm.cronExpression" placeholder="请填写定时规则" @focus="showTimeConfig('cronExpression','定时规则')"  ></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -84,13 +84,6 @@
 					<el-input type="textarea" v-model="inputForm.description" placeholder="请填写描述"     ></el-input>
 	         </el-form-item>
         </el-col>
-        <el-col :span="24">
-            <el-form-item label="参数" prop="param"
-                :rules="[
-                 ]">
-        	<el-input type="textarea" v-model="inputForm.param" placeholder="请填写需要的参数"     ></el-input>
-           </el-form-item>
-        </el-col>
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -98,13 +91,25 @@
       <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>确定</el-button>
     </span>
   </el-dialog>
+  <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+    <Cron v-model="inputForm[timeType]" v-if="dialogFormVisible" />
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="hideTimeConfig('cancel')">清 空</el-button>
+    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+  </div>
+</el-dialog>
 </div>
 </template>
 
 <script>
+  import Cron from '@/components/Cron/Cron.vue'
+  
   export default {
     data () {
       return {
+        dialogFormVisible: false,
+        dialogTitle: '配置时间',
+        timeType: '',
         title: '',
         method: '',
         visible: false,
@@ -117,7 +122,6 @@
           status: '',
           isInfo: '',
           className: '',
-          param:'',
           description: ''
         },
         validateClassName: (rule, value, callback) => {
@@ -132,8 +136,19 @@
       }
     },
     components: {
+      Cron
     },
     methods: {
+      showTimeConfig (type, title) {
+        this.timeType = type
+        this.dialogTitle = '配置' + title
+        this.dialogFormVisible = true
+      },
+      hideTimeConfig () {
+        this.inputForm[this.timeType] = ''
+        this.dialogFormVisible = false
+        this.timeType = ''
+      },
       init (method, id) {
         this.method = method
         this.inputForm.id = id
@@ -170,12 +185,12 @@
               method: 'post',
               data: this.inputForm
             }).then(({data}) => {
+              this.loading = false
               if (data && data.success) {
                 this.visible = false
                 this.$message.success(data.msg)
                 this.$emit('refreshDataList')
               }
-              this.loading = false
             })
           }
         })

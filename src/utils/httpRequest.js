@@ -3,10 +3,7 @@ import axios from 'axios'
 import router from '@/router'
 import merge from 'lodash/merge'
 import i18n from '@/utils/i18n'
-
-import {
-  clearLoginInfo
-} from '@/utils'
+import { clearLoginInfo } from '@/utils'
 import qs from 'qs'
 import {
   Message,
@@ -23,7 +20,6 @@ axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded; cha
 const BASE_URL = process.env.NODE_ENV !== 'production' ? process.env.VUE_APP_BASE_API : process.env.VUE_APP_SERVER_URL
 // 对面暴露的基础请求路径
 axios.BASE_URL = BASE_URL
-console.log('BASE_URL：', BASE_URL)
 
 /**
  * 请求拦截
@@ -44,24 +40,16 @@ axios.interceptors.request.use(config => {
   // 请求头带上token
   config.headers.token = Vue.cookie.get('token')
   // 请求地址处理
-  if (!config.url.indexOf('http') == 0) {
-    config.url = BASE_URL + config.url
-  }
+  config.url = BASE_URL + config.url
   const type = config.method
   const defaults = {}
   const arrayFormat = config.headers.arrayFormat || 'indices'
   if (type === 'post' && config.headers['Content-Type'] === 'application/x-www-form-urlencoded; charset=utf-8') {
     // post请求参数处理
-    config.data = qs.stringify(config.data, {
-      allowDots: true,
-      arrayFormat: arrayFormat
-    })
+    config.data = qs.stringify(config.data, { allowDots: true, arrayFormat: arrayFormat })
   } else if (type === 'get') {
     // get请求参数处理
-    config.params = qs.stringify(config.params, {
-      allowDots: true,
-      arrayFormat: arrayFormat
-    })
+    config.params = qs.stringify(config.params, { allowDots: true, arrayFormat: arrayFormat })
     config.params = qs.parse(config.params)
     config.params = merge(defaults, config.params)
   }
@@ -92,34 +80,25 @@ axios.interceptors.response.use(response => {
   if (loading) {
     loading.close()
   }
-  debugger
   if (error.response.status === 401) { // 超时自动刷新
     axios({
       url: '/sys/refreshToken',
       method: 'get',
-      params: {
-        refreshToken: Vue.cookie.get('refreshToken')
-      }
-    }).then(({
-      data
-    }) => {
+      params: { refreshToken: Vue.cookie.get('refreshToken') }
+    }).then(({ data }) => {
       if (data && data.success) {
         Vue.cookie.set('token', data.token)
         Vue.cookie.set('refreshToken', data.refreshToken)
       } else {
         clearLoginInfo()
-        router.push({
-          name: 'login'
-        })
+        router.push({ name: 'login' })
       }
     })
   } else if (
     error.response.status === 402 ||
     error.response.status === 403) { // 402 未登录或者refresh token过时， 403 账号在其他地方登录
     clearLoginInfo()
-    router.push({
-      name: 'login'
-    }) 
+    router.push({ name: 'login' })
     Message({
       message: i18n.t(error.response.data.msg) || i18n.t(error.response.data.exception),
       type: 'error',
@@ -145,8 +124,7 @@ axios.interceptors.response.use(response => {
     })
   } else {
     Message({
-      message: error.response.data.msg || error.response.data.exception || error.response.data || error.response ||
-        error,
+      message: error.response.data.msg || error.response.data.exception || error.response.data || error.response || error,
       type: 'error',
       showClose: true,
       duration: 5000,

@@ -110,7 +110,7 @@
             key: '极客蓝', color: '#2F54EB'
           },
           {
-            key: '酱紫', color: '#460a7d'
+            key: '酱紫', color: '#722ED1'
           },
           {
             key: '天空蓝', color: '#3e8df7'

@@ -4,6 +4,13 @@ export default {
     id: '',
     name: '',
     loginName: '',
+    no: '',
+    office: {
+      name: ''
+    },
+    company: {
+      name: ''
+    },
     photo: ''
   },
   mutations: {
@@ -23,6 +30,9 @@ export default {
       state.id = user.id
       state.name = user.name
       state.loginName = user.loginName
+      state.company = user.company
+      state.office = user.office
+      state.no = user.no
       state.photo = user.photo
     }
   }

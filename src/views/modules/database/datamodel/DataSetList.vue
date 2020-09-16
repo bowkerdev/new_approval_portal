@@ -82,7 +82,7 @@
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('database:datamodel:dataSet:view')" type="text" icon="el-icon-view" size="mini" @click="view(scope.row.id)">查看</el-button>
           <el-button v-if="hasPermission('database:datamodel:dataSet:edit')" type="text" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)">修改</el-button>
-          <el-button type="text" size="mini" icon="el-icon-coin" @click="getDbInterface(scope.row.id,scope.row.name)">获取数据接口</el-button>
+          <el-button type="text" size="mini" icon="el-icon-coin" @click="getDbInterface(scope.row.id)">获取数据接口</el-button>
           <el-button v-if="hasPermission('database:datamodel:dataSet:del')" type="text" size="mini" icon="el-icon-delete" @click="del(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
@@ -98,11 +98,10 @@
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
 
-    <el-dialog  customClass="customWidth" title="数据接口" :visible.sync="dialogInterfaceVisible"  v-dialogDrag>
+    <el-dialog title="数据接口" :visible.sync="dialogInterfaceVisible"  v-dialogDrag>
       <el-table :data="interfaceTable">
         <el-table-column property="type" width="120px" label="接口格式"></el-table-column>
         <el-table-column property="url" label="接口地址"></el-table-column>
-        <el-table-column property="url2" label="接口地址2"></el-table-column>
       </el-table>
       <br>
       <h4> 接口传递参数说明：/接口url?参数名=参数值, 如果不传递参数，则使用默认值</h4>
@@ -229,15 +228,12 @@
         })
       },
       // 导入成功
-      getDbInterface (id,name) {
+      getDbInterface (id) {
         this.dialogInterfaceVisible = true
         this.interfaceTable = []
-        this.interfaceTable.push({type: 'JSON', url: `/database/datamodel/dataSet/getData/${id}/json`,
-        url2:`/database/datamodel/dataSet/getDataByName/${name}/json`})
-        this.interfaceTable.push({type: 'XML', url: `/database/datamodel/dataSet/getData/${id}/xml`,
-        url2:`/database/datamodel/dataSet/getDataByName/${name}/xml`})
-        this.interfaceTable.push({type: 'TABLE', url: `/database/datamodel/dataSet/getData/${id}/html`,
-        url2:`/database/datamodel/dataSet/getDataByName/${name}/html`})
+        this.interfaceTable.push({type: 'JSON', url: `/database/datamodel/dataSet/getData/${id}/json`})
+        this.interfaceTable.push({type: 'XML', url: `/database/datamodel/dataSet/getData/${id}/xml`})
+        this.interfaceTable.push({type: 'TABLE', url: `/database/datamodel/dataSet/getData/${id}/html`})
       },
       resetSearch () {
         this.$refs.searchForm.resetFields()
@@ -246,9 +242,3 @@
     }
   }
 </script>
-
-<style >
-.customWidth{
-    width:80%!important;
-}
-</style>

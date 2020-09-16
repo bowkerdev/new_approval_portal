@@ -967,6 +967,9 @@ span{
   display: block;
 }
 .el-form-item__content .el-input-group {
+  vertical-align: top !important;
+}
+.query-form .el-form-item__content .el-input-group {
   vertical-align: middle !important;
 }
 .readonly .el-input.is-disabled .el-input__inner ,
@@ -1057,4 +1060,13 @@ span{
   font-size: 36px;
   width: 40px;
   // color: #1FAFF1 !important;
+@media (max-width: 767px){
+  .hide-sm{
+    display: none !important;
+  }
+}
+@media (min-width: 768px){
+  .hide-sm{
+    display: display !important;
+  }
 }

@@ -5,7 +5,7 @@
      <el-card  shadow="never" :body-style="contentViewHeight">
       <el-tag
         closable
-        size="small"
+        size="small" 
         style="margin-bottom:5px"
         v-if="selectFormCategoryName"
         :disable-transitions="false"
@@ -248,7 +248,6 @@
     activated () {
       this.refreshTree()
       this.refreshList()
-      debugger
     },
     computed: {
       contentViewHeight () {
@@ -401,11 +400,11 @@
             method: 'delete',
             params: {'ids': ids}
           }).then(({data}) => {
+            this.loading = false
             if (data && data.success) {
               this.$message.success(data.msg)
               this.refreshList()
             }
-            this.loading = false
           })
         })
       },

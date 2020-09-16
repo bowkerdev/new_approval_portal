@@ -110,8 +110,7 @@
               :action="`${this.$http.BASE_URL}/form/generate/import`"
               :on-success="uploadSuccess"
               :data="{
-                formId: this.$route.query.id,
-                fields: JSON.stringify(this.dataBindFields),
+                formId: this.$route.query.id
               }"
                :show-file-list="true">
               <el-button size="small" type="primary">点击上传</el-button>
@@ -125,6 +124,9 @@
         :disabled="dataListSelections.length != 1" plain>修改</el-button>
       <el-button v-if="$route.query.previewMode || hasPermission(`form:${tableName}:del`)" type="danger"   size="small" icon="el-icon-delete" @click="del()"
                 :disabled="dataListSelections.length <= 0" plain>删除
+      </el-button>
+      <el-button :disabled="dataListSelections.length != 1" v-for="(item, index) in options.config.actions.filter((action)=>{return action.position.indexOf('1') > -1 && ($route.query.previewMode || !action.auth || hasPermission(action.auth))})" :key="index"  size="small" icon="el-icon-link"  @click="go(item)">
+        {{item.name}}
       </el-button>
       <el-button-group class="pull-right">
           <el-button
@@ -186,13 +188,53 @@
           <div v-else-if="option.type === 'dict'">
                   {{$dictUtils.getDictLabel(`${option.options.dictType}`, scope.row[`${option.model}`])}}
           </div>
+          <div v-else-if="option.type === 'selectTree'">
+                  <TreeSelectText 
+             size="small"
+             v-model="scope.row[`${option.model}`]"
+              :props="{
+                  value: 'id',             // ID字段名
+                  label: 'name',         // 显示名称
+                  children: 'children'    // 子级字段名
+                }"
+               
+              :url="option.options.dataUrl"
+              :clearable="true" 
+              :accordion="true"
+             />
+          </div>
+           <div v-else-if="option.type === 'checkbox' && option.options.remote === 3">
+                 
+                    <span :key="index" v-for="(item, index) in JSON.parse(scope.row[`${option.model}`] || '[]')">
+                      {{$dictUtils.getDictLabel(`${option.options.dictType}`, item)}} 
+                      <span v-if="index+1 !==  JSON.parse(scope.row[`${option.model}`] || '[]').length">
+                        |
+                      </span>
+                    </span>
+          </div>
+          
+           <div v-else-if="option.type === 'select' && option.options.remote === 3 && option.options.multiple">
+                    <span :key="index" v-for="(item, index) in JSON.parse(scope.row[`${option.model}`] || '[]')">
+                        {{$dictUtils.getDictLabel(`${option.options.dictType}`, item)}}
+                         <span v-if="index+1 !==  JSON.parse(scope.row[`${option.model}`] || '[]').length">
+                          |
+                        </span>
+                    </span>
+          </div>
+          <div v-else-if="option.type === 'select' && option.options.remote === 3 && !option.options.multiple">
+                  {{$dictUtils.getDictLabel(`${option.options.dictType}`, scope.row[`${option.model}`])}}
+          </div>
+
+          <div v-else-if="option.type === 'radio' && option.options.remote === 3">
+                  {{$dictUtils.getDictLabel(`${option.options.dictType}`, scope.row[`${option.model}`])}}
+          </div>
          <div v-else>
              <div v-if="index === 0">
                 <el-link  type="primary" :underline="false" v-if="$route.query.previewMode || hasPermission(`form:${tableName}:edit`)" @click="edit(scope.row.id)">{{scope.row[`${option.model}`] || ''}} </el-link>
                 <el-link  type="primary" :underline="false" v-else-if="$route.query.previewMode || hasPermission(`form:${tableName}:view`)"  @click="view(scope.row.id)">{{scope.row[`${option.model}`] || ''}} </el-link>
-                <span v-else>{{scope.row[`${option.model}`] || ''}} </span>
+                <span v-else>{{scope.row[`${option.model}`] === undefined ? '' : scope.row[`${option.model}`]}} </span>
              </div>
-             <span v-else>{{scope.row[`${option.model}`] || ''}} </span>
+             <span v-else>{{scope.row[`${option.model}`] === undefined ? '' : scope.row[`${option.model}`]}} </span>
           </div>
         </template>
       </el-table-column>
@@ -212,6 +254,11 @@
           <el-button v-if="$route.query.previewMode || hasPermission(`form:${tableName}:del`)" type="text" size="mini" icon="el-icon-delete"  @click="del(scope.row.id)">
             删除
           </el-button>
+
+         <el-button v-for="(item, index) in options.config.actions.filter((action)=>{return action.position.indexOf('2') > -1 && ($route.query.previewMode || !action.auth || hasPermission(action.auth))})" :key="index"  type="text" size="mini" icon="el-icon-link"  @click="go(item, scope.row)">
+            {{item.name}}
+          </el-button>
+
         </template>
       </el-table-column>
     </el-table>
@@ -233,6 +280,8 @@
    import GenerateForm from './GenerateForm'
    import UserSelect from '@/components/userSelect'
    import SelectTree from '@/components/treeSelect/treeSelect.vue'
+   import TreeSelectText from './TreeSelectText.vue'
+   import {isURL} from '@/utils/validate'
    export default {
      data () {
        return {
@@ -247,7 +296,7 @@
          title: '',
          tableName: '',
          dataList: [],
-         options: {list: []},
+         options: {config: { actions: [] }, list: []},
          dataListSelections: [],
          dataBindFields: [],
          pageNo: 1,
@@ -264,7 +313,11 @@
          url: `/form/make/queryById?id=${this.$route.query.id}`,
          method: 'get'
        }).then(({data}) => {
-         this.options = JSON.parse(data.form.source)
+         if (data.form.source) {
+           this.options = JSON.parse(data.form.source)
+         } else {
+          //  this.options = {'list': [], 'config': {'labelWidth': 100, 'labelPosition': 'right', 'size': 'small', 'customClass': ''}}
+         }
          this.tableName = data.form.tableName
          this.dataBindFields = []
          this.generateModel(this.options.list)
@@ -279,6 +332,7 @@
      components: {
        UserSelect,
        SelectTree,
+       TreeSelectText,
        GenerateForm
      },
      computed: {
@@ -326,7 +380,6 @@
            data: {
              formId: this.$route.query.id,
              params: JSON.stringify(this.params),
-             fields: JSON.stringify(this.dataBindFields),
              'orderBy': this.orderBy,
              pageNo: this.pageNo,
              pageSize: this.pageSize
@@ -336,6 +389,22 @@
            this.total = data.page.count
            this.loading = false
          })
+       },
+       // 跳转
+       go (item, row) {
+         row = row || this.dataListSelections.map(item => {
+           return item.id
+         })[0]
+         let keyValue = item.paramValue
+         if (/^[$]{.*}$/.test(item.paramValue)) {
+           let keyName = item.paramValue.match(/[$]{[a-zA-Z0-9]*[.]+(\S*)}/)[1]
+           keyValue = row[keyName]
+         }
+         if (isURL(item.link)) {
+           this.$router.push({path: '/form/explorer', query: {title: item.name, iframeUrl: `${item.link}?${item.paramKey}=${keyValue}`}})
+         } else {
+           this.$router.push({path: `${item.link}?${item.paramKey}=${keyValue}`, query: {title: item.name}})
+         }
        },
         // 新增
        add () {
@@ -394,10 +463,10 @@
              method: 'delete',
              params: {formId: this.$route.query.id, 'ids': ids}
            }).then(({data}) => {
+             this.loading = false
              if (data && data.success) {
                this.$message.success(data.msg)
                this.refreshList()
-               this.loading = false
              }
            })
          })
@@ -418,8 +487,7 @@
            method: 'post',
            url: '/form/generate/import/template',
            data: {
-             formId: this.$route.query.id,
-             fields: JSON.stringify(this.dataBindFields)
+             formId: this.$route.query.id
            },
            responseType: 'blob'
          }).then(response => {
@@ -446,7 +514,6 @@
            data: {
              formId: this.$route.query.id,
              params: JSON.stringify(this.params),
-             fields: JSON.stringify(this.dataBindFields),
              'orderBy': this.orderBy
            },
            responseType: 'blob'

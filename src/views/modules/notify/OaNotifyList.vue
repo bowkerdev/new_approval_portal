@@ -100,6 +100,10 @@
          <div> {{scope.row.readNum + "/" + scope.row.unReadNum}}</div>
         </template>
       </el-table-column>
+       <el-table-column
+        prop="createBy.name"
+        label="发布者">
+      </el-table-column>
       <el-table-column
         width="200"
         label="操作">
@@ -229,11 +233,11 @@
             method: 'delete',
             params: {'ids': ids}
           }).then(({data}) => {
+            this.loading = false
             if (data && data.success) {
               this.$message.success(data.msg)
               this.refreshList()
             }
-            this.loading = false
           })
         })
       },

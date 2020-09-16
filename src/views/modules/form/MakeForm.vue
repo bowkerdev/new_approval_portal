@@ -8,9 +8,10 @@
     :visible.sync="visible">
     <el-form :model="inputForm" ref="inputForm" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'"
              label-width="120px">
-           <fm-making-form ref="formDesign" style="height:700px" :data="options" v-if="visible"
+           <fm-making-form :bindDataTable="inputForm.autoCreate !=='1'" ref="formDesign" style="height:700px" :data="options" v-if="visible"
              :uploadPath ="`${this.$http.BASE_URL}/sys/file/webupload/upload?uploadPath=/formbuilder`"
-             preview tab-list  clearable>
+             preview :ds="inputForm.dataSource" :tableName="inputForm.tableName" tab-list generate-json clearable>
+             
           </fm-making-form>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -21,6 +22,7 @@
 </div>
 </template>
 
+
 <script>
   export default {
     data () {
@@ -30,12 +32,18 @@
         visible: false,
         loading: false,
         options: {},
-        dataBindFields: [],
         inputForm: {
           id: '',
+          code: '',
+          autoCreate: '1',
+          dataSource: {
+            id: 'master',
+            name: '本地数据库',
+            enName: 'master',
+            dbType: ''
+          },
           name: '',
           tableName: '',
-          fields: [],
           source: '',
           version: '',
           remarks: ''
@@ -59,7 +67,7 @@
         this.loading = false
         this.$nextTick(() => {
           if (method === 'add') {
-            this.$refs.formDesign.setJSON({'list': [], 'config': {'labelWidth': 100, 'labelPosition': 'right', 'size': 'small', 'customClass': ''}})
+            // this.$refs.formDesign.setJSON({'list': [], 'config': {'labelWidth': 100, 'labelPosition': 'right', 'size': 'small', 'customClass': ''}})
           }
           // this.options = {}
           this.inputForm.name = ''
@@ -67,7 +75,6 @@
           this.inputForm.source = ''
           this.inputForm.version = ''
           this.inputForm.remarks = ''
-          this.inputForm.fields = []
           if (method === 'edit' || method === 'view') { // 修改或者查看
             this.loading = true
             this.$http({
@@ -75,8 +82,12 @@
               method: 'get'
             }).then(({data}) => {
               this.inputForm = this.recover(this.inputForm, data.form)
-              this.options = JSON.parse(this.inputForm.source)
-              this.$refs.formDesign.setJSON(this.options)
+              if (this.inputForm.source) {
+                this.options = JSON.parse(this.inputForm.source)
+                this.$refs.formDesign.setJSON(this.options)
+              } else {
+                // this.$refs.formDesign.setJSON({'list': [], 'config': {'labelWidth': 100, 'labelPosition': 'right', 'size': 'small', 'customClass': ''}})
+              }
               this.loading = false
             })
           }
@@ -85,50 +96,23 @@
       handleSubmit () {
 
       },
-      generateModel (genList) {
-        for (let i = 0; i < genList.length; i++) {
-          if (genList[i].type === 'grid') {
-            genList[i].columns.forEach(item => {
-              this.generateModel(item.list)
-            })
-          } else if (genList[i].type === 'tabs') {
-            genList[i].tabs.forEach(item => {
-              this.generateModel(item.list)
-            })
-          } else {
-            // 处理老版本没有dataBind值的情况，默认绑定数据
-            if (genList[i].options.dataBind) {
-              this.dataBindFields.push({'model': genList[i].model, 'name': genList[i].name, 'type': genList[i].type})
-            }
-          }
-        }
-        return this.dataBindFields
-      },
       // 表单提交
       doSubmit () {
         this.inputForm.source = JSON.stringify(this.$refs.formDesign.getJSON())
-        this.inputForm.fields = JSON.stringify(this.generateModel(this.$refs.formDesign.getJSON().list))
-        this.$prompt('请输入表单名称', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          inputValue: this.inputForm.name
-        }).then(({ value }) => {
-          this.inputForm.name = value
-          this.$refs['inputForm'].validate((valid) => {
-            if (valid) {
-              this.$http({
-                url: `/form/make/save`,
-                method: 'post',
-                data: this.inputForm
-              }).then(({data}) => {
-                if (data && data.success) {
-                  this.visible = false
-                  this.$message.success(data.msg)
-                  this.$emit('refreshDataList')
-                }
-              })
-            }
-          })
+        this.$refs['inputForm'].validate((valid) => {
+          if (valid) {
+            this.$http({
+              url: `/form/make/saveFormSource`,
+              method: 'post',
+              data: this.inputForm
+            }).then(({data}) => {
+              if (data && data.success) {
+                this.visible = false
+                this.$message.success(data.msg)
+                this.$emit('refreshDataList')
+              }
+            })
+          }
         })
       }
     }

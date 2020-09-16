@@ -30,11 +30,12 @@ const mainRoutes = {
   redirect: {name: 'home'},
   meta: {title: '整体布局'},
   children: [
-    {path: '/home', component: _import('modules/sys/login/home'), name: 'home', meta: {title: '首页', backgroundType: '2'}},
     {path: '/form/generateList', component: _import('modules/form/GenerateList'), name: 'form-preview-list', meta: {title: '列表'}},
+    {path: '/home', component: _import('modules/sys/dashboard/analysis/index'), name: 'home', meta: {title: '首页', backgroundType: '2'}},
     {path: '/flowable/task/TaskForm', component: _import('modules/flowable/task/TaskForm'), name: 'task-form', meta: {title: '流程表单'}},
     {path: '/flowable/task/TaskFormDetail', component: _import('modules/flowable/task/TaskFormDetail'), name: 'task-form-detail', meta: {title: '流程表单详情'}},
     {path: '/form/generateList', component: _import('modules/form/GenerateList'), name: 'form-preview-list', meta: {title: '列表'}},
+    {path: '/form/explorer', component: null, name: 'form-explorer', meta: {title: '浏览器', type: 'iframe'}},
     {path: '/404', component: _import('common/404'), name: '404', meta: {title: '404未找到'}}
 
   ],

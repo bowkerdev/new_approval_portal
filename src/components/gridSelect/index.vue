@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-input :placeholder="'请'+title" :size="size" :readonly="true" style="line-hight:40px" v-model="name" class="input-with-select" >
-      <el-button slot="append" @click="showSelectDialog" icon="el-icon-search"></el-button>
+    <el-input placeholder="请选择" :disabled="disabled" :size="size" :readonly="true" style="line-hight:40px" v-model="name" class="input-with-select" >
+      <el-button slot="append" :disabled="disabled" @click="showSelectDialog" icon="el-icon-search"></el-button>
     </el-input>
     <el-dialog
     :title="title"
@@ -63,7 +63,7 @@
         closable
         :disable-transitions="false"
         @close="del(tag)">
-        {{tag.name}}
+        {{tag[labelName]}}
       </el-tag>
     </el-col>
     </el-row>
@@ -72,7 +72,7 @@
       <el-button type="primary" @click="doSubmit()">确定</el-button>
     </span>
     </el-dialog>
-
+  
   </div>
 </template>
 
@@ -105,6 +105,10 @@
       columns: {
         type: Array,
         default: () => { return [] }
+      },
+      disabled: {
+        type: Boolean,
+        default: false
       },
       searchs: {
         type: Array,

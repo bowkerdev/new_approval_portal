@@ -228,7 +228,8 @@
               this.refreshList()
             }
           })
-        }).catch(() => { })
+        }).catch(() => {
+        })
       },
       resetSearch () {
         this.$refs.searchForm.resetFields()

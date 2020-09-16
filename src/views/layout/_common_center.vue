@@ -22,7 +22,7 @@
         <el-dropdown class="jp-tabs__tools" :show-timeout="0">
           <el-button type="primary"  icon="el-icon-arrow-down el-icon--right" size="mini">菜单
           </el-button>
-          <el-dropdown-menu slot="dropdown" style="margin-top: -2px;">
+          <el-dropdown-menu slot="dropdown">
             <el-dropdown-item v-if="mainTabsActiveName !=='/home'" @click.native="tabsCloseCurrentHandle('')">关闭当前标签页</el-dropdown-item>
             <el-dropdown-item @click.native="tabsCloseOtherHandle('')">关闭其它标签页</el-dropdown-item>
             <el-dropdown-item @click.native="tabsCloseAllHandle">关闭全部标签页</el-dropdown-item>
@@ -38,7 +38,7 @@
           <div :class="$route.meta.backgroundType !== '2'? 'bg-white':''" :style="siteContentViewHeight">
             <iframe
               v-if="item.type === 'iframe'"
-              :src="item.iframeUrl"
+              :src="$route.query.iframeUrl || item.iframeUrl"
               width="100%" height="100%" frameborder="0" scrolling="yes">
             </iframe>
             <keep-alive v-else>
@@ -52,11 +52,11 @@
         <el-breadcrumb separator="/" style="padding-top:10px; padding-bottom:15px;">
           <el-breadcrumb-item><router-link to="/home">首页</router-link></el-breadcrumb-item>
           <el-breadcrumb-item :key="index" v-for="(breadcrumb, index) in breadcrumbs">{{breadcrumb}}</el-breadcrumb-item>
-        </el-breadcrumb>
+      </el-breadcrumb>
          <div :class="$route.meta.backgroundType !== '2'? 'bg-white':''" :style="siteContentViewHeight">
           <iframe
               v-if="$route.meta.type === 'iframe'"
-              :src="$route.meta.iframeUrl"
+              :src="$route.query.iframeUrl ||$route.meta.iframeUrl"
               width="100%" height="100%" frameborder="0" scrolling="yes">
             </iframe>
             <keep-alive v-else>
@@ -122,7 +122,7 @@
       },
       siteContentViewHeight () {
         let height = this.documentClientHeight - 122
-        return isURL(this.$route.meta.iframeUrl) ? 'height:' + height + 'px' : 'minHeight:' + height + 'px'
+        return isURL(this.$route.query.iframeUrl) || isURL(this.$route.meta.iframeUrl) ? 'height:' + height + 'px' : 'minHeight:' + height + 'px'
       },
       tagLen () {
         return this.mainTabs.length || 0
@@ -163,14 +163,11 @@
       // tabs, 选中tab
       selectedTabHandle (tab) {
         tab = this.mainTabs.filter(item => item.fullPath === tab.name)
-        console.log(this.$router)
         if (!tab) {
           tab = this.mainTabs.filter(item => item.name === tab.name)
         }
         if (tab.length >= 1) {
-          console.log(tab)
           this.$router.push({path: tab[0].fullPath})
-          console.log(this.$router)
         }
       },
       // tabs, 删除tab

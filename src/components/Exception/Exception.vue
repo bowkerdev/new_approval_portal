@@ -45,7 +45,7 @@ export default {
   methods: {
     goHome () {
       this.$events.$emit('closeTab', this.$route.fullPath)
-      this.$router.push('/login')
+      this.$router.push('/')
     }
   },
   computed: {

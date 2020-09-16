@@ -73,13 +73,13 @@ export default {
       })
     },
     add () {
-      this.$router.push({path: '/ureport/designer', query: {title: '新建报表'}})
+      this.$router.push({path: '/ureport/designer', query: {title: '新建报表', iframeUrl: `${process.env.VUE_APP_SERVER_URL}/ureport/designer`}})
     },
     pre (report) {
-      this.$router.push(`/ureport/preview?_u=file:${report.name}`)
+      this.$router.push({path: `/ureport/preview`, query: {title: '预览表表', iframeUrl: `${process.env.VUE_APP_SERVER_URL}/ureport/preview?_u=file:${report.name}`}})
     },
     design (report) {
-      this.$router.push({path: `/ureport/designer?_u=file:${report.name}`, query: {title: '编辑报表'}})
+      this.$router.push({path: `/ureport/designer`, query: {iframeUrl: `${process.env.VUE_APP_SERVER_URL}/ureport/designer?_u=file:${report.name}`, title: '编辑报表'}})
     },
   // 删除
     del (report) {
@@ -94,11 +94,11 @@ export default {
           method: 'delete',
           params: {'id': `file:${report.name}`}
         }).then(({data}) => {
+          this.loading = false
           if (data && data.success) {
             this.$message.success(data.msg)
             this.refreshList()
           }
-          this.loading = false
         })
       })
     },

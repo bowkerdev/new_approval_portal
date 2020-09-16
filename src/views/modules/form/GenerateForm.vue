@@ -31,7 +31,6 @@
         beanId: '',
         visible: false,
         initData: {},
-        dataBindFields: [],
         dataBindMap: new Map(),
         options: {list: []}
       }
@@ -68,11 +67,17 @@
             }).then(({data}) => {
               this.loading = false
               for (let key in data.obj) {
-                if (this.dataBindMap.get(key) === 'checkbox' ||
-                this.dataBindMap.get(key) === 'imgupload' ||
-                this.dataBindMap.get(key) === 'table' ||
-                this.dataBindMap.get(key) === 'fileupload') {
-                  data.obj[key] = JSON.parse(data.obj[key])
+                let dataField = this.dataBindMap.get(key)
+                if (dataField && (dataField['type'] === 'checkbox' ||
+                dataField['type'] === 'imgupload' ||
+                dataField['type'] === 'table' ||
+                (dataField['type'] === 'select' && dataField.options.multiple) ||
+                dataField['type'] === 'fileupload')) {
+                  if (data.obj[key] !== undefined) {
+                    data.obj[key] = JSON.parse(data.obj[key])
+                  } else {
+                    data.obj[key] = []
+                  }
                 }
               }
               this.initData = data.obj
@@ -93,27 +98,34 @@
           } else {
             // 处理老版本没有dataBind值的情况，默认绑定数据
             if (genList[i].options.dataBind) {
-              this.dataBindFields.push({'model': genList[i].model, 'name': genList[i].name, 'type': genList[i].type})
-              this.dataBindMap.set(genList[i].model, genList[i].type)
+              this.dataBindMap.set(genList[i].model, genList[i])
             }
           }
         }
-        return this.dataBindFields
       },
       createForm () {
         this.$http({
           url: `/form/make/queryById?id=${this.$route.query.id}`,
           method: 'get'
         }).then(({data}) => {
-          this.options = JSON.parse(data.form.source)
+          if (data.form.source) {
+            this.options = JSON.parse(data.form.source)
+          } else {
+            this.options = {'list': [], 'config': {'labelWidth': 100, 'labelPosition': 'right', 'size': 'small', 'customClass': ''}}
+          }
           this.dataBindMap.clear()
-          this.dataBindFields = []
           this.generateModel(this.options.list)
         })
       },
 
       // 表单提交
       doSubmit () {
+        // 自定义js ，保存前执行
+        if (this.options.config.eventType === '1') {
+          // eslint-disable-next-line no-new-func
+          new Function(`return ${this.options.config.customJs}`)()
+        }
+  
         this.$refs.generateForm.getData().then(data => {
           if (this.beanId) {
             data.id = this.beanId
@@ -121,12 +133,17 @@
           this.$http({
             url: `/form/generate/save`,
             method: 'post',
-            data: {formId: this.$route.query.id, data: JSON.stringify(data), fields: JSON.stringify(this.dataBindFields)}
+            data: {formId: this.$route.query.id, data: JSON.stringify(data)}
           }).then(({data}) => {
             if (data && data.success) {
               this.visible = false
               this.$message.success(data.msg)
               this.$emit('refreshDataList')
+            }
+            // 自定义js 保存后执行
+            if (this.options.config.eventType === '2') {
+          // eslint-disable-next-line no-new-func
+              new Function(`return ${this.options.config.customJs}`)()
             }
           })
         }).catch(e => {

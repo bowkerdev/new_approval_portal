@@ -20,7 +20,7 @@
 <style>
 .jp-menu-category {
     padding: 0 20px;
-    margin-top: 0px;
+    margin-top: 20px;
     font-size: 12px;
     line-height: 38px;
     color: #76838f;
@@ -45,7 +45,6 @@
     computed: {
       sidebarLayoutSkin: {
         get () {
-          console.log('默认皮肤', this.$store.state.common.sidebarLayoutSkin)
           return this.$store.state.common.sidebarLayoutSkin
         }
       },

@@ -12,6 +12,8 @@
       </el-form>
       <el-row>
         <el-button v-if="hasPermission('form:make:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
+         <el-button v-if="hasPermission('form:make:add')" type="primary" size="small" icon="el-icon-edit" @click="design()"
+          :disabled="dataListSelections.length != 1" plain>设计</el-button>
         <el-button v-if="hasPermission('form:make:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
          :disabled="dataListSelections.length != 1" plain>修改</el-button>
         <el-button v-if="hasPermission('form:make:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
@@ -67,12 +69,18 @@
         sortable="custom"
         label="表名">
       </el-table-column>
-	  <!-- <el-table-column
-        prop="source"
+	  <el-table-column
+        prop="code"
         show-overflow-tooltip
         sortable="custom"
-        label="表单结构">
-      </el-table-column> -->
+        label="表单key">
+      </el-table-column>
+      <el-table-column
+        prop="dataSource.name"
+        show-overflow-tooltip
+        sortable="custom"
+        label="所属数据库">
+      </el-table-column>
 	  <el-table-column
         prop="version"
         show-overflow-tooltip
@@ -89,7 +97,7 @@
         width="300"
         label="操作">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('form:make:edit')" type="text" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)">修改</el-button>
+          <el-button v-if="hasPermission('form:make:edit')" type="text" icon="el-icon-edit" size="mini" @click="design(scope.row.id)">设计</el-button>
           <el-button v-if="hasPermission('form:make:del')" type="text" size="mini" icon="el-icon-delete"  @click="del(scope.row.id)">删除</el-button>
           <el-button v-if="hasPermission('form:make:view')" type="text" size="mini" icon="el-icon-view"  @click="preview(scope.row)"> 预览</el-button>
           <el-button v-if="hasPermission('form:make:deploy')" type="text" size="mini" icon="el-icon-s-promotion"  @click="release(scope.row)">发布</el-button>
@@ -107,14 +115,17 @@
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
         <!-- 弹窗, 新增 / 修改 -->
-    <MakeForm  ref="formForm" @refreshDataList="refreshList"></MakeForm>
+    <BasicForm  ref="basicForm" @refreshDataList="refreshList"></BasicForm>
+    <MakeForm  ref="makeForm" @refreshDataList="refreshList"></MakeForm>
     <MenuForm ref="menuForm" @refreshDataList="refreshList"></MenuForm>
   </div>
 </template>
 
 <script>
+  import BasicForm from './BasicForm'
   import MakeForm from './MakeForm'
   import MenuForm from './MenuForm'
+  import DataRuleList from './DataRuleList'
   export default {
     data () {
       return {
@@ -125,15 +136,19 @@
         pageSize: 10,
         total: 0,
         orderBy: '',
+        dataRuleTitle: '',
         dataListSelections: [],
         isSearchCollapse: false,
+        rightVisible: false,
         isImportCollapse: false,
         loading: false
       }
     },
     components: {
       MakeForm,
-      MenuForm
+      BasicForm,
+      MenuForm,
+      DataRuleList
     },
     activated () {
       this.refreshList()
@@ -178,6 +193,9 @@
 
     // 排序
       sortChangeHandle (obj) {
+        if (obj.prop === 'dataSource.name') {
+          obj.prop = 'db.name'
+        }
         if (obj.order === 'ascending') {
           this.orderBy = obj.prop + ' asc'
         } else if (obj.order === 'descending') {
@@ -187,32 +205,51 @@
         }
         this.refreshList()
       },
-      // 新增
+            // 新增
       add () {
-        this.$refs.formForm.init('add', '')
+        this.$refs.basicForm.init('add', '')
+      },
+      // 设计
+      design (id) {
+        id = id || this.dataListSelections.map(item => {
+          return item.id
+        })[0]
+        this.$refs.makeForm.init('edit', id)
       },
       // 修改
       edit (id) {
         id = id || this.dataListSelections.map(item => {
           return item.id
         })[0]
-        this.$refs.formForm.init('edit', id)
+        this.$refs.basicForm.init('edit', id)
       },
       // 查看
       view (id) {
-        this.$refs.formForm.init('view', id)
+        this.$refs.makeForm.init('view', id)
       },
          // 发布
-      release (id) {
-        this.$refs.menuForm.init(id)
+      release (row) {
+        if (!row.source) {
+          this.$message.warning('请先设计表单!')
+          return
+        }
+        this.$refs.menuForm.init(row)
       },
        // 查看
       preview (row) {
+        if (!row.source) {
+          this.$message.warning('请先设计表单!')
+          return
+        }
         this.$http({
           url: `/form/make/queryById?id=${row.id}`,
           method: 'get'
         }).then(({data}) => {
-          this.options = JSON.parse(data.form.source)
+          if (data.form.source) {
+            this.options = JSON.parse(data.form.source)
+          } else {
+            this.options = {'list': [], 'config': {'labelWidth': 100, 'labelPosition': 'right', 'size': 'small', 'customClass': ''}}
+          }
           this.$router.push({path: '/form/generateList', query: {title: row.name, id: row.id, previewMode: true}})
         })
       },
@@ -232,15 +269,26 @@
             method: 'delete',
             params: {'ids': ids}
           }).then(({data}) => {
+            this.loading = false
             if (data && data.success) {
               this.$message.success(data.msg)
               this.refreshList()
             }
-            this.loading = false
           })
         })
       },
-      // 导入成功
+      showRight (row) {
+        this.rightVisible = true
+        this.$nextTick(() => {
+          this.$refs.dataRuleList.form = row
+          this.$refs.dataRuleList.refreshList(row.id)
+          this.dataRuleTitle = row.name
+        })
+      },
+      closeRight () {
+        this.rightVisible = false
+      },
+      // 入成功
       uploadSuccess (res, file) {
         if (res.success) {
           this.$message.success({dangerouslyUseHTMLString: true,

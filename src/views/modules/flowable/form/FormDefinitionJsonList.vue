@@ -16,7 +16,7 @@
             <el-button @click="resetSearch()" size="small">{{$t('重置')}}</el-button>
           </el-form-item>
       </el-form>
-
+  
       <el-row>
         <el-button-group class="pull-right">
             <el-button
@@ -213,11 +213,11 @@
             method: 'delete',
             params: {'ids': ids}
           }).then(({data}) => {
+            this.loading = false
             if (data && data.success) {
               this.$message.success(data.msg)
               this.refreshList()
             }
-            this.loading = false
           })
         })
       },
@@ -234,11 +234,11 @@
             method: 'post',
             data: {'id': id}
           }).then(({data}) => {
+            this.loading = false
             if (data && data.success) {
               this.$message.success(data.msg)
               this.refreshList()
             }
-            this.loading = false
           })
         })
       },

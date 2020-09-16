@@ -14,39 +14,39 @@ Vue.directive('noMoreClick', {
 })
 /*
 
-*  Ê¹ÓÃ·½·¨
+*  ä½¿ç”¨æ–¹æ³•
 
-*  ½«ÒÔÏÂ´úÂë¸´ÖÆµ½Ò»¸öjsÎÄ¼şÖĞ£¬È»ºóÔÚÈë¿ÚÎÄ¼şmain.jsÖĞimportÒıÈë¼´¿É£»
+*  å°†ä»¥ä¸‹ä»£ç å¤åˆ¶åˆ°ä¸€ä¸ªjsæ–‡ä»¶ä¸­ï¼Œç„¶ååœ¨å…¥å£æ–‡ä»¶main.jsä¸­importå¼•å…¥å³å¯ï¼›
 
-*  ¸øelementUIµÄdialogÉÏ¼ÓÉÏ v-dialogDrag Ö¸Áî¾Í¿ÉÒÔÊµÏÖµ¯´°µÄÈ«ÆÁºÍÀ­ÉìÁË¡£
+*  ç»™elementUIçš„dialogä¸ŠåŠ ä¸Š v-dialogDrag æŒ‡ä»¤å°±å¯ä»¥å®ç°å¼¹çª—çš„å…¨å±å’Œæ‹‰ä¼¸äº†ã€‚
 
-*  ¸ødialogÉèÖÃ :close-on-click-modal="false" , ½ûÖ¹µã»÷ÕÚÕÖ²ã¹Ø±Õµ¯³ö²ã
+*  ç»™dialogè®¾ç½® :close-on-click-modal="false" , ç¦æ­¢ç‚¹å‡»é®ç½©å±‚å…³é—­å¼¹å‡ºå±‚
 
-*  Èç¹ûÊÇform±íµ¥£¬²»Òª½«Ìá½»µÈ°´Å¥·ÅÖÃel-form-item£¬ÒÔÃâÔÚÉÏÏÂÀ­ÉìÊ±±»Òş²Ø
+*  å¦‚æœæ˜¯formè¡¨å•ï¼Œä¸è¦å°†æäº¤ç­‰æŒ‰é’®æ”¾ç½®el-form-itemï¼Œä»¥å…åœ¨ä¸Šä¸‹æ‹‰ä¼¸æ—¶è¢«éšè—
 
 */
 
-// v-dialogDrag: µ¯´°ÍÏ×§+Ë®Æ½·½ÏòÉìËõ
+// v-dialogDrag: å¼¹çª—æ‹–æ‹½+æ°´å¹³æ–¹å‘ä¼¸ç¼©
 
-// v-dialogDrag: µ¯´°ÍÏ×§
+// v-dialogDrag: å¼¹çª—æ‹–æ‹½
 Vue.directive('dialogDrag', {
   bind (el, binding, vnode, oldVnode) {
     const dialogHeaderEl = el.querySelector('.el-dialog__header')
     const dragDom = el.querySelector('.el-dialog')
     dialogHeaderEl.style.cursor = 'move'
 
-      // »ñÈ¡Ô­ÓĞÊôĞÔ ie domÔªËØ.currentStyle »ğºü¹È¸è window.getComputedStyle(domÔªËØ, null);
+      // è·å–åŸæœ‰å±æ€§ ie domå…ƒç´ .currentStyle ç«ç‹è°·æ­Œ window.getComputedStyle(domå…ƒç´ , null);
     const sty = dragDom.currentStyle || window.getComputedStyle(dragDom, null)
 
     dialogHeaderEl.onmousedown = (e) => {
-          // Êó±ê°´ÏÂ£¬¼ÆËãµ±Ç°ÔªËØ¾àÀë¿ÉÊÓÇøµÄ¾àÀë
+          // é¼ æ ‡æŒ‰ä¸‹ï¼Œè®¡ç®—å½“å‰å…ƒç´ è·ç¦»å¯è§†åŒºçš„è·ç¦»
       const disX = e.clientX - dialogHeaderEl.offsetLeft
       const disY = e.clientY - dialogHeaderEl.offsetTop
 
-          // »ñÈ¡µ½µÄÖµ´øpx ÕıÔòÆ¥ÅäÌæ»»
+          // è·å–åˆ°çš„å€¼å¸¦px æ­£åˆ™åŒ¹é…æ›¿æ¢
       let styL, styT
 
-          // ×¢ÒâÔÚieÖĞ µÚÒ»´Î»ñÈ¡µ½µÄÖµÎª×é¼ş×Ô´ø50% ÒÆ¶¯Ö®ºó¸³ÖµÎªpx
+          // æ³¨æ„åœ¨ieä¸­ ç¬¬ä¸€æ¬¡è·å–åˆ°çš„å€¼ä¸ºç»„ä»¶è‡ªå¸¦50% ç§»åŠ¨ä¹‹åèµ‹å€¼ä¸ºpx
       if (sty.left.includes('%')) {
         styL = +document.body.clientWidth * (+sty.left.replace(/\%/g, '') / 100)
         styT = +document.body.clientHeight * (+sty.top.replace(/\%/g, '') / 100)
@@ -56,15 +56,15 @@ Vue.directive('dialogDrag', {
       };
 
       document.onmousemove = function (e) {
-              // Í¨¹ıÊÂ¼şÎ¯ÍĞ£¬¼ÆËãÒÆ¶¯µÄ¾àÀë
+              // é€šè¿‡äº‹ä»¶å§”æ‰˜ï¼Œè®¡ç®—ç§»åŠ¨çš„è·ç¦»
         const l = e.clientX - disX
         const t = e.clientY - disY
 
-              // ÒÆ¶¯µ±Ç°ÔªËØ
+              // ç§»åŠ¨å½“å‰å…ƒç´ 
         dragDom.style.left = `${l + styL}px`
         dragDom.style.top = `${t + styT}px`
 
-              // ½«´ËÊ±µÄÎ»ÖÃ´«³öÈ¥
+              // å°†æ­¤æ—¶çš„ä½ç½®ä¼ å‡ºå»
               // binding.value({x:e.pageX,y:e.pageY})
       }
 
@@ -76,19 +76,19 @@ Vue.directive('dialogDrag', {
   }
 })
 
-// v-dialogDragWidth: µ¯´°¿í¶ÈÍÏ´ó ÍÏĞ¡
+// v-dialogDragWidth: å¼¹çª—å®½åº¦æ‹–å¤§ æ‹–å°
 Vue.directive('dialogDragWidth', {
   bind (el, binding, vnode, oldVnode) {
     const dragDom = binding.value.$el.querySelector('.el-dialog')
 
     el.onmousedown = (e) => {
-          // Êó±ê°´ÏÂ£¬¼ÆËãµ±Ç°ÔªËØ¾àÀë¿ÉÊÓÇøµÄ¾àÀë
+          // é¼ æ ‡æŒ‰ä¸‹ï¼Œè®¡ç®—å½“å‰å…ƒç´ è·ç¦»å¯è§†åŒºçš„è·ç¦»
       const disX = e.clientX - el.offsetLeft
 
       document.onmousemove = function (e) {
-        e.preventDefault() // ÒÆ¶¯Ê±½ûÓÃÄ¬ÈÏÊÂ¼ş
+        e.preventDefault() // ç§»åŠ¨æ—¶ç¦ç”¨é»˜è®¤äº‹ä»¶
 
-              // Í¨¹ıÊÂ¼şÎ¯ÍĞ£¬¼ÆËãÒÆ¶¯µÄ¾àÀë
+              // é€šè¿‡äº‹ä»¶å§”æ‰˜ï¼Œè®¡ç®—ç§»åŠ¨çš„è·ç¦»
         const l = e.clientX - disX
         dragDom.style.width = `${l}px`
       }

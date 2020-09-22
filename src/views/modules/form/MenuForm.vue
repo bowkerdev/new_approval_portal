@@ -8,7 +8,7 @@
     :visible.sync="visible">
     <el-form :model="inputForm"  ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="120px" @submit.native.prevent>
-        <el-form-item label="上级菜单" prop="parent.id" :rules="[{required: true, message: '请选择上级菜单', trigger: 'blur'}]">
+        <el-form-item :label="$i18n.t('上级菜单')" prop="parent.id" :rules="[{required: true, message: '请选择上级菜单', trigger: 'blur'}]">
              <SelectTree 
              ref="menuParentTree"
              :props="{
@@ -22,18 +22,18 @@
             :accordion="true"
             @getValue="(value) => {inputForm.parent.id=value}"/>
         </el-form-item>
-        <el-form-item label="名称" prop="name" :rules="[{required: true, message: '名称不能为空', trigger: 'blur'}]">
+        <el-form-item :label="$i18n.t('名称')" prop="name" :rules="[{required: true, message: '名称不能为空', trigger: 'blur'}]">
             <el-input maxlength="200" v-model="inputForm.name" 
-                  placeholder="菜单名称"></el-input>
+                  :placeholder="$i18n.t('菜单名称')"></el-input>
         </el-form-item>
-        <el-form-item v-if="inputForm.type !== '2'" label="菜单图标" prop="icon">
-            <el-input v-model="inputForm.icon" @focus="selectIcon" clearable :readonly="true" style="width:100%" placeholder="菜单图标名称"></el-input>
+        <el-form-item v-if="inputForm.type !== '2'" :label="$i18n.t('菜单图标')" prop="icon">
+            <el-input v-model="inputForm.icon" @focus="selectIcon" clearable :readonly="true" style="width:100%" :placeholder="$i18n.t('菜单图标名称')"></el-input>
         </el-form-item>
         <data-rule-list  ref="dataRuleList" :form="form"></data-rule-list>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">关闭</el-button>
-      <el-button type="primary" @click="doSubmit()">确定</el-button>
+      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
+      <el-button type="primary" @click="doSubmit()">{{$i18n.t('确定')}}</el-button>
     </span>
   </el-dialog>
   <Icon ref="icon" @getValue="value => inputForm.icon = value"></Icon>

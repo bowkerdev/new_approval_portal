@@ -5,7 +5,7 @@
           <chart-card>
               <div slot="card-head">
                   <div class="flex justify-between">
-                      <div>销售总额</div>
+                      <div>{{$i18n.t('销售总额')}}</div>
                       <div>
                           <el-tooltip content="指标说明" placement="top">
                               <i class="el-icon-warning-outline cursor-pointer"></i>
@@ -19,9 +19,9 @@
                             :duration="info.cellNum.duration" class="card-panel-num"/>
                   </div>
                   <div class="chart-container">
-                      <span>周同比</span><span class="pl-2 pr-1">12%</span>
+                      <span>{{$i18n.t('周同比')}}</span><span class="pl-2 pr-1">12%</span>
                       <span class="el-icon-caret-top text-red-400"></span>
-                      <span class="pl-3">日同比</span><span class="pl-2 pr-1">11%</span>
+                      <span class="pl-3">{{$i18n.t('日同比')}}</span><span class="pl-2 pr-1">11%</span>
                       <span class="el-icon-caret-bottom text-green-400"></span>
                   </div>
               </div>
@@ -36,7 +36,7 @@
           <chart-card>
               <div slot="card-head">
                   <div class="flex justify-between">
-                      <div>访问量</div>
+                      <div>{{$i18n.t('访问量')}}</div>
                       <div>
                           <el-tooltip content="指标说明" placement="top">
                               <i class="el-icon-warning-outline cursor-pointer"></i>
@@ -70,7 +70,7 @@
           <chart-card>
               <div slot="card-head">
                   <div class="flex justify-between">
-                      <div>支付笔数</div>
+                      <div>{{$i18n.t('支付笔数')}}</div>
                       <div>
                           <el-tooltip content="指标说明" placement="top">
                               <i class="el-icon-warning-outline cursor-pointer"></i>
@@ -104,7 +104,7 @@
           <chart-card>
               <div slot="card-head">
                   <div class="flex justify-between">
-                      <div>运营活动效果</div>
+                      <div>{{$i18n.t('运营活动效果')}}</div>
                       <div>
                           <el-tooltip content="指标说明" placement="top">
                               <i class="el-icon-warning-outline cursor-pointer"></i>
@@ -124,9 +124,9 @@
               </div>
               <div slot="card-footer">
                   <div class="pt-3 border-t border-solid border-gray-300">
-                      <span>周同比</span><span class="pl-2 pr-1">12%</span>
+                      <span>{{$i18n.t('周同比')}}</span><span class="pl-2 pr-1">12%</span>
                       <span class="el-icon-caret-top text-green-400"></span>
-                      <span class="pl-3">日同比</span><span class="pl-2 pr-1">80%</span>
+                      <span class="pl-3">{{$i18n.t('日同比')}}</span><span class="pl-2 pr-1">80%</span>
                       <span class="el-icon-caret-bottom text-red-400"></span>
                   </div>
               </div>

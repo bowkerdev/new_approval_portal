@@ -10,7 +10,7 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="16">
-            <el-form-item label="发送到" prop="receiverIds"
+            <el-form-item :label="$i18n.t('发送到')" prop="receiverIds"
                 :rules="[
                   {required: true, message:'收信人不能为空', trigger:'blur'}
                  ]">
@@ -18,23 +18,23 @@
            </el-form-item>
         </el-col>
         <el-col :span="16">
-            <el-form-item label="标题" prop="mail.title"
+            <el-form-item :label="$i18n.t('标题')" prop="mail.title"
                 :rules="[
                  ]">
-			        <el-input v-model="inputForm.mail.title" placeholder="请输入标题"     ></el-input>
+			        <el-input v-model="inputForm.mail.title" :placeholder="$i18n.t('请输入标题')"     ></el-input>
 	         </el-form-item>
         </el-col>
          <el-col :span="24">
-           <el-form-item label="内容">
+           <el-form-item :label="$i18n.t('内容')">
             <WangeEditor ref="editor"    v-model="inputForm.mail.content"/>
            </el-form-item>
          </el-col>
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">关闭</el-button>
-       <el-button type="danger" @click="doSubmit('0')">存为草稿</el-button>
-      <el-button  type="primary" @click="doSubmit('1')">发送邮件</el-button>
+      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
+       <el-button type="danger" @click="doSubmit('0')">{{$i18n.t('存为草稿')}}</el-button>
+      <el-button  type="primary" @click="doSubmit('1')">{{$i18n.t('发送邮件')}}</el-button>
     </span>
   </el-dialog>
 </template>

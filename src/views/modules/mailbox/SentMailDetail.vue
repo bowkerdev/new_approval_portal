@@ -9,7 +9,7 @@
     :visible.sync="visible">
     <el-form :model="inputForm" ref="inputForm">
           <div>
-              <span>发件人：本人</span>
+              <span>{{$i18n.t('发件人：本人')}}</span>
               <el-divider></el-divider>
               <span>收件人：{{inputForm.receiverNames}}</span>
               <el-divider></el-divider>
@@ -21,7 +21,7 @@
             </div>
     </el-form>
     <span slot="footer" class="dialog-footer">
-       <el-button type="danger" @click="handleClose()">关闭</el-button>
+       <el-button type="danger" @click="handleClose()">{{$i18n.t('关闭')}}</el-button>
     </span>
   </el-dialog>
 </template>

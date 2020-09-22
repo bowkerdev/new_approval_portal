@@ -24,7 +24,7 @@
           <ep-list-item-meta>
             <div slot="description">
                <router-link :to="url">
-                <div class="description" style="text-align:center">查看更多</div>
+                <div class="description" style="text-align:center">{{$i18n.t('查看更多')}}</div>
                 </router-link>   
             </div>
           </ep-list-item-meta>

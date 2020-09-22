@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-input placeholder="请选择" :disabled="disabled" :size="size" :readonly="true" style="line-hight:40px" v-model="name" class="input-with-select" >
+    <el-input :placeholder="$i18n.t('请选择')" :disabled="disabled" :size="size" :readonly="true" style="line-hight:40px" v-model="name" class="input-with-select" >
       <el-button slot="append" :disabled="disabled" @click="showSelectDialog" icon="el-icon-search"></el-button>
     </el-input>
     <el-dialog
@@ -16,8 +16,8 @@
           <el-input size="small" v-model="searchForms[index]" :placeholder="search.label" clearable></el-input>
          </el-form-item>
         <el-form-item>
-          <el-button  type="primary" @click="refreshList()" size="small">查询</el-button>
-          <el-button @click="resetSearch()" size="small">重置</el-button>
+          <el-button  type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
+          <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
         </el-form-item>
       </el-form>
     <el-table
@@ -68,8 +68,8 @@
     </el-col>
     </el-row>
      <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">关闭</el-button>
-      <el-button type="primary" @click="doSubmit()">确定</el-button>
+      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
+      <el-button type="primary" @click="doSubmit()">{{$i18n.t('确定')}}</el-button>
     </span>
     </el-dialog>
   

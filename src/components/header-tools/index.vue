@@ -8,14 +8,14 @@
     <h3 v-text="label"></h3>
     <div class="header-tools-body">
       <el-select class="filter-mode-select" v-model="option.filterMode">
-        <el-option key="0" value="0" label="等于"></el-option>
-        <el-option key="1" value="1" label="包含"></el-option>
+        <el-option key="0" value="0" :label="$i18n.t('等于')"></el-option>
+        <el-option key="1" value="1" :label="$i18n.t('包含')"></el-option>
       </el-select>
       <el-input v-model="option.inputValue" size="mini" clearable />
     </div>
     <div class="header-tools-footer container-flex-space-between">
-      <el-button size="small" @click="visible = false">关闭</el-button>
-      <el-button size="small" type="primary" @click="doSubmit()">确定</el-button>
+      <el-button size="small" @click="visible = false">{{$i18n.t('关闭')}}</el-button>
+      <el-button size="small" type="primary" @click="doSubmit()">{{$i18n.t('确定')}}</el-button>
     </div>
     <span slot="reference" class="header-tools-title">
       <span :class="{'has-search':option.inputValue}" v-text="label"></span><span><span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span><i class="el-icon-search" :class="{'has-search':option.inputValue}"></i></span>

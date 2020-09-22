@@ -9,34 +9,34 @@
              label-width="120px" @submit.native.prevent>
       <el-row  :gutter="15">
         <el-col :span="24">
-            <el-form-item label="名称" prop="name"
+            <el-form-item :label="$i18n.t('名称')" prop="name"
                 :rules="[
                   {required: true, message:'名称不能为空', trigger:'blur'}
                  ]">
-			        <el-input v-model="inputForm.name" placeholder="请填写名称"     ></el-input>
+			        <el-input v-model="inputForm.name" :placeholder="$i18n.t('请填写名称')"     ></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item label="编码" prop="code"
+            <el-form-item :label="$i18n.t('编码')" prop="code"
                 :rules="[
                   {required: true, message:'编码不能为空', trigger:'blur'}
                  ]">
-			        <el-input v-model="inputForm.code" placeholder="请填写编码"     ></el-input>
+			        <el-input v-model="inputForm.code" :placeholder="$i18n.t('请填写编码')"     ></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item label="排序" prop="sort"
+            <el-form-item :label="$i18n.t('排序')" prop="sort"
                 :rules="[
                   {required: true, message:'排序不能为空', trigger:'blur'}
                  ]">
-			        <el-input v-model="inputForm.sort" placeholder="请填写排序"     ></el-input>
+			        <el-input v-model="inputForm.sort" :placeholder="$i18n.t('请填写排序')"     ></el-input>
 	         </el-form-item>
         </el-col>
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">关闭</el-button>
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>确定</el-button>
+      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
+      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18n.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </div>

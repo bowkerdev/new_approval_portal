@@ -13,7 +13,7 @@
         {{selectCategoryName}}
       </el-tag>
       <el-input
-        placeholder="输入关键字进行过滤"
+        :placeholder="$i18n.t('输入关键字进行过滤')"
         size="small"
         v-model="filterText">
       </el-input>
@@ -36,12 +36,12 @@
     <el-col :span="19">
       <el-card  shadow="never" :body-style="contentViewHeight">
       <el-form :inline="true"   class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-         <el-form-item label="流程名称" prop="name">
-            <el-input v-model="searchForm.name" size="small" placeholder="请输入流程名称"></el-input>
+         <el-form-item :label="$i18n.t('流程名称')" prop="name">
+            <el-input v-model="searchForm.name" size="small" :placeholder="$i18n.t('请输入流程名称')"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button  type="primary" @click="refreshList()" size="small">查询</el-button>
-          <el-button @click="resetSearch()" size="small">重置</el-button>
+          <el-button  type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
+          <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
         </el-form-item>
       </el-form>
       <el-row :gutter="12">
@@ -49,7 +49,7 @@
         <el-card class="box-card" style="margin-bottom:10px">
             <!-- <div slot="header" class="clearfix">
               <span> {{data.category }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text" @click="start(data)">启动</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="start(data)">{{$i18n.t('启动')}}</el-button>
             </div> -->
             <div class="actCard">
               <img src='@/assets/img/Scheme.png'/>

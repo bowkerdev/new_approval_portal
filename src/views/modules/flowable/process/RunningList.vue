@@ -2,8 +2,7 @@
   <div>
       <el-row>
         <el-button  type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0">作废
-        </el-button>
+                  :disabled="dataListSelections.length <= 0">{{$i18n.t('作废')}}</el-button>
       </el-row>
         <el-table
           :data="dataList"
@@ -20,15 +19,15 @@
           </el-table-column>
           <el-table-column
             prop="vars.title"
-            label="标题">
+            :label="$i18n.t('标题')">
           </el-table-column>
           <el-table-column
             prop="processDefinitionName"
-            label="流程名称">
+            :label="$i18n.t('流程名称')">
           </el-table-column>
            <el-table-column
             prop="status"
-            label="状态">
+            :label="$i18n.t('状态')">
             <template slot-scope="scope">
               <el-tag v-if="scope.row.code === 0 
                || scope.row.code === 3
@@ -40,24 +39,21 @@
           </el-table-column>
            <el-table-column
             prop="vars.userName"
-            label="流程发起人">
+            :label="$i18n.t('流程发起人')">
           </el-table-column>        
          <el-table-column
             fixed="right"
             header-align="center"
             align="center"
             width="150"
-            label="操作">
+            :label="$i18n.t('操作')">
             <template slot-scope="scope">
               <el-button  type="text" size="small"
-                        @click="detail(scope.row)">详情
-              </el-button>
+                        @click="detail(scope.row)">{{$i18n.t('详情')}}</el-button>
               <el-button  type="text" size="small"
-                        @click="trace(scope.row)">进度
-              </el-button>
+                        @click="trace(scope.row)">{{$i18n.t('进度')}}</el-button>
               <el-button  type="text" size="small"
-                        @click="del(scope.row.id)">作废
-              </el-button>
+                        @click="del(scope.row.id)">{{$i18n.t('作废')}}</el-button>
             </template>
           </el-table-column>
         </el-table>

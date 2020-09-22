@@ -1,7 +1,7 @@
 <template>
 
   <div class="login-container">
- 
+
 
     <div class="login-weaper animated bounceInDown" style="z-index:100">
       <div class="login-left">
@@ -13,37 +13,33 @@
         <el-image src="/static/img/login.png">
     </el-image>
 
-        
+
       </div>
       <div class="login-border">
         <div class="login-main">
-              
-          <h4 class="login-title">
-           登录
-          </h4>
-          <h3 class="login-sub-title">
-            请使用账号密码登录
-          </h3> 
+
+          <h4 class="login-title">{{$i18n.t('登录')}}</h4>
+          <h3 class="login-sub-title">{{$i18n.t('请使用账号密码登录')}}</h3>
             <el-form ref="inputForm" :model="inputForm" :rules="rules" class="login-form"  @keyup.enter.native="login()" @submit.native.prevent>
-       
+
               <el-form-item  prop="username">
-                <el-input type="text" placeholder="请输入账号" v-model="inputForm.username">
+                <el-input type="text" :placeholder="$i18n.t('请输入账号')" v-model="inputForm.username">
                    <i slot="prefix" class="el-input__icon el-icon-user-solid"></i>
                 </el-input>
               </el-form-item>
               <el-form-item prop="password">
-                <el-input type="password" placeholder="请输入密码" v-model="inputForm.password">
+                <el-input type="password" :placeholder="$i18n.t('请输入密码')" v-model="inputForm.password">
                    <i slot="prefix" class="el-input__icon el-icon-female"></i>
                 </el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" :loading="loading" class="login-submit" @click="login">登录</el-button>
+                <el-button type="primary" :loading="loading" class="login-submit" @click="login">{{$i18n.t('登录')}}</el-button>
               </el-form-item>
             </el-form>
         </div>
          <el-image class="right" src="/static/img/right.png"></el-image>
 
- 
+
       </div>
     </div>
   </div>
@@ -65,7 +61,7 @@
         },
         rules: {
           username: [
-            {required: true, message: '帐号不能为空', trigger: 'blur'}
+            {required: true, message: $i18n.t('帐号不能为空'), trigger: 'blur'}
           ],
           password: [
             {required: true, message: '密码不能为空', trigger: 'blur'}
@@ -83,6 +79,7 @@
         this.getTime()
       }, 1000)
       this.checkLoginPage();
+      console.log(window.$i18n.t("请使用账号密码登录"))
     },
     mounted () {
       this.$http.get('/sys/sysConfig/queryById').then(({data}) => {
@@ -98,7 +95,7 @@
         }).then(({data}) => {
           if (data && data.success && data.hasAllowLoginkey &&
           (Vue.cookie.get('token')==null && Vue.cookie.get('token') == '')) {
-            window.location.href = data.loginOutUrl;
+            window.location.href = data.loginOutUrl
           }
         }).catch((e) => {
           console.log(e.message)

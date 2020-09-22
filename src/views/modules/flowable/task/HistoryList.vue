@@ -1,7 +1,7 @@
 <template>
   <div>
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-        <el-form-item label="完成时间" prop="searchDates">
+        <el-form-item :label="$i18n.t('完成时间')" prop="searchDates">
           <el-date-picker
             v-model="searchDates"
             type="daterange"
@@ -10,14 +10,14 @@
             value-format="yyyy-MM-dd hh:mm:ss"
             unlink-panels
             range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
+            start-:placeholder="$i18n.t('开始日期')"
+            end-:placeholder="$i18n.t('结束日期')"
             :picker-options="pickerOptions">
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button  type="primary" @click="refreshList()" size="small">查询</el-button>
-          <el-button @click="resetSearch()" size="small">重置</el-button>
+          <el-button  type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
+          <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
         </el-form-item>
       </el-form>
       <el-row>
@@ -56,27 +56,26 @@
           <el-table-column
             prop="task.name"
             show-overflow-tooltip=""
-            label="任务">
+            :label="$i18n.t('任务')">
             <template slot-scope="scope">
               {{scope.row.task.name}} 
                  <el-button v-if="scope.row.isBack" type="warning" size="mini"
-                        @click="callback(scope.row)">撤销
-                </el-button>
+                        @click="callback(scope.row)">{{$i18n.t('撤销')}}</el-button>
             </template>
           </el-table-column>
           <el-table-column
             prop="vars.title"
             show-overflow-tooltip
-            label="实例标题">
+            :label="$i18n.t('实例标题')">
           </el-table-column>
           <el-table-column
             prop="proc.name"
-            label="流程名称">
+            :label="$i18n.t('流程名称')">
           </el-table-column>
           <el-table-column
             prop="status"
             show-overflow-tooltip
-            label="状态">
+            :label="$i18n.t('状态')">
             <template slot-scope="scope">
               <el-tag v-if="scope.row.code === 0 
                || scope.row.code === 3
@@ -88,12 +87,12 @@
           </el-table-column>
            <el-table-column
             prop="vars.userName"
-            label="流程发起人">
+            :label="$i18n.t('流程发起人')">
           </el-table-column>
           <el-table-column
             prop="task.endTime"
             show-overflow-tooltip
-            label="完成时间">
+            :label="$i18n.t('完成时间')">
              <template slot-scope="scope">
               {{scope.row.task.endTime | formatDate}}
              </template>
@@ -103,11 +102,10 @@
             header-align="center"
             align="center"
             width="100"
-            label="操作">
+            :label="$i18n.t('操作')">
             <template slot-scope="scope">
               <el-button  type="text" size="small"
-                        @click="detail(scope.row)">历史
-              </el-button>
+                        @click="detail(scope.row)">{{$i18n.t('历史')}}</el-button>
             </template>
           </el-table-column>
         </el-table>

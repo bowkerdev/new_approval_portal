@@ -2,19 +2,19 @@
     <div style="padding:10px">
         <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
           <el-form-item prop="loginName">
-            <el-input size="small" v-model="searchForm.loginName" placeholder="登录名" clearable></el-input>
+            <el-input size="small" v-model="searchForm.loginName" :placeholder="$i18n.t('登录名')" clearable></el-input>
           </el-form-item>
           <el-form-item prop="name">
-            <el-input size="small" v-model="searchForm.name" placeholder="姓名" clearable></el-input>
+            <el-input size="small" v-model="searchForm.name" :placeholder="$i18n.t('姓名')" clearable></el-input>
           </el-form-item>
         <el-form-item>
-          <el-button  type="primary" @click="refreshList()" size="small">查询</el-button>
-          <el-button @click="resetSearch()" size="small">重置</el-button>
+          <el-button  type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
+          <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
         </el-form-item>
         </el-form>
 
         <el-row>
-          <el-button v-if="hasPermission('sys:role:assign')" type="primary" size="small" icon="el-icon-plus" @click="add()">添加用户</el-button>
+          <el-button v-if="hasPermission('sys:role:assign')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('添加用户')}}</el-button>
           <el-button-group class="pull-right">
             <el-tooltip class="item" effect="dark" content="搜索" placement="top">
               <el-button 
@@ -53,7 +53,7 @@
             prop="photo"
             header-align="center"
             align="center"
-            label="头像">
+            :label="$i18n.t('头像')">
             <template slot-scope="scope">
               <img :src="scope.row.photo === ''?'/static/img/avatar.png':scope.row.photo" style="height:50px"/>
             </template>
@@ -62,47 +62,47 @@
             prop="loginName"
             sortable="custom"
             min-width="100px"
-            label="登录名">
+            :label="$i18n.t('登录名')">
           </el-table-column>
           <el-table-column
             prop="name"
             min-width="100px"
             sortable="custom"
-            label="用户名">
+            :label="$i18n.t('用户名')">
           </el-table-column>
           <el-table-column
             prop="company.name"
             sortable="custom"
             min-width="120px"
-            label="所属机构">
+            :label="$i18n.t('所属机构')">
           </el-table-column>
           <el-table-column
             prop="office.name"
             sortable="custom"
             min-width="120px"
-            label="所属部门">
+            :label="$i18n.t('所属部门')">
           </el-table-column>
           <el-table-column
             prop="email"
             sortable="custom"
             min-width="100px"
             show-overflow-tooltip
-            label="邮箱">
+            :label="$i18n.t('邮箱')">
           </el-table-column>
           <el-table-column
             prop="mobile"
             sortable="custom"
             show-overflow-tooltip
             min-width="100px"
-            label="手机号">
+            :label="$i18n.t('手机号')">
           </el-table-column>
           <el-table-column
             prop="loginFlag"
             min-width="100px"
-            label="状态">
+            :label="$i18n.t('状态')">
             <template slot-scope="scope">
-              <el-tag v-if="scope.row.loginFlag === '1'" size="small" type="success">正常</el-tag>
-              <el-tag v-else-if="scope.row.loginFlag === '0'" size="small" type="danger">禁用</el-tag>
+              <el-tag v-if="scope.row.loginFlag === '1'" size="small" type="success">{{$i18n.t('正常')}}</el-tag>
+              <el-tag v-else-if="scope.row.loginFlag === '0'" size="small" type="danger">{{$i18n.t('禁用')}}</el-tag>
             </template>
           </el-table-column>
           <el-table-column
@@ -110,11 +110,9 @@
             header-align="center"
             align="center"
             width="100"
-            label="操作">
+            :label="$i18n.t('操作')">
             <template slot-scope="scope">
-              <el-button v-if="hasPermission('sys:role:assign')" type="text" size="small" @click="del(scope.row.id)">
-                移除
-              </el-button>
+              <el-button v-if="hasPermission('sys:role:assign')" type="text" size="small" @click="del(scope.row.id)">{{$i18n.t('移除')}}</el-button>
             </template>
           </el-table-column>
         </el-table>

@@ -1,35 +1,35 @@
 <template>
   <el-tabs v-model="activeName" >
-    <el-tab-pane label="登录" name="first">
+    <el-tab-pane :label="$i18n.t('登录')" name="first">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <h3>单一登陆配置</h3>
+          <h3>{{$i18n.t('单一登陆配置')}}</h3>
         </div>
         <el-form ref="loginFormSetting" :model="loginFormSetting">
           <el-form-item>
-             <el-checkbox true-label="1" false-label="0" v-model="loginFormSetting.multiAccountLogin">单一登录</el-checkbox>
+             <el-checkbox true-label="1" false-label="0" v-model="loginFormSetting.multiAccountLogin">{{$i18n.t('单一登录')}}</el-checkbox>
           </el-form-item>
           <el-form-item>
             <el-radio-group v-model="loginFormSetting.singleLoginType">
-              <el-radio :disabled="loginFormSetting.multiAccountLogin ==='0'" label="1">后登陆踢出先登录</el-radio>
-              <el-radio :disabled="loginFormSetting.multiAccountLogin ==='0'" label="2">已登陆禁止再登陆</el-radio>
+              <el-radio :disabled="loginFormSetting.multiAccountLogin ==='0'" label="1">{{$i18n.t('后登陆踢出先登录')}}</el-radio>
+              <el-radio :disabled="loginFormSetting.multiAccountLogin ==='0'" label="2">{{$i18n.t('已登陆禁止再登陆')}}</el-radio>
             </el-radio-group>
           </el-form-item>
            <el-form-item>
-            <el-button type="primary" @click="doSubmit(loginFormSetting)">保存</el-button>
+            <el-button type="primary" @click="doSubmit(loginFormSetting)">{{$i18n.t('保存')}}</el-button>
           </el-form-item>
         </el-form>
          
           
       </el-card>
     </el-tab-pane>
-    <el-tab-pane label="外观" name="second">
+    <el-tab-pane :label="$i18n.t('外观')" name="second">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <h3>外观配置</h3>
+          <h3>{{$i18n.t('外观配置')}}</h3>
         </div>
         <el-form label-width="150px" :model="themeFormSetting">
-          <el-form-item label="产品标题">
+          <el-form-item :label="$i18n.t('产品标题')">
             <el-input v-model="themeFormSetting.productName"></el-input>
           </el-form-item>
           <el-form-item label="产品logo">
@@ -43,8 +43,8 @@
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
-          <el-form-item label="默认布局">
-              <el-select v-model="themeFormSetting.defaultLayout" placeholder="请选择"  style="width: 100%;">
+          <el-form-item :label="$i18n.t('默认布局')">
+              <el-select v-model="themeFormSetting.defaultLayout" :placeholder="$i18n.t('请选择')"  style="width: 100%;">
                 <el-option
                   v-for="item in layouts"
                   :key="item.value"
@@ -53,7 +53,7 @@
                 </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="默认主题">
+          <el-form-item :label="$i18n.t('默认主题')">
             <div class="tag-group" style="margin-top:7px">
               <el-tooltip effect="dark" :content="item.key" placement="top-start" v-for="(item, index) in colorList" :key="index">
                 <el-tag :color="item.color" class="themeColorTag" @click="themeFormSetting.defaultTheme = item.color">
@@ -62,19 +62,19 @@
               </el-tooltip>
             </div>
           </el-form-item>
-          <el-form-item label="首页地址">
+          <el-form-item :label="$i18n.t('首页地址')">
               <el-input v-model="themeFormSetting.homeUrl"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="doSubmit(themeFormSetting)">保存</el-button>
+            <el-button type="primary" @click="doSubmit(themeFormSetting)">{{$i18n.t('保存')}}</el-button>
           </el-form-item>
         </el-form>
       </el-card>
     </el-tab-pane>
-    <el-tab-pane label="短信" name="third">
+    <el-tab-pane :label="$i18n.t('短信')" name="third">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <h3>阿里大鱼短信配置(<a href="https://dayu.aliyun.com" target="_blank">官网</a>)</h3>
+          <h3>阿里大鱼短信配置(<a href="https://dayu.aliyun.com" target="_blank">{{$i18n.t('官网')}}</a>)</h3>
         </div>
         <el-form label-width="150px" :model="smsFormSetting">
           <el-form-item label="accessKeyId" :rules="[
@@ -87,50 +87,50 @@
                  ]">
             <el-input v-model="smsFormSetting.accessKeySecret" placeholder="此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)"></el-input>
           </el-form-item>
-          <el-form-item label="短信签名" :rules="[
+          <el-form-item :label="$i18n.t('短信签名')" :rules="[
                   {required: true, message:'必填项不能为空', trigger:'blur'}
                  ]">
             <el-input v-model="smsFormSetting.signature" placeholder="必填:短信签名-可在短信控制台中找到"></el-input>
           </el-form-item>
-          <el-form-item label="短信模板" :rules="[
+          <el-form-item :label="$i18n.t('短信模板')" :rules="[
                   {required: true, message:'必填项不能为空', trigger:'blur'}
                  ]">
             <el-input v-model="smsFormSetting.templateCode" placeholder="必填:短信模板编号-可在短信控制台中找到"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="doSubmit(smsFormSetting)">保存</el-button>
+            <el-button type="primary" @click="doSubmit(smsFormSetting)">{{$i18n.t('保存')}}</el-button>
           </el-form-item>
         </el-form>
       </el-card>
     </el-tab-pane>
-    <el-tab-pane label="邮箱" name="fourth">
+    <el-tab-pane :label="$i18n.t('邮箱')" name="fourth">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <h3>发件人账户</h3>
+          <h3>{{$i18n.t('发件人账户')}}</h3>
         </div>
          <el-form label-width="150px" :model="emailFormSetting">
-          <el-form-item label="邮箱服务器地址" :rules="[
+          <el-form-item :label="$i18n.t('邮箱服务器地址')" :rules="[
                   {required: true, message:'必填项不能为空', trigger:'blur'}
                  ]">
             <el-input v-model="emailFormSetting.smtp" placeholder="此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)"></el-input>
           </el-form-item>
-          <el-form-item label="邮箱服务器端口" :rules="[
+          <el-form-item :label="$i18n.t('邮箱服务器端口')" :rules="[
                   {required: true, message:'必填项不能为空', trigger:'blur'}
                  ]">
             <el-input v-model="emailFormSetting.port" placeholder="此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)"></el-input>
           </el-form-item>
-          <el-form-item label="系统邮箱地址" :rules="[
+          <el-form-item :label="$i18n.t('系统邮箱地址')" :rules="[
                   {required: true, message:'必填项不能为空', trigger:'blur'}
                  ]">
             <el-input v-model="emailFormSetting.mailName" placeholder="必填:短信签名-可在短信控制台中找到"></el-input>
           </el-form-item>
-          <el-form-item label="系统邮箱密码" :rules="[
+          <el-form-item :label="$i18n.t('系统邮箱密码')" :rules="[
                   {required: true, message:'必填项不能为空', trigger:'blur'}
                  ]">
             <el-input v-model="emailFormSetting.mailPassword" placeholder="必填:短信模板编号-可在短信控制台中找到"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="doSubmit(emailFormSetting)">保存</el-button>
+            <el-button type="primary" @click="doSubmit(emailFormSetting)">{{$i18n.t('保存')}}</el-button>
           </el-form-item>
         </el-form>
 

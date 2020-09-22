@@ -1,25 +1,25 @@
 <template lang="html">
   <div class="cron" :val="value_">
     <el-tabs v-model="activeName">
-      <el-tab-pane label="秒" name="s">
+      <el-tab-pane :label="$i18n.t('秒')" name="s">
         <second-and-minute v-model="sVal" lable="秒"></second-and-minute >
       </el-tab-pane>
-      <el-tab-pane label="分" name="m">
+      <el-tab-pane :label="$i18n.t('分')" name="m">
         <second-and-minute v-model="mVal" lable="分"></second-and-minute >
       </el-tab-pane>
-      <el-tab-pane label="时" name="h">
+      <el-tab-pane :label="$i18n.t('时')" name="h">
         <hour v-model="hVal" lable="时"></hour>
       </el-tab-pane>
-      <el-tab-pane label="日" name="d">
+      <el-tab-pane :label="$i18n.t('日')" name="d">
         <day v-model="dVal" lable="日"></day>
       </el-tab-pane>
-      <el-tab-pane label="月" name="month">
+      <el-tab-pane :label="$i18n.t('月')" name="month">
         <month v-model="monthVal" lable="月"></month>
       </el-tab-pane>
-      <el-tab-pane label="周" name="week">
+      <el-tab-pane :label="$i18n.t('周')" name="week">
         <week v-model="weekVal" lable="周"></week>
       </el-tab-pane>
-      <el-tab-pane label="年" name="year">
+      <el-tab-pane :label="$i18n.t('年')" name="year">
         <year v-model="yearVal" lable="年"></year>
       </el-tab-pane>
     </el-tabs>
@@ -31,37 +31,37 @@
        style="width: 100%;">
        <el-table-column
          prop="sVal"
-         label="秒"
+         :label="$i18n.t('秒')"
          width="70">
        </el-table-column>
        <el-table-column
          prop="mVal"
-         label="分"
+         :label="$i18n.t('分')"
          width="70">
        </el-table-column>
        <el-table-column
          prop="hVal"
-         label="时"
+         :label="$i18n.t('时')"
          width="70">
        </el-table-column>
        <el-table-column
          prop="dVal"
-         label="日"
+         :label="$i18n.t('日')"
          width="70">
        </el-table-column>
        <el-table-column
          prop="monthVal"
-         label="月"
+         :label="$i18n.t('月')"
          width="70">
        </el-table-column>
        <el-table-column
          prop="weekVal"
-         label="周"
+         :label="$i18n.t('周')"
          width="70">
        </el-table-column>
        <el-table-column
          prop="yearVal"
-         label="年">
+         :label="$i18n.t('年')">
        </el-table-column>
      </el-table>
   </div>

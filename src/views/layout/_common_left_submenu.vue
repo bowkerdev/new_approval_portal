@@ -1,11 +1,11 @@
 <template>
-  <el-submenu 
+  <el-submenu
     v-if="menu.children && menu.children.length >= 1"
     :index="menu.id + ''"
     :popper-class="'jp-sidebar--' + sidebarLayoutSkin + '-popper'">
     <template slot="title">
       <i :class="`${menu.icon} jp-sidebar__menu-icon`" style=" display: inline-block!important;"></i>
-      <span>{{ menu.name }}</span>
+      <span>{{ menu.name | ellipsis }}</span>
     </template>
     <sub-menu
       v-for="item in menu.children"
@@ -16,7 +16,7 @@
   </el-submenu>
   <el-menu-item v-else :index="menu.id + ''" @click="gotoRouteHandle(menu)">
     <i :class="`${menu.icon} jp-sidebar__menu-icon`" style="display: inline-block!important;"></i>
-    <span slot="title">{{ menu.name }}</span>
+    <span slot="title">{{ menu.name | ellipsis }}</span>
   </el-menu-item>
 </template>
 
@@ -34,6 +34,16 @@
         type: Array,
         required: true
       }
+    },
+    filters: {
+    	ellipsis (value) {
+    		if (!value) return ''
+    		let len=value.length;
+    		if (value.length > 17) {
+    			return value.substring(0,15) + '...';
+    		}
+    		return value
+    	}
     },
     components: {
       SubMenu

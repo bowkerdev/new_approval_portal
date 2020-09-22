@@ -3,17 +3,17 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="title">
-                <el-input size="small" v-model="searchForm.title" placeholder="标题" clearable></el-input>
+                <el-input size="small" v-model="searchForm.title" :placeholder="$i18n.t('标题')" clearable></el-input>
          </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small">查询</el-button>
-            <el-button @click="resetSearch()" size="small">重置</el-button>
+            <el-button type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
       <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
          <el-form-item>
-          <el-button type="default" @click="downloadTpl()" size="small">下载模板</el-button>
+          <el-button type="default" @click="downloadTpl()" size="small">{{$i18n.t('下载模板')}}</el-button>
          </el-form-item>
          <el-form-item prop="loginName">
             <el-upload
@@ -21,18 +21,17 @@
               :action="`${this.$http.BASE_URL}/test/note/testNote/import`"
               :on-success="uploadSuccess"
                :show-file-list="true">
-              <el-button size="small" type="primary">点击上传</el-button>
+              <el-button size="small" type="primary">{{$i18n.t('点击上传')}}</el-button>
               <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
             </el-upload>
         </el-form-item>
       </el-form>
       <el-row>
-        <el-button v-if="hasPermission('test:note:testNote:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
+        <el-button v-if="hasPermission('test:note:testNote:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('新建')}}</el-button>
         <el-button v-if="hasPermission('test:note:testNote:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1" plain>修改</el-button>
+         :disabled="dataListSelections.length != 1" plain>{{$i18n.t('修改')}}</el-button>
         <el-button v-if="hasPermission('test:note:testNote:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>删除
-        </el-button>
+                  :disabled="dataListSelections.length <= 0" plain>{{$i18n.t('删除')}}</el-button>
         <el-button-group class="pull-right">
             <el-button
               type="default"
@@ -68,7 +67,7 @@
         prop="title"
         show-overflow-tooltip
         sortable="custom"
-        label="标题">
+        :label="$i18n.t('标题')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('test:note:testNote:edit')" @click="edit(scope.row.id)">{{scope.row.title}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('test:note:testNote:view')"  @click="view(scope.row.id)">{{scope.row.title}}</el-link>
@@ -79,7 +78,7 @@
         prop="contents"
         show-overflow-tooltip
         sortable="custom"
-        label="内容">
+        :label="$i18n.t('内容')">
         <template slot-scope="scope">
             <p v-html="$utils.unescapeHTML(scope.row.contents)"></p>
         </template>
@@ -89,11 +88,11 @@
         align="center"
         fixed="right"
         width="200"
-        label="操作">
+        :label="$i18n.t('操作')">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('test:note:testNote:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">查看</el-button>
-          <el-button v-if="hasPermission('test:note:testNote:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">修改</el-button>
-          <el-button v-if="hasPermission('test:note:testNote:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">删除</el-button>
+          <el-button v-if="hasPermission('test:note:testNote:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18n.t('查看')}}</el-button>
+          <el-button v-if="hasPermission('test:note:testNote:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18n.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('test:note:testNote:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
         </template>
       </el-table-column>
     </el-table>

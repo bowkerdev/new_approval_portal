@@ -25,7 +25,7 @@
                           </el-tree>
                         </el-scrollbar>
               </el-tab-pane>
-              <el-tab-pane label="数据权限">
+              <el-tab-pane :label="$i18n.t('数据权限')">
                  <span slot="label"><i class="fa fa-database"></i> 数据权限</span>
                     <el-scrollbar style="height: 450px">
                       <el-tree
@@ -45,7 +45,7 @@
             </el-tabs>
     </el-form>
      <span slot="footer" class="dialog-footer">
-      <el-button type="primary" icon="el-icon-check" size="small" plain @click="inputFormSubmit()" v-noMoreClick>保存</el-button>
+      <el-button type="primary" icon="el-icon-check" size="small" plain @click="inputFormSubmit()" v-noMoreClick>{{$i18n.t('保存')}}</el-button>
     </span>
   </el-dialog>
 </template>

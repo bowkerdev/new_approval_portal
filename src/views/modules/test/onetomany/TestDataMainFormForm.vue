@@ -9,7 +9,7 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item label="用户" prop="tuser.id"
+            <el-form-item :label="$i18n.t('用户')" prop="tuser.id"
                 :rules="[
                   {required: true, message:'用户不能为空', trigger:'blur'}
                  ]">
@@ -17,7 +17,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="所属部门" prop="office.id"
+            <el-form-item :label="$i18n.t('所属部门')" prop="office.id"
                 :rules="[
                   {required: true, message:'所属部门不能为空', trigger:'blur'}
                  ]">
@@ -37,7 +37,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="所属区域" prop="area.id"
+            <el-form-item :label="$i18n.t('所属区域')" prop="area.id"
                 :rules="[
                   {required: true, message:'所属区域不能为空', trigger:'blur'}
                  ]">
@@ -57,15 +57,15 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="名称" prop="name"
+            <el-form-item :label="$i18n.t('名称')" prop="name"
                 :rules="[
                   {required: true, message:'名称不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.name" placeholder="请填写名称"     ></el-input>
+              <el-input v-model="inputForm.name" :placeholder="$i18n.t('请填写名称')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="性别" prop="sex"
+            <el-form-item :label="$i18n.t('性别')" prop="sex"
                 :rules="[
                   {required: true, message:'性别不能为空', trigger:'blur'}
                  ]">
@@ -75,7 +75,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item label="身份证照片" prop="file"
+            <el-form-item :label="$i18n.t('身份证照片')" prop="file"
                 :rules="[
                  ]">
               <el-upload ref="file"
@@ -114,7 +114,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="加入日期" prop="inDate"
+            <el-form-item :label="$i18n.t('加入日期')" prop="inDate"
                 :rules="[
                  ]">
                 <el-date-picker
@@ -122,22 +122,22 @@
                       type="datetime"
                       style="width: 100%;"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      placeholder="选择日期时间">
+                      :placeholder="$i18n.t('选择日期时间')">
                     </el-date-picker>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="备注信息" prop="remarks"
+            <el-form-item :label="$i18n.t('备注信息')" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" placeholder="请填写备注信息"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18n.t('请填写备注信息')"     ></el-input>
            </el-form-item>
         </el-col>
     <el-col :span="24">
      <el-form-item label-width="0">
             <el-tabs v-model="testDataMainFormTab">
-            <el-tab-pane label="火车票">
-                  <el-button size="small" @click="addTestDataChild21Row" type="primary">新增</el-button>
+            <el-tab-pane :label="$i18n.t('火车票')">
+                  <el-button size="small" @click="addTestDataChild21Row" type="primary">{{$i18n.t('新增')}}</el-button>
                   <el-table
                   border
                   :data="inputForm.testDataChild21List.filter(function(item){ return item.delFlag !== '1'})"
@@ -147,57 +147,57 @@
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="出发地">
+                    :label="$i18n.t('出发地')">
                   </el-table-column>
                   <el-table-column
                     prop="endArea.name"
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="目的地">
+                    :label="$i18n.t('目的地')">
                   </el-table-column>
                 <el-table-column
                     prop="starttime"
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="出发时间">
+                    :label="$i18n.t('出发时间')">
                   </el-table-column>
                 <el-table-column
                     prop="endtime"
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="到达时间">
+                    :label="$i18n.t('到达时间')">
                   </el-table-column>
                 <el-table-column
                     prop="price"
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="代理价格">
+                    :label="$i18n.t('代理价格')">
                   </el-table-column>
                 <el-table-column
                     prop="remarks"
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="备注信息">
+                    :label="$i18n.t('备注信息')">
                   </el-table-column>
                   <el-table-column
                     fixed="right"
-                    label="操作"
+                    :label="$i18n.t('操作')"
                     width="150">
                     <template slot-scope="scope">
-                      <el-button @click="viewTestDataChild21Row(scope.row)" type="text" size="small">查看</el-button>
-                      <el-button  @click="editTestDataChild21Row(scope.row)" type="text" size="small">编辑</el-button>
-                      <el-button  @click="delTestDataChild21Row(scope.row)" type="text" size="small">删除</el-button>
+                      <el-button @click="viewTestDataChild21Row(scope.row)" type="text" size="small">{{$i18n.t('查看')}}</el-button>
+                      <el-button  @click="editTestDataChild21Row(scope.row)" type="text" size="small">{{$i18n.t('编辑')}}</el-button>
+                      <el-button  @click="delTestDataChild21Row(scope.row)" type="text" size="small">{{$i18n.t('删除')}}</el-button>
                     </template>
                   </el-table-column>
                 </el-table>
               </el-tab-pane>
-            <el-tab-pane label="飞机票">
-                  <el-button size="small" @click="addTestDataChild22Row" type="primary">新增</el-button>
+            <el-tab-pane :label="$i18n.t('飞机票')">
+                  <el-button size="small" @click="addTestDataChild22Row" type="primary">{{$i18n.t('新增')}}</el-button>
                   <el-table
                   border
                   :data="inputForm.testDataChild22List.filter(function(item){ return item.delFlag !== '1'})"
@@ -207,57 +207,57 @@
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="出发地">
+                    :label="$i18n.t('出发地')">
                   </el-table-column>
                   <el-table-column
                     prop="endArea.name"
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="目的地">
+                    :label="$i18n.t('目的地')">
                   </el-table-column>
                 <el-table-column
                     prop="startTime"
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="出发时间">
+                    :label="$i18n.t('出发时间')">
                   </el-table-column>
                 <el-table-column
                     prop="endTime"
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="到达时间">
+                    :label="$i18n.t('到达时间')">
                   </el-table-column>
                 <el-table-column
                     prop="price"
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="代理价格">
+                    :label="$i18n.t('代理价格')">
                   </el-table-column>
                 <el-table-column
                     prop="remarks"
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="备注信息">
+                    :label="$i18n.t('备注信息')">
                   </el-table-column>
                   <el-table-column
                     fixed="right"
-                    label="操作"
+                    :label="$i18n.t('操作')"
                     width="150">
                     <template slot-scope="scope">
-                      <el-button @click="viewTestDataChild22Row(scope.row)" type="text" size="small">查看</el-button>
-                      <el-button  @click="editTestDataChild22Row(scope.row)" type="text" size="small">编辑</el-button>
-                      <el-button  @click="delTestDataChild22Row(scope.row)" type="text" size="small">删除</el-button>
+                      <el-button @click="viewTestDataChild22Row(scope.row)" type="text" size="small">{{$i18n.t('查看')}}</el-button>
+                      <el-button  @click="editTestDataChild22Row(scope.row)" type="text" size="small">{{$i18n.t('编辑')}}</el-button>
+                      <el-button  @click="delTestDataChild22Row(scope.row)" type="text" size="small">{{$i18n.t('删除')}}</el-button>
                     </template>
                   </el-table-column>
                 </el-table>
               </el-tab-pane>
-            <el-tab-pane label="汽车票">
-                  <el-button size="small" @click="addTestDataChild23Row" type="primary">新增</el-button>
+            <el-tab-pane :label="$i18n.t('汽车票')">
+                  <el-button size="small" @click="addTestDataChild23Row" type="primary">{{$i18n.t('新增')}}</el-button>
                   <el-table
                   border
                   :data="inputForm.testDataChild23List.filter(function(item){ return item.delFlag !== '1'})"
@@ -267,51 +267,51 @@
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="出发地">
+                    :label="$i18n.t('出发地')">
                   </el-table-column>
                   <el-table-column
                     prop="endArea.name"
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="目的地">
+                    :label="$i18n.t('目的地')">
                   </el-table-column>
                 <el-table-column
                     prop="startTime"
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="出发时间">
+                    :label="$i18n.t('出发时间')">
                   </el-table-column>
                 <el-table-column
                     prop="endTime"
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="到达时间">
+                    :label="$i18n.t('到达时间')">
                   </el-table-column>
                 <el-table-column
                     prop="price"
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="代理价格">
+                    :label="$i18n.t('代理价格')">
                   </el-table-column>
                 <el-table-column
                     prop="remarks"
                     header-align="center"
                     align="center"
                     show-overflow-tooltip
-                    label="备注信息">
+                    :label="$i18n.t('备注信息')">
                   </el-table-column>
                   <el-table-column
                     fixed="right"
-                    label="操作"
+                    :label="$i18n.t('操作')"
                     width="150">
                     <template slot-scope="scope">
-                      <el-button @click="viewTestDataChild23Row(scope.row)" type="text" size="small">查看</el-button>
-                      <el-button  @click="editTestDataChild23Row(scope.row)" type="text" size="small">编辑</el-button>
-                      <el-button  @click="delTestDataChild23Row(scope.row)" type="text" size="small">删除</el-button>
+                      <el-button @click="viewTestDataChild23Row(scope.row)" type="text" size="small">{{$i18n.t('查看')}}</el-button>
+                      <el-button  @click="editTestDataChild23Row(scope.row)" type="text" size="small">{{$i18n.t('编辑')}}</el-button>
+                      <el-button  @click="delTestDataChild23Row(scope.row)" type="text" size="small">{{$i18n.t('删除')}}</el-button>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -322,8 +322,8 @@
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">关闭</el-button>
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>确定</el-button>
+      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
+      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18n.t('确定')}}</el-button>
     </span>
   </el-dialog>
   <TestDataChild21Form ref="testDataChild21Form" @addRow="saveTestDataChild21Row(arguments)"></TestDataChild21Form>

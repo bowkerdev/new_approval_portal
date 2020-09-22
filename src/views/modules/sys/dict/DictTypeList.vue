@@ -3,20 +3,19 @@
 
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="type">
-          <el-input size="small" v-model="searchForm.type" placeholder="类型" clearable></el-input>
+          <el-input size="small" v-model="searchForm.type" :placeholder="$i18n.t('类型')" clearable></el-input>
         </el-form-item>
       <el-form-item>
-        <el-button  type="primary" @click="refreshList()" size="small">查询</el-button>
-        <el-button @click="resetSearch()" size="small">重置</el-button>
+        <el-button  type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
+        <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
       </el-form-item>
       </el-form>
       <el-row>
-        <el-button v-if="hasPermission('sys:dict:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
+        <el-button v-if="hasPermission('sys:dict:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('新建')}}</el-button>
         <el-button v-if="hasPermission('sys:dict:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-        :disabled="dataListSelections.length !== 1" plain>修改</el-button>
+        :disabled="dataListSelections.length !== 1" plain>{{$i18n.t('修改')}}</el-button>
         <el-button v-if="hasPermission('sys:dict:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>删除
-        </el-button>
+                  :disabled="dataListSelections.length <= 0" plain>{{$i18n.t('删除')}}</el-button>
         <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="搜索" placement="top">
             <el-button 
@@ -53,7 +52,7 @@
         <el-table-column
           prop="type"
           sortable="custom"
-          label="类型">
+          :label="$i18n.t('类型')">
          <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('sys:dict:edit')" @click="edit(scope.row.id)">{{scope.row.type}}</el-link>
           <el-link  type="primary" :underline="false" v-else-if="hasPermission('sys:dict:view')"  @click="view(scope.row.id)">{{scope.row.type}}</el-link>
@@ -62,30 +61,24 @@
         </el-table-column>
         <el-table-column
           prop="description"
-          label="描述">
+          :label="$i18n.t('描述')">
         </el-table-column>
         <el-table-column
           fixed="right"
           header-align="center"
           align="center"
           width="250"
-          label="操作">
+          :label="$i18n.t('操作')">
           <template slot-scope="scope">
              <el-button v-if="hasPermission('sys:dict:view')" type="text" size="small"
-                      @click="view(scope.row.id)">查看
-            </el-button>
+                      @click="view(scope.row.id)">{{$i18n.t('查看')}}</el-button>
             <el-divider direction="vertical"></el-divider>
             <el-button v-if="hasPermission('sys:dict:edit')" type="text" size="small"
-                      @click="edit(scope.row.id)">修改
-            </el-button>
+                      @click="edit(scope.row.id)">{{$i18n.t('修改')}}</el-button>
             <el-divider direction="vertical"></el-divider>
-            <el-button v-if="hasPermission('sys:dict:del')" type="text" size="small" @click="del(scope.row.id)">
-              删除
-            </el-button>
+            <el-button v-if="hasPermission('sys:dict:del')" type="text" size="small" @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
             <el-divider direction="vertical"></el-divider>
-            <el-button v-if="hasPermission('sys:dict:edit')" type="text" size="small" @click="showRight(scope.row)">
-              管理键值
-            </el-button>
+            <el-button v-if="hasPermission('sys:dict:edit')" type="text" size="small" @click="showRight(scope.row)">{{$i18n.t('管理键值')}}</el-button>
           </template>
         </el-table-column>
       </el-table>

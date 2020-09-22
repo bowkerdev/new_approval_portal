@@ -19,7 +19,7 @@
         {{selectOfficeName}}
       </el-tag>
       <el-input
-        placeholder="输入关键字进行过滤"
+        :placeholder="$i18n.t('输入关键字进行过滤')"
         size="small"
         v-model="filterText">
       </el-input>
@@ -42,14 +42,14 @@
      <el-form :inline="true" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
     
          <el-form-item prop="loginName">
-          <el-input size="small" v-model="searchForm.loginName" placeholder="登录名" clearable></el-input>
+          <el-input size="small" v-model="searchForm.loginName" :placeholder="$i18n.t('登录名')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="name">
-           <el-input size="small" v-model="searchForm.name" placeholder="姓名" clearable></el-input>
+           <el-input size="small" v-model="searchForm.name" :placeholder="$i18n.t('姓名')" clearable></el-input>
         </el-form-item>
       <el-form-item>
-        <el-button  type="primary" @click="refreshList()" size="small">查询</el-button>
-        <el-button @click="resetSearch()" size="small">重置</el-button>
+        <el-button  type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
+        <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
       </el-form-item>
       </el-form>
     <el-table
@@ -71,7 +71,7 @@
         prop="photo"
         header-align="center"
         align="center"
-        label="头像">
+        :label="$i18n.t('头像')">
         <template slot-scope="scope">
           <img :src="scope.row.photo === ''?'/static/img/avatar.png':scope.row.photo" style="height:50px"/>
         </template>
@@ -82,7 +82,7 @@
         align="center"
         sortable="custom"
         min-width="90"
-        label="登录名">
+        :label="$i18n.t('登录名')">
       </el-table-column>
       <el-table-column
         prop="name"
@@ -90,7 +90,7 @@
         align="真实姓名"
         sortable="custom"
         min-width="90"
-        label="用户名">
+        :label="$i18n.t('用户名')">
       </el-table-column>
       <el-table-column
         prop="company.name"
@@ -98,7 +98,7 @@
         align="center"
         sortable="custom"
         min-width="110"
-        label="所属机构">
+        :label="$i18n.t('所属机构')">
       </el-table-column>
       <el-table-column
         prop="office.name"
@@ -106,7 +106,7 @@
         align="center"
         sortable="custom"
         min-width="110"
-        label="所属部门">
+        :label="$i18n.t('所属部门')">
       </el-table-column>
       <el-table-column
         prop="email"
@@ -114,7 +114,7 @@
         align="center"
         sortable="custom"
         min-width="80"
-        label="邮箱">
+        :label="$i18n.t('邮箱')">
       </el-table-column>
       <el-table-column
         prop="mobile"
@@ -122,17 +122,17 @@
         align="center"
         sortable="custom"
         min-width="90"
-        label="手机号">
+        :label="$i18n.t('手机号')">
       </el-table-column>
       <el-table-column
         prop="loginFlag"
         header-align="center"
         align="center"
         min-width="100"
-        label="状态">
+        :label="$i18n.t('状态')">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.loginFlag === '1'" size="small" type="success">正常</el-tag>
-          <el-tag v-else-if="scope.row.loginFlag === '0'" size="small" type="danger">禁用</el-tag>
+          <el-tag v-if="scope.row.loginFlag === '1'" size="small" type="success">{{$i18n.t('正常')}}</el-tag>
+          <el-tag v-else-if="scope.row.loginFlag === '0'" size="small" type="danger">{{$i18n.t('禁用')}}</el-tag>
         </template>
       </el-table-column>
     </el-table>
@@ -158,8 +158,8 @@
     </el-col>
     </el-row>
      <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">关闭</el-button>
-      <el-button type="primary" @click="doSubmit()">确定</el-button>
+      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
+      <el-button type="primary" @click="doSubmit()">{{$i18n.t('确定')}}</el-button>
     </span>
     </el-dialog>
   

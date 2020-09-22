@@ -1,8 +1,8 @@
 <template>
   <div>
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-         <el-form-item label="流程分类" prop="category">
-            <el-select v-model="searchForm.category" placeholder="请选择" size="small"  style="width: 100%;">
+         <el-form-item :label="$i18n.t('流程分类')" prop="category">
+            <el-select v-model="searchForm.category" :placeholder="$i18n.t('请选择')" size="small"  style="width: 100%;">
                 <el-option
                   v-for="item in this.$dictUtils.getDictList('act_category')"
                   :key="item.value"
@@ -12,14 +12,13 @@
             </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button  type="primary" @click="refreshList()" size="small">查询</el-button>
-          <el-button @click="resetSearch()" size="small">重置</el-button>
+          <el-button  type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
+          <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
         </el-form-item>
       </el-form>
       <el-row>
         <el-button  type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0">删除
-        </el-button>
+                  :disabled="dataListSelections.length <= 0">{{$i18n.t('删除')}}</el-button>
         <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="搜索" placement="top">
             <el-button 
@@ -56,7 +55,7 @@
             prop="category"
             header-align="center"
             align="center"
-            label="流程分类">
+            :label="$i18n.t('流程分类')">
              <template slot-scope="scope">
               {{$dictUtils.getDictLabel("act_category", scope.row.category, "")}}
              </template>
@@ -65,14 +64,14 @@
             prop="key"
             header-align="center"
             align="center"
-            label="流程标识">
+            :label="$i18n.t('流程标识')">
           </el-table-column>
            <el-table-column
             prop="name"
             header-align="center"
             show-overflow-tooltip
             align="center"
-            label="流程名称">
+            :label="$i18n.t('流程名称')">
           </el-table-column>
            <el-table-column
             prop="resourceName"
@@ -90,7 +89,7 @@
             prop="diagramResourceName"
             header-align="center"
             align="center"
-            label="流程图">
+            :label="$i18n.t('流程图')">
             <template slot-scope="scope">
               <el-button   type="text" size="small"
                         @click="trace(scope.row)">
@@ -102,7 +101,7 @@
             prop="version"
             header-align="center"
             align="center"
-            label="流程版本">
+            :label="$i18n.t('流程版本')">
           </el-table-column>
           <el-table-column
             prop="suspended"
@@ -110,10 +109,10 @@
             align="center"
             width="150"
             :show-overflow-tooltip="true"
-            label="状态">
+            :label="$i18n.t('状态')">
              <template slot-scope="scope">
-              <el-tag v-if="scope.row.suspended" type="danger">已挂起</el-tag>
-              <el-tag v-if="!scope.row.suspended" type="success">已激活</el-tag>
+              <el-tag v-if="scope.row.suspended" type="danger">{{$i18n.t('已挂起')}}</el-tag>
+              <el-tag v-if="!scope.row.suspended" type="success">{{$i18n.t('已激活')}}</el-tag>
              </template>
           </el-table-column>
           <el-table-column
@@ -122,7 +121,7 @@
             align="center"
             width="150"
             :show-overflow-tooltip="true"
-            label="部署时间">
+            :label="$i18n.t('部署时间')">
              <template slot-scope="scope">
               {{scope.row.deploymentTime | formatDate}}
              </template>
@@ -132,20 +131,16 @@
             header-align="center"
             align="center"
             width="200"
-            label="操作">
+            :label="$i18n.t('操作')">
             <template slot-scope="scope">
               <el-button type="text" size="small" v-if="scope.row.suspended"
-                        @click="active(scope.row)">激活
-              </el-button>
+                        @click="active(scope.row)">{{$i18n.t('激活')}}</el-button>
               <el-button type="text" size="small" v-if="hasPermission('act:process:del')" 
-                        @click="del(scope.row.deploymentId)">删除
-              </el-button>
+                        @click="del(scope.row.deploymentId)">{{$i18n.t('删除')}}</el-button>
                <el-button type="text" size="small" v-if="!scope.row.suspended"
-                        @click="suspend(scope.row)">挂起
-              </el-button>
+                        @click="suspend(scope.row)">{{$i18n.t('挂起')}}</el-button>
               <el-button type="text" size="small"
-                        @click="toModel(scope.row)">转换为模型
-              </el-button>
+                        @click="toModel(scope.row)">{{$i18n.t('转换为模型')}}</el-button>
             </template>
           </el-table-column>
         </el-table>

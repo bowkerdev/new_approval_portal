@@ -8,7 +8,7 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item label="出发地" prop="startArea.id"
+            <el-form-item :label="$i18n.t('出发地')" prop="startArea.id"
                 :rules="[
                   {required: true, message:'出发地不能为空', trigger:'blur'}
                  ]">
@@ -28,7 +28,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="目的地" prop="endArea.id"
+            <el-form-item :label="$i18n.t('目的地')" prop="endArea.id"
                 :rules="[
                   {required: true, message:'目的地不能为空', trigger:'blur'}
                  ]">
@@ -48,7 +48,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="出发时间" prop="starttime"
+            <el-form-item :label="$i18n.t('出发时间')" prop="starttime"
                 :rules="[
                   {required: true, message:'出发时间不能为空', trigger:'blur'}
                  ]">
@@ -57,12 +57,12 @@
                       type="datetime"
                       style="width: 100%;"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      placeholder="选择日期时间">
+                      :placeholder="$i18n.t('选择日期时间')">
                     </el-date-picker>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="到达时间" prop="endtime"
+            <el-form-item :label="$i18n.t('到达时间')" prop="endtime"
                 :rules="[
                   {required: true, message:'到达时间不能为空', trigger:'blur'}
                  ]">
@@ -71,32 +71,32 @@
                       type="datetime"
                       style="width: 100%;"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      placeholder="选择日期时间">
+                      :placeholder="$i18n.t('选择日期时间')">
                     </el-date-picker>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="代理价格" prop="price"
+            <el-form-item :label="$i18n.t('代理价格')" prop="price"
                 :rules="[
                   {required: true, message:'代理价格不能为空', trigger:'blur'},
                   {validator: validator.isFloatGteZero, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.price" placeholder="请填写代理价格"     ></el-input>
+              <el-input v-model="inputForm.price" :placeholder="$i18n.t('请填写代理价格')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="备注信息" prop="remarks"
+            <el-form-item :label="$i18n.t('备注信息')" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" placeholder="请填写备注信息"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18n.t('请填写备注信息')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button v-if="method === 'add'" type="primary" @click="continueDoSubmit()">继续添加</el-button>
-      <el-button @click="visible = false">关闭</el-button>
-      <el-button v-if="method !== 'view'" type="primary" @click="doSubmit()">确定</el-button>
+      <el-button v-if="method === 'add'" type="primary" @click="continueDoSubmit()">{{$i18n.t('继续添加')}}</el-button>
+      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
+      <el-button v-if="method !== 'view'" type="primary" @click="doSubmit()">{{$i18n.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </template>

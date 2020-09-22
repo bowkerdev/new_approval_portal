@@ -1,7 +1,7 @@
 <template>
 <div>
  <el-row>
- <el-button  type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
+ <el-button  type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('新建')}}</el-button>
  </el-row>
   <el-table
     class="table"
@@ -13,36 +13,36 @@
     </el-table-column>
     <el-table-column
       prop="name"
-      label="报表名">
+      :label="$i18n.t('报表名')">
     </el-table-column>
     <el-table-column
       prop="updateDate"
-      label="更新日期">
+      :label="$i18n.t('更新日期')">
       <template slot-scope="scope">
          {{moment(scope.row.updateDate).format('YYYY-MM-DD HH:mm:ss')}}
       </template>
     </el-table-column>
-    <el-table-column label="操作">
+    <el-table-column :label="$i18n.t('操作')">
       <template slot-scope="scope">
          <el-button
           size="mini"
           type="text"
-          @click="pre(scope.row)" >预览</el-button>
+          @click="pre(scope.row)" >{{$i18n.t('预览')}}</el-button>
            <el-divider direction="vertical"></el-divider>
         <el-button
           size="mini"
           type="text"
-          @click="design(scope.row)" >设计</el-button>
+          @click="design(scope.row)" >{{$i18n.t('设计')}}</el-button>
            <el-divider direction="vertical"></el-divider>
         <el-button
           size="mini"
           type="text"
-          @click="del(scope.row)" >删除</el-button>
+          @click="del(scope.row)" >{{$i18n.t('删除')}}</el-button>
            <el-divider direction="vertical"></el-divider>
            <el-button
           size="mini"
           type="text"
-          @click="download(scope.row)" >导出</el-button>
+          @click="download(scope.row)" >{{$i18n.t('导出')}}</el-button>
       </template>
     </el-table-column>
   </el-table>

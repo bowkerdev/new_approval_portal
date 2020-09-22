@@ -3,11 +3,9 @@
   <el-aside width="200px">
      
     <el-menu @select="select" style="border:0">
-      <el-button size="small" style="width:100%" type="primary" @click="sendLetter">
-        写信
-        </el-button>
+      <el-button size="small" style="width:100%" type="primary" @click="sendLetter">{{$i18n.t('写信')}}</el-button>
         <el-menu-item-group>
-          <template slot="title">我的信箱</template>
+          <template slot="title">{{$i18n.t('我的信箱')}}</template>
           <el-menu-item index="1">收件箱 ({{' '+ noReadCount}}/{{mailBoxCount + ' ' }})</el-menu-item>
           <el-menu-item index="2">已发送 ({{' '+ mailComposeCount +' '}})</el-menu-item>
           <el-menu-item index="3">草稿箱 ({{' '+ mailDraftCount+' ' }})</el-menu-item>
@@ -23,23 +21,21 @@
       <el-row>
         <el-col :span="10">
       <el-dropdown @command="changeReadStatus">
-        <el-button size="small" type="primary">
-          过滤<i class="el-icon-arrow-down el-icon--right"></i>
+        <el-button size="small" type="primary">{{$i18n.t('过滤')}}<i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="0">未读</el-dropdown-item>
-          <el-dropdown-item command="1">已读</el-dropdown-item>
-          <el-dropdown-item command="">全部</el-dropdown-item>
+          <el-dropdown-item command="0">{{$i18n.t('未读')}}</el-dropdown-item>
+          <el-dropdown-item command="1">{{$i18n.t('已读')}}</el-dropdown-item>
+          <el-dropdown-item command="">{{$i18n.t('全部')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-button size="small" type="primary" @click="refreshList">
         <i class="el-icon-refresh"></i>
         </el-button>
-        <el-button  type="danger" size="small" icon="el-icon-delete" @click="del()" plain>删除
-        </el-button>
+        <el-button  type="danger" size="small" icon="el-icon-delete" @click="del()" plain>{{$i18n.t('删除')}}</el-button>
         </el-col>
         <el-col :span="14">
-        <el-input v-model="searchForm.mail.title" placeholder="请输入标题">
+        <el-input v-model="searchForm.mail.title" :placeholder="$i18n.t('请输入标题')">
            <el-button slot="append" icon="el-icon-search" @click="refreshList"></el-button>
         </el-input>
         </el-col>
@@ -61,43 +57,38 @@
           align="center"
           width="50">
         </el-table-column>
-          <el-table-column prop="status"  v-if="index === '2' || index === '3'|| index === '4'" label="状态" >
+          <el-table-column prop="status"  v-if="index === '2' || index === '3'|| index === '4'" :label="$i18n.t('状态')" >
             <template slot-scope="scope">
-              <el-tag type="success" v-if="scope.row.status === '1'">已发送</el-tag>
-              <el-tag type="danger" v-if="scope.row.status === '0'">草稿</el-tag>
-              <el-tag type="danger" v-if="scope.row.status === '2'">未读</el-tag>
-              <el-tag type="success" v-if="scope.row.status === '3'">已读</el-tag>
+              <el-tag type="success" v-if="scope.row.status === '1'">{{$i18n.t('已发送')}}</el-tag>
+              <el-tag type="danger" v-if="scope.row.status === '0'">{{$i18n.t('草稿')}}</el-tag>
+              <el-tag type="danger" v-if="scope.row.status === '2'">{{$i18n.t('未读')}}</el-tag>
+              <el-tag type="success" v-if="scope.row.status === '3'">{{$i18n.t('已读')}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="readstatus" v-if="index === '1'" label="状态" >
+        <el-table-column prop="readstatus" v-if="index === '1'" :label="$i18n.t('状态')" >
             <template slot-scope="scope">
-              <el-tag type="success" v-if="scope.row.readstatus === '1'">已读</el-tag>
-              <el-tag type="danger" v-if="scope.row.readstatus === '0'">未读</el-tag>
+              <el-tag type="success" v-if="scope.row.readstatus === '1'">{{$i18n.t('已读')}}</el-tag>
+              <el-tag type="danger" v-if="scope.row.readstatus === '0'">{{$i18n.t('未读')}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="sender.name" v-if="index === '1' || index === '4'" label="发件人" >
+        <el-table-column prop="sender.name" v-if="index === '1' || index === '4'" :label="$i18n.t('发件人')" >
         </el-table-column>
-        <el-table-column prop="receiverNames"  v-if="index !== '1'|| index === '4'" label="收件人">
+        <el-table-column prop="receiverNames"  v-if="index !== '1'|| index === '4'" :label="$i18n.t('收件人')">
         </el-table-column>
-        <el-table-column prop="mail.title" show-overflow-tooltip label="标题">
+        <el-table-column prop="mail.title" show-overflow-tooltip :label="$i18n.t('标题')">
         </el-table-column>
-         <el-table-column show-overflow-tooltip prop="sendtime" label="时间" >
+         <el-table-column show-overflow-tooltip prop="sendtime" :label="$i18n.t('时间')" >
         </el-table-column>
          <el-table-column
             header-align="center"
             align="center"
             width="210"
-            label="操作">
+            :label="$i18n.t('操作')">
             <template slot-scope="scope">
               <el-button  type="text"  size="mini"  icon="el-icon-view" 
-                        @click="view(scope.row.id)">查阅
-              </el-button>
-              <el-button v-if="index === '1'" type="text" icon="el-icon-edit" size="mini" @click="reply(scope.row)">
-                回复
-              </el-button>
-              <el-button type="text" icon="el-icon-delete"  size="mini"  @click="del(scope.row.id)">
-                删除
-              </el-button>
+                        @click="view(scope.row.id)">{{$i18n.t('查阅')}}</el-button>
+              <el-button v-if="index === '1'" type="text" icon="el-icon-edit" size="mini" @click="reply(scope.row)">{{$i18n.t('回复')}}</el-button>
+              <el-button type="text" icon="el-icon-delete"  size="mini"  @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
             </template>
           </el-table-column>
       </el-table>

@@ -12,19 +12,19 @@
              v-loading="loading" @submit.native.prevent>
     <el-row :gutter="15">
         <el-col :span="12">
-            <el-form-item label="连接名称" prop="name" :rules="[{required: true, message:'连接名称不能为空', trigger:'blur'}]">
+            <el-form-item :label="$i18n.t('连接名称')" prop="name" :rules="[{required: true, message:'连接名称不能为空', trigger:'blur'}]">
               <el-input v-model="inputForm.name" maxlength="50" placeholder=""></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="连接英文名" prop="enName" :rules="[{required: true, message:'连接英文名不能为空', trigger:'blur'},
+            <el-form-item :label="$i18n.t('连接英文名')" prop="enName" :rules="[{required: true, message:'连接英文名不能为空', trigger:'blur'},
             {validator:checkEnName, trigger:'blur'}]">
               <el-input v-model="inputForm.enName" maxlength="50" placeholder=""></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="数据库类型" prop="type" :rules="[{required: true, message:'数据库类型不能为空', trigger:'blur'}]">
-              <el-select v-model="inputForm.type" placeholder="请选择来源"  style="width: 100%;">
+            <el-form-item :label="$i18n.t('数据库类型')" prop="type" :rules="[{required: true, message:'数据库类型不能为空', trigger:'blur'}]">
+              <el-select v-model="inputForm.type" :placeholder="$i18n.t('请选择来源')"  style="width: 100%;">
                 <el-option
                   v-for="item in this.$dictUtils.getDictList('db_type')"
                   :key="item.value"
@@ -35,27 +35,27 @@
             </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="主机地址" prop="host" :rules="[{required: true, message:'主机地址不能为空', trigger:'blur'}]">
+            <el-form-item :label="$i18n.t('主机地址')" prop="host" :rules="[{required: true, message:'主机地址不能为空', trigger:'blur'}]">
               <el-input v-model="inputForm.host" maxlength="50" placeholder=""></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="端口" prop="port" :rules="[{required: true, message:'端口不能为空', trigger:'blur'}]">
+            <el-form-item :label="$i18n.t('端口')" prop="port" :rules="[{required: true, message:'端口不能为空', trigger:'blur'}]">
               <el-input v-model.number="inputForm.port" type="number" maxlength="50" placeholder=""></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="数据库名" prop="dbname" :rules="[{required: true, message:'数据库名不能为空', trigger:'blur'}]">
+            <el-form-item :label="$i18n.t('数据库名')" prop="dbname" :rules="[{required: true, message:'数据库名不能为空', trigger:'blur'}]">
               <el-input v-model="inputForm.dbname" maxlength="50" placeholder=""></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="数据库用户名" prop="username" :rules="[{required: true, message:'数据库用户名不能为空', trigger:'blur'}]">
+            <el-form-item :label="$i18n.t('数据库用户名')" prop="username" :rules="[{required: true, message:'数据库用户名不能为空', trigger:'blur'}]">
               <el-input v-model="inputForm.username" maxlength="50" placeholder=""></el-input>
             </el-form-item>
         </el-col>
          <el-col :span="12">
-            <el-form-item label="数据库密码" prop="password" :rules="[{required: true, message:'数据库密码名不能为空', trigger:'blur'}]">
+            <el-form-item :label="$i18n.t('数据库密码')" prop="password" :rules="[{required: true, message:'数据库密码名不能为空', trigger:'blur'}]">
               <el-input v-model="inputForm.password" maxlength="50" placeholder=""></el-input>
             </el-form-item>
         </el-col>
@@ -65,9 +65,9 @@
      
     </el-form>
     <span slot="footer"  class="dialog-footer">
-      <el-button v-if="method != 'view'" type="primary" @click="testDbLink()">测试连接</el-button>
-      <el-button v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>确定</el-button>
-      <el-button @click="visible = false">关闭</el-button>
+      <el-button v-if="method != 'view'" type="primary" @click="testDbLink()">{{$i18n.t('测试连接')}}</el-button>
+      <el-button v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18n.t('确定')}}</el-button>
+      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
     </span>
   </el-dialog>
 </template>

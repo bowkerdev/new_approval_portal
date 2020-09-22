@@ -3,22 +3,19 @@
   <el-row :gutter="15">
     <el-col :span="24">
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-         <el-form-item label="模型名称" prop="filterText">
-            <el-input v-model="searchForm.filterText" size="small" placeholder="请输入关键词"></el-input>
+         <el-form-item :label="$i18n.t('模型名称')" prop="filterText">
+            <el-input v-model="searchForm.filterText" size="small" :placeholder="$i18n.t('请输入关键词')"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button  type="primary" @click="refreshList()" size="small">查询</el-button>
-          <el-button @click="resetSearch()" size="small">重置</el-button>
+          <el-button  type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
+          <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
         </el-form-item>
       </el-form>
       <el-row>
-        <el-button  type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
+        <el-button  type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('新建')}}</el-button>
         <el-button type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0">删除
-        </el-button>
-        <el-button type="success" :disabled="dataListSelections.length != 1" size="small" @click="setCategory()">
-            设置分类
-        </el-button>
+                  :disabled="dataListSelections.length <= 0">{{$i18n.t('删除')}}</el-button>
+        <el-button type="success" :disabled="dataListSelections.length != 1" size="small" @click="setCategory()">{{$i18n.t('设置分类')}}</el-button>
         <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="搜索" placement="top">
             <el-button 
@@ -54,7 +51,7 @@
          <el-table-column
             prop="name"
             show-overflow-tooltip
-            label="流程名称">
+            :label="$i18n.t('流程名称')">
           </el-table-column>
           <el-table-column
             prop="key"
@@ -63,18 +60,18 @@
           </el-table-column>
           <el-table-column
             prop="procDef.category"
-            label="分类">
+            :label="$i18n.t('分类')">
           </el-table-column>
           <el-table-column
             prop="version"
-            label="流程版本">
+            :label="$i18n.t('流程版本')">
             <template slot-scope="scope">       
               <el-tag>{{scope.row.procDef.version || '0'}}</el-tag>
              </template>
           </el-table-column>
           <el-table-column
             prop="version"
-            label="流程状态">
+            :label="$i18n.t('流程状态')">
             <template slot-scope="scope">       
               <el-tag :type="scope.row.procDef.suspended===false?'success':(scope.row.procDef.suspended===undefined?'primary':'danger')">{{scope.row.procDef.suspended===false?'已发布':(scope.row.procDef.suspended===undefined?'草稿':'已挂起')}}</el-tag>
              </template>
@@ -82,7 +79,7 @@
           <el-table-column
             prop="lastUpdated"
             show-overflow-tooltip
-            label="更新时间">
+            :label="$i18n.t('更新时间')">
              <template slot-scope="scope">
               {{scope.row.lastUpdated | formatDate}}
              </template>
@@ -90,14 +87,14 @@
           <el-table-column
             fixed="right"
             width="250"
-            label="操作">
+            :label="$i18n.t('操作')">
             <template slot-scope="scope">
-              <el-button type="text" size="small" @click="design(scope.row)">设计</el-button>
-              <el-button  type="text" size="small" @click="deploy(scope.row)">发布</el-button>
-              <el-button type="text" size="small" v-if="scope.row.procDef.suspended===true" @click="active(scope.row.procDef)">激活</el-button>
-               <el-button type="text" size="small" v-if="scope.row.procDef.suspended===false" @click="suspend(scope.row.procDef)">挂起</el-button>
-               <el-button  type="text" size="small" @click="exportXML(scope.row)">导出</el-button>
-              <el-button  type="text" size="small" @click="del(scope.row.id)">删除</el-button>
+              <el-button type="text" size="small" @click="design(scope.row)">{{$i18n.t('设计')}}</el-button>
+              <el-button  type="text" size="small" @click="deploy(scope.row)">{{$i18n.t('发布')}}</el-button>
+              <el-button type="text" size="small" v-if="scope.row.procDef.suspended===true" @click="active(scope.row.procDef)">{{$i18n.t('激活')}}</el-button>
+               <el-button type="text" size="small" v-if="scope.row.procDef.suspended===false" @click="suspend(scope.row.procDef)">{{$i18n.t('挂起')}}</el-button>
+               <el-button  type="text" size="small" @click="exportXML(scope.row)">{{$i18n.t('导出')}}</el-button>
+              <el-button  type="text" size="small" @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
             </template>
           </el-table-column>
         </el-table>

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import router from '@/router'
 import merge from 'lodash/merge'
-import i18n from '@/utils/i18n'
+// import i18n from '@/utils/i18n'
 import { clearLoginInfo } from '@/utils'
 import qs from 'qs'
 import {
@@ -55,6 +55,7 @@ axios.interceptors.request.use(config => {
     config.params = qs.parse(config.params)
     config.params = merge(defaults, config.params)
   }
+  config.headers["language"] = localStorage.getItem('lang')||'en-US';
   return config
 }, error => {
   return Promise.reject(error)
@@ -102,7 +103,7 @@ axios.interceptors.response.use(response => {
     clearLoginInfo()
     router.push({ name: 'login' })
     Message({
-      message: i18n.t(error.response.data.msg) || i18n.t(error.response.data.exception),
+      message: $i18n.t(error.response.data.msg) || $i18n.t(error.response.data.exception),
       type: 'error',
       showClose: true,
       dangerouslyUseHTMLString: true,

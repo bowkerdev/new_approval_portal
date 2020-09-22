@@ -49,7 +49,7 @@
           </el-menu-item>
 
         <el-submenu index="2" v-if="topHideMenuList.length != 0">
-          <template slot="title">更多</template>
+          <template slot="title">{{$i18n.t('更多')}}</template>
           <el-menu-item  v-for="menu in topHideMenuList"
           :index="menu.id"
           :key="menu.id"
@@ -78,6 +78,20 @@
               </notice-icon>
           </template>
         </el-menu-item> -->
+
+        <el-menu-item class="jp-navbar__avatar">
+          <el-dropdown :show-timeout="0" placement="bottom">
+            <span class="el-dropdown-link">
+              <img :src="languageIcon" style="border-radius: 0px;width: 24px;"> {{ language }}
+            </span>
+            <el-dropdown-menu slot="dropdown" style="margin-top: -10px;">
+              <el-dropdown-item v-for="(item,i) in languageList" @click.native="changeLanguage" :lang='item.lang'>
+                <img :src="item.src" style="border-radius: 0px;width: 24px;"> {{item.text}}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-menu-item>
+
         <el-menu-item class="jp-navbar__avatar">
           <el-dropdown :show-timeout="0" placement="bottom">
             <span class="el-dropdown-link">
@@ -85,8 +99,8 @@
               <i class="el-icon-user-solid"></i>{{ userName }}
             </span>
             <el-dropdown-menu slot="dropdown" style="margin-top: -10px;">
-              <el-dropdown-item @click.native="updatePasswordHandle()">修改密码</el-dropdown-item>
-              <el-dropdown-item @click.native="logoutHandle()">退出</el-dropdown-item>
+              <el-dropdown-item @click.native="updatePasswordHandle()">{{$i18n.t('修改密码')}}</el-dropdown-item>
+              <el-dropdown-item @click.native="logoutHandle()">{{$i18n.t('退出')}}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-menu-item>
@@ -116,6 +130,9 @@
         topMenuList: [],
         topHideMenuList: [],
         allMenuList: [],
+        languageList:[],
+        language: "中国 中文",
+        languageIcon: "/static/images/china.png",
         screenWidth: document.body.clientWidth
         /* noticeTabs: [
           {
@@ -201,6 +218,10 @@
       } else {
         this.$store.commit('common/updateLeftMenuList', this.allMenuList)
       }
+      var tmp = window.langList.find(item => { return item.lang == (localStorage.getItem('lang') || 'en-US')})
+      this.languageList=window.langList
+      this.language = tmp.text
+      this.languageIcon = tmp.src
       /* this.$http({
         url: '/notify/oaNotify/self/data?pageNo=1&pageSize=10&isSelf=true&readFlag=0',
         method: 'get'
@@ -292,6 +313,13 @@
       },
       showRight () {
         this.$emit('showRight', true)
+      },
+      changeLanguage(e){
+        var lang=e.currentTarget.lang
+        this.language = e.currentTarget.textContent
+        this.languageIcon = e.currentTarget.getElementsByTagName("img")[0].src
+        localStorage.setItem('lang',lang)
+        location.reload()
       },
       showLeftMenu (menu) {
         this.$store.commit('common/updateLeftMenuList', menu.children)

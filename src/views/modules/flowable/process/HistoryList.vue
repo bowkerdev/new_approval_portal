@@ -2,8 +2,7 @@
   <div>
       <el-row>
         <el-button  type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0">删除
-        </el-button>
+                  :disabled="dataListSelections.length <= 0">{{$i18n.t('删除')}}</el-button>
       </el-row>
         <el-table
           :data="dataList"
@@ -20,20 +19,20 @@
           </el-table-column>
           <el-table-column
             prop="processVariables.title"
-            label="实例名称">
+            :label="$i18n.t('实例名称')">
           </el-table-column>
           <el-table-column
             prop="processDefinitionName"
-            label="流程名称">
+            :label="$i18n.t('流程名称')">
           </el-table-column>
            <el-table-column
             prop="processVariables.userName"
-            label="流程发起人">
+            :label="$i18n.t('流程发起人')">
           </el-table-column>
           <el-table-column
             prop="startTime"
             show-overflow-tooltip
-            label="流程启动时间">
+            :label="$i18n.t('流程启动时间')">
              <template slot-scope="scope">
               {{scope.row.startTime | formatDate}}
              </template>
@@ -41,7 +40,7 @@
           <el-table-column
             prop="endTime"
             show-overflow-tooltip
-            label="流程结束时间">
+            :label="$i18n.t('流程结束时间')">
              <template slot-scope="scope">
               {{scope.row.endTime | formatDate}}
              </template>
@@ -50,11 +49,11 @@
             prop="deleteReason"
             width="150"
             show-overflow-tooltip
-            label="流程状态">
+            :label="$i18n.t('流程状态')">
              <template slot-scope="scope">
-               <el-tag v-if="scope.row.deleteReason === undefined" type="success">正常结束</el-tag>
-               <el-tag v-else-if="scope.row.deleteReason === '用户撤销'" type="danger">用户撤销</el-tag>
-               <div v-else><el-tag type="danger">流程作废 </el-tag> <span v-if="scope.row.deleteReason">原因: {{scope.row.deleteReason}}</span></div>
+               <el-tag v-if="scope.row.deleteReason === undefined" type="success">{{$i18n.t('正常结束')}}</el-tag>
+               <el-tag v-else-if="scope.row.deleteReason === '用户撤销'" type="danger">{{$i18n.t('用户撤销')}}</el-tag>
+               <div v-else><el-tag type="danger">{{$i18n.t('流程作废')}}</el-tag> <span v-if="scope.row.deleteReason">原因: {{scope.row.deleteReason}}</span></div>
              </template>
           </el-table-column>
           <el-table-column
@@ -62,17 +61,14 @@
             header-align="center"
             align="center"
             width="150"
-            label="操作">
+            :label="$i18n.t('操作')">
             <template slot-scope="scope">
             <el-button  type="text" size="small"
-                        @click="trace(scope.row)">流程图
-              </el-button>
+                        @click="trace(scope.row)">{{$i18n.t('流程图')}}</el-button>
               <el-button  type="text" size="small"
-                        @click="detail(scope.row)">历史
-              </el-button>
+                        @click="detail(scope.row)">{{$i18n.t('历史')}}</el-button>
               <el-button  type="text" size="small"
-                        @click="del(scope.row.id)">删除
-              </el-button>
+                        @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
             </template>
           </el-table-column>
         </el-table>

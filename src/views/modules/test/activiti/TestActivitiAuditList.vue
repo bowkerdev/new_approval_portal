@@ -3,14 +3,14 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small">查询</el-button>
-            <el-button @click="resetSearch()" size="small">重置</el-button>
+            <el-button type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
       <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
          <el-form-item>
-          <el-button type="default" @click="downloadTpl()" size="small">下载模板</el-button>
+          <el-button type="default" @click="downloadTpl()" size="small">{{$i18n.t('下载模板')}}</el-button>
          </el-form-item>
          <el-form-item prop="loginName">
             <el-upload
@@ -18,18 +18,17 @@
               :action="`${this.$http.BASE_URL}/test/activiti/testActivitiAudit/import`"
               :on-success="uploadSuccess"
                :show-file-list="true">
-              <el-button size="small" type="primary">点击上传</el-button>
+              <el-button size="small" type="primary">{{$i18n.t('点击上传')}}</el-button>
               <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
             </el-upload>
         </el-form-item>
       </el-form>
       <el-row>
-        <el-button v-if="hasPermission('test:activiti:testActivitiAudit:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
+        <el-button v-if="hasPermission('test:activiti:testActivitiAudit:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('新建')}}</el-button>
         <el-button v-if="hasPermission('test:activiti:testActivitiAudit:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1" plain>修改</el-button>
+         :disabled="dataListSelections.length != 1" plain>{{$i18n.t('修改')}}</el-button>
         <el-button v-if="hasPermission('test:activiti:testActivitiAudit:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>删除
-        </el-button>
+                  :disabled="dataListSelections.length <= 0" plain>{{$i18n.t('删除')}}</el-button>
         <el-button-group class="pull-right">
             <el-button
               type="default"
@@ -71,17 +70,11 @@
         header-align="center"
         align="center"
         width="400"
-        label="操作">
+        :label="$i18n.t('操作')">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('test:activiti:testActivitiAudit:view')" type="text" icon="el-icon-view" size="mini" @click="view(scope.row.id)">
-            查看
-          </el-button>
-          <el-button v-if="hasPermission('test:activiti:testActivitiAudit:edit')" type="text" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)">
-            修改
-          </el-button>
-          <el-button v-if="hasPermission('test:activiti:testActivitiAudit:del')" type="text" size="mini" icon="el-icon-delete" class="red" @click="del(scope.row.id)">
-            删除
-          </el-button>
+          <el-button v-if="hasPermission('test:activiti:testActivitiAudit:view')" type="text" icon="el-icon-view" size="mini" @click="view(scope.row.id)">{{$i18n.t('查看')}}</el-button>
+          <el-button v-if="hasPermission('test:activiti:testActivitiAudit:edit')" type="text" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)">{{$i18n.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('test:activiti:testActivitiAudit:del')" type="text" size="mini" icon="el-icon-delete" class="red" @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
         </template>
       </el-table-column>
     </el-table>

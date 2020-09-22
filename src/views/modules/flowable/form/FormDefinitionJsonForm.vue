@@ -12,8 +12,8 @@
             >
         </fm-generate-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">关闭</el-button>
-      <el-button type="primary" @click="visible = false">确定</el-button>
+      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
+      <el-button type="primary" @click="visible = false">{{$i18n.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </div>

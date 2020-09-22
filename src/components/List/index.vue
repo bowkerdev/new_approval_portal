@@ -4,9 +4,7 @@
       <slot></slot>
     </template>
     <template v-else>
-      <div class="ep-list-empty-text">
-        暂无数据
-      </div>
+      <div class="ep-list-empty-text">{{$i18n.t('暂无数据')}}</div>
     </template>
   </div>
 </template>

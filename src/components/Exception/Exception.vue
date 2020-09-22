@@ -18,7 +18,7 @@
           v-if="$slots.actions" 
           name="actions"
         />
-          <el-button type="primary" @click="goHome">返回首页</el-button>
+          <el-button type="primary" @click="goHome">{{$i18n.t('返回首页')}}</el-button>
       </div>
     </div>
   </div>

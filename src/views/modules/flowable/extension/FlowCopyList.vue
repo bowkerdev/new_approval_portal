@@ -2,8 +2,7 @@
   <div>
       <el-row>
         <el-button v-if="hasPermission('extension:flowCopy:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0">删除
-        </el-button>
+                  :disabled="dataListSelections.length <= 0">{{$i18n.t('删除')}}</el-button>
       </el-row>
     <el-table
       :data="dataList"
@@ -22,26 +21,26 @@
 	  <el-table-column
         prop="procInsName"
         sortable="custom"
-        label="实例标题">
+        :label="$i18n.t('实例标题')">
       </el-table-column>
 	  <el-table-column
         prop="createDate"
         sortable="custom"
-        label="抄送日期">
+        :label="$i18n.t('抄送日期')">
       </el-table-column>
       <el-table-column
         prop="createBy.name"
         sortable="custom"
-        label="抄送发起人">
+        :label="$i18n.t('抄送发起人')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         width="150"
-        label="操作">
+        :label="$i18n.t('操作')">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('extension:flowCopy:view')" type="text" icon="el-icon-view" size="mini" @click="detail(scope.row)">查阅审批</el-button>
-          <el-button v-if="hasPermission('extension:flowCopy:del')" type="text" size="mini" icon="el-icon-delete" @click="del(scope.row.id)">删除</el-button>
+          <el-button v-if="hasPermission('extension:flowCopy:view')" type="text" icon="el-icon-view" size="mini" @click="detail(scope.row)">{{$i18n.t('查阅审批')}}</el-button>
+          <el-button v-if="hasPermission('extension:flowCopy:del')" type="text" size="mini" icon="el-icon-delete" @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
         </template>
       </el-table-column>
     </el-table>

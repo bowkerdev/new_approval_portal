@@ -116,13 +116,13 @@
         >
           <el-row>
             <el-col :span="8">
-              <el-progress type="circle" :percentage="28">中式快餐</el-progress>
+              <el-progress type="circle" :percentage="28">{{$i18n.t('中式快餐')}}</el-progress>
             </el-col>
             <el-col :span="8">
-               <el-progress type="circle" :percentage="22">西餐</el-progress>
+               <el-progress type="circle" :percentage="22">{{$i18n.t('西餐')}}</el-progress>
             </el-col>
             <el-col :span="8">
-              <el-progress type="circle" :percentage="32">火锅</el-progress>
+              <el-progress type="circle" :percentage="32">{{$i18n.t('火锅')}}</el-progress>
             </el-col>
           </el-row>
         </el-card>

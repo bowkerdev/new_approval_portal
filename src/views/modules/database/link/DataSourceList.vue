@@ -2,20 +2,19 @@
   <div>
      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="name">
-          <el-input size="small" v-model="searchForm.name" placeholder="连接名称" clearable></el-input>
+          <el-input size="small" v-model="searchForm.name" :placeholder="$i18n.t('连接名称')" clearable></el-input>
          </el-form-item>
       <el-form-item>
-        <el-button  type="primary" @click="refreshList()" size="small">查询</el-button>
-        <el-button @click="resetSearch()" size="small">重置</el-button>
+        <el-button  type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
+        <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
       </el-form-item>
       </el-form>
       <el-row>
-        <el-button v-if="hasPermission('database:datalink:dataSource:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
+        <el-button v-if="hasPermission('database:datalink:dataSource:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('新建')}}</el-button>
         <el-button v-if="hasPermission('database:datalink:dataSource:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1" plain>修改</el-button>
+         :disabled="dataListSelections.length != 1" plain>{{$i18n.t('修改')}}</el-button>
         <el-button v-if="hasPermission('database:datalink:dataSource:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>删除
-        </el-button>
+                  :disabled="dataListSelections.length <= 0" plain>{{$i18n.t('删除')}}</el-button>
         <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="搜索" placement="top">
             <el-button 
@@ -51,7 +50,7 @@
       </el-table-column>
       <el-table-column
         prop="name"
-        label="连接名称">
+        :label="$i18n.t('连接名称')">
         <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('database:datalink:dataSource:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
           <el-link  type="primary" :underline="false" v-else-if="hasPermission('database:datalink:dataSource:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
@@ -60,45 +59,45 @@
       </el-table-column>
       <el-table-column
         prop="enName"
-        label="连接英文名">
+        :label="$i18n.t('连接英文名')">
       </el-table-column>
       <el-table-column
         prop="type"
-        label="数据库类型">
+        :label="$i18n.t('数据库类型')">
         <template slot-scope="scope">
             {{ $dictUtils.getDictLabel("db_type", scope.row.type, '-') }}
         </template>
       </el-table-column>
       <el-table-column
         prop="host"
-        label="主机地址">
+        :label="$i18n.t('主机地址')">
       </el-table-column>
       <el-table-column
         prop="port"
-        label="端口">
+        :label="$i18n.t('端口')">
       </el-table-column>
       <el-table-column
         prop="dbname"
-        label="数据库名">
+        :label="$i18n.t('数据库名')">
       </el-table-column>
       <el-table-column
         prop="username"
-        label="数据库用户名">
+        :label="$i18n.t('数据库用户名')">
       </el-table-column>
       <el-table-column
         prop="password"
-        label="数据库密码">
+        :label="$i18n.t('数据库密码')">
       </el-table-column>
       <el-table-column
         fixed="right"
         header-align="center"
         align="center"
         width="200"
-        label="操作">
+        :label="$i18n.t('操作')">
         <template slot-scope="scope">
-         <el-button v-if="hasPermission('database:datalink:dataSource:view')" type="text"  icon="el-icon-view" size="small" @click="view(scope.row.id)">查看</el-button>
-          <el-button v-if="hasPermission('database:datalink:dataSource:edit')" type="text"  size="small" icon="el-icon-edit" @click="edit(scope.row.id)">修改</el-button>
-          <el-button v-if="hasPermission('database:datalink:dataSource:del')" type="text"  size="small" icon="el-icon-delete" @click="del(scope.row.id)">删除</el-button>
+         <el-button v-if="hasPermission('database:datalink:dataSource:view')" type="text"  icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18n.t('查看')}}</el-button>
+          <el-button v-if="hasPermission('database:datalink:dataSource:edit')" type="text"  size="small" icon="el-icon-edit" @click="edit(scope.row.id)">{{$i18n.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('database:datalink:dataSource:del')" type="text"  size="small" icon="el-icon-delete" @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
         </template>
       </el-table-column>
     </el-table>

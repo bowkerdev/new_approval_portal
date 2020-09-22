@@ -5,7 +5,7 @@
         <el-card shadow="hover" class="server-card">
             <div slot="header" class="clearfix">
               <span>CPU使用率(监测10秒)</span>
-              <el-button @click="refreshList" style="float: right; padding: 3px 0" type="text">刷新</el-button>
+              <el-button @click="refreshList" style="float: right; padding: 3px 0" type="text">{{$i18n.t('刷新')}}</el-button>
             </div>
             <el-row>
               <el-col :span="24" style="text-align:center">
@@ -20,7 +20,7 @@
                           <td><div class="cell">{{ServerOS.cpu.cpucard.name.split('@')[1]}}</div></td>
                         </tr>
                         <tr>
-                          <td><div class="cell">核心数</div></td>
+                          <td><div class="cell">{{$i18n.t('核心数')}}</div></td>
                           <td><div class="cell">{{ServerOS.cpu.cpucard.logicalProcessorCount}}</div></td>
                         </tr>
                       </tbody>
@@ -34,7 +34,7 @@
         <el-card shadow="hover" class="server-card" >
             <div slot="header" class="clearfix">
               <span>内存使用率(监测10秒)</span>
-              <el-button @click="refreshList" style="float: right; padding: 3px 0" type="text">刷新</el-button>
+              <el-button @click="refreshList" style="float: right; padding: 3px 0" type="text">{{$i18n.t('刷新')}}</el-button>
             </div>
              <el-row>
               <el-col :span="24" style="text-align:center">
@@ -45,11 +45,11 @@
                     <table cellspacing="0" style="width: 100%;">
                       <tbody>
                         <tr>
-                          <td><div class="cell">总内存</div></td>
+                          <td><div class="cell">{{$i18n.t('总内存')}}</div></td>
                           <td><div class="cell">{{ServerOS.mem.total}}G</div></td>
                         </tr>
                         <tr>
-                          <td><div class="cell">已用内存</div></td>
+                          <td><div class="cell">{{$i18n.t('已用内存')}}</div></td>
                           <td><div class="cell">{{ServerOS.mem.usedMem}}G</div></td>
                         </tr>
                       </tbody>
@@ -64,7 +64,7 @@
         <el-card shadow="hover" class="server-card">
             <div slot="header" class="clearfix">
               <span>JVM使用率(监测10秒)</span>
-              <el-button @click="refreshList" style="float: right; padding: 3px 0" type="text">刷新</el-button>
+              <el-button @click="refreshList" style="float: right; padding: 3px 0" type="text">{{$i18n.t('刷新')}}</el-button>
             </div>
              <el-row>
               <el-col :span="24" style="text-align:center">
@@ -125,17 +125,17 @@
       <el-col :span="24">
         <el-card shadow="hover" class="server-card">
             <div slot="header" class="clearfix">
-              <span>磁盘信息</span>
+              <span>{{$i18n.t('磁盘信息')}}</span>
             </div>
             <div class="el-table el-table--enable-row-hover el-table--medium">
               <table v-if="ServerOS" cellspacing="0" style="width: 100%;">
               <tbody>
                 <tr>
-                  <td><div class="cell">磁盘名称</div></td>
-                  <td><div class="cell">大小</div></td>
-                  <td><div class="cell">已用</div></td>
-                  <td><div class="cell">可用</div></td>
-                  <td><div class="cell">利用率</div></td>
+                  <td><div class="cell">{{$i18n.t('磁盘名称')}}</div></td>
+                  <td><div class="cell">{{$i18n.t('大小')}}</div></td>
+                  <td><div class="cell">{{$i18n.t('已用')}}</div></td>
+                  <td><div class="cell">{{$i18n.t('可用')}}</div></td>
+                  <td><div class="cell">{{$i18n.t('利用率')}}</div></td>
                 </tr>
                 <tr v-for="(disk, index) in ServerOS.file" :key="index">
                   <td><div class="cell">{{disk.name}}</div></td>
@@ -152,17 +152,17 @@
       <el-col :span="24">
         <el-card shadow="hover" class="server-card">
             <div slot="header" class="clearfix">
-              <span>服务器信息</span>
+              <span>{{$i18n.t('服务器信息')}}</span>
             </div>
              <div class="el-table el-table--enable-row-hover el-table--medium">
             <table v-if="ServerOS" cellspacing="0" style="width: 100%;">
               <tbody>
                 <tr>
-                  <td><div class="cell">服务器名称</div></td>
+                  <td><div class="cell">{{$i18n.t('服务器名称')}}</div></td>
                   <td><div class="cell">{{ServerOS.hostname}}</div></td>
                 </tr>
                 <tr>
-                  <td><div class="cell">操作系统</div></td>
+                  <td><div class="cell">{{$i18n.t('操作系统')}}</div></td>
                   <td><div class="cell">{{ServerOS.sys['os.name']}}{{ServerOS.sys['os.version']}}</div></td>
                 </tr>
                 <tr>
@@ -170,7 +170,7 @@
                   <td><div class="cell">{{ServerOS.ip}}</div></td>
                 </tr>
                 <tr>
-                  <td><div class="cell">系统架构</div></td>
+                  <td><div class="cell">{{$i18n.t('系统架构')}}</div></td>
                   <td><div class="cell">{{ServerOS.sys['os.arch']}}</div></td>
                 </tr>
                  <tr>

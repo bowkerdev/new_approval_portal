@@ -6,22 +6,22 @@
     :append-to-body="true">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()"
              label-width="80px" @submit.native.prevent>
-      <el-form-item label="账号">
+      <el-form-item :label="$i18n.t('账号')">
         <span>{{ userName }}</span>
       </el-form-item>
-      <el-form-item label="原密码" prop="password">
+      <el-form-item :label="$i18n.t('原密码')" prop="password">
         <el-input type="password" v-model="dataForm.password"></el-input>
       </el-form-item>
-      <el-form-item label="新密码" prop="newPassword">
+      <el-form-item :label="$i18n.t('新密码')" prop="newPassword">
         <el-input type="password" v-model="dataForm.newPassword"></el-input>
       </el-form-item>
-      <el-form-item label="确认密码" prop="confirmPassword">
+      <el-form-item :label="$i18n.t('确认密码')" prop="confirmPassword">
         <el-input type="password" v-model="dataForm.confirmPassword"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">关闭</el-button>
-      <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
+      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
+      <el-button type="primary" @click="dataFormSubmit()">{{$i18n.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </template>

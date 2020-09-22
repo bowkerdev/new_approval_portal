@@ -2,20 +2,19 @@
   <div>
       <el-form :inline="true" v-show="isSearchCollapse" ref="searchForm" class="query-form" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="name">
-          <el-input size="small" v-model="searchForm.name" placeholder="角色名" clearable></el-input>
+          <el-input size="small" v-model="searchForm.name" :placeholder="$i18n.t('角色名')" clearable></el-input>
          </el-form-item>
         <el-form-item>
-          <el-button  type="primary" @click="refreshList()" icon="el-icon-search" size="small">查询</el-button>
-          <el-button @click="resetSearch()" icon="el-icon-delete" size="small">重置</el-button>
+          <el-button  type="primary" @click="refreshList()" icon="el-icon-search" size="small">{{$i18n.t('查询')}}</el-button>
+          <el-button @click="resetSearch()" icon="el-icon-delete" size="small">{{$i18n.t('重置')}}</el-button>
         </el-form-item>
       </el-form>
       <el-row>
-        <el-button v-if="hasPermission('sys:user:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
+        <el-button v-if="hasPermission('sys:user:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('新建')}}</el-button>
         <el-button v-if="hasPermission('sys:user:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1" plain>修改</el-button>
+         :disabled="dataListSelections.length != 1" plain>{{$i18n.t('修改')}}</el-button>
         <el-button v-if="hasPermission('sys:user:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>删除
-        </el-button>
+                  :disabled="dataListSelections.length <= 0" plain>{{$i18n.t('删除')}}</el-button>
         <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="搜索" placement="top">
             <el-button 
@@ -50,7 +49,7 @@
       <el-table-column
         prop="name"
         min-width="100px"
-        label="角色名称">
+        :label="$i18n.t('角色名称')">
           <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('sys:role:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
           <el-link  type="primary" :underline="false" v-else-if="hasPermission('sys:role:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
@@ -60,16 +59,16 @@
        <el-table-column
         prop="enname"
         min-width="120px"
-        label="角色英文名称">
+        :label="$i18n.t('角色英文名称')">
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="remarks"
-        label="备注">
+        :label="$i18n.t('备注')">
       </el-table-column>
       <el-table-column
         prop="useable"
-        label="是否可用">
+        :label="$i18n.t('是否可用')">
         <template slot-scope="scope">
           <el-tag :type="scope.row.useable == '0' ? 'danger' : 'success'">
             {{ $dictUtils.getDictLabel("yes_no", scope.row.useable, '否') }}
@@ -81,12 +80,12 @@
         header-align="center"
         align="center"
         width="270"
-        label="操作">
+        :label="$i18n.t('操作')">
         <template slot-scope="scope">
-          <el-button v-if="hasPermission('sys:role:edit')" icon="el-icon-edit" type="text" size="mini" @click="edit(scope.row.id)">修改</el-button>
-          <el-button v-if="hasPermission('sys:role:del')" icon="el-icon-delete" type="text" size="mini" @click="del(scope.row.id)">删除</el-button>
-          <el-button v-if="hasPermission('sys:role:assign')" icon="el-icon-setting" type="text" size="mini" @click="showAuth(scope.row)">角色授权</el-button>
-          <el-button v-if="hasPermission('sys:role:assign')" icon="el-icon-user-solid" type="text" size="mini" @click="showRight(scope.row)">分配用户</el-button>
+          <el-button v-if="hasPermission('sys:role:edit')" icon="el-icon-edit" type="text" size="mini" @click="edit(scope.row.id)">{{$i18n.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('sys:role:del')" icon="el-icon-delete" type="text" size="mini" @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
+          <el-button v-if="hasPermission('sys:role:assign')" icon="el-icon-setting" type="text" size="mini" @click="showAuth(scope.row)">{{$i18n.t('角色授权')}}</el-button>
+          <el-button v-if="hasPermission('sys:role:assign')" icon="el-icon-user-solid" type="text" size="mini" @click="showRight(scope.row)">{{$i18n.t('分配用户')}}</el-button>
         </template>
       </el-table-column>
     </el-table>

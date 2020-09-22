@@ -12,6 +12,8 @@ import utils from '@/utils'
 
 import common from '@/utils/common'
 
+import dynamicFormLanguage from '@/utils/dynamicFormLanguage'
+
 import '@/utils/filter'
 import validator from '@/utils/validator'
 import cloneDeep from 'lodash/cloneDeep'
@@ -45,7 +47,6 @@ Vue.use(VueCookie)
 Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value)
 })
-Vue.use(FormMaking)
 
 Vue.use(Treetable)
 Vue.config.productionTip = false
@@ -56,6 +57,7 @@ Vue.prototype.treeDataTranslate = utils.treeDataTranslate // 树形数据转换
 Vue.prototype.treeDataTranslateWithLevel = utils.treeDataTranslateWithLevel // 树形数据转换 -自定义展开级别【占锐修改】
 Vue.prototype.$utils = utils
 Vue.prototype.$common = common
+Vue.prototype.DynamicFormLanguage = dynamicFormLanguage
 Vue.prototype.$window = window
 Vue.prototype.$dictUtils = dictUtils
 Vue.prototype.recover = utils.recover

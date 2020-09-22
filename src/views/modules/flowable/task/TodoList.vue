@@ -1,7 +1,7 @@
 <template>
   <div>
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-        <el-form-item label="创建时间" prop="searchDates">
+        <el-form-item :label="$i18n.t('创建时间')" prop="searchDates">
           <el-date-picker
             v-model="searchDates"
             type="daterange"
@@ -10,14 +10,14 @@
             value-format="yyyy-MM-dd hh:mm:ss"
             unlink-panels
             range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
+            start-:placeholder="$i18n.t('开始日期')"
+            end-:placeholder="$i18n.t('结束日期')"
             :picker-options="pickerOptions">
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button  type="primary" @click="refreshList()" size="small">查询</el-button>
-          <el-button @click="resetSearch()" size="small">重置</el-button>
+          <el-button  type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
+          <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
         </el-form-item>
       </el-form>
       <el-row>
@@ -55,7 +55,7 @@
           </el-table-column>
           <el-table-column
             prop="vars.title"
-            label="实例标题">
+            :label="$i18n.t('实例标题')">
                 <template slot-scope="scope">
                   <el-link  type="primary" :underline="false" v-if="scope.row.status === 'todo'"  @click="todo(scope.row)">{{scope.row.vars.title}}</el-link>
                   <span v-else>{{scope.row.vars.title}}</span>
@@ -63,23 +63,23 @@
           </el-table-column>
           <el-table-column
             prop="procDef.name"
-            label="流程名称">
+            :label="$i18n.t('流程名称')">
           </el-table-column>
            <el-table-column
             prop="task.name"
-            label="当前环节">
+            :label="$i18n.t('当前环节')">
               <template slot-scope="scope">
                 <el-tag>{{scope.row.task.name}}</el-tag>
              </template>
           </el-table-column>
            <el-table-column
             prop="vars.userName"
-            label="流程发起人">
+            :label="$i18n.t('流程发起人')">
           </el-table-column>
           <el-table-column
             prop="task.createTime"
             show-overflow-tooltip
-            label="创建时间">
+            :label="$i18n.t('创建时间')">
              <template slot-scope="scope">
               {{scope.row.task.createTime | formatDate}}
              </template>
@@ -87,13 +87,13 @@
           <el-table-column
             fixed="right"
             width="200"
-            label="操作">
+            :label="$i18n.t('操作')">
             <template slot-scope="scope">
-              <el-button v-if="scope.row.status === 'claim'" type="text" size="small" @click="claim(scope.row)">签收任务</el-button>
-              <el-button v-if="scope.row.status === 'todo'" type="text" size="small" @click="todo(scope.row)">办理</el-button>
-              <el-button v-if="scope.row.status === 'todo'" type="text" size="small" @click="transferTask(scope.row)">委派</el-button>
-              <el-button v-if="scope.row.claimTime" type="text" size="small" @click="unclaim(scope.row)">取消签收</el-button>
-              <el-button  type="text" size="small" @click="trace(scope.row)">进度</el-button>
+              <el-button v-if="scope.row.status === 'claim'" type="text" size="small" @click="claim(scope.row)">{{$i18n.t('签收任务')}}</el-button>
+              <el-button v-if="scope.row.status === 'todo'" type="text" size="small" @click="todo(scope.row)">{{$i18n.t('办理')}}</el-button>
+              <el-button v-if="scope.row.status === 'todo'" type="text" size="small" @click="transferTask(scope.row)">{{$i18n.t('委派')}}</el-button>
+              <el-button v-if="scope.row.claimTime" type="text" size="small" @click="unclaim(scope.row)">{{$i18n.t('取消签收')}}</el-button>
+              <el-button  type="text" size="small" @click="trace(scope.row)">{{$i18n.t('进度')}}</el-button>
             </template>
           </el-table-column>
         </el-table>

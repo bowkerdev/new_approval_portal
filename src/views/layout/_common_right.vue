@@ -10,7 +10,7 @@
       :direction="direction">
      <el-form style="padding:10px">  
        <el-form-item>
-      <el-divider>导航模式</el-divider>
+      <el-divider>{{$i18n.t('导航模式')}}</el-divider>
       <el-radio-group v-model="defaultLayout">
          <el-tooltip class="item" effect="dark" content="横向菜单" placement="top-start">
            <el-radio label="top">
@@ -25,7 +25,7 @@
       </el-radio-group>
     </el-form-item>
     <el-form-item>
-       <el-divider>主题风格</el-divider>
+       <el-divider>{{$i18n.t('主题风格')}}</el-divider>
       <el-radio-group v-model="navbarLayoutType">
 
            <el-radio class="item m-b-20" label="1">
@@ -58,7 +58,7 @@
       </el-radio-group>
     </el-form-item>
      <el-form-item>
-          <el-divider>主题色</el-divider>
+          <el-divider>{{$i18n.t('主题色')}}</el-divider>
           <div class="tag-group">
             <el-tooltip effect="dark" :content="item.key" placement="top-start" v-for="(item, index) in colorList" :key="index">
               <el-tag :color="item.color" class="themeColorTag" @click="defaultTheme = item.color">
@@ -67,8 +67,8 @@
             </el-tooltip>
           </div>
     </el-form-item>
-    <el-divider>其它设置</el-divider>
-    <el-form-item label="多页签模式"  class="title-setting">
+    <el-divider>{{$i18n.t('其它设置')}}</el-divider>
+    <el-form-item :label="$i18n.t('多页签模式')"  class="title-setting">
        <el-switch
           v-model="isTab">
         </el-switch>

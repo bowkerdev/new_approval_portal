@@ -7,19 +7,19 @@
     :visible.sync="visible">
     <el-form :model="inputForm" :rules="dataRule" v-loading="loading" ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="80px" @submit.native.prevent>
-      <el-form-item label="标签" prop="label">
-        <el-input v-model="inputForm.label" placeholder="标签"></el-input>
+      <el-form-item :label="$i18n.t('标签')" prop="label">
+        <el-input v-model="inputForm.label" :placeholder="$i18n.t('标签')"></el-input>
       </el-form-item>
-      <el-form-item label="键值" prop="value">
-        <el-input v-model="inputForm.value" placeholder="键值"></el-input>
+      <el-form-item :label="$i18n.t('键值')" prop="value">
+        <el-input v-model="inputForm.value" :placeholder="$i18n.t('键值')"></el-input>
       </el-form-item>
-      <el-form-item label="排序号" prop="sort">
-        <el-input-number  :step="1" v-model="inputForm.sort" placeholder="排序号"></el-input-number>
+      <el-form-item :label="$i18n.t('排序号')" prop="sort">
+        <el-input-number  :step="1" v-model="inputForm.sort" :placeholder="$i18n.t('排序号')"></el-input-number>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">关闭</el-button>
-      <el-button type="primary" @click="doSubmit()" v-noMoreClick>确定</el-button>
+      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
+      <el-button type="primary" @click="doSubmit()" v-noMoreClick>{{$i18n.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </template>

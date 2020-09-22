@@ -23,7 +23,7 @@
 	         </el-form-item>
         </el-col>
         <el-col :span="16">
-            <el-form-item label="只读设置" prop="formReadOnly"
+            <el-form-item :label="$i18n.t('只读设置')" prop="formReadOnly"
                 :rules="[
                  ]">
 		            <el-checkbox-group
@@ -35,8 +35,8 @@
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">关闭</el-button>
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()">确定</el-button>
+      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
+      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()">{{$i18n.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </div>

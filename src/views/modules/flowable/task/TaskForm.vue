@@ -3,15 +3,15 @@
   <h4 style="text-align:center">{{title}}</h4>
 
   <el-tabs type="border-card" v-model="taskSelectedTab">
-    <el-tab-pane label="表单信息" name="form-first">
+    <el-tab-pane :label="$i18n.t('表单信息')" name="form-first">
       <component :formReadOnly="formReadOnly" v-if="formType === '2'" :class="formReadOnly?'readonly':''"  ref="form" :businessId="businessId" :is="form"></component>
       
       <PreviewForm   v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="true" :taskFormData="taskFormData" ref="form"/>
     </el-tab-pane>
-    <el-tab-pane label="流程信息" v-if="procInsId"  name="form-second">
+    <el-tab-pane :label="$i18n.t('流程信息')" v-if="procInsId"  name="form-second">
        <el-card class="box-card"  shadow="hover">
           <div slot="header" class="clearfix">
-            <span>流程信息</span>
+            <span>{{$i18n.t('流程信息')}}</span>
           </div>
           <el-timeline :reverse="true" v-if="histoicFlowList.length">
               <el-timeline-item color="#3f9eff" :key="index" v-for="(act, index) in histoicFlowList"  :timestamp="moment(act.histIns.endTime).format('YYYY-MM-DD')" placement="top">
@@ -26,19 +26,19 @@
           </el-timeline>
         </el-card>
     </el-tab-pane>
-    <el-tab-pane label="流程图"  name="form-third">
+    <el-tab-pane :label="$i18n.t('流程图')"  name="form-third">
        <el-card class="box-card"  shadow="hover">
           <div slot="header" class="clearfix">
-            <span>流程图</span>
+            <span>{{$i18n.t('流程图')}}</span>
           </div>
           <flow-chart ref="chart1" v-if="procInsId" :processInstanceId="procInsId" />
           <flow-chart ref="chart2" v-if="!procInsId" :processDefId="procDefId" />
         </el-card>
     </el-tab-pane>
-    <el-tab-pane label="流转记录" v-if="procInsId" name="form-forth">
+    <el-tab-pane :label="$i18n.t('流转记录')" v-if="procInsId" name="form-forth">
           <el-card class="box-card"  shadow="hover" style="margin-top:5px">
       <div slot="header" class="clearfix">
-        <span>流转记录</span>
+        <span>{{$i18n.t('流转记录')}}</span>
       </div>
       <el-steps :active="histoicFlowList.length">
         <el-step :key="index" v-for="(act, index) in histoicFlowList" :title="act.histIns.activityName" finish-status="success"  :description="(act.assigneeName||'') +'    '   + moment(act.histIns.endTime).format('YYYY-MM-DD HH:mm:ss')"></el-step>
@@ -49,35 +49,35 @@
       style="width: 100%">
       <el-table-column
         prop="histIns.activityName"
-        label="执行环节"
+        :label="$i18n.t('执行环节')"
         width="180">
       </el-table-column>
       <el-table-column
         prop="assigneeName"
-        label="执行人"
+        :label="$i18n.t('执行人')"
         width="180">
       </el-table-column>
       <el-table-column
         prop="histIns.startTime"
-        label="开始时间">
+        :label="$i18n.t('开始时间')">
         <template slot-scope="scope">
           {{scope.row.histIns.startTime | formatDate}}
         </template>
       </el-table-column>
        <el-table-column
         prop="histIns.endTime"
-        label="结束时间">
+        :label="$i18n.t('结束时间')">
         <template slot-scope="scope">
           {{scope.row.histIns.endTime | formatDate}}
         </template>
       </el-table-column>
        <el-table-column
         prop="comment"
-        label="审批意见">
+        :label="$i18n.t('审批意见')">
       </el-table-column>
        <el-table-column
         prop="durationTime"
-        label="任务历时">
+        :label="$i18n.t('任务历时')">
         <template slot-scope="scope">
           {{scope.row.durationTime || '0秒'}}
         </template>
@@ -92,30 +92,30 @@
 <el-card style="margin-top:10px" v-if="!procInsId || taskId">
     <el-form :model="auditForm"   ref="auditForm" label-width="120px">
       <el-col :span="16">
-        <el-form-item  v-if="!procInsId"  label="流程标题" prop="title">
+        <el-form-item  v-if="!procInsId"  :label="$i18n.t('流程标题')" prop="title">
           <el-input
-            placeholder="请输入流程标题"
+            :placeholder="$i18n.t('请输入流程标题')"
             v-model="title">
           </el-input>
       </el-form-item>
-      <el-form-item  v-if="taskId"  label="审批信息" prop="comment">
+      <el-form-item  v-if="taskId"  :label="$i18n.t('审批信息')" prop="comment">
           <el-input
             type="textarea"
             :rows="3"
-            placeholder="请输入审批意见"
+            :placeholder="$i18n.t('请输入审批意见')"
             v-model="auditForm.comment">
           </el-input>
       </el-form-item>
     </el-col>
     <el-col :span="16">
       <el-form-item>
-        <el-checkbox v-model="isCC">是否抄送</el-checkbox>
+        <el-checkbox v-model="isCC">{{$i18n.t('是否抄送')}}</el-checkbox>
       </el-form-item>
     </el-col>
     <el-col :span="16">
       <el-form-item v-if="isCC"  :rules="[
               {required: true, message: '用户不能为空', trigger: 'blur'}
-            ]"  prop="userIds" label="抄送给">
+            ]"  prop="userIds" :label="$i18n.t('抄送给')">
             <user-select :value="auditForm.userIds"  @getValue='(value) => {auditForm.userIds=value}'>></user-select>
       </el-form-item>
     </el-col>
@@ -127,7 +127,7 @@
     <el-col :span="16">
       <el-form-item v-if="isAssign"  :rules="[
               {required: true, message: '用户不能为空', trigger: 'blur'}
-            ]"  prop="assign" label="指定">
+            ]"  prop="assign" :label="$i18n.t('指定')">
             <user-select :limit="1" :value="auditForm.assign"  @getValue='(value) => {auditForm.assign=value}'>></user-select>
       </el-form-item>
     </el-col>

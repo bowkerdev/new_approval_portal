@@ -3,7 +3,7 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
 		     <el-form-item prop="name">
-                <el-input size="small" v-model="searchForm.name" placeholder="名称" clearable></el-input>
+                <el-input size="small" v-model="searchForm.name" :placeholder="$i18n.t('名称')" clearable></el-input>
 		     </el-form-item>
 		     <el-form-item prop="listenerType">
                   <el-radio-group v-model="searchForm.listenerType">
@@ -11,17 +11,16 @@
                   </el-radio-group>
 		     </el-form-item>
           <el-form-item>
-            <el-button  type="primary" @click="refreshList()" size="small">查询</el-button>
-            <el-button @click="resetSearch()" size="small">重置</el-button>
+            <el-button  type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
       <el-row>
-        <el-button v-if="hasPermission('extension:listener:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
+        <el-button v-if="hasPermission('extension:listener:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('新建')}}</el-button>
         <el-button v-if="hasPermission('extension:listener:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1">修改</el-button>
+         :disabled="dataListSelections.length != 1">{{$i18n.t('修改')}}</el-button>
         <el-button v-if="hasPermission('extension:listener:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0">删除
-        </el-button>
+                  :disabled="dataListSelections.length <= 0">{{$i18n.t('删除')}}</el-button>
         <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="搜索" placement="top">
             <el-button 
@@ -60,7 +59,7 @@
         sortable="custom"
          width="150"
          show-overflow-tooltip
-        label="名称">
+        :label="$i18n.t('名称')">
         <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('extension:listener:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
           <el-link  type="primary" :underline="false" v-else-if="hasPermission('extension:listener:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
@@ -71,7 +70,7 @@
         prop="listenerType"
         width="150"
         sortable="custom"
-        label="监听器类型">
+        :label="$i18n.t('监听器类型')">
         <template slot-scope="scope">
             {{ scope.row.listenerType === '1'?'执行监听器':'任务监听器'}}
         </template>
@@ -80,13 +79,13 @@
         prop="event"
         sortable="custom"
          width="150"
-        label="事件">
+        :label="$i18n.t('事件')">
       </el-table-column>
 	  <el-table-column
         prop="valueType"
         sortable="custom"
          width="150"
-        label="值类型">
+        :label="$i18n.t('值类型')">
         <template slot-scope="scope">
             {{ {'1':'类', '2':'表达式', '3':'委托表达式'}[scope.row.valueType]}}
         </template>
@@ -95,23 +94,17 @@
         prop="value"
         sortable="custom"
         show-overflow-tooltip
-        label="值">
+        :label="$i18n.t('值')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         width="200"
-        label="操作">
+        :label="$i18n.t('操作')">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('extension:listener:view')" type="text" icon="el-icon-view" size="mini" @click="view(scope.row.id)">
-            查看
-          </el-button>
-          <el-button v-if="hasPermission('extension:listener:edit')" type="text" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)">
-            修改
-          </el-button>
-          <el-button v-if="hasPermission('extension:listener:del')" type="text" size="mini" icon="el-icon-delete"  @click="del(scope.row.id)">
-            删除
-          </el-button>
+          <el-button v-if="hasPermission('extension:listener:view')" type="text" icon="el-icon-view" size="mini" @click="view(scope.row.id)">{{$i18n.t('查看')}}</el-button>
+          <el-button v-if="hasPermission('extension:listener:edit')" type="text" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)">{{$i18n.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('extension:listener:del')" type="text" size="mini" icon="el-icon-delete"  @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
         </template>
       </el-table-column>
     </el-table>

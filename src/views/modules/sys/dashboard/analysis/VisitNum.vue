@@ -2,14 +2,14 @@
     <div class = "cell-num">
         <el-row>
             <el-col :span = "18" style="padding-right:50px">
-                <h4 class="title">访问排行榜</h4>
+                <h4 class="title">{{$i18n.t('访问排行榜')}}</h4>
                 <ve-histogram ref="chart" height="400px"  :legend-visible="false" 
                                     :data="data" 
                                     :colors="['#3aa1ff']">
                                   </ve-histogram>
             </el-col>
             <el-col :span = "6">
-                <h4 class="title">访问排行榜</h4>
+                <h4 class="title">{{$i18n.t('访问排行榜')}}</h4>
                 <ul class="list">
                     <li :key="index" v-for="(item, index) in rankList">
                         <span :class="index < 3 ? 'active' : null">{{ index + 1 }}</span>

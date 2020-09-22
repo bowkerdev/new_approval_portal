@@ -9,10 +9,10 @@
               <p style="font-weight: 700">{{item.version}}</p> 
               </div> 
               <el-tooltip placement="top">
-                <div slot="content"><font size="4">{{item.name}}(<a :href="item.site" target="blank">访问官网</a>)</font><br/>
+                <div slot="content"><font size="4">{{item.name}}(<a :href="item.site" target="blank">{{$i18n.t('访问官网')}}</a>)</font><br/>
                 <p style="font-weight: 500" v-html="item.description"></p>
                 </div>
-                <el-button>详情</el-button>
+                <el-button>{{$i18n.t('详情')}}</el-button>
               </el-tooltip>
             </div>
         </el-card>

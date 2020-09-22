@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-button-group>
-      <el-button v-if="hasPermission('sys:office:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
+      <el-button v-if="hasPermission('sys:office:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('新增')}}</el-button>
     </el-button-group>
     <el-treetable 
       :data="dataList"
@@ -18,7 +18,7 @@
         show-overflow-tooltip
         align="left"
         width="200"
-        label="机构名称">
+        :label="$i18n.t('机构名称')">
         <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('sys:office:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
           <el-link  type="primary" :underline="false" v-else-if="hasPermission('sys:office:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
@@ -28,12 +28,12 @@
       <el-treetable-column
         prop="code"
         width="150"
-        label="机构编码">
+        :label="$i18n.t('机构编码')">
       </el-treetable-column>
       <el-treetable-column
         width="200"
         prop="grade"
-        label="机构类型">
+        :label="$i18n.t('机构类型')">
         <template slot-scope="scope">
           {{$dictUtils.getDictLabel("sys_office_grade", scope.row.grade)}}
         </template>
@@ -41,11 +41,11 @@
       <el-treetable-column
         prop="area.name"
         width="200"
-        label="归属区域">
+        :label="$i18n.t('归属区域')">
       </el-treetable-column>
       <el-treetable-column
         prop="useable"
-        label="是否可用">
+        :label="$i18n.t('是否可用')">
         <template slot-scope="scope">
           <el-tag :type="scope.row.useable == '0' ? 'danger' : 'success'">
             {{ $dictUtils.getDictLabel("yes_no", scope.row.useable, '否') }}
@@ -57,12 +57,12 @@
         header-align="center"
         align="center"
         width="300"
-        label="操作">
+        :label="$i18n.t('操作')">
         <template slot-scope="scope">
-          <el-button v-if="hasPermission('sys:office:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">查看</el-button>
-          <el-button v-if="hasPermission('sys:office:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">修改</el-button>
-          <el-button v-if="hasPermission('sys:office:del')" type="text" icon="el-icon-delete" size="small" @click="del(scope.row.id)">删除</el-button>
-          <el-button v-if="hasPermission('sys:office:add')" type="text" icon="el-icon-circle-plus-outline" size="small" @click="addChild(scope.row.id, scope.row.name)">添加下级机构</el-button>
+          <el-button v-if="hasPermission('sys:office:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18n.t('查看')}}</el-button>
+          <el-button v-if="hasPermission('sys:office:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18n.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('sys:office:del')" type="text" icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
+          <el-button v-if="hasPermission('sys:office:add')" type="text" icon="el-icon-circle-plus-outline" size="small" @click="addChild(scope.row.id, scope.row.name)">{{$i18n.t('添加下级机构')}}</el-button>
         </template>
       </el-treetable-column>
     </el-treetable >

@@ -15,7 +15,7 @@
       <el-row :gutter="5">
         <el-col :span="20">
           <el-input
-            placeholder="输入关键字进行过滤"
+            :placeholder="$i18n.t('输入关键字进行过滤')"
             size="small"
             v-model="filterText">
           </el-input>
@@ -72,17 +72,17 @@
                       @getValue="(value) => {searchForm.category.id=value}"/>
 		     </el-form-item>
 		     <el-form-item prop="name">
-                <el-input size="small" v-model="searchForm.name" placeholder="表单名称" clearable></el-input>
+                <el-input size="small" v-model="searchForm.name" :placeholder="$i18n.t('表单名称')" clearable></el-input>
 		     </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small">查询</el-button>
-            <el-button @click="resetSearch()" size="small">重置</el-button>
+            <el-button type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
       <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
          <el-form-item>
-          <el-button type="default" @click="downloadTpl()" size="small">下载模板</el-button>
+          <el-button type="default" @click="downloadTpl()" size="small">{{$i18n.t('下载模板')}}</el-button>
          </el-form-item>
          <el-form-item prop="loginName">
             <el-upload
@@ -90,18 +90,17 @@
               :action="`${this.$http.BASE_URL}/extension/formDefinition/import`"
               :on-success="uploadSuccess"
                :show-file-list="true">
-              <el-button size="small" type="primary">点击上传</el-button>
+              <el-button size="small" type="primary">{{$i18n.t('点击上传')}}</el-button>
               <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
             </el-upload>
         </el-form-item>
       </el-form>
       <el-row>
-        <el-button v-if="hasPermission('extension:formDefinition:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
+        <el-button v-if="hasPermission('extension:formDefinition:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('新建')}}</el-button>
         <el-button v-if="hasPermission('extension:formDefinition:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1" plain>修改</el-button>
+         :disabled="dataListSelections.length != 1" plain>{{$i18n.t('修改')}}</el-button>
         <el-button v-if="hasPermission('extension:formDefinition:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>删除
-        </el-button>
+                  :disabled="dataListSelections.length <= 0" plain>{{$i18n.t('删除')}}</el-button>
         <el-button-group class="pull-right">
             <el-button
               type="default"
@@ -138,7 +137,7 @@
         prop="name"
         show-overflow-tooltip
         sortable="custom"
-        label="表单名称">
+        :label="$i18n.t('表单名称')">
         <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('extension:formDefinition:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
           <el-link  type="primary" :underline="false" v-else-if="hasPermission('extension:formDefinition:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
@@ -148,29 +147,29 @@
     <el-table-column
         prop="category.name"
         show-overflow-tooltip
-        label="分类">
+        :label="$i18n.t('分类')">
       </el-table-column>
 	  <el-table-column
         prop="formDefinitionJson.version"
         show-overflow-tooltip
-        label="版本号">
+        :label="$i18n.t('版本号')">
     </el-table-column>
 	  <el-table-column
         prop="formDefinitionJson.status"
         show-overflow-tooltip
-        label="状态">
+        :label="$i18n.t('状态')">
          <template slot-scope="scope">
-          <el-tag v-if="scope.row.formDefinitionJson.status === '1'" size="small" type="success">已发布</el-tag>
-          <el-tag v-else size="small" type="danger">未发布</el-tag>
+          <el-tag v-if="scope.row.formDefinitionJson.status === '1'" size="small" type="success">{{$i18n.t('已发布')}}</el-tag>
+          <el-tag v-else size="small" type="danger">{{$i18n.t('未发布')}}</el-tag>
         </template>
       </el-table-column>
 	  <el-table-column
         prop="formDefinitionJson.isPrimary"
         show-overflow-tooltip
-        label="是否主版本">
+        :label="$i18n.t('是否主版本')">
          <template slot-scope="scope">
-          <el-tag v-if="scope.row.formDefinitionJson.isPrimary === '1'" size="small" type="success">主版本</el-tag>
-          <el-tag v-else size="small" type="danger">非主版本</el-tag>
+          <el-tag v-if="scope.row.formDefinitionJson.isPrimary === '1'" size="small" type="success">{{$i18n.t('主版本')}}</el-tag>
+          <el-tag v-else size="small" type="danger">{{$i18n.t('非主版本')}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -178,12 +177,12 @@
         align="center"
         fixed="right"
         width="250"
-        label="操作">
+        :label="$i18n.t('操作')">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('extension:formDefinition:view')" type="text" icon="el-icon-view" size="small" @click="showDesignForm(scope.row.id, scope.row.formDefinitionJson.id)">设计</el-button>
-          <el-button v-if="hasPermission('extension:formDefinition:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">修改</el-button>
-          <el-button v-if="hasPermission('extension:formDefinition:edit')" type="text" icon="el-icon-edit" size="small" @click="manage(scope.row.id)">版本管理</el-button>
-          <el-button v-if="hasPermission('extension:formDefinition:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">删除</el-button>
+          <el-button v-if="hasPermission('extension:formDefinition:view')" type="text" icon="el-icon-view" size="small" @click="showDesignForm(scope.row.id, scope.row.formDefinitionJson.id)">{{$i18n.t('设计')}}</el-button>
+          <el-button v-if="hasPermission('extension:formDefinition:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18n.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('extension:formDefinition:edit')" type="text" icon="el-icon-edit" size="small" @click="manage(scope.row.id)">{{$i18n.t('版本管理')}}</el-button>
+          <el-button v-if="hasPermission('extension:formDefinition:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
         </template>
       </el-table-column>
     </el-table>

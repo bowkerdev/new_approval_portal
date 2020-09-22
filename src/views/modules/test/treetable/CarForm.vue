@@ -9,14 +9,14 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item label="品牌" prop="name"
+            <el-form-item :label="$i18n.t('品牌')" prop="name"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.name" placeholder="请填写品牌"     ></el-input>
+              <el-input v-model="inputForm.name" :placeholder="$i18n.t('请填写品牌')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="车系" prop="kind.id"
+            <el-form-item :label="$i18n.t('车系')" prop="kind.id"
                 :rules="[
                  ]">
           <SelectTree
@@ -35,17 +35,17 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="简介" prop="remarks"
+            <el-form-item :label="$i18n.t('简介')" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" placeholder="请填写简介"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18n.t('请填写简介')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">关闭</el-button>
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>确定</el-button>
+      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
+      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18n.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </div>

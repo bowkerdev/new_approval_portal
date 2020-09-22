@@ -78,11 +78,15 @@
           }) => {
             if (data.success) {
               var json = data.formDefinition.formDefinitionJson.json
+
+              debugger
+
               if (json.indexOf('"type":"blank"') >= 0 || json.indexOf('"type": "blank"') >= 0) {
                 this.isCustom = true
                 this.form = _import(`modules/flowable/custom/${data.formDefinition.name}`)
               }
-              this.options = JSON.parse(json)
+              // eslint-disable-next-line no-undef
+              this.options = this.DynamicFormLanguage.simpleLanguageFrom(JSON.parse(json))
               this.dataBindMap.clear()
               this.generateModel(this.options.list)
               setTimeout(() => {
@@ -102,17 +106,17 @@
                       disabledArra.push(`${item.id}`)
                     }
                   })
-                  for (let key in this.formData) {
-                    if (this.dataBindMap.get(key) === 'checkbox' ||
-                      this.dataBindMap.get(key) === 'imgupload' ||
-                      this.dataBindMap.get(key) === 'table' ||
-                      this.dataBindMap.get(key) === 'fileupload' ||
-                      this.dataBindMap.get(key) === 'blank') {
-                      if (this.formData[key] != null && this.formData[key] != '') {
-                        this.formData[key] = JSON.parse(this.formData[key])
+                    for (let key in this.formData) {
+                      if (this.dataBindMap.get(key) === 'checkbox' ||
+                        this.dataBindMap.get(key) === 'imgupload' ||
+                        this.dataBindMap.get(key) === 'table' ||
+                        this.dataBindMap.get(key) === 'fileupload' ||
+                        this.dataBindMap.get(key) === 'blank') {
+                        if (this.formData[key] != null && this.formData[key] != '') {
+                          this.formData[key] = JSON.parse(this.formData[key])
+                        }
                       }
                     }
-                  }
                   if (!this.isCustom) {
                     let hideArra = this.$refs.generateForm.getDataBindFields().filter((field) => {
                       if (!showArra.includes(field)) {

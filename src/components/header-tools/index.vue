@@ -8,8 +8,16 @@
     <h3 v-text="label"></h3>
     <div class="header-tools-body">
       <el-select class="filter-mode-select" v-model="option.filterMode">
-        <el-option key="0" value="0" label="等于"></el-option>
-        <el-option key="1" value="1" label="包含"></el-option>
+        <el-option key="" value="" label="等于"></el-option>
+        <el-option key="_ne" value="_ne" label="不等于"></el-option>
+        <el-option key="_like" value="_like" label="包含"></el-option>
+        <el-option key="_not_like" value="_not_like" label="不包含"></el-option>
+        <!-- <el-option key="_in" value="_in" label="在之中"></el-option>
+        <el-option key="_not_in" value="_not_in" label="不在之中"></el-option> -->
+        <el-option key="_ge" value="_ge" label="大于等于"></el-option>
+        <el-option key="_le" value="_le" label="小于等于"></el-option>
+        <el-option key="_null" value="_null" label="为空"></el-option>
+        <el-option key="_not_null" value="_not_null" label="不为空"></el-option>
       </el-select>
       <el-input v-model="option.inputValue" size="mini" clearable />
     </div>
@@ -43,7 +51,7 @@
         visible: false,
         option:{
           inputValue:'',
-          filterMode:'0'
+          filterMode:''
         }
       }
     },

@@ -190,6 +190,26 @@ export default {
       cs[cs_arr[i].split('=')[0]] = cs_arr[i].split('=')[1]
     }
     return cs[paramName];     
-  }
+  },
+  filterApplyOption (searchForm,optionList){
+    try{
+      var filterModeList = ['','_ne','_like','_not_like','_in','_not_in','_ge','_le','_null','_not_null']
+      for(var key in optionList){
+        var param = searchForm;
+        var option = optionList[key];
+        var ary = option.prop.split('.');
+        for(var index = 0; index < ary.length - 1 ;index++){
+          param = param[ary[index]];
+        }
+        var originalProp = ary[ary.length - 1];
+        for(var index = 0; index < filterModeList.length; index++){
+          delete param[originalProp+filterModeList[index]];
+        }
+        param[ary[ary.length - 1]+option.filterMode] = option.inputValue;
+      }
+    }catch(e){
 
+    }
+    return searchForm;
+  }
 }

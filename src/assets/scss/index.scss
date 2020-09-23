@@ -313,12 +313,6 @@ img {
 .jp-wrapper:not(.jp-sidebar--fold) .jp-sidebar:hover{
   width: 230px;
 }
-.jp-wrapper:not(.jp-sidebar--fold) .jp-sidebar:hover+.jp-content__wrapper{
-  margin-left: 230px;
-}
-.jp-wrapper:not(.jp-sidebar--fold) .jp-sidebar:hover+.jp-content__wrapper>.jp-content>.el-tabs>.el-tabs__header{
-  left: 230px;
-}
 /*自定义修改菜单弹出样式--end*/
 .jp-sidebar {
   position: fixed;

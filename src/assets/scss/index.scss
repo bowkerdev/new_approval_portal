@@ -295,25 +295,6 @@ img {
     }
   }
 }
-/* Sidebar
------------------------------- */
-/*自定义修改菜单弹出样式--start*/
-.jp-sidebar .el-submenu__title>*+*,
-.jp-sidebar .el-menu-item>*+*,
-.jp-sidebar .el-menu--inline{
-  display: none;
-}
-.jp-sidebar:hover .el-submenu__title>*,
-.jp-sidebar:hover .el-menu-item>*{
-  display: inline-block;
-}
-.jp-sidebar:hover .el-menu--inline{
-  display: block;
-}
-.jp-wrapper:not(.jp-sidebar--fold) .jp-sidebar:hover{
-  width: 230px;
-}
-/*自定义修改菜单弹出样式--end*/
 .jp-sidebar {
   position: fixed;
   top: 60px;
@@ -1232,3 +1213,27 @@ span{
 .AZ-table th .cell{
   white-space: nowrap;
 }
+
+
+/* Sidebar
+------------------------------ */
+/*自定义修改菜单弹出样式--start*/
+.jp-sidebar .el-submenu__title>*+*,
+.jp-sidebar .el-menu-item>*+*,
+.jp-sidebar .el-menu--inline{
+  display: none;
+}
+.jp-sidebar:hover .el-submenu__title>*,
+.jp-sidebar:hover .el-menu-item>*{
+  display: inline-block;
+}
+.jp-sidebar:hover .el-menu--inline{
+  display: block;
+}
+.jp-wrapper:not(.jp-sidebar--fold) .jp-sidebar:hover{
+  width: 230px;
+}
+.jp-sidebar{
+  z-index: 2001;
+}
+/*自定义修改菜单弹出样式--end*/

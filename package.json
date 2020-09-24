@@ -1,8 +1,8 @@
 {
-  "name": "zhimitool-ui",
+  "name": "GMF-MES-ui",
   "version": "1.0.0",
   "description": "GMF-MES",
-  "author": "占锐",
+  "author": "zhimi",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

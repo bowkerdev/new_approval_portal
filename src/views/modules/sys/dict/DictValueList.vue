@@ -1,9 +1,9 @@
 <template>
   <div style="padding:10px">
         <el-row>
-          <el-button type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('新建')}}</el-button>
+          <el-button type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
           <el-button v-if="hasPermission('sys:dict:del')" type="danger" size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0">{{$i18n.t('删除')}}</el-button>
+                  :disabled="dataListSelections.length <= 0">{{$i18nMy.t('删除')}}</el-button>
         </el-row>
         <el-table
           :data="dataList"
@@ -21,7 +21,7 @@
           </el-table-column>
           <el-table-column
             prop="label"
-            :label="$i18n.t('标签')">
+            :label="{{$i18nMy.t('标签')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('sys:dict:edit')" @click="edit(scope.row.id)">{{scope.row.label}}</el-link>
               <span v-else>{{scope.row.label}}</span>
@@ -30,23 +30,23 @@
           <el-table-column
             prop="value"
             show-overflow-tooltip
-            :label="$i18n.t('键值')">
+            :label="{{$i18nMy.t('键值')">
           </el-table-column>
           <el-table-column
             prop="sort"
-            :label="$i18n.t('排序')">
+            :label="{{$i18nMy.t('排序')">
           </el-table-column>
           <el-table-column
             fixed="right"
             header-align="center"
             align="center"
             width="150"
-            :label="$i18n.t('操作')">
+            :label="{{$i18nMy.t('操作')">
             <template slot-scope="scope">
               <el-button v-if="hasPermission('sys:dict:edit')" type="text"  size="small"
-                        @click="edit(scope.row.id)">{{$i18n.t('修改')}}</el-button>
+                        @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
               <el-divider direction="vertical"></el-divider>
-              <el-button v-if="hasPermission('sys:dict:del')" type="text" size="small" @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
+              <el-button v-if="hasPermission('sys:dict:del')" type="text" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
             </template>
           </el-table-column>
         </el-table>

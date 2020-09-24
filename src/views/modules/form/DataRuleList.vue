@@ -5,7 +5,7 @@
     title="如需对动态表单创建数据权限，请添加数据规则。添加后的规则，可在[菜单管理->数据规则]中查看。"
     type="success">
   </el-alert>
-      <el-button type="primary" size="small" @click="add()">{{$i18n.t('添加数据规则')}}</el-button>
+      <el-button type="primary" size="small" @click="add()">{{$i18nMy.t('添加数据规则')}}</el-button>
     </el-row>
     <el-table
       :data="dataRuleList"
@@ -24,27 +24,27 @@
         header-align="center"
         align="center"
         width="120px"
-        :label="$i18n.t('数据规则名称')">
+        :label="{{$i18nMy.t('数据规则名称')">
       </el-table-column>
       <el-table-column
         prop="className"
         header-align="center"
         align="center"
-        :label="$i18n.t('表名')">
+        :label="{{$i18nMy.t('表名')">
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="field"
         header-align="center"
         align="center"
-        :label="$i18n.t('规则字段')">
+        :label="{{$i18nMy.t('规则字段')">
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="express"
         header-align="center"
         align="center"
-        :label="$i18n.t('规则条件')">
+        :label="{{$i18nMy.t('规则条件')">
         <template slot-scope="scope">
           {{$dictUtils.getDictLabel("t_express", scope.row.express, "")}}
         </template>
@@ -54,7 +54,7 @@
         prop="value"
         header-align="center"
         align="center"
-        :label="$i18n.t('规则值')">
+        :label="{{$i18nMy.t('规则值')">
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
@@ -69,18 +69,18 @@
         prop="remarks"
         header-align="center"
         align="center"
-        :label="$i18n.t('备注信息')">
+        :label="{{$i18nMy.t('备注信息')">
       </el-table-column>
       <el-table-column
         fixed="right"
         header-align="center"
         align="center"
         width="150"
-        :label="$i18n.t('操作')">
+        :label="{{$i18nMy.t('操作')">
         <template slot-scope="scope">
           <el-button  size="mini"
-                    @click="edit(scope.row)">{{$i18n.t('修改')}}</el-button>
-          <el-button type="danger" size="mini" @click="del(scope.row)">{{$i18n.t('删除')}}</el-button>
+                    @click="edit(scope.row)">{{$i18nMy.t('修改')}}</el-button>
+          <el-button type="danger" size="mini" @click="del(scope.row)">{{$i18nMy.t('删除')}}</el-button>
         </template>
       </el-table-column>
     </el-table>

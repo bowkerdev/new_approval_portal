@@ -17,9 +17,9 @@
         </fm-making-form>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit(0)" v-noMoreClick>{{$i18n.t('保存草稿')}}</el-button>
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit(1)" v-noMoreClick>{{$i18n.t('保存并发布')}}</el-button>
-      <el-button @click="visible = false">{{$i18n.t('放弃')}}</el-button>
+      <el-button type="primary" v-if="method != 'view'" @click="doSubmit(0)" v-noMoreClick>{{$i18nMy.t('保存草稿')}}</el-button>
+      <el-button type="primary" v-if="method != 'view'" @click="doSubmit(1)" v-noMoreClick>{{$i18nMy.t('保存并发布')}}</el-button>
+      <el-button @click="visible = false">{{$i18nMy.t('放弃')}}</el-button>
     </span>
   </el-dialog>
 </div>

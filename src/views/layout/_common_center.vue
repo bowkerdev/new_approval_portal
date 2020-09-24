@@ -4,10 +4,10 @@
         <div v-if="contextmenuFlag"
             class="jp-tags__contentmenu"
             :style="{left:contentmenuX+'px',top:contentmenuY+'px'}">
-              <el-dropdown-item  v-if="selectTabName !=='/home'" @click.native="tabsCloseCurrentHandle(selectTabName)">{{$i18n.t('关闭当前标签页')}}</el-dropdown-item>
-              <el-dropdown-item @click.native="tabsCloseOtherHandle(selectTabName)">{{$i18n.t('关闭其它标签页')}}</el-dropdown-item>
-              <el-dropdown-item @click.native="tabsCloseAllHandle">{{$i18n.t('关闭全部标签页')}}</el-dropdown-item>
-              <el-dropdown-item @click.native="tabsRefreshCurrentHandle">{{$i18n.t('刷新当前标签页')}}</el-dropdown-item>
+              <el-dropdown-item  v-if="selectTabName !=='/home'" @click.native="tabsCloseCurrentHandle(selectTabName)">{{$i18nMy.t('关闭当前标签页')}}</el-dropdown-item>
+              <el-dropdown-item @click.native="tabsCloseOtherHandle(selectTabName)">{{$i18nMy.t('关闭其它标签页')}}</el-dropdown-item>
+              <el-dropdown-item @click.native="tabsCloseAllHandle">{{$i18nMy.t('关闭全部标签页')}}</el-dropdown-item>
+              <el-dropdown-item @click.native="tabsRefreshCurrentHandle">{{$i18nMy.t('刷新当前标签页')}}</el-dropdown-item>
 <!--              <el-dropdown-item @click.native="$router.push({path: selectTabName}), contextmenuFlag = false">刷新当前标签页1</el-dropdown-item>-->
         </div>
 
@@ -20,12 +20,12 @@
         @tab-click="selectedTabHandle"
         @tab-remove="removeTabHandle">
         <el-dropdown class="jp-tabs__tools" :show-timeout="0">
-          <el-button type="primary"  icon="el-icon-arrow-down el-icon--right" size="mini">{{$i18n.t('菜单')}}</el-button>
+          <el-button type="primary"  icon="el-icon-arrow-down el-icon--right" size="mini">{{$i18nMy.t('菜单')}}</el-button>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item v-if="mainTabsActiveName !=='/home'" @click.native="tabsCloseCurrentHandle('')">{{$i18n.t('关闭当前标签页')}}</el-dropdown-item>
-            <el-dropdown-item @click.native="tabsCloseOtherHandle('')">{{$i18n.t('关闭其它标签页')}}</el-dropdown-item>
-            <el-dropdown-item @click.native="tabsCloseAllHandle">{{$i18n.t('关闭全部标签页')}}</el-dropdown-item>
-            <el-dropdown-item @click.native="tabsRefreshCurrentHandle">{{$i18n.t('刷新当前标签页')}}</el-dropdown-item>
+            <el-dropdown-item v-if="mainTabsActiveName !=='/home'" @click.native="tabsCloseCurrentHandle('')">{{$i18nMy.t('关闭当前标签页')}}</el-dropdown-item>
+            <el-dropdown-item @click.native="tabsCloseOtherHandle('')">{{$i18nMy.t('关闭其它标签页')}}</el-dropdown-item>
+            <el-dropdown-item @click.native="tabsCloseAllHandle">{{$i18nMy.t('关闭全部标签页')}}</el-dropdown-item>
+            <el-dropdown-item @click.native="tabsRefreshCurrentHandle">{{$i18nMy.t('刷新当前标签页')}}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <el-tab-pane
@@ -49,7 +49,7 @@
       <!-- 主入口标签页 e -->
       <div v-else>
         <el-breadcrumb separator="/" style="padding-top:10px; padding-bottom:15px;">
-          <el-breadcrumb-item><router-link to="/home">{{$i18n.t('首页')}}</router-link></el-breadcrumb-item>
+          <el-breadcrumb-item><router-link to="/home">{{$i18nMy.t('首页')}}</router-link></el-breadcrumb-item>
           <el-breadcrumb-item :key="index" v-for="(breadcrumb, index) in breadcrumbs">{{breadcrumb}}</el-breadcrumb-item>
       </el-breadcrumb>
          <div :class="$route.meta.backgroundType !== '2'? 'bg-white':''" :style="siteContentViewHeight">

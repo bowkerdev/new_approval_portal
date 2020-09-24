@@ -1,7 +1,7 @@
 <template>
   <div>
           <el-row>
-            <el-button v-if="hasPermission('sys:menu:add')" type="primary" icon="el-icon-plus" size="small" @click="add()">{{$i18n.t('新增')}}</el-button>
+            <el-button v-if="hasPermission('sys:menu:add')" type="primary" icon="el-icon-plus" size="small" @click="add()">{{$i18nMy.t('新增')}}</el-button>
           </el-row>
           <el-treetable 
             border
@@ -19,7 +19,7 @@
               show-overflow-tooltip
               align="left"
               width="200"
-              :label="$i18n.t('名称')">
+              :label="{{$i18nMy.t('名称')">
                     <template slot-scope="scope">
                       <el-link  type="primary" :underline="false" v-if="hasPermission('sys:menu:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
                       <el-link  type="primary" :underline="false" v-else-if="hasPermission('sys:menu:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
@@ -30,7 +30,7 @@
             <el-treetable-column
               header-align="center"
               align="center"
-              :label="$i18n.t('图标')">
+              :label="{{$i18nMy.t('图标')">
               <template slot-scope="scope">
                 <i :class="scope.row.icon"></i>
               </template>
@@ -39,12 +39,12 @@
               prop="type"
               header-align="center"
               align="center"
-              :label="$i18n.t('类型')">
+              :label="{{$i18nMy.t('类型')">
               <template slot-scope="scope">
-                <el-tag v-if="scope.row.type === '0'" size="small">{{$i18n.t('目录')}}</el-tag>
-                <el-tag v-else-if="scope.row.type === '1'" size="small" type="success">{{$i18n.t('菜单')}}</el-tag>
-                <el-tag v-else-if="scope.row.type === '2'" size="small" type="info">{{$i18n.t('按钮')}}</el-tag>
-                <el-tag v-else-if="scope.row.type === '3'" size="small" type="info">{{$i18n.t('路由')}}</el-tag>
+                <el-tag v-if="scope.row.type === '0'" size="small">{{$i18nMy.t('目录')}}</el-tag>
+                <el-tag v-else-if="scope.row.type === '1'" size="small" type="success">{{$i18nMy.t('菜单')}}</el-tag>
+                <el-tag v-else-if="scope.row.type === '2'" size="small" type="info">{{$i18nMy.t('按钮')}}</el-tag>
+                <el-tag v-else-if="scope.row.type === '3'" size="small" type="info">{{$i18nMy.t('路由')}}</el-tag>
               </template>
             </el-treetable-column>
             <el-treetable-column
@@ -52,9 +52,9 @@
               header-align="center"
               align="center"
               width="160"
-              :label="$i18n.t('排序号')">
+              :label="{{$i18nMy.t('排序号')">
               <template slot-scope="scope">
-                <el-input-number size="small" v-model="scope.row.sort" @change="sortChange(scope.row)" :step="30"  :min="0" :max="10000" :label="$i18n.t('描述文字')"></el-input-number>
+                <el-input-number size="small" v-model="scope.row.sort" @change="sortChange(scope.row)" :step="30"  :min="0" :max="10000" :label="{{$i18nMy.t('描述文字')"></el-input-number>
               </template>
             </el-treetable-column>
             <el-treetable-column
@@ -63,7 +63,7 @@
               align="center"
               width="150"
               show-overflow-tooltip
-              :label="$i18n.t('是否显示')">
+              :label="{{$i18nMy.t('是否显示')">
               <template slot-scope="scope">
                   <el-switch
                     v-model="scope.row.isShow"
@@ -83,7 +83,7 @@
               align="left"
               width="150"
               :show-overflow-tooltip="true"
-              :label="$i18n.t('菜单路由')">
+              :label="{{$i18nMy.t('菜单路由')">
             </el-treetable-column>
             <el-treetable-column
               prop="permission"
@@ -91,26 +91,26 @@
               align="left"
               width="150"
               :show-overflow-tooltip="true"
-              :label="$i18n.t('权限标识')">
+              :label="{{$i18nMy.t('权限标识')">
             </el-treetable-column>
             <el-treetable-column
               fixed="right"
               header-align="center"
               align="center"
               width="150"
-              :label="$i18n.t('操作')">
+              :label="{{$i18nMy.t('操作')">
               <template slot-scope="scope">
                 <el-button  type="text" size="small"
-                          @click="showRight(scope.row)">{{$i18n.t('数据规则')}}</el-button>
+                          @click="showRight(scope.row)">{{$i18nMy.t('数据规则')}}</el-button>
                 <el-divider direction="vertical"></el-divider>
                 <el-dropdown size="small"  @command="handleCommand">
-                  <span class="el-dropdown-link">{{$i18n.t('更多')}}<i class="el-icon-arrow-down el-icon--right"></i>
+                  <span class="el-dropdown-link">{{$i18nMy.t('更多')}}<i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item  v-if="hasPermission('sys:menu:view')" :command="{method:'view', id:scope.row.id}">{{$i18n.t('查看')}}</el-dropdown-item>
-                    <el-dropdown-item v-if="hasPermission('sys:menu:edit')" :command="{method:'edit', id:scope.row.id}">{{$i18n.t('修改')}}</el-dropdown-item>
-                    <el-dropdown-item v-if="hasPermission('sys:menu:del')" :command="{method:'del', id:scope.row.id}">{{$i18n.t('删除')}}</el-dropdown-item>
-                    <el-dropdown-item v-if="hasPermission('sys:menu:add')" :command="{method:'addChild', row:scope.row}">{{$i18n.t('添加下级菜单')}}</el-dropdown-item>
+                    <el-dropdown-item  v-if="hasPermission('sys:menu:view')" :command="{method:'view', id:scope.row.id}">{{$i18nMy.t('查看')}}</el-dropdown-item>
+                    <el-dropdown-item v-if="hasPermission('sys:menu:edit')" :command="{method:'edit', id:scope.row.id}">{{$i18nMy.t('修改')}}</el-dropdown-item>
+                    <el-dropdown-item v-if="hasPermission('sys:menu:del')" :command="{method:'del', id:scope.row.id}">{{$i18nMy.t('删除')}}</el-dropdown-item>
+                    <el-dropdown-item v-if="hasPermission('sys:menu:add')" :command="{method:'addChild', row:scope.row}">{{$i18nMy.t('添加下级菜单')}}</el-dropdown-item>
                   </el-dropdown-menu>
                 </el-dropdown>
               </template>

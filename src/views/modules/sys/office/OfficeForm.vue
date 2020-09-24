@@ -8,7 +8,7 @@
              label-width="80px" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" @submit.native.prevent>
       <el-row :gutter="15">
         <el-col :span="12">
-          <el-form-item :label="$i18n.t('上级机构')" prop="parent.id">
+          <el-form-item :label="{{$i18nMy.t('上级机构')" prop="parent.id">
            <SelectTree 
              ref="officeTree"
              :props="{
@@ -25,7 +25,7 @@
           </el-form-item>
         </el-col>
          <el-col :span="12">
-          <el-form-item :label="$i18n.t('归属区域')" prop="area.id">
+          <el-form-item :label="{{$i18nMy.t('归属区域')" prop="area.id">
                <SelectTree 
                 ref="areaTree"
                 :props="{
@@ -44,18 +44,18 @@
           
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18n.t('机构名称')" prop="name">
-            <el-input v-model="inputForm.name" :placeholder="$i18n.t('机构名称')"></el-input>
+          <el-form-item :label="{{$i18nMy.t('机构名称')" prop="name">
+            <el-input v-model="inputForm.name" :placeholder="{{$i18nMy.t('机构名称')"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18n.t('机构编码')" prop="code">
-            <el-input v-model="inputForm.code" :placeholder="$i18n.t('机构编码')"></el-input>
+          <el-form-item :label="{{$i18nMy.t('机构编码')" prop="code">
+            <el-input v-model="inputForm.code" :placeholder="{{$i18nMy.t('机构编码')"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18n.t('机构类型')" prop="type">
-            <el-select v-model="inputForm.type" :placeholder="$i18n.t('请选择')"  style="width: 100%;">
+          <el-form-item :label="{{$i18nMy.t('机构类型')" prop="type">
+            <el-select v-model="inputForm.type" :placeholder="{{$i18nMy.t('请选择')"  style="width: 100%;">
                 <el-option
                   v-for="item in this.$dictUtils.getDictList('sys_office_type')"
                   :key="item.value"
@@ -66,8 +66,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18n.t('机构等级')" prop="grade">
-             <el-select v-model="inputForm.grade" :placeholder="$i18n.t('请选择')"  style="width: 100%;">
+          <el-form-item :label="{{$i18nMy.t('机构等级')" prop="grade">
+             <el-select v-model="inputForm.grade" :placeholder="{{$i18nMy.t('请选择')"  style="width: 100%;">
                 <el-option
                   v-for="item in this.$dictUtils.getDictList('sys_office_grade')"
                   :key="item.value"
@@ -78,8 +78,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18n.t('是否可用')" prop="useable">
-            <el-select v-model="inputForm.useable" :placeholder="$i18n.t('请选择')"  style="width: 100%;">
+          <el-form-item :label="{{$i18nMy.t('是否可用')" prop="useable">
+            <el-select v-model="inputForm.useable" :placeholder="{{$i18nMy.t('请选择')"  style="width: 100%;">
                 <el-option
                   v-for="item in this.$dictUtils.getDictList('yes_no')"
                   :key="item.value"
@@ -90,7 +90,7 @@
           </el-form-item>
         </el-col>
          <el-col :span="12">
-          <el-form-item :label="$i18n.t('排序号')" prop="sort">
+          <el-form-item :label="{{$i18nMy.t('排序号')" prop="sort">
             <el-input-number style="width:100%" :step="30" v-model="inputForm.sort"></el-input-number>
           </el-form-item>
          </el-col>
@@ -98,8 +98,8 @@
    
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
-      <el-button v-if="method != 'view'" type="primary" @click="doSubmit()" v-noMoreClick>{{$i18n.t('确定')}}</el-button>
+      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button v-if="method != 'view'" type="primary" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </template>

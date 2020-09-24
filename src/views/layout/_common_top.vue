@@ -49,7 +49,7 @@
           </el-menu-item>
 
         <el-submenu index="2" v-if="topHideMenuList.length != 0">
-          <template slot="title">{{$i18n.t('更多')}}</template>
+          <template slot="title">{{$i18nMy.t('更多')}}</template>
           <el-menu-item  v-for="menu in topHideMenuList"
           :index="menu.id"
           :key="menu.id"
@@ -99,8 +99,8 @@
               <i class="el-icon-user-solid"></i>{{ userName }}
             </span>
             <el-dropdown-menu slot="dropdown" style="margin-top: -10px;">
-              <el-dropdown-item @click.native="updatePasswordHandle()">{{$i18n.t('修改密码')}}</el-dropdown-item>
-              <el-dropdown-item @click.native="logoutHandle()">{{$i18n.t('退出')}}</el-dropdown-item>
+              <el-dropdown-item @click.native="updatePasswordHandle()">{{$i18nMy.t('修改密码')}}</el-dropdown-item>
+              <el-dropdown-item @click.native="logoutHandle()">{{$i18nMy.t('退出')}}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-menu-item>

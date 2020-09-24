@@ -3,20 +3,20 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="num">
-                <el-input size="small" v-model="searchForm.num" :placeholder="$i18n.t('浮点数字')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.num" :placeholder="{{$i18nMy.t('浮点数字')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="num2">
-                <el-input size="small" v-model="searchForm.num2" :placeholder="$i18n.t('整数')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.num2" :placeholder="{{$i18nMy.t('整数')" clearable></el-input>
          </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
-            <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
+            <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
       <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
          <el-form-item>
-          <el-button type="default" @click="downloadTpl()" size="small">{{$i18n.t('下载模板')}}</el-button>
+          <el-button type="default" @click="downloadTpl()" size="small">{{$i18nMy.t('下载模板')}}</el-button>
          </el-form-item>
          <el-form-item prop="loginName">
             <el-upload
@@ -24,17 +24,17 @@
               :action="`${this.$http.BASE_URL}/test/validation/testValidation/import`"
               :on-success="uploadSuccess"
                :show-file-list="true">
-              <el-button size="small" type="primary">{{$i18n.t('点击上传')}}</el-button>
+              <el-button size="small" type="primary">{{$i18nMy.t('点击上传')}}</el-button>
               <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
             </el-upload>
         </el-form-item>
       </el-form>
       <el-row>
-        <el-button v-if="hasPermission('test:validation:testValidation:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('新建')}}</el-button>
+        <el-button v-if="hasPermission('test:validation:testValidation:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('test:validation:testValidation:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1" plain>{{$i18n.t('修改')}}</el-button>
+         :disabled="dataListSelections.length != 1" plain>{{$i18nMy.t('修改')}}</el-button>
         <el-button v-if="hasPermission('test:validation:testValidation:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>{{$i18n.t('删除')}}</el-button>
+                  :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
         <el-button-group class="pull-right">
             <el-button
               type="default"
@@ -70,7 +70,7 @@
         prop="num"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('浮点数字')">
+        :label="{{$i18nMy.t('浮点数字')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('test:validation:testValidation:edit')" @click="edit(scope.row.id)">{{scope.row.num}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('test:validation:testValidation:view')"  @click="view(scope.row.id)">{{scope.row.num}}</el-link>
@@ -81,37 +81,37 @@
         prop="num2"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('整数')">
+        :label="{{$i18nMy.t('整数')">
       </el-table-column>
     <el-table-column
         prop="str"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('字符串')">
+        :label="{{$i18nMy.t('字符串')">
       </el-table-column>
     <el-table-column
         prop="email"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('邮件')">
+        :label="{{$i18nMy.t('邮件')">
       </el-table-column>
     <el-table-column
         prop="url"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('网址')">
+        :label="{{$i18nMy.t('网址')">
       </el-table-column>
     <el-table-column
         prop="newDate"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('日期')">
+        :label="{{$i18nMy.t('日期')">
       </el-table-column>
     <el-table-column
         prop="remarks"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('备注信息')">
+        :label="{{$i18nMy.t('备注信息')">
       </el-table-column>
     <el-table-column
         prop="c1"
@@ -123,7 +123,7 @@
         prop="c2"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('身份证号码')">
+        :label="{{$i18nMy.t('身份证号码')">
       </el-table-column>
     <el-table-column
         prop="c3"
@@ -135,13 +135,13 @@
         prop="c4"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('手机号码')">
+        :label="{{$i18nMy.t('手机号码')">
       </el-table-column>
     <el-table-column
         prop="c5"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('中英文数字下划线')">
+        :label="{{$i18nMy.t('中英文数字下划线')">
       </el-table-column>
     <el-table-column
         prop="c6"
@@ -153,30 +153,30 @@
         prop="en"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('英语')">
+        :label="{{$i18nMy.t('英语')">
       </el-table-column>
     <el-table-column
         prop="zn"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('汉子')">
+        :label="{{$i18nMy.t('汉子')">
       </el-table-column>
     <el-table-column
         prop="enzn"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('汉英字符')">
+        :label="{{$i18nMy.t('汉英字符')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         fixed="right"
         width="200"
-        :label="$i18n.t('操作')">
+        :label="{{$i18nMy.t('操作')">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('test:validation:testValidation:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18n.t('查看')}}</el-button>
-          <el-button v-if="hasPermission('test:validation:testValidation:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18n.t('修改')}}</el-button>
-          <el-button v-if="hasPermission('test:validation:testValidation:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
+          <el-button v-if="hasPermission('test:validation:testValidation:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
+          <el-button v-if="hasPermission('test:validation:testValidation:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('test:validation:testValidation:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
         </template>
       </el-table-column>
     </el-table>

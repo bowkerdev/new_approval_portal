@@ -7,10 +7,10 @@
             <chart-card>
                 <div slot="card-head" class="relative">
                     <el-tabs v-model="tabs.name">
-                        <el-tab-pane :label="$i18n.t('销售额')" name="cellNum">
+                        <el-tab-pane :label="{{$i18nMy.t('销售额')" name="cellNum">
                             <cell-num ref = "cellNum"></cell-num>
                         </el-tab-pane>
-                        <el-tab-pane :label="$i18n.t('访问量')" name="visitNum">
+                        <el-tab-pane :label="{{$i18nMy.t('访问量')" name="visitNum">
                             <visit-num ref = "visitNum"></visit-num>
                         </el-tab-pane>
                     </el-tabs>
@@ -18,10 +18,10 @@
                       <el-row>
                         <el-col :span="12">
                             <el-row>
-                                <el-button type="text">{{$i18n.t('今日')}}</el-button>
-                                <el-button type="text">{{$i18n.t('本周')}}</el-button>
-                                <el-button type="text">{{$i18n.t('本月')}}</el-button>
-                                <el-button type="text" class="ml-3">{{$i18n.t('本年')}}</el-button>
+                                <el-button type="text">{{$i18nMy.t('今日')}}</el-button>
+                                <el-button type="text">{{$i18nMy.t('本周')}}</el-button>
+                                <el-button type="text">{{$i18nMy.t('本月')}}</el-button>
+                                <el-button type="text" class="ml-3">{{$i18nMy.t('本年')}}</el-button>
                             </el-row>
                         </el-col>
                         <el-col :span="12">
@@ -29,8 +29,8 @@
                                     v-model="chart.range"
                                     type="daterange"
                                     range-separator="~"
-                                    start-:placeholder="$i18n.t('开始日期')"
-                                    end-:placeholder="$i18n.t('结束日期')">
+                                    start-:placeholder="{{$i18nMy.t('开始日期')"
+                                    end-:placeholder="{{$i18nMy.t('结束日期')">
                             </el-date-picker>
                         </el-col>
                       </el-row>
@@ -46,7 +46,7 @@
                                     <i class="el-icon-platform-eleme card-panel-icon"></i>
                                 </div>
                                 <div class="card-panel-description">
-                                    <div class="card-panel-text">{{$i18n.t('访问量')}}</div>
+                                    <div class="card-panel-text">{{$i18nMy.t('访问量')}}</div>
                                     <count-to :start-val="0" :end-val="info.ipVisit.num"
                                               :duration="info.ipVisit.duration" class="card-panel-num"/>
                                 </div>
@@ -58,7 +58,7 @@
                                     <i class="el-icon-shopping-cart-2 card-panel-icon"></i>
                                 </div>
                                 <div class="card-panel-description">
-                                    <div class="card-panel-text">{{$i18n.t('销售量')}}</div>
+                                    <div class="card-panel-text">{{$i18nMy.t('销售量')}}</div>
                                     <count-to :start-val="0" :end-val="info.timesVisit.num"
                                               :duration="info.timesVisit.duration" class="card-panel-num"/>
                                 </div>
@@ -70,7 +70,7 @@
                                     <i class="el-icon-s-order card-panel-icon"></i>
                                 </div>
                                 <div class="card-panel-description">
-                                    <div class="card-panel-text">{{$i18n.t('订单量')}}</div>
+                                    <div class="card-panel-text">{{$i18nMy.t('订单量')}}</div>
                                     <count-to :start-val="0" :end-val="info.totalVisit.num"
                                               :duration="info.totalVisit.duration" class="card-panel-num"/>
                                 </div>
@@ -82,7 +82,7 @@
                                     <i class="el-icon-user-solid card-panel-icon"></i>
                                 </div>
                                 <div class="card-panel-description">
-                                    <div class="card-panel-text">{{$i18n.t('新用户')}}</div>
+                                    <div class="card-panel-text">{{$i18nMy.t('新用户')}}</div>
                                     <count-to :start-val="0" :end-val="info.totalVisit.num"
                                               :duration="info.totalVisit.duration" class="card-panel-num"/>
                                 </div>

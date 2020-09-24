@@ -7,12 +7,12 @@
     :visible.sync="visible">
     <el-form :model="inputForm" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" :rules="dataRule" ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="100px" @submit.native.prevent>
-          <el-form-item :label="$i18n.t('菜单类型')" prop="type">
+          <el-form-item :label="{{$i18nMy.t('菜单类型')" prop="type">
             <el-radio-group v-model="inputForm.type">
               <el-radio v-for="(type, index) in typeList" :label="index.toString()" :key="index">{{ type }}</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item :label="$i18n.t('上级菜单')" prop="parent.id">
+          <el-form-item :label="{{$i18nMy.t('上级菜单')" prop="parent.id">
              <SelectTree 
              ref="menuParentTree"
              :props="{
@@ -29,10 +29,10 @@
            <el-form-item :label="typeList[inputForm.type] + '名称'" prop="name">
             <el-input maxlength="50" v-model="inputForm.name" :placeholder="typeList[inputForm.type] + '名称'"></el-input>
           </el-form-item>
-          <el-form-item v-if="inputForm.type === '1' || inputForm.type === '2' || inputForm.type === '3'" :label="$i18n.t('链接地址')" prop="href">
-              <el-input maxlength="1000" v-model="inputForm.href" :placeholder="$i18n.t('请填写路由路径或者超链接')"></el-input>
+          <el-form-item v-if="inputForm.type === '1' || inputForm.type === '2' || inputForm.type === '3'" :label="{{$i18nMy.t('链接地址')" prop="href">
+              <el-input maxlength="1000" v-model="inputForm.href" :placeholder="{{$i18nMy.t('请填写路由路径或者超链接')"></el-input>
           </el-form-item>
-          <el-form-item v-if="inputForm.type === '1' || inputForm.type === '2' || inputForm.type === '3'" :label="$i18n.t('链接类型')" prop="target">
+          <el-form-item v-if="inputForm.type === '1' || inputForm.type === '2' || inputForm.type === '3'" :label="{{$i18nMy.t('链接类型')" prop="target">
             <el-select v-model="inputForm.target" placeholder="如果是路由路径请留空白，http链接或者外部链接请选择iframe"  clearable style="width: 100%;">
                 <el-option
                   v-for="item in [{label: 'iframe', value: 'iframe'}]"
@@ -42,34 +42,34 @@
                 </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item v-if="inputForm.type !== '2'  && inputForm.type !== '3'" :label="$i18n.t('菜单图标')" prop="icon">
-                <el-input v-model="inputForm.icon" clearable @focus="selectIcon" :placeholder="$i18n.t('菜单图标名称')"></el-input>
+          <el-form-item v-if="inputForm.type !== '2'  && inputForm.type !== '3'" :label="{{$i18nMy.t('菜单图标')" prop="icon">
+                <el-input v-model="inputForm.icon" clearable @focus="selectIcon" :placeholder="{{$i18nMy.t('菜单图标名称')"></el-input>
           </el-form-item>
-          <el-form-item v-if="inputForm.type !== '2' && inputForm.type !== '3'"  :label="$i18n.t('可见')" prop="isShow">
+          <el-form-item v-if="inputForm.type !== '2' && inputForm.type !== '3'"  :label="{{$i18nMy.t('可见')" prop="isShow">
             <el-radio-group v-model="inputForm.isShow">
               <el-radio v-for="item in this.$dictUtils.getDictList('show_hide')" :label="item.value" :key="item.id">{{item.label}}</el-radio>
             </el-radio-group>
           </el-form-item>
-         <el-form-item v-if="inputForm.type == '1'"  :label="$i18n.t('页面背景色')" prop="backgroundType">
+         <el-form-item v-if="inputForm.type == '1'"  :label="{{$i18nMy.t('页面背景色')" prop="backgroundType">
             <el-radio-group v-model="inputForm.backgroundType">
-              <el-radio label="1">{{$i18n.t('白色')}}</el-radio>
-              <el-radio label="2">{{$i18n.t('透明')}}</el-radio>
+              <el-radio label="1">{{$i18nMy.t('白色')}}</el-radio>
+              <el-radio label="2">{{$i18nMy.t('透明')}}</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item v-if="inputForm.type !== '0' && inputForm.type !== '3'" :label="$i18n.t('授权标识')" prop="permission">
+          <el-form-item v-if="inputForm.type !== '0' && inputForm.type !== '3'" :label="{{$i18nMy.t('授权标识')" prop="permission">
             <el-input v-model="inputForm.permission" maxlength="50" placeholder="多个用逗号分隔, 如: user:list,user:create"></el-input>
           </el-form-item>
-           <el-form-item  :label="$i18n.t('排序号')" prop="sort">
-              <el-input-number v-model="inputForm.sort" :step="30" controls-position="right" :min="0" :label="$i18n.t('排序号')"></el-input-number>
+           <el-form-item  :label="{{$i18nMy.t('排序号')" prop="sort">
+              <el-input-number v-model="inputForm.sort" :step="30" controls-position="right" :min="0" :label="{{$i18nMy.t('排序号')"></el-input-number>
            </el-form-item>
-          <el-form-item :label="$i18n.t('备注')" prop="remarks">
+          <el-form-item :label="{{$i18nMy.t('备注')" prop="remarks">
             <el-input v-model="inputForm.remarks" maxlength="200" type="textarea"
-                  :rows="2" :placeholder="$i18n.t('备注')"></el-input>
+                  :rows="2" :placeholder="{{$i18nMy.t('备注')"></el-input>
           </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
-      <el-button v-if="method != 'view'" type="primary" @click="doSubmit()" v-noMoreClick>{{$i18n.t('确定')}}</el-button>
+      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button v-if="method != 'view'" type="primary" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
   <Icon ref="icon" @getValue="value => inputForm.icon = value"></Icon>

@@ -9,14 +9,14 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item :label="$i18n.t('标题')" prop="title"
+            <el-form-item :label="{{$i18nMy.t('标题')" prop="title"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.title" :placeholder="$i18n.t('请填写标题')"     ></el-input>
+              <el-input v-model="inputForm.title" :placeholder="{{$i18nMy.t('请填写标题')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="$i18n.t('内容')" prop="contents"
+            <el-form-item :label="{{$i18nMy.t('内容')" prop="contents"
                 :rules="[
                  ]">
             <vue-editor useCustomImageHandler @image-added="$utils.handleImageAdded" v-model="inputForm.contents"/>
@@ -25,8 +25,8 @@
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18n.t('确定')}}</el-button>
+      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </div>

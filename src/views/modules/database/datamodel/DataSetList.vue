@@ -3,22 +3,22 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
 		     <el-form-item prop="db.id">
-                <el-input size="small" v-model="searchForm.db.id" :placeholder="$i18n.t('目标数据库')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.db.id" :placeholder="{{$i18nMy.t('目标数据库')" clearable></el-input>
 		     </el-form-item>
 		     <el-form-item prop="name">
-                <el-input size="small" v-model="searchForm.name" :placeholder="$i18n.t('数据源名称')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.name" :placeholder="{{$i18nMy.t('数据源名称')" clearable></el-input>
 		     </el-form-item>
           <el-form-item>
-            <el-button  type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
-            <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
+            <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
       <el-row>
-        <el-button v-if="hasPermission('database:datamodel:dataSet:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('新建')}}</el-button>
+        <el-button v-if="hasPermission('database:datamodel:dataSet:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('database:datamodel:dataSet:edit')" type="success" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1" plain>{{$i18n.t('修改')}}</el-button>
+         :disabled="dataListSelections.length != 1" plain>{{$i18nMy.t('修改')}}</el-button>
         <el-button v-if="hasPermission('database:datamodel:dataSet:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>{{$i18n.t('删除')}}</el-button>
+                  :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
         <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="搜索" placement="top">
             <el-button 
@@ -55,7 +55,7 @@
       <el-table-column
         prop="name"
         sortable="custom"
-        :label="$i18n.t('数据源名称')">
+        :label="{{$i18nMy.t('数据源名称')">
         <template slot-scope="scope">
           <el-link  type="primary" :underline="false"  v-if="hasPermission('database:datamodel:dataSet:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
           <el-link  type="primary" :underline="false"  v-else-if="hasPermission('database:datamodel:dataSet:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
@@ -65,7 +65,7 @@
 	  <el-table-column
         prop="db.name"
         sortable="custom"
-        :label="$i18n.t('目标数据库')">
+        :label="{{$i18nMy.t('目标数据库')">
       </el-table-column>
 	  <el-table-column
         prop="sqlcmd"
@@ -77,12 +77,12 @@
         header-align="center"
         align="center"
         width="300"
-        :label="$i18n.t('操作')">
+        :label="{{$i18nMy.t('操作')">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('database:datamodel:dataSet:view')" type="text" icon="el-icon-view" size="mini" @click="view(scope.row.id)">{{$i18n.t('查看')}}</el-button>
-          <el-button v-if="hasPermission('database:datamodel:dataSet:edit')" type="text" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)">{{$i18n.t('修改')}}</el-button>
-          <el-button type="text" size="mini" icon="el-icon-coin" @click="getDbInterface(scope.row.id,scope.row.name)">{{$i18n.t('获取数据接口')}}</el-button>
-          <el-button v-if="hasPermission('database:datamodel:dataSet:del')" type="text" size="mini" icon="el-icon-delete" @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
+          <el-button v-if="hasPermission('database:datamodel:dataSet:view')" type="text" icon="el-icon-view" size="mini" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
+          <el-button v-if="hasPermission('database:datamodel:dataSet:edit')" type="text" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
+          <el-button type="text" size="mini" icon="el-icon-coin" @click="getDbInterface(scope.row.id,scope.row.name)">{{$i18nMy.t('获取数据接口')}}</el-button>
+          <el-button v-if="hasPermission('database:datamodel:dataSet:del')" type="text" size="mini" icon="el-icon-delete" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -99,8 +99,8 @@
 
     <el-dialog  customClass="customWidth" title="数据接口" :visible.sync="dialogInterfaceVisible"  v-dialogDrag>
       <el-table :data="interfaceTable">
-        <el-table-column property="type" width="120px" :label="$i18n.t('接口格式')"></el-table-column>
-        <el-table-column property="url" :label="$i18n.t('接口地址')"></el-table-column>
+        <el-table-column property="type" width="120px" :label="{{$i18nMy.t('接口格式')"></el-table-column>
+        <el-table-column property="url" :label="{{$i18nMy.t('接口地址')"></el-table-column>
         <el-table-column property="url2" label="接口地址2"></el-table-column>
       </el-table>
       <br>

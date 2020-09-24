@@ -8,10 +8,10 @@
        <el-row :gutter="15">
         <el-col :span="24">
 
-           <el-form-item :label="$i18n.t('流程分类')" prop="category" :rules="[
+           <el-form-item :label="{{$i18nMy.t('流程分类')" prop="category" :rules="[
             {required: true, message: '流程分类不能为空', trigger: 'blur'}
           ]">
-          <el-select v-model="inputForm.category" :placeholder="$i18n.t('请选择')"  style="width: 100%;">
+          <el-select v-model="inputForm.category" :placeholder="{{$i18nMy.t('请选择')"  style="width: 100%;">
               <el-option
                 v-for="item in this.$dictUtils.getDictList('act_category')"
                 :key="item.value"
@@ -22,7 +22,7 @@
         </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item :label="$i18n.t('流程文件')" prop="file" :rules="[{required: true, message: '流程文件不能为空', trigger: 'blur'}]">
+          <el-form-item :label="{{$i18nMy.t('流程文件')" prop="file" :rules="[{required: true, message: '流程文件不能为空', trigger: 'blur'}]">
             <el-upload
               class="upload-demo"
               ref="upload"
@@ -34,7 +34,7 @@
               :before-upload="beforeUpload"
               :auto-upload="false"
               :show-file-list="true">
-              <el-button slot="trigger" size="small" type="primary">{{$i18n.t('选取文件')}}</el-button>
+              <el-button slot="trigger" size="small" type="primary">{{$i18nMy.t('选取文件')}}</el-button>
               <div slot="tip" class="el-upload__tip">只允许导入“zip、bar、bpmn、bpmn20.xml”格式文件！</div>
             </el-upload>
           </el-form-item>
@@ -42,8 +42,8 @@
       </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
-      <el-button type="primary" @click="inputFormSubmit()" v-noMoreClick>{{$i18n.t('确定')}}</el-button>
+      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button type="primary" @click="inputFormSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </template>

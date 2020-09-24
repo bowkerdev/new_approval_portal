@@ -9,11 +9,11 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="24">
-            <el-form-item :label="$i18n.t('表单名称')" prop="name"
+            <el-form-item :label="{{$i18nMy.t('表单名称')" prop="name"
                 :rules="[
                   {required: true, message:'表单名称不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.name" :placeholder="$i18n.t('请填写表单名称')"     ></el-input>
+              <el-input v-model="inputForm.name" :placeholder="{{$i18nMy.t('请填写表单名称')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -22,11 +22,11 @@
                   {required: true, message:'表单key不能为空', trigger:'blur'},
                   { validator: validateNoExist, trigger: 'blur' }
                  ]">
-              <el-input v-model="inputForm.code" :placeholder="$i18n.t('请填写表单编码')"     ></el-input>
+              <el-input v-model="inputForm.code" :placeholder="{{$i18nMy.t('请填写表单编码')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="$i18n.t('所属数据库')"  prop="dataSource.id"  :rules="[{required: true, message: '所属数据库不能为空', trigger: 'blur'}]">
+            <el-form-item :label="{{$i18nMy.t('所属数据库')"  prop="dataSource.id"  :rules="[{required: true, message: '所属数据库不能为空', trigger: 'blur'}]">
               <SelectTree
               ref="dataSourceTree"
               :props="{
@@ -44,7 +44,7 @@
             </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="$i18n.t('是否自动建表')" prop="autoCreate"
+            <el-form-item :label="{{$i18nMy.t('是否自动建表')" prop="autoCreate"
                 :rules="[
                   {required: true, message:'是否自动建表不能为空', trigger:'blur'}
                  ]">
@@ -54,11 +54,11 @@
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item  v-if="inputForm.autoCreate === '0'" :label="$i18n.t('表名')" prop="tableName"
+            <el-form-item  v-if="inputForm.autoCreate === '0'" :label="{{$i18nMy.t('表名')" prop="tableName"
                   :rules="[
                   {required: true, message:'表名不能为空', trigger:'blur'}
                  ]">
-                <el-select :disabled="method !== 'add'" v-model="inputForm.tableName" style="width:100%" filterable :placeholder="$i18n.t('请选择表')">
+                <el-select :disabled="method !== 'add'" v-model="inputForm.tableName" style="width:100%" filterable :placeholder="{{$i18nMy.t('请选择表')">
                   <el-option
                     v-for="item in dataTable"
                     :key="item.name"
@@ -68,30 +68,30 @@
                 </el-select>
            </el-form-item>
 
-         <el-form-item  v-else :label="$i18n.t('表名')" prop="tableName"
+         <el-form-item  v-else :label="{{$i18nMy.t('表名')" prop="tableName"
          :rules="[
                    {validator: validateValid, trigger:'blur'},
                   {required: true, message:'表名不能为空', trigger:'blur'},
                   { validator: validateTableExist, trigger: 'blur' }
                  ]">
-                  <el-input :disabled="method !== 'add'" v-model="inputForm.tableName" :placeholder="$i18n.t('请输入表名')" >
-                     <el-button :disabled="method !== 'add'" @click="createTableName" slot="append">{{$i18n.t('生成随机表名')}}</el-button>
+                  <el-input :disabled="method !== 'add'" v-model="inputForm.tableName" :placeholder="{{$i18nMy.t('请输入表名')" >
+                     <el-button :disabled="method !== 'add'" @click="createTableName" slot="append">{{$i18nMy.t('生成随机表名')}}</el-button>
                   </el-input>
            </el-form-item>
 
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="$i18n.t('备注信息')" prop="remarks"
+            <el-form-item :label="{{$i18nMy.t('备注信息')" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18n.t('请填写备注信息')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="{{$i18nMy.t('请填写备注信息')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18n.t('确定')}}</el-button>
+      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </div>

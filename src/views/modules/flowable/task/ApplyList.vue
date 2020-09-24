@@ -1,7 +1,7 @@
 <template>
   <div>
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-        <el-form-item prop="searchDates" :label="$i18n.t('创建时间')">
+        <el-form-item prop="searchDates" :label="{{$i18nMy.t('创建时间')">
           <el-date-picker
             v-model="searchDates"
             type="daterange"
@@ -10,14 +10,14 @@
             value-format="yyyy-MM-dd hh:mm:ss"
             unlink-panels
             range-separator="至"
-            start-:placeholder="$i18n.t('开始日期')"
-            end-:placeholder="$i18n.t('结束日期')"
+            start-:placeholder="{{$i18nMy.t('开始日期')"
+            end-:placeholder="{{$i18nMy.t('结束日期')"
             :picker-options="pickerOptions">
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button  type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
-          <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
+          <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
+          <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
         </el-form-item>
       </el-form>
       <el-row>
@@ -56,17 +56,17 @@
           <el-table-column
             prop="vars.title"
             show-overflow-tooltip
-            :label="$i18n.t('实例标题')">       
+            :label="{{$i18nMy.t('实例标题')">       
           </el-table-column>
           <el-table-column
             prop="procDef.name"
             show-overflow-tooltip
-            :label="$i18n.t('流程名称')">
+            :label="{{$i18nMy.t('流程名称')">
           </el-table-column>
            <el-table-column
             prop="procIns.status"
             show-overflow-tooltip
-            :label="$i18n.t('状态')">
+            :label="{{$i18nMy.t('状态')">
             <template slot-scope="scope">
               <el-tag v-if="scope.row.procIns.code === 0 
                || scope.row.procIns.code === 3
@@ -80,12 +80,12 @@
            <el-table-column
             prop="vars.userName"
             show-overflow-tooltip
-            :label="$i18n.t('流程发起人')">
+            :label="{{$i18nMy.t('流程发起人')">
           </el-table-column>
           <el-table-column
             prop="procIns.startTime"
             show-overflow-tooltip
-            :label="$i18n.t('创建时间')">
+            :label="{{$i18nMy.t('创建时间')">
              <template slot-scope="scope">
               {{scope.row.procIns.startTime | formatDate}}
              </template>
@@ -93,7 +93,7 @@
           <el-table-column
             prop="procIns.endTime"
             show-overflow-tooltip
-            :label="$i18n.t('完成时间')">
+            :label="{{$i18nMy.t('完成时间')">
              <template slot-scope="scope">
               {{scope.row.procIns.endTime | formatDate}}
              </template>
@@ -101,13 +101,13 @@
           <el-table-column
             fixed="right"
             width="150"
-            :label="$i18n.t('操作')">
+            :label="{{$i18nMy.t('操作')">
             <template slot-scope="scope">
-               <el-button v-if="scope.row.procIns.code === 1" type="text"  size="small" @click="urge(scope.row)">{{$i18n.t('催办')}}</el-button>
-               <el-button v-if="scope.row.procIns.code === 1" type="text"  size="small" @click="callback(scope.row)">{{$i18n.t('撤销')}}</el-button>
-              <el-button  type="text" size="small" @click="detail(scope.row)">{{$i18n.t('历史')}}</el-button>
+               <el-button v-if="scope.row.procIns.code === 1" type="text"  size="small" @click="urge(scope.row)">{{$i18nMy.t('催办')}}</el-button>
+               <el-button v-if="scope.row.procIns.code === 1" type="text"  size="small" @click="callback(scope.row)">{{$i18nMy.t('撤销')}}</el-button>
+              <el-button  type="text" size="small" @click="detail(scope.row)">{{$i18nMy.t('历史')}}</el-button>
               <!-- <el-button  type="text" size="small"
-                        @click="trace(scope.row)">{{$i18n.t('进度')}}</el-button> -->
+                        @click="trace(scope.row)">{{$i18nMy.t('进度')}}</el-button> -->
             </template>
           </el-table-column>
         </el-table>

@@ -8,7 +8,7 @@
              label-width="120px" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" @submit.native.prevent>
     <el-row :gutter="15">
         <el-col :span="12">
-          <el-form-item prop="photo" :label="$i18n.t('头像')"> 
+          <el-form-item prop="photo" :label="{{$i18nMy.t('头像')"> 
             <el-upload
               class="avatar-uploader"
               :action="`${this.$http.BASE_URL}/sys/file/webupload/upload?uploadPath=photo`"
@@ -22,17 +22,17 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-           <el-form-item :label="$i18n.t('登录名')" prop="loginName">
+           <el-form-item :label="{{$i18nMy.t('登录名')" prop="loginName">
               <el-input v-model="inputForm.loginName" maxlength="50" placeholder=""></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="$i18n.t('姓名')" prop="name">
+            <el-form-item :label="{{$i18nMy.t('姓名')" prop="name">
               <el-input v-model="inputForm.name" maxlength="50" placeholder=""></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="company.id" :label="$i18n.t('公司')"> 
+          <el-form-item prop="company.id" :label="{{$i18nMy.t('公司')"> 
             <SelectTree 
               ref="companyTree"
               :props="{
@@ -48,7 +48,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-           <el-form-item prop="office.id" :label="$i18n.t('部门')">
+           <el-form-item prop="office.id" :label="{{$i18nMy.t('部门')">
             <SelectTree 
               ref="officeTree"
               :props="{
@@ -65,13 +65,13 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="$i18n.t('工号')" prop="no" :rules="[{required: true, message:'工号不能为空', trigger:'blur'}]">
+            <el-form-item :label="{{$i18nMy.t('工号')" prop="no" :rules="[{required: true, message:'工号不能为空', trigger:'blur'}]">
               <el-input v-model="inputForm.no" maxlength="50" placeholder=""></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18n.t('岗位')" prop="post.id">
-               <el-select v-model="inputForm.post.id" style="width:100%" :placeholder="$i18n.t('请选择')">
+          <el-form-item :label="{{$i18nMy.t('岗位')" prop="post.id">
+               <el-select v-model="inputForm.post.id" style="width:100%" :placeholder="{{$i18nMy.t('请选择')">
                 <el-option
                   v-for="item in postList"
                   :key="item.id"
@@ -82,7 +82,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18n.t('角色')" prop="roleIdList">
+          <el-form-item :label="{{$i18nMy.t('角色')" prop="roleIdList">
               <el-checkbox-group 
                 v-model="inputForm.roleIdList">
                 <el-checkbox v-for="role in roleList" :label="role.id" :key="role.id">{{role.name}}</el-checkbox>
@@ -92,31 +92,31 @@
      
         <el-col :span="12">
            <el-form-item label="密码:" prop="newPassword" :rules="inputForm.id?[]:[{required: true, message:'密码不能为空', trigger:'blur'}]">
-              <el-input v-model="inputForm.newPassword" maxlength="50" :placeholder="$i18n.t('若不修改，请留空')" show-password></el-input>
+              <el-input v-model="inputForm.newPassword" maxlength="50" :placeholder="{{$i18nMy.t('若不修改，请留空')" show-password></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18n.t('确认密码')" prop="confirmNewPassword" :rules="inputForm.id?[]:[{required: true, message:'确认密码不能为空', trigger:'blur'}]">
+          <el-form-item :label="{{$i18nMy.t('确认密码')" prop="confirmNewPassword" :rules="inputForm.id?[]:[{required: true, message:'确认密码不能为空', trigger:'blur'}]">
             <el-input v-model="inputForm.confirmNewPassword" maxlength="50" placeholder="" show-password></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18n.t('手机')" prop="mobile" :rules="[{validator:validator.isMobile, trigger:'blur'}]">
+          <el-form-item :label="{{$i18nMy.t('手机')" prop="mobile" :rules="[{validator:validator.isMobile, trigger:'blur'}]">
             <el-input v-model="inputForm.mobile" maxlength="50" placeholder=""></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-           <el-form-item :label="$i18n.t('电话')" prop="phone" :rules="[{validator:validator.isPhone, trigger:'blur'}]">
+           <el-form-item :label="{{$i18nMy.t('电话')" prop="phone" :rules="[{validator:validator.isPhone, trigger:'blur'}]">
             <el-input v-model="inputForm.phone" maxlength="50" placeholder=""></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-           <el-form-item :label="$i18n.t('邮箱')" prop="email" :rules="[{type:'email', message:'请输入正确的邮箱地址', trigger:'blur'}]">
+           <el-form-item :label="{{$i18nMy.t('邮箱')" prop="email" :rules="[{type:'email', message:'请输入正确的邮箱地址', trigger:'blur'}]">
             <el-input v-model="inputForm.email" maxlength="50" placeholder=""></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18n.t('是否允许登录')" prop="loginFlag">
+          <el-form-item :label="{{$i18nMy.t('是否允许登录')" prop="loginFlag">
             <el-radio-group v-model="inputForm.loginFlag">
               <el-radio v-for="item in this.$dictUtils.getDictList('yes_no')" :label="item.value" :key="item.id">{{item.label}}</el-radio>
             </el-radio-group>
@@ -124,15 +124,15 @@
         </el-col>
 
          <el-col :span="12">
-           <el-form-item :label="$i18n.t('备注')" prop="remarks">
+           <el-form-item :label="{{$i18nMy.t('备注')" prop="remarks">
             <el-input type="textarea" v-model="inputForm.remarks"  maxlength="200" placeholder=""></el-input>
            </el-form-item>
         </el-col>
     </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18n.t('确定')}}</el-button>
+      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </template>

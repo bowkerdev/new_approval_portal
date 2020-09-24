@@ -38,8 +38,8 @@
                     value-format="yyyy-MM-dd hh:mm:ss"
                     unlink-panels
                     range-separator="至"
-                    start-:placeholder="$i18n.t('开始日期')"
-                    end-:placeholder="$i18n.t('结束日期')">
+                    start-:placeholder="{{$i18nMy.t('开始日期')"
+                    end-:placeholder="{{$i18nMy.t('结束日期')">
                  </el-date-picker>
          </el-form-item>
          <el-form-item prop="endDate">
@@ -48,21 +48,21 @@
                   type="datetime"
                   size="small"
                   value-format="yyyy-MM-dd HH:mm:ss"
-                  :placeholder="$i18n.t('选择日期时间')">
+                  :placeholder="{{$i18nMy.t('选择日期时间')">
                 </el-date-picker>
          </el-form-item>
          <el-form-item prop="remarks">
-                <el-input size="small" v-model="searchForm.remarks" :placeholder="$i18n.t('备注信息')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.remarks" :placeholder="{{$i18nMy.t('备注信息')" clearable></el-input>
          </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
-            <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
+            <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
       <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
          <el-form-item>
-          <el-button type="default" @click="downloadTpl()" size="small">{{$i18n.t('下载模板')}}</el-button>
+          <el-button type="default" @click="downloadTpl()" size="small">{{$i18nMy.t('下载模板')}}</el-button>
          </el-form-item>
          <el-form-item prop="loginName">
             <el-upload
@@ -70,17 +70,17 @@
               :action="`${this.$http.BASE_URL}/test/one/leaveForm/import`"
               :on-success="uploadSuccess"
                :show-file-list="true">
-              <el-button size="small" type="primary">{{$i18n.t('点击上传')}}</el-button>
+              <el-button size="small" type="primary">{{$i18nMy.t('点击上传')}}</el-button>
               <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
             </el-upload>
         </el-form-item>
       </el-form>
       <el-row>
-        <el-button v-if="hasPermission('test:one:leaveForm:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('新建')}}</el-button>
+        <el-button v-if="hasPermission('test:one:leaveForm:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('test:one:leaveForm:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1" plain>{{$i18n.t('修改')}}</el-button>
+         :disabled="dataListSelections.length != 1" plain>{{$i18nMy.t('修改')}}</el-button>
         <el-button v-if="hasPermission('test:one:leaveForm:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>{{$i18n.t('删除')}}</el-button>
+                  :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
         <el-button-group class="pull-right">
             <el-button
               type="default"
@@ -116,7 +116,7 @@
         prop="office.name"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('归属部门')">
+        :label="{{$i18nMy.t('归属部门')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('test:one:leaveForm:edit')" @click="edit(scope.row.id)">{{scope.row.office.name}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('test:one:leaveForm:view')"  @click="view(scope.row.id)">{{scope.row.office.name}}</el-link>
@@ -127,42 +127,42 @@
         prop="tuser.name"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('员工')">
+        :label="{{$i18nMy.t('员工')">
       </el-table-column>
     <el-table-column
         prop="area"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('归属区域')">
+        :label="{{$i18nMy.t('归属区域')">
       </el-table-column>
     <el-table-column
         prop="beginDate"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('请假开始日期')">
+        :label="{{$i18nMy.t('请假开始日期')">
       </el-table-column>
     <el-table-column
         prop="endDate"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('请假结束日期')">
+        :label="{{$i18nMy.t('请假结束日期')">
       </el-table-column>
     <el-table-column
         prop="remarks"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18n.t('备注信息')">
+        :label="{{$i18nMy.t('备注信息')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         fixed="right"
         width="200"
-        :label="$i18n.t('操作')">
+        :label="{{$i18nMy.t('操作')">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('test:one:leaveForm:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18n.t('查看')}}</el-button>
-          <el-button v-if="hasPermission('test:one:leaveForm:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18n.t('修改')}}</el-button>
-          <el-button v-if="hasPermission('test:one:leaveForm:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
+          <el-button v-if="hasPermission('test:one:leaveForm:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
+          <el-button v-if="hasPermission('test:one:leaveForm:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('test:one:leaveForm:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
         </template>
       </el-table-column>
     </el-table>

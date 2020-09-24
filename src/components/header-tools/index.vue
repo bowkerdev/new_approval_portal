@@ -22,8 +22,8 @@
       <el-input v-model="option.inputValue" size="mini" clearable />
     </div>
     <div class="header-tools-footer container-flex-space-between">
-      <el-button size="small" @click="visible = false">{{$i18n.t('关闭')}}</el-button>
-      <el-button size="small" type="primary" @click="doSubmit()">{{$i18n.t('确定')}}</el-button>
+      <el-button size="small" @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button size="small" type="primary" @click="doSubmit()">{{$i18nMy.t('确定')}}</el-button>
     </div>
     <span slot="reference" class="header-tools-title">
       <span :class="{'has-search':option.inputValue}" v-text="label"></span><span><span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span><i class="el-icon-search" :class="{'has-search':option.inputValue}"></i></span>

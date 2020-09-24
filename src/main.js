@@ -22,9 +22,9 @@ import axios from 'axios'
 import moment from 'moment'
 import 'font-awesome/css/font-awesome.min.css'
 import i18n from '@/utils/i18n'
+import i18nMy from '@/utils/i18n2'
 import VueClipboard from 'vue-clipboard2'
 import VCharts from 'v-charts'
-import VueParticles from 'vue-particles'
 import JeeplusGencode from 'jeeplus-gencode'
 import JeeplusFlow from 'jeeplus-flowable'
 import 'jeeplus-flowable/lib/jeeplus-flowable.css'
@@ -40,7 +40,6 @@ Vue.use(FormMaking)
 Vue.use(JeeplusGencode)
 Vue.use(JeeplusFlow)
 VueClipboard.config.autoSetContainer = true
-Vue.use(VueParticles)
 Vue.use(VCharts)
 Vue.use(VueClipboard)
 Vue.use(VueCookie)
@@ -59,6 +58,8 @@ Vue.prototype.$utils = utils
 Vue.prototype.$common = common
 Vue.prototype.DynamicFormLanguage = dynamicFormLanguage
 Vue.prototype.$window = window
+Vue.prototype.$i18nMy  = i18nMy
+window.$i18nMy = i18nMy
 Vue.prototype.$dictUtils = dictUtils
 Vue.prototype.recover = utils.recover
 Vue.prototype.recoverNotNull = utils.recoverNotNull
@@ -80,6 +81,5 @@ new Vue({
   el: '#app',
   router,
   store,
-  i18n,
   render: h => h(App)
 })

@@ -7,14 +7,14 @@
     :visible.sync="visible">
     <el-form :model="inputForm" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="120px" @submit.native.prevent>
-          <el-form-item :label="$i18n.t('数据规则名称')" prop="name">
-              <el-input  v-model="inputForm.name" :placeholder="$i18n.t('数据规则名称')"></el-input>
+          <el-form-item :label="{{$i18nMy.t('数据规则名称')" prop="name">
+              <el-input  v-model="inputForm.name" :placeholder="{{$i18nMy.t('数据规则名称')"></el-input>
           </el-form-item>
-          <el-form-item :label="$i18n.t('表名')" prop="className">
-            <el-input  v-model="inputForm.className" :placeholder="$i18n.t('表名')"></el-input>
+          <el-form-item :label="{{$i18nMy.t('表名')" prop="className">
+            <el-input  v-model="inputForm.className" :placeholder="{{$i18nMy.t('表名')"></el-input>
           </el-form-item>
-          <el-form-item :label="$i18n.t('规则字段')" prop="field">
-              <el-select  v-model="inputForm.field"  style="width:100%" filterable :placeholder="$i18n.t('请选择表')">
+          <el-form-item :label="{{$i18nMy.t('规则字段')" prop="field">
+              <el-select  v-model="inputForm.field"  style="width:100%" filterable :placeholder="{{$i18nMy.t('请选择表')">
                   <el-option
                     v-for="item in dataTableColumns"
                     :key="item.name"
@@ -23,8 +23,8 @@
                   </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$i18n.t('规则条件')" prop="express">
-            <el-select v-model="inputForm.express" :placeholder="$i18n.t('规则条件')"  style="width: 100%;">
+          <el-form-item :label="{{$i18nMy.t('规则条件')" prop="express">
+            <el-select v-model="inputForm.express" :placeholder="{{$i18nMy.t('规则条件')"  style="width: 100%;">
                 <el-option
                   v-for="item in this.$dictUtils.getDictList('t_express')"
                   :key="item.value"
@@ -33,21 +33,21 @@
                 </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item  :label="$i18n.t('规则值')" prop="value">
+          <el-form-item  :label="{{$i18nMy.t('规则值')" prop="value">
             <el-input v-model="inputForm.value" placeholder="value"></el-input>
           </el-form-item>
            <el-form-item label="自定义sql" prop="sqlSegment">
              <el-input v-model="inputForm.sqlSegment" type="textarea"
-                  :rows="2" :placeholder="$i18n.t('备注')"></el-input>
+                  :rows="2" :placeholder="{{$i18nMy.t('备注')"></el-input>
            </el-form-item>
-          <el-form-item :label="$i18n.t('备注')" prop="remarks">
+          <el-form-item :label="{{$i18nMy.t('备注')" prop="remarks">
             <el-input v-model="inputForm.remarks" type="textarea"
-                  :rows="2" :placeholder="$i18n.t('备注')"></el-input>
+                  :rows="2" :placeholder="{{$i18nMy.t('备注')"></el-input>
           </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
-      <el-button v-if="method != 'view'" type="primary" @click="doSubmit()" v-noMoreClick>{{$i18n.t('确定')}}</el-button>
+      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button v-if="method != 'view'" type="primary" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </template>

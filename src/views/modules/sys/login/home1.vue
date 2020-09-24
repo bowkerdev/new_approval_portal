@@ -4,8 +4,8 @@
       <el-col :span="6">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>{{$i18n.t('访问量')}}</span>
-            <el-tag style="float: right;">{{$i18n.t('日')}}</el-tag>
+            <span>{{$i18nMy.t('访问量')}}</span>
+            <el-tag style="float: right;">{{$i18nMy.t('日')}}</el-tag>
           </div>
           <span style="font-size: 30px;">1,970</span>
             <ve-line height="50px" :legend-visible="false" 
@@ -41,7 +41,7 @@
          
           <el-divider></el-divider>
           <el-row>
-            <el-col :span="12">{{$i18n.t('总访问人数')}}</el-col>
+            <el-col :span="12">{{$i18nMy.t('总访问人数')}}</el-col>
             <el-col :span="12" class="pull-right">300w</el-col>
           </el-row>
         </el-card>
@@ -49,8 +49,8 @@
      <el-col :span="6">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>{{$i18n.t('订单')}}</span>
-            <el-tag type="danger" style="float: right;">{{$i18n.t('周')}}</el-tag>
+            <span>{{$i18nMy.t('订单')}}</span>
+            <el-tag type="danger" style="float: right;">{{$i18nMy.t('周')}}</el-tag>
           </div>
           <span style="font-size: 30px;">340w</span>
             <ve-histogram height="50px" :legend-visible="false" 
@@ -85,7 +85,7 @@
          
           <el-divider></el-divider>
           <el-row>
-            <el-col :span="12">{{$i18n.t('总订单')}}</el-col>
+            <el-col :span="12">{{$i18nMy.t('总订单')}}</el-col>
             <el-col :span="12" class="pull-right">1340w</el-col>
           </el-row>
         </el-card>
@@ -93,8 +93,8 @@
       <el-col :span="6">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>{{$i18n.t('销售额')}}</span>
-            <el-tag type="warning" style="float: right;">{{$i18n.t('月')}}</el-tag>
+            <span>{{$i18nMy.t('销售额')}}</span>
+            <el-tag type="warning" style="float: right;">{{$i18nMy.t('月')}}</el-tag>
           </div>
           <span style="font-size: 30px">3,123</span>
             <div style="height:50px; padding: 10px">
@@ -102,7 +102,7 @@
             </div>
           <el-divider></el-divider>
           <el-row>
-            <el-col :span="12">{{$i18n.t('总销售额')}}</el-col>
+            <el-col :span="12">{{$i18nMy.t('总销售额')}}</el-col>
             <el-col :span="12" class="pull-right">780w</el-col>
           </el-row>
         </el-card>
@@ -111,8 +111,8 @@
            <el-col :span="6">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>{{$i18n.t('新用户')}}</span>
-            <el-tag type="success" style="float: right;">{{$i18n.t('年')}}</el-tag>
+            <span>{{$i18nMy.t('新用户')}}</span>
+            <el-tag type="success" style="float: right;">{{$i18nMy.t('年')}}</el-tag>
           </div>
           <span style="font-size: 30px;">7,780</span>
           <div style="height:50px;padding-left:100px; padding-top:-10px;">
@@ -127,7 +127,7 @@
          
           <el-divider></el-divider>
           <el-row>
-            <el-col :span="12">{{$i18n.t('总用户')}}</el-col>
+            <el-col :span="12">{{$i18nMy.t('总用户')}}</el-col>
             <el-col :span="12" class="pull-right">23w</el-col>
           </el-row>
         </el-card>
@@ -137,7 +137,7 @@
       <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6">
         <el-card>
           <div slot="header" class="clearfix">
-            <span>{{$i18n.t('订单转化率')}}</span>
+            <span>{{$i18nMy.t('订单转化率')}}</span>
           </div>
           <ve-histogram :data=" {
             columns: ['日期', '访问用户', '下单用户', '下单率'],
@@ -157,7 +157,7 @@
       <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6">
         <el-card>
           <div slot="header" class="clearfix">
-            <span>{{$i18n.t('市场分析')}}</span>
+            <span>{{$i18nMy.t('市场分析')}}</span>
           </div>
           <ve-liquidfill :data="{
         columns: ['city', 'percent'],
@@ -224,7 +224,7 @@
       <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6">
         <el-card>
           <div slot="header" class="clearfix">
-            <span>{{$i18n.t('主机事例')}}</span>
+            <span>{{$i18nMy.t('主机事例')}}</span>
           </div>
           <ve-ring :data=" {
           columns: ['日期', '访问用户'],
@@ -242,7 +242,7 @@
       <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6">
         <el-card>
           <div slot="header" class="clearfix">
-            <span>{{$i18n.t('品牌统计')}}</span>
+            <span>{{$i18nMy.t('品牌统计')}}</span>
           </div>
           <ve-wordcloud :data="{
           columns: ['word', 'count'],
@@ -362,7 +362,7 @@
       <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
         <el-card>
           <div slot="header" class="clearfix">
-            <span>{{$i18n.t('股票走势')}}</span>
+            <span>{{$i18nMy.t('股票走势')}}</span>
             <div class="block" style="float: right;margin-top:-8px;" >
             </div>
           </div>

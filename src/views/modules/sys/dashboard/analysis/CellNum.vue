@@ -2,7 +2,7 @@
     <div class = "cell-num">
         <el-row>
             <el-col :span = "18" style="padding-right:50px">
-                <h4 class="title">{{$i18n.t('销售额排行')}}</h4>
+                <h4 class="title">{{$i18nMy.t('销售额排行')}}</h4>
                 <!-- <v-chart :options="options.cellNum" auto-resize></v-chart> -->
                 <ve-histogram height="400px"  :legend-visible="false" 
                                     :data="data" 
@@ -10,7 +10,7 @@
                                   </ve-histogram>
             </el-col>
             <el-col :span = "6">
-                <h4 class="title">{{$i18n.t('门店销售排行榜')}}</h4>
+                <h4 class="title">{{$i18nMy.t('门店销售排行榜')}}</h4>
                 <ul class="list">
                     <li :key="index" v-for="(item, index) in rankList">
                         <span :class="index < 3 ? 'active' : null">{{ index + 1 }}</span>

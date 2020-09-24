@@ -1,17 +1,17 @@
 <template>
 <div>
     <el-form :inline="true" :model="inputForm" ref="inputForm" label-width="120px">
-      <el-form-item :label="$i18n.t('二维码内容')" prop="encoderContent" :rules="[{required: true, message:'内容不能为空', trigger:'blur'}]">
-        <el-input  style="width: 500px" v-model="inputForm.encoderContent" :placeholder="$i18n.t('请输入要生成二维码的字符串')"></el-input> 
+      <el-form-item :label="{{$i18nMy.t('二维码内容')" prop="encoderContent" :rules="[{required: true, message:'内容不能为空', trigger:'blur'}]">
+        <el-input  style="width: 500px" v-model="inputForm.encoderContent" :placeholder="{{$i18nMy.t('请输入要生成二维码的字符串')"></el-input> 
           
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="doSubmit">{{$i18n.t('提交')}}</el-button>
+        <el-button type="primary" @click="doSubmit">{{$i18nMy.t('提交')}}</el-button>
       </el-form-item>
     </el-form>
     <div style="padding-left:120px; padding-top:20px" v-if="imageUrl">
         <img :src="imageUrl"/>
-        <p>{{$i18n.t('请使用微信扫一扫')}}</p>
+        <p>{{$i18nMy.t('请使用微信扫一扫')}}</p>
     </div>
    
 </div>

@@ -9,14 +9,14 @@
                 <el-input size="small" v-model="searchForm.taskDefId" placeholder="任务定义id" clearable></el-input>
 		     </el-form-item>
           <el-form-item>
-            <el-button  type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
-            <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
+            <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
       <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
          <el-form-item>
-          <el-button  type="default" @click="downloadTpl()" size="small">{{$i18n.t('下载模板')}}</el-button>
+          <el-button  type="default" @click="downloadTpl()" size="small">{{$i18nMy.t('下载模板')}}</el-button>
          </el-form-item>
          <el-form-item prop="loginName">
             <el-upload
@@ -24,19 +24,19 @@
               :action="`${this.$http.BASE_URL}/extension/taskDefExtension/import`"
               :on-success="uploadSuccess"
                :show-file-list="true">
-              <el-button size="small" type="primary">{{$i18n.t('点击上传')}}</el-button>
+              <el-button size="small" type="primary">{{$i18nMy.t('点击上传')}}</el-button>
               <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
             </el-upload>
         </el-form-item>
       </el-form>
       <el-row>
-        <el-button v-if="hasPermission('extension:taskDefExtension:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('新建')}}</el-button>
+        <el-button v-if="hasPermission('extension:taskDefExtension:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('extension:taskDefExtension:edit')" type="success" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1">{{$i18n.t('修改')}}</el-button>
+         :disabled="dataListSelections.length != 1">{{$i18nMy.t('修改')}}</el-button>
         <el-button v-if="hasPermission('extension:taskDefExtension:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0">{{$i18n.t('删除')}}</el-button>
-        <el-button v-if="hasPermission('extension:taskDefExtension:import')" type="default" size="small" icon="el-icon-upload2" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false">{{$i18n.t('导入')}}</el-button>
-        <el-button v-if="hasPermission('extension:taskDefExtension:export')" type="default" size="small" icon="el-icon-download" @click="exportExcel()">{{$i18n.t('导出')}}</el-button>
+                  :disabled="dataListSelections.length <= 0">{{$i18nMy.t('删除')}}</el-button>
+        <el-button v-if="hasPermission('extension:taskDefExtension:import')" type="default" size="small" icon="el-icon-upload2" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false">{{$i18nMy.t('导入')}}</el-button>
+        <el-button v-if="hasPermission('extension:taskDefExtension:export')" type="default" size="small" icon="el-icon-download" @click="exportExcel()">{{$i18nMy.t('导出')}}</el-button>
         <el-button
           type="default"
           size="small"
@@ -62,7 +62,7 @@
       <el-table-column type="expand">
       <template slot-scope="scope">
       <el-tabs>
-            <el-tab-pane :label="$i18n.t('按钮设置')">
+            <el-tab-pane :label="{{$i18nMy.t('按钮设置')">
                   <el-table
                   border
                   :data="scope.row.flowButtonList"
@@ -71,31 +71,31 @@
                     prop="name"
                     header-align="center"
                     align="center"
-                    :label="$i18n.t('按钮名称')">
+                    :label="{{$i18nMy.t('按钮名称')">
                   </el-table-column>
                 <el-table-column
                     prop="code"
                     header-align="center"
                     align="center"
-                    :label="$i18n.t('编码')">
+                    :label="{{$i18nMy.t('编码')">
                   </el-table-column>
                 <el-table-column
                     prop="isHide"
                     header-align="center"
                     align="center"
-                    :label="$i18n.t('是否隐藏')">
+                    :label="{{$i18nMy.t('是否隐藏')">
                   </el-table-column>
                 <el-table-column
                     prop="next"
                     header-align="center"
                     align="center"
-                    :label="$i18n.t('下一节点审核人')">
+                    :label="{{$i18nMy.t('下一节点审核人')">
                   </el-table-column>
                 <el-table-column
                     prop="sort"
                     header-align="center"
                     align="center"
-                    :label="$i18n.t('排序')">
+                    :label="{{$i18nMy.t('排序')">
                   </el-table-column>
                 </el-table>
               </el-tab-pane>
@@ -120,11 +120,11 @@
         header-align="center"
         align="center"
         width="400"
-        :label="$i18n.t('操作')">
+        :label="{{$i18nMy.t('操作')">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('extension:taskDefExtension:view')" type="text" icon="el-icon-view" size="mini" @click="view(scope.row.id)">{{$i18n.t('查看')}}</el-button>
-          <el-button v-if="hasPermission('extension:taskDefExtension:edit')" type="text" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)">{{$i18n.t('修改')}}</el-button>
-          <el-button v-if="hasPermission('extension:taskDefExtension:del')" type="text" size="mini" icon="el-icon-delete"  @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
+          <el-button v-if="hasPermission('extension:taskDefExtension:view')" type="text" icon="el-icon-view" size="mini" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
+          <el-button v-if="hasPermission('extension:taskDefExtension:edit')" type="text" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('extension:taskDefExtension:del')" type="text" size="mini" icon="el-icon-delete"  @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
         </template>
       </el-table-column>
     </el-table>

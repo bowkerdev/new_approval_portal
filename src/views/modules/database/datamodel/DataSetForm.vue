@@ -3,16 +3,16 @@
       <el-row :gutter="20" v-loading="loading">
         <el-col :span="24">
            <el-row :gutter="20">
-              <el-col :span="12"><h3>{{$i18n.t('数据模型配置')}}</h3></el-col>
+              <el-col :span="12"><h3>{{$i18nMy.t('数据模型配置')}}</h3></el-col>
                <el-col :span="12" style="text-align:right">
-                  <el-button v-if="$route.query.method!='view'" type="primary" @click="doSubmit" size="small">{{$i18n.t('保存数据源')}}</el-button>
-                  <el-button type="info" size="small" @click="goBack">{{$i18n.t('返回')}}</el-button>
+                  <el-button v-if="$route.query.method!='view'" type="primary" @click="doSubmit" size="small">{{$i18nMy.t('保存数据源')}}</el-button>
+                  <el-button type="info" size="small" @click="goBack">{{$i18nMy.t('返回')}}</el-button>
                 </el-col>
            </el-row>
         </el-col>
         <el-col :span="12">
           <el-form  :model="inputForm" ref="inputForm" v-loading="loading" label-width="150px">
-                        <el-form-item :label="$i18n.t('目标数据库')" prop="db.id"
+                        <el-form-item :label="{{$i18nMy.t('目标数据库')" prop="db.id"
                             :rules="[
                               {required: true, message:'目标数据库不能为空', trigger:'blur'}
                             ]">
@@ -30,11 +30,11 @@
                             :accordion="true"
                             @getValue="(value) => {inputForm.db.id=value}"/>
                       </el-form-item>
-                        <el-form-item :label="$i18n.t('数据源名称')" prop="name"
+                        <el-form-item :label="{{$i18nMy.t('数据源名称')" prop="name"
                             :rules="[
                               {required: true, message:'数据源名称不能为空', trigger:'blur'}
                             ]">
-                          <el-input v-model="inputForm.name" :placeholder="$i18n.t('请填写数据源名称')"     ></el-input>
+                          <el-input v-model="inputForm.name" :placeholder="{{$i18nMy.t('请填写数据源名称')"     ></el-input>
                       </el-form-item>
                         <el-form-item label="sql语句" prop="sqlcmd"
                             :rules="[
@@ -54,30 +54,30 @@
             </el-table-column>
             <el-table-column
               prop="field"
-              :label="$i18n.t('参数名')">
+              :label="{{$i18nMy.t('参数名')">
                <template slot-scope="scope">
-                <el-input v-model="scope.row.field" :placeholder="$i18n.t('请输入内容')"></el-input>
+                <el-input v-model="scope.row.field" :placeholder="{{$i18nMy.t('请输入内容')"></el-input>
               </template>
             </el-table-column>
             <el-table-column
               prop="defaultValue"
-              :label="$i18n.t('默认值')">
+              :label="{{$i18nMy.t('默认值')">
                <template slot-scope="scope">
-                <el-input v-model="scope.row.defaultValue" :placeholder="$i18n.t('请输入内容')"></el-input>
+                <el-input v-model="scope.row.defaultValue" :placeholder="{{$i18nMy.t('请输入内容')"></el-input>
               </template>
             </el-table-column>
             <el-table-column
               fixed="right"
-              :label="$i18n.t('操作')">
+              :label="{{$i18nMy.t('操作')">
               <template slot-scope="scope">
                 <el-button
                   @click.native.prevent="deleteRow(scope.$index, paramForm.tableData)"
                   type="text"
-                  size="small">{{$i18n.t('移除')}}</el-button>
+                  size="small">{{$i18nMy.t('移除')}}</el-button>
               </template>
             </el-table-column>
           </el-table>
-           <el-button type="primary" size="small" @click="addRow" style="margin-top:10px;margin-bottom:10px">{{$i18n.t('增加参数')}}</el-button>
+           <el-button type="primary" size="small" @click="addRow" style="margin-top:10px;margin-bottom:10px">{{$i18nMy.t('增加参数')}}</el-button>
            <el-alert
             title="SQL中添加参数的方式：格式：{#参数名#}，示例：select * from table where {#id#} 或者 select * from table where '{#id#}'"
             :closable="false"
@@ -87,30 +87,30 @@
           <el-button type="primary" @click="doPreviewData" size="small" style="margin-top:10px;margin-bottom:10px"> <i class="fa fa-eye"></i> 预览数据</el-button>
         </el-col>
         <el-col :span="24">
-          <h3>{{$i18n.t('数据源列配置')}}</h3>
+          <h3>{{$i18nMy.t('数据源列配置')}}</h3>
            <el-table
             :data="columnForm.columnList"
             style="width: 100%">
             <el-table-column
               prop="name"
-              :label="$i18n.t('字段名')"
+              :label="{{$i18nMy.t('字段名')"
               >
             </el-table-column>
             <el-table-column
               prop="type"
-              :label="$i18n.t('类型')"
+              :label="{{$i18nMy.t('类型')"
               >
             </el-table-column>
             <el-table-column
               prop="label"
-              :label="$i18n.t('标签')">
+              :label="{{$i18nMy.t('标签')">
               <template slot-scope="scope">
                 <el-input v-model="scope.row.label"></el-input>
               </template>
             </el-table-column>
              <el-table-column>
                  <template slot="header" slot-scope="scope">
-                    <el-checkbox v-model="columnForm.isNeedAll" :indeterminate="isIndeterminate"  @change="handleCheckAllChange">{{$i18n.t('参与分析')}}</el-checkbox>
+                    <el-checkbox v-model="columnForm.isNeedAll" :indeterminate="isIndeterminate"  @change="handleCheckAllChange">{{$i18nMy.t('参与分析')}}</el-checkbox>
                 </template>
                 <template slot-scope="scope">
                      <el-checkbox v-model="scope.row.isNeed" @change="handleCheckedNeedChange"></el-checkbox>

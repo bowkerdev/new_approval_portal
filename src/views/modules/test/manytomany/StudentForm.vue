@@ -9,25 +9,25 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item :label="$i18n.t('姓名')" prop="name"
+            <el-form-item :label="{{$i18nMy.t('姓名')" prop="name"
                 :rules="[
                   {required: true, message:'姓名不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.name" :placeholder="$i18n.t('请填写姓名')"     ></el-input>
+              <el-input v-model="inputForm.name" :placeholder="{{$i18nMy.t('请填写姓名')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="$i18n.t('备注信息')" prop="remarks"
+            <el-form-item :label="{{$i18nMy.t('备注信息')" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18n.t('请填写备注信息')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="{{$i18nMy.t('请填写备注信息')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18n.t('关闭')}}</el-button>
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18n.t('确定')}}</el-button>
+      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </div>

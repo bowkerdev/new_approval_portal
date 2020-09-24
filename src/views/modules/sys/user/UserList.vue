@@ -13,7 +13,7 @@
         {{selectOfficeName}}
       </el-tag>
       <el-input
-        :placeholder="$i18n.t('输入关键字进行过滤')"
+        :placeholder="{{$i18nMy.t('输入关键字进行过滤')"
         size="small"
         v-model="filterText">
       </el-input>
@@ -38,19 +38,19 @@
      <el-card  shadow="never" :body-style="contentViewHeight">
      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="loginName">
-          <el-input size="small" v-model="searchForm.loginName" :placeholder="$i18n.t('登录名')" clearable></el-input>
+          <el-input size="small" v-model="searchForm.loginName" :placeholder="{{$i18nMy.t('登录名')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="name">
-           <el-input size="small" v-model="searchForm.name" :placeholder="$i18n.t('姓名')" clearable></el-input>
+           <el-input size="small" v-model="searchForm.name" :placeholder="{{$i18nMy.t('姓名')" clearable></el-input>
         </el-form-item>
       <el-form-item>
-        <el-button  type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
-        <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
+        <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
+        <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
       </el-form-item>
       </el-form>
       <el-form :inline="true" v-show="isImportCollapse" ref="importForm">
         <el-form-item>
-          <el-button  type="default" @click="downloadTpl()" size="small">{{$i18n.t('下载模板')}}</el-button>
+          <el-button  type="default" @click="downloadTpl()" size="small">{{$i18nMy.t('下载模板')}}</el-button>
         </el-form-item>
          <el-form-item prop="loginName">
             <el-upload
@@ -59,17 +59,17 @@
               :on-success="handleSuccess"
               :before-upload="beforeUpload"
                :show-file-list="true">
-              <el-button size="small" type="primary">{{$i18n.t('点击上传')}}</el-button>
+              <el-button size="small" type="primary">{{$i18nMy.t('点击上传')}}</el-button>
               <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
             </el-upload>
         </el-form-item>
       </el-form>
       <el-row>
-        <el-button v-if="hasPermission('sys:user:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18n.t('新建')}}</el-button>
+        <el-button v-if="hasPermission('sys:user:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('sys:user:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1" plain>{{$i18n.t('修改')}}</el-button>
+         :disabled="dataListSelections.length != 1" plain>{{$i18nMy.t('修改')}}</el-button>
         <el-button v-if="hasPermission('sys:user:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>{{$i18n.t('删除')}}</el-button>
+                  :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
          <el-button-group class="pull-right">
             <el-tooltip class="item" effect="dark" content="搜索" placement="top">
               <el-button
@@ -113,7 +113,7 @@
         header-align="center"
         align="center"
          min-width="80"
-        :label="$i18n.t('头像')">
+        :label="{{$i18nMy.t('头像')">
         <template slot-scope="scope">
           <img :src="scope.row.photo === ''?'/static/img/avatar.png':scope.row.photo" style="height:50px"/>
         </template>
@@ -123,7 +123,7 @@
         sortable="custom"
         min-width="100"
         show-overflow-tooltip
-        :label="$i18n.t('登录名')">
+        :label="{{$i18nMy.t('登录名')">
         <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('sys:user:edit')" @click="edit(scope.row.id)">{{scope.row.loginName}}</el-link>
           <el-link  type="primary" :underline="false" v-else-if="hasPermission('sys:user:view')"  @click="view(scope.row.id)">{{scope.row.loginName}}</el-link>
@@ -135,35 +135,35 @@
         sortable="custom"
         min-width="100"
         show-overflow-tooltip
-        :label="$i18n.t('用户名')">
+        :label="{{$i18nMy.t('用户名')">
       </el-table-column>
       <el-table-column
         prop="company.name"
         sortable="custom"
         min-width="120"
         show-overflow-tooltip
-        :label="$i18n.t('公司')">
+        :label="{{$i18nMy.t('公司')">
       </el-table-column>
       <el-table-column
         prop="office.name"
         sortable="custom"
          min-width="120"
          show-overflow-tooltip
-        :label="$i18n.t('部门')">
+        :label="{{$i18nMy.t('部门')">
       </el-table-column>
       <el-table-column
         prop="post.name"
         sortable="custom"
         show-overflow-tooltip
         min-width="80"
-        :label="$i18n.t('岗位')">
+        :label="{{$i18nMy.t('岗位')">
       </el-table-column>
       <el-table-column
         prop="loginFlag"
-        :label="$i18n.t('状态')">
+        :label="{{$i18nMy.t('状态')">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.loginFlag === '1'" size="small" type="success">{{$i18n.t('正常')}}</el-tag>
-          <el-tag v-else-if="scope.row.loginFlag === '0'" size="small" type="danger">{{$i18n.t('禁用')}}</el-tag>
+          <el-tag v-if="scope.row.loginFlag === '1'" size="small" type="success">{{$i18nMy.t('正常')}}</el-tag>
+          <el-tag v-else-if="scope.row.loginFlag === '0'" size="small" type="danger">{{$i18nMy.t('禁用')}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -171,11 +171,11 @@
         header-align="center"
         align="center"
         width="200"
-        :label="$i18n.t('操作')">
+        :label="{{$i18nMy.t('操作')">
         <template slot-scope="scope">
-          <el-button v-if="hasPermission('sys:user:view')" type="text" size="small" icon="el-icon-view" @click="view(scope.row.id)">{{$i18n.t('查看')}}</el-button>
-          <el-button v-if="hasPermission('sys:user:edit')" type="text" size="small" icon="el-icon-edit" @click="edit(scope.row.id)">{{$i18n.t('修改')}}</el-button>
-          <el-button v-if="hasPermission('sys:user:del')" type="text" size="small" icon="el-icon-delete" @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
+          <el-button v-if="hasPermission('sys:user:view')" type="text" size="small" icon="el-icon-view" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
+          <el-button v-if="hasPermission('sys:user:edit')" type="text" size="small" icon="el-icon-edit" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('sys:user:del')" type="text" size="small" icon="el-icon-delete" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
         </template>
       </el-table-column>
     </el-table>

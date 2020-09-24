@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-button v-if="hasPermission('sys:area:add')" type="primary" icon="el-icon-plus" size="small" @click="add()">{{$i18n.t('新增')}}</el-button>
+      <el-button v-if="hasPermission('sys:area:add')" type="primary" icon="el-icon-plus" size="small" @click="add()">{{$i18nMy.t('新增')}}</el-button>
     </el-row>
     <el-treetable
       :data="dataList"
@@ -18,7 +18,7 @@
         align="left"
         header-align="center"
         show-overflow-tooltip
-        :label="$i18n.t('区域名称')">
+        :label="{{$i18nMy.t('区域名称')">
         <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('sys:area:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
           <el-link  type="primary" :underline="false" v-else-if="hasPermission('sys:area:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
@@ -27,34 +27,34 @@
       </el-treetable-column>
       <el-treetable-column
         prop="code"
-        :label="$i18n.t('区域编码')">
+        :label="{{$i18nMy.t('区域编码')">
       </el-treetable-column>
       <el-treetable-column
         prop="type"
-        :label="$i18n.t('区域类型')">
+        :label="{{$i18nMy.t('区域类型')">
         <template slot-scope="scope">
           {{$dictUtils.getDictLabel("sys_area_type", scope.row.type)}}
         </template>
       </el-treetable-column>
       <el-treetable-column
         prop="sort"
-        :label="$i18n.t('排序号')">
+        :label="{{$i18nMy.t('排序号')">
       </el-treetable-column>
       <el-treetable-column
         prop="remarks"
-        :label="$i18n.t('备注')">
+        :label="{{$i18nMy.t('备注')">
       </el-treetable-column>
       <el-treetable-column
         fixed="right"
         header-align="center"
         align="center"
         width="300"
-        :label="$i18n.t('操作')">
+        :label="{{$i18nMy.t('操作')">
         <template slot-scope="scope">
-          <el-button v-if="hasPermission('sys:area:view')" type="text" size="small"  icon="el-icon-view" @click="view(scope.row.id)">{{$i18n.t('查看')}}</el-button>
-          <el-button v-if="hasPermission('sys:area:edit')" type="text" size="small" icon="el-icon-edit" @click="edit(scope.row.id)">{{$i18n.t('修改')}}</el-button>
-          <el-button v-if="hasPermission('sys:area:del')" type="text" size="small" icon="el-icon-delete" @click="del(scope.row.id)">{{$i18n.t('删除')}}</el-button>
-          <el-button v-if="hasPermission('sys:area:add')" type="text" size="small" icon="el-icon-circle-plus-outline" @click="addChild(scope.row.id, scope.row.name)">{{$i18n.t('添加下级区域')}}</el-button>
+          <el-button v-if="hasPermission('sys:area:view')" type="text" size="small"  icon="el-icon-view" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
+          <el-button v-if="hasPermission('sys:area:edit')" type="text" size="small" icon="el-icon-edit" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('sys:area:del')" type="text" size="small" icon="el-icon-delete" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
+          <el-button v-if="hasPermission('sys:area:add')" type="text" size="small" icon="el-icon-circle-plus-outline" @click="addChild(scope.row.id, scope.row.name)">{{$i18nMy.t('添加下级区域')}}</el-button>
         </template>
       </el-treetable-column>
     </el-treetable>

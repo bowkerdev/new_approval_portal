@@ -14,7 +14,7 @@
       </el-tag>
      
       <el-input
-        :placeholder="$i18n.t('输入关键字进行过滤')"
+        :placeholder="{{$i18nMy.t('输入关键字进行过滤')"
         size="small"
         v-model="filterText">
       </el-input>
@@ -38,11 +38,11 @@
      <el-card  shadow="never" :body-style="contentViewHeight">
      <el-form :inline="true"  ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="name">
-           <el-input size="small" v-model="searchForm.name" :placeholder="$i18n.t('表名')" clearable></el-input>
+           <el-input size="small" v-model="searchForm.name" :placeholder="{{$i18nMy.t('表名')" clearable></el-input>
         </el-form-item>
       <el-form-item>
-        <el-button  type="primary" @click="refreshList()" size="small">{{$i18n.t('查询')}}</el-button>
-        <el-button @click="resetSearch()" size="small">{{$i18n.t('重置')}}</el-button>
+        <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
+        <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
       </el-form-item>
       </el-form>
     <el-table
@@ -63,7 +63,7 @@
         prop="name"
         sortable
         show-overflow-tooltip
-        :label="$i18n.t('表名')">
+        :label="{{$i18nMy.t('表名')">
          <template slot-scope="scope">
           <el-link type="primary" :underline="false" @click="view(scope.row)">{{scope.row.name}}</el-link>
         </template>
@@ -72,27 +72,27 @@
         prop="schema"
         sortable
         show-overflow-tooltip
-        :label="$i18n.t('模式')">
+        :label="{{$i18nMy.t('模式')">
       </el-table-column>
        <el-table-column
         prop="catalog"
         sortable
         show-overflow-tooltip
-        :label="$i18n.t('数据库')">
+        :label="{{$i18nMy.t('数据库')">
       </el-table-column>
       <el-table-column
         prop="Description"
         sortable
         show-overflow-tooltip
-        :label="$i18n.t('说明')">
+        :label="{{$i18nMy.t('说明')">
       </el-table-column>
       <el-table-column 
       align="center"
-      :label="$i18n.t('操作')">
+      :label="{{$i18nMy.t('操作')">
         <template slot-scope="scope">
           <el-button
             icon="el-icon-view" type="text" size="small"
-            @click="view(scope.row)">{{$i18n.t('查看数据')}}</el-button>
+            @click="view(scope.row)">{{$i18nMy.t('查看数据')}}</el-button>
         </template>
     </el-table-column>
     </el-table>

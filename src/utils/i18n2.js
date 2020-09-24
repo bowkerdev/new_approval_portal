@@ -36,17 +36,16 @@ i18nMy.t = function t(key) {
       data
     }) => {}).catch((e) => {})
   }
-
-  switch (Vue.config.lang){
-    case 'en-US':window.$i18nMy.langData[key]=languageData[key].en; break;
-    case 'zh-CN':window.$i18nMy.langData[key]=languageData[key].cn; break;
-    case 'zh-TW':window.$i18nMy.langData[key]=languageData[key].hk; break;
-    case 'vn':window.$i18nMy.langData[key]=languageData[key].vn; break;
-    case 'cam':window.$i18nMy.langData[key]=languageData[key].cam; break;
-    default: break;
+  if(languageData[key] !=null){
+    switch (Vue.config.lang){
+      case 'en-US':window.$i18nMy.langData[key]=languageData[key].en; break;
+      case 'zh-CN':window.$i18nMy.langData[key]=languageData[key].cn; break;
+      case 'zh-TW':window.$i18nMy.langData[key]=languageData[key].hk; break;
+      case 'vn':window.$i18nMy.langData[key]=languageData[key].vn; break;
+      case 'cam':window.$i18nMy.langData[key]=languageData[key].cam; break;
+      default: break;
+    }
   }
-
-  console.log("国际化4" + key + (new Date().getTime() - t))
   return window.$i18nMy.langData[key]||key
 
 };

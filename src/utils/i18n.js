@@ -7,7 +7,7 @@ import vnLocale from 'element-ui/lib/locale/lang/vi'
 import camLocale from 'element-ui/lib/locale/lang/th' // 可能是泰语
 
 Vue.config.lang = localStorage.getItem('lang') || 'en-US'
-Vue.config.lang = 'en-US'
+// Vue.config.lang = 'en-US'
 var langList = [{
     lang: 'zh-CN',
     src: "/static/images/china.png",

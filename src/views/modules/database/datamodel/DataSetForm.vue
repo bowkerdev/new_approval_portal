@@ -12,7 +12,7 @@
         </el-col>
         <el-col :span="12">
           <el-form  :model="inputForm" ref="inputForm" v-loading="loading" label-width="150px">
-                        <el-form-item :label="{{$i18nMy.t('目标数据库')" prop="db.id"
+                        <el-form-item :label="$i18nMy.t('目标数据库')" prop="db.id"
                             :rules="[
                               {required: true, message:'目标数据库不能为空', trigger:'blur'}
                             ]">
@@ -30,11 +30,11 @@
                             :accordion="true"
                             @getValue="(value) => {inputForm.db.id=value}"/>
                       </el-form-item>
-                        <el-form-item :label="{{$i18nMy.t('数据源名称')" prop="name"
+                        <el-form-item :label="$i18nMy.t('数据源名称')" prop="name"
                             :rules="[
                               {required: true, message:'数据源名称不能为空', trigger:'blur'}
                             ]">
-                          <el-input v-model="inputForm.name" :placeholder="{{$i18nMy.t('请填写数据源名称')"     ></el-input>
+                          <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写数据源名称')"     ></el-input>
                       </el-form-item>
                         <el-form-item label="sql语句" prop="sqlcmd"
                             :rules="[
@@ -54,21 +54,21 @@
             </el-table-column>
             <el-table-column
               prop="field"
-              :label="{{$i18nMy.t('参数名')">
+              :label="$i18nMy.t('参数名')">
                <template slot-scope="scope">
-                <el-input v-model="scope.row.field" :placeholder="{{$i18nMy.t('请输入内容')"></el-input>
+                <el-input v-model="scope.row.field" :placeholder="$i18nMy.t('请输入内容')"></el-input>
               </template>
             </el-table-column>
             <el-table-column
               prop="defaultValue"
-              :label="{{$i18nMy.t('默认值')">
+              :label="$i18nMy.t('默认值')">
                <template slot-scope="scope">
-                <el-input v-model="scope.row.defaultValue" :placeholder="{{$i18nMy.t('请输入内容')"></el-input>
+                <el-input v-model="scope.row.defaultValue" :placeholder="$i18nMy.t('请输入内容')"></el-input>
               </template>
             </el-table-column>
             <el-table-column
               fixed="right"
-              :label="{{$i18nMy.t('操作')">
+              :label="$i18nMy.t('操作')">
               <template slot-scope="scope">
                 <el-button
                   @click.native.prevent="deleteRow(scope.$index, paramForm.tableData)"
@@ -93,17 +93,17 @@
             style="width: 100%">
             <el-table-column
               prop="name"
-              :label="{{$i18nMy.t('字段名')"
+              :label="$i18nMy.t('字段名')"
               >
             </el-table-column>
             <el-table-column
               prop="type"
-              :label="{{$i18nMy.t('类型')"
+              :label="$i18nMy.t('类型')"
               >
             </el-table-column>
             <el-table-column
               prop="label"
-              :label="{{$i18nMy.t('标签')">
+              :label="$i18nMy.t('标签')">
               <template slot-scope="scope">
                 <el-input v-model="scope.row.label"></el-input>
               </template>

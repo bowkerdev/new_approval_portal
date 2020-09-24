@@ -10,11 +10,11 @@
              label-width="120px" @submit.native.prevent>
       <el-row  :gutter="15">
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('类型')" prop="type"
+            <el-form-item :label="$i18nMy.t('类型')" prop="type"
                 :rules="[
                   {required: true, message:'类型不能为空', trigger:'blur'}
                  ]">
-		            <el-select v-model="inputForm.type" :placeholder="{{$i18nMy.t('请选择')"  style="width: 100%;">
+		            <el-select v-model="inputForm.type" :placeholder="$i18nMy.t('请选择')"  style="width: 100%;">
                           <el-option
                             v-for="item in $dictUtils.getDictList('oa_notify_type')"
                             :key="item.value"
@@ -25,23 +25,23 @@
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('标题')" prop="title"
+            <el-form-item :label="$i18nMy.t('标题')" prop="title"
                 :rules="[
                   {required: true, message:'标题不能为空', trigger:'blur'}
                  ]">
-			        <el-input v-model="inputForm.title" :placeholder="{{$i18nMy.t('请填写标题')"     ></el-input>
+			        <el-input v-model="inputForm.title" :placeholder="$i18nMy.t('请填写标题')"     ></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('内容')" prop="content"
+            <el-form-item :label="$i18nMy.t('内容')" prop="content"
                 :rules="[
                   {required: true, message:'内容不能为空', trigger:'blur'}
                  ]">
-					<el-input type="textarea"   :rows="8" v-model="inputForm.content" :placeholder="{{$i18nMy.t('请填写内容')"     ></el-input>
+					<el-input type="textarea"   :rows="8" v-model="inputForm.content" :placeholder="$i18nMy.t('请填写内容')"     ></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('附件')" prop="files">
+            <el-form-item :label="$i18nMy.t('附件')" prop="files">
 			        <el-upload ref="files"
                     :action="`${this.$http.BASE_URL}/sys/file/webupload/upload?uploadPath=/notify/oaNotify`"
                     :headers="{token: $cookie.get('token')}"
@@ -70,7 +70,7 @@
 	         </el-form-item>
         </el-col>
         <el-col :span="24"  v-if="method !== 'read'">
-            <el-form-item :label="{{$i18nMy.t('状态')" prop="status"
+            <el-form-item :label="$i18nMy.t('状态')" prop="status"
                 :rules="[
                   {required: true, message:'状态不能为空', trigger:'blur'}
                  ]">
@@ -80,7 +80,7 @@
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-           <el-form-item :label="{{$i18nMy.t('接收人')" prop="oaNotifyRecordIds"
+           <el-form-item :label="$i18nMy.t('接收人')" prop="oaNotifyRecordIds"
                 :rules="[
                   {required: true, message:'接收人不能为空', trigger:'blur'}
                  ]">
@@ -88,24 +88,24 @@
            </el-form-item>
         </el-col>
       <el-col :span="24" v-if="method ==='view' && inputForm.status === '1'">
-           <el-form-item :label="{{$i18nMy.t('接收人')">
+           <el-form-item :label="$i18nMy.t('接收人')">
               <el-table
                 size="medium"
                 :data="oaNotifyRecordList"
                 style="width: 100%">
                 <el-table-column
                   prop="user.name"
-                  :label="{{$i18nMy.t('接收人')"
+                  :label="$i18nMy.t('接收人')"
                   width="180">
                 </el-table-column>
                 <el-table-column
                   prop="user.office.name"
-                  :label="{{$i18nMy.t('接收部门')"
+                  :label="$i18nMy.t('接收部门')"
                   width="180">
                 </el-table-column>
                 <el-table-column
                   prop="readFlag"
-                  :label="{{$i18nMy.t('阅读状态')">
+                  :label="$i18nMy.t('阅读状态')">
                   <template slot-scope="scope">
                     <el-tag type="success" v-if="scope.row.readFlag === '1'"> {{ $dictUtils.getDictLabel("oa_notify_read", scope.row.readFlag, '-') }}</el-tag>
                     <el-tag type="danger" v-if="scope.row.readFlag === '0'"> {{ $dictUtils.getDictLabel("oa_notify_read", scope.row.readFlag, '-') }}</el-tag>
@@ -113,7 +113,7 @@
                 </el-table-column>
                 <el-table-column
                   prop="readDate"
-                  :label="{{$i18nMy.t('阅读时间')"
+                  :label="$i18nMy.t('阅读时间')"
                   width="180">
                 </el-table-column>
               </el-table>

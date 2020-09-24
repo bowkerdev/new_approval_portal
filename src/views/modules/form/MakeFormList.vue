@@ -2,7 +2,7 @@
   <div>
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="name">
-                <el-input size="small" v-model="searchForm.name" :placeholder="{{$i18nMy.t('表单名称')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('表单名称')" clearable></el-input>
 		     </el-form-item>
             <!-- 搜索框-->
           <el-form-item>
@@ -55,7 +55,7 @@
         prop="name"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('表单名称')">
+        :label="$i18nMy.t('表单名称')">
           <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('form:make:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
           <el-link  type="primary" :underline="false" v-else-if="hasPermission('form:make:view')"  @click="preview(scope.row.id)">{{scope.row.name}}</el-link>
@@ -66,7 +66,7 @@
         prop="tableName"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('表名')">
+        :label="$i18nMy.t('表名')">
       </el-table-column>
 	  <el-table-column
         prop="code"
@@ -78,13 +78,13 @@
         prop="dataSource.name"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('所属数据库')">
+        :label="$i18nMy.t('所属数据库')">
       </el-table-column>
 	  <el-table-column
         prop="version"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('版本号')">
+        :label="$i18nMy.t('版本号')">
         <template slot-scope="scope">
             {{'V ' + scope.row.version + '.0'}}
         </template>
@@ -94,7 +94,7 @@
         align="center"
         fixed="right"
         width="300"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('form:make:edit')" type="text" icon="el-icon-edit" size="mini" @click="design(scope.row.id)">{{$i18nMy.t('设计')}}</el-button>
           <el-button v-if="hasPermission('form:make:del')" type="text" size="mini" icon="el-icon-delete"  @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>

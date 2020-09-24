@@ -13,16 +13,16 @@
     </el-table-column>
     <el-table-column
       prop="name"
-      :label="{{$i18nMy.t('报表名')">
+      :label="$i18nMy.t('报表名')">
     </el-table-column>
     <el-table-column
       prop="updateDate"
-      :label="{{$i18nMy.t('更新日期')">
+      :label="$i18nMy.t('更新日期')">
       <template slot-scope="scope">
          {{moment(scope.row.updateDate).format('YYYY-MM-DD HH:mm:ss')}}
       </template>
     </el-table-column>
-    <el-table-column :label="{{$i18nMy.t('操作')">
+    <el-table-column :label="$i18nMy.t('操作')">
       <template slot-scope="scope">
          <el-button
           size="mini"

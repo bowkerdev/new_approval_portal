@@ -19,15 +19,15 @@
           </el-table-column>
           <el-table-column
             prop="vars.title"
-            :label="{{$i18nMy.t('标题')">
+            :label="$i18nMy.t('标题')">
           </el-table-column>
           <el-table-column
             prop="processDefinitionName"
-            :label="{{$i18nMy.t('流程名称')">
+            :label="$i18nMy.t('流程名称')">
           </el-table-column>
            <el-table-column
             prop="status"
-            :label="{{$i18nMy.t('状态')">
+            :label="$i18nMy.t('状态')">
             <template slot-scope="scope">
               <el-tag v-if="scope.row.code === 0 
                || scope.row.code === 3
@@ -39,14 +39,14 @@
           </el-table-column>
            <el-table-column
             prop="vars.userName"
-            :label="{{$i18nMy.t('流程发起人')">
+            :label="$i18nMy.t('流程发起人')">
           </el-table-column>        
          <el-table-column
             fixed="right"
             header-align="center"
             align="center"
             width="150"
-            :label="{{$i18nMy.t('操作')">
+            :label="$i18nMy.t('操作')">
             <template slot-scope="scope">
               <el-button  type="text" size="small"
                         @click="detail(scope.row)">{{$i18nMy.t('详情')}}</el-button>

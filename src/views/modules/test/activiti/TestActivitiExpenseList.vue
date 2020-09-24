@@ -75,7 +75,7 @@
         align="center"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('员工姓名')">
+        :label="$i18nMy.t('员工姓名')">
       </el-table-column>
     <el-table-column
         prop="updateDate"
@@ -83,7 +83,7 @@
         align="center"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('更新时间')">
+        :label="$i18nMy.t('更新时间')">
       </el-table-column>
     <el-table-column
         prop="remarks"
@@ -91,13 +91,13 @@
         align="center"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('备注信息')">
+        :label="$i18nMy.t('备注信息')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         width="400"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('test:activiti:testActivitiExpense:view')" type="text" icon="el-icon-view" size="mini" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
           <el-button v-if="hasPermission('test:activiti:testActivitiExpense:edit')" type="text" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

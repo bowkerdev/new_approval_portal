@@ -3,7 +3,7 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
 		     <el-form-item prop="name">
-                <el-input size="small" v-model="searchForm.name" :placeholder="{{$i18nMy.t('名称')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('名称')" clearable></el-input>
 		     </el-form-item>
 		     <el-form-item prop="listenerType">
                   <el-radio-group v-model="searchForm.listenerType">
@@ -59,7 +59,7 @@
         sortable="custom"
          width="150"
          show-overflow-tooltip
-        :label="{{$i18nMy.t('名称')">
+        :label="$i18nMy.t('名称')">
         <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('extension:listener:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
           <el-link  type="primary" :underline="false" v-else-if="hasPermission('extension:listener:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
@@ -70,7 +70,7 @@
         prop="listenerType"
         width="150"
         sortable="custom"
-        :label="{{$i18nMy.t('监听器类型')">
+        :label="$i18nMy.t('监听器类型')">
         <template slot-scope="scope">
             {{ scope.row.listenerType === '1'?'执行监听器':'任务监听器'}}
         </template>
@@ -79,13 +79,13 @@
         prop="event"
         sortable="custom"
          width="150"
-        :label="{{$i18nMy.t('事件')">
+        :label="$i18nMy.t('事件')">
       </el-table-column>
 	  <el-table-column
         prop="valueType"
         sortable="custom"
          width="150"
-        :label="{{$i18nMy.t('值类型')">
+        :label="$i18nMy.t('值类型')">
         <template slot-scope="scope">
             {{ {'1':'类', '2':'表达式', '3':'委托表达式'}[scope.row.valueType]}}
         </template>
@@ -94,13 +94,13 @@
         prop="value"
         sortable="custom"
         show-overflow-tooltip
-        :label="{{$i18nMy.t('值')">
+        :label="$i18nMy.t('值')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         width="200"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('extension:listener:view')" type="text" icon="el-icon-view" size="mini" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
           <el-button v-if="hasPermission('extension:listener:edit')" type="text" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

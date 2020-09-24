@@ -9,26 +9,26 @@
              label-width="120px" @submit.native.prevent>
       <el-row  :gutter="15">
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('名称')" prop="name"
+            <el-form-item :label="$i18nMy.t('名称')" prop="name"
                 :rules="[
                   {required: true, message:'名称不能为空', trigger:'blur'}
                  ]">
-			        <el-input v-model="inputForm.name" :placeholder="{{$i18nMy.t('请填写名称')"     ></el-input>
+			        <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写名称')"     ></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('表达式')" prop="expression"
+            <el-form-item :label="$i18nMy.t('表达式')" prop="expression"
                 :rules="[
                   {required: true, message:'表达式不能为空', trigger:'blur'}
                  ]">
-			        <el-input v-model="inputForm.expression" :placeholder="{{$i18nMy.t('请填写表达式')"     ></el-input>
+			        <el-input v-model="inputForm.expression" :placeholder="$i18nMy.t('请填写表达式')"     ></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('备注')" prop="remarks"
+            <el-form-item :label="$i18nMy.t('备注')" prop="remarks"
                 :rules="[
                  ]">
-					<el-input type="textarea" v-model="inputForm.remarks" :placeholder="{{$i18nMy.t('请填写备注')"     ></el-input>
+					<el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写备注')"     ></el-input>
 	         </el-form-item>
         </el-col>
         </el-row>

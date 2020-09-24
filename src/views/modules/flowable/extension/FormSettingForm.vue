@@ -23,7 +23,7 @@
 	         </el-form-item>
         </el-col>
         <el-col :span="16">
-            <el-form-item :label="{{$i18nMy.t('只读设置')" prop="formReadOnly"
+            <el-form-item :label="$i18nMy.t('只读设置')" prop="formReadOnly"
                 :rules="[
                  ]">
 		            <el-checkbox-group

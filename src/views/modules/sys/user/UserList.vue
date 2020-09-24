@@ -13,7 +13,7 @@
         {{selectOfficeName}}
       </el-tag>
       <el-input
-        :placeholder="{{$i18nMy.t('输入关键字进行过滤')"
+        :placeholder="$i18nMy.t('输入关键字进行过滤')"
         size="small"
         v-model="filterText">
       </el-input>
@@ -38,10 +38,10 @@
      <el-card  shadow="never" :body-style="contentViewHeight">
      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="loginName">
-          <el-input size="small" v-model="searchForm.loginName" :placeholder="{{$i18nMy.t('登录名')" clearable></el-input>
+          <el-input size="small" v-model="searchForm.loginName" :placeholder="$i18nMy.t('登录名')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="name">
-           <el-input size="small" v-model="searchForm.name" :placeholder="{{$i18nMy.t('姓名')" clearable></el-input>
+           <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('姓名')" clearable></el-input>
         </el-form-item>
       <el-form-item>
         <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
@@ -113,7 +113,7 @@
         header-align="center"
         align="center"
          min-width="80"
-        :label="{{$i18nMy.t('头像')">
+        :label="$i18nMy.t('头像')">
         <template slot-scope="scope">
           <img :src="scope.row.photo === ''?'/static/img/avatar.png':scope.row.photo" style="height:50px"/>
         </template>
@@ -123,7 +123,7 @@
         sortable="custom"
         min-width="100"
         show-overflow-tooltip
-        :label="{{$i18nMy.t('登录名')">
+        :label="$i18nMy.t('登录名')">
         <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('sys:user:edit')" @click="edit(scope.row.id)">{{scope.row.loginName}}</el-link>
           <el-link  type="primary" :underline="false" v-else-if="hasPermission('sys:user:view')"  @click="view(scope.row.id)">{{scope.row.loginName}}</el-link>
@@ -135,32 +135,32 @@
         sortable="custom"
         min-width="100"
         show-overflow-tooltip
-        :label="{{$i18nMy.t('用户名')">
+        :label="$i18nMy.t('用户名')">
       </el-table-column>
       <el-table-column
         prop="company.name"
         sortable="custom"
         min-width="120"
         show-overflow-tooltip
-        :label="{{$i18nMy.t('公司')">
+        :label="$i18nMy.t('公司')">
       </el-table-column>
       <el-table-column
         prop="office.name"
         sortable="custom"
          min-width="120"
          show-overflow-tooltip
-        :label="{{$i18nMy.t('部门')">
+        :label="$i18nMy.t('部门')">
       </el-table-column>
       <el-table-column
         prop="post.name"
         sortable="custom"
         show-overflow-tooltip
         min-width="80"
-        :label="{{$i18nMy.t('岗位')">
+        :label="$i18nMy.t('岗位')">
       </el-table-column>
       <el-table-column
         prop="loginFlag"
-        :label="{{$i18nMy.t('状态')">
+        :label="$i18nMy.t('状态')">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.loginFlag === '1'" size="small" type="success">{{$i18nMy.t('正常')}}</el-tag>
           <el-tag v-else-if="scope.row.loginFlag === '0'" size="small" type="danger">{{$i18nMy.t('禁用')}}</el-tag>
@@ -171,7 +171,7 @@
         header-align="center"
         align="center"
         width="200"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template slot-scope="scope">
           <el-button v-if="hasPermission('sys:user:view')" type="text" size="small" icon="el-icon-view" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
           <el-button v-if="hasPermission('sys:user:edit')" type="text" size="small" icon="el-icon-edit" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

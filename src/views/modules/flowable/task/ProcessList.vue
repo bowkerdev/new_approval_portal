@@ -13,7 +13,7 @@
         {{selectCategoryName}}
       </el-tag>
       <el-input
-        :placeholder="{{$i18nMy.t('输入关键字进行过滤')"
+        :placeholder="$i18nMy.t('输入关键字进行过滤')"
         size="small"
         v-model="filterText">
       </el-input>
@@ -36,8 +36,8 @@
     <el-col :span="19">
       <el-card  shadow="never" :body-style="contentViewHeight">
       <el-form :inline="true"   class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-         <el-form-item :label="{{$i18nMy.t('流程名称')" prop="name">
-            <el-input v-model="searchForm.name" size="small" :placeholder="{{$i18nMy.t('请输入流程名称')"></el-input>
+         <el-form-item :label="$i18nMy.t('流程名称')" prop="name">
+            <el-input v-model="searchForm.name" size="small" :placeholder="$i18nMy.t('请输入流程名称')"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>

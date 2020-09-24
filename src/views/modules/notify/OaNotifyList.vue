@@ -3,7 +3,7 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
 		     <el-form-item prop="title">
-                <el-input size="small" v-model="searchForm.title" :placeholder="{{$i18nMy.t('标题')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.title" :placeholder="$i18nMy.t('标题')" clearable></el-input>
 		     </el-form-item>
           <el-form-item>
             <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
@@ -51,7 +51,7 @@
 	  <el-table-column
         prop="type"
         sortable="custom"
-        :label="{{$i18nMy.t('类型')">
+        :label="$i18nMy.t('类型')">
         <template slot-scope="scope">
             {{ $dictUtils.getDictLabel("oa_notify_type", scope.row.type, '-') }}
         </template>
@@ -59,7 +59,7 @@
 	  <el-table-column
         prop="title"
         sortable="custom"
-        :label="{{$i18nMy.t('标题')">
+        :label="$i18nMy.t('标题')">
         <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('notify:oaNotify:edit') && scope.row.status==='0'" @click="edit(scope.row.id)">{{scope.row.title}}</el-link>
           <el-link  type="primary" :underline="false" v-else-if="hasPermission('notify:oaNotify:view')"  @click="view(scope.row.id)">{{scope.row.title}}</el-link>
@@ -70,12 +70,12 @@
         prop="content"
         sortable="custom"
         show-overflow-tooltip
-        :label="{{$i18nMy.t('内容')">
+        :label="$i18nMy.t('内容')">
       </el-table-column>
 	  <el-table-column
         prop="files"
         sortable="custom"
-        :label="{{$i18nMy.t('附件')">
+        :label="$i18nMy.t('附件')">
         <template slot-scope="scope">
             <a :href="item" target="_blank" :key="index" v-for="(item, index) in (scope.row.files || '').split('|')">
                 {{decodeURIComponent(item.substring(item.lastIndexOf("/")+1))}}
@@ -85,7 +85,7 @@
 	  <el-table-column
         prop="status"
         sortable="custom"
-        :label="{{$i18nMy.t('状态')">
+        :label="$i18nMy.t('状态')">
         <template slot-scope="scope">
           <el-tag type="success" v-if="scope.row.status === '1'"> {{ $dictUtils.getDictLabel("oa_notify_status", scope.row.status, '-') }}</el-tag>
           <el-tag type="danger" v-if="scope.row.status === '0'"> {{ $dictUtils.getDictLabel("oa_notify_status", scope.row.status, '-') }}</el-tag>
@@ -94,18 +94,18 @@
         <el-table-column
         prop="status"
         sortable="custom"
-        :label="{{$i18nMy.t('查阅状态')">
+        :label="$i18nMy.t('查阅状态')">
         <template slot-scope="scope">
          <div> {{scope.row.readNum + "/" + scope.row.unReadNum}}</div>
         </template>
       </el-table-column>
        <el-table-column
         prop="createBy.name"
-        :label="{{$i18nMy.t('发布者')">
+        :label="$i18nMy.t('发布者')">
       </el-table-column>
       <el-table-column
         width="200"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('notify:oaNotify:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
           <el-button v-if="hasPermission('notify:oaNotify:edit') && scope.row.status==='0'" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

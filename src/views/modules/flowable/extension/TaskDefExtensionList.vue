@@ -62,7 +62,7 @@
       <el-table-column type="expand">
       <template slot-scope="scope">
       <el-tabs>
-            <el-tab-pane :label="{{$i18nMy.t('按钮设置')">
+            <el-tab-pane :label="$i18nMy.t('按钮设置')">
                   <el-table
                   border
                   :data="scope.row.flowButtonList"
@@ -71,31 +71,31 @@
                     prop="name"
                     header-align="center"
                     align="center"
-                    :label="{{$i18nMy.t('按钮名称')">
+                    :label="$i18nMy.t('按钮名称')">
                   </el-table-column>
                 <el-table-column
                     prop="code"
                     header-align="center"
                     align="center"
-                    :label="{{$i18nMy.t('编码')">
+                    :label="$i18nMy.t('编码')">
                   </el-table-column>
                 <el-table-column
                     prop="isHide"
                     header-align="center"
                     align="center"
-                    :label="{{$i18nMy.t('是否隐藏')">
+                    :label="$i18nMy.t('是否隐藏')">
                   </el-table-column>
                 <el-table-column
                     prop="next"
                     header-align="center"
                     align="center"
-                    :label="{{$i18nMy.t('下一节点审核人')">
+                    :label="$i18nMy.t('下一节点审核人')">
                   </el-table-column>
                 <el-table-column
                     prop="sort"
                     header-align="center"
                     align="center"
-                    :label="{{$i18nMy.t('排序')">
+                    :label="$i18nMy.t('排序')">
                   </el-table-column>
                 </el-table>
               </el-tab-pane>
@@ -120,7 +120,7 @@
         header-align="center"
         align="center"
         width="400"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('extension:taskDefExtension:view')" type="text" icon="el-icon-view" size="mini" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
           <el-button v-if="hasPermission('extension:taskDefExtension:edit')" type="text" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

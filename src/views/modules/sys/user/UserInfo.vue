@@ -1,21 +1,21 @@
 <template>
 <el-tabs tab-position="left">
-    <el-tab-pane :label="{{$i18nMy.t('基本信息')">
+    <el-tab-pane :label="$i18nMy.t('基本信息')">
       <h3 style="margin-left:40px">{{$i18nMy.t('基本信息')}}</h3>
       <el-form :model="generalForm" ref="generalForm" label-width="100px">
-        <el-form-item :label="{{$i18nMy.t('姓名')" :rules="[ { required: true, message: '必填项不能为空', trigger: 'blur' }]" prop="name">
+        <el-form-item :label="$i18nMy.t('姓名')" :rules="[ { required: true, message: '必填项不能为空', trigger: 'blur' }]" prop="name">
           <el-input v-model="generalForm.name"></el-input>
         </el-form-item>
-         <el-form-item :label="{{$i18nMy.t('签名')" prop="sign">
+         <el-form-item :label="$i18nMy.t('签名')" prop="sign">
           <el-input v-model="generalForm.sign"></el-input>
         </el-form-item>
-         <el-form-item :label="{{$i18nMy.t('公司')" prop="company.name">
+         <el-form-item :label="$i18nMy.t('公司')" prop="company.name">
           <el-input v-model="generalForm.company.name" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item :label="{{$i18nMy.t('部门')" prop="office.name">
+        <el-form-item :label="$i18nMy.t('部门')" prop="office.name">
           <el-input v-model="generalForm.office.name" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item :label="{{$i18nMy.t('备注')" prop="remarks">
+        <el-form-item :label="$i18nMy.t('备注')" prop="remarks">
           <el-input v-model="generalForm.remarks"></el-input>
         </el-form-item>
         <el-form-item>
@@ -23,16 +23,16 @@
         </el-form-item>
       </el-form>
     </el-tab-pane>
-    <el-tab-pane :label="{{$i18nMy.t('联系方式')">
+    <el-tab-pane :label="$i18nMy.t('联系方式')">
       <h3 style="margin-left:40px">{{$i18nMy.t('联系方式')}}</h3>
       <el-form :model="concatForm" ref="concatForm" label-width="100px">
-        <el-form-item :label="{{$i18nMy.t('邮箱')" :rules="[{type:'email', message:'请输入正确的邮箱地址', trigger:'blur'}]" prop="email">
+        <el-form-item :label="$i18nMy.t('邮箱')" :rules="[{type:'email', message:'请输入正确的邮箱地址', trigger:'blur'}]" prop="email">
           <el-input v-model="concatForm.email"></el-input>
         </el-form-item>
-         <el-form-item :label="{{$i18nMy.t('手机')" prop="mobile" :rules="[{validator:validator.isMobile, trigger:'blur'}]">
+         <el-form-item :label="$i18nMy.t('手机')" prop="mobile" :rules="[{validator:validator.isMobile, trigger:'blur'}]">
           <el-input v-model="concatForm.mobile"></el-input>
         </el-form-item>
-         <el-form-item :label="{{$i18nMy.t('电话')" prop="phone" :rules="[{validator:validator.isPhone, trigger:'blur'}]">
+         <el-form-item :label="$i18nMy.t('电话')" prop="phone" :rules="[{validator:validator.isPhone, trigger:'blur'}]">
           <el-input v-model="concatForm.phone"></el-input>
         </el-form-item>
         <el-form-item>
@@ -40,7 +40,7 @@
         </el-form-item>
       </el-form>
     </el-tab-pane>
-    <el-tab-pane :label="{{$i18nMy.t('我的头像')">
+    <el-tab-pane :label="$i18nMy.t('我的头像')">
       <h3 style="margin-left:40px">{{$i18nMy.t('我的头像')}}</h3>
       <el-upload
         class="avatar-uploader"
@@ -53,16 +53,16 @@
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
       </el-upload>
     </el-tab-pane>
-    <el-tab-pane :label="{{$i18nMy.t('修改密码')">
+    <el-tab-pane :label="$i18nMy.t('修改密码')">
       <h3 style="margin-left:40px">{{$i18nMy.t('修改密码')}}</h3>
       <el-form :model="pwdForm" ref="pwdForm" label-width="100px">
-        <el-form-item :label="{{$i18nMy.t('旧密码')" :rules="[ { required: true, message: '必填项不能为空', trigger: 'blur' }]" prop="oldPassword">
+        <el-form-item :label="$i18nMy.t('旧密码')" :rules="[ { required: true, message: '必填项不能为空', trigger: 'blur' }]" prop="oldPassword">
           <el-input v-model="pwdForm.oldPassword"></el-input>
         </el-form-item>
-         <el-form-item :label="{{$i18nMy.t('新密码')" :rules="[ { required: true, message: '必填项不能为空', trigger: 'blur' }]" prop="newPassword">
+         <el-form-item :label="$i18nMy.t('新密码')" :rules="[ { required: true, message: '必填项不能为空', trigger: 'blur' }]" prop="newPassword">
           <el-input v-model="pwdForm.newPassword"></el-input>
         </el-form-item>
-         <el-form-item :label="{{$i18nMy.t('确认新密码')" :rules="rule" prop="confirmNewPassword">
+         <el-form-item :label="$i18nMy.t('确认新密码')" :rules="rule" prop="confirmNewPassword">
           <el-input v-model="pwdForm.confirmNewPassword"></el-input>
         </el-form-item>
         <el-form-item>
@@ -70,7 +70,7 @@
         </el-form-item>
       </el-form>
     </el-tab-pane>
-    <el-tab-pane :label="{{$i18nMy.t('我的日志')">
+    <el-tab-pane :label="$i18nMy.t('我的日志')">
         <el-menu  default-active="1" mode="horizontal" @select="changeLog">
           <el-menu-item index="1">
             <i class="el-icon-setting"></i>
@@ -90,19 +90,19 @@
             prop="title"
             header-align="center"
             align="center"
-            :label="{{$i18nMy.t('操作菜单')"> 
+            :label="$i18nMy.t('操作菜单')"> 
           </el-table-column>
            <el-table-column
             prop="createBy.company.name"
             header-align="center"
             align="center"
-            :label="{{$i18nMy.t('公司')">
+            :label="$i18nMy.t('公司')">
           </el-table-column>
            <el-table-column
             prop="createBy.office.name"
             header-align="center"
             align="center"
-            :label="{{$i18nMy.t('部门')">
+            :label="$i18nMy.t('部门')">
           </el-table-column>
           <el-table-column
             prop="requestUri"
@@ -118,7 +118,7 @@
             align="center"
             width="150"
             :show-overflow-tooltip="true"
-            :label="{{$i18nMy.t('提交方式')">
+            :label="$i18nMy.t('提交方式')">
           </el-table-column>
            <el-table-column
             prop="remoteAddr"
@@ -134,7 +134,7 @@
             align="center"
             width="150"
             :show-overflow-tooltip="true"
-            :label="{{$i18nMy.t('操作时间')">
+            :label="$i18nMy.t('操作时间')">
           </el-table-column> 
         </el-table>
        <el-pagination

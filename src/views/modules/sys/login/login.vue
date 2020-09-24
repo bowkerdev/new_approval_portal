@@ -23,12 +23,12 @@
             <el-form ref="inputForm" :model="inputForm" :rules="rules" class="login-form"  @keyup.enter.native="login()" @submit.native.prevent>
 
               <el-form-item  prop="username">
-                <el-input type="text" :placeholder="{{$i18nMy.t('请输入账号')" v-model="inputForm.username">
+                <el-input type="text" :placeholder="$i18nMy.t('请输入账号')" v-model="inputForm.username">
                    <i slot="prefix" class="el-input__icon el-icon-user-solid"></i>
                 </el-input>
               </el-form-item>
               <el-form-item prop="password">
-                <el-input type="password" :placeholder="{{$i18nMy.t('请输入密码')" v-model="inputForm.password">
+                <el-input type="password" :placeholder="$i18nMy.t('请输入密码')" v-model="inputForm.password">
                    <i slot="prefix" class="el-input__icon el-icon-female"></i>
                 </el-input>
               </el-form-item>

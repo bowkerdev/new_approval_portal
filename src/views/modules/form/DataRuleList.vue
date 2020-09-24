@@ -24,27 +24,27 @@
         header-align="center"
         align="center"
         width="120px"
-        :label="{{$i18nMy.t('数据规则名称')">
+        :label="$i18nMy.t('数据规则名称')">
       </el-table-column>
       <el-table-column
         prop="className"
         header-align="center"
         align="center"
-        :label="{{$i18nMy.t('表名')">
+        :label="$i18nMy.t('表名')">
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="field"
         header-align="center"
         align="center"
-        :label="{{$i18nMy.t('规则字段')">
+        :label="$i18nMy.t('规则字段')">
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="express"
         header-align="center"
         align="center"
-        :label="{{$i18nMy.t('规则条件')">
+        :label="$i18nMy.t('规则条件')">
         <template slot-scope="scope">
           {{$dictUtils.getDictLabel("t_express", scope.row.express, "")}}
         </template>
@@ -54,7 +54,7 @@
         prop="value"
         header-align="center"
         align="center"
-        :label="{{$i18nMy.t('规则值')">
+        :label="$i18nMy.t('规则值')">
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
@@ -69,14 +69,14 @@
         prop="remarks"
         header-align="center"
         align="center"
-        :label="{{$i18nMy.t('备注信息')">
+        :label="$i18nMy.t('备注信息')">
       </el-table-column>
       <el-table-column
         fixed="right"
         header-align="center"
         align="center"
         width="150"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template slot-scope="scope">
           <el-button  size="mini"
                     @click="edit(scope.row)">{{$i18nMy.t('修改')}}</el-button>

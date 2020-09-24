@@ -68,7 +68,7 @@
           </div>
     </el-form-item>
     <el-divider>{{$i18nMy.t('其它设置')}}</el-divider>
-    <el-form-item :label="{{$i18nMy.t('多页签模式')"  class="title-setting">
+    <el-form-item :label="$i18nMy.t('多页签模式')"  class="title-setting">
        <el-switch
           v-model="isTab">
         </el-switch>

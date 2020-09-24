@@ -3,7 +3,7 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="name">
-                <el-input size="small" v-model="searchForm.name" :placeholder="{{$i18nMy.t('商品名称')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('商品名称')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="category.id">
             <SelectTree
@@ -82,7 +82,7 @@
         prop="name"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('商品名称')">
+        :label="$i18nMy.t('商品名称')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('test:shop:goods:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('test:shop:goods:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
@@ -93,26 +93,26 @@
         prop="category.name"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('所属类型')">
+        :label="$i18nMy.t('所属类型')">
       </el-table-column>
     <el-table-column
         prop="price"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('价格')">
+        :label="$i18nMy.t('价格')">
       </el-table-column>
     <el-table-column
         prop="remarks"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('备注信息')">
+        :label="$i18nMy.t('备注信息')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         fixed="right"
         width="200"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('test:shop:goods:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
           <el-button v-if="hasPermission('test:shop:goods:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

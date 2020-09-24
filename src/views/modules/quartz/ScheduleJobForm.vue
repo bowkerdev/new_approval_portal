@@ -9,19 +9,19 @@
              label-width="120px" @submit.native.prevent>
       <el-row  :gutter="15">
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('任务名')" prop="name"
+            <el-form-item :label="$i18nMy.t('任务名')" prop="name"
                 :rules="[
                   {required: true, message:'任务名不能为空', trigger:'blur'}
                  ]">
-			        <el-input v-model="inputForm.name" :placeholder="{{$i18nMy.t('请填写任务名')"     ></el-input>
+			        <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写任务名')"     ></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('任务组')" prop="group"
+            <el-form-item :label="$i18nMy.t('任务组')" prop="group"
                 :rules="[
                   {required: true, message:'任务组不能为空', trigger:'blur'}
                  ]">
-		            <el-select v-model="inputForm.group" :placeholder="{{$i18nMy.t('请选择')"  style="width: 100%;">
+		            <el-select v-model="inputForm.group" :placeholder="$i18nMy.t('请选择')"  style="width: 100%;">
                           <el-option
                             v-for="item in $dictUtils.getDictList('schedule_task_group')"
                             :key="item.value"
@@ -32,19 +32,19 @@
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('定时规则')" prop="cronExpression"
+            <el-form-item :label="$i18nMy.t('定时规则')" prop="cronExpression"
                 :rules="[
                   {required: true, message:'定时规则不能为空', trigger:'blur'}
                  ]">
-			        <el-input v-model="inputForm.cronExpression" :placeholder="{{$i18nMy.t('请填写定时规则')" @focus="showTimeConfig('cronExpression','定时规则')"  ></el-input>
+			        <el-input v-model="inputForm.cronExpression" :placeholder="$i18nMy.t('请填写定时规则')" @focus="showTimeConfig('cronExpression','定时规则')"  ></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('启用状态')" prop="status"
+            <el-form-item :label="$i18nMy.t('启用状态')" prop="status"
                 :rules="[
                   {required: true, message:'启用状态不能为空', trigger:'blur'}
                  ]">
-		            <el-select v-model="inputForm.status" :placeholder="{{$i18nMy.t('请选择')"  style="width: 100%;">
+		            <el-select v-model="inputForm.status" :placeholder="$i18nMy.t('请选择')"  style="width: 100%;">
                           <el-option
                             v-for="item in $dictUtils.getDictList('yes_no')"
                             :key="item.value"
@@ -55,10 +55,10 @@
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('通知用户')" prop="isInfo"
+            <el-form-item :label="$i18nMy.t('通知用户')" prop="isInfo"
                 :rules="[
                  ]">
-		            <el-select v-model="inputForm.isInfo" :placeholder="{{$i18nMy.t('请选择')"  style="width: 100%;">
+		            <el-select v-model="inputForm.isInfo" :placeholder="$i18nMy.t('请选择')"  style="width: 100%;">
                           <el-option
                             v-for="item in $dictUtils.getDictList('schedule_task_info')"
                             :key="item.value"
@@ -69,19 +69,19 @@
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('任务类')" prop="className"
+            <el-form-item :label="$i18nMy.t('任务类')" prop="className"
                 :rules="[
                   {required: true, message:'任务类不能为空', trigger:'blur'},
                    { validator: validateClassName, trigger: 'blur' }
                  ]">
-			        <el-input v-model="inputForm.className" :placeholder="{{$i18nMy.t('请填写任务类')"     ></el-input>
+			        <el-input v-model="inputForm.className" :placeholder="$i18nMy.t('请填写任务类')"     ></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('描述')" prop="description"
+            <el-form-item :label="$i18nMy.t('描述')" prop="description"
                 :rules="[
                  ]">
-					<el-input type="textarea" v-model="inputForm.description" :placeholder="{{$i18nMy.t('请填写描述')"     ></el-input>
+					<el-input type="textarea" v-model="inputForm.description" :placeholder="$i18nMy.t('请填写描述')"     ></el-input>
 	         </el-form-item>
         </el-col>
         </el-row>

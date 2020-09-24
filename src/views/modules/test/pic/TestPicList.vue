@@ -64,7 +64,7 @@
         prop="title"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('标题')">
+        :label="$i18nMy.t('标题')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('test:pic:testPic:edit')" @click="edit(scope.row.id)">{{scope.row.title}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('test:pic:testPic:view')"  @click="view(scope.row.id)">{{scope.row.title}}</el-link>
@@ -75,7 +75,7 @@
         prop="pic"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('图片路径')">
+        :label="$i18nMy.t('图片路径')">
         <template slot-scope="scope" v-if="scope.row.pic">
           <el-image
             style="height: 50px;width:50px;margin-right:10px;"
@@ -88,14 +88,14 @@
         prop="remarks"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('备注信息')">
+        :label="$i18nMy.t('备注信息')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         fixed="right"
         width="200"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('test:pic:testPic:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
           <el-button v-if="hasPermission('test:pic:testPic:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

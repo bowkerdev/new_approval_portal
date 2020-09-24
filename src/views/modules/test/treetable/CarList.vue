@@ -15,7 +15,7 @@
       <el-row :gutter="5">
         <el-col :span="20">
           <el-input
-            :placeholder="{{$i18nMy.t('输入关键字进行过滤')"
+            :placeholder="$i18nMy.t('输入关键字进行过滤')"
             size="small"
             v-model="filterText">
           </el-input>
@@ -134,7 +134,7 @@
         prop="name"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('品牌')">
+        :label="$i18nMy.t('品牌')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('test:treetable:car:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('test:treetable:car:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
@@ -145,20 +145,20 @@
         prop="kind.name"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('车系')">
+        :label="$i18nMy.t('车系')">
       </el-table-column>
     <el-table-column
         prop="remarks"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('简介')">
+        :label="$i18nMy.t('简介')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         fixed="right"
         width="200"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('test:treetable:car:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
           <el-button v-if="hasPermission('test:treetable:car:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

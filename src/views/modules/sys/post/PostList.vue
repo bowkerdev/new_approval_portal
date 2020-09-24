@@ -3,10 +3,10 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="name">
-                <el-input size="small" v-model="searchForm.name" :placeholder="{{$i18nMy.t('岗位名称')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('岗位名称')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="code">
-                <el-input size="small" v-model="searchForm.code" :placeholder="{{$i18nMy.t('岗位编码')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.code" :placeholder="$i18nMy.t('岗位编码')" clearable></el-input>
          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
@@ -70,7 +70,7 @@
         prop="name"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('岗位名称')">
+        :label="$i18nMy.t('岗位名称')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('sys:post:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('sys:post:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
@@ -81,13 +81,13 @@
         prop="code"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('岗位编码')">
+        :label="$i18nMy.t('岗位编码')">
       </el-table-column>
     <el-table-column
         prop="type"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('岗位类型')">
+        :label="$i18nMy.t('岗位类型')">
         <template slot-scope="scope">
               {{ $dictUtils.getDictLabel("sys_post_type", scope.row.type, '-') }}
         </template>
@@ -96,7 +96,7 @@
         prop="status"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('是否可用')">
+        :label="$i18nMy.t('是否可用')">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status==='1'" type="primary">
              {{ $dictUtils.getDictLabel("yes_no", scope.row.status, '-') }}
@@ -110,20 +110,20 @@
         prop="sort"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('岗位排序')">
+        :label="$i18nMy.t('岗位排序')">
       </el-table-column>
     <el-table-column
         prop="remarks"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('备注信息')">
+        :label="$i18nMy.t('备注信息')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         fixed="right"
         width="200"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('sys:post:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
           <el-button v-if="hasPermission('sys:post:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

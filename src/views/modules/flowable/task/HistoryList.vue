@@ -1,7 +1,7 @@
 <template>
   <div>
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-        <el-form-item :label="{{$i18nMy.t('完成时间')" prop="searchDates">
+        <el-form-item :label="$i18nMy.t('完成时间')" prop="searchDates">
           <el-date-picker
             v-model="searchDates"
             type="daterange"
@@ -10,8 +10,8 @@
             value-format="yyyy-MM-dd hh:mm:ss"
             unlink-panels
             range-separator="至"
-            start-:placeholder="{{$i18nMy.t('开始日期')"
-            end-:placeholder="{{$i18nMy.t('结束日期')"
+            start-:placeholder="$i18nMy.t('开始日期')"
+            end-:placeholder="$i18nMy.t('结束日期')"
             :picker-options="pickerOptions">
           </el-date-picker>
         </el-form-item>
@@ -56,7 +56,7 @@
           <el-table-column
             prop="task.name"
             show-overflow-tooltip=""
-            :label="{{$i18nMy.t('任务')">
+            :label="$i18nMy.t('任务')">
             <template slot-scope="scope">
               {{scope.row.task.name}} 
                  <el-button v-if="scope.row.isBack" type="warning" size="mini"
@@ -66,16 +66,16 @@
           <el-table-column
             prop="vars.title"
             show-overflow-tooltip
-            :label="{{$i18nMy.t('实例标题')">
+            :label="$i18nMy.t('实例标题')">
           </el-table-column>
           <el-table-column
             prop="proc.name"
-            :label="{{$i18nMy.t('流程名称')">
+            :label="$i18nMy.t('流程名称')">
           </el-table-column>
           <el-table-column
             prop="status"
             show-overflow-tooltip
-            :label="{{$i18nMy.t('状态')">
+            :label="$i18nMy.t('状态')">
             <template slot-scope="scope">
               <el-tag v-if="scope.row.code === 0 
                || scope.row.code === 3
@@ -87,12 +87,12 @@
           </el-table-column>
            <el-table-column
             prop="vars.userName"
-            :label="{{$i18nMy.t('流程发起人')">
+            :label="$i18nMy.t('流程发起人')">
           </el-table-column>
           <el-table-column
             prop="task.endTime"
             show-overflow-tooltip
-            :label="{{$i18nMy.t('完成时间')">
+            :label="$i18nMy.t('完成时间')">
              <template slot-scope="scope">
               {{scope.row.task.endTime | formatDate}}
              </template>
@@ -102,7 +102,7 @@
             header-align="center"
             align="center"
             width="100"
-            :label="{{$i18nMy.t('操作')">
+            :label="$i18nMy.t('操作')">
             <template slot-scope="scope">
               <el-button  type="text" size="small"
                         @click="detail(scope.row)">{{$i18nMy.t('历史')}}</el-button>

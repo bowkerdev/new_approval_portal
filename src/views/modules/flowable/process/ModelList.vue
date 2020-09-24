@@ -3,8 +3,8 @@
   <el-row :gutter="15">
     <el-col :span="24">
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-         <el-form-item :label="{{$i18nMy.t('模型名称')" prop="filterText">
-            <el-input v-model="searchForm.filterText" size="small" :placeholder="{{$i18nMy.t('请输入关键词')"></el-input>
+         <el-form-item :label="$i18nMy.t('模型名称')" prop="filterText">
+            <el-input v-model="searchForm.filterText" size="small" :placeholder="$i18nMy.t('请输入关键词')"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
@@ -51,7 +51,7 @@
          <el-table-column
             prop="name"
             show-overflow-tooltip
-            :label="{{$i18nMy.t('流程名称')">
+            :label="$i18nMy.t('流程名称')">
           </el-table-column>
           <el-table-column
             prop="key"
@@ -60,18 +60,18 @@
           </el-table-column>
           <el-table-column
             prop="procDef.category"
-            :label="{{$i18nMy.t('分类')">
+            :label="$i18nMy.t('分类')">
           </el-table-column>
           <el-table-column
             prop="version"
-            :label="{{$i18nMy.t('流程版本')">
+            :label="$i18nMy.t('流程版本')">
             <template slot-scope="scope">       
               <el-tag>{{scope.row.procDef.version || '0'}}</el-tag>
              </template>
           </el-table-column>
           <el-table-column
             prop="version"
-            :label="{{$i18nMy.t('流程状态')">
+            :label="$i18nMy.t('流程状态')">
             <template slot-scope="scope">       
               <el-tag :type="scope.row.procDef.suspended===false?'success':(scope.row.procDef.suspended===undefined?'primary':'danger')">{{scope.row.procDef.suspended===false?'已发布':(scope.row.procDef.suspended===undefined?'草稿':'已挂起')}}</el-tag>
              </template>
@@ -79,7 +79,7 @@
           <el-table-column
             prop="lastUpdated"
             show-overflow-tooltip
-            :label="{{$i18nMy.t('更新时间')">
+            :label="$i18nMy.t('更新时间')">
              <template slot-scope="scope">
               {{scope.row.lastUpdated | formatDate}}
              </template>
@@ -87,7 +87,7 @@
           <el-table-column
             fixed="right"
             width="250"
-            :label="{{$i18nMy.t('操作')">
+            :label="$i18nMy.t('操作')">
             <template slot-scope="scope">
               <el-button type="text" size="small" @click="design(scope.row)">{{$i18nMy.t('设计')}}</el-button>
               <el-button  type="text" size="small" @click="deploy(scope.row)">{{$i18nMy.t('发布')}}</el-button>

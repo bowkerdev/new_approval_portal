@@ -9,37 +9,37 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('异步任务的唯一区分值')" prop="type"
+            <el-form-item :label="$i18nMy.t('异步任务的唯一区分值')" prop="type"
                 :rules="[
                   {required: true, message:'异步任务的唯一区分值不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.type" :placeholder="{{$i18nMy.t('请填写异步任务的唯一区分值')"     ></el-input>
+              <el-input v-model="inputForm.type" :placeholder="$i18nMy.t('请填写异步任务的唯一区分值')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('名称')" prop="name"
+            <el-form-item :label="$i18nMy.t('名称')" prop="name"
                 :rules="[
                   {required: true, message:'名称不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.name" :placeholder="{{$i18nMy.t('请填写名称')"     ></el-input>
+              <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写名称')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('入参')" prop="param"
+            <el-form-item :label="$i18nMy.t('入参')" prop="param"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.param" :placeholder="{{$i18nMy.t('请填写入参')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.param" :placeholder="$i18nMy.t('请填写入参')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('结果')" prop="result"
+            <el-form-item :label="$i18nMy.t('结果')" prop="result"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.result" :placeholder="{{$i18nMy.t('请填写结果')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.result" :placeholder="$i18nMy.t('请填写结果')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('执行开始时间')" prop="startTime"
+            <el-form-item :label="$i18nMy.t('执行开始时间')" prop="startTime"
                 :rules="[
                  ]">
                 <el-date-picker
@@ -47,12 +47,12 @@
                       v-model="inputForm.startTime"
                       type="datetime"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      :placeholder="{{$i18nMy.t('选择日期时间')">
+                      :placeholder="$i18nMy.t('选择日期时间')">
                     </el-date-picker>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('执行结束时间')" prop="endTime"
+            <el-form-item :label="$i18nMy.t('执行结束时间')" prop="endTime"
                 :rules="[
                  ]">
                 <el-date-picker
@@ -60,7 +60,7 @@
                       v-model="inputForm.endTime"
                       type="datetime"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      :placeholder="{{$i18nMy.t('选择日期时间')">
+                      :placeholder="$i18nMy.t('选择日期时间')">
                     </el-date-picker>
            </el-form-item>
         </el-col>

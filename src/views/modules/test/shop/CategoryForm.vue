@@ -9,22 +9,22 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('类型名')" prop="name"
+            <el-form-item :label="$i18nMy.t('类型名')" prop="name"
                 :rules="[
                   {required: true, message:'类型名不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.name" :placeholder="{{$i18nMy.t('请填写类型名')"     ></el-input>
+              <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写类型名')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('备注信息')" prop="remarks"
+            <el-form-item :label="$i18nMy.t('备注信息')" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="{{$i18nMy.t('请填写备注信息')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写备注信息')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('父级编号')" prop="parent.id"
+            <el-form-item :label="$i18nMy.t('父级编号')" prop="parent.id"
                 :rules="[
                   {required: true, message:'父级编号不能为空', trigger:'blur'}
                  ]">
@@ -44,11 +44,11 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('排序')" prop="sort"
+            <el-form-item :label="$i18nMy.t('排序')" prop="sort"
                 :rules="[
                   {validator: validator.isIntGteZero, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.sort" :placeholder="{{$i18nMy.t('请填写排序')"     ></el-input>
+              <el-input v-model="inputForm.sort" :placeholder="$i18nMy.t('请填写排序')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

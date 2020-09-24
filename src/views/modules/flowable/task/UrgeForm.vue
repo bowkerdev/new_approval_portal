@@ -5,17 +5,17 @@
      v-dialogDrag
     :visible.sync="visible">
     <el-form ref="inputForm" :model="inputForm"   v-loading="loading" @keyup.enter.native="inputFormSubmit()" label-width="120px" @submit.native.prevent> 
-       <el-form-item :label="{{$i18nMy.t('催办方式')" prop="checkedUrgeTypes"  :rules="[
+       <el-form-item :label="$i18nMy.t('催办方式')" prop="checkedUrgeTypes"  :rules="[
                   {required: true, message:'催办方式不能为空', trigger:'blur'}
                  ]">
           <el-checkbox-group v-model="inputForm.checkedUrgeTypes">
             <el-checkbox v-for="urgeType in urgeTypes" :label="urgeType" :key="urgeType">{{urgeType}}</el-checkbox>
           </el-checkbox-group>
       </el-form-item>
-      <el-form-item :label="{{$i18nMy.t('催办内容')" prop="content"  :rules="[
+      <el-form-item :label="$i18nMy.t('催办内容')" prop="content"  :rules="[
                   {required: true, message:'催办内容不能为空', trigger:'blur'}
                  ]">
-            <el-input type="textarea" v-model="inputForm.content" :rows="4" :placeholder="{{$i18nMy.t('请输入催办内容')"></el-input>
+            <el-input type="textarea" v-model="inputForm.content" :rows="4" :placeholder="$i18nMy.t('请输入催办内容')"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">

@@ -3,7 +3,7 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
 		     <el-form-item prop="name">
-                <el-input size="small" v-model="searchForm.name" :placeholder="{{$i18nMy.t('名称')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('名称')" clearable></el-input>
 		     </el-form-item>
           <el-form-item>
             <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
@@ -50,7 +50,7 @@
 	  <el-table-column
         prop="name"
         sortable="custom"
-        :label="{{$i18nMy.t('名称')">
+        :label="$i18nMy.t('名称')">
         <template slot-scope="scope">
           <el-link :underline="false" v-if="hasPermission('extension:condition:edit')"   @click="edit(scope.row.id)" type="primary">{{scope.row.name}}</el-link>
           <el-link :underline="false" v-else-if="hasPermission('extension:condition:view')"  @click="view(scope.row.id)" type="primary">{{scope.row.name}}</el-link>
@@ -60,18 +60,18 @@
 	  <el-table-column
         prop="expression"
         sortable="custom"
-        :label="{{$i18nMy.t('表达式')">
+        :label="$i18nMy.t('表达式')">
       </el-table-column>
 	  <el-table-column
         prop="remarks"
         sortable="custom"
-        :label="{{$i18nMy.t('备注')">
+        :label="$i18nMy.t('备注')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         width="200"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('extension:condition:view')" type="text" icon="el-icon-view" size="mini" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
           <el-button v-if="hasPermission('extension:condition:edit')" type="text" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

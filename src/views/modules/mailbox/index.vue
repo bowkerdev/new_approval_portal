@@ -35,7 +35,7 @@
         <el-button  type="danger" size="small" icon="el-icon-delete" @click="del()" plain>{{$i18nMy.t('删除')}}</el-button>
         </el-col>
         <el-col :span="14">
-        <el-input v-model="searchForm.mail.title" :placeholder="{{$i18nMy.t('请输入标题')">
+        <el-input v-model="searchForm.mail.title" :placeholder="$i18nMy.t('请输入标题')">
            <el-button slot="append" icon="el-icon-search" @click="refreshList"></el-button>
         </el-input>
         </el-col>
@@ -57,7 +57,7 @@
           align="center"
           width="50">
         </el-table-column>
-          <el-table-column prop="status"  v-if="index === '2' || index === '3'|| index === '4'" :label="{{$i18nMy.t('状态')" >
+          <el-table-column prop="status"  v-if="index === '2' || index === '3'|| index === '4'" :label="$i18nMy.t('状态')" >
             <template slot-scope="scope">
               <el-tag type="success" v-if="scope.row.status === '1'">{{$i18nMy.t('已发送')}}</el-tag>
               <el-tag type="danger" v-if="scope.row.status === '0'">{{$i18nMy.t('草稿')}}</el-tag>
@@ -65,25 +65,25 @@
               <el-tag type="success" v-if="scope.row.status === '3'">{{$i18nMy.t('已读')}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="readstatus" v-if="index === '1'" :label="{{$i18nMy.t('状态')" >
+        <el-table-column prop="readstatus" v-if="index === '1'" :label="$i18nMy.t('状态')" >
             <template slot-scope="scope">
               <el-tag type="success" v-if="scope.row.readstatus === '1'">{{$i18nMy.t('已读')}}</el-tag>
               <el-tag type="danger" v-if="scope.row.readstatus === '0'">{{$i18nMy.t('未读')}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="sender.name" v-if="index === '1' || index === '4'" :label="{{$i18nMy.t('发件人')" >
+        <el-table-column prop="sender.name" v-if="index === '1' || index === '4'" :label="$i18nMy.t('发件人')" >
         </el-table-column>
-        <el-table-column prop="receiverNames"  v-if="index !== '1'|| index === '4'" :label="{{$i18nMy.t('收件人')">
+        <el-table-column prop="receiverNames"  v-if="index !== '1'|| index === '4'" :label="$i18nMy.t('收件人')">
         </el-table-column>
-        <el-table-column prop="mail.title" show-overflow-tooltip :label="{{$i18nMy.t('标题')">
+        <el-table-column prop="mail.title" show-overflow-tooltip :label="$i18nMy.t('标题')">
         </el-table-column>
-         <el-table-column show-overflow-tooltip prop="sendtime" :label="{{$i18nMy.t('时间')" >
+         <el-table-column show-overflow-tooltip prop="sendtime" :label="$i18nMy.t('时间')" >
         </el-table-column>
          <el-table-column
             header-align="center"
             align="center"
             width="210"
-            :label="{{$i18nMy.t('操作')">
+            :label="$i18nMy.t('操作')">
             <template slot-scope="scope">
               <el-button  type="text"  size="mini"  icon="el-icon-view" 
                         @click="view(scope.row.id)">{{$i18nMy.t('查阅')}}</el-button>

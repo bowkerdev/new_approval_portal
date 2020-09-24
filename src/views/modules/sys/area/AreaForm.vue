@@ -8,7 +8,7 @@
              label-width="80px" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" @submit.native.prevent>
       <el-row  :gutter="15">
         <el-col :span="12">
-          <el-form-item :label="{{$i18nMy.t('上级区域')" prop="parent.id">
+          <el-form-item :label="$i18nMy.t('上级区域')" prop="parent.id">
              <SelectTree 
              ref="parentTree"
              :props="{
@@ -25,19 +25,19 @@
           </el-form-item>
         </el-col>
          <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('区域名称')" prop="name">
-              <el-input maxlength="50" v-model="inputForm.name" :placeholder="{{$i18nMy.t('区域名称')"></el-input>
+            <el-form-item :label="$i18nMy.t('区域名称')" prop="name">
+              <el-input maxlength="50" v-model="inputForm.name" :placeholder="$i18nMy.t('区域名称')"></el-input>
             </el-form-item>
         </el-col>
      
         <el-col :span="12">
-          <el-form-item :label="{{$i18nMy.t('区域编码')" prop="code">
-            <el-input maxlength="50" v-model="inputForm.code" :placeholder="{{$i18nMy.t('区域编码')"></el-input>
+          <el-form-item :label="$i18nMy.t('区域编码')" prop="code">
+            <el-input maxlength="50" v-model="inputForm.code" :placeholder="$i18nMy.t('区域编码')"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="{{$i18nMy.t('区域类型')" prop="type">
-            <el-select v-model="inputForm.type" :placeholder="{{$i18nMy.t('请选择')"  style="width: 100%;">
+          <el-form-item :label="$i18nMy.t('区域类型')" prop="type">
+            <el-select v-model="inputForm.type" :placeholder="$i18nMy.t('请选择')"  style="width: 100%;">
                 <el-option
                   v-for="item in this.$dictUtils.getDictList('sys_area_type')"
                   :key="item.value"
@@ -48,14 +48,14 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-           <el-form-item :label="{{$i18nMy.t('排序号')" prop="sort">
+           <el-form-item :label="$i18nMy.t('排序号')" prop="sort">
             <el-input-number  v-model="inputForm.sort" :step="30" style="width:100%"></el-input-number>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="{{$i18nMy.t('备注')" prop="remarks">
+          <el-form-item :label="$i18nMy.t('备注')" prop="remarks">
             <el-input maxlength="200" v-model="inputForm.remarks" type="textarea"
-                  :rows="2" :placeholder="{{$i18nMy.t('备注')"></el-input>
+                  :rows="2" :placeholder="$i18nMy.t('备注')"></el-input>
           </el-form-item>
         </el-col>
       

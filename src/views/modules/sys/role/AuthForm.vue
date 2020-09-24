@@ -25,7 +25,7 @@
                           </el-tree>
                         </el-scrollbar>
               </el-tab-pane>
-              <el-tab-pane :label="{{$i18nMy.t('数据权限')">
+              <el-tab-pane :label="$i18nMy.t('数据权限')">
                  <span slot="label"><i class="fa fa-database"></i> 数据权限</span>
                     <el-scrollbar style="height: 450px">
                       <el-tree

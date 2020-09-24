@@ -19,7 +19,7 @@
         header-align="center"
         show-overflow-tooltip
         align="left"
-        :label="{{$i18nMy.t('名称')">
+        :label="$i18nMy.t('名称')">
         <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('extension:actCategory:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
           <el-link  type="primary" :underline="false" v-else-if="hasPermission('extension:actCategory:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
@@ -29,13 +29,13 @@
 	  <el-treetable-column
         prop="remarks"
         sortable="custom"
-        :label="{{$i18nMy.t('备注信息')">
+        :label="$i18nMy.t('备注信息')">
       </el-treetable-column>
       <el-treetable-column
         header-align="center"
         align="center"
         width="300"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('extension:actCategory:view')" type="text" icon="el-icon-view" size="mini" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
           <el-button v-if="hasPermission('extension:actCategory:edit')" type="text" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

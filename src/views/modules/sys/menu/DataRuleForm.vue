@@ -7,18 +7,18 @@
     :visible.sync="visible">
     <el-form :model="inputForm" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="120px" @submit.native.prevent>
-          <el-form-item :label="{{$i18nMy.t('数据规则名称')" prop="name">
-              <el-input  v-model="inputForm.name" :placeholder="{{$i18nMy.t('数据规则名称')"></el-input>
+          <el-form-item :label="$i18nMy.t('数据规则名称')" prop="name">
+              <el-input  v-model="inputForm.name" :placeholder="$i18nMy.t('数据规则名称')"></el-input>
           </el-form-item>
-          <el-form-item :label="{{$i18nMy.t('规则实体类')" prop="className">
-              <el-input  v-model="inputForm.className" :placeholder="{{$i18nMy.t('规则实体类')"></el-input>
+          <el-form-item :label="$i18nMy.t('规则实体类')" prop="className">
+              <el-input  v-model="inputForm.className" :placeholder="$i18nMy.t('规则实体类')"></el-input>
               <div class="help-block">请输入要进行数据过滤的的实体类名(不含包名,例如：User),将对findList和findAllList进行数据过滤。</div>
           </el-form-item>
-          <el-form-item :label="{{$i18nMy.t('规则字段')" prop="field">
-              <el-input  v-model="inputForm.field" :placeholder="{{$i18nMy.t('规则字段')"></el-input>
+          <el-form-item :label="$i18nMy.t('规则字段')" prop="field">
+              <el-input  v-model="inputForm.field" :placeholder="$i18nMy.t('规则字段')"></el-input>
           </el-form-item>
-          <el-form-item :label="{{$i18nMy.t('规则条件')" prop="express">
-            <el-select v-model="inputForm.express" :placeholder="{{$i18nMy.t('规则条件')"  style="width: 100%;">
+          <el-form-item :label="$i18nMy.t('规则条件')" prop="express">
+            <el-select v-model="inputForm.express" :placeholder="$i18nMy.t('规则条件')"  style="width: 100%;">
                 <el-option
                   v-for="item in this.$dictUtils.getDictList('t_express')"
                   :key="item.value"
@@ -27,16 +27,16 @@
                 </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item  :label="{{$i18nMy.t('规则值')" prop="value">
+          <el-form-item  :label="$i18nMy.t('规则值')" prop="value">
             <el-input v-model="inputForm.value" placeholder="value"></el-input>
           </el-form-item>
            <el-form-item label="自定义sql" prop="sqlSegment">
              <el-input v-model="inputForm.sqlSegment" type="textarea"
-                  :rows="2" :placeholder="{{$i18nMy.t('备注')"></el-input>
+                  :rows="2" :placeholder="$i18nMy.t('备注')"></el-input>
            </el-form-item>
-          <el-form-item :label="{{$i18nMy.t('备注')" prop="remarks">
+          <el-form-item :label="$i18nMy.t('备注')" prop="remarks">
             <el-input v-model="inputForm.remarks" type="textarea"
-                  :rows="2" :placeholder="{{$i18nMy.t('备注')"></el-input>
+                  :rows="2" :placeholder="$i18nMy.t('备注')"></el-input>
           </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">

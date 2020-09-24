@@ -3,7 +3,7 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
 		     <el-form-item prop="name">
-                <el-input size="small" v-model="searchForm.name" :placeholder="{{$i18nMy.t('任务名')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('任务名')" clearable></el-input>
 		     </el-form-item>
           <el-form-item>
             <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
@@ -55,7 +55,7 @@
         prop="name"
         sortable="custom"
         show-overflow-tooltip
-        :label="{{$i18nMy.t('任务名')">
+        :label="$i18nMy.t('任务名')">
          <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('quartz:scheduleJob:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
           <span v-else>{{scope.row.name}}</span>
@@ -64,7 +64,7 @@
 	  <el-table-column
         prop="group"
         show-overflow-tooltip
-        :label="{{$i18nMy.t('任务组')">
+        :label="$i18nMy.t('任务组')">
         <template slot-scope="scope">
             {{ $dictUtils.getDictLabel("schedule_task_group", scope.row.group, '-') }}
         </template>
@@ -73,13 +73,13 @@
         prop="cronExpression"
         sortable="custom"
         show-overflow-tooltip
-        :label="{{$i18nMy.t('定时规则')">
+        :label="$i18nMy.t('定时规则')">
       </el-table-column>
 	  <el-table-column
         prop="status"
         sortable="custom"
         show-overflow-tooltip
-        :label="{{$i18nMy.t('启用状态')">
+        :label="$i18nMy.t('启用状态')">
         <template slot-scope="scope">
             {{ $dictUtils.getDictLabel("yes_no", scope.row.status, '-') }}
         </template>
@@ -88,7 +88,7 @@
         prop="isInfo"
         sortable="custom"
         show-overflow-tooltip
-        :label="{{$i18nMy.t('通知用户')">
+        :label="$i18nMy.t('通知用户')">
         <template slot-scope="scope">
             {{ $dictUtils.getDictLabel("schedule_task_info", scope.row.isInfo, '-') }}
         </template>
@@ -97,19 +97,19 @@
         prop="className"
         sortable="custom"
         show-overflow-tooltip
-        :label="{{$i18nMy.t('任务类')">
+        :label="$i18nMy.t('任务类')">
       </el-table-column>
 	  <el-table-column
         prop="description"
         sortable="custom"
         show-overflow-tooltip
-        :label="{{$i18nMy.t('描述')">
+        :label="$i18nMy.t('描述')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         width="150"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('quartz:scheduleJob:resume')" type="text" icon="el-icon-video-play" size="small" @click="start(scope.row.id)">{{$i18nMy.t('启动')}}</el-button>
           <el-button v-if="hasPermission('quartz:scheduleJob:stop')" type="text" icon="el-icon-video-pause" size="small" @click="stop(scope.row.id)">{{$i18nMy.t('暂停')}}</el-button>

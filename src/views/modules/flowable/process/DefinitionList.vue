@@ -1,8 +1,8 @@
 <template>
   <div>
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-         <el-form-item :label="{{$i18nMy.t('流程分类')" prop="category">
-            <el-select v-model="searchForm.category" :placeholder="{{$i18nMy.t('请选择')" size="small"  style="width: 100%;">
+         <el-form-item :label="$i18nMy.t('流程分类')" prop="category">
+            <el-select v-model="searchForm.category" :placeholder="$i18nMy.t('请选择')" size="small"  style="width: 100%;">
                 <el-option
                   v-for="item in this.$dictUtils.getDictList('act_category')"
                   :key="item.value"
@@ -55,7 +55,7 @@
             prop="category"
             header-align="center"
             align="center"
-            :label="{{$i18nMy.t('流程分类')">
+            :label="$i18nMy.t('流程分类')">
              <template slot-scope="scope">
               {{$dictUtils.getDictLabel("act_category", scope.row.category, "")}}
              </template>
@@ -64,14 +64,14 @@
             prop="key"
             header-align="center"
             align="center"
-            :label="{{$i18nMy.t('流程标识')">
+            :label="$i18nMy.t('流程标识')">
           </el-table-column>
            <el-table-column
             prop="name"
             header-align="center"
             show-overflow-tooltip
             align="center"
-            :label="{{$i18nMy.t('流程名称')">
+            :label="$i18nMy.t('流程名称')">
           </el-table-column>
            <el-table-column
             prop="resourceName"
@@ -89,7 +89,7 @@
             prop="diagramResourceName"
             header-align="center"
             align="center"
-            :label="{{$i18nMy.t('流程图')">
+            :label="$i18nMy.t('流程图')">
             <template slot-scope="scope">
               <el-button   type="text" size="small"
                         @click="trace(scope.row)">
@@ -101,7 +101,7 @@
             prop="version"
             header-align="center"
             align="center"
-            :label="{{$i18nMy.t('流程版本')">
+            :label="$i18nMy.t('流程版本')">
           </el-table-column>
           <el-table-column
             prop="suspended"
@@ -109,7 +109,7 @@
             align="center"
             width="150"
             :show-overflow-tooltip="true"
-            :label="{{$i18nMy.t('状态')">
+            :label="$i18nMy.t('状态')">
              <template slot-scope="scope">
               <el-tag v-if="scope.row.suspended" type="danger">{{$i18nMy.t('已挂起')}}</el-tag>
               <el-tag v-if="!scope.row.suspended" type="success">{{$i18nMy.t('已激活')}}</el-tag>
@@ -121,7 +121,7 @@
             align="center"
             width="150"
             :show-overflow-tooltip="true"
-            :label="{{$i18nMy.t('部署时间')">
+            :label="$i18nMy.t('部署时间')">
              <template slot-scope="scope">
               {{scope.row.deploymentTime | formatDate}}
              </template>
@@ -131,7 +131,7 @@
             header-align="center"
             align="center"
             width="200"
-            :label="{{$i18nMy.t('操作')">
+            :label="$i18nMy.t('操作')">
             <template slot-scope="scope">
               <el-button type="text" size="small" v-if="scope.row.suspended"
                         @click="active(scope.row)">{{$i18nMy.t('激活')}}</el-button>

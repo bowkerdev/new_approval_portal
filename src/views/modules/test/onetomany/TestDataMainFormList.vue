@@ -6,7 +6,7 @@
             <user-select :limit='1' size="small" :value="searchForm.tuser.id" @getValue='(value) => {searchForm.tuser.id=value}'></user-select>
          </el-form-item>
          <el-form-item prop="name">
-                <el-input size="small" v-model="searchForm.name" :placeholder="{{$i18nMy.t('名称')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('名称')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="sex">
                   <el-radio-group v-model="searchForm.sex">
@@ -22,8 +22,8 @@
                     value-format="yyyy-MM-dd hh:mm:ss"
                     unlink-panels
                     range-separator="至"
-                    start-:placeholder="{{$i18nMy.t('开始日期')"
-                    end-:placeholder="{{$i18nMy.t('结束日期')">
+                    start-:placeholder="$i18nMy.t('开始日期')"
+                    end-:placeholder="$i18nMy.t('结束日期')">
                  </el-date-picker>
          </el-form-item>
           <el-form-item>
@@ -88,7 +88,7 @@
       <el-table-column type="expand">
       <template slot-scope="scope">
       <el-tabs>
-            <el-tab-pane :label="{{$i18nMy.t('火车票')">
+            <el-tab-pane :label="$i18nMy.t('火车票')">
                   <el-table
                   border
                   size="medium"
@@ -96,35 +96,35 @@
                   style="width: 100%">
                   <el-table-column
                     prop="startArea.name"
-                    :label="{{$i18nMy.t('出发地')">
+                    :label="$i18nMy.t('出发地')">
                   </el-table-column>
                   <el-table-column
                     prop="endArea.name"
-                    :label="{{$i18nMy.t('目的地')">
+                    :label="$i18nMy.t('目的地')">
                   </el-table-column>
                 <el-table-column
                     prop="starttime"
                     show-overflow-tooltip
-                    :label="{{$i18nMy.t('出发时间')">
+                    :label="$i18nMy.t('出发时间')">
                   </el-table-column>
                 <el-table-column
                     prop="endtime"
                     show-overflow-tooltip
-                    :label="{{$i18nMy.t('到达时间')">
+                    :label="$i18nMy.t('到达时间')">
                   </el-table-column>
                 <el-table-column
                     prop="price"
                     show-overflow-tooltip
-                    :label="{{$i18nMy.t('代理价格')">
+                    :label="$i18nMy.t('代理价格')">
                   </el-table-column>
                 <el-table-column
                     prop="remarks"
                     show-overflow-tooltip
-                    :label="{{$i18nMy.t('备注信息')">
+                    :label="$i18nMy.t('备注信息')">
                   </el-table-column>
                 </el-table>
               </el-tab-pane>
-            <el-tab-pane :label="{{$i18nMy.t('飞机票')">
+            <el-tab-pane :label="$i18nMy.t('飞机票')">
                   <el-table
                   border
                   size="medium"
@@ -132,35 +132,35 @@
                   style="width: 100%">
                   <el-table-column
                     prop="startArea.name"
-                    :label="{{$i18nMy.t('出发地')">
+                    :label="$i18nMy.t('出发地')">
                   </el-table-column>
                   <el-table-column
                     prop="endArea.name"
-                    :label="{{$i18nMy.t('目的地')">
+                    :label="$i18nMy.t('目的地')">
                   </el-table-column>
                 <el-table-column
                     prop="startTime"
                     show-overflow-tooltip
-                    :label="{{$i18nMy.t('出发时间')">
+                    :label="$i18nMy.t('出发时间')">
                   </el-table-column>
                 <el-table-column
                     prop="endTime"
                     show-overflow-tooltip
-                    :label="{{$i18nMy.t('到达时间')">
+                    :label="$i18nMy.t('到达时间')">
                   </el-table-column>
                 <el-table-column
                     prop="price"
                     show-overflow-tooltip
-                    :label="{{$i18nMy.t('代理价格')">
+                    :label="$i18nMy.t('代理价格')">
                   </el-table-column>
                 <el-table-column
                     prop="remarks"
                     show-overflow-tooltip
-                    :label="{{$i18nMy.t('备注信息')">
+                    :label="$i18nMy.t('备注信息')">
                   </el-table-column>
                 </el-table>
               </el-tab-pane>
-            <el-tab-pane :label="{{$i18nMy.t('汽车票')">
+            <el-tab-pane :label="$i18nMy.t('汽车票')">
                   <el-table
                   border
                   size="medium"
@@ -168,31 +168,31 @@
                   style="width: 100%">
                   <el-table-column
                     prop="startArea.name"
-                    :label="{{$i18nMy.t('出发地')">
+                    :label="$i18nMy.t('出发地')">
                   </el-table-column>
                   <el-table-column
                     prop="endArea.name"
-                    :label="{{$i18nMy.t('目的地')">
+                    :label="$i18nMy.t('目的地')">
                   </el-table-column>
                 <el-table-column
                     prop="startTime"
                     show-overflow-tooltip
-                    :label="{{$i18nMy.t('出发时间')">
+                    :label="$i18nMy.t('出发时间')">
                   </el-table-column>
                 <el-table-column
                     prop="endTime"
                     show-overflow-tooltip
-                    :label="{{$i18nMy.t('到达时间')">
+                    :label="$i18nMy.t('到达时间')">
                   </el-table-column>
                 <el-table-column
                     prop="price"
                     show-overflow-tooltip
-                    :label="{{$i18nMy.t('代理价格')">
+                    :label="$i18nMy.t('代理价格')">
                   </el-table-column>
                 <el-table-column
                     prop="remarks"
                     show-overflow-tooltip
-                    :label="{{$i18nMy.t('备注信息')">
+                    :label="$i18nMy.t('备注信息')">
                   </el-table-column>
                 </el-table>
               </el-tab-pane>
@@ -203,7 +203,7 @@
         prop="tuser.name"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('用户')">
+        :label="$i18nMy.t('用户')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('test:onetomany:testDataMainForm:edit')" @click="edit(scope.row.id)">{{scope.row.tuser.name}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('test:onetomany:testDataMainForm:view')"  @click="view(scope.row.id)">{{scope.row.tuser.name}}</el-link>
@@ -214,25 +214,25 @@
         prop="office.name"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('所属部门')">
+        :label="$i18nMy.t('所属部门')">
       </el-table-column>
       <el-table-column
         prop="area.name"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('所属区域')">
+        :label="$i18nMy.t('所属区域')">
       </el-table-column>
     <el-table-column
         prop="name"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('名称')">
+        :label="$i18nMy.t('名称')">
       </el-table-column>
     <el-table-column
         prop="sex"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('性别')">
+        :label="$i18nMy.t('性别')">
         <template slot-scope="scope">
              {{ $dictUtils.getDictLabel("sex", scope.row.sex, '-') }}
         </template>
@@ -241,7 +241,7 @@
         prop="file"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('身份证照片')">
+        :label="$i18nMy.t('身份证照片')">
         <template slot-scope="scope" v-if="scope.row.file">
           <el-image
             style="height: 50px;width:50px;margin-right:10px;"
@@ -254,19 +254,19 @@
         prop="inDate"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('加入日期')">
+        :label="$i18nMy.t('加入日期')">
       </el-table-column>
     <el-table-column
         prop="remarks"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('备注信息')">
+        :label="$i18nMy.t('备注信息')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         width="200"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('test:onetomany:testDataMainForm:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
           <el-button v-if="hasPermission('test:onetomany:testDataMainForm:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

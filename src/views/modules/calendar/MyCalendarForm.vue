@@ -9,7 +9,7 @@
              label-width="120px" @submit.native.prevent>
       <el-row  :gutter="15">
         <el-col :span="16">
-            <el-form-item :label="{{$i18nMy.t('日程内容')" prop="title"
+            <el-form-item :label="$i18nMy.t('日程内容')" prop="title"
                 :rules="[
                   {required: true, message:'日程内容不能为空', trigger:'blur'}
                  ]">
@@ -17,7 +17,7 @@
 	         </el-form-item>
         </el-col>
         <el-col :span="16">
-            <el-form-item :label="{{$i18nMy.t('开始时间')" prop="start"
+            <el-form-item :label="$i18nMy.t('开始时间')" prop="start"
                 :rules="[
                   {required: true, message:'开始时间不能为空', trigger:'blur'}
                  ]">
@@ -25,12 +25,12 @@
                 v-model="inputForm.start"
                 type="datetime"
                  value-format="yyyy-MM-dd hh:mm:ss"
-                :placeholder="{{$i18nMy.t('选择日期时间')">
+                :placeholder="$i18nMy.t('选择日期时间')">
               </el-date-picker>
 	         </el-form-item>
         </el-col>
         <el-col :span="16">
-            <el-form-item :label="{{$i18nMy.t('结束时间')" prop="end"
+            <el-form-item :label="$i18nMy.t('结束时间')" prop="end"
                 :rules="[
                   {required: true, message:'结束时间不能为空', trigger:'blur'}
                  ]">
@@ -38,7 +38,7 @@
                 v-model="inputForm.end"
                 type="datetime"
                  value-format="yyyy-MM-dd hh:mm:ss"
-                :placeholder="{{$i18nMy.t('选择日期时间')">
+                :placeholder="$i18nMy.t('选择日期时间')">
               </el-date-picker>
 	         </el-form-item>
         </el-col>

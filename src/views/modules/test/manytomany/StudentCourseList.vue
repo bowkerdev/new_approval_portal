@@ -116,7 +116,7 @@
         prop="student.name"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('学生')">
+        :label="$i18nMy.t('学生')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('test:manytomany:studentCourse:edit')" @click="edit(scope.row.id)">{{scope.row.student.name}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('test:manytomany:studentCourse:view')"  @click="view(scope.row.id)">{{scope.row.student.name}}</el-link>
@@ -127,26 +127,26 @@
         prop="course.name"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('课程')">
+        :label="$i18nMy.t('课程')">
       </el-table-column>
     <el-table-column
         prop="score"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('分数')">
+        :label="$i18nMy.t('分数')">
       </el-table-column>
     <el-table-column
         prop="remarks"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('备注信息')">
+        :label="$i18nMy.t('备注信息')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         fixed="right"
         width="200"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('test:manytomany:studentCourse:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
           <el-button v-if="hasPermission('test:manytomany:studentCourse:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

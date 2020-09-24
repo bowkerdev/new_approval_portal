@@ -9,7 +9,7 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('分类')" prop="category.id"
+            <el-form-item :label="$i18nMy.t('分类')" prop="category.id"
                 :rules="[
                   {required: true, message:'分类不能为空', trigger:'blur'}
                  ]">
@@ -29,11 +29,11 @@
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('表单名称')" prop="name"
+            <el-form-item :label="$i18nMy.t('表单名称')" prop="name"
                 :rules="[
                   {required: true, message:'表单名称不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.name" :placeholder="{{$i18nMy.t('请填写表单名称')"     ></el-input>
+              <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写表单名称')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

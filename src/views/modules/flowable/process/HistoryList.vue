@@ -19,20 +19,20 @@
           </el-table-column>
           <el-table-column
             prop="processVariables.title"
-            :label="{{$i18nMy.t('实例名称')">
+            :label="$i18nMy.t('实例名称')">
           </el-table-column>
           <el-table-column
             prop="processDefinitionName"
-            :label="{{$i18nMy.t('流程名称')">
+            :label="$i18nMy.t('流程名称')">
           </el-table-column>
            <el-table-column
             prop="processVariables.userName"
-            :label="{{$i18nMy.t('流程发起人')">
+            :label="$i18nMy.t('流程发起人')">
           </el-table-column>
           <el-table-column
             prop="startTime"
             show-overflow-tooltip
-            :label="{{$i18nMy.t('流程启动时间')">
+            :label="$i18nMy.t('流程启动时间')">
              <template slot-scope="scope">
               {{scope.row.startTime | formatDate}}
              </template>
@@ -40,7 +40,7 @@
           <el-table-column
             prop="endTime"
             show-overflow-tooltip
-            :label="{{$i18nMy.t('流程结束时间')">
+            :label="$i18nMy.t('流程结束时间')">
              <template slot-scope="scope">
               {{scope.row.endTime | formatDate}}
              </template>
@@ -49,7 +49,7 @@
             prop="deleteReason"
             width="150"
             show-overflow-tooltip
-            :label="{{$i18nMy.t('流程状态')">
+            :label="$i18nMy.t('流程状态')">
              <template slot-scope="scope">
                <el-tag v-if="scope.row.deleteReason === undefined" type="success">{{$i18nMy.t('正常结束')}}</el-tag>
                <el-tag v-else-if="scope.row.deleteReason === '用户撤销'" type="danger">{{$i18nMy.t('用户撤销')}}</el-tag>
@@ -61,7 +61,7 @@
             header-align="center"
             align="center"
             width="150"
-            :label="{{$i18nMy.t('操作')">
+            :label="$i18nMy.t('操作')">
             <template slot-scope="scope">
             <el-button  type="text" size="small"
                         @click="trace(scope.row)">{{$i18nMy.t('流程图')}}</el-button>

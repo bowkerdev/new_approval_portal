@@ -8,45 +8,45 @@
              label-width="120px" @submit.native.prevent>
       <el-row  :gutter="15">
         <el-col :span="16">
-            <el-form-item :label="{{$i18nMy.t('按钮名称')" prop="name"
+            <el-form-item :label="$i18nMy.t('按钮名称')" prop="name"
                 :rules="[
                  ]">
-			        <el-input v-model="inputForm.name" :placeholder="{{$i18nMy.t('请填写按钮名称')"     ></el-input>
+			        <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写按钮名称')"     ></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="16">
-            <el-form-item :label="{{$i18nMy.t('编码')" prop="code"
+            <el-form-item :label="$i18nMy.t('编码')" prop="code"
                 :rules="[
                  ]">
-			        <el-input v-model="inputForm.code" :placeholder="{{$i18nMy.t('请填写编码')"     ></el-input>
+			        <el-input v-model="inputForm.code" :placeholder="$i18nMy.t('请填写编码')"     ></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="16">
-            <el-form-item :label="{{$i18nMy.t('是否隐藏')" prop="isHide"
+            <el-form-item :label="$i18nMy.t('是否隐藏')" prop="isHide"
                 :rules="[
                  ]">
-			        <el-input v-model="inputForm.isHide" :placeholder="{{$i18nMy.t('请填写是否隐藏')"     ></el-input>
+			        <el-input v-model="inputForm.isHide" :placeholder="$i18nMy.t('请填写是否隐藏')"     ></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="16">
-            <el-form-item :label="{{$i18nMy.t('下一节点审核人')" prop="next"
+            <el-form-item :label="$i18nMy.t('下一节点审核人')" prop="next"
                 :rules="[
                  ]">
-			        <el-input v-model="inputForm.next" :placeholder="{{$i18nMy.t('请填写下一节点审核人')"     ></el-input>
+			        <el-input v-model="inputForm.next" :placeholder="$i18nMy.t('请填写下一节点审核人')"     ></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="16">
-            <el-form-item :label="{{$i18nMy.t('排序')" prop="sort"
+            <el-form-item :label="$i18nMy.t('排序')" prop="sort"
                 :rules="[
                  ]">
-			        <el-input v-model="inputForm.sort" :placeholder="{{$i18nMy.t('请填写排序')"     ></el-input>
+			        <el-input v-model="inputForm.sort" :placeholder="$i18nMy.t('请填写排序')"     ></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="16">
-            <el-form-item :label="{{$i18nMy.t('任务节点外键')" prop="taskDef.id"
+            <el-form-item :label="$i18nMy.t('任务节点外键')" prop="taskDef.id"
                 :rules="[
                  ]">
-			        <el-input v-model="inputForm.taskDef.id" :placeholder="{{$i18nMy.t('请填写任务节点外键')"     ></el-input>
+			        <el-input v-model="inputForm.taskDef.id" :placeholder="$i18nMy.t('请填写任务节点外键')"     ></el-input>
 	         </el-form-item>
         </el-col>
         </el-row>

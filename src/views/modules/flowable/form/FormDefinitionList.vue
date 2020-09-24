@@ -15,7 +15,7 @@
       <el-row :gutter="5">
         <el-col :span="20">
           <el-input
-            :placeholder="{{$i18nMy.t('输入关键字进行过滤')"
+            :placeholder="$i18nMy.t('输入关键字进行过滤')"
             size="small"
             v-model="filterText">
           </el-input>
@@ -72,7 +72,7 @@
                       @getValue="(value) => {searchForm.category.id=value}"/>
 		     </el-form-item>
 		     <el-form-item prop="name">
-                <el-input size="small" v-model="searchForm.name" :placeholder="{{$i18nMy.t('表单名称')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('表单名称')" clearable></el-input>
 		     </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
@@ -137,7 +137,7 @@
         prop="name"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('表单名称')">
+        :label="$i18nMy.t('表单名称')">
         <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('extension:formDefinition:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
           <el-link  type="primary" :underline="false" v-else-if="hasPermission('extension:formDefinition:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
@@ -147,17 +147,17 @@
     <el-table-column
         prop="category.name"
         show-overflow-tooltip
-        :label="{{$i18nMy.t('分类')">
+        :label="$i18nMy.t('分类')">
       </el-table-column>
 	  <el-table-column
         prop="formDefinitionJson.version"
         show-overflow-tooltip
-        :label="{{$i18nMy.t('版本号')">
+        :label="$i18nMy.t('版本号')">
     </el-table-column>
 	  <el-table-column
         prop="formDefinitionJson.status"
         show-overflow-tooltip
-        :label="{{$i18nMy.t('状态')">
+        :label="$i18nMy.t('状态')">
          <template slot-scope="scope">
           <el-tag v-if="scope.row.formDefinitionJson.status === '1'" size="small" type="success">{{$i18nMy.t('已发布')}}</el-tag>
           <el-tag v-else size="small" type="danger">{{$i18nMy.t('未发布')}}</el-tag>
@@ -166,7 +166,7 @@
 	  <el-table-column
         prop="formDefinitionJson.isPrimary"
         show-overflow-tooltip
-        :label="{{$i18nMy.t('是否主版本')">
+        :label="$i18nMy.t('是否主版本')">
          <template slot-scope="scope">
           <el-tag v-if="scope.row.formDefinitionJson.isPrimary === '1'" size="small" type="success">{{$i18nMy.t('主版本')}}</el-tag>
           <el-tag v-else size="small" type="danger">{{$i18nMy.t('非主版本')}}</el-tag>
@@ -177,7 +177,7 @@
         align="center"
         fixed="right"
         width="250"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('extension:formDefinition:view')" type="text" icon="el-icon-view" size="small" @click="showDesignForm(scope.row.id, scope.row.formDefinitionJson.id)">{{$i18nMy.t('设计')}}</el-button>
           <el-button v-if="hasPermission('extension:formDefinition:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

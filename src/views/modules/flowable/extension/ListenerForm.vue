@@ -9,15 +9,15 @@
              label-width="120px" @submit.native.prevent>
       <el-row  :gutter="15">
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('名称')" prop="name"
+            <el-form-item :label="$i18nMy.t('名称')" prop="name"
                 :rules="[
                   {required: true, message:'名称不能为空', trigger:'blur'}
                  ]">
-			        <el-input v-model="inputForm.name" :placeholder="{{$i18nMy.t('请填写名称')"></el-input>
+			        <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写名称')"></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('监听器类型')" prop="listenerType"
+            <el-form-item :label="$i18nMy.t('监听器类型')" prop="listenerType"
                 :rules="[
                  {required: true, message:'监听器类型不能为空', trigger:'blur'}
                  ]">
@@ -28,11 +28,11 @@
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('事件')" prop="event"
+            <el-form-item :label="$i18nMy.t('事件')" prop="event"
                 :rules="[
                  {required: true, message:'事件不能为空', trigger:'blur'}
                  ]">
-		            <el-select v-model="inputForm.event" :placeholder="{{$i18nMy.t('请选择')"  style="width: 100%;">
+		            <el-select v-model="inputForm.event" :placeholder="$i18nMy.t('请选择')"  style="width: 100%;">
                           <el-option
                             v-for="item in events"
                             :key="item.value"
@@ -43,7 +43,7 @@
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('值类型')" prop="valueType"
+            <el-form-item :label="$i18nMy.t('值类型')" prop="valueType"
                 :rules="[
                  {required: true, message:'值类型不能为空', trigger:'blur'}
                  ]">
@@ -59,7 +59,7 @@
                 :rules="[
                  {required: true, message:'值不能为空', trigger:'blur'}
                  ]">
-			        <el-input v-model="inputForm.value" :placeholder="{{$i18nMy.t('请填写值')"     ></el-input>
+			        <el-input v-model="inputForm.value" :placeholder="$i18nMy.t('请填写值')"     ></el-input>
 	         </el-form-item>
         </el-col>
         </el-row>

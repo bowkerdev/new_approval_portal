@@ -9,7 +9,7 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('归属部门')" prop="office.id"
+            <el-form-item :label="$i18nMy.t('归属部门')" prop="office.id"
                 :rules="[
                   {required: true, message:'归属部门不能为空', trigger:'blur'}
                  ]">
@@ -29,7 +29,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('员工')" prop="tuser.id"
+            <el-form-item :label="$i18nMy.t('员工')" prop="tuser.id"
                 :rules="[
                   {required: true, message:'员工不能为空', trigger:'blur'}
                  ]">
@@ -37,7 +37,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('归属区域')" prop="area"
+            <el-form-item :label="$i18nMy.t('归属区域')" prop="area"
                 :rules="[
                  ]">
                       <CityPicker 
@@ -49,7 +49,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('请假开始日期')" prop="beginDate"
+            <el-form-item :label="$i18nMy.t('请假开始日期')" prop="beginDate"
                 :rules="[
                   {required: true, message:'请假开始日期不能为空', trigger:'blur'},
                   {validator: validator.date, trigger:'blur'}
@@ -59,12 +59,12 @@
                       v-model="inputForm.beginDate"
                       type="datetime"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      :placeholder="{{$i18nMy.t('选择日期时间')">
+                      :placeholder="$i18nMy.t('选择日期时间')">
                     </el-date-picker>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('请假结束日期')" prop="endDate"
+            <el-form-item :label="$i18nMy.t('请假结束日期')" prop="endDate"
                 :rules="[
                   {required: true, message:'请假结束日期不能为空', trigger:'blur'},
                   {validator: validator.date, trigger:'blur'}
@@ -74,15 +74,15 @@
                       v-model="inputForm.endDate"
                       type="datetime"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      :placeholder="{{$i18nMy.t('选择日期时间')">
+                      :placeholder="$i18nMy.t('选择日期时间')">
                     </el-date-picker>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('备注信息')" prop="remarks"
+            <el-form-item :label="$i18nMy.t('备注信息')" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="{{$i18nMy.t('请填写备注信息')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写备注信息')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

@@ -28,16 +28,16 @@
             value-format="yyyy-MM-dd hh:mm:ss"
             unlink-panels
             range-separator="至"
-            start-:placeholder="{{$i18nMy.t('开始日期')"
-            end-:placeholder="{{$i18nMy.t('结束日期')"
+            start-:placeholder="$i18nMy.t('开始日期')"
+            end-:placeholder="$i18nMy.t('结束日期')"
             :picker-options="pickerOptions">
           </el-date-picker>
         </el-form-item>
         <el-form-item prop="title">
-            <el-input size="small" v-model="searchForm.title" :placeholder="{{$i18nMy.t('操作菜单')" clearable></el-input>
+            <el-input size="small" v-model="searchForm.title" :placeholder="$i18nMy.t('操作菜单')" clearable></el-input>
         </el-form-item>
         <el-form-item prop="createBy.name">
-            <el-input size="small" v-model="searchForm.createBy.name" :placeholder="{{$i18nMy.t('操作用户')" clearable></el-input>
+            <el-input size="small" v-model="searchForm.createBy.name" :placeholder="$i18nMy.t('操作用户')" clearable></el-input>
         </el-form-item>
         <el-form-item prop="requestUri">
             <el-input size="small" v-model="searchForm.requestUri" placeholder="URI" clearable></el-input>
@@ -86,7 +86,7 @@
            <el-table-column v-if="searchForm.type == '3'" type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
-                <el-form-item :label="{{$i18nMy.t('异常信息：')">
+                <el-form-item :label="$i18nMy.t('异常信息：')">
                   <span style="color:red">{{ props.row.exception }}</span>
                 </el-form-item>
               </el-form>
@@ -96,19 +96,19 @@
             prop="title"
             show-overflow-tooltip
              width="150"
-            :label="{{$i18nMy.t('操作菜单')">
+            :label="$i18nMy.t('操作菜单')">
           </el-table-column>
           <el-table-column
             prop="createBy.name"
-            :label="{{$i18nMy.t('操作用户')">
+            :label="$i18nMy.t('操作用户')">
           </el-table-column>
            <el-table-column
             prop="createBy.company.name"
-            :label="{{$i18nMy.t('公司')">
+            :label="$i18nMy.t('公司')">
           </el-table-column>
            <el-table-column
             prop="createBy.office.name"
-            :label="{{$i18nMy.t('部门')">
+            :label="$i18nMy.t('部门')">
           </el-table-column>
           <el-table-column
             prop="requestUri"
@@ -120,7 +120,7 @@
             prop="method"
             width="100"
             show-overflow-tooltip
-            :label="{{$i18nMy.t('提交方式')">
+            :label="$i18nMy.t('提交方式')">
           </el-table-column>
            <el-table-column
             prop="remoteAddr"
@@ -132,7 +132,7 @@
             prop="createDate"
             width="150"
             :show-overflow-tooltip="true"
-            :label="{{$i18nMy.t('操作时间')">
+            :label="$i18nMy.t('操作时间')">
           </el-table-column> 
         </el-table>
        <el-pagination

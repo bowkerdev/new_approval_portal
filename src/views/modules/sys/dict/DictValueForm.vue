@@ -7,14 +7,14 @@
     :visible.sync="visible">
     <el-form :model="inputForm" :rules="dataRule" v-loading="loading" ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="80px" @submit.native.prevent>
-      <el-form-item :label="{{$i18nMy.t('标签')" prop="label">
-        <el-input v-model="inputForm.label" :placeholder="{{$i18nMy.t('标签')"></el-input>
+      <el-form-item :label="$i18nMy.t('标签')" prop="label">
+        <el-input v-model="inputForm.label" :placeholder="$i18nMy.t('标签')"></el-input>
       </el-form-item>
-      <el-form-item :label="{{$i18nMy.t('键值')" prop="value">
-        <el-input v-model="inputForm.value" :placeholder="{{$i18nMy.t('键值')"></el-input>
+      <el-form-item :label="$i18nMy.t('键值')" prop="value">
+        <el-input v-model="inputForm.value" :placeholder="$i18nMy.t('键值')"></el-input>
       </el-form-item>
-      <el-form-item :label="{{$i18nMy.t('排序号')" prop="sort">
-        <el-input-number  :step="1" v-model="inputForm.sort" :placeholder="{{$i18nMy.t('排序号')"></el-input-number>
+      <el-form-item :label="$i18nMy.t('排序号')" prop="sort">
+        <el-input-number  :step="1" v-model="inputForm.sort" :placeholder="$i18nMy.t('排序号')"></el-input-number>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">

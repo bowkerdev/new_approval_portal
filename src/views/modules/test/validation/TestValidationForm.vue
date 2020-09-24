@@ -9,54 +9,54 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('浮点数字')" prop="num"
+            <el-form-item :label="$i18nMy.t('浮点数字')" prop="num"
                 :rules="[
                   {required: true, message:'浮点数字不能为空', trigger:'blur'},
                   {validator: validator.isFloat, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.num" :placeholder="{{$i18nMy.t('请填写浮点数字')"    max="69.3"  min="20.1" ></el-input>
+              <el-input v-model="inputForm.num" :placeholder="$i18nMy.t('请填写浮点数字')"    max="69.3"  min="20.1" ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('整数')" prop="num2"
+            <el-form-item :label="$i18nMy.t('整数')" prop="num2"
                 :rules="[
                   {required: true, message:'整数不能为空', trigger:'blur'},
                   {validator: validator.isDigits, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.num2" :placeholder="{{$i18nMy.t('请填写整数')"    max="30"  min="10" ></el-input>
+              <el-input v-model="inputForm.num2" :placeholder="$i18nMy.t('请填写整数')"    max="30"  min="10" ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('字符串')" prop="str"
+            <el-form-item :label="$i18nMy.t('字符串')" prop="str"
                 :rules="[
                   {required: true, message:'字符串不能为空', trigger:'blur'},
                   { min: 5, message: '最小长度是5个字符', trigger: 'blur' }
                  ]">
-              <el-input v-model="inputForm.str" :placeholder="{{$i18nMy.t('请填写字符串')"  maxlength="65"  minlength="5"   ></el-input>
+              <el-input v-model="inputForm.str" :placeholder="$i18nMy.t('请填写字符串')"  maxlength="65"  minlength="5"   ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('邮件')" prop="email"
+            <el-form-item :label="$i18nMy.t('邮件')" prop="email"
                 :rules="[
                   {required: true, message:'邮件不能为空', trigger:'blur'},
                   { min: 10, message: '最小长度是10个字符', trigger: 'blur' },
                   {validator: validator.isEmail, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.email" :placeholder="{{$i18nMy.t('请填写邮件')"  maxlength="60"  minlength="10"   ></el-input>
+              <el-input v-model="inputForm.email" :placeholder="$i18nMy.t('请填写邮件')"  maxlength="60"  minlength="10"   ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('网址')" prop="url"
+            <el-form-item :label="$i18nMy.t('网址')" prop="url"
                 :rules="[
                   {required: true, message:'网址不能为空', trigger:'blur'},
                   { min: 10, message: '最小长度是10个字符', trigger: 'blur' },
                   {validator: validator.isURL, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.url" :placeholder="{{$i18nMy.t('请填写网址')"  maxlength="30"  minlength="10"   ></el-input>
+              <el-input v-model="inputForm.url" :placeholder="$i18nMy.t('请填写网址')"  maxlength="30"  minlength="10"   ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('日期')" prop="newDate"
+            <el-form-item :label="$i18nMy.t('日期')" prop="newDate"
                 :rules="[
                   {required: true, message:'日期不能为空', trigger:'blur'}
                  ]">
@@ -65,16 +65,16 @@
                       v-model="inputForm.newDate"
                       type="datetime"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      :placeholder="{{$i18nMy.t('选择日期时间')">
+                      :placeholder="$i18nMy.t('选择日期时间')">
                     </el-date-picker>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('备注信息')" prop="remarks"
+            <el-form-item :label="$i18nMy.t('备注信息')" prop="remarks"
                 :rules="[
                   {required: true, message:'备注信息不能为空', trigger:'blur'}
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="{{$i18nMy.t('请填写备注信息')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写备注信息')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -87,12 +87,12 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('身份证号码')" prop="c2"
+            <el-form-item :label="$i18nMy.t('身份证号码')" prop="c2"
                 :rules="[
                   {required: true, message:'身份证号码不能为空', trigger:'blur'},
                   {validator: validator.isCardId, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.c2" :placeholder="{{$i18nMy.t('请填写身份证号码')"     ></el-input>
+              <el-input v-model="inputForm.c2" :placeholder="$i18nMy.t('请填写身份证号码')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -105,21 +105,21 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('手机号码')" prop="c4"
+            <el-form-item :label="$i18nMy.t('手机号码')" prop="c4"
                 :rules="[
                   {required: true, message:'手机号码不能为空', trigger:'blur'},
                   {validator: validator.isMobile, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.c4" :placeholder="{{$i18nMy.t('请填写手机号码')"     ></el-input>
+              <el-input v-model="inputForm.c4" :placeholder="$i18nMy.t('请填写手机号码')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('中英文数字下划线')" prop="c5"
+            <el-form-item :label="$i18nMy.t('中英文数字下划线')" prop="c5"
                 :rules="[
                   {required: true, message:'中英文数字下划线不能为空', trigger:'blur'},
                   {validator: validator.stringCheck, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.c5" :placeholder="{{$i18nMy.t('请填写中英文数字下划线')"     ></el-input>
+              <el-input v-model="inputForm.c5" :placeholder="$i18nMy.t('请填写中英文数字下划线')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -132,27 +132,27 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('英语')" prop="en"
+            <el-form-item :label="$i18nMy.t('英语')" prop="en"
                 :rules="[
                   {validator: validator.isEnglish, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.en" :placeholder="{{$i18nMy.t('请填写英语')"     ></el-input>
+              <el-input v-model="inputForm.en" :placeholder="$i18nMy.t('请填写英语')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('汉子')" prop="zn"
+            <el-form-item :label="$i18nMy.t('汉子')" prop="zn"
                 :rules="[
                   {validator: validator.isChinese, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.zn" :placeholder="{{$i18nMy.t('请填写汉子')"     ></el-input>
+              <el-input v-model="inputForm.zn" :placeholder="$i18nMy.t('请填写汉子')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('汉英字符')" prop="enzn"
+            <el-form-item :label="$i18nMy.t('汉英字符')" prop="enzn"
                 :rules="[
                   {validator: validator.isChineseChar, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.enzn" :placeholder="{{$i18nMy.t('请填写汉英字符')"     ></el-input>
+              <el-input v-model="inputForm.enzn" :placeholder="$i18nMy.t('请填写汉英字符')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

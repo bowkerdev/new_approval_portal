@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-input :placeholder="{{$i18nMy.t('请选择')" :size="size" :readonly="true" style="line-hight:40px" v-model="name" class="input-with-select" >
+    <el-input :placeholder="$i18nMy.t('请选择')" :size="size" :readonly="true" style="line-hight:40px" v-model="name" class="input-with-select" >
       <el-button slot="append" @click="showSelectDialog" icon="el-icon-search"></el-button>
     </el-input>
     <el-dialog

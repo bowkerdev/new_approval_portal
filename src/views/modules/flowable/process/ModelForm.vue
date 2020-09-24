@@ -8,10 +8,10 @@
        <el-row :gutter="15">
         <el-col :span="12">
 
-           <el-form-item :label="{{$i18nMy.t('流程分类')" prop="category" :rules="[
+           <el-form-item :label="$i18nMy.t('流程分类')" prop="category" :rules="[
             {required: true, message: '流程分类不能为空', trigger: 'blur'}
           ]">
-          <el-select v-model="inputForm.category" :placeholder="{{$i18nMy.t('请选择')"  style="width: 100%;">
+          <el-select v-model="inputForm.category" :placeholder="$i18nMy.t('请选择')"  style="width: 100%;">
               <el-option
                 v-for="item in this.$dictUtils.getDictList('act_category')"
                 :key="item.value"
@@ -22,13 +22,13 @@
         </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="{{$i18nMy.t('模型标识')" prop="key" :rules="[{required: true, message: '模型标识不能为空', trigger: 'blur'}]">
+          <el-form-item :label="$i18nMy.t('模型标识')" prop="key" :rules="[{required: true, message: '模型标识不能为空', trigger: 'blur'}]">
             <el-input v-model="inputForm.key" maxlength="50" placeholder=""></el-input>
           </el-form-item>
         </el-col>
     
         <el-col :span="12">
-          <el-form-item :label="{{$i18nMy.t('模型名称')" prop="name" :rules="[
+          <el-form-item :label="$i18nMy.t('模型名称')" prop="name" :rules="[
             {required: true, message: '模型标识不能为空', trigger: 'blur'}
           ]">
             <el-input v-model="inputForm.name" maxlength="50" placeholder=""></el-input>
@@ -37,8 +37,8 @@
 
 
         <el-col :span="12">
-          <el-form-item :label="{{$i18nMy.t('模块描述')" prop="description">
-            <el-input type="textarea" v-model="inputForm.description" :placeholder="{{$i18nMy.t('备注')"></el-input>
+          <el-form-item :label="$i18nMy.t('模块描述')" prop="description">
+            <el-input type="textarea" v-model="inputForm.description" :placeholder="$i18nMy.t('备注')"></el-input>
           </el-form-item>
         </el-col>
        

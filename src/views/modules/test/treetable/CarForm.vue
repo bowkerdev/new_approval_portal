@@ -9,14 +9,14 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('品牌')" prop="name"
+            <el-form-item :label="$i18nMy.t('品牌')" prop="name"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.name" :placeholder="{{$i18nMy.t('请填写品牌')"     ></el-input>
+              <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写品牌')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('车系')" prop="kind.id"
+            <el-form-item :label="$i18nMy.t('车系')" prop="kind.id"
                 :rules="[
                  ]">
           <SelectTree
@@ -35,10 +35,10 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('简介')" prop="remarks"
+            <el-form-item :label="$i18nMy.t('简介')" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="{{$i18nMy.t('请填写简介')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写简介')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

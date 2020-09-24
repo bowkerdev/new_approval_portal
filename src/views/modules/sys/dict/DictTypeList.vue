@@ -3,7 +3,7 @@
 
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="type">
-          <el-input size="small" v-model="searchForm.type" :placeholder="{{$i18nMy.t('类型')" clearable></el-input>
+          <el-input size="small" v-model="searchForm.type" :placeholder="$i18nMy.t('类型')" clearable></el-input>
         </el-form-item>
       <el-form-item>
         <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
@@ -52,7 +52,7 @@
         <el-table-column
           prop="type"
           sortable="custom"
-          :label="{{$i18nMy.t('类型')">
+          :label="$i18nMy.t('类型')">
          <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('sys:dict:edit')" @click="edit(scope.row.id)">{{scope.row.type}}</el-link>
           <el-link  type="primary" :underline="false" v-else-if="hasPermission('sys:dict:view')"  @click="view(scope.row.id)">{{scope.row.type}}</el-link>
@@ -61,14 +61,14 @@
         </el-table-column>
         <el-table-column
           prop="description"
-          :label="{{$i18nMy.t('描述')">
+          :label="$i18nMy.t('描述')">
         </el-table-column>
         <el-table-column
           fixed="right"
           header-align="center"
           align="center"
           width="250"
-          :label="{{$i18nMy.t('操作')">
+          :label="$i18nMy.t('操作')">
           <template slot-scope="scope">
              <el-button v-if="hasPermission('sys:dict:view')" type="text" size="small"
                       @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>

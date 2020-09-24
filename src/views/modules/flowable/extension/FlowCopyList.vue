@@ -21,23 +21,23 @@
 	  <el-table-column
         prop="procInsName"
         sortable="custom"
-        :label="{{$i18nMy.t('实例标题')">
+        :label="$i18nMy.t('实例标题')">
       </el-table-column>
 	  <el-table-column
         prop="createDate"
         sortable="custom"
-        :label="{{$i18nMy.t('抄送日期')">
+        :label="$i18nMy.t('抄送日期')">
       </el-table-column>
       <el-table-column
         prop="createBy.name"
         sortable="custom"
-        :label="{{$i18nMy.t('抄送发起人')">
+        :label="$i18nMy.t('抄送发起人')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         width="150"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('extension:flowCopy:view')" type="text" icon="el-icon-view" size="mini" @click="detail(scope.row)">{{$i18nMy.t('查阅审批')}}</el-button>
           <el-button v-if="hasPermission('extension:flowCopy:del')" type="text" size="mini" icon="el-icon-delete" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>

@@ -4,7 +4,7 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('变动用户')" prop="user.id"
+            <el-form-item :label="$i18nMy.t('变动用户')" prop="user.id"
                 :rules="[
                   {required: true, message:'变动用户不能为空', trigger:'blur'}
                  ]">
@@ -12,7 +12,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('归属部门')" prop="office.id"
+            <el-form-item :label="$i18nMy.t('归属部门')" prop="office.id"
                 :rules="[
                   {required: true, message:'归属部门不能为空', trigger:'blur'}
                  ]">
@@ -32,14 +32,14 @@
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('岗位')" prop="post"
+            <el-form-item :label="$i18nMy.t('岗位')" prop="post"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.post" :placeholder="{{$i18nMy.t('请填写岗位')"     ></el-input>
+              <el-input v-model="inputForm.post" :placeholder="$i18nMy.t('请填写岗位')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('性别')" prop="sex"
+            <el-form-item :label="$i18nMy.t('性别')" prop="sex"
                 :rules="[
                  ]">
                     <el-radio-group v-model="inputForm.sex">
@@ -48,18 +48,18 @@
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('学历')" prop="edu"
+            <el-form-item :label="$i18nMy.t('学历')" prop="edu"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.edu" :placeholder="{{$i18nMy.t('请填写学历')"     ></el-input>
+              <el-input v-model="inputForm.edu" :placeholder="$i18nMy.t('请填写学历')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('调整原因')" prop="content"
+            <el-form-item :label="$i18nMy.t('调整原因')" prop="content"
                 :rules="[
                   {required: true, message:'调整原因不能为空', trigger:'blur'}
                  ]">
-          <el-input type="textarea" v-model="inputForm.content" :placeholder="{{$i18nMy.t('请填写调整原因')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.content" :placeholder="$i18nMy.t('请填写调整原因')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -107,15 +107,15 @@
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('月增资')" prop="addNum"
+            <el-form-item :label="$i18nMy.t('月增资')" prop="addNum"
                 :rules="[
                   {required: true, message:'月增资不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.addNum" :placeholder="{{$i18nMy.t('请填写月增资')"     ></el-input>
+              <el-input v-model="inputForm.addNum" :placeholder="$i18nMy.t('请填写月增资')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('执行时间')" prop="exeDate"
+            <el-form-item :label="$i18nMy.t('执行时间')" prop="exeDate"
                 :rules="[
                   {required: true, message:'执行时间不能为空', trigger:'blur'}
                  ]">
@@ -124,15 +124,15 @@
                       type="datetime"
                       style="width: 100%;"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      :placeholder="{{$i18nMy.t('选择日期时间')">
+                      :placeholder="$i18nMy.t('选择日期时间')">
                     </el-date-picker>
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="{{$i18nMy.t('备注信息')" prop="remarks"
+            <el-form-item :label="$i18nMy.t('备注信息')" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="{{$i18nMy.t('请填写备注信息')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写备注信息')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

@@ -9,18 +9,18 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('课程名')" prop="name"
+            <el-form-item :label="$i18nMy.t('课程名')" prop="name"
                 :rules="[
                   {required: true, message:'课程名不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.name" :placeholder="{{$i18nMy.t('请填写课程名')"     ></el-input>
+              <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写课程名')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="{{$i18nMy.t('备注信息')" prop="remarks"
+            <el-form-item :label="$i18nMy.t('备注信息')" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="{{$i18nMy.t('请填写备注信息')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写备注信息')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

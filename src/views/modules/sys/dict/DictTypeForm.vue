@@ -7,11 +7,11 @@
     :visible.sync="visible">
     <el-form :model="inputForm" :rules="dataRule" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="80px" @submit.native.prevent>
-      <el-form-item :label="{{$i18nMy.t('类型')" prop="type">
-        <el-input v-model="inputForm.type" maxlength="50" :placeholder="{{$i18nMy.t('类型')"></el-input>
+      <el-form-item :label="$i18nMy.t('类型')" prop="type">
+        <el-input v-model="inputForm.type" maxlength="50" :placeholder="$i18nMy.t('类型')"></el-input>
       </el-form-item>
-      <el-form-item :label="{{$i18nMy.t('描述')" prop="description">
-        <el-input type="textarea" v-model="inputForm.description" maxlength="50" :placeholder="{{$i18nMy.t('描述')"></el-input>
+      <el-form-item :label="$i18nMy.t('描述')" prop="description">
+        <el-input type="textarea" v-model="inputForm.description" maxlength="50" :placeholder="$i18nMy.t('描述')"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">

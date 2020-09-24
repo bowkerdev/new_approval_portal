@@ -7,10 +7,10 @@
             <chart-card>
                 <div slot="card-head" class="relative">
                     <el-tabs v-model="tabs.name">
-                        <el-tab-pane :label="{{$i18nMy.t('销售额')" name="cellNum">
+                        <el-tab-pane :label="$i18nMy.t('销售额')" name="cellNum">
                             <cell-num ref = "cellNum"></cell-num>
                         </el-tab-pane>
-                        <el-tab-pane :label="{{$i18nMy.t('访问量')" name="visitNum">
+                        <el-tab-pane :label="$i18nMy.t('访问量')" name="visitNum">
                             <visit-num ref = "visitNum"></visit-num>
                         </el-tab-pane>
                     </el-tabs>
@@ -29,8 +29,8 @@
                                     v-model="chart.range"
                                     type="daterange"
                                     range-separator="~"
-                                    start-:placeholder="{{$i18nMy.t('开始日期')"
-                                    end-:placeholder="{{$i18nMy.t('结束日期')">
+                                    start-:placeholder="$i18nMy.t('开始日期')"
+                                    end-:placeholder="$i18nMy.t('结束日期')">
                             </el-date-picker>
                         </el-col>
                       </el-row>

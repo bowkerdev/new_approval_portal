@@ -6,16 +6,16 @@
     :append-to-body="true">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()"
              label-width="80px" @submit.native.prevent>
-      <el-form-item :label="{{$i18nMy.t('账号')">
+      <el-form-item :label="$i18nMy.t('账号')">
         <span>{{ userName }}</span>
       </el-form-item>
-      <el-form-item :label="{{$i18nMy.t('原密码')" prop="password">
+      <el-form-item :label="$i18nMy.t('原密码')" prop="password">
         <el-input type="password" v-model="dataForm.password"></el-input>
       </el-form-item>
-      <el-form-item :label="{{$i18nMy.t('新密码')" prop="newPassword">
+      <el-form-item :label="$i18nMy.t('新密码')" prop="newPassword">
         <el-input type="password" v-model="dataForm.newPassword"></el-input>
       </el-form-item>
-      <el-form-item :label="{{$i18nMy.t('确认密码')" prop="confirmPassword">
+      <el-form-item :label="$i18nMy.t('确认密码')" prop="confirmPassword">
         <el-input type="password" v-model="dataForm.confirmPassword"></el-input>
       </el-form-item>
     </el-form>

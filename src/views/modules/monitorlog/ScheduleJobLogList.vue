@@ -64,7 +64,7 @@
         prop="type"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('异步任务的唯一区分值')">
+        :label="$i18nMy.t('异步任务的唯一区分值')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('monitorlog:scheduleJobLog:edit')" @click="edit(scope.row.id)">{{scope.row.type}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('monitorlog:scheduleJobLog:view')"  @click="view(scope.row.id)">{{scope.row.type}}</el-link>
@@ -75,26 +75,26 @@
         prop="name"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('名称')">
+        :label="$i18nMy.t('名称')">
       </el-table-column>
     <el-table-column
         prop="startTime"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('执行开始时间')">
+        :label="$i18nMy.t('执行开始时间')">
       </el-table-column>
     <el-table-column
         prop="endTime"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('执行结束时间')">
+        :label="$i18nMy.t('执行结束时间')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         fixed="right"
         width="200"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('monitorlog:scheduleJobLog:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
           <el-button v-if="hasPermission('monitorlog:scheduleJobLog:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

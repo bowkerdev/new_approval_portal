@@ -25,7 +25,7 @@
 		<el-col :span="24">
 		 <el-form-item label-width="0">
             <el-tabs v-model="taskDefExtensionTab">
-            <el-tab-pane :label="{{$i18nMy.t('按钮设置')">
+            <el-tab-pane :label="$i18nMy.t('按钮设置')">
                   <el-button size="small" @click="addFlowButtonRow" type="primary">{{$i18nMy.t('新增')}}</el-button>
                   <el-table
                   border
@@ -35,35 +35,35 @@
                     prop="name"
                     header-align="center"
                     align="center"
-                    :label="{{$i18nMy.t('按钮名称')">
+                    :label="$i18nMy.t('按钮名称')">
                   </el-table-column>
             	  <el-table-column
                     prop="code"
                     header-align="center"
                     align="center"
-                    :label="{{$i18nMy.t('编码')">
+                    :label="$i18nMy.t('编码')">
                   </el-table-column>
             	  <el-table-column
                     prop="isHide"
                     header-align="center"
                     align="center"
-                    :label="{{$i18nMy.t('是否隐藏')">
+                    :label="$i18nMy.t('是否隐藏')">
                   </el-table-column>
             	  <el-table-column
                     prop="next"
                     header-align="center"
                     align="center"
-                    :label="{{$i18nMy.t('下一节点审核人')">
+                    :label="$i18nMy.t('下一节点审核人')">
                   </el-table-column>
             	  <el-table-column
                     prop="sort"
                     header-align="center"
                     align="center"
-                    :label="{{$i18nMy.t('排序')">
+                    :label="$i18nMy.t('排序')">
                   </el-table-column>
                   <el-table-column
                     fixed="right"
-                    :label="{{$i18nMy.t('操作')"
+                    :label="$i18nMy.t('操作')"
                     width="150">
                     <template slot-scope="scope">
                       <el-button @click="viewFlowButtonRow(scope.row)" type="text" size="small">{{$i18nMy.t('查看')}}</el-button>

@@ -9,7 +9,7 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="16">
-            <el-form-item :label="{{$i18nMy.t('父级编号')" prop="parent.id"
+            <el-form-item :label="$i18nMy.t('父级编号')" prop="parent.id"
                 :rules="[
                  ]">
            			<SelectTree
@@ -28,20 +28,20 @@
            </el-form-item>
         </el-col>
         <el-col :span="16">
-            <el-form-item :label="{{$i18nMy.t('名称')" prop="name"
+            <el-form-item :label="$i18nMy.t('名称')" prop="name"
                 :rules="[
                   {required: true, message:'名称不能为空', trigger:'blur'}
                  ]">
-			        <el-input v-model="inputForm.name" :placeholder="{{$i18nMy.t('请填写名称')"     ></el-input>
+			        <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写名称')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="16">
-            <el-form-item :label="{{$i18nMy.t('排序')" prop="sort"
+            <el-form-item :label="$i18nMy.t('排序')" prop="sort"
                 :rules="[
                   {required: true, message:'排序不能为空', trigger:'blur'},
                   {validator: validator.isNumber, trigger:'blur'}
                  ]">
-			        <el-input v-model="inputForm.sort" :placeholder="{{$i18nMy.t('请填写排序')"     ></el-input>
+			        <el-input v-model="inputForm.sort" :placeholder="$i18nMy.t('请填写排序')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

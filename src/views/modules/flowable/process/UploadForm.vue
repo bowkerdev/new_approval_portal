@@ -8,10 +8,10 @@
        <el-row :gutter="15">
         <el-col :span="24">
 
-           <el-form-item :label="{{$i18nMy.t('流程分类')" prop="category" :rules="[
+           <el-form-item :label="$i18nMy.t('流程分类')" prop="category" :rules="[
             {required: true, message: '流程分类不能为空', trigger: 'blur'}
           ]">
-          <el-select v-model="inputForm.category" :placeholder="{{$i18nMy.t('请选择')"  style="width: 100%;">
+          <el-select v-model="inputForm.category" :placeholder="$i18nMy.t('请选择')"  style="width: 100%;">
               <el-option
                 v-for="item in this.$dictUtils.getDictList('act_category')"
                 :key="item.value"
@@ -22,7 +22,7 @@
         </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item :label="{{$i18nMy.t('流程文件')" prop="file" :rules="[{required: true, message: '流程文件不能为空', trigger: 'blur'}]">
+          <el-form-item :label="$i18nMy.t('流程文件')" prop="file" :rules="[{required: true, message: '流程文件不能为空', trigger: 'blur'}]">
             <el-upload
               class="upload-demo"
               ref="upload"

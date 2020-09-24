@@ -3,7 +3,7 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="title">
-                <el-input size="small" v-model="searchForm.title" :placeholder="{{$i18nMy.t('标题')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.title" :placeholder="$i18nMy.t('标题')" clearable></el-input>
          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
@@ -67,7 +67,7 @@
         prop="title"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('标题')">
+        :label="$i18nMy.t('标题')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('test:note:testNote:edit')" @click="edit(scope.row.id)">{{scope.row.title}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('test:note:testNote:view')"  @click="view(scope.row.id)">{{scope.row.title}}</el-link>
@@ -78,7 +78,7 @@
         prop="contents"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('内容')">
+        :label="$i18nMy.t('内容')">
         <template slot-scope="scope">
             <p v-html="$utils.unescapeHTML(scope.row.contents)"></p>
         </template>
@@ -88,7 +88,7 @@
         align="center"
         fixed="right"
         width="200"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('test:note:testNote:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
           <el-button v-if="hasPermission('test:note:testNote:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

@@ -4,7 +4,7 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="16">
-            <el-form-item  :label="{{$i18nMy.t('发送到')"  prop="emailAddress"
+            <el-form-item  :label="$i18nMy.t('发送到')"  prop="emailAddress"
                 :rules="[
                   {required: true, message:'收件地址不能为空', trigger:'blur'}
                  ]">
@@ -17,15 +17,15 @@
            </el-form-item>
         </el-col>
         <el-col :span="16">
-            <el-form-item :label="{{$i18nMy.t('标题')" prop="title"
+            <el-form-item :label="$i18nMy.t('标题')" prop="title"
                 :rules="[
                   {required: true, message:'标题不能为空', trigger:'blur'}
                  ]">
-			        <el-input v-model="inputForm.title" :placeholder="{{$i18nMy.t('请输入标题')"     ></el-input>
+			        <el-input v-model="inputForm.title" :placeholder="$i18nMy.t('请输入标题')"     ></el-input>
 	         </el-form-item>
         </el-col>
          <el-col :span="20">
-            <el-form-item :label="{{$i18nMy.t('内容')" prop="content" :rules="[
+            <el-form-item :label="$i18nMy.t('内容')" prop="content" :rules="[
                   {required: true, message:'内容不能为空', trigger:'blur'}
                  ]">
               <WangeEditor ref="editor"   v-model="inputForm.content"/>

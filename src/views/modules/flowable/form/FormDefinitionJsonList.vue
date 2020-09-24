@@ -3,13 +3,13 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
 		     <el-form-item prop="version">
-                <el-input size="small" v-model="searchForm.version" :placeholder="{{$i18nMy.t('版本号')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.version" :placeholder="$i18nMy.t('版本号')" clearable></el-input>
 		     </el-form-item>
 		     <el-form-item prop="status">
-                <el-input size="small" v-model="searchForm.status" :placeholder="{{$i18nMy.t('状态')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.status" :placeholder="$i18nMy.t('状态')" clearable></el-input>
 		     </el-form-item>
 		     <el-form-item prop="isPrimary">
-                <el-input size="small" v-model="searchForm.isPrimary" :placeholder="{{$i18nMy.t('是否主版本')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.isPrimary" :placeholder="$i18nMy.t('是否主版本')" clearable></el-input>
 		     </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
@@ -61,19 +61,19 @@
         prop="json"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('流程表单结构体')">
+        :label="$i18nMy.t('流程表单结构体')">
       </el-table-column>
 	  <el-table-column
         prop="version"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('版本号')">
+        :label="$i18nMy.t('版本号')">
       </el-table-column>
 	  <el-table-column
         prop="status"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('状态')">
+        :label="$i18nMy.t('状态')">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status === '1'" size="small" type="success">{{$i18nMy.t('已发布')}}</el-tag>
           <el-tag v-else size="small" type="danger">{{$i18nMy.t('未发布')}}</el-tag>
@@ -83,7 +83,7 @@
         prop="isPrimary"
         show-overflow-tooltip
         sortable="custom"
-        :label="{{$i18nMy.t('是否主版本')">
+        :label="$i18nMy.t('是否主版本')">
           <template slot-scope="scope">
           <el-tag v-if="scope.row.isPrimary === '1'" size="small" type="success">{{$i18nMy.t('主版本')}}</el-tag>
           <el-tag v-else size="small" type="danger">{{$i18nMy.t('非主版本')}}</el-tag>
@@ -93,7 +93,7 @@
         header-align="center"
         fixed="right"
         width="250"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('预览')}}</el-button>
           <el-button type="text" icon="el-icon-edit"  v-if="scope.row.isPrimary === '0'" size="small" @click="updatePrimary(scope.row.id)">{{$i18nMy.t('设置为主版本')}}</el-button>

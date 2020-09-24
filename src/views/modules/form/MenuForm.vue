@@ -8,7 +8,7 @@
     :visible.sync="visible">
     <el-form :model="inputForm"  ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="120px" @submit.native.prevent>
-        <el-form-item :label="{{$i18nMy.t('上级菜单')" prop="parent.id" :rules="[{required: true, message: '请选择上级菜单', trigger: 'blur'}]">
+        <el-form-item :label="$i18nMy.t('上级菜单')" prop="parent.id" :rules="[{required: true, message: '请选择上级菜单', trigger: 'blur'}]">
              <SelectTree 
              ref="menuParentTree"
              :props="{
@@ -22,12 +22,12 @@
             :accordion="true"
             @getValue="(value) => {inputForm.parent.id=value}"/>
         </el-form-item>
-        <el-form-item :label="{{$i18nMy.t('名称')" prop="name" :rules="[{required: true, message: '名称不能为空', trigger: 'blur'}]">
+        <el-form-item :label="$i18nMy.t('名称')" prop="name" :rules="[{required: true, message: '名称不能为空', trigger: 'blur'}]">
             <el-input maxlength="200" v-model="inputForm.name" 
-                  :placeholder="{{$i18nMy.t('菜单名称')"></el-input>
+                  :placeholder="$i18nMy.t('菜单名称')"></el-input>
         </el-form-item>
-        <el-form-item v-if="inputForm.type !== '2'" :label="{{$i18nMy.t('菜单图标')" prop="icon">
-            <el-input v-model="inputForm.icon" @focus="selectIcon" clearable :readonly="true" style="width:100%" :placeholder="{{$i18nMy.t('菜单图标名称')"></el-input>
+        <el-form-item v-if="inputForm.type !== '2'" :label="$i18nMy.t('菜单图标')" prop="icon">
+            <el-input v-model="inputForm.icon" @focus="selectIcon" clearable :readonly="true" style="width:100%" :placeholder="$i18nMy.t('菜单图标名称')"></el-input>
         </el-form-item>
         <data-rule-list  ref="dataRuleList" :form="form"></data-rule-list>
     </el-form>

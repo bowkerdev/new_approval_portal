@@ -3,22 +3,22 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="cn">
-                <el-input size="small" v-model="searchForm.cn" :placeholder="{{$i18nMy.t('简体中文')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.cn" :placeholder="$i18nMy.t('简体中文')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="hk">
-                <el-input size="small" v-model="searchForm.hk" :placeholder="{{$i18nMy.t('繁体中文')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.hk" :placeholder="$i18nMy.t('繁体中文')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="en">
-                <el-input size="small" v-model="searchForm.en" :placeholder="{{$i18nMy.t('英文')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.en" :placeholder="$i18nMy.t('英文')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="vn">
-                <el-input size="small" v-model="searchForm.vn" :placeholder="{{$i18nMy.t('越南文')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.vn" :placeholder="$i18nMy.t('越南文')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="cam">
-                <el-input size="small" v-model="searchForm.cam" :placeholder="{{$i18nMy.t('柬埔寨')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.cam" :placeholder="$i18nMy.t('柬埔寨')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="code">
-                <el-input size="small" v-model="searchForm.code" :placeholder="{{$i18nMy.t('识别码')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.code" :placeholder="$i18nMy.t('识别码')" clearable></el-input>
          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
@@ -55,8 +55,8 @@
               icon="el-icon-search"
               @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
             </el-button>
-            <el-button v-if="hasPermission('sys:sysSimpleLanguage:import')" type="default" size="small" icon="el-icon-upload2" :title="{{$i18nMy.t('导入')" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
-            <el-button v-if="hasPermission('sys:sysSimpleLanguage:export')" type="default" size="small" icon="el-icon-download" :title="{{$i18nMy.t('导出')" @click="exportExcel()"></el-button>
+            <el-button v-if="hasPermission('sys:sysSimpleLanguage:import')" type="default" size="small" icon="el-icon-upload2" :title="$i18nMy.t('导入')" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
+            <el-button v-if="hasPermission('sys:sysSimpleLanguage:export')" type="default" size="small" icon="el-icon-download" :title="$i18nMy.t('导出')" @click="exportExcel()"></el-button>
             <el-button
               type="default"
               size="small"
@@ -83,7 +83,7 @@
     <el-table-column
         prop="cn"
         sortable="custom"
-        :label="{{$i18nMy.t('简体中文')">
+        :label="$i18nMy.t('简体中文')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('sys:sysSimpleLanguage:edit')" @click="edit(scope.row.id)">{{scope.row.cn}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('sys:sysSimpleLanguage:view')"  @click="view(scope.row.id)">{{scope.row.cn}}</el-link>
@@ -93,33 +93,33 @@
     <el-table-column
         prop="hk"
         sortable="custom"
-        :label="{{$i18nMy.t('繁体中文')">
+        :label="$i18nMy.t('繁体中文')">
       </el-table-column>
     <el-table-column
         prop="en"
         sortable="custom"
-        :label="{{$i18nMy.t('英文')">
+        :label="$i18nMy.t('英文')">
       </el-table-column>
     <el-table-column
         prop="vn"
         sortable="custom"
-        :label="{{$i18nMy.t('越南文')">
+        :label="$i18nMy.t('越南文')">
       </el-table-column>
     <el-table-column
         prop="cam"
         sortable="custom"
-        :label="{{$i18nMy.t('柬埔寨')">
+        :label="$i18nMy.t('柬埔寨')">
       </el-table-column>
     <el-table-column
         prop="code"
         sortable="custom"
-        :label="{{$i18nMy.t('识别码')">
+        :label="$i18nMy.t('识别码')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         width="200"
-        :label="{{$i18nMy.t('操作')">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('sys:sysSimpleLanguage:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
           <el-button v-if="hasPermission('sys:sysSimpleLanguage:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>

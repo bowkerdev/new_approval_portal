@@ -103,7 +103,7 @@ axios.interceptors.response.use(response => {
     clearLoginInfo()
     router.push({ name: 'login' })
     Message({
-      message: $i18n.t(error.response.data.msg) || $i18n.t(error.response.data.exception),
+      message: $i18nMy.t(error.response.data.msg) || $i18nMy.t(error.response.data.exception),
       type: 'error',
       showClose: true,
       dangerouslyUseHTMLString: true,

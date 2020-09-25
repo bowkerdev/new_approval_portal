@@ -193,19 +193,25 @@ export default {
   },
   filterApplyOption (searchForm,optionList){
     try{
-      var filterModeList = ['','_ne','_like','_not_like','_in','_not_in','_ge','_le','_null','_not_null']
-      for(var key in optionList){
+      //清空选项后缀列表
+      var filterModeList = ['_eq','_ne','_like','_not_like','_in','_not_in','_ge','_le','_null','_not_null']
+      for(var prop in optionList){
         var param = searchForm;
-        var option = optionList[key];
-        var ary = option.prop.split('.');
+        var optionList = optionList[prop].optionList;
+        //递归遍历最里层prop
+        var ary = prop.split('.');
         for(var index = 0; index < ary.length - 1 ;index++){
           param = param[ary[index]];
         }
         var originalProp = ary[ary.length - 1];
+        //清空前选项
         for(var index = 0; index < filterModeList.length; index++){
           delete param[originalProp+filterModeList[index]];
         }
-        param[ary[ary.length - 1]+option.filterMode] = option.inputValue;
+        //设置选项
+        optionList.forEach(function(option){
+          param[ary[ary.length - 1]+option.filterMode] = option.inputValue;
+        });
       }
     }catch(e){
 

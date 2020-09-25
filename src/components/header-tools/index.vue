@@ -1,5 +1,5 @@
 <template>
-  <el-popover :placement="placement" :width="width" v-model="visible">
+  <el-popover :placement="placement" :width="width" v-model="visible" class="header-filter">
     <div class="header-tools-order">
       <div @click="sortOrder('ascending')"><i class="el-icon-top"></i>&nbsp;升序</div>
       <div @click="sortOrder('descending')"><i class="el-icon-bottom"></i>&nbsp;降序</div>
@@ -7,26 +7,34 @@
     </div>
     <h3 v-text="label"></h3>
     <div class="header-tools-body">
-      <el-select class="filter-mode-select" v-model="option.filterMode">
-        <el-option key="" value="" label="等于"></el-option>
-        <el-option key="_ne" value="_ne" label="不等于"></el-option>
-        <el-option key="_like" value="_like" label="包含"></el-option>
-        <el-option key="_not_like" value="_not_like" label="不包含"></el-option>
-        <!-- <el-option key="_in" value="_in" label="在之中"></el-option>
-        <el-option key="_not_in" value="_not_in" label="不在之中"></el-option> -->
-        <el-option key="_ge" value="_ge" label="大于等于"></el-option>
-        <el-option key="_le" value="_le" label="小于等于"></el-option>
-        <el-option key="_null" value="_null" label="为空"></el-option>
-        <el-option key="_not_null" value="_not_null" label="不为空"></el-option>
-      </el-select>
-      <el-input v-model="option.inputValue" size="mini" clearable />
+      <div v-for="(option,optionIndex) in optionList">
+        <div class="container-flex-space-between">
+          <el-select class="filter-mode-select" v-model="option.filterMode">
+            <el-option key="_eq" value="_eq" label="等于"></el-option>
+            <el-option key="_ne" value="_ne" label="不等于"></el-option>
+            <el-option key="_like" value="_like" label="包含"></el-option>
+            <el-option key="_not_like" value="_not_like" label="不包含"></el-option>
+            <el-option key="_in" value="_in" label="在之中"></el-option>
+            <el-option key="_not_in" value="_not_in" label="不在之中"></el-option>
+            <el-option key="_ge" value="_ge" label="大于等于"></el-option>
+            <el-option key="_le" value="_le" label="小于等于"></el-option>
+            <el-option key="_null" value="_null" label="为空"></el-option>
+            <el-option key="_not_null" value="_not_null" label="不为空"></el-option>
+          </el-select>
+          <span>
+            <i @click="addFilter(optionIndex)" class="el-icon-circle-plus"></i>
+            <i v-if="optionList.length > 1" @click="removeFilter(optionIndex)" class="el-icon-error"></i>
+          </span>
+        </div>
+        <el-input v-if="option.filterMode != '_null' && option.filterMode != '_not_null'" v-model="option.inputValue" size="mini" clearable />
+      </div>
     </div>
     <div class="header-tools-footer container-flex-space-between">
       <el-button size="small" @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
       <el-button size="small" type="primary" @click="doSubmit()">{{$i18nMy.t('确定')}}</el-button>
     </div>
     <span slot="reference" class="header-tools-title">
-      <span :class="{'has-search':option.inputValue}" v-text="label"></span><span><span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span><i class="el-icon-search" :class="{'has-search':option.inputValue}"></i></span>
+      <span :class="{'has-search':hasFilter()}" v-text="label"></span><span><span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span><i class="el-icon-search" :class="{'has-search':hasFilter()}"></i></span>
     </span>
   </el-popover>
 </template>
@@ -41,7 +49,7 @@
       },
       width: {
         type: String,
-        default: '200'
+        default: '240'
       },
       label: String,
       prop: String
@@ -49,23 +57,56 @@
     data () {
       return {
         visible: false,
-        option:{
+        optionList:[{
           inputValue:'',
-          filterMode:''
-        }
+          filterMode:'_eq'
+        }]
       }
     },
+    mounted : function() {
+      this.$emit('regist-component', this);
+    },
     methods: {
+      addFilter (optionIndex) {
+        this.optionList.splice(optionIndex+1,0,{
+          inputValue:'',
+          filterMode:'_eq'
+        })
+      },
+      removeFilter (optionIndex) {
+        this.optionList.splice(optionIndex,1);
+      },
+      hasFilter () {
+        if(this.optionList && this.optionList.length){
+          for(var i = 0; i < this.optionList.length; i++){
+            if (this.optionList[i].inputValue) {
+              return true;
+            }
+          }
+        }
+        return false;
+      },
       doSubmit () {
-        this.option.prop = this.prop;
-        this.$emit('apply-option', this.option)
+        var option = {
+          prop: this.prop,
+          optionList: this.optionList
+        };
+        this.$emit('apply-option', option)
         this.visible = false;
       },
       sortOrder (sort) {
-        this.option.prop = this.prop;
-        this.option.sort = sort;
-        this.$emit('sort-order', this.option);
+        var option = {
+          prop: this.prop,
+          sort: sort
+        };
+        this.$emit('sort-order', option);
         this.visible = false;
+      },
+      clearFilter () {
+        this.optionList = [{
+          inputValue:'',
+          filterMode:'_eq'
+        }]
       }
     }
   }
@@ -83,7 +124,7 @@
   }
 
   .filter-mode-select{
-    width: 80px;
+    width: 100px;
   }
 
   .filter-mode-select >>>.el-input .el-input__inner{
@@ -113,5 +154,16 @@
 
   .has-search{
     color: #409EFF;
+  }
+
+  .header-tools-body{
+    max-height: 300px;
+    overflow: auto;
+  }
+
+  .header-tools-body >>>i{
+    color: #66b1ff;
+    margin-left: 10px;
+    font-size: 16px;
   }
 </style>

@@ -79,7 +79,7 @@
         this.getTime()
       }, 1000)
       this.checkLoginPage();
-      console.log(window.$i18n.t("请使用账号密码登录"))
+      console.log(window.$i18nMy.t("请使用账号密码登录"))
     },
     mounted () {
       this.$http.get('/sys/sysConfig/queryById').then(({data}) => {

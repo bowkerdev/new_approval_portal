@@ -2,26 +2,17 @@
   <div>
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
-         <el-form-item prop="cn">
-                <el-input size="small" v-model="searchForm.cn" :placeholder="$i18nMy.t('简体中文')" clearable></el-input>
+         <el-form-item prop="oaKey">
+                <el-input size="small" v-model="searchForm.oaKey" placeholder="流程标识" clearable></el-input>
          </el-form-item>
-         <el-form-item prop="hk">
-                <el-input size="small" v-model="searchForm.hk" :placeholder="$i18nMy.t('繁体中文')" clearable></el-input>
+         <el-form-item prop="url">
+                <el-input size="small" v-model="searchForm.url" placeholder="通知的接口" clearable></el-input>
          </el-form-item>
-         <el-form-item prop="en">
-                <el-input size="small" v-model="searchForm.en" :placeholder="$i18nMy.t('英文')" clearable></el-input>
-         </el-form-item>
-         <el-form-item prop="vn">
-                <el-input size="small" v-model="searchForm.vn" :placeholder="$i18nMy.t('越南文')" clearable></el-input>
-         </el-form-item>
-         <el-form-item prop="cam">
-                <el-input size="small" v-model="searchForm.cam" :placeholder="$i18nMy.t('柬埔寨')" clearable></el-input>
-         </el-form-item>
-         <el-form-item prop="code">
-                <el-input size="small" v-model="searchForm.code" :placeholder="$i18nMy.t('识别码')" clearable></el-input>
+         <el-form-item prop="paramList">
+                <el-input size="small" v-model="searchForm.paramList" placeholder="需返回的参数列表" clearable></el-input>
          </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
+            <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询'})}</el-button>
             <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
@@ -33,19 +24,19 @@
          <el-form-item prop="loginName">
             <el-upload
               class="upload-demo"
-              :action="`${this.$http.BASE_URL}/sys/sysSimpleLanguage/import`"
+              :action="`${this.$http.BASE_URL}/flowable/callback/actCallbackUpperSystemConfig/import`"
               :on-success="uploadSuccess"
                :show-file-list="true">
               <el-button size="small" type="primary">{{$i18nMy.t('点击上传')}}</el-button>
-              <div slot="tip" class="el-upload__tip">{{$i18nMy.t('只允许导入“xls”或“xlsx”格式文件')}}！</div>
+              <div slot="tip" class="el-upload__tip">{{$i18nMy.t('只允许导入“xls”或“xlsx”格式文件！')}}</div>
             </el-upload>
         </el-form-item>
       </el-form>
       <el-row>
-<!--        <el-button v-if="hasPermission('sys:sysSimpleLanguage:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>-->
-        <el-button v-if="hasPermission('sys:sysSimpleLanguage:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
+        <el-button v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
+        <el-button v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
          :disabled="dataListSelections.length != 1" plain>{{$i18nMy.t('修改')}}</el-button>
-        <el-button v-if="hasPermission('sys:sysSimpleLanguage:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
+        <el-button v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
                   :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}
         </el-button>
         <el-button-group class="pull-right">
@@ -55,8 +46,8 @@
               icon="el-icon-search"
               @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
             </el-button>
-            <el-button v-if="hasPermission('sys:sysSimpleLanguage:import')" type="default" size="small" icon="el-icon-upload2" :title="$i18nMy.t('导入')" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
-            <el-button v-if="hasPermission('sys:sysSimpleLanguage:export')" type="default" size="small" icon="el-icon-download" :title="$i18nMy.t('导出')" @click="exportExcel()"></el-button>
+            <el-button v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:import')" type="default" size="small" icon="el-icon-upload2" :title="$i18nMy.t('导入')" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
+            <el-button v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:export')" type="default" size="small" icon="el-icon-download" :title="$i18nMy.t('导出')" @click="exportExcel()"></el-button>
             <el-button
               type="default"
               size="small"
@@ -68,11 +59,10 @@
     <el-table
       :data="dataList"
       border
+      size="medium"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       v-loading="loading"
-      size="medium"
-      @expand-change="detail"
       class="table">
       <el-table-column
         type="selection"
@@ -81,49 +71,38 @@
         width="50">
       </el-table-column>
     <el-table-column
-        prop="cn"
+        prop="oaKey"
+        show-overflow-tooltip
         sortable="custom"
-        :label="$i18nMy.t('简体中文')">
+        label="流程标识">
             <template slot-scope="scope">
-              <el-link  type="primary" :underline="false" v-if="hasPermission('sys:sysSimpleLanguage:edit')" @click="edit(scope.row.id)">{{scope.row.cn}}</el-link>
-              <el-link  type="primary" :underline="false" v-else-if="hasPermission('sys:sysSimpleLanguage:view')"  @click="view(scope.row.id)">{{scope.row.cn}}</el-link>
-              <span v-else>{{scope.row.cn}}</span>
+              <el-link  type="primary" :underline="false" v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:edit')" @click="edit(scope.row.id)">{{scope.row.oaKey}}</el-link>
+              <el-link  type="primary" :underline="false" v-else-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:view')"  @click="view(scope.row.id)">{{scope.row.oaKey}}</el-link>
+              <span v-else>{{scope.row.oaKey}}</span>
             </template>
       </el-table-column>
     <el-table-column
-        prop="hk"
+        prop="url"
+        show-overflow-tooltip
         sortable="custom"
-        :label="$i18nMy.t('繁体中文')">
+        label="通知的接口">
       </el-table-column>
     <el-table-column
-        prop="en"
+        prop="paramList"
+        show-overflow-tooltip
         sortable="custom"
-        :label="$i18nMy.t('英文')">
-      </el-table-column>
-    <el-table-column
-        prop="vn"
-        sortable="custom"
-        :label="$i18nMy.t('越南文')">
-      </el-table-column>
-    <el-table-column
-        prop="cam"
-        sortable="custom"
-        :label="$i18nMy.t('柬埔寨')">
-      </el-table-column>
-    <el-table-column
-        prop="code"
-        sortable="custom"
-        :label="$i18nMy.t('识别码')">
+        label="需返回的参数列表">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
+        fixed="right"
         width="200"
-        :label="$i18nMy.t('操作')">
+        label="操作">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('sys:sysSimpleLanguage:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
-          <el-button v-if="hasPermission('sys:sysSimpleLanguage:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
-          <el-button v-if="hasPermission('sys:sysSimpleLanguage:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
+          <el-button v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
+          <el-button v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -138,22 +117,19 @@
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
         <!-- 弹窗, 新增 / 修改 -->
-    <SysSimpleLanguageForm  ref="sysSimpleLanguageForm" @refreshDataList="refreshList"></SysSimpleLanguageForm>
+    <ActCallbackUpperSystemConfigForm  ref="actCallbackUpperSystemConfigForm" @refreshDataList="refreshList"></ActCallbackUpperSystemConfigForm>
   </div>
 </template>
 
 <script>
-  import SysSimpleLanguageForm from './SysSimpleLanguageForm'
+  import ActCallbackUpperSystemConfigForm from './ActCallbackUpperSystemConfigForm'
   export default {
     data () {
       return {
         searchForm: {
-          cn: '',
-          hk: '',
-          en: '',
-          vn: '',
-          cam: '',
-          code: ''
+          oaKey: '',
+          url: '',
+          paramList: ''
         },
         dataList: [],
         pageNo: 1,
@@ -167,7 +143,7 @@
       }
     },
     components: {
-      SysSimpleLanguageForm
+      ActCallbackUpperSystemConfigForm
     },
     activated () {
       this.refreshList()
@@ -176,24 +152,21 @@
     methods: {
       // 获取数据列表
       refreshList () {
-        let _self = this
-        _self.loading = true
-        _self.$http({
-          url: '/sys/sysSimpleLanguage/list',
+        this.loading = true
+        this.$http({
+          url: '/flowable/callback/actCallbackUpperSystemConfig/list',
           method: 'get',
           params: {
-            'pageNo': _self.pageNo,
-            'pageSize': _self.pageSize,
-            'orderBy': _self.orderBy,
-            ..._self.searchForm
+            'pageNo': this.pageNo,
+            'pageSize': this.pageSize,
+            'orderBy': this.orderBy,
+            ...this.searchForm
           }
         }).then(({data}) => {
-          debugger
           if (data && data.success) {
-            _self.dataList = data.page.list
-            console.log(_self.dataList)
-            _self.total = data.page.count
-            _self.loading = false
+            this.dataList = data.page.list
+            this.total = data.page.count
+            this.loading = false
           }
         })
       },
@@ -226,35 +199,32 @@
       },
       // 新增
       add () {
-        this.$refs.sysSimpleLanguageForm.init('add', '')
+        this.$refs.actCallbackUpperSystemConfigForm.init('add', '')
       },
       // 修改
       edit (id) {
         id = id || this.dataListSelections.map(item => {
           return item.id
         })[0]
-        this.$refs.sysSimpleLanguageForm.init('edit', id)
+        this.$refs.actCallbackUpperSystemConfigForm.init('edit', id)
       },
       // 查看
       view (id) {
-        this.$refs.sysSimpleLanguageForm.init('view', id)
+        this.$refs.actCallbackUpperSystemConfigForm.init('view', id)
       },
       // 删除
       del (id) {
         let ids = id || this.dataListSelections.map(item => {
           return item.id
         }).join(',')
-         // eslint-disable-next-line no-undef
-        this.$confirm($i18nMy.t('确定删除所选项吗') + '?', $i18nMy.t('提示'), {
-        // eslint-disable-next-line no-undef
+        this.$confirm($i18nMy.t(`确定删除所选项吗?`), $i18nMy.t('提示'), {
           confirmButtonText: $i18nMy.t('确定'),
-          // eslint-disable-next-line no-undef
           cancelButtonText: $i18nMy.t('取消'),
           type: 'warning'
         }).then(() => {
           this.loading = true
           this.$http({
-            url: '/sys/sysSimpleLanguage/delete',
+            url: '/flowable/callback/actCallbackUpperSystemConfig/delete',
             method: 'delete',
             params: {'ids': ids}
           }).then(({data}) => {
@@ -263,15 +233,6 @@
               this.refreshList()
             }
             this.loading = false
-          })
-        })
-      },
-     // 查看详情
-      detail (row) {
-        this.$http.get(`/sys/sysSimpleLanguage/queryById?id=${row.id}`).then(({data}) => {
-          this.dataList.forEach((item, index) => {
-            if (item.id === row.id) {
-            }
           })
         })
       },
@@ -286,10 +247,10 @@
       },
       // 下载模板
       downloadTpl () {
-        this.$utils.download('/sys/sysSimpleLanguage/import/template')
+        this.$utils.download('/flowable/callback/actCallbackUpperSystemConfig/import/template')
       },
       exportExcel () {
-        this.$utils.download('/sys/sysSimpleLanguage/export')
+        this.$utils.download('/flowable/callback/actCallbackUpperSystemConfig/export')
       },
       resetSearch () {
         this.$refs.searchForm.resetFields()

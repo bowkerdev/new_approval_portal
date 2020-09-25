@@ -1,4 +1,4 @@
-import _i18n from '@/utils/i18n'
+import _i18nMy from '@/utils/i18n2'
 export default {
   isValueNull(value) {
     if (value == null) {
@@ -18,7 +18,7 @@ export default {
     return false
   },
   getLanguage(value) {
-    return _i18n.t(value)
+    return _i18nMy.t(value)
   },
   /**
    * @param columns 格式要求：[{list:[{name:''}]}]

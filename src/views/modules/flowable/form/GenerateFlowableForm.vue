@@ -113,7 +113,9 @@
                         this.dataBindMap.get(key) === 'fileupload' ||
                         this.dataBindMap.get(key) === 'blank') {
                         if (this.formData[key] != null && this.formData[key] != '') {
-                          this.formData[key] = JSON.parse(this.formData[key])
+                          if(Object.prototype.toString.call(this.formData[key])=="[object String]"){
+                            this.formData[key] = JSON.parse(this.formData[key])
+                          }
                         }
                       }
                     }
@@ -127,7 +129,13 @@
                     this.$refs.generateForm.hide(hideArra)
                     this.$refs.generateForm.disabled(disabledArra, true)
                     if (JSON.stringify(this.formData) != '{}') {
-                      this.$refs.generateForm.setData(this.formData)
+                      try{
+                        this.$refs.generateForm.setData(this.formData)
+                      }catch(e){
+                        console.log(e.message)
+                        console.log(this.formData)
+                      }
+
                     }
                   } else {
                     this.$refs.generateForm.createForm(this.options, this.formData, showArra, disabledArra, this.edit)

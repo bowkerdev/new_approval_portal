@@ -48,7 +48,7 @@
                 :rules="[
                   {required: true, message:'识别码不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.code" :placeholder="$i18nMy.t('请填写识别码')"     ></el-input>
+              {{inputForm.code}}
            </el-form-item>
         </el-col>
     <el-col :span="24">

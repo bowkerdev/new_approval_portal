@@ -197,7 +197,7 @@ export default {
       var filterModeList = ['_eq','_ne','_like','_not_like','_in','_not_in','_ge','_le','_null','_not_null']
       for(var prop in optionList){
         var param = searchForm;
-        var optionList = optionList[prop].optionList;
+        var option = optionList[prop].option;
         //递归遍历最里层prop
         var ary = prop.split('.');
         for(var index = 0; index < ary.length - 1 ;index++){
@@ -209,9 +209,20 @@ export default {
           delete param[originalProp+filterModeList[index]];
         }
         //设置选项
-        optionList.forEach(function(option){
+        if (option.filterMode == '_between') {
+          if (option.inputValue) {
+            param[ary[ary.length - 1]+'_ge'] = option.inputValue;
+          }
+          if(option.subInputValue){
+            param[ary[ary.length - 1]+'_le'] = option.subInputValue;
+          }
+        } else if (['_in','_not_in'].indexOf(option.filterMode)>-1) {
+          param[ary[ary.length - 1]+option.filterMode] = option.optionList.map(function(arrayElement){
+            return arrayElement.inputValue;
+          }).join(',');
+        } else {
           param[ary[ary.length - 1]+option.filterMode] = option.inputValue;
-        });
+        }
       }
     }catch(e){
 

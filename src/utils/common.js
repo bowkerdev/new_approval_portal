@@ -220,7 +220,7 @@ export default {
           param[ary[ary.length - 1]+option.filterMode] = option.optionList.map(function(arrayElement){
             return arrayElement.inputValue;
           }).join(',');
-        } else if (option.inputValue){
+        } else {
           param[ary[ary.length - 1]+option.filterMode] = option.inputValue;
         }
       }

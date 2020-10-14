@@ -93,11 +93,11 @@
       init (method, id) {
         this.method = method
         if (method === 'add') {
-          this.title = `新建国际化`
+          this.title = $i18nMy.t('新建国际化')
         } else if (method === 'edit') {
-          this.title = '修改国际化'
+          this.title = $i18nMy.t('修改国际化')
         } else if (method === 'view') {
-          this.title = '查看国际化'
+          this.title = $i18nMy.t('查看国际化')
         }
         this.visible = true
         this.loading = false

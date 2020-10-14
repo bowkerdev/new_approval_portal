@@ -38,8 +38,6 @@
             </el-form>
         </div>
          <el-image class="right" src="/static/img/right.png"></el-image>
-
-
       </div>
     </div>
   </div>
@@ -64,10 +62,10 @@
             {required: true, message: $i18nMy.t('帐号不能为空'), trigger: 'blur'}
           ],
           password: [
-            {required: true, message: '密码不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('密码不能为空'), trigger: 'blur'}
           ],
           captcha: [
-            {required: true, message: '验证码不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('验证码不能为空'), trigger: 'blur'}
           ]
         },
         captchaPath: ''
@@ -79,7 +77,6 @@
         this.getTime()
       }, 1000)
       this.checkLoginPage();
-      console.log(window.$i18nMy.t("请使用账号密码登录"))
     },
     mounted () {
       this.$http.get('/sys/sysConfig/queryById').then(({data}) => {

@@ -10,7 +10,7 @@
        <el-row :gutter="15">
         <el-col :span="24">
           <el-form-item :label="$i18nMy.t('角色名称')" prop="name" :rules="[
-            {required: true, message: '角色名称不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('角色名称不能为空'), trigger: 'blur'}
           ]">
             <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('角色名称')" maxlength="50"></el-input>
             <input type="hidden" v-model="inputForm.oldName"/>
@@ -18,7 +18,7 @@
         </el-col>
         <el-col :span="24">
           <el-form-item :label="$i18nMy.t('英文名称')" prop="enname" :rules="[
-            {required: true, message: '角色英文名称不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('角色英文名称不能为空'), trigger: 'blur'}
           ]">
             <el-input v-model="inputForm.enname" maxlength="50" :placeholder="$i18nMy.t('角色英文名称')"></el-input>
             <input type="hidden" v-model="inputForm.oldEname"/>
@@ -26,7 +26,7 @@
         </el-col>
         <el-col :span="24">
           <el-form-item :label="$i18nMy.t('是否系统数据')" prop="sysData" :rules="[
-            {required: true, message: '是否系统数据不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('是否系统数据不能为空'), trigger: 'blur'}
           ]">
             <el-select v-model="inputForm.sysData" :placeholder="$i18nMy.t('请选择')"  style="width: 100%;">
               <el-option
@@ -41,7 +41,7 @@
         </el-col>
         <el-col :span="24">
           <el-form-item :label="$i18nMy.t('是否可用')" prop="useable" :rules="[
-            {required: true, message: '是否可用不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('是否可用不能为空'), trigger: 'blur'}
           ]">
             <el-select v-model="inputForm.useable" :placeholder="$i18nMy.t('请选择')"  style="width: 100%;">
               <el-option
@@ -87,10 +87,10 @@
         },
         dataRule: {
           name: [
-            {required: true, message: '角色名称不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('角色名称不能为空'), trigger: 'blur'}
           ],
           enname: [
-            {required: true, message: '角色英文名称不能为空', trigger: 'blue'}
+            {required: true, message: $i18nMy.t('角色英文名称不能为空'), trigger: 'blue'}
           ]
         }
       }
@@ -100,11 +100,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = `新建角色`
+          this.title = $i18nMy.t('新建角色')
         } else if (method === 'edit') {
-          this.title = '修改角色'
+          this.title = $i18nMy.t('修改角色')
         } else if (method === 'view') {
-          this.title = '查看角色'
+          this.title = $i18nMy.t('查看角色')
         }
         this.visible = true
         this.$nextTick(() => {

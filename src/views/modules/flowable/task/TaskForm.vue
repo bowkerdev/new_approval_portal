@@ -114,7 +114,7 @@
     </el-col>
     <el-col :span="16">
       <el-form-item v-if="isCC"  :rules="[
-              {required: true, message: '用户不能为空', trigger: 'blur'}
+              {required: true, message: $i18nMy.t('用户不能为空'), trigger: 'blur'}
             ]"  prop="userIds" :label="$i18nMy.t('抄送给')">
             <user-select :value="auditForm.userIds"  @getValue='(value) => {auditForm.userIds=value}'>></user-select>
       </el-form-item>
@@ -126,7 +126,7 @@
     </el-col>
     <el-col :span="16">
       <el-form-item v-if="isAssign"  :rules="[
-              {required: true, message: '用户不能为空', trigger: 'blur'}
+              {required: true, message: $i18nMy.t('用户不能为空'), trigger: 'blur'}
             ]"  prop="assign" :label="$i18nMy.t('指定')">
             <user-select :limit="1" :value="auditForm.assign"  @getValue='(value) => {auditForm.assign=value}'>></user-select>
       </el-form-item>

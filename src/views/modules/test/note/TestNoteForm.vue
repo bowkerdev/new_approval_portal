@@ -54,11 +54,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = `新建富文本测试`
+          this.title = $i18nMy.t('新建富文本测试')
         } else if (method === 'edit') {
-          this.title = '修改富文本测试'
+          this.title = $i18nMy.t('修改富文本测试')
         } else if (method === 'view') {
-          this.title = '查看富文本测试'
+          this.title = $i18nMy.t('查看富文本测试')
         }
         this.visible = true
         this.loading = false

@@ -47,13 +47,13 @@
         },
         dataRule: {
           password: [
-            {required: true, message: '原密码不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('原密码不能为空'), trigger: 'blur'}
           ],
           newPassword: [
-            {required: true, message: '新密码不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('新密码不能为空'), trigger: 'blur'}
           ],
           confirmPassword: [
-            {required: true, message: '确认密码不能为空', trigger: 'blur'},
+            {required: true, message: $i18nMy.t('确认密码不能为空'), trigger: 'blur'},
             {validator: validateConfirmPassword, trigger: 'blur'}
           ]
         }
@@ -96,7 +96,7 @@
             }).then(({data}) => {
               if (data && data.code === 0) {
                 this.$message({
-                  message: '操作成功',
+                  message: $i18nMy.t('操作成功'),
                   type: 'success',
                   duration: 1500
                 })

@@ -65,11 +65,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = `新建表单只读配置`
+          this.title = $i18nMy.t('新建表单只读配置')
         } else if (method === 'edit') {
-          this.title = '修改表单只读配置'
+          this.title = $i18nMy.t('修改表单只读配置')
         } else if (method === 'view') {
-          this.title = '查看表单只读配置'
+          this.title = $i18nMy.t('查看表单只读配置')
         }
         this.visible = true
         this.$nextTick(() => {

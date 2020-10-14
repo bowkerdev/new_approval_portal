@@ -41,10 +41,10 @@
         },
         dataRule: {
           label: [
-            {required: true, message: '标签不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('标签不能为空'), trigger: 'blur'}
           ],
           value: [
-            {required: true, message: '键值不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('键值不能为空'), trigger: 'blur'}
           ]
         }
       }

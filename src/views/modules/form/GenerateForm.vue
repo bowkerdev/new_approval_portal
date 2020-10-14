@@ -49,11 +49,11 @@
         this.beanId = beanId
         this.initData = {}
         if (method === 'add') {
-          this.title = `新建`
+          this.title = $i18nMy.t('新建')
         } else if (method === 'edit') {
-          this.title = '修改'
+          this.title = $i18nMy.t('修改')
         } else if (method === 'view') {
-          this.title = '查看'
+          this.title = $i18nMy.t('查看')
         }
         this.visible = true
         this.loading = false

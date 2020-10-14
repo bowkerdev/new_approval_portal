@@ -95,13 +95,13 @@
         },
         dataRule: {
           name: [
-            {required: true, message: '名称不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('名称不能为空'), trigger: 'blur'}
           ],
           type: [
-            {required: true, message: '区域类型不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('区域类型不能为空'), trigger: 'blur'}
           ],
           code: [
-            {required: true, message: '区域编码不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('区域编码不能为空'), trigger: 'blur'}
           ]
         }
       }
@@ -114,13 +114,13 @@
         this.inputForm.id = obj.id
         this.method = method
         if (method === 'add') {
-          this.title = '新增区域'
+          this.title = $i18nMy.t('新增区域')
         } else if (method === 'addChild') {
-          this.title = '添加下级区域'
+          this.title = $i18nMy.t('添加下级区域')
         } else if (method === 'edit') {
-          this.title = '修改区域'
+          this.title = $i18nMy.t('修改区域')
         } else if (method === 'view') {
-          this.title = '查看区域'
+          this.title = $i18nMy.t('查看区域')
         }
         this.visible = true
         this.$nextTick(() => {
@@ -150,7 +150,7 @@
               this.loading = false
               if (data && data.success) {
                 this.$message({
-                  message: '操作成功',
+                  message: $i18nMy.t('操作成功'),
                   type: 'success',
                   duration: 1500
                 })

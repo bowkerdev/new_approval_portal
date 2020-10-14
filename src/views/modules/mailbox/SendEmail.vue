@@ -103,7 +103,7 @@
             }).then(({data}) => {
               if (data && data.success) {
                 this.$message({
-                  message: '操作成功',
+                  message: $i18nMy.t('操作成功'),
                   type: 'success',
                   duration: 1500
                 })

@@ -119,7 +119,7 @@ axios.interceptors.response.use(response => {
     })
   } else if (error.response.status === 504) {
     Message({
-      message: '网络连接错误' + ':' + error.response.data,
+      message: $i18nMy.t('网络连接错误') + ':' + error.response.data,
       type: 'error',
       showClose: true,
       duration: 3000,

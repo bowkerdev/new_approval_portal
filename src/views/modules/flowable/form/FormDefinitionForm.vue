@@ -72,11 +72,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = `新建流程表单`
+          this.title = $i18nMy.t('新建流程表单')
         } else if (method === 'edit') {
-          this.title = '修改流程表单'
+          this.title = $i18nMy.t('修改流程表单')
         } else if (method === 'view') {
-          this.title = '查看流程表单'
+          this.title = $i18nMy.t('查看流程表单')
         }
         this.visible = true
         this.loading = false

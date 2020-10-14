@@ -82,11 +82,11 @@
         this.inputForm.menuId = obj.menuId
         this.inputForm.className = obj.tableName
         if (method === 'add') {
-          this.title = `新增数据规则`
+          this.title = $i18nMy.t('新增数据规则')
         } else if (method === 'edit') {
-          this.title = '修改数据规则'
+          this.title = $i18nMy.t('修改数据规则')
         } else if (method === 'view') {
-          this.title = '查看数据规则'
+          this.title = $i18nMy.t('查看数据规则')
         }
         this.visible = true
         this.$nextTick(() => {

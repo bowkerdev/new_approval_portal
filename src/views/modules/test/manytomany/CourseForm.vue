@@ -55,11 +55,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = `新建课程`
+          this.title = $i18nMy.t('新建课程')
         } else if (method === 'edit') {
-          this.title = '修改课程'
+          this.title = $i18nMy.t('修改课程')
         } else if (method === 'view') {
-          this.title = '查看课程'
+          this.title = $i18nMy.t('查看课程')
         }
         this.visible = true
         this.loading = false

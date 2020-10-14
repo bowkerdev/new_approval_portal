@@ -191,11 +191,11 @@ export default {
 
       },
       dataRule: {
-        'company.id': [{required: true, message: '公司不能为空', trigger: 'blur'}],
-        'office.id': [{required: true, message: '部门不能为空', trigger: 'blur'}],
-        name: [{required: true, message: '姓名不能为空', trigger: 'blur'}],
-        loginName: [{required: true, message: '登录名不能为空', trigger: 'blur'}],
-        roleIdList: [{required: true, message: '角色不能为空', trigger: 'blur'}],
+        'company.id': [{required: true, message: $i18nMy.t('公司不能为空'), trigger: 'blur'}],
+        'office.id': [{required: true, message: $i18nMy.t('部门不能为空'), trigger: 'blur'}],
+        name: [{required: true, message: $i18nMy.t('姓名不能为空'), trigger: 'blur'}],
+        loginName: [{required: true, message: $i18nMy.t('登录名不能为空'), trigger: 'blur'}],
+        roleIdList: [{required: true, message: $i18nMy.t('角色不能为空'), trigger: 'blur'}],
         confirmNewPassword: [{validator: validatePass2, trigger: 'blur'}]
       }
     }
@@ -208,11 +208,11 @@ export default {
       this.method = method
       this.inputForm.id = id
       if (method === 'add') {
-        this.title = `新建用户`
+        this.title = $i18nMy.t('新建用户')
       } else if (method === 'edit') {
-        this.title = '修改用户'
+        this.title = $i18nMy.t('修改用户')
       } else if (method === 'view') {
-        this.title = '查看用户'
+        this.title = $i18nMy.t('查看用户')
       }
       this.visible = true
       this.$nextTick(() => {

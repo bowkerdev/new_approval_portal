@@ -89,13 +89,13 @@
         this.method = method
         this.inputForm.id = obj.id
         if (method === 'add') {
-          this.title = '新建组织机构'
+          this.title = $i18nMy.t('新建组织机构')
         } else if (method === 'addChild') {
-          this.title = '添加下级组织机构'
+          this.title = $i18nMy.t('添加下级组织机构')
         } else if (method === 'edit') {
-          this.title = '修改组织机构'
+          this.title = $i18nMy.t('修改组织机构')
         } else if (method === 'view') {
-          this.title = '查看组织机构'
+          this.title = $i18nMy.t('查看组织机构')
         }
         this.visible = true
         this.loading = false

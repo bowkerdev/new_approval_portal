@@ -120,11 +120,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = `新建监听器`
+          this.title = $i18nMy.t('新建监听器')
         } else if (method === 'edit') {
-          this.title = '修改监听器'
+          this.title = $i18nMy.t('修改监听器')
         } else if (method === 'view') {
-          this.title = '查看监听器'
+          this.title = $i18nMy.t('查看监听器')
         }
         this.visible = true
         this.$nextTick(() => {

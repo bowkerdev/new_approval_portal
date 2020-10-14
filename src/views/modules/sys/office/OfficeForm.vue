@@ -147,19 +147,19 @@
         },
         dataRule: {
           name: [
-            {required: true, message: '名称不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('名称不能为空'), trigger: 'blur'}
           ],
           grade: [
-            {required: true, message: '机构等级不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('机构等级不能为空'), trigger: 'blur'}
           ],
           'type': [
-            {required: true, message: '机构类型不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('机构类型不能为空'), trigger: 'blur'}
           ],
           code: [
             {max: 50, message: '最大长度不能超过50个字符', trigger: 'blur'}
           ],
           useable: [
-             {required: true, message: '是否可用不能为空', trigger: 'blur'}
+             {required: true, message: $i18nMy.t('是否可用不能为空'), trigger: 'blur'}
           ]
         }
       }
@@ -172,13 +172,13 @@
         this.inputForm.id = obj.id
         this.method = method
         if (method === 'add') {
-          this.title = '新增机构'
+          this.title = $i18nMy.t('新增机构')
         } else if (method === 'addChild') {
-          this.title = '添加下级机构'
+          this.title = $i18nMy.t('添加下级机构')
         } else if (method === 'edit') {
-          this.title = '修改机构'
+          this.title = $i18nMy.t('修改机构')
         } else if (method === 'view') {
-          this.title = '查看机构'
+          this.title = $i18nMy.t('查看机构')
         }
   
         this.visible = true
@@ -211,7 +211,7 @@
               this.loading = false
               if (data && data.success) {
                 this.$message({
-                  message: '操作成功',
+                  message: $i18nMy.t('操作成功'),
                   type: 'success',
                   duration: 1500
                 })

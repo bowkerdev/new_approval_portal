@@ -55,11 +55,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = `新建洲`
+          this.title = $i18nMy.t('新建洲')
         } else if (method === 'edit') {
-          this.title = '修改洲'
+          this.title = $i18nMy.t('修改洲')
         } else if (method === 'view') {
-          this.title = '查看洲'
+          this.title = $i18nMy.t('查看洲')
         }
         this.visible = true
         this.loading = false

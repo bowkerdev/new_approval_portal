@@ -89,14 +89,14 @@
         this.$nextTick(() => {
           this.$refs['inputForm'].resetFields()
           if (method === 'add') {
-            this.title = '新增按钮设置'
+            this.title = $i18nMy.t('新增按钮设置')
             this.oldInputForm = ''
           } else if (method === 'edit') {
-            this.title = '修改按钮设置'
+            this.title = $i18nMy.t('修改按钮设置')
             this.oldInputForm = obj
             this.inputForm = JSON.parse(JSON.stringify(obj))
           } else if (method === 'view') {
-            this.title = '查看按钮设置'
+            this.title = $i18nMy.t('查看按钮设置')
             this.oldInputForm = obj
             this.inputForm = JSON.parse(JSON.stringify(obj))
           }

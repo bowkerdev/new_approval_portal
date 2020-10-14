@@ -89,13 +89,13 @@
         this.method = method
         this.inputForm.id = obj.id
         if (method === 'add') {
-          this.title = '新建车系'
+          this.title = $i18nMy.t('新建车系')
         } else if (method === 'addChild') {
-          this.title = '添加下级车系'
+          this.title = $i18nMy.t('添加下级车系')
         } else if (method === 'edit') {
-          this.title = '修改车系'
+          this.title = $i18nMy.t('修改车系')
         } else if (method === 'view') {
-          this.title = '查看车系'
+          this.title = $i18nMy.t('查看车系')
         }
         this.visible = true
         this.loading = false

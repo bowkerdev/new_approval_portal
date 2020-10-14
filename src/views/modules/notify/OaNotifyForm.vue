@@ -159,13 +159,13 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = `新建通知`
+          this.title = $i18nMy.t('新建通知')
         } else if (method === 'edit') {
-          this.title = '修改通知'
+          this.title = $i18nMy.t('修改通知')
         } else if (method === 'view') {
-          this.title = '查看通知'
+          this.title = $i18nMy.t('查看通知')
         } else if (method === 'read') {
-          this.title = '阅读通知'
+          this.title = $i18nMy.t('阅读通知')
         }
         this.visible = true
         this.loading = false

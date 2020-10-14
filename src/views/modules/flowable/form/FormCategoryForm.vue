@@ -81,13 +81,13 @@
         this.method = method
         this.inputForm.id = obj.id
         if (method === 'add') {
-          this.title = '新建流程分类'
+          this.title = $i18nMy.t('新建流程分类')
         } else if (method === 'addChild') {
-          this.title = '添加下级流程分类'
+          this.title = $i18nMy.t('添加下级流程分类')
         } else if (method === 'edit') {
-          this.title = '修改流程分类'
+          this.title = $i18nMy.t('修改流程分类')
         } else if (method === 'view') {
-          this.title = '查看流程分类'
+          this.title = $i18nMy.t('查看流程分类')
         }
         this.visible = true
         this.loading = false

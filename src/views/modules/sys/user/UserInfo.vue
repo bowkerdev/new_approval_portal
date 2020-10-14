@@ -3,7 +3,7 @@
     <el-tab-pane :label="$i18nMy.t('基本信息')">
       <h3 style="margin-left:40px">{{$i18nMy.t('基本信息')}}</h3>
       <el-form :model="generalForm" ref="generalForm" label-width="100px">
-        <el-form-item :label="$i18nMy.t('姓名')" :rules="[ { required: true, message: '必填项不能为空', trigger: 'blur' }]" prop="name">
+        <el-form-item :label="$i18nMy.t('姓名')" :rules="[ { required: true, message: $i18nMy.t('必填项不能为空'), trigger: 'blur' }]" prop="name">
           <el-input v-model="generalForm.name"></el-input>
         </el-form-item>
          <el-form-item :label="$i18nMy.t('签名')" prop="sign">
@@ -56,10 +56,10 @@
     <el-tab-pane :label="$i18nMy.t('修改密码')">
       <h3 style="margin-left:40px">{{$i18nMy.t('修改密码')}}</h3>
       <el-form :model="pwdForm" ref="pwdForm" label-width="100px">
-        <el-form-item :label="$i18nMy.t('旧密码')" :rules="[ { required: true, message: '必填项不能为空', trigger: 'blur' }]" prop="oldPassword">
+        <el-form-item :label="$i18nMy.t('旧密码')" :rules="[ { required: true, message: $i18nMy.t('必填项不能为空'), trigger: 'blur' }]" prop="oldPassword">
           <el-input v-model="pwdForm.oldPassword"></el-input>
         </el-form-item>
-         <el-form-item :label="$i18nMy.t('新密码')" :rules="[ { required: true, message: '必填项不能为空', trigger: 'blur' }]" prop="newPassword">
+         <el-form-item :label="$i18nMy.t('新密码')" :rules="[ { required: true, message: $i18nMy.t('必填项不能为空'), trigger: 'blur' }]" prop="newPassword">
           <el-input v-model="pwdForm.newPassword"></el-input>
         </el-form-item>
          <el-form-item :label="$i18nMy.t('确认新密码')" :rules="rule" prop="confirmNewPassword">
@@ -192,7 +192,7 @@
         pageSize: 10,
         total: 0,
         loading: false,
-        rule: [{ required: true, message: '必填项不能为空', trigger: 'blur' }, {validator: validatePass2, trigger: 'blur'}]
+        rule: [{ required: true, message: $i18nMy.t('必填项不能为空'), trigger: 'blur' }, {validator: validatePass2, trigger: 'blur'}]
       }
     },
     watch: {

@@ -107,11 +107,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = `新建国家`
+          this.title = $i18nMy.t('新建国家')
         } else if (method === 'edit') {
-          this.title = '修改国家'
+          this.title = $i18nMy.t('修改国家')
         } else if (method === 'view') {
-          this.title = '查看国家'
+          this.title = $i18nMy.t('查看国家')
         }
         this.visible = true
         this.loading = false

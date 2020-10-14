@@ -6,14 +6,14 @@
      v-dialogDrag
     :visible.sync="visible">
     <el-form :model="inputForm" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" :rules="dataRule" ref="inputForm" @keyup.enter.native="doSubmit()"
-             label-width="100px" @submit.native.prevent>
+             label-width="150px" @submit.native.prevent>
           <el-form-item :label="$i18nMy.t('菜单类型')" prop="type">
             <el-radio-group v-model="inputForm.type">
               <el-radio v-for="(type, index) in typeList" :label="index.toString()" :key="index">{{ type }}</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item :label="$i18nMy.t('上级菜单')" prop="parent.id">
-             <SelectTree 
+             <SelectTree
              ref="menuParentTree"
              :props="{
                 value: 'id',             // ID字段名
@@ -22,18 +22,18 @@
               }"
             :data="menuList"
             :value="inputForm.parent.id"
-            :clearable="true" 
+            :clearable="true"
             :accordion="true"
             @getValue="(value) => {inputForm.parent.id=value}"/>
           </el-form-item>
-           <el-form-item :label="typeList[inputForm.type] + '名称'" prop="name">
-            <el-input maxlength="50" v-model="inputForm.name" :placeholder="typeList[inputForm.type] + '名称'"></el-input>
+           <el-form-item :label="typeList[inputForm.type] +' '+ $i18nMy.t('名称')" prop="name">
+            <el-input maxlength="50" v-model="inputForm.name" :placeholder="typeList[inputForm.type] +' '+ $i18nMy.t('名称')"></el-input>
           </el-form-item>
           <el-form-item v-if="inputForm.type === '1' || inputForm.type === '2' || inputForm.type === '3'" :label="$i18nMy.t('链接地址')" prop="href">
               <el-input maxlength="1000" v-model="inputForm.href" :placeholder="$i18nMy.t('请填写路由路径或者超链接')"></el-input>
           </el-form-item>
           <el-form-item v-if="inputForm.type === '1' || inputForm.type === '2' || inputForm.type === '3'" :label="$i18nMy.t('链接类型')" prop="target">
-            <el-select v-model="inputForm.target" placeholder="如果是路由路径请留空白，http链接或者外部链接请选择iframe"  clearable style="width: 100%;">
+            <el-select v-model="inputForm.target" placeholder="$i18nMy.t('如果是路由路径请留空白，http链接或者外部链接请选择iframe')"  clearable style="width: 100%;">
                 <el-option
                   v-for="item in [{label: 'iframe', value: 'iframe'}]"
                   :key="item.value"
@@ -93,7 +93,7 @@
         loading: false,
         method: '',
         title: '新增',
-        typeList: ['目录', '菜单', '按钮', '路由'],
+        typeList: [ $i18nMy.t('目录'),$i18nMy.t('菜单'),$i18nMy.t('按钮'),$i18nMy.t('路由')],
         menuList: [],
         menuListTreeProps: {
           label: 'name',
@@ -118,10 +118,10 @@
         },
         dataRule: {
           name: [
-            {required: true, message: '菜单名称不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('菜单名称不能为空'), trigger: 'blur'}
           ],
           'parent.id': [
-            {required: true, message: '上级菜单不能为空', trigger: 'change'}
+            {required: true, message: $i18nMy.t('上级菜单不能为空'), trigger: 'change'}
           ],
           url: [
             {validator: validateUrl, trigger: 'blur'}
@@ -138,13 +138,13 @@
         this.method = method
         this.inputForm.id = obj.id
         if (method === 'add') {
-          this.title = `新增`
+          this.title = $i18nMy.t('新增')
         } else if (method === 'addChild') {
-          this.title = '添加下级'
+          this.title = $i18nMy.t('添加下级')
         } else if (method === 'edit') {
-          this.title = '修改'
+          this.title = $i18nMy.t('修改')
         } else if (method === 'view') {
-          this.title = '查看'
+          this.title = $i18nMy.t('查看')
         }
         this.$http({
           url: `/sys/menu/treeData?extId=${this.inputForm.id}`,

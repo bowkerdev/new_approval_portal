@@ -26,7 +26,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="$i18nMy.t('所属数据库')"  prop="dataSource.id"  :rules="[{required: true, message: '所属数据库不能为空', trigger: 'blur'}]">
+            <el-form-item :label="$i18nMy.t('所属数据库')"  prop="dataSource.id"  :rules="[{required: true, message: $i18nMy.t('所属数据库不能为空'), trigger: 'blur'}]">
               <SelectTree
               ref="dataSourceTree"
               :props="{
@@ -159,11 +159,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = `新建表单`
+          this.title = $i18nMy.t('新建表单')
         } else if (method === 'edit') {
-          this.title = '修改表单'
+          this.title = $i18nMy.t('修改表单')
         } else if (method === 'view') {
-          this.title = '查看表单'
+          this.title = $i18nMy.t('查看表单')
         }
         this.$http.get(`/database/datalink/dataSource/treeData2`).then(({data}) => {
           this.dataSourceTree = data.treeData

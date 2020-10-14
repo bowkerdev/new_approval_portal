@@ -36,7 +36,7 @@
         },
         dataRule: {
           type: [
-            {required: true, message: '类型不能为空', trigger: 'blur'}
+            {required: true, message: $i18nMy.t('类型不能为空'), trigger: 'blur'}
           ]
         }
       }
@@ -46,11 +46,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = `新增字典`
+          this.title = $i18nMy.t('新增字典')
         } else if (method === 'edit') {
-          this.title = '编辑字典'
+          this.title = $i18nMy.t('编辑字典')
         } else if (method === 'view') {
-          this.title = '查看字典'
+          this.title = $i18nMy.t('查看字典')
         }
         this.visible = true
         this.$nextTick(() => {
@@ -80,7 +80,7 @@
               this.loading = false
               if (data && data.success) {
                 this.$message({
-                  message: '操作成功',
+                  message: $i18nMy.t('操作成功'),
                   type: 'success',
                   duration: 1500
                 })

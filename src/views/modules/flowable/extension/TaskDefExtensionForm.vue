@@ -112,11 +112,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = `新建工作流扩展`
+          this.title = $i18nMy.t('新建工作流扩展')
         } else if (method === 'edit') {
-          this.title = '修改工作流扩展'
+          this.title = $i18nMy.t('修改工作流扩展')
         } else if (method === 'view') {
-          this.title = '查看工作流扩展'
+          this.title = $i18nMy.t('查看工作流扩展')
         }
         this.visible = true
         this.$nextTick(() => {

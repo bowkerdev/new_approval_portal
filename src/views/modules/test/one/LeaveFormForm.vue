@@ -131,11 +131,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = `新建请假表单`
+          this.title = $i18nMy.t('新建请假表单')
         } else if (method === 'edit') {
-          this.title = '修改请假表单'
+          this.title = $i18nMy.t('修改请假表单')
         } else if (method === 'view') {
-          this.title = '查看请假表单'
+          this.title = $i18nMy.t('查看请假表单')
         }
         this.visible = true
         this.loading = false

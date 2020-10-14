@@ -57,11 +57,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = `新建数据表单`
+          this.title = $i18nMy.t('新建数据表单')
         } else if (method === 'edit') {
-          this.title = '修改数据表单'
+          this.title = $i18nMy.t('修改数据表单')
         } else if (method === 'view') {
-          this.title = '查看数据表单'
+          this.title = $i18nMy.t('查看数据表单')
         }
         this.visible = true
         this.loading = false

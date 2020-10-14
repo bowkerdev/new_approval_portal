@@ -380,11 +380,11 @@
       init (method, id) {
         this.method = method
         if (method === 'add') {
-          this.title = `新建票务代理`
+          this.title = $i18nMy.t('新建票务代理')
         } else if (method === 'edit') {
-          this.title = '修改票务代理'
+          this.title = $i18nMy.t('修改票务代理')
         } else if (method === 'view') {
-          this.title = '查看票务代理'
+          this.title = $i18nMy.t('查看票务代理')
         }
         this.fileArra = []
         this.visible = true

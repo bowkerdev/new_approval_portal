@@ -111,11 +111,11 @@ export default {
       this.method = method
       this.inputForm.id = id
       if (method === 'add') {
-        this.title = `新建数据库连接`
+        this.title = $i18nMy.t('新建数据库连接')
       } else if (method === 'edit') {
-        this.title = '修改数据库连接'
+        this.title = $i18nMy.t('修改数据库连接')
       } else if (method === 'view') {
-        this.title = '查看数据库连接'
+        this.title = $i18nMy.t('查看数据库连接')
       }
       this.visible = true
       this.$nextTick(() => {

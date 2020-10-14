@@ -41,7 +41,6 @@ const setup = lang => {
     var languageData = localStorage.getItem('languageData') || "{}"
     languageData = JSON.parse(languageData);
     window.$i18nMy.langData = {}
-    debugger
     for (var key in languageData) {
       if (languageData[key] != null) {
         switch (Vue.config.lang){

@@ -159,10 +159,11 @@ export function recoverNotNull (target, source) {
   }
   return to
 }
-export function download (url) {
+export function download (url, params) {
   $http({
-    method: 'get',
+    method: 'GET',
     url: url,
+    params: params,
     responseType: 'blob'
   }).then(response => {
     if (!response) {
@@ -177,6 +178,32 @@ export function download (url) {
     link.click()
     document.body.removeChild(link)
   // eslint-disable-next-line handle-callback-err
+
+  }).catch((error) => {
+
+  })
+}
+
+export function downloadPost (url, params) {
+  $http({
+    method: 'POST',
+    url: url,
+    data: params,
+    responseType: 'blob'
+  }).then(response => {
+    if (!response) {
+      return
+    }
+    let link = document.createElement('a')
+    link.href = window.URL.createObjectURL(new Blob([response.data]))
+    link.target = '_blank'
+    let filename = response.headers['content-disposition']
+    link.download = decodeURI(filename)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  // eslint-disable-next-line handle-callback-err
+
   }).catch((error) => {
 
   })
@@ -326,4 +353,4 @@ function hashCode (str) {
   }
   return hash
 }
-export default {escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}
+export default {escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}

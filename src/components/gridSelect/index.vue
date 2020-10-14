@@ -63,7 +63,7 @@
         closable
         :disable-transitions="false"
         @close="del(tag)">
-        {{tag[labelName]}}
+        {{ labelName? tag[labelName]: tag.name }}
       </el-tag>
     </el-col>
     </el-row>
@@ -81,6 +81,7 @@
     data () {
       return {
         searchForms: [],
+        param:[],
         filterText: '',
         dataListAllSelections: [],   // 所有选中的数据包含跨页数据
         dataListSelections: [],
@@ -182,6 +183,15 @@
           this.resetSearch()
         })
       },
+      
+      setParam (obj) {
+        this.param.push(obj)
+      },
+      
+      clearName() {
+        this.name = ""
+      },
+      
            // 设置选中的方法
       setSelectRow () {
         if (!this.dataListAllSelections || this.dataListAllSelections.length <= 0) {
@@ -266,6 +276,11 @@
       refreshList () {
         this.loading = true
         let searchForm = {}
+        if (this.param && this.param.length > 0){
+        	for(var i=0; i < this.param.length; i++){
+        		searchForm[this.param[i].key] = this.param[i].value
+        	}
+        }
         this.searchs.forEach((search, index) => {
           searchForm[search.prop] = this.searchForms[index]
         })

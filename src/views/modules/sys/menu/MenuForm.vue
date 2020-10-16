@@ -157,13 +157,6 @@
         }
         var vm=this
         this.$http({
-          url: `/sys/user/getMenus?platform=app`,
-          method: 'get'
-        }).then(({data}) => {
-          console.log(JSON.stringify(data))
-        })
-        
-        this.$http({
           url: `/sys/menu/treeData?extId=${this.inputForm.id}&platform=${this.inputForm.platform}`,
           method: 'get'
         }).then(({data}) => {

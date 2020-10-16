@@ -1,14 +1,14 @@
 <template>
   <el-select :value="valueTitle" :size="size"  :disabled="disabled" :clearable="clearable" :placeholder="placeholder" @clear="clearHandle">
     <el-option :value="valueTitle"  :label="valueTitle" class="options">
-      <el-tree  id="tree-option"
+      <el-tree  id="tree-option" v-if="openPanel"
         ref="selectTree"
         :accordion="accordion"
         :data="optionData"
         :show-checkbox="showCheckbox"
         :props="props"
         highlight-current
-        :node-key="props.value"    
+        :node-key="props.value"
         :default-expanded-keys="defaultExpandedKey"
         @check-change="handleCheckChange"
         @node-click="handleNodeClick">
@@ -93,6 +93,7 @@ export default {
       defaultExpandedKey: [],
       placeholder: '请选择',
       treeList: [],
+      openPanel : true,
       valueData: this.data
     }
   },
@@ -128,9 +129,19 @@ export default {
         }
       }
     },
+    setCurrentKey(id,name){
+      this.$refs.selectTree.setCurrentKey(id)
+      this.valueId = id
+      this.valueTitle = name
+      this.$emit('getValue', this.valueId, this.valueTitle)
+    },
     // 初始化值
     initHandle () {
       if (this.valueId) {
+        this.openPanel = false;
+        this.$nextTick(() => {
+        	this.openPanel = true;
+        })
         if (this.showCheckbox) {
           let ids = this.valueId.split(',')
           this.$refs.selectTree.setCheckedKeys(ids)

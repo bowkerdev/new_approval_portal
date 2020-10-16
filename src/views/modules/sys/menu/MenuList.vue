@@ -1,9 +1,14 @@
 <template>
   <div>
+          <el-row style="margin-bottom: 10px;">
+            <el-radio-group v-model="platform" @change="refreshList">
+              <el-radio  v-for="(itme, index) in $dictUtils.getDictList('PLATFORM')" :label="itme.value.toString()" :key="itme.value">{{ itme.label }}</el-radio>
+            </el-radio-group>
+          </el-row>
           <el-row>
             <el-button v-if="hasPermission('sys:menu:add')" type="primary" icon="el-icon-plus" size="small" @click="add()">{{$i18nMy.t('新增')}}</el-button>
           </el-row>
-          <el-treetable 
+          <el-treetable
             border
             :data="dataList"
             isBigData
@@ -26,7 +31,17 @@
                       <span v-else>{{scope.row.name}}</span>
                     </template>
             </el-treetable-column>
-          
+            <el-treetable-column
+              prop="platform"
+              header-align="center"
+              align="left"
+              width="150"
+              :show-overflow-tooltip="true"
+              :label="$i18nMy.t('平台')">
+              <template slot-scope="scope">
+                <el-tag >{{ $dictUtils.getDictLabel("PLATFORM", scope.row.platform, '后台界面') }} </el-tag>
+              </template>
+            </el-treetable-column>
             <el-treetable-column
               header-align="center"
               align="center"
@@ -75,7 +90,7 @@
                     inactive-value="0">
                   </el-switch>
               </template>
-          
+
             </el-treetable-column>
             <el-treetable-column
               prop="href"
@@ -106,9 +121,9 @@
                 <el-dropdown size="small"  @command="handleCommand">
                   <span class="el-dropdown-link">{{$i18nMy.t('更多')}}<i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item  v-if="hasPermission('sys:menu:view')" :command="{method:'view', id:scope.row.id}">{{$i18nMy.t('查看')}}</el-dropdown-item>
-                    <el-dropdown-item v-if="hasPermission('sys:menu:edit')" :command="{method:'edit', id:scope.row.id}">{{$i18nMy.t('修改')}}</el-dropdown-item>
+                  <el-dropdown-menu slot="dropdown"> 
+                    <el-dropdown-item  v-if="hasPermission('sys:menu:view')" :command="{method:'view', row:scope.row}">{{$i18nMy.t('查看')}}</el-dropdown-item>
+                    <el-dropdown-item v-if="hasPermission('sys:menu:edit')" :command="{method:'edit', row:scope.row}">{{$i18nMy.t('修改')}}</el-dropdown-item>
                     <el-dropdown-item v-if="hasPermission('sys:menu:del')" :command="{method:'del', id:scope.row.id}">{{$i18nMy.t('删除')}}</el-dropdown-item>
                     <el-dropdown-item v-if="hasPermission('sys:menu:add')" :command="{method:'addChild', row:scope.row}">{{$i18nMy.t('添加下级菜单')}}</el-dropdown-item>
                   </el-dropdown-menu>
@@ -125,7 +140,7 @@
       direction="rtl">
       <data-rule-list  ref="dataRuleList" @closeRight="closeRight"></data-rule-list>
     </el-drawer>
-  
+
     <!-- 弹窗, 新增 / 修改 -->
     <menu-form ref="menuForm"  @refreshDataList="refreshList"></menu-form>
   </div>
@@ -141,6 +156,7 @@
         rightVisible: false,
         loading: false,
         dataRuleTitle: '',
+        platform:'portal',
         dataList: []
       }
     },
@@ -156,7 +172,7 @@
       refreshList () {
         this.loading = true
         this.$http({
-          url: '/sys/menu/treeData2',
+          url: '/sys/menu/treeData2?platform='+this.platform,
           method: 'get'
         }).then(({data}) => {
           this.loading = false
@@ -172,18 +188,19 @@
         this.$refs.menuForm.init('add', {id: '', parent: {id: '', name: ''}})
       },
       // 修改
-      edit (id) {
-        this.$refs.menuForm.init('edit', {id: id, parent: {id: '', name: ''}})
+      edit (row) {
+        this.$refs.menuForm.init('edit', row)
       },
       // 查看
-      view (id) {
-        this.$refs.menuForm.init('view', {id: id, parent: {id: '', name: ''}})
+      view (row) {
+        this.$refs.menuForm.init('view', row)
       },
       handleCommand (command) {
+        debugger
         if (command.method === 'view') {
-          this.view(command.id)
+          this.view(command.row)
         } else if (command.method === 'edit') {
-          this.edit(command.id)
+          this.edit(command.row)
         } else if (command.method === 'del') {
           this.del(command.id)
         } else if (command.method === 'addChild') {

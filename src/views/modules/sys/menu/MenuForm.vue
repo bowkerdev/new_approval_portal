@@ -7,8 +7,13 @@
     :visible.sync="visible">
     <el-form :model="inputForm" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" :rules="dataRule" ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="150px" @submit.native.prevent>
+           <el-form-item :label="$i18nMy.t('平台')" prop="type">
+             <el-radio-group v-model="inputForm.platform" @change="getTreeData">
+               <el-radio v-for="(itme, index) in $dictUtils.getDictList('PLATFORM')" :label="itme.value.toString()" :key="itme.value">{{ itme.label }}</el-radio>
+             </el-radio-group>
+           </el-form-item>
           <el-form-item :label="$i18nMy.t('菜单类型')" prop="type">
-            <el-radio-group v-model="inputForm.type">
+            <el-radio-group v-model="inputForm.type" >
               <el-radio v-for="(type, index) in typeList" :label="index.toString()" :key="index">{{ type }}</el-radio>
             </el-radio-group>
           </el-form-item>
@@ -33,7 +38,7 @@
               <el-input maxlength="1000" v-model="inputForm.href" :placeholder="$i18nMy.t('请填写路由路径或者超链接')"></el-input>
           </el-form-item>
           <el-form-item v-if="inputForm.type === '1' || inputForm.type === '2' || inputForm.type === '3'" :label="$i18nMy.t('链接类型')" prop="target">
-            <el-select v-model="inputForm.target" placeholder="$i18nMy.t('如果是路由路径请留空白，http链接或者外部链接请选择iframe')"  clearable style="width: 100%;">
+            <el-select v-model="inputForm.target" :placeholder="$i18nMy.t('如果是路由路径请留空白，http链接或者外部链接请选择iframe')"  clearable style="width: 100%;">
                 <el-option
                   v-for="item in [{label: 'iframe', value: 'iframe'}]"
                   :key="item.value"
@@ -114,11 +119,15 @@
           remarks: '',
           target: '',
           isShow: '1',
-          backgroundType: '1'
+          backgroundType: '1',
+          platform:'portal'
         },
         dataRule: {
           name: [
             {required: true, message: $i18nMy.t('菜单名称不能为空'), trigger: 'blur'}
+          ],
+          platform: [
+            {required: true, message: $i18nMy.t('平台不能为空'), trigger: 'blur'}
           ],
           'parent.id': [
             {required: true, message: $i18nMy.t('上级菜单不能为空'), trigger: 'change'}
@@ -146,8 +155,16 @@
         } else if (method === 'view') {
           this.title = $i18nMy.t('查看')
         }
+        var vm=this
         this.$http({
-          url: `/sys/menu/treeData?extId=${this.inputForm.id}`,
+          url: `/sys/user/getMenus?platform=app`,
+          method: 'get'
+        }).then(({data}) => {
+          console.log(JSON.stringify(data))
+        })
+        
+        this.$http({
+          url: `/sys/menu/treeData?extId=${this.inputForm.id}&platform=${this.inputForm.platform}`,
           method: 'get'
         }).then(({data}) => {
           this.menuList = data.treeData
@@ -156,10 +173,13 @@
         }).then(() => {
           this.visible = true
           this.$nextTick(() => {
-            this.$refs.menuParentTree.clearHandle()
             this.$refs['inputForm'].resetFields()
+            this.$refs.menuParentTree.clearHandle()
             this.inputForm.parent.id = obj.parent.id
             this.inputForm.parent.name = obj.parent.name
+            this.$refs.menuParentTree.setTreeList(this.menuList)
+            this.$refs.menuParentTree.setCurrentKey(this.inputForm.parent.id , this.inputForm.parent.name)
+            this.$refs.menuParentTree.initHandle ()
           })
         }).then(() => {
           if (method === 'edit' || method === 'view') { // 修改或者查看
@@ -167,9 +187,30 @@
               url: `/sys/menu/queryById?id=${this.inputForm.id}`,
               method: 'get'
             }).then(({data}) => {
-              this.inputForm = this.recover(this.inputForm, data.menu)
+              if(vm.inputForm.platform != data.menu.platform){
+                vm.getTreeData()
+              }
+              vm.inputForm = vm.recover(vm.inputForm, data.menu)
             })
           }
+        })
+      },
+      getTreeData(){
+        this.$http({
+          url: `/sys/menu/treeData?extId=${this.inputForm.id}&platform=${this.inputForm.platform}`,
+          method: 'get'
+        }).then(({data}) => {
+          this.menuList = data.treeData
+        }).then(() => {
+          this.visible = true
+          this.$nextTick(() => {
+            var id = this.inputForm.parent.id
+            var name =  this.inputForm.parent.name
+            this.$refs.menuParentTree.clearHandle()
+            this.$refs.menuParentTree.setTreeList(this.menuList)
+            this.$refs.menuParentTree.setCurrentKey(id , name)
+            this.$refs.menuParentTree.initHandle ()
+          })
         })
       },
       selectIcon () {

@@ -34,7 +34,7 @@
             <el-treetable-column
               prop="platform"
               header-align="center"
-              align="left"
+              align="center"
               width="150"
               :show-overflow-tooltip="true"
               :label="$i18nMy.t('平台')">
@@ -121,7 +121,7 @@
                 <el-dropdown size="small"  @command="handleCommand">
                   <span class="el-dropdown-link">{{$i18nMy.t('更多')}}<i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
-                  <el-dropdown-menu slot="dropdown"> 
+                  <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item  v-if="hasPermission('sys:menu:view')" :command="{method:'view', row:scope.row}">{{$i18nMy.t('查看')}}</el-dropdown-item>
                     <el-dropdown-item v-if="hasPermission('sys:menu:edit')" :command="{method:'edit', row:scope.row}">{{$i18nMy.t('修改')}}</el-dropdown-item>
                     <el-dropdown-item v-if="hasPermission('sys:menu:del')" :command="{method:'del', id:scope.row.id}">{{$i18nMy.t('删除')}}</el-dropdown-item>

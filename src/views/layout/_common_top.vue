@@ -29,7 +29,7 @@
                  <!-- <i class="logo el-icon-platform-eleme"></i> -->
                  <img :src="logo" height="40px" width="40px"/>
                  <div class="product-name" style="padding-left: 5px;">
-                   <div>{{productName}}</div>
+                   <div>{{$i18nMy.t(productName)}}</div>
                    <div>ZHIMI Execution</div>
                  </div>
                </a>

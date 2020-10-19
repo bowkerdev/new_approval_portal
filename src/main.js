@@ -58,6 +58,7 @@ Vue.prototype.$utils = utils
 Vue.prototype.$common = common
 Vue.prototype.DynamicFormLanguage = dynamicFormLanguage
 Vue.prototype.$window = window
+
 Vue.prototype.$i18nMy  = i18nMy
 window.$i18nMy = i18nMy
 Vue.prototype.$dictUtils = dictUtils

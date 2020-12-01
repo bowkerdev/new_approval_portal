@@ -35,6 +35,13 @@
                </a>
              </h1>
         </el-menu-item>
+        <el-menu-item class="jp-navbar__switch">
+             <h1 class="jp-navbar__brand" style="width: auto;" @click="sidebarFold = !sidebarFold">
+               <a href="javascript:;" class="container-flex-start">
+                 <i :class="sidebarFold ? 'fa fa-th':'fa fa-reorder'" style="color: white;"></i>
+               </a>
+             </h1>
+        </el-menu-item>
       </el-menu>
 
       <el-menu class="jp-navbar__menu " :default-active="topMenuActiveIndex" ref="topMenu"  mode="horizontal">

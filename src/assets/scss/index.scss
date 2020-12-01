@@ -204,7 +204,7 @@ img {
   &__brand {
     display: table-cell;
     vertical-align: middle;
-    width: 230px;
+    // width: 230px;
     height: 60px;
     margin: 0;
     line-height: 60px;
@@ -301,7 +301,7 @@ img {
   left: 0;
   bottom: 0;
   z-index: 1020;
-  width: 65px;
+  width: 230px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0,0,0,.08);
   .jp-sidebar__menu-icon{
@@ -407,7 +407,7 @@ img {
   &__inner {
     position: relative;
     z-index: 1;
-    width: 250px;
+    width: 230px;
     height: 100%;
     padding-bottom: 15px;
     /* overflow-y: scroll; */
@@ -458,7 +458,7 @@ img {
   &__wrapper {
     position: relative;
     padding-top: 60px;
-    margin-left: 65px;
+    margin-left: 230px;
     min-height: 100%;
     background:transparent;
   }
@@ -469,7 +469,7 @@ img {
     > .el-tabs__header {
       position: fixed;
       top: 60px;
-      left: 65px;
+      left: 230px;
       right: 0;
       // z-index: 930;
       padding: 0 95px 0 15px;
@@ -1215,25 +1215,3 @@ span{
   white-space: nowrap;
 }
 .AZ-anime{-webkit-transition-timing-function: ease;-o-transition-timing-function: ease;transition-timing-function: ease;-webkit-transition-duration: .5s;-o-transition-duration: .5s;transition-duration: .5s;}
-/* Sidebar
------------------------------- */
-/*自定义修改菜单弹出样式--start*/
-.jp-sidebar .el-submenu__title>*+*,
-.jp-sidebar .el-menu-item>*+*,
-.jp-sidebar .el-menu--inline{
-  display: none;
-}
-.jp-sidebar:hover .el-submenu__title>*,
-.jp-sidebar:hover .el-menu-item>*{
-  display: inline-block;
-}
-.jp-sidebar:hover .el-menu--inline{
-  display: block;
-}
-.jp-wrapper:not(.jp-sidebar--fold) .jp-sidebar:hover{
-  width: 230px;
-}
-.jp-sidebar{
-  z-index: 2001;
-}
-/*自定义修改菜单弹出样式--end*/

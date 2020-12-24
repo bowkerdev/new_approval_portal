@@ -47,11 +47,11 @@
           },
           {
             name: '图表开发',
-            tip: '即将上线，敬请期待',
+            tip: '可视化配置图表',
             remarks: '快速可视化开发图表',
             icon: 'fa fa-area-chart',
             disabled: true,
-            path: ''
+            path: '/echarts/EchartsList'
 
           },
           {

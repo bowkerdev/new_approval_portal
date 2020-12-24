@@ -76,7 +76,7 @@ export default {
       this.$router.push({path: '/ureport/designer', query: {title: '新建报表', iframeUrl: `${process.env.VUE_APP_SERVER_URL}/ureport/designer`}})
     },
     pre (report) {
-      this.$router.push({path: `/ureport/preview`, query: {title: '预览表表', iframeUrl: `${process.env.VUE_APP_SERVER_URL}/ureport/preview?_u=file:${report.name}`}})
+      this.$router.push({path: `/ureport/preview`, query: {title: '预览报表', iframeUrl: `${process.env.VUE_APP_SERVER_URL}/ureport/preview?_u=file:${report.name}`}})
     },
     design (report) {
       this.$router.push({path: `/ureport/designer`, query: {iframeUrl: `${process.env.VUE_APP_SERVER_URL}/ureport/designer?_u=file:${report.name}`, title: '编辑报表'}})

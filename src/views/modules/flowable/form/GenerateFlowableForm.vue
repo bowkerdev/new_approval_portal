@@ -78,9 +78,6 @@
           }) => {
             if (data.success) {
               var json = data.formDefinition.formDefinitionJson.json
-
-              debugger
-
               if (json.indexOf('"type":"blank"') >= 0 || json.indexOf('"type": "blank"') >= 0) {
                 this.isCustom = true
                 this.form = _import(`modules/flowable/custom/${data.formDefinition.name}`)

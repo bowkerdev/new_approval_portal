@@ -36,6 +36,7 @@ const mainRoutes = {
     {path: '/flowable/task/TaskForm', component: _import('modules/flowable/task/TaskForm'), name: 'task-form', meta: {title: '流程表单'}},
     {path: '/flowable/task/TaskFormDetail', component: _import('modules/flowable/task/TaskFormDetail'), name: 'task-form-detail', meta: {title: '流程表单详情'}},
     {path: '/form/generateList', component: _import('modules/form/GenerateList'), name: 'form-preview-list', meta: {title: '列表'}},
+    {path: '/echarts/GenerateChart', component: _import('modules/echarts/GenerateChart'), name: 'echarts-generate', meta: {title: '预览图表'}},
     {path: '/form/explorer', component: null, name: 'form-explorer', meta: {title: $i18nMy.t('浏览器'), type: 'iframe'}},
     {path: '/404', component: _import('common/404'), name: '404', meta: {title: '404未找到'}}
 
@@ -52,7 +53,6 @@ const mainRoutes = {
 
 const router = new Router({
   mode: 'hash',
-  // mode: 'history',
   scrollBehavior: () => ({y: 0}),
   isAddDynamicMenuRoutes: false, // 是否已经添加动态(菜单)路由
   routes: globalRoutes.concat(mainRoutes)
@@ -98,7 +98,6 @@ router.beforeEach((to, from, next) => {
   }catch(e){
     console.log(e.message)
   }
-
 
   // 添加动态(菜单)路由
   if (router.options.isAddDynamicMenuRoutes || fnCurrentRouteType(to, globalRoutes) === 'global') {

@@ -10,7 +10,7 @@
       </el-form-item>
     </el-form>
     <div style="padding-left:120px; padding-top:20px" v-if="imageUrl">
-        <img :src="imageUrl"/>
+        <el-image :src="imageUrl"/>
         <p>{{$i18nMy.t('请使用微信扫一扫')}}</p>
     </div>
    
@@ -38,7 +38,7 @@
               data: this.inputForm
             }).then(({data}) => {
               if (data && data.success) {
-                this.imageUrl = data.filePath
+                this.imageUrl = data.filePath + `?t=${new Date().getTime()}`
               }
             })
           }

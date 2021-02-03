@@ -2,7 +2,7 @@
   <div class="editor" style="min-width:700px; padding-right:10px">
     <div ref="toolbar" class="toolbar">
     </div>
-    <div ref="editor" class="text">
+    <div ref="editor" class="wtext">
     </div>
   </div>
 </template>
@@ -50,8 +50,8 @@ export default {
       this.editor.customConfig.uploadImgServer = ''// 配置服务器端地址
       this.editor.customConfig.uploadImgHeaders = { }// 自定义 header
       this.editor.customConfig.uploadFileName = '' // 后端接受上传文件的参数名
-      this.editor.customConfig.uploadImgMaxSize = 5 * 1024 * 1024 // 将图片大小限制为 5M
-      this.editor.customConfig.uploadImgMaxLength = 20 // 限制一次最多上传 20 张图片
+      this.editor.customConfig.uploadImgMaxSize = 2 * 1024 * 1024 // 将图片大小限制为 2M
+      this.editor.customConfig.uploadImgMaxLength = 6 // 限制一次最多上传 3 张图片
       this.editor.customConfig.uploadImgTimeout = 3 * 60 * 1000 // 设置超时时间
       // 以下是占锐 添加 【2020年4月10日09:41:30】
       this.editor.customConfig.pasteFilterStyle = false // 手动关闭掉粘贴样式的过滤
@@ -122,8 +122,8 @@ export default {
 .toolbar {
   border: 1px solid #ccc;
 }
-.text {
+.wtext {
   border: 1px solid #ccc;
-  height: 350px;
+  height: 500px;
 }
 </style>

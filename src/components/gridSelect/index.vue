@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-input :placeholder="$i18nMy.t('请选择')" :disabled="disabled" :size="size" :readonly="true" style="line-hight:40px" v-model="name" class="input-with-select" >
+    <el-input :placeholder="placeholder" :disabled="disabled" :size="size" :readonly="true" style="line-hight:40px" v-model="name" class="input-with-select" >
       <el-button slot="append" :disabled="disabled" @click="showSelectDialog" icon="el-icon-search"></el-button>
     </el-input>
     <el-dialog
@@ -8,10 +8,12 @@
     :close-on-click-modal="false"
     :append-to-body="true"
      v-dialogDrag
+     width="900px"
+     class="gridDialog"
     :visible.sync="visible">
     <el-row :gutter="15">
     <el-col :span="19">
-    <el-form :inline="true" ref="searchForm" class="query-form"  @keyup.enter.native="refreshList()" @submit.native.prevent>
+    <el-form size="small" :inline="true" ref="searchForm" class="query-form"  @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item v-for="(search,index) in searchs" :key="index" :prop="search.prop">
           <el-input size="small" v-model="searchForms[index]" :placeholder="search.label" clearable></el-input>
          </el-form-item>
@@ -24,14 +26,25 @@
       :data="dataList"
       v-loading="loading"
       border
-      size="medium"
-      ref="userTable"
+      size="small"
+      ref="gridTable"
+      height="400px"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       style="width: 100%;">
+    <el-table-column
+        header-align="center"
+        align="center"
+        v-if="limit <= 1"
+        width="50">
+          <template slot-scope="scope">
+              <el-radio :label="scope.row.id" :value="dataListAllSelections[0]&&dataListAllSelections[0].id" @change.native="getTemplateRow(scope.$index,scope.row)"><span></span></el-radio>
+          </template>
+      </el-table-column>
       <el-table-column
         type="selection"
         header-align="center"
+        v-if="limit > 1"
         align="center"
         width="50">
       </el-table-column>
@@ -63,13 +76,13 @@
         closable
         :disable-transitions="false"
         @close="del(tag)">
-        {{ labelName? tag[labelName]: tag.name }}
+        {{tag[labelName]}}
       </el-tag>
     </el-col>
     </el-row>
      <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
-      <el-button type="primary" @click="doSubmit()">{{$i18nMy.t('确定')}}</el-button>
+      <el-button size="small" @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button size="small" type="primary" @click="doSubmit()">{{$i18nMy.t('确定')}}</el-button>
     </span>
     </el-dialog>
   
@@ -90,7 +103,7 @@
         dynamicTags: [],
         selectData: [],
         pageNo: 1,
-        pageSize: 5,
+        pageSize: 10,
         total: 0,
         orderBy: '',
         loading: false,
@@ -135,6 +148,10 @@
         type: String,
         default: () => { return '' }
       },
+      placeholder: {
+        type: String,
+        default: () => { return '请选择' }
+      },
       labelName: {
         type: String,
         default: () => { return '' }
@@ -145,7 +162,7 @@
       },
       size: {
         type: String,
-        default: () => { return 'default' }
+        default: () => { return 'small' }
       }
     },
     watch: {
@@ -183,19 +200,19 @@
           this.resetSearch()
         })
       },
+      getTemplateRow (index, row) {                                 // 获取选中数据
+        this.dataListSelections = [row]
+        this.$nextTick(() => {
+          this.changePageCoreRecordData()
+        })
       
-      setParam (obj) {
-        this.param.push(obj)
-      },
-      
-      clearName() {
-        this.name = ""
+
       },
       
            // 设置选中的方法
       setSelectRow () {
         if (!this.dataListAllSelections || this.dataListAllSelections.length <= 0) {
-          this.$refs.userTable.clearSelection()
+          this.$refs.gridTable.clearSelection()
           return
         }
                 // 标识当前行的唯一键的名称
@@ -204,11 +221,11 @@
         this.dataListAllSelections.forEach(row => {
           selectAllIds.push(row[idKey])
         })
-        this.$refs.userTable.clearSelection()
+        this.$refs.gridTable.clearSelection()
         for (var i = 0; i < this.dataList.length; i++) {
           if (selectAllIds.indexOf(this.dataList[i][idKey]) >= 0) {
                         // 设置选中，记住table组件需要使用ref="table"
-            this.$refs.userTable.toggleRowSelection(this.dataList[i], true)
+            this.$refs.gridTable.toggleRowSelection(this.dataList[i], true)
           }
         }
       },
@@ -276,11 +293,6 @@
       refreshList () {
         this.loading = true
         let searchForm = {}
-        if (this.param && this.param.length > 0){
-        	for(var i=0; i < this.param.length; i++){
-        		searchForm[this.param[i].key] = this.param[i].value
-        	}
-        }
         this.searchs.forEach((search, index) => {
           searchForm[search.prop] = this.searchForms[index]
         })
@@ -365,3 +377,17 @@
     }
   }
 </script>
+<style lang="scss">
+.gridDialog{
+  .el-dialog__body {
+    padding: 10px 0px 0px 10px;
+    color: #606266;
+    font-size: 14px;
+    word-break: break-all;
+  }
+  .el-pagination{
+    margin-top: 5px;
+    margin-bottom: 4px;
+  }
+}
+</style>

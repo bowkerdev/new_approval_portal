@@ -268,7 +268,7 @@
     position: fixed;
     width: 150px;
     background-color: #fff;
-    z-index: 1024;
+    z-index: 2024;
     border-radius: 5px;
     -webkit-box-shadow: 1px 2px 10px #ccc;
     box-shadow: 1px 2px 10px #ccc;

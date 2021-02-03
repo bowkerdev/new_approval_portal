@@ -34,6 +34,7 @@ export default {
       state.office = user.office
       state.no = user.no
       state.photo = user.photo
+      localStorage.setItem('user', JSON.stringify(user))
     }
   }
 }

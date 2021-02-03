@@ -114,6 +114,7 @@
           },
           href: '',
           permission: '',
+          platform:'portal',
           sort: 30,
           icon: '',
           remarks: '',

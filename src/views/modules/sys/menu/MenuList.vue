@@ -1,142 +1,147 @@
 <template>
   <div class="page bg-white">
-          <el-row>
-            <el-button v-if="hasPermission('sys:menu:add')" type="primary" icon="el-icon-plus" size="small" @click="add()">{{$i18nMy.t('新增')}}</el-button>
-          </el-row>
-          <el-treetable 
-            :data="dataList"
-            size="small"
-            row-key="id"
-            isBigData
-            isTreeTable
-            v-loading="loading"
-            class="table treetable">
-            <el-treetable-column
-              prop="name"
-              header-align="center"
-              show-overflow-tooltip
-              align="left"
-              width="200"
-              :label="$i18nMy.t('名称')">
-                    <template slot-scope="scope">
-                      <el-link  type="primary" :underline="false" v-if="hasPermission('sys:menu:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
-                      <el-link  type="primary" :underline="false" v-else-if="hasPermission('sys:menu:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
-                      <span v-else>{{scope.row.name}}</span>
-                    </template>
-            </el-treetable-column>
-            <el-treetable-column
-              prop="platform"
-              header-align="center"
-              align="center"
-              width="150"
-              :show-overflow-tooltip="true"
-              :label="$i18nMy.t('平台')">
-              <template slot-scope="scope">
-                <el-tag >{{ $dictUtils.getDictLabel("PLATFORM", scope.row.platform, '后台界面') }} </el-tag>
-              </template>
-            </el-treetable-column>
-            <el-treetable-column
-              header-align="center"
-              align="center"
-              :label="$i18nMy.t('图标')">
-              <template slot-scope="scope">
-                <i :class="scope.row.icon"></i>
-              </template>
-            </el-treetable-column>
-            <el-treetable-column
-              prop="type"
-              header-align="center"
-              align="center"
-              :label="$i18nMy.t('类型')">
-              <template slot-scope="scope">
-                <el-tag v-if="scope.row.type === '0'" size="small">{{$i18nMy.t('目录')}}</el-tag>
-                <el-tag v-else-if="scope.row.type === '1'" size="small" type="success">{{$i18nMy.t('菜单')}}</el-tag>
-                <el-tag v-else-if="scope.row.type === '2'" size="small" type="info">{{$i18nMy.t('按钮')}}</el-tag>
-                <el-tag v-else-if="scope.row.type === '3'" size="small" type="info">{{$i18nMy.t('路由')}}</el-tag>
-              </template>
-            </el-treetable-column>
-            <el-treetable-column
-              prop="sort"
-              header-align="center"
-              align="center"
-              width="160"
-              :label="$i18nMy.t('排序号')">
-              <template slot-scope="scope">
-                <el-input-number size="small" v-model="scope.row.sort" @change="sortChange(scope.row)" :step="30"  :min="0" :max="10000" :label="$i18nMy.t('描述文字')"></el-input-number>
-              </template>
-            </el-treetable-column>
-            <el-treetable-column
-              prop="isShow"
-              header-align="center"
-              align="center"
-              width="150"
-              show-overflow-tooltip
-              :label="$i18nMy.t('是否显示')">
-              <template slot-scope="scope">
-                  <el-switch
-                    v-model="scope.row.isShow"
-                    v-if="scope.row.type === '0' || scope.row.type === '1'"
-                    @change="statusChange(scope.row)"
-                    active-color="#13ce66"
-                    inactive-color="#ff4949"
-                    active-value="1"
-                    inactive-value="0">
-                  </el-switch>
-              </template>
-          
-            </el-treetable-column>
-            <el-treetable-column
-              prop="href"
-              header-align="center"
-              align="left"
-              width="150"
-              :show-overflow-tooltip="true"
-              :label="$i18nMy.t('菜单路由')">
-            </el-treetable-column>
-            <el-treetable-column
-              prop="permission"
-              header-align="center"
-              align="left"
-              width="150"
-              :show-overflow-tooltip="true"
-              :label="$i18nMy.t('权限标识')">
-            </el-treetable-column>
-            <el-treetable-column
-              fixed="right"
-              :key="Math.random()"
-              header-align="center"
-              align="center"
-              width="150"
-              :label="$i18nMy.t('操作')">
-              <template slot-scope="scope">
-                <el-button  type="text" size="small"
-                          @click="showRight(scope.row)">{{$i18nMy.t('数据规则')}}</el-button>
-                <el-divider direction="vertical"></el-divider>
-                <el-dropdown size="small"  @command="handleCommand">
-                  <span class="el-dropdown-link">{{$i18nMy.t('更多')}}<i class="el-icon-arrow-down el-icon--right"></i>
-                  </span>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item  v-if="hasPermission('sys:menu:view')" :command="{method:'view', row:scope.row}">{{$i18nMy.t('查看')}}</el-dropdown-item>
-                    <el-dropdown-item v-if="hasPermission('sys:menu:edit')" :command="{method:'edit', row:scope.row}">{{$i18nMy.t('修改')}}</el-dropdown-item>
-                    <el-dropdown-item v-if="hasPermission('sys:menu:del')" :command="{method:'del', id:scope.row.id}">{{$i18nMy.t('删除')}}</el-dropdown-item>
-                    <el-dropdown-item v-if="hasPermission('sys:menu:add')" :command="{method:'addChild', row:scope.row}">{{$i18nMy.t('添加下级菜单')}}</el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </template>
-            </el-treetable-column>
-           </el-treetable>
+  <el-row style="margin-bottom: 10px;">
+    <el-radio-group v-model="platform" @change="refreshList">
+      <el-radio  v-for="(itme, index) in $dictUtils.getDictList('PLATFORM')" :label="itme.value.toString()" :key="itme.value">{{ itme.label }}</el-radio>
+    </el-radio-group>
+  </el-row>
+  <el-row>
+    <el-button v-if="hasPermission('sys:menu:add')" type="primary" icon="el-icon-plus" size="small" @click="add()">{{$i18nMy.t('新增')}}</el-button>
+  </el-row>
+  <el-treetable
+    :data="dataList"
+    size="small"
+    row-key="id"
+    isBigData
+    isTreeTable
+    v-loading="loading"
+    class="table treetable">
+    <el-treetable-column
+      prop="name"
+      header-align="center"
+      show-overflow-tooltip
+      align="left"
+      width="200"
+      :label="$i18nMy.t('名称')">
+            <template slot-scope="scope">
+              <el-link  type="primary" :underline="false" v-if="hasPermission('sys:menu:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
+              <el-link  type="primary" :underline="false" v-else-if="hasPermission('sys:menu:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
+              <span v-else>{{scope.row.name}}</span>
+            </template>
+    </el-treetable-column>
+    <el-treetable-column
+      prop="platform"
+      header-align="center"
+      align="center"
+      width="150"
+      :show-overflow-tooltip="true"
+      :label="$i18nMy.t('平台')">
+      <template slot-scope="scope">
+        <el-tag >{{ $dictUtils.getDictLabel("PLATFORM", scope.row.platform, '后台界面') }} </el-tag>
+      </template>
+    </el-treetable-column>
+    <el-treetable-column
+      header-align="center"
+      align="center"
+      :label="$i18nMy.t('图标')">
+      <template slot-scope="scope">
+        <i :class="scope.row.icon"></i>
+      </template>
+    </el-treetable-column>
+    <el-treetable-column
+      prop="type"
+      header-align="center"
+      align="center"
+      :label="$i18nMy.t('类型')">
+      <template slot-scope="scope">
+        <el-tag v-if="scope.row.type === '0'" size="small">{{$i18nMy.t('目录')}}</el-tag>
+        <el-tag v-else-if="scope.row.type === '1'" size="small" type="success">{{$i18nMy.t('菜单')}}</el-tag>
+        <el-tag v-else-if="scope.row.type === '2'" size="small" type="info">{{$i18nMy.t('按钮')}}</el-tag>
+        <el-tag v-else-if="scope.row.type === '3'" size="small" type="info">{{$i18nMy.t('路由')}}</el-tag>
+      </template>
+    </el-treetable-column>
+    <el-treetable-column
+      prop="sort"
+      header-align="center"
+      align="center"
+      width="160"
+      :label="$i18nMy.t('排序号')">
+      <template slot-scope="scope">
+        <el-input-number size="small" v-model="scope.row.sort" @change="sortChange(scope.row)" :step="30"  :min="0" :max="10000" :label="$i18nMy.t('描述文字')"></el-input-number>
+      </template>
+    </el-treetable-column>
+    <el-treetable-column
+      prop="isShow"
+      header-align="center"
+      align="center"
+      width="150"
+      show-overflow-tooltip
+      :label="$i18nMy.t('是否显示')">
+      <template slot-scope="scope">
+          <el-switch
+            v-model="scope.row.isShow"
+            v-if="scope.row.type === '0' || scope.row.type === '1'"
+            @change="statusChange(scope.row)"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            active-value="1"
+            inactive-value="0">
+          </el-switch>
+      </template>
+
+    </el-treetable-column>
+    <el-treetable-column
+      prop="href"
+      header-align="center"
+      align="left"
+      width="150"
+      :show-overflow-tooltip="true"
+      :label="$i18nMy.t('菜单路由')">
+    </el-treetable-column>
+    <el-treetable-column
+      prop="permission"
+      header-align="center"
+      align="left"
+      width="150"
+      :show-overflow-tooltip="true"
+      :label="$i18nMy.t('权限标识')">
+    </el-treetable-column>
+    <el-treetable-column
+      fixed="right"
+      :key="Math.random()"
+      header-align="center"
+      align="center"
+      width="150"
+      :label="$i18nMy.t('操作')">
+      <template slot-scope="scope">
+        <el-button  type="text" size="small"
+                  @click="showRight(scope.row)">{{$i18nMy.t('数据规则')}}</el-button>
+        <el-divider direction="vertical"></el-divider>
+        <el-dropdown size="small"  @command="handleCommand">
+          <span class="el-dropdown-link">{{$i18nMy.t('更多')}}<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item  v-if="hasPermission('sys:menu:view')" :command="{method:'view', row:scope.row}">{{$i18nMy.t('查看')}}</el-dropdown-item>
+            <el-dropdown-item v-if="hasPermission('sys:menu:edit')" :command="{method:'edit', row:scope.row}">{{$i18nMy.t('修改')}}</el-dropdown-item>
+            <el-dropdown-item v-if="hasPermission('sys:menu:del')" :command="{method:'del', id:scope.row.id}">{{$i18nMy.t('删除')}}</el-dropdown-item>
+            <el-dropdown-item v-if="hasPermission('sys:menu:add')" :command="{method:'addChild', row:scope.row}">{{$i18nMy.t('添加下级菜单')}}</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </template>
+    </el-treetable-column>
+  </el-treetable>
 
 
-    <el-drawer
-      size = "700px"
-      :title="`数据规则列表，所属菜单: ${this.dataRuleTitle}`"
-      :visible.sync="rightVisible"
-      direction="rtl">
-      <data-rule-list  ref="dataRuleList" @closeRight="closeRight"></data-rule-list>
-    </el-drawer>
-  
-    <!-- 弹窗, 新增 / 修改 -->
-    <menu-form ref="menuForm"  @refreshDataList="refreshList"></menu-form>
+  <el-drawer
+    size = "700px"
+    :title="`数据规则列表，所属菜单: ${this.dataRuleTitle}`"
+    :visible.sync="rightVisible"
+    direction="rtl">
+    <data-rule-list  ref="dataRuleList" @closeRight="closeRight"></data-rule-list>
+  </el-drawer>
+
+  <!-- 弹窗, 新增 / 修改 -->
+  <menu-form ref="menuForm"  @refreshDataList="refreshList"></menu-form>
   </div>
 </template>
 

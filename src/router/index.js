@@ -33,7 +33,7 @@ const mainRoutes = {
   meta: {title: '整体布局'},
   children: [
     {path: '/redirect/:path(.*)', component: _import('modules/redirect/index')},
-    {path: '/home', redirect: '/sys/dashboard/analysis/index', name: 'home'},
+    {path: '/home', redirect: '', name: 'home'},
     {path: '/flowable/task/TaskForm', component: _import('modules/flowable/task/TaskForm'), name: 'task-form', meta: {title: '流程表单'}},
     {path: '/flowable/task/TaskFormEdit', component: _import('modules/flowable/task/TaskFormEdit'), name: 'task-form-edit', meta: {title: '流程表单'}},
     {path: '/flowable/task/TaskFormDetail', component: _import('modules/flowable/task/TaskFormDetail'), name: 'task-form-detail', meta: {title: '流程表单详情'}},
@@ -123,7 +123,9 @@ function fnAddDynamicMenuRoutes (menuList = [], routes = []) {
     if (menuList[i].children && menuList[i].children.length >= 1) {
       temp = temp.concat(menuList[i].children)
     }
-
+    if(mainRoutes.children[1].redirect==''&&menuList[i].affix=='1'){
+      mainRoutes.children[1].redirect =menuList[i].href
+    }
     if (menuList[i].href && /\S/.test(menuList[i].href)) {
       menuList[i].href = menuList[i].href.replace(/[/]$/, '')
       const route = {

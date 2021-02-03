@@ -2,7 +2,6 @@ import Vue from 'vue'
 import axios from 'axios'
 import router from '@/router'
 import merge from 'lodash/merge'
-// import i18n from '@/utils/i18n'
 import { clearLoginInfo } from '@/utils'
 import qs from 'qs'
 import {

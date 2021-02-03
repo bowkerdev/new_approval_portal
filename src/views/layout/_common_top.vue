@@ -1,49 +1,31 @@
 <template>
-  <nav ref="navbar" :style="`background:${defaultTheme}`" :class="'jp-navbar  jp-navbar--' + navbarLayoutType ">
-    <!-- <div class="jp-navbar__header">
-      <h1 class="jp-navbar__brand" @click="$router.push({ name: 'home' })">
+  <nav ref="navbar"  :style="{ '--defaultTheme': defaultTheme}" :class="'jp-navbar  jp-navbar--' + navbarLayoutType ">
+    <div class="jp-navbar__header">
+      <!-- <h1 class="jp-navbar__brand" @click="$router.push({ name: 'home' })">
         <a class="jp-navbar__brand-lg" href="javascript:;">
           <img height="50px" src='../../assets/img/logo.png'/>
         </a>
         <a class="jp-navbar__brand-mini" href="javascript:;">
           <img :src="logo" height="40px" width="40px"/>
         </a>
-      </h1>
-      <h1 class="jp-navbar__brand" @click="sidebarFold = !sidebarFold">
-        <a href="javascript:;">
-         <img :src="logo" height="40px" width="40px"/>
-          <i :class="sidebarFold ? 'fa fa-th':'fa fa-reorder'" style="color: white;"></i>
-        </a>
+      </h1> -->
+      <h1 class="jp-navbar__brand" @click="$router.push({ name: 'home' })">
+        <a class="jp-navbar__brand-lg" href="javascript:;"> <img :src="logo" height="40px" width="40px"/> {{productName}}</a>
         <a class="jp-navbar__brand-mini" href="javascript:;">
           <img :src="logo" height="40px" width="40px"/>
         </a>
       </h1>
-    </div> -->
+    </div>
     <div class="jp-navbar__body clearfix" style="overflow:hidden">
+      
       <el-menu
         class="jp-navbar__menu"
         mode="horizontal">
-        <el-menu-item class="jp-navbar__switch" @click="$router.push({ name: 'home' })">
-             <h1 class="jp-navbar__brand">
-               <a href="javascript:;" class="container-flex-start">
-                 <!-- <i class="logo el-icon-platform-eleme"></i> -->
-                 <img :src="logo" height="40px" width="40px"/>
-                 <div class="product-name" style="padding-left: 5px;">
-                   <div>{{$i18nMy.t(productName)}}</div>
-                   <div>ZHIMI Execution</div>
-                 </div>
-               </a>
-             </h1>
-        </el-menu-item>
-        <el-menu-item class="jp-navbar__switch">
-             <h1 class="jp-navbar__brand" style="width: auto;" @click="sidebarFold = !sidebarFold">
-               <a href="javascript:;" class="container-flex-start">
-                 <i :class="sidebarFold ? 'fa fa-th':'fa fa-reorder'" style="color: white;"></i>
-               </a>
-             </h1>
+        <el-menu-item class="jp-navbar__switch"  @click="sidebarFold = !sidebarFold">
+             <i  :class="sidebarFold ? 'fa fa-indent':'fa fa-outdent'"></i>
         </el-menu-item>
       </el-menu>
-
+    
       <el-menu class="jp-navbar__menu " :default-active="topMenuActiveIndex" ref="topMenu"  mode="horizontal">
         <el-menu-item  class="el_menu_item" v-for="menu in topMenuList"
           :index="menu.id"
@@ -68,7 +50,7 @@
           </el-menu-item>
         </el-submenu>
         </el-menu>
-
+      
       <el-menu
         class="jp-navbar__menu jp-navbar__menu--right"
         mode="horizontal">
@@ -84,8 +66,7 @@
                     :tabs="noticeTabs" >
               </notice-icon>
           </template>
-        </el-menu-item> -->
-
+        </el-menu-item>
         <el-menu-item class="jp-navbar__avatar">
           <el-dropdown :show-timeout="0" placement="bottom">
             <span class="el-dropdown-link">
@@ -111,11 +92,11 @@
             </el-dropdown-menu>
           </el-dropdown>
         </el-menu-item>
-        <!-- <el-menu-item  @click="showRight">
+        <el-menu-item class="hide-sm"  @click="showRight">
           <template slot="title">
                <i class="el-icon-more rotate-90" @click="showRight"></i>
           </template>
-        </el-menu-item> -->
+        </el-menu-item>
       </el-menu>
     </div>
     <!-- 弹窗, 修改密码 -->

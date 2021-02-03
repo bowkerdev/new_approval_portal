@@ -237,8 +237,8 @@ export function unescapeHTML (a) {
 
 export function printLogo () {
   console.info(
-    '%c欢迎使用%c桂林经开区智慧招聘平台',
-    'color: #ffffff; background: #000000; padding:5px 10px 5px 10px;font-size:20px;border-radius:12px 0 0 12px;', 'color: #000000; background: #FE9A00; padding:5px 10px;font-size:20px;border-radius:0 12px 12px 0;')
+    '%c欢迎使用%cJEEPLUS',
+    'color: #ffffff; background: #000000; padding:5px 10px 5px 10px;font-size:40px;border-radius:12px 0 0 12px;', 'color: #000000; background: #FE9A00; padding:5px 10px;font-size:40px;border-radius:0 12px 12px 0;')
 }
 
 /**

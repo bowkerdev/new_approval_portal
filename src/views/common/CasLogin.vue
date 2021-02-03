@@ -8,7 +8,6 @@
       this.casLogin()
     },
     methods: {
-  
       // cas登录
       casLogin () {
         let st = this.getTicket()

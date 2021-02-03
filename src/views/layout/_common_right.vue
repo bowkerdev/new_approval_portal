@@ -86,10 +86,7 @@
         direction: 'rtl',
         colorList: [
           {
-            key: '深蓝（默认）', color: '#223962'
-          },
-          {
-            key: '拂晓蓝', color: '#1890FF'
+            key: '拂晓蓝（默认）', color: '#1890FF'
           },
           {
             key: '薄暮', color: '#F5222D', label: '1'

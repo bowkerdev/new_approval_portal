@@ -2,9 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import getters from './getters'
 import cloneDeep from 'lodash/cloneDeep'
-import common from './modules/common'
-import user from './modules/user'
-import config from './modules/config'
 
 Vue.use(Vuex)
 

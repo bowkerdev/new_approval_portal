@@ -87,6 +87,7 @@
         header-align="center"
         align="center"
         fixed="right"
+        :key="Math.random()"
         width="300"
         :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">

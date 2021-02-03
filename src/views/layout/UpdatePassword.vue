@@ -94,7 +94,7 @@
                 'newPassword': this.dataForm.newPassword
               }
             }).then(({data}) => {
-              if (data && data.code === 0) {
+              if (data && data.success) {
                 this.$message({
                   message: $i18nMy.t('操作成功'),
                   type: 'success',

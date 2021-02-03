@@ -8,13 +8,17 @@
       <span style="margin-left: 10px; margin-right: 5px;">{{$i18nMy.t('从')}}</span>
       <el-input-number @change="type = '2'" v-model="cycle.start" :min="0" :max="23" size="mini" style="width: 100px;"></el-input-number>
       <span style="margin-left: 5px; margin-right: 5px;">{{$i18nMy.t('至')}}</span>
-      <el-input-number @change="type = '2'" v-model="cycle.end" :min="2" :max="23" size="mini" style="width: 100px;"></el-input-number>{{$i18nMy.t('时')}}</div>
+      <el-input-number @change="type = '2'" v-model="cycle.end" :min="2" :max="23" size="mini" style="width: 100px;"></el-input-number>
+      {{$i18nMy.t('时')}}
+    </div>
     <div>
       <el-radio v-model="type" label="3" size="mini" border>{{$i18nMy.t('循环')}}</el-radio>
       <span style="margin-left: 10px; margin-right: 5px;">{{$i18nMy.t('从')}}</span>
       <el-input-number @change="type = '3'" v-model="loop.start" :min="0" :max="23" size="mini" style="width: 100px;"></el-input-number>
       <span style="margin-left: 5px; margin-right: 5px;">{{$i18nMy.t('时开始，每')}}</span>
-      <el-input-number @change="type = '3'" v-model="loop.end" :min="1" :max="23" size="mini" style="width: 100px;"></el-input-number>{{$i18nMy.t('时执行一次')}}</div>
+      <el-input-number @change="type = '3'" v-model="loop.end" :min="1" :max="23" size="mini" style="width: 100px;"></el-input-number>
+      {{$i18nMy.t('时执行一次')}}
+    </div>
     <div>
       <el-radio v-model="type" label="4" size="mini" border>{{$i18nMy.t('指定')}}</el-radio>
       <el-checkbox-group v-model="appoint">

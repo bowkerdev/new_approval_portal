@@ -77,7 +77,8 @@ export default {
     },
     size: {
       type: String,
-      default: () => { return 'default' }
+      default: () => { return 'small' }
+    },
     },
     isOnlySelectLeaf: {
       type: Boolean,

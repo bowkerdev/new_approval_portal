@@ -17,11 +17,15 @@
       <span style="margin-left: 10px; margin-right: 5px;">{{$i18nMy.t('从')}}</span>
       <el-input-number @change="type = '3'" v-model="loop.start" :min="1" :max="31" size="mini" style="width: 100px;"></el-input-number>
       <span style="margin-left: 5px; margin-right: 5px;">{{$i18nMy.t('日开始，每')}}</span>
-      <el-input-number @change="type = '3'" v-model="loop.end" :min="1" :max="31" size="mini" style="width: 100px;"></el-input-number>{{$i18nMy.t('日执行一次')}}</div>
+      <el-input-number @change="type = '3'" v-model="loop.end" :min="1" :max="31" size="mini" style="width: 100px;"></el-input-number>
+      {{$i18nMy.t('日执行一次')}}
+    </div>
     <div>
       <el-radio v-model="type" label="8" size="mini" border>{{$i18nMy.t('工作日')}}</el-radio>
       <span style="margin-left: 10px; margin-right: 5px;">{{$i18nMy.t('本月')}}</span>
-      <el-input-number @change="type = '8'" v-model="work" :min="1" :max="7" size="mini" style="width: 100px;"></el-input-number>{{$i18nMy.t('号，最近的工作日')}}</div>
+      <el-input-number @change="type = '8'" v-model="work" :min="1" :max="7" size="mini" style="width: 100px;"></el-input-number>
+      {{$i18nMy.t('号，最近的工作日')}}
+    </div>
     <div>
       <el-radio v-model="type" label="6" size="mini" border>{{$i18nMy.t('本月最后一天')}}</el-radio>
     </div>

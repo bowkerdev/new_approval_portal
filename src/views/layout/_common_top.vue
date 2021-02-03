@@ -72,12 +72,12 @@
       <el-menu
         class="jp-navbar__menu jp-navbar__menu--right"
         mode="horizontal">
-         <!-- <el-menu-item>
+         <el-menu-item class="hide-sm">
           <template slot="title">
                 <color-picker></color-picker>
           </template>
         </el-menu-item>
-        <el-menu-item>
+        <el-menu-item class="hide-sm">
           <template slot="title">
                 <notice-icon
                     class="action notice"
@@ -352,10 +352,10 @@
           }).then(({data}) => {
             if (data && data.success) {
               clearLoginInfo()
-              if(data.loginOutUrl!=null&&data.loginOutUrl!=''){
-                window.location.href = data.loginOutUrl;
-              }
-              else{
+              if (process.env.VUE_APP_SSO_LOGIN === 'true') {
+                let service = window.location.protocol + '//' + window.location.host + '/'
+                window.location.href = `${process.env.VUE_APP_CAS_SERVER}/logout?service=${service}`
+              } else {
                 this.$router.replace({name: 'login'})
               }
             }

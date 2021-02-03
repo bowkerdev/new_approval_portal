@@ -19,7 +19,10 @@ export default {
   props: {
     limit: Number,
     value: String,
-    size: String,
+    size: {
+      type: String,
+      default: () => { return 'small' }
+    },
     readonly: {
       type: Boolean,
       default: () => { return false }

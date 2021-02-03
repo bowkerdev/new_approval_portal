@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page">
+      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
 		     <el-form-item prop="title">
                 <el-input size="small" v-model="searchForm.title" :placeholder="$i18nMy.t('标题')" clearable></el-input>
@@ -13,14 +13,6 @@
 
       <el-row>
         <el-button-group class="pull-right">
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button 
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button 
               type="default"
@@ -33,7 +25,8 @@
       </el-row>
     <el-table
       :data="dataList"
-      size="medium"
+      size="small"
+      height="calc(100% - 80px)"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       v-loading="loading"
@@ -126,8 +119,6 @@
         total: 0,
         orderBy: '',
         dataListSelections: [],
-        isSearchCollapse: false,
-        isImportCollapse: false,
         loading: false
       }
     },

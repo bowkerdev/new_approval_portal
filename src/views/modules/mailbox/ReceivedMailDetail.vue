@@ -8,7 +8,7 @@
     :before-close="handleClose"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" ref="inputForm">
+    <el-form size="small" :model="inputForm" ref="inputForm">
 
              <div>
               <span>发件人：{{inputForm.sender.name}}</span>

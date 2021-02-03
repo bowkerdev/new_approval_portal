@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page">
+      <el-form size="small" :inline="true"  class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
         <el-form-item :label="$i18nMy.t('创建时间')" prop="searchDates">
           <el-date-picker
             v-model="searchDates"
@@ -22,14 +22,6 @@
       </el-form>
       <el-row>
         <el-button-group class="pull-right">
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button 
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button 
               type="default"
@@ -42,8 +34,8 @@
       </el-row>
         <el-table
           :data="dataList"
-          border
-          size = "medium"
+          size = "small"
+          height="calc(100% - 80px)"
           v-loading="loading"
           @selection-change="selectionChangeHandle"
           class="table">
@@ -55,6 +47,8 @@
           </el-table-column>
           <el-table-column
             prop="vars.title"
+            min-width="180px"
+           show-overflow-tooltip
             :label="$i18nMy.t('实例标题')">
                 <template slot-scope="scope">
                   <el-link  type="primary" :underline="false" v-if="scope.row.status === 'todo'"  @click="todo(scope.row)">{{scope.row.vars.title}}</el-link>
@@ -62,7 +56,7 @@
                 </template>
           </el-table-column>
           <el-table-column
-            prop="procDef.name"
+            prop="processDefinitionName"
             :label="$i18nMy.t('流程名称')">
           </el-table-column>
            <el-table-column
@@ -86,13 +80,14 @@
           </el-table-column>
           <el-table-column
             fixed="right"
+            :key="Math.random()"
             width="200"
             :label="$i18nMy.t('操作')">
             <template slot-scope="scope">
-              <el-button v-if="scope.row.status === 'claim'" type="text" size="small" @click="claim(scope.row)">{{$i18nMy.t('签收任务')}}</el-button>
-              <el-button v-if="scope.row.status === 'todo'" type="text" size="small" @click="todo(scope.row)">{{$i18nMy.t('办理')}}</el-button>
-              <el-button v-if="scope.row.status === 'todo'" type="text" size="small" @click="transferTask(scope.row)">{{$i18nMy.t('委派')}}</el-button>
-              <el-button v-if="scope.row.claimTime" type="text" size="small" @click="unclaim(scope.row)">{{$i18nMy.t('取消签收')}}</el-button>
+              <!-- <el-button v-if="scope.row.status === 'claim'" type="text" size="small" @click="claim(scope.row)">{{$i18nMy.t('签收任务')}}</el-button> -->
+              <el-button type="text" size="small" @click="todo(scope.row)">{{$i18nMy.t('办理')}}</el-button>
+              <!--  <el-button v-if="scope.row.status === 'todo'" type="text" size="small" @click="transferTask(scope.row)">{{$i18nMy.t('委派')}}</el-button> -->
+              <!--  <el-button v-if="scope.row.claimTime" type="text" size="small" @click="unclaim(scope.row)">{{$i18nMy.t('取消签收')}}</el-button> -->
               <el-button  type="text" size="small" @click="trace(scope.row)">{{$i18nMy.t('进度')}}</el-button>
             </template>
           </el-table-column>
@@ -107,6 +102,7 @@
         background
         layout="total, sizes, prev, pager, next, jumper">
       </el-pagination>
+      </div>
        <el-dialog
         title="查看进度"
         :close-on-click-modal="true"
@@ -138,7 +134,6 @@
         pageNo: 1,
         pageSize: 10,
         total: 0,
-        isSearchCollapse: false,
         loading: false,
         visible: false,
         currentTask: null,
@@ -249,6 +244,7 @@
           taskDefKey: row.task.taskDefinitionKey,
           procInsId: row.task.processInstanceId,
           procDefId: row.task.processDefinitionId,
+          procDefKey: row.task.processDefKey,
           status: row.status
         }}).then(({data}) => {
           if (data.success) {

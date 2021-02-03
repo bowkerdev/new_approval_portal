@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page">
+      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
 		     <el-form-item prop="name">
                 <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('名称')" clearable></el-input>
@@ -10,19 +10,12 @@
             <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
+      <div class="top bg-white">
       <el-row>
         <el-button v-if="hasPermission('extension:condition:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('extension:condition:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()" :disabled="dataListSelections.length != 1">{{$i18nMy.t('修改')}}</el-button>
         <el-button v-if="hasPermission('extension:condition:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()" :disabled="dataListSelections.length <= 0">{{$i18nMy.t('删除')}}</el-button>
         <el-button-group class="pull-right">
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button 
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button 
               type="default"
@@ -35,8 +28,8 @@
       </el-row>
     <el-table
       :data="dataList"
-      border
-      size = "medium"
+      size = "small"
+      height="calc(100% - 80px)"
       v-loading = "loading"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
@@ -89,6 +82,7 @@
       background
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
+      </div>
         <!-- 弹窗, 新增 / 修改 -->
     <ConditionForm  ref="conditionForm" @refreshDataList="refreshList"></ConditionForm>
   </div>
@@ -108,8 +102,6 @@
         total: 0,
         orderBy: '',
         dataListSelections: [],
-        isSearchCollapse: false,
-        isImportCollapse: false,
         loading: false
       }
     },

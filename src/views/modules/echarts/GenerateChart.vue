@@ -1,5 +1,7 @@
 <template>
+  <div class="page bg-white">
     <el-table v-if="type === 'table'"
+    border
       :data="chartData.rows">
           <el-table-column
           v-for="(column, index) in chartData.columns" :key="index"
@@ -19,7 +21,7 @@
 
       <component :is="'ve-'+type" v-else
       :data="chartData"/>
-
+  </div>
 </template>
 
 <script>

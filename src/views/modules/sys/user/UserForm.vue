@@ -4,10 +4,10 @@
     :close-on-click-modal="false"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" :rules="dataRule" ref="inputForm" @keyup.enter.native="doSubmit()"
+    <el-form size="small" :model="inputForm" :rules="dataRule" ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="120px" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" @submit.native.prevent>
     <el-row :gutter="15">
-        <el-col :span="12">
+        <el-col :span="24">
           <el-form-item prop="photo" :label="$i18nMy.t('头像')"> 
             <el-upload
               class="avatar-uploader"
@@ -83,10 +83,18 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="$i18nMy.t('角色')" prop="roleIdList">
-              <el-checkbox-group 
+              <el-select v-model="inputForm.roleIdList" style="width:100%" multiple placeholder="请选择">
+                <el-option
+                  v-for="role in roleList"
+                  :key="role.id"
+                  :label="role.name"
+                  :value="role.id">
+                </el-option>
+              </el-select>
+              <!-- <el-checkbox-group 
                 v-model="inputForm.roleIdList">
                 <el-checkbox v-for="role in roleList" :label="role.id" :key="role.id">{{role.name}}</el-checkbox>
-              </el-checkbox-group>
+              </el-checkbox-group> -->
           </el-form-item>
         </el-col>
      

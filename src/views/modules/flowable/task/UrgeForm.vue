@@ -4,7 +4,7 @@
     title="流程催办"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form ref="inputForm" :model="inputForm"   v-loading="loading" @keyup.enter.native="inputFormSubmit()" label-width="120px" @submit.native.prevent> 
+    <el-form size="small" ref="inputForm" :model="inputForm"   v-loading="loading" @keyup.enter.native="inputFormSubmit()" label-width="120px" @submit.native.prevent> 
        <el-form-item :label="$i18nMy.t('催办方式')" prop="checkedUrgeTypes"  :rules="[
                   {required: true, message:'催办方式不能为空', trigger:'blur'}
                  ]">
@@ -19,8 +19,8 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
-      <el-button type="primary" @click="inputFormSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
+      <el-button size="small" @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button size="small" type="primary" @click="inputFormSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </template>

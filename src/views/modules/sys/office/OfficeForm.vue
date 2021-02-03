@@ -4,7 +4,7 @@
     :close-on-click-modal="false"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" :rules="dataRule" ref="inputForm" @keyup.enter.native="doSubmit()"
+    <el-form size="small" :model="inputForm" :rules="dataRule" ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="80px" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" @submit.native.prevent>
       <el-row :gutter="15">
         <el-col :span="12">

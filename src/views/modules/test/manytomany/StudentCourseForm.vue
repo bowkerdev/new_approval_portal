@@ -5,11 +5,11 @@
     :close-on-click-modal="false"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" ref="inputForm" v-loading="loading" :class="method==='view'?'readonly':''"  :disabled="method==='view'"
+    <el-form :model="inputForm" size="small" ref="inputForm" v-loading="loading" :class="method==='view'?'readonly':''"  :disabled="method==='view'"
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('学生')" prop="student.id"
+            <el-form-item label="学生" prop="student.id"
                 :rules="[
                   {required: true, message:'学生不能为空', trigger:'blur'}
                  ]">
@@ -39,7 +39,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('课程')" prop="course.id"
+            <el-form-item label="课程" prop="course.id"
                 :rules="[
                   {required: true, message:'课程不能为空', trigger:'blur'}
                  ]">
@@ -69,26 +69,26 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('分数')" prop="score"
+            <el-form-item label="分数" prop="score"
                 :rules="[
                   {required: true, message:'分数不能为空', trigger:'blur'},
                   {validator: validator.isDigits, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.score" :placeholder="$i18nMy.t('请填写分数')"     ></el-input>
+              <el-input v-model="inputForm.score" placeholder="请填写分数"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('备注信息')" prop="remarks"
+            <el-form-item label="备注信息" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写备注信息')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" placeholder="请填写备注信息"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
+      <el-button size="small" @click="visible = false">关闭</el-button>
+      <el-button size="small" type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>确定</el-button>
     </span>
   </el-dialog>
 </div>
@@ -124,11 +124,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = $i18nMy.t('新建学生课程记录')
+          this.title = `新建学生课程记录`
         } else if (method === 'edit') {
-          this.title = $i18nMy.t('修改学生课程记录')
+          this.title = '修改学生课程记录'
         } else if (method === 'view') {
-          this.title = $i18nMy.t('查看学生课程记录')
+          this.title = '查看学生课程记录'
         }
         this.visible = true
         this.loading = false

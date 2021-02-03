@@ -1,63 +1,59 @@
 <template>
-  <div>
-  <el-row :gutter="10">
-    <el-col :span="5">
-     <el-card  shadow="never" :body-style="contentViewHeight">
-      <el-tag
-        closable
-        size="small" 
-        style="margin-bottom:5px"
-        v-if="selectFormCategoryName"
-        :disable-transitions="false"
-        @close="handleNodeClose">
-        {{selectFormCategoryName}}
-      </el-tag>
-      <el-row :gutter="5">
-        <el-col :span="20">
-          <el-input
-            :placeholder="$i18nMy.t('输入关键字进行过滤')"
-            size="small"
-            v-model="filterText">
-          </el-input>
-        </el-col>
-        <el-col :span="4">
-            <el-button type="primary" @click="addTreeNode" size="small" icon="el-icon-plus" circle></el-button>
-        </el-col>
-      </el-row>
-      <el-tree
-        class="filter-tree"
-        :data="formCategoryTreeData"
-        :props="{
-              value: 'id',             // ID字段名
-              label: 'name',         // 显示名称
-              children: 'children'    // 子级字段名
-            }"
-        default-expand-all
-        :filter-node-method="filterNode"
-        :expand-on-click-node="false"
-        @node-click="handleNodeClick"
-        ref="formCategoryTree">
-           <span class="custom-tree-node" slot-scope="{ node, data}">
-            <span>{{ node.label }}</span>
-            <span>
-               <el-button type="text" class="tree-item-button" icon="el-icon-plus" @click="() => addChildTreeNode(data)">
-               </el-button>
-                <el-button type="text" class="tree-item-button" icon="el-icon-edit-outline" @click="() => editTreeNode(data)">
-               </el-button>
-                <el-button type="text" class="tree-item-button" icon="el-icon-delete" @click="() => delTreeNode(data)">
-               </el-button>
-            </span>
-          </span>
-      </el-tree>
-      </el-card>
-    </el-col>
-
-    <el-col :span="19">
-    <el-card  shadow="never" :body-style="contentViewHeight">
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+    <div class="jp-common-layout page">
+      <div class="jp-common-layout-left">
+        <div class="jp-common-title"> 
+          <el-row :gutter="5">
+            <el-col :span="20">
+              <el-input
+                :placeholder="$i18nMy.t('输入关键字进行过滤')"
+                size="small"
+                v-model="filterText">
+              </el-input>
+            </el-col>
+            <el-col :span="4">
+                <el-button type="primary" @click="addTreeNode" size="small" icon="el-icon-plus" circle></el-button>
+            </el-col>
+          </el-row>
+        </div>
+      <div class="jp-common-el-tree-scrollbar el-scrollbar">
+        <div class="el-scrollbar__wrap">
+          <div class="el-scrollbar__view">
+              <el-tree
+                class="filter-tree"
+                :data="formCategoryTreeData"
+                :props="{
+                      value: 'id',             // ID字段名
+                      label: 'name',         // 显示名称
+                      children: 'children'    // 子级字段名
+                    }"
+                default-expand-all
+                :filter-node-method="filterNode"
+                :expand-on-click-node="false"
+                highlight-current
+                node-key="id"
+                @node-click="handleNodeClick"
+                ref="formCategoryTree">
+                  <span class="custom-tree-node" slot-scope="{ node, data}">
+                    <span>{{ node.label }}</span>
+                    <span>
+                      <el-button type="text" class="tree-item-button" icon="el-icon-plus" @click="() => addChildTreeNode(data)">
+                      </el-button>
+                        <el-button type="text" class="tree-item-button" icon="el-icon-edit-outline" @click="() => editTreeNode(data)">
+                      </el-button>
+                        <el-button type="text" class="tree-item-button" icon="el-icon-delete" @click="() => delTreeNode(data)">
+                      </el-button>
+                    </span>
+                  </span>
+              </el-tree>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="jp-common-layout-center jp-flex-main">
+      <el-form size="small" :inline="true"  class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
 		     <el-form-item prop="category.id">
-		<SelectTree
+		          <SelectTree
                       ref="category"
                       :props="{
                           value: 'id',             // ID字段名
@@ -79,22 +75,7 @@
             <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
-        <!-- 导入导出-->
-      <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
-         <el-form-item>
-          <el-button type="default" @click="downloadTpl()" size="small">{{$i18nMy.t('下载模板')}}</el-button>
-         </el-form-item>
-         <el-form-item prop="loginName">
-            <el-upload
-              class="upload-demo"
-              :action="`${this.$http.BASE_URL}/extension/formDefinition/import`"
-              :on-success="uploadSuccess"
-               :show-file-list="true">
-              <el-button size="small" type="primary">{{$i18nMy.t('点击上传')}}</el-button>
-              <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
-            </el-upload>
-        </el-form-item>
-      </el-form>
+      <div class="bg-white top">
       <el-row>
         <el-button v-if="hasPermission('extension:formDefinition:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('extension:formDefinition:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
@@ -105,105 +86,97 @@
             <el-button
               type="default"
               size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-            <el-button v-if="hasPermission('extension:formDefinition:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
-            <el-button v-if="hasPermission('extension:formDefinition:export')" type="default" size="small" icon="el-icon-download" title="导出" @click="exportExcel()"></el-button>
-            <el-button
-              type="default"
-              size="small"
               icon="el-icon-refresh"
               @click="refreshList">
             </el-button>
         </el-button-group>
       </el-row>
-    <el-table
-      :data="dataList"
-      border
-      size="medium"
-      @selection-change="selectionChangeHandle"
-      @sort-change="sortChangeHandle"
-      v-loading="loading"
-      class="table">
+      <el-table
+        :data="dataList"
+        size="small"
+        @selection-change="selectionChangeHandle"
+        @sort-change="sortChangeHandle"
+        height="calc(100% - 80px)"
+        v-loading="loading"
+        class="table">
+        <el-table-column
+          type="selection"
+          size="small"
+          header-align="center"
+          align="center"
+          width="50">
+        </el-table-column>
       <el-table-column
-        type="selection"
-        size="medium"
-        header-align="center"
-        align="center"
-        width="50">
-      </el-table-column>
-	  <el-table-column
-        prop="name"
-        show-overflow-tooltip
-        sortable="custom"
+          prop="name"
+          show-overflow-tooltip
+          sortable="custom"
         :label="$i18nMy.t('表单名称')">
-        <template slot-scope="scope">
-          <el-link  type="primary" :underline="false" v-if="hasPermission('extension:formDefinition:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
-          <el-link  type="primary" :underline="false" v-else-if="hasPermission('extension:formDefinition:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
-          <span v-else>{{scope.row.name}}</span>
-        </template>
-    </el-table-column>
-    <el-table-column
-        prop="category.name"
-        show-overflow-tooltip
-        :label="$i18nMy.t('分类')">
+          <template slot-scope="scope">
+            <el-link  type="primary" :underline="false" v-if="hasPermission('extension:formDefinition:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
+            <el-link  type="primary" :underline="false" v-else-if="hasPermission('extension:formDefinition:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
+            <span v-else>{{scope.row.name}}</span>
+          </template>
       </el-table-column>
-	  <el-table-column
-        prop="formDefinitionJson.version"
-        show-overflow-tooltip
+      <el-table-column
+          prop="category.name"
+          show-overflow-tooltip
+        :label="$i18nMy.t('分类')">
+        </el-table-column>
+      <el-table-column
+          prop="formDefinitionJson.version"
+          show-overflow-tooltip
         :label="$i18nMy.t('版本号')">
-    </el-table-column>
-	  <el-table-column
-        prop="formDefinitionJson.status"
-        show-overflow-tooltip
+      </el-table-column>
+      <el-table-column
+          prop="formDefinitionJson.status"
+          show-overflow-tooltip
         :label="$i18nMy.t('状态')">
-         <template slot-scope="scope">
+          <template slot-scope="scope">
           <el-tag v-if="scope.row.formDefinitionJson.status === '1'" size="small" type="success">{{$i18nMy.t('已发布')}}</el-tag>
           <el-tag v-else size="small" type="danger">{{$i18nMy.t('未发布')}}</el-tag>
-        </template>
-      </el-table-column>
-	  <el-table-column
-        prop="formDefinitionJson.isPrimary"
-        show-overflow-tooltip
+          </template>
+        </el-table-column>
+      <el-table-column
+          prop="formDefinitionJson.isPrimary"
+          show-overflow-tooltip
         :label="$i18nMy.t('是否主版本')">
-         <template slot-scope="scope">
+          <template slot-scope="scope">
           <el-tag v-if="scope.row.formDefinitionJson.isPrimary === '1'" size="small" type="success">{{$i18nMy.t('主版本')}}</el-tag>
           <el-tag v-else size="small" type="danger">{{$i18nMy.t('非主版本')}}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column
-        header-align="center"
-        align="center"
-        fixed="right"
-        width="250"
+          </template>
+        </el-table-column>
+        <el-table-column
+          header-align="center"
+          align="center"
+          fixed="right"
+          :key="Math.random()"
+          width="250"
         :label="$i18nMy.t('操作')">
-        <template  slot-scope="scope">
+          <template  slot-scope="scope">
           <el-button v-if="hasPermission('extension:formDefinition:view')" type="text" icon="el-icon-view" size="small" @click="showDesignForm(scope.row.id, scope.row.formDefinitionJson.id)">{{$i18nMy.t('设计')}}</el-button>
           <el-button v-if="hasPermission('extension:formDefinition:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
           <el-button v-if="hasPermission('extension:formDefinition:edit')" type="text" icon="el-icon-edit" size="small" @click="manage(scope.row.id)">{{$i18nMy.t('版本管理')}}</el-button>
           <el-button v-if="hasPermission('extension:formDefinition:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination
-      @size-change="sizeChangeHandle"
-      @current-change="currentChangeHandle"
-      :current-page="pageNo"
-      :page-sizes="[10, 20, 50, 100]"
-      :page-size="pageSize"
-      :total="total"
-      background
-      layout="total, sizes, prev, pager, next, jumper">
-    </el-pagination>
-    </el-card>
-    </el-col>
-</el-row>
-        <!-- 弹窗, 新增 / 修改 -->
-    <FormDefinitionForm  ref="formDefinitionForm" @showDesignForm="showDesignForm" @refreshDataList="refreshList"></FormDefinitionForm>
-    <FormCategoryForm  ref="formCategoryForm"  @refreshTree="refreshTree"></FormCategoryForm>
-    <DesignForm  ref="designForm" @refreshDataList="refreshList"></DesignForm>
-
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        @size-change="sizeChangeHandle"
+        @current-change="currentChangeHandle"
+        :current-page="pageNo"
+        :page-sizes="[10, 20, 50, 100]"
+        :page-size="pageSize"
+        :total="total"
+        background
+        layout="total, sizes, prev, pager, next, jumper">
+      </el-pagination>
+      
+          <!-- 弹窗, 新增 / 修改 -->
+      <FormDefinitionForm  ref="formDefinitionForm" @showDesignForm="showDesignForm" @refreshDataList="refreshList"></FormDefinitionForm>
+      <FormCategoryForm  ref="formCategoryForm"  @refreshTree="refreshTree"></FormCategoryForm>
+      <DesignForm  ref="designForm" @refreshDataList="refreshList"></DesignForm>
+      </div>
+  </div>
   </div>
 </template>
 
@@ -223,14 +196,12 @@
         },
         filterText: '',
         formCategoryTreeData: [],
-        selectFormCategoryName: '',
         dataList: [],
         pageNo: 1,
         pageSize: 10,
         total: 0,
         orderBy: '',
         dataListSelections: [],
-        isSearchCollapse: false,
         isImportCollapse: false,
         loading: false
       }
@@ -244,12 +215,6 @@
     activated () {
       this.refreshTree()
       this.refreshList()
-    },
-    computed: {
-      contentViewHeight () {
-        let height = this.$store.state.common.documentClientHeight - 122
-        return {minHeight: height + 'px'}
-      }
     },
     watch: {
       filterText (val) {
@@ -271,12 +236,6 @@
       },
       handleNodeClick (data) {
         this.searchForm.category.id = data.id
-        this.selectFormCategoryName = '已选: ' + data.name
-        this.refreshList()
-      },
-      handleNodeClose () {
-        this.searchForm.category.id = ''
-        this.selectFormCategoryName = ''
         this.refreshList()
       },
       addChildTreeNode (node) {
@@ -404,25 +363,10 @@
           })
         })
       },
-      // 导入成功
-      uploadSuccess (res, file) {
-        if (res.success) {
-          this.$message.success({dangerouslyUseHTMLString: true,
-            message: res.msg})
-        } else {
-          this.$message.error(res.msg)
-        }
-      },
-      // 下载模板
-      downloadTpl () {
-        this.$utils.download('/extension/formDefinition/import/template')
-      },
-      exportExcel () {
-        this.$utils.download('/extension/formDefinition/export')
-      },
       resetSearch () {
         this.$refs.searchForm.resetFields()
-        this.selectFormCategoryName = ''
+        this.filterText = ''
+        this.$refs.formCategoryTree.setCurrentKey(null)
         this.refreshList()
       }
     }

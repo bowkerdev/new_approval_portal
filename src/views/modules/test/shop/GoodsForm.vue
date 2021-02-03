@@ -5,19 +5,19 @@
     :close-on-click-modal="false"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" ref="inputForm" v-loading="loading" :class="method==='view'?'readonly':''"  :disabled="method==='view'"
+    <el-form :model="inputForm" size="small" ref="inputForm" v-loading="loading" :class="method==='view'?'readonly':''"  :disabled="method==='view'"
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('商品名称')" prop="name"
+            <el-form-item label="商品名称" prop="name"
                 :rules="[
                   {required: true, message:'商品名称不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写商品名称')"     ></el-input>
+              <el-input v-model="inputForm.name" placeholder="请填写商品名称"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('所属类型')" prop="category.id"
+            <el-form-item label="所属类型" prop="category.id"
                 :rules="[
                   {required: true, message:'所属类型不能为空', trigger:'blur'}
                  ]">
@@ -37,26 +37,26 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('价格')" prop="price"
+            <el-form-item label="价格" prop="price"
                 :rules="[
                   {required: true, message:'价格不能为空', trigger:'blur'},
                   {validator: validator.isFloatGtZero, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.price" :placeholder="$i18nMy.t('请填写价格')"     ></el-input>
+              <el-input v-model="inputForm.price" placeholder="请填写价格"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('备注信息')" prop="remarks"
+            <el-form-item label="备注信息" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写备注信息')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" placeholder="请填写备注信息"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
+      <el-button size="small" @click="visible = false">关闭</el-button>
+      <el-button size="small" type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>确定</el-button>
     </span>
   </el-dialog>
 </div>
@@ -90,11 +90,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = $i18nMy.t('新建商品')
+          this.title = `新建商品`
         } else if (method === 'edit') {
-          this.title = $i18nMy.t('修改商品')
+          this.title = '修改商品'
         } else if (method === 'view') {
-          this.title = $i18nMy.t('查看商品')
+          this.title = '查看商品'
         }
         this.visible = true
         this.loading = false

@@ -5,7 +5,7 @@
     :close-on-click-modal="false"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" ref="inputForm" @keyup.enter.native="doSubmit()"
+    <el-form size="small" :model="inputForm" ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="120px" 
              element-loading-text="正在测试数据库连接"
              :class="method==='view'?'readonly':''" :disabled="method==='view'"

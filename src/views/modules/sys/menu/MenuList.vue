@@ -1,23 +1,16 @@
 <template>
-  <div>
-          <el-row style="margin-bottom: 10px;">
-            <el-radio-group v-model="platform" @change="refreshList">
-              <el-radio  v-for="(itme, index) in $dictUtils.getDictList('PLATFORM')" :label="itme.value.toString()" :key="itme.value">{{ itme.label }}</el-radio>
-            </el-radio-group>
-          </el-row>
+  <div class="page bg-white">
           <el-row>
             <el-button v-if="hasPermission('sys:menu:add')" type="primary" icon="el-icon-plus" size="small" @click="add()">{{$i18nMy.t('新增')}}</el-button>
           </el-row>
-          <el-treetable
-            border
+          <el-treetable 
             :data="dataList"
-            isBigData
-            max-height="1200"
-            isTreeTable
-            size="medium"
-            v-loading = "loading"
+            size="small"
             row-key="id"
-            class="table">
+            isBigData
+            isTreeTable
+            v-loading="loading"
+            class="table treetable">
             <el-treetable-column
               prop="name"
               header-align="center"
@@ -90,7 +83,7 @@
                     inactive-value="0">
                   </el-switch>
               </template>
-
+          
             </el-treetable-column>
             <el-treetable-column
               prop="href"
@@ -110,6 +103,7 @@
             </el-treetable-column>
             <el-treetable-column
               fixed="right"
+              :key="Math.random()"
               header-align="center"
               align="center"
               width="150"
@@ -140,7 +134,7 @@
       direction="rtl">
       <data-rule-list  ref="dataRuleList" @closeRight="closeRight"></data-rule-list>
     </el-drawer>
-
+  
     <!-- 弹窗, 新增 / 修改 -->
     <menu-form ref="menuForm"  @refreshDataList="refreshList"></menu-form>
   </div>
@@ -156,7 +150,6 @@
         rightVisible: false,
         loading: false,
         dataRuleTitle: '',
-        platform:'portal',
         dataList: []
       }
     },
@@ -196,7 +189,6 @@
         this.$refs.menuForm.init('view', row)
       },
       handleCommand (command) {
-        debugger
         if (command.method === 'view') {
           this.view(command.row)
         } else if (command.method === 'edit') {
@@ -280,15 +272,3 @@
     }
   }
 </script>
-
-<style>
-  .el-dropdown-link {
-    cursor: pointer;
-    color: #409EFF;
-    font-size: 12px;
-    font-weight: 500;
-  }
-  .el-icon-arrow-down {
-    font-size: 12px;
-  }
-</style>

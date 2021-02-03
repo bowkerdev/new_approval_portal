@@ -7,7 +7,7 @@
      v-dialogDrag
      class="design-chart"
     :visible.sync="visible">
-  <el-form :model="inputForm"  ref="inputForm" @keyup.enter.native="doSubmit()"
+  <el-form size="small" :model="inputForm"  ref="inputForm" @keyup.enter.native="doSubmit()"
              :class="method==='view'?'readonly':''" :disabled="method==='view'"
              v-loading="loading" @submit.native.prevent>
     <el-container>
@@ -166,8 +166,8 @@
 
     </el-form>
     <span slot="footer"  class="dialog-footer">
-      <el-button v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>确定</el-button>
-      <el-button @click="visible = false">关闭</el-button>
+      <el-button size="small" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>确定</el-button>
+      <el-button size="small" @click="visible = false">关闭</el-button>
     </span>
 
         <el-dialog

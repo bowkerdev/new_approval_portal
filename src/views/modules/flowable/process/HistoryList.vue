@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div class="page bg-white">
       <el-row>
         <el-button  type="danger"   size="small" icon="el-icon-delete" @click="del()"
                   :disabled="dataListSelections.length <= 0">{{$i18nMy.t('删除')}}</el-button>
       </el-row>
         <el-table
           :data="dataList"
-          border
-          size = "medium"
+          size = "small"
+          height="calc(100% - 80px)"
           v-loading="loading"
           @selection-change="selectionChangeHandle"
           class="table">
@@ -18,7 +18,9 @@
             width="50">
           </el-table-column>
           <el-table-column
-            prop="processVariables.title"
+            prop="vars.title"
+            show-overflow-tooltip
+            min-width="180px"
             :label="$i18nMy.t('实例名称')">
           </el-table-column>
           <el-table-column
@@ -26,38 +28,28 @@
             :label="$i18nMy.t('流程名称')">
           </el-table-column>
            <el-table-column
-            prop="processVariables.userName"
+            prop="vars.userName"
             :label="$i18nMy.t('流程发起人')">
-          </el-table-column>
-          <el-table-column
-            prop="startTime"
-            show-overflow-tooltip
-            :label="$i18nMy.t('流程启动时间')">
-             <template slot-scope="scope">
-              {{scope.row.startTime | formatDate}}
-             </template>
-          </el-table-column>
-          <el-table-column
-            prop="endTime"
-            show-overflow-tooltip
-            :label="$i18nMy.t('流程结束时间')">
-             <template slot-scope="scope">
-              {{scope.row.endTime | formatDate}}
-             </template>
           </el-table-column>
           <el-table-column
             prop="deleteReason"
             width="150"
             show-overflow-tooltip
-            :label="$i18nMy.t('流程状态')">
+            :label="$i18nMy.t('流程启动时间')">
              <template slot-scope="scope">
-               <el-tag v-if="scope.row.deleteReason === undefined" type="success">{{$i18nMy.t('正常结束')}}</el-tag>
-               <el-tag v-else-if="scope.row.deleteReason === '用户撤销'" type="danger">{{$i18nMy.t('用户撤销')}}</el-tag>
-               <div v-else><el-tag type="danger">{{$i18nMy.t('流程作废')}}</el-tag> <span v-if="scope.row.deleteReason">原因: {{scope.row.deleteReason}}</span></div>
+                <el-tag  :type="scope.row.level"   effect="dark" size="small">{{scope.row.status}} </el-tag>
              </template>
           </el-table-column>
           <el-table-column
-            fixed="right"
+            prop="startTime"
+            show-overflow-tooltip
+            :label="$i18nMy.t('流程结束时间')">
+             <template slot-scope="scope">
+              <p>{{scope.row.startTime | formatDate}}</p>
+              <p class="text-grey">{{scope.row.endTime | formatDate}}</p>
+             </template>
+          </el-table-column>
+          <el-table-column
             header-align="center"
             align="center"
             width="150"
@@ -183,7 +175,7 @@
           if (data.success) {
             this.$router.push({
               path: '/flowable/task/TaskFormDetail',
-              query: {readOnly: true, title: row.processVariables.title, formTitle: row.processVariables.title, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
+              query: {readOnly: true, title: row.vars.title, formTitle: row.vars.title, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
             })
           }
         })

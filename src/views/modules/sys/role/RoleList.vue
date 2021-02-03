@@ -1,14 +1,16 @@
 <template>
-  <div>
-      <el-form :inline="true" v-show="isSearchCollapse" ref="searchForm" class="query-form" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-         <el-form-item prop="name">
+  <div class="page">
+    <el-form size="small" :inline="true" ref="searchForm" class="query-form" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+        <el-form-item prop="name">
           <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('角色名')" clearable></el-input>
-         </el-form-item>
-        <el-form-item>
+        </el-form-item>
+      <el-form-item>
           <el-button  type="primary" @click="refreshList()" icon="el-icon-search" size="small">{{$i18nMy.t('查询')}}</el-button>
           <el-button @click="resetSearch()" icon="el-icon-delete" size="small">{{$i18nMy.t('重置')}}</el-button>
-        </el-form-item>
-      </el-form>
+      </el-form-item>
+    </el-form>
+    <div class="bg-white top">
+
       <el-row>
         <el-button v-if="hasPermission('sys:user:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('sys:user:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
@@ -16,14 +18,6 @@
         <el-button v-if="hasPermission('sys:user:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
                   :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
         <el-button-group class="pull-right">
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button 
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button 
               type="default"
@@ -36,8 +30,9 @@
       </el-row>
     <el-table
       :data="dataList"
-      v-loading = "loading"
-      size="medium"
+       v-loading = "loading"
+       size="small"
+       height="calc(100% - 80px)"
       @selection-change="selectionChangeHandle"
       class="table">
       <el-table-column
@@ -77,6 +72,7 @@
       </el-table-column>
       <el-table-column
         fixed="right"
+        :key="Math.random()"
         header-align="center"
         align="center"
         width="270"
@@ -112,8 +108,8 @@
         <!-- 弹窗, 新增 / 修改 -->
     <role-form  ref="roleForm" @refreshDataList="refreshList"></role-form>
   </div>
+</div>
 </template>
-
 <script>
   import RoleForm from './RoleForm'
   import AuthForm from './AuthForm'
@@ -130,7 +126,6 @@
         pageSize: 10,
         total: 0,
         dataListSelections: [],
-        isSearchCollapse: false,
         rightVisible: false,
         roleUserTitle: '',
         roleId: '',

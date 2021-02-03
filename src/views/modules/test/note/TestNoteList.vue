@@ -1,45 +1,43 @@
 <template>
-  <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+    <div class="page">
+      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="title">
-                <el-input size="small" v-model="searchForm.title" :placeholder="$i18nMy.t('标题')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.title" placeholder="标题" clearable></el-input>
          </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
-            <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
+            <el-button type="primary" @click="refreshList()" size="small">查询</el-button>
+            <el-button @click="resetSearch()" size="small">重置</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
-      <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
-         <el-form-item>
-          <el-button type="default" @click="downloadTpl()" size="small">{{$i18nMy.t('下载模板')}}</el-button>
-         </el-form-item>
-         <el-form-item prop="loginName">
-            <el-upload
-              class="upload-demo"
-              :action="`${this.$http.BASE_URL}/test/note/testNote/import`"
-              :on-success="uploadSuccess"
-               :show-file-list="true">
-              <el-button size="small" type="primary">{{$i18nMy.t('点击上传')}}</el-button>
-              <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
-            </el-upload>
-        </el-form-item>
-      </el-form>
+      <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
+          <el-form size="small" :inline="true" v-show="isImportCollapse"  ref="importForm">
+             <el-form-item>
+              <el-button type="default" @click="downloadTpl()" size="small">下载模板</el-button>
+             </el-form-item>
+             <el-form-item prop="loginName">
+                <el-upload
+                  class="upload-demo"
+                  :action="`${this.$http.BASE_URL}/test/note/testNote/import`"
+                  :on-success="uploadSuccess"
+                   :show-file-list="true">
+                  <el-button size="small" type="primary">点击上传</el-button>
+                  <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
+                </el-upload>
+            </el-form-item>
+          </el-form>
+      </el-dialog>
+      <div class="bg-white top">
       <el-row>
-        <el-button v-if="hasPermission('test:note:testNote:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
+        <el-button v-if="hasPermission('test:note:testNote:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
         <el-button v-if="hasPermission('test:note:testNote:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1" plain>{{$i18nMy.t('修改')}}</el-button>
+         :disabled="dataListSelections.length != 1" plain>修改</el-button>
         <el-button v-if="hasPermission('test:note:testNote:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
+                  :disabled="dataListSelections.length <= 0" plain>删除
+        </el-button>
         <el-button-group class="pull-right">
-            <el-button
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-            <el-button v-if="hasPermission('test:note:testNote:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
+            <el-button v-if="hasPermission('test:note:testNote:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse"></el-button>
             <el-button v-if="hasPermission('test:note:testNote:export')" type="default" size="small" icon="el-icon-download" title="导出" @click="exportExcel()"></el-button>
             <el-button
               type="default"
@@ -51,8 +49,8 @@
       </el-row>
     <el-table
       :data="dataList"
-      border
-      size="medium"
+       size="small"
+       height="calc(100% - 80px)"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       v-loading="loading"
@@ -67,7 +65,7 @@
         prop="title"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18nMy.t('标题')">
+        label="标题">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('test:note:testNote:edit')" @click="edit(scope.row.id)">{{scope.row.title}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('test:note:testNote:view')"  @click="view(scope.row.id)">{{scope.row.title}}</el-link>
@@ -78,7 +76,7 @@
         prop="contents"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18nMy.t('内容')">
+        label="内容">
         <template slot-scope="scope">
             <p v-html="$utils.unescapeHTML(scope.row.contents)"></p>
         </template>
@@ -87,12 +85,13 @@
         header-align="center"
         align="center"
         fixed="right"
+        :key="Math.random()"
         width="200"
-        :label="$i18nMy.t('操作')">
+        label="操作">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('test:note:testNote:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
-          <el-button v-if="hasPermission('test:note:testNote:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
-          <el-button v-if="hasPermission('test:note:testNote:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
+          <el-button v-if="hasPermission('test:note:testNote:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">查看</el-button>
+          <el-button v-if="hasPermission('test:note:testNote:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">修改</el-button>
+          <el-button v-if="hasPermission('test:note:testNote:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -106,6 +105,7 @@
       background
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
+    </div>
         <!-- 弹窗, 新增 / 修改 -->
     <TestNoteForm  ref="testNoteForm" @refreshDataList="refreshList"></TestNoteForm>
   </div>
@@ -125,7 +125,6 @@
         total: 0,
         orderBy: '',
         dataListSelections: [],
-        isSearchCollapse: false,
         isImportCollapse: false,
         loading: false
       }
@@ -136,7 +135,6 @@
     activated () {
       this.refreshList()
     },
-
     methods: {
       // 获取数据列表
       refreshList () {
@@ -238,7 +236,10 @@
         this.$utils.download('/test/note/testNote/import/template')
       },
       exportExcel () {
-        this.$utils.download('/test/note/testNote/export')
+        let params = {
+          ...this.searchForm
+        }
+        this.$utils.download('/test/note/testNote/export', params)
       },
       resetSearch () {
         this.$refs.searchForm.resetFields()

@@ -1,6 +1,6 @@
 <template>
 
-   <el-cascader
+   <el-cascader :placeholder="placeholder"
    v-model="valueTitle" :disabled="disabled" :clearable="clearable" @clear="clearHandle"
         :props="props"
         :size="size"
@@ -35,6 +35,10 @@ export default {
       type: String,
       default: () => { return null }
     },
+    placeholder: {
+      type: String,
+      default: () => { return '请选择' }
+    },
         /* 初始值 */
     url: {
       type: String,
@@ -60,7 +64,7 @@ export default {
     },
     size: {
       type: String,
-      default: () => { return 'default' }
+      default: () => { return 'small' }
     },
     /* 自动收起 */
     accordion: {

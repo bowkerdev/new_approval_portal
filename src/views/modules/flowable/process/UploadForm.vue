@@ -3,7 +3,7 @@
     :close-on-click-modal="false"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" v-loading="loading" status-icon ref="inputForm" @keyup.enter.native="inputFormSubmit()"
+    <el-form size="small" :model="inputForm" v-loading="loading" status-icon ref="inputForm" @keyup.enter.native="inputFormSubmit()"
              label-width="120px" @submit.native.prevent>
        <el-row :gutter="15">
         <el-col :span="24">

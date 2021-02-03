@@ -5,19 +5,19 @@
     :close-on-click-modal="false"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" ref="inputForm" v-loading="loading" :class="method==='view'?'readonly':''"  :disabled="method==='view'"
+    <el-form :model="inputForm" size="small" ref="inputForm" v-loading="loading" :class="method==='view'?'readonly':''"  :disabled="method==='view'"
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('标题')" prop="title"
+            <el-form-item label="标题" prop="title"
                 :rules="[
                   {required: true, message:'标题不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.title" :placeholder="$i18nMy.t('请填写标题')"     ></el-input>
+              <el-input v-model="inputForm.title" placeholder="请填写标题"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="$i18nMy.t('图片路径')" prop="pic"
+            <el-form-item label="图片路径" prop="pic"
                 :rules="[
                   {required: true, message:'图片路径不能为空', trigger:'blur'}
                  ]">
@@ -57,18 +57,18 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('备注信息')" prop="remarks"
+            <el-form-item label="备注信息" prop="remarks"
                 :rules="[
                   {required: true, message:'备注信息不能为空', trigger:'blur'}
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写备注信息')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" placeholder="请填写备注信息"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
+      <el-button size="small" @click="visible = false">关闭</el-button>
+      <el-button size="small" type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>确定</el-button>
     </span>
   </el-dialog>
 </div>
@@ -98,11 +98,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = $i18nMy.t('新建图片管理')
+          this.title = `新建图片管理`
         } else if (method === 'edit') {
-          this.title = $i18nMy.t('修改图片管理')
+          this.title = '修改图片管理'
         } else if (method === 'view') {
-          this.title = $i18nMy.t('查看图片管理')
+          this.title = '查看图片管理'
         }
         this.picArra = []
         this.visible = true

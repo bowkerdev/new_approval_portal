@@ -1,41 +1,39 @@
 <template>
-  <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page">
+      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
-            <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
+            <el-button type="primary" @click="refreshList()" size="small">查询</el-button>
+            <el-button @click="resetSearch()" size="small">重置</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
-      <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
-         <el-form-item>
-          <el-button type="default" @click="downloadTpl()" size="small">{{$i18nMy.t('下载模板')}}</el-button>
-         </el-form-item>
-         <el-form-item prop="loginName">
-            <el-upload
-              class="upload-demo"
-              :action="`${this.$http.BASE_URL}/test/activiti/testActivitiAudit/import`"
-              :on-success="uploadSuccess"
-               :show-file-list="true">
-              <el-button size="small" type="primary">{{$i18nMy.t('点击上传')}}</el-button>
-              <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
-            </el-upload>
-        </el-form-item>
-      </el-form>
+        <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
+          <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
+             <el-form-item>
+              <el-button type="default" @click="downloadTpl()" size="small">下载模板</el-button>
+             </el-form-item>
+             <el-form-item prop="loginName">
+                <el-upload
+                  class="upload-demo"
+                  :action="`${this.$http.BASE_URL}/test/activiti/testActivitiAudit/import`"
+                  :on-success="uploadSuccess"
+                   :show-file-list="true">
+                  <el-button size="small" type="primary">点击上传</el-button>
+                  <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
+                </el-upload>
+            </el-form-item>
+          </el-form>
+      </el-dialog>
+      <div class="bg-white top">
       <el-row>
-        <el-button v-if="hasPermission('test:activiti:testActivitiAudit:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
+        <el-button v-if="hasPermission('test:activiti:testActivitiAudit:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
         <el-button v-if="hasPermission('test:activiti:testActivitiAudit:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1" plain>{{$i18nMy.t('修改')}}</el-button>
+         :disabled="dataListSelections.length != 1" plain>修改</el-button>
         <el-button v-if="hasPermission('test:activiti:testActivitiAudit:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
+                  :disabled="dataListSelections.length <= 0" plain>删除
+        </el-button>
         <el-button-group class="pull-right">
-            <el-button
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
             <el-button v-if="hasPermission('test:activiti:testActivitiAudit:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
             <el-button v-if="hasPermission('test:activiti:testActivitiAudit:export')" type="default" size="small" icon="el-icon-download" title="导出" @click="exportExcel()"></el-button>
             <el-button
@@ -48,10 +46,11 @@
       </el-row>
     <el-table
       :data="dataList"
-      border
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       v-loading="loading"
+      size="small"
+      height="calc(100% - 80px)"
       @expand-change="detail"
       class="table">
       <el-table-column
@@ -69,12 +68,12 @@
       <el-table-column
         header-align="center"
         align="center"
-        width="400"
-        :label="$i18nMy.t('操作')">
+        width="200"
+        label="操作">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('test:activiti:testActivitiAudit:view')" type="text" icon="el-icon-view" size="mini" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
-          <el-button v-if="hasPermission('test:activiti:testActivitiAudit:edit')" type="text" icon="el-icon-edit" size="mini" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
-          <el-button v-if="hasPermission('test:activiti:testActivitiAudit:del')" type="text" size="mini" icon="el-icon-delete" class="red" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
+          <el-button v-if="hasPermission('test:activiti:testActivitiAudit:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">查看</el-button>
+          <el-button v-if="hasPermission('test:activiti:testActivitiAudit:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">修改</el-button>
+          <el-button v-if="hasPermission('test:activiti:testActivitiAudit:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -88,6 +87,7 @@
       background
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
+    </div>
         <!-- 弹窗, 新增 / 修改 -->
     <TestActivitiAuditForm  ref="testActivitiAuditForm" @refreshDataList="refreshList"></TestActivitiAuditForm>
   </div>
@@ -106,7 +106,6 @@
         total: 0,
         orderBy: '',
         dataListSelections: [],
-        isSearchCollapse: false,
         isImportCollapse: false,
         loading: false
       }
@@ -117,7 +116,6 @@
     activated () {
       this.refreshList()
     },
-
     methods: {
       // 获取数据列表
       refreshList () {
@@ -228,7 +226,10 @@
         this.$utils.download('/test/activiti/testActivitiAudit/import/template')
       },
       exportExcel () {
-        this.$utils.download('/test/activiti/testActivitiAudit/export')
+        let params = {
+          ...this.searchForm
+        }
+        this.$utils.download('/test/activiti/testActivitiAudit/export', params)
       },
       resetSearch () {
         this.$refs.searchForm.resetFields()

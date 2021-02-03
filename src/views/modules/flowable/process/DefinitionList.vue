@@ -1,6 +1,6 @@
 <template>
   <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+      <el-form size="small" :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item :label="$i18nMy.t('流程分类')" prop="category">
             <el-select v-model="searchForm.category" :placeholder="$i18nMy.t('请选择')" size="small"  style="width: 100%;">
                 <el-option
@@ -42,7 +42,7 @@
           :data="dataList"
           border
           v-loading="loading"
-          size="medium"
+           size="small"
           @selection-change="selectionChangeHandle"
           class="table">
           <el-table-column
@@ -128,6 +128,7 @@
           </el-table-column>
           <el-table-column
             fixed="right"
+            :key="Math.random()"
             header-align="center"
             align="center"
             width="200"

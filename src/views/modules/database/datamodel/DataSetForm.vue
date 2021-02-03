@@ -1,5 +1,6 @@
 <template>
-<div>
+<div class="el-scrollbar__wrap wrap-white padding-20">
+  <div class="el-scrollbar__view">    
       <el-row :gutter="20" v-loading="loading">
         <el-col :span="24">
            <el-row :gutter="20">
@@ -11,7 +12,7 @@
            </el-row>
         </el-col>
         <el-col :span="12">
-          <el-form  :model="inputForm" ref="inputForm" v-loading="loading" label-width="150px">
+          <el-form size="small"  :model="inputForm" ref="inputForm" v-loading="loading" label-width="150px">
                         <el-form-item :label="$i18nMy.t('目标数据库')" prop="db.id"
                             :rules="[
                               {required: true, message:'目标数据库不能为空', trigger:'blur'}
@@ -47,7 +48,7 @@
         <el-col :span="12">
            <el-table
             :data="paramForm.tableData"
-            max-height="250">
+            height="calc(100% - 300px)">
              <el-table-column
               type="index"
               width="50">
@@ -68,6 +69,7 @@
             </el-table-column>
             <el-table-column
               fixed="right"
+              :key="Math.random()"
               :label="$i18nMy.t('操作')">
               <template slot-scope="scope">
                 <el-button
@@ -109,8 +111,8 @@
               </template>
             </el-table-column>
              <el-table-column>
-                 <template slot="header" slot-scope="scope">
-                    <el-checkbox v-model="columnForm.isNeedAll" :indeterminate="isIndeterminate"  @change="handleCheckAllChange">{{$i18nMy.t('参与分析')}}</el-checkbox>
+                 <template slot="header">
+                    <el-checkbox v-model="columnForm.isNeedAll" :indeterminate="isIndeterminate"  @change="handleCheckAllChange">参与分析</el-checkbox>
                 </template>
                 <template slot-scope="scope">
                      <el-checkbox v-model="scope.row.isNeed" @change="handleCheckedNeedChange"></el-checkbox>
@@ -144,6 +146,7 @@
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
+</div>
 </div>
 </template>
 

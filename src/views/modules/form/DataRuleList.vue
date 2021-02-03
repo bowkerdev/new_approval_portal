@@ -9,7 +9,7 @@
     </el-row>
     <el-table
       :data="dataRuleList"
-      border
+      size="small"
       v-loading="loading"
       class="table"
       style="width: 100%;">
@@ -73,6 +73,7 @@
       </el-table-column>
       <el-table-column
         fixed="right"
+        :key="Math.random()"
         header-align="center"
         align="center"
         width="150"

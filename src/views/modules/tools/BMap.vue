@@ -1,5 +1,6 @@
 <template>
-  <div class='console'>
+<div class="el-scrollbar__wrap wrap-white">
+  <div class="el-scrollbar__view">
   <!--百度地图容器-->
   <div style='width:100%;height:800px;border:#ccc solid 1px;' id='dituContent'></div>
   <el-dialog :title='title'   v-dialogDrag :visible.sync='dialogTableVisible'>
@@ -7,6 +8,7 @@
     <img width="500px" v-if="index === 2" height="300px" src="~@/assets/img/xwh.png" />
   </el-dialog>
   </div>
+</div>
 </template>
 <script>
 // 引入富文本编辑器所需样式

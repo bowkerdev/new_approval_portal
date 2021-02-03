@@ -5,7 +5,7 @@
      v-dialogDrag
      width="350px"
     :visible.sync="visible">
-    <el-form class="auth" :model="inputForm" status-icon v-loading="loading" ref="inputForm" @keyup.enter.native="inputFormSubmit()"
+    <el-form size="small" class="auth" :model="inputForm" status-icon v-loading="loading" ref="inputForm" @keyup.enter.native="inputFormSubmit()"
              @submit.native.prevent>
              <el-tabs type="border-card">
               <el-tab-pane>

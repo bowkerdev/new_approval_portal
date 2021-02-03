@@ -6,7 +6,7 @@
     :close-on-click-modal="false"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" ref="inputForm"
+    <el-form size="small" :model="inputForm" ref="inputForm"
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="16">
@@ -32,7 +32,7 @@
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button size="small" @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
        <el-button type="danger" @click="doSubmit('0')">{{$i18nMy.t('存为草稿')}}</el-button>
       <el-button  type="primary" @click="doSubmit('1')">{{$i18nMy.t('发送邮件')}}</el-button>
     </span>

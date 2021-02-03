@@ -3,57 +3,54 @@
   <h4 style="text-align:center">{{title}}</h4>
 
   <el-tabs type="border-card" v-model="taskSelectedTab">
-    <el-tab-pane :label="$i18nMy.t('表单信息')" name="form-first">
+    <el-tab-pane label="表单信息" name="form-first">
       <component id="printForm" :formReadOnly="formReadOnly" v-if="formType === '2'" :class="formReadOnly?'readonly':''"  ref="form" :businessId="businessId" :is="form"></component>
       
       <PreviewForm  id="printForm"   v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="true" :taskFormData="taskFormData" ref="form"/>
     </el-tab-pane>
-    <el-tab-pane :label="$i18nMy.t('流程信息')" v-if="procInsId"  name="form-second">
-      <flow-time-line :historicTaskList="historicTaskList"/>
+    <el-tab-pane label="流程信息" v-if="procInsId"  name="form-second">
+       <flow-time-line :historicTaskList="historicTaskList"/>
     </el-tab-pane>
-    <el-tab-pane :label="$i18nMy.t('流程图')"  name="form-third">
+    <el-tab-pane label="流程图"  name="form-third">
        <el-card class="box-card"  shadow="hover">
           <div slot="header" class="clearfix">
-            <span>{{$i18nMy.t('流程图')}}</span>
+            <span>流程图</span>
           </div>
           <flow-chart ref="chart1" v-if="procInsId" :processInstanceId="procInsId" />
           <flow-chart ref="chart2" v-if="!procInsId" :processDefId="procDefId" />
         </el-card>
     </el-tab-pane>
-    <el-tab-pane :label="$i18nMy.t('流转记录')" v-if="procInsId" name="form-forth">
-          <flow-step :historicTaskList="historicTaskList"/>
+    <el-tab-pane label="流转记录" v-if="procInsId" name="form-forth">
+           <flow-step :historicTaskList="historicTaskList"/>
      </el-tab-pane>
   </el-tabs>
-
-
-
-<el-card style="margin-top:10px; margin-bottom:66px" v-if="!procInsId || taskId">
+<el-card style="margin-top:10px">
     <el-form size="small" :model="auditForm"   ref="auditForm" label-width="120px">
       <el-col :span="16">
-        <el-form-item  v-if="!procInsId"  :label="$i18nMy.t('流程标题')" prop="title">
+        <el-form-item  v-if="!procInsId"  label="流程标题" prop="title">
           <el-input
-            :placeholder="$i18nMy.t('请输入流程标题')"
+            placeholder="请输入流程标题"
             v-model="title">
           </el-input>
       </el-form-item>
-      <el-form-item  v-if="taskId"  :label="$i18nMy.t('审批信息')" prop="comment">
+      <el-form-item  v-if="taskId"  label="审批信息" prop="message">
           <el-input
             type="textarea"
             :rows="3"
-            :placeholder="$i18nMy.t('请输入审批意见')"
+            placeholder="请输入审批意见"
             v-model="auditForm.message">
           </el-input>
       </el-form-item>
     </el-col>
     <el-col :span="16">
       <el-form-item>
-        <el-checkbox v-model="isCC">{{$i18nMy.t('是否抄送')}}</el-checkbox>
+        <el-checkbox v-model="isCC">是否抄送</el-checkbox>
       </el-form-item>
     </el-col>
     <el-col :span="16">
       <el-form-item v-if="isCC"  :rules="[
-              {required: true, message: $i18nMy.t('用户不能为空'), trigger: 'blur'}
-            ]"  prop="userIds" :label="$i18nMy.t('抄送给')">
+              {required: true, message: '用户不能为空', trigger: 'blur'}
+            ]"  prop="userIds" label="抄送给">
             <user-select :value="auditForm.userIds"  @getValue='(value) => {auditForm.userIds=value}'>></user-select>
       </el-form-item>
     </el-col>
@@ -64,8 +61,8 @@
     </el-col>
     <el-col :span="16">
       <el-form-item v-if="isAssign"  :rules="[
-              {required: true, message: $i18nMy.t('用户不能为空'), trigger: 'blur'}
-            ]"  prop="assignee" :label="$i18nMy.t('指定')">
+              {required: true, message: '用户不能为空', trigger: 'blur'}
+            ]"  prop="assignee" label="指定">
             <user-select :limit="1" :value="auditForm.assignee"  @getValue='(value) => {auditForm.assignee=value}'>></user-select>
       </el-form-item>
     </el-col>
@@ -84,9 +81,8 @@
 
 </div>
 <task-back-nodes ref="taskBackNodes" @getBackTaskDefKey="back"/>
-<user-select-dialog title="选择转办用户" ref="transferUserSelectDialog" :limit="1" @doSubmit="selectUsersToTransferTask"></user-select-dialog>
-<user-select-dialog title="选择委派用户" ref="delegateUserSelectDialog" :limit="1" @doSubmit="selectUsersToDelateTask"></user-select-dialog>
-<user-select-dialog title="选择加签用户" ref="addSignTaskUserSelectDialog" @doSubmit="selectUsersToAddSignTask"></user-select-dialog>
+<user-select-dialog ref="transferUserSelectDialog" :limit="1" @doSubmit="selectUsersToTransferTask"></user-select-dialog>
+<user-select-dialog ref="delegateUserSelectDialog" :limit="1" @doSubmit="selectUsersToDelateTask"></user-select-dialog>
 </div>
 </template>
 
@@ -102,6 +98,7 @@
   export default {
     activated () {
       this.init()
+          // 读取流程表单
       if (this.formType === '2') {
         if (this.formUrl === '/404') {
           this.form = null
@@ -116,21 +113,12 @@
         } else {
           this.$refs.form.createForm(this.formUrl)
         }
-        if (this.status === 'start') {
-          // 读取启动表单配置
-          this.$http.get('/flowable/form/getStartFormData',
-              {params: {processDefinitionId: this.procDefId}}
-              ).then(({data}) => {
-                this.taskFormData = data.startFormData
-              })
-        } else {
-          // 读取任务表单配置
-          this.$http.get('/flowable/form/getTaskFormData',
-              {params: {taskId: this.taskId}}
+
+        this.$http.get('/flowable/form/getHistoryTaskFormData',
+              {params: { processInstanceId: this.procInsId, procDefId: this.procDefId, taskDefKey: this.taskDefKey }}
               ).then(({data}) => {
                 this.taskFormData = data.taskFormData
               })
-        }
       }
        // 读取按钮配置
       if (this.status === 'start') {
@@ -294,15 +282,7 @@
       },
       // 加签
       addMultiInstance () {
-        // this.$refs.addSignTaskUserSelectDialog.init()
-      },
-      selectUsersToAddSignTask (users) {
-        let userIds = users.map((user) => {
-          return user.id
-        }).join(',')
-        this.$http.post('/flowable/task/addSignTask', {taskId: this.taskId, userIds: JSON.stringify(userIds), comment: '', flag: false}).then(({data}) => {
-          this.$message.success(data.msg)
-        })
+
       },
       // 减签
       delMultiInstance () {

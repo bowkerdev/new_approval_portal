@@ -1,6 +1,6 @@
 <template>
-  <div>
-     <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page">
+     <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="name">
           <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('连接名称')" clearable></el-input>
          </el-form-item>
@@ -9,6 +9,7 @@
         <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
       </el-form-item>
       </el-form>
+      <div class="top bg-white">
       <el-row>
         <el-button v-if="hasPermission('database:datalink:dataSource:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('database:datalink:dataSource:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
@@ -16,14 +17,6 @@
         <el-button v-if="hasPermission('database:datalink:dataSource:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
                   :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
         <el-button-group class="pull-right">
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button 
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button 
               type="default"
@@ -37,8 +30,8 @@
     <el-table
       :data="dataList"
       v-loading="loading"
-      border
-      size = "medium"
+      size = "small"
+      height="calc(100% - 80px)"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       class="table">
@@ -90,6 +83,7 @@
       </el-table-column>
       <el-table-column
         fixed="right"
+        :key="Math.random()"
         header-align="center"
         align="center"
         width="200"
@@ -111,6 +105,7 @@
       background
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
+    </div>
     <!-- 弹窗, 新增 / 修改 -->
     <data-source-form  ref="dataSourceForm" @refreshDataList="refreshList"></data-source-form>
   </div>
@@ -132,7 +127,6 @@
         total: 0,
         orderBy: '',
         dataListSelections: [],
-        isSearchCollapse: false,
         isImportCollapse: false,
         loading: false,
         selectOfficeName: ''

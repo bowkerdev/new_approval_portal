@@ -1,8 +1,10 @@
 <template>
-  <div>
-    <el-row :gutter="15">
-      <el-col :span="4">
-        <el-menu @select="changeLog">
+    <div class="jp-common-layout page">
+      <div class="jp-common-layout-left">
+      <div class="jp-common-el-tree-scrollbar el-scrollbar">
+      <div class="el-scrollbar__wrap">
+        <div class="el-scrollbar__view">
+        <el-menu @select="changeLog" style="margin-top:10px">
           <el-menu-item index="1">
             <i class="el-icon-setting"></i>
             <span slot="title">{{$i18nMy.t('登陆日志')}}</span>
@@ -16,9 +18,12 @@
             <span slot="title">{{$i18nMy.t('异常日志')}}</span>
           </el-menu-item>
         </el-menu>
-      </el-col>
-      <el-col :span="20">
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+        </div>
+      </div>
+        </div>
+      </div>
+      <div class="jp-common-layout-center jp-flex-main">
+      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
         <el-form-item prop="searchDates">
           <el-date-picker
             v-model="searchDates"
@@ -47,19 +52,14 @@
           <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
         </el-form-item>
       </el-form>
+      <div class="bg-white top">
       <el-row>
         <el-button v-if="hasPermission('sys:log:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
-         <el-button v-if="hasPermission('sys:log:del')" type="danger"   size="small" icon="el-icon-delete" @click="empty()" plain>{{$i18nMy.t('清空')}}</el-button>
+                  :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}
+        </el-button>
+         <el-button v-if="hasPermission('sys:log:del')" type="danger"   size="small" icon="el-icon-delete" @click="empty()" plain>{{$i18nMy.t('清空')}}
+        </el-button>
         <el-button-group class="pull-right">
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button 
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button 
               type="default"
@@ -72,9 +72,9 @@
       </el-row>
         <el-table
           :data="dataList"
-          border
           v-loading = "loading"
-          size="medium"
+          size="small"
+          height="calc(100% - 80px)"
           @selection-change="selectionChangeHandle"
           class="table">
           <el-table-column
@@ -85,7 +85,7 @@
           </el-table-column>
            <el-table-column v-if="searchForm.type == '3'" type="expand">
             <template slot-scope="props">
-              <el-form label-position="left" inline class="demo-table-expand">
+              <el-form size="small" label-position="left" inline class="demo-table-expand">
                 <el-form-item :label="$i18nMy.t('异常信息：')">
                   <span style="color:red">{{ props.row.exception }}</span>
                 </el-form-item>
@@ -145,9 +145,9 @@
         background
         layout="total, sizes, prev, pager, next, jumper">
       </el-pagination>
-      </el-col>
-    </el-row>
-  </div>
+    </div>
+    </div>
+    </div>
 </template>
 
 <script>
@@ -169,7 +169,6 @@
         pageNo: 1,
         pageSize: 10,
         total: 0,
-        isSearchCollapse: false,
         loading: false,
         dataListSelections: [],
         pickerOptions: {

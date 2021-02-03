@@ -4,7 +4,7 @@
     :close-on-click-modal="false"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" ref="inputForm"  :class="method==='view'?'readonly':''" :disabled="method==='view'" @keyup.enter.native="doSubmit()"
+    <el-form size="small" :model="inputForm" ref="inputForm"  :class="method==='view'?'readonly':''" :disabled="method==='view'" @keyup.enter.native="doSubmit()"
              label-width="120px" @submit.native.prevent>
       <el-row  :gutter="15">
         <el-col :span="16">
@@ -53,7 +53,7 @@
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button v-if="method === 'add'" type="primary" @click="continueDoSubmit()">{{$i18nMy.t('继续添加')}}</el-button>
-      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button size="small" @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
       <el-button v-if="method !== 'view'" type="primary" @click="doSubmit()">{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>

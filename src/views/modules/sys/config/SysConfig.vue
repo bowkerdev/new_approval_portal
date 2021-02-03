@@ -1,11 +1,13 @@
 <template>
+<div class="el-scrollbar__wrap wrap-white padding-20">
+  <div class="el-scrollbar__view">
   <el-tabs v-model="activeName" >
     <el-tab-pane :label="$i18nMy.t('登录')" name="first">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <h3>{{$i18nMy.t('单一登陆配置')}}</h3>
         </div>
-        <el-form ref="loginFormSetting" :model="loginFormSetting">
+        <el-form size="small" ref="loginFormSetting" :model="loginFormSetting">
           <el-form-item>
              <el-checkbox true-label="1" false-label="0" v-model="loginFormSetting.multiAccountLogin">{{$i18nMy.t('单一登录')}}</el-checkbox>
           </el-form-item>
@@ -137,6 +139,8 @@
       </el-card>
     </el-tab-pane>
   </el-tabs>
+  </div>
+</div>
 </template>
 <script>
   export default {
@@ -168,10 +172,7 @@
         },
         colorList: [
           {
-            key: '深蓝（默认）', color: '#223962'
-          },
-          {
-            key: '拂晓蓝', color: '#1890FF'
+            key: '拂晓蓝（默认）', color: '#1890FF'
           },
           {
             key: '薄暮', color: '#F5222D', label: '1'

@@ -5,7 +5,7 @@
     :close-on-click-modal="false"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" ref="inputForm" v-loading="loading" :class="method==='view'?'readonly':''"  :disabled="method==='view'"
+    <el-form size="small" :model="inputForm" ref="inputForm" v-loading="loading" :class="method==='view'?'readonly':''"  :disabled="method==='view'"
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
@@ -56,7 +56,7 @@
                   {required: true, message:'岗位排序不能为空', trigger:'blur'},
                   {validator: validator.isIntGtZero, trigger:'blur'}
                  ]">
-              <el-input-number v-model="inputForm.sort" @change="handleChange" :min="1" :max="1000" :label="$i18nMy.t('请填写岗位排序')"></el-input-number>
+              <el-input-number v-model="inputForm.sort" :min="1" :max="1000" :label="$i18nMy.t('请填写岗位排序')"></el-input-number>
            </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -69,8 +69,8 @@
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
+      <el-button size="small" @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button size="small" type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </div>

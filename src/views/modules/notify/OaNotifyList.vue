@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page">
+      <el-form size="small" :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
 		     <el-form-item prop="title">
                 <el-input size="small" v-model="searchForm.title" :placeholder="$i18nMy.t('标题')" clearable></el-input>
@@ -10,6 +10,7 @@
             <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
+      <div class="top bg-white">
       <el-row>
         <el-button v-if="hasPermission('notify:oaNotify:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('notify:oaNotify:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
@@ -17,14 +18,6 @@
         <el-button  v-if="hasPermission('notify:oaNotify:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
                   :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
         <el-button-group class="pull-right">
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button 
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button 
               type="default"
@@ -37,7 +30,8 @@
       </el-row>
     <el-table
       :data="dataList"
-      size="medium"
+      size="small"
+      height="calc(100% - 80px)"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       v-loading="loading"
@@ -59,6 +53,7 @@
 	  <el-table-column
         prop="title"
         sortable="custom"
+        show-overflow-tooltip
         :label="$i18nMy.t('标题')">
         <template slot-scope="scope">
           <el-link  type="primary" :underline="false" v-if="hasPermission('notify:oaNotify:edit') && scope.row.status==='0'" @click="edit(scope.row.id)">{{scope.row.title}}</el-link>
@@ -108,8 +103,17 @@
         :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('notify:oaNotify:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
-          <el-button v-if="hasPermission('notify:oaNotify:edit') && scope.row.status==='0'" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
-          <el-button v-if="hasPermission('notify:oaNotify:del')" type="text" size="small" icon="el-icon-delete" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
+           <el-dropdown  size="small" style=" margin-left: 10px;">
+            <el-button type="text" size="small">
+                  {{$i18nMy.t('更多')}}<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown" >
+              <el-dropdown-item  v-if="hasPermission('notify:oaNotify:edit') && scope.row.status==='0'"><el-button type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button></el-dropdown-item>
+              <el-dropdown-item v-if="hasPermission('notify:oaNotify:del')">    <el-button  type="text" size="small" icon="el-icon-delete" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button></el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          
+      
         </template>
       </el-table-column>
     </el-table>
@@ -123,6 +127,7 @@
       background
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
+      </div>
         <!-- 弹窗, 新增 / 修改 -->
     <OaNotifyForm  ref="oaNotifyForm" @refreshDataList="refreshList"></OaNotifyForm>
   </div>
@@ -142,7 +147,6 @@
         total: 0,
         orderBy: '',
         dataListSelections: [],
-        isSearchCollapse: false,
         loading: false
       }
     },

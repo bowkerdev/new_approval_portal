@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page">
+      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="name">
                 <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('表单名称')" clearable></el-input>
 		     </el-form-item>
@@ -10,6 +10,7 @@
             <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
+      <div class="bg-white top">
       <el-row>
         <el-button v-if="hasPermission('form:make:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
          <el-button v-if="hasPermission('form:make:add')" type="primary" size="small" icon="el-icon-edit" @click="design()"
@@ -18,15 +19,8 @@
          :disabled="dataListSelections.length != 1" plain>{{$i18nMy.t('修改')}}</el-button>
         <el-button v-if="hasPermission('form:make:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
                   :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
+        </el-button>
         <el-button-group class="pull-right">
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button 
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button 
               type="default"
@@ -39,8 +33,8 @@
       </el-row>
     <el-table
       :data="dataList"
-      border
-      size="medium"
+      size="small"
+      height="calc(100% - 80px)"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       v-loading="loading"
@@ -98,7 +92,7 @@
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('form:make:edit')" type="text" icon="el-icon-edit" size="mini" @click="design(scope.row.id)">{{$i18nMy.t('设计')}}</el-button>
           <el-button v-if="hasPermission('form:make:del')" type="text" size="mini" icon="el-icon-delete"  @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
-          <el-button v-if="hasPermission('form:make:view')" type="text" size="mini" icon="el-icon-view"  @click="preview(scope.row)"> 预览</el-button>
+          <el-button v-if="hasPermission('form:make:view')" type="text" size="mini" icon="el-icon-view"  @click="preview(scope.row)">{{$i18nMy.t('预览')}}</el-button>
           <el-button v-if="hasPermission('form:make:deploy')" type="text" size="mini" icon="el-icon-s-promotion"  @click="release(scope.row)">{{$i18nMy.t('发布')}}</el-button>
         </template>
       </el-table-column>
@@ -113,6 +107,7 @@
       background
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
+    </div>
         <!-- 弹窗, 新增 / 修改 -->
     <BasicForm  ref="basicForm" @refreshDataList="refreshList"></BasicForm>
     <MakeForm  ref="makeForm" @refreshDataList="refreshList"></MakeForm>
@@ -137,7 +132,6 @@
         orderBy: '',
         dataRuleTitle: '',
         dataListSelections: [],
-        isSearchCollapse: false,
         rightVisible: false,
         isImportCollapse: false,
         loading: false

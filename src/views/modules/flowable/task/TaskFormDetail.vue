@@ -1,7 +1,12 @@
 <template>
 <div>
   <h4 style="text-align:center">{{title}}</h4>
-
+  <img  v-if="code === 1" class="process-status-img" src="../../../../assets/img/flowable/1.png"/>
+  <img  v-if="code === 2" class="process-status-img" src="../../../../assets/img/flowable/2.png"/>
+  <img  v-if="code === 3" class="process-status-img" src="../../../../assets/img/flowable/3.png"/>
+  <img  v-if="code === 4" class="process-status-img" src="../../../../assets/img/flowable/4.png"/>
+  <img  v-if="code === 5" class="process-status-img" src="../../../../assets/img/flowable/5.png"/>
+  <img  v-if="code === 6" class="process-status-img" src="../../../../assets/img/flowable/6.png"/>
   <el-tabs type="border-card" v-model="selectedTab">
     <el-tab-pane :label="$i18nMy.t('表单信息')" name="form-first">
 
@@ -9,23 +14,8 @@
       <PreviewForm   v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="false" :taskFormData="taskFormData" ref="form"/>
 
     </el-tab-pane>
-    <el-tab-pane :label="$i18nMy.t('流程信息')" v-if="procInsId"  name="form-second">
-       <el-card class="box-card"  shadow="hover">
-          <div slot="header" class="clearfix">
-            <span>{{$i18nMy.t('流程信息')}}</span>
-          </div>
-          <el-timeline :reverse="true" v-if="histoicFlowList.length">
-              <el-timeline-item color="#3f9eff" :key="index" v-for="(act, index) in histoicFlowList"  :timestamp="moment(act.histIns.endTime).format('YYYY-MM-DD')" placement="top">
-                <el-card>
-                  <h4>{{act.histIns.activityName}}</h4>
-                  <p>{{act.assigneeName}} : {{act.comment}}</p>
-                  <p>开始时间 : {{moment(act.histIns.startTime).format('YYYY-MM-DD HH:mm:ss')}}</p>
-                  <p>结束时间 : {{moment(act.histIns.endTime).format('YYYY-MM-DD HH:mm:ss')}}</p>
-                  <p>用时 : {{act.durationTime || '0秒'}}</p>
-                </el-card>
-              </el-timeline-item>
-          </el-timeline>
-        </el-card>
+    <el-tab-pane label="流程信息" v-if="procInsId"  name="form-second">
+       <flow-time-line :historicTaskList="historicTaskList"/>
     </el-tab-pane>
     <el-tab-pane :label="$i18nMy.t('流程图')"  name="form-third">
        <el-card class="box-card"  shadow="hover">
@@ -37,54 +27,7 @@
         </el-card>
     </el-tab-pane>
     <el-tab-pane :label="$i18nMy.t('流转记录')" v-if="procInsId" name="form-forth">
-          <el-card class="box-card"  shadow="hover" style="margin-top:5px">
-      <div slot="header" class="clearfix">
-        <span>{{$i18nMy.t('流转记录')}}</span>
-      </div>
-      <el-steps :active="histoicFlowList.length">
-        <el-step :key="index" v-for="(act, index) in histoicFlowList" :title="act.histIns.activityName" finish-status="success"  :description="(act.assigneeName||'') +'    '   + moment(act.histIns.endTime).format('YYYY-MM-DD HH:mm:ss')"></el-step>
-      </el-steps>
-      <el-table
-       border
-      :data="histoicFlowList"
-      style="width: 100%">
-      <el-table-column
-        prop="histIns.activityName"
-        :label="$i18nMy.t('执行环节')"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="assigneeName"
-        :label="$i18nMy.t('执行人')"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="histIns.startTime"
-        :label="$i18nMy.t('开始时间')">
-        <template slot-scope="scope">
-          {{scope.row.histIns.startTime | formatDate}}
-        </template>
-      </el-table-column>
-       <el-table-column
-        prop="histIns.endTime"
-        :label="$i18nMy.t('结束时间')">
-        <template slot-scope="scope">
-          {{scope.row.histIns.endTime | formatDate}}
-        </template>
-      </el-table-column>
-       <el-table-column
-        prop="comment"
-        :label="$i18nMy.t('审批意见')">
-      </el-table-column>
-       <el-table-column
-        prop="durationTime"
-        :label="$i18nMy.t('任务历时')">
-        <template slot-scope="scope">
-          {{scope.row.durationTime || '0秒'}}
-        </template>
-      </el-table-column>
-    </el-table>
-    </el-card>
+          <flow-step :historicTaskList="historicTaskList"/>
      </el-tab-pane>
   </el-tabs>
 
@@ -95,6 +38,8 @@
   // import FlowChart from '../modeler/FlowChart'
   import UserSelect from '@/components/userSelect'
   import PreviewForm from '@/views/modules/flowable/form/GenerateFlowableForm'
+  import FlowStep from '@/views/modules/flowable/components/FlowStep'
+  import FlowTimeLine from '@/views/modules/flowable/components/FlowTimeLine'
   const _import = require('@/router/import-' + process.env.NODE_ENV)
   export default {
     activated () {
@@ -122,13 +67,22 @@
               })
       }
 
-      this.$http.get(`/flowable/task/histoicFlowList?procInsId=${this.procInsId}`).then(({data}) => {
-        this.histoicFlowList = data.histoicFlowList
+    // 读取流程状态
+      this.$http.get('/flowable/process/queryProcessStatus',
+              {params: { procInsId: this.procInsId, procDefId: this.procDefId }}
+              ).then(({data}) => {
+                this.code = data.code
+              })
+
+      this.$http.get(`/flowable/task/historicTaskList?procInsId=${this.procInsId}`).then(({data}) => {
+        this.historicTaskList = data.historicTaskList
       })
     },
     components: {
       UserSelect,
-      PreviewForm
+      PreviewForm,
+      FlowStep,
+      FlowTimeLine
       // FlowChart
     },
     watch: {
@@ -164,8 +118,9 @@
         formType: '',
         formUrl: '',
         selectedTab: 'frist',
-        histoicFlowList: [],
+        historicTaskList: [],
         procDefId: '',
+        code: '1',
         procInsId: '',
         readOnly: false,
         procDefKey: '',
@@ -179,3 +134,12 @@
     }
   }
 </script>
+<style lang="less">
+.process-status-img {
+    height: 180px;
+    position: absolute;
+    z-index: 999;
+    top: 1px;
+    right: 1px;
+}
+</style>

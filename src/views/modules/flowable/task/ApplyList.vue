@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page">
+      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
         <el-form-item prop="searchDates" :label="$i18nMy.t('创建时间')">
           <el-date-picker
             v-model="searchDates"
@@ -20,16 +20,9 @@
           <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
         </el-form-item>
       </el-form>
+      <div class="bg-white top">
       <el-row>
            <el-button-group class="pull-right">
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button 
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button 
               type="default"
@@ -42,9 +35,9 @@
       </el-row>
         <el-table
           :data="dataList"
-          border
-          size = "medium"
+          size = "small"
           v-loading="loading"
+          height="calc(100% - 80px)"
           @selection-change="selectionChangeHandle"
           class="table">
           <el-table-column
@@ -56,58 +49,52 @@
           <el-table-column
             prop="vars.title"
             show-overflow-tooltip
+            min-width="180px"
             :label="$i18nMy.t('实例标题')">       
           </el-table-column>
           <el-table-column
-            prop="procDef.name"
+            prop="processDefinitionName"
             show-overflow-tooltip
             :label="$i18nMy.t('流程名称')">
           </el-table-column>
            <el-table-column
-            prop="procIns.status"
+            prop="taskName"
             show-overflow-tooltip
-            :label="$i18nMy.t('状态')">
-            <template slot-scope="scope">
-              <el-tag v-if="scope.row.procIns.code === 0 
-               || scope.row.procIns.code === 3
-               || scope.row.procIns.code === 4 
-               || scope.row.procIns.code === 5" type="danger">{{scope.row.procIns.status}}</el-tag> 
-                <span v-if="scope.row.procIns.deleteReason">原因: {{scope.row.procIns.deleteReason}}</span>
-                <el-tag v-if="scope.row.procIns.code === 1" type="primary">{{scope.row.procIns.status}}  [{{scope.row.procIns.currentTask.name}}]</el-tag>
-                <el-tag v-if="scope.row.procIns.code === 2" type="success">{{scope.row.procIns.status}}</el-tag>
-             </template>
+            label="当前节点">
           </el-table-column>
            <el-table-column
-            prop="vars.userName"
+            prop="status"
             show-overflow-tooltip
-            :label="$i18nMy.t('流程发起人')">
-          </el-table-column>
-          <el-table-column
-            prop="procIns.startTime"
-            show-overflow-tooltip
-            :label="$i18nMy.t('创建时间')">
-             <template slot-scope="scope">
-              {{scope.row.procIns.startTime | formatDate}}
+            label="流程状态">
+            <template slot-scope="scope">
+                  <el-tag  :type="scope.row.level"   effect="dark" size="small">{{scope.row.status}} </el-tag>
              </template>
           </el-table-column>
           <el-table-column
-            prop="procIns.endTime"
+            prop="startTime"
             show-overflow-tooltip
-            :label="$i18nMy.t('完成时间')">
+            label="发起时间 / 结束时间">
              <template slot-scope="scope">
-              {{scope.row.procIns.endTime | formatDate}}
+              <p>{{scope.row.startTime | formatDate}}</p>
+              <p class="text-grey">{{scope.row.endTime | formatDate}}</p>
              </template>
           </el-table-column>
+
           <el-table-column
-            fixed="right"
             width="150"
             :label="$i18nMy.t('操作')">
             <template slot-scope="scope">
-               <el-button v-if="scope.row.procIns.code === 1" type="text"  size="small" @click="urge(scope.row)">{{$i18nMy.t('催办')}}</el-button>
-               <el-button v-if="scope.row.procIns.code === 1" type="text"  size="small" @click="callback(scope.row)">{{$i18nMy.t('撤销')}}</el-button>
-              <el-button  type="text" size="small" @click="detail(scope.row)">{{$i18nMy.t('历史')}}</el-button>
-              <!-- <el-button  type="text" size="small"
-                        @click="trace(scope.row)">{{$i18nMy.t('进度')}}</el-button> -->
+               <el-button  type="text" size="small" @click="detail(scope.row)">历史</el-button>
+                <el-dropdown  size="small" style=" margin-left: 10px;">
+                    <el-button type="text" size="small">
+                          更多<i class="el-icon-arrow-down el-icon--right"></i>
+                    </el-button>
+                    <el-dropdown-menu slot="dropdown" >
+                      <el-dropdown-item v-if="scope.row.code === 1" ><el-button type="text"  size="small" @click="urge(scope.row)">催办</el-button></el-dropdown-item>
+                      <el-dropdown-item v-if="scope.row.code === 1"><el-button type="text"  size="small" @click="revoke(scope.row)">撤销</el-button></el-dropdown-item>
+                      <el-dropdown-item v-if="scope.row.code === 3 || scope.row.code === 4"><el-button  type="text" color="red"  size="small" @click="restart(scope.row)">编辑</el-button></el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
             </template>
           </el-table-column>
         </el-table>
@@ -121,6 +108,7 @@
         background
         layout="total, sizes, prev, pager, next, jumper">
       </el-pagination>
+      </div>
        <el-dialog
         title="查看流程历史"
         :close-on-click-modal="true"
@@ -149,7 +137,6 @@
         pageNo: 1,
         pageSize: 10,
         total: 0,
-        isSearchCollapse: false,
         loading: false,
         visible: false,
         dataListSelections: [],
@@ -236,13 +223,13 @@
         this.dataListSelections = val
       },
       trace (row) {
-        this.processPhotoUrl = `${this.$http.BASE_URL}/flowable/task/trace/photo/${row.procIns.processInstanceId}`
+        this.processPhotoUrl = `${this.$http.BASE_URL}/flowable/task/trace/photo/${row.processInstanceId}`
         this.visible = true
       },
       detail (row) {
         this.$http.get('/flowable/task/getTaskDef', {params: {
-          procInsId: row.procIns.processInstanceId,
-          procDefId: row.procDef.processDefinitionId
+          procInsId: row.processInstanceId,
+          procDefId: row.processDefinitionId
         }}).then(({data}) => {
           if (data.success) {
             this.$router.push({
@@ -252,14 +239,29 @@
           }
         })
       },
+      // 重新填写
+      restart (row) {
+              // 读取流程表单
+        this.$http.get('/flowable/task/getTaskDef', {params: {
+          procInsId: row.processInstanceId,
+          procDefId: row.processDefinitionId
+        }}).then(({data}) => {
+          if (data.success) {
+            this.$router.push({
+              path: '/flowable/task/TaskFormEdit',
+              query: {status: 'start', title: row.vars.title, formTitle: row.vars.title, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
+            })
+          }
+        })
+      },
           // 撤销申请
-      callback (row) {
+      revoke (row) {
         this.$confirm(`确定要撤销该流程吗?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$http.delete('/flowable/process/deleteProcIns', {params: {'ids': row.procIns.processInstanceId, 'reason': '用户撤销'}}).then(({data}) => {
+          this.$http.post('/flowable/process/revokeProcIns', {'id': row.processInstanceId}).then(({data}) => {
             if (data && data.success) {
               this.$message.success(data.msg)
               this.refreshList()
@@ -280,3 +282,13 @@
     }
   }
 </script>
+<style>
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.text-grey {
+    color: #999!important;
+} 
+</style>

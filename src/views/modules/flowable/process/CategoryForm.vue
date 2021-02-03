@@ -19,7 +19,7 @@
         ref="categoryTree">
       </el-tree>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button size="small" @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
       <el-button type="primary" :disabled="!inputForm.category" @click="inputFormSubmit()">{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>

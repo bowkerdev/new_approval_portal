@@ -1,6 +1,6 @@
 <template>
     <div style="padding:10px">
-        <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+        <el-form size="small" :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
           <el-form-item prop="loginName">
             <el-input size="small" v-model="searchForm.loginName" :placeholder="$i18nMy.t('登录名')" clearable></el-input>
           </el-form-item>
@@ -38,8 +38,7 @@
           :data="dataList"
           v-loading="loading"
           @render-header ="elTableHeadFunction"
-          border
-          size = "medium"
+          size = "small"
           @selection-change="selectionChangeHandle"
           @sort-change="sortChangeHandle"
           class="table">
@@ -55,7 +54,7 @@
             align="center"
             :label="$i18nMy.t('头像')">
             <template slot-scope="scope">
-              <img :src="scope.row.photo === ''?'/static/img/avatar.png':scope.row.photo" style="height:50px"/>
+              <img :src="scope.row.photo === ''?'/static/img/avatar.png':scope.row.photo" style="height:35px"/>
             </template>
           </el-table-column>
           <el-table-column
@@ -107,6 +106,7 @@
           </el-table-column>
           <el-table-column
             fixed="right"
+            :key="Math.random()"
             header-align="center"
             align="center"
             width="100"

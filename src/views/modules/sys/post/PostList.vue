@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page">
+      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="name">
                 <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('岗位名称')" clearable></el-input>
@@ -14,21 +14,24 @@
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
-      <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
-         <el-form-item>
+        <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
+          <el-form size="small" :inline="true"  class="query-form" ref="importForm">
+            <el-form-item>
           <el-button type="default" @click="downloadTpl()" size="small">{{$i18nMy.t('下载模板')}}</el-button>
-         </el-form-item>
-         <el-form-item prop="loginName">
-            <el-upload
-              class="upload-demo"
-              :action="`${this.$http.BASE_URL}/sys/post/import`"
-              :on-success="uploadSuccess"
-               :show-file-list="true">
+            </el-form-item>
+            <el-form-item prop="loginName">
+                <el-upload
+                  class="upload-demo"
+                  :action="`${this.$http.BASE_URL}/sys/post/import`"
+                  :on-success="uploadSuccess"
+                  :show-file-list="true">
               <el-button size="small" type="primary">{{$i18nMy.t('点击上传')}}</el-button>
-              <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
-            </el-upload>
-        </el-form-item>
-      </el-form>
+                  <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
+                </el-upload>
+            </el-form-item>
+          </el-form>
+        </el-dialog>
+     <div class="bg-white top">
       <el-row>
         <el-button v-if="hasPermission('sys:post:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('sys:post:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
@@ -36,13 +39,7 @@
         <el-button v-if="hasPermission('sys:post:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
                   :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
         <el-button-group class="pull-right">
-            <el-button
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-            <el-button v-if="hasPermission('sys:post:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
+            <el-button v-if="hasPermission('sys:post:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse"></el-button>
             <el-button v-if="hasPermission('sys:post:export')" type="default" size="small" icon="el-icon-download" title="导出" @click="exportExcel()"></el-button>
             <el-button
               type="default"
@@ -54,8 +51,8 @@
       </el-row>
     <el-table
       :data="dataList"
-      border
-      size="medium"
+      size="small"
+      height="calc(100% - 80px)"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       v-loading="loading"
@@ -141,6 +138,7 @@
       background
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
+     </div>
         <!-- 弹窗, 新增 / 修改 -->
     <PostForm  ref="postForm" @refreshDataList="refreshList"></PostForm>
   </div>
@@ -161,7 +159,6 @@
         total: 0,
         orderBy: '',
         dataListSelections: [],
-        isSearchCollapse: false,
         isImportCollapse: false,
         loading: false
       }

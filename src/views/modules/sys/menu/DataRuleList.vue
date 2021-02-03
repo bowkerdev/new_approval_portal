@@ -69,6 +69,7 @@
       </el-table-column>
       <el-table-column
         fixed="right"
+        :key="Math.random()"
         header-align="center"
         align="center"
         width="150"

@@ -7,13 +7,13 @@
     :before-close="handleClose"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" ref="inputForm">
+    <el-form size="small" :model="inputForm" ref="inputForm">
           <div>
               <span>{{$i18nMy.t('发件人：本人')}}</span>
               <el-divider></el-divider>
-              <span>收件人：{{inputForm.receiverNames}}</span>
+              <span>{{$i18nMy.t('收件人：')}}{{inputForm.receiverNames}}</span>
               <el-divider></el-divider>
-              <span>时间：{{inputForm.sendtime}}</span>
+              <span>{{$i18nMy.t('时间：')}}{{inputForm.sendtime}}</span>
               <el-divider></el-divider>
                <el-card class="box-card">
                  <p v-html="$utils.unescapeHTML(inputForm.mail.content)"></p>

@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page">
+      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
         <el-form-item :label="$i18nMy.t('完成时间')" prop="searchDates">
           <el-date-picker
             v-model="searchDates"
@@ -20,16 +20,9 @@
           <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
         </el-form-item>
       </el-form>
+      <div class="top bg-white">
       <el-row>
          <el-button-group class="pull-right">
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button 
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button 
               type="default"
@@ -42,9 +35,9 @@
       </el-row>
         <el-table
           :data="dataList"
-          border
-          size = "medium"
+          size = "small"
           v-loading="loading"
+          height="calc(100% - 80px)"
           @selection-change="selectionChangeHandle"
           class="table">
           <el-table-column
@@ -54,35 +47,31 @@
             width="50">
           </el-table-column>
           <el-table-column
-            prop="task.name"
+            prop="name"
             show-overflow-tooltip=""
             :label="$i18nMy.t('任务')">
             <template slot-scope="scope">
-              {{scope.row.task.name}} 
-                 <el-button v-if="scope.row.isBack" type="warning" size="mini"
+              {{scope.row.name}} 
+                 <el-button v-if="scope.row.back" type="warning" size="mini"
                         @click="callback(scope.row)">{{$i18nMy.t('撤销')}}</el-button>
             </template>
           </el-table-column>
           <el-table-column
             prop="vars.title"
             show-overflow-tooltip
+            min-width="180px"
             :label="$i18nMy.t('实例标题')">
           </el-table-column>
           <el-table-column
-            prop="proc.name"
+            prop="processDefinitionName"
             :label="$i18nMy.t('流程名称')">
           </el-table-column>
           <el-table-column
             prop="status"
             show-overflow-tooltip
-            :label="$i18nMy.t('状态')">
+            :label="$i18nMy.t('办理状态')">
             <template slot-scope="scope">
-              <el-tag v-if="scope.row.code === 0 
-               || scope.row.code === 3
-               || scope.row.code === 4 
-               || scope.row.code === 5"  type="danger">{{scope.row.status}}</el-tag>  <span v-if="scope.row.deleteReason">原因: {{scope.row.deleteReason}}</span>
-              <el-tag v-if="scope.row.code === 1" type="primary">{{scope.row.status}}</el-tag>
-              <el-tag v-if="scope.row.code === 2" type="success">{{scope.row.status}}</el-tag>
+                <el-tag :type="scope.row.level"   effect="dark" size="small">{{scope.row.status}} </el-tag>
              </template>
           </el-table-column>
            <el-table-column
@@ -90,15 +79,16 @@
             :label="$i18nMy.t('流程发起人')">
           </el-table-column>
           <el-table-column
-            prop="task.endTime"
+            prop="endTime"
             show-overflow-tooltip
             :label="$i18nMy.t('完成时间')">
              <template slot-scope="scope">
-              {{scope.row.task.endTime | formatDate}}
+              {{scope.row.endTime | formatDate}}
              </template>
           </el-table-column>
           <el-table-column
             fixed="right"
+            :key="Math.random()"
             header-align="center"
             align="center"
             width="100"
@@ -119,6 +109,7 @@
         background
         layout="total, sizes, prev, pager, next, jumper">
       </el-pagination>
+      </div>
   </div>
 </template>
 
@@ -136,7 +127,6 @@
         pageNo: 1,
         pageSize: 10,
         total: 0,
-        isSearchCollapse: false,
         loading: false,
         visible: false,
         dataListSelections: [],
@@ -220,30 +210,30 @@
       },
       detail (row) {
         this.$http.get('/flowable/task/getTaskDef', {params: {
-          taskDefKey: row.task.taskDefinitionKey,
-          procInsId: row.proc.processInstanceId,
-          procDefId: row.proc.processDefinitionId
+          taskDefKey: row.taskDefinitionKey,
+          procInsId: row.processInstanceId,
+          procDefId: row.processDefinitionId
         }}).then(({data}) => {
           if (data.success) {
             this.$router.push({
               path: '/flowable/task/TaskFormDetail',
-              query: {readOnly: true, taskId: row.task.executionId, title: `${row.proc.name}【${row.task.name}】`, formTitle: `${row.proc.name}`, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
+              query: {readOnly: true, taskId: row.executionId, title: `${row.processDefinitionName}【${row.name}】`, formTitle: `${row.processDefinitionName}`, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
             })
           }
         })
       },
           // 取回
       callback (row) {
-        this.$confirm(`确定取回流程吗?`, '提示', {
+        this.$confirm(`确定撤销该已办任务吗?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           this.loading = true
           this.$http.post('/flowable/task/callback',
-            {'processInstanceId': row.proc.processInstanceId,
-              'preTaskDefKey': row.task.taskDefinitionKey,
-              'preTaskId': row.task.id,
+            {'processInstanceId': row.processInstanceId,
+              'preTaskDefKey': row.taskDefinitionKey,
+              'preTaskId': row.id,
               'currentTaskId': row.currentTask.id,
               'currentTaskDefKey': row.currentTask.taskDefinitionKey
             }).then(({data}) => {

@@ -1,18 +1,17 @@
 <template>
-  <div>
+    <div class="page bg-white">
     <el-row>
       <el-button v-if="hasPermission('sys:area:add')" type="primary" icon="el-icon-plus" size="small" @click="add()">{{$i18nMy.t('新增')}}</el-button>
     </el-row>
     <el-treetable
       :data="dataList"
-      border
-      stripe
+      size="small"
       row-key="id"
       isBigData
-      max-height="1200"
       isTreeTable
+      expanded
       v-loading="loading"
-      class="table">
+      class="table treetable">
       <el-treetable-column
         prop="name"
         align="left"
@@ -46,6 +45,7 @@
       </el-treetable-column>
       <el-treetable-column
         fixed="right"
+        :key="Math.random()"
         header-align="center"
         align="center"
         width="300"

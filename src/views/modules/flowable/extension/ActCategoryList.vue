@@ -1,18 +1,16 @@
 <template>
-  <div>
+  <div class="page bg-white">
       <el-row>
         <el-button v-if="hasPermission('extension:actCategory:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
       </el-row>
     <el-treetable
-        border
         :data="dataList"
         isBigData
-        max-height="1200"
         isTreeTable
-        size="medium"
+        size="small"
         v-loading = "loading"
         row-key="id"
-        class="table">
+        class="table treetable">
       <el-treetable-column
         prop="name"
         ref="actCategoryTree"
@@ -28,7 +26,6 @@
       </el-treetable-column>
 	  <el-treetable-column
         prop="remarks"
-        sortable="custom"
         :label="$i18nMy.t('备注信息')">
       </el-treetable-column>
       <el-treetable-column

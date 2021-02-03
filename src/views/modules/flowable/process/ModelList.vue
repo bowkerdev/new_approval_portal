@@ -1,8 +1,7 @@
 <template>
-  <div>
-  <el-row :gutter="15">
-    <el-col :span="24">
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page">
+
+      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item :label="$i18nMy.t('模型名称')" prop="filterText">
             <el-input v-model="searchForm.filterText" size="small" :placeholder="$i18nMy.t('请输入关键词')"></el-input>
         </el-form-item>
@@ -11,20 +10,16 @@
           <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
         </el-form-item>
       </el-form>
+      <div class="top bg-white">
       <el-row>
         <el-button  type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0">{{$i18nMy.t('删除')}}</el-button>
-        <el-button type="success" :disabled="dataListSelections.length != 1" size="small" @click="setCategory()">{{$i18nMy.t('设置分类')}}</el-button>
+                  :disabled="dataListSelections.length <= 0">{{$i18nMy.t('删除')}}
+        </el-button>
+        <el-button type="success" :disabled="dataListSelections.length != 1" size="small" @click="setCategory()">
+            {{$i18nMy.t('设置分类')}}
+        </el-button>
         <el-button-group class="pull-right">
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button 
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button 
               type="default"
@@ -37,8 +32,8 @@
       </el-row>
         <el-table
           :data="dataList"
-          border
-          size="medium"
+          size="small"
+          height="calc(100% - 80px)"
           v-loading="loading"
           @selection-change="selectionChangeHandle"
           class="table">
@@ -86,15 +81,25 @@
           </el-table-column>
           <el-table-column
             fixed="right"
+            :key="Math.random()"
             width="250"
             :label="$i18nMy.t('操作')">
             <template slot-scope="scope">
               <el-button type="text" size="small" @click="design(scope.row)">{{$i18nMy.t('设计')}}</el-button>
               <el-button  type="text" size="small" @click="deploy(scope.row)">{{$i18nMy.t('发布')}}</el-button>
-              <el-button type="text" size="small" v-if="scope.row.procDef.suspended===true" @click="active(scope.row.procDef)">{{$i18nMy.t('激活')}}</el-button>
-               <el-button type="text" size="small" v-if="scope.row.procDef.suspended===false" @click="suspend(scope.row.procDef)">{{$i18nMy.t('挂起')}}</el-button>
-               <el-button  type="text" size="small" @click="exportXML(scope.row)">{{$i18nMy.t('导出')}}</el-button>
-              <el-button  type="text" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
+              <el-dropdown  size="small" style=" margin-left: 10px;">
+                <el-button type="text" size="small">
+                  {{$i18nMy.t('更多')}}<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu slot="dropdown" >
+                  <el-dropdown-item v-if="scope.row.procDef.suspended===true"><el-button type="text" size="small" @click="active(scope.row.procDef)">{{$i18nMy.t('激活')}}</el-button></el-dropdown-item>
+                  <el-dropdown-item v-if="scope.row.procDef.suspended===false"><el-button type="text" size="small" @click="suspend(scope.row.procDef)">{{$i18nMy.t('挂起')}}</el-button></el-dropdown-item>
+                  <el-dropdown-item><el-button  type="text" size="small" @click="exportXML(scope.row)">{{$i18nMy.t('导出')}}</el-button></el-dropdown-item>
+                   <el-dropdown-item> <el-button  type="text" size="small" @click="copy(scope.row.id)">{{$i18nMy.t('复制')}}</el-button> </el-dropdown-item>
+                  <el-dropdown-item> <el-button  type="text" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button> </el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+
             </template>
           </el-table-column>
         </el-table>
@@ -108,8 +113,7 @@
         background
         layout="total, sizes, prev, pager, next, jumper">
       </el-pagination>
-    </el-col>
-  </el-row>
+      </div>
        <el-dialog
         title="查看进度"
         :close-on-click-modal="true"
@@ -124,7 +128,7 @@
     <!-- 弹窗, 新增 / 修改 -->
     <model-form  ref="modelForm"  @create="create"></model-form>
     <!--模型编辑-->
-    <design-form ref="designForm" @refreshList="refreshList" title="流程设计器"></design-form>
+    <design-form ref="designForm" @refreshList="refreshList"></design-form>
     <category-form ref="categoryForm" @refreshList="refreshList"></category-form>
 
   </div>
@@ -147,7 +151,6 @@
         pageNo: 1,
         pageSize: 10,
         total: 0,
-        isSearchCollapse: false,
         loading: false,
         visible: false,
         dataListSelections: [],
@@ -281,6 +284,23 @@
         }).then(() => {
           this.loading = true
           this.$http.delete('/flowable/model/delete', {params: {'ids': ids}}).then(({data}) => {
+            this.loading = false
+            if (data && data.success) {
+              this.$message.success(data.msg)
+              this.refreshList()
+            }
+          })
+        })
+      },
+      // 复制
+      copy (id) {
+        this.$confirm(`确定复制该流程吗？`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.loading = true
+          this.$http.post('/flowable/model/copy', {'id': id}).then(({data}) => {
             this.loading = false
             if (data && data.success) {
               this.$message.success(data.msg)

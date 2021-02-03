@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class=" bg-white">
   <FullCalendar defaultView="dayGridMonth" locale="zh-cn" :header="{
         left: 'prev,next today',
         center: 'title',

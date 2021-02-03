@@ -6,7 +6,7 @@
      v-dialogDrag
      width="1000px"
     :visible.sync="visible">
-    <el-form :model="inputForm"  ref="inputForm" @keyup.enter.native="doSubmit()"
+    <el-form size="small" :model="inputForm"  ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="120px" @submit.native.prevent>
         <el-form-item :label="$i18nMy.t('上级菜单')" prop="parent.id" :rules="[{required: true, message: $i18nMy.t('请选择上级菜单'), trigger: 'blur'}]">
              <SelectTree 

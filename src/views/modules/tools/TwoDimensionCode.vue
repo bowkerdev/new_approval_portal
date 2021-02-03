@@ -1,6 +1,7 @@
 <template>
-<div>
-    <el-form :inline="true" :model="inputForm" ref="inputForm" label-width="120px">
+<div class="el-scrollbar__wrap wrap-white padding-20">
+  <div class="el-scrollbar__view">
+    <el-form size="small" :inline="true" :model="inputForm" ref="inputForm" label-width="120px">
       <el-form-item :label="$i18nMy.t('二维码内容')" prop="encoderContent" :rules="[{required: true, message:'内容不能为空', trigger:'blur'}]">
         <el-input  style="width: 500px" v-model="inputForm.encoderContent" :placeholder="$i18nMy.t('请输入要生成二维码的字符串')"></el-input> 
           
@@ -13,7 +14,7 @@
         <el-image :src="imageUrl"/>
         <p>{{$i18nMy.t('请使用微信扫一扫')}}</p>
     </div>
-   
+  </div>
 </div>
 </template>
 

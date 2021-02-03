@@ -5,7 +5,7 @@
     append-to-body
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" :rules="dataRule" v-loading="loading" ref="inputForm" @keyup.enter.native="doSubmit()"
+    <el-form size="small" :model="inputForm" :rules="dataRule" v-loading="loading" ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="80px" @submit.native.prevent>
       <el-form-item :label="$i18nMy.t('标签')" prop="label">
         <el-input v-model="inputForm.label" :placeholder="$i18nMy.t('标签')"></el-input>
@@ -18,8 +18,8 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
-      <el-button type="primary" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
+      <el-button size="small" @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button size="small" type="primary" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </template>

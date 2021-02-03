@@ -6,7 +6,7 @@
     append-to-body
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" ref="inputForm" v-loading="loading" :class="method==='view' || method === 'read'?'readonly':''" :disabled="method==='view' || method === 'read'" @keyup.enter.native="doSubmit()"
+    <el-form size="small" :model="inputForm" ref="inputForm" v-loading="loading" :class="method==='view' || method === 'read'?'readonly':''" :disabled="method==='view' || method === 'read'" @keyup.enter.native="doSubmit()"
              label-width="120px" @submit.native.prevent>
       <el-row  :gutter="15">
         <el-col :span="24">
@@ -90,7 +90,7 @@
       <el-col :span="24" v-if="method ==='view' && inputForm.status === '1'">
            <el-form-item :label="$i18nMy.t('接收人')">
               <el-table
-                size="medium"
+                 size="small"
                 :data="oaNotifyRecordList"
                 style="width: 100%">
                 <el-table-column
@@ -122,8 +122,8 @@
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
-      <el-button type="primary" v-if="method != 'view' && method != 'read'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
+      <el-button size="small" @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button size="small" type="primary" v-if="method != 'view' && method != 'read'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </div>

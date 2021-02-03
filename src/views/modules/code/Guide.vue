@@ -1,35 +1,37 @@
 <template>
-  <div>
-    <el-row :gutter="10">
-      <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in dataList" :key="item.id" style="padding-bottom:10px">
-        <el-card class="box-card jp-card jp-card-bordered" shadow="hover" >
-            <div class="">
-                <div class="jp-card-cover1">
-                    <i :class="item.icon" style="font-size: 64px;color:#409EFF;margin-right:20px"></i>
-                    <font style="font-weight: 700"> {{item.name}}</font>
-                </div>
+    <div class="el-scrollbar__wrap wrap-white">
+      <div class="el-scrollbar__view">
+        <el-row :gutter="10">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in dataList" :key="item.id">
+            <el-card class="box-card jp-card jp-card-bordered" shadow="hover" >
+                <div class="">
+                    <div class="jp-card-cover1">
+                        <i :class="item.icon" style="font-size: 64px;color:#409EFF;margin-right:20px"></i>
+                        <font style="font-weight: 700"> {{item.name}}</font>
+                    </div>
 
-                <div class="jp-card-body">
-                    <div class="jp-card-meta">
-                        <div class="jp-card-meta-detail">
-                            <div class="jp-card-meta-description">{{item.remarks}}</div>
+                    <div class="jp-card-body">
+                        <div class="jp-card-meta">
+                            <div class="jp-card-meta-detail">
+                                <div class="jp-card-meta-description">{{item.remarks}}</div>
+                            </div>
                         </div>
                     </div>
+                    <ul class="jp-card-actions">
+                        <li style="width: 100%">
+                        <el-tooltip :content="item.tip" placement="top">
+                            <router-link :to="item.path" :disabled="item.disabled">
+                                <i class="fa fa-folder-open-o" :style="`${item.disabled?'color:grey':''}`"></i>
+                            </router-link>
+                        </el-tooltip>
+                        </li>
+                    </ul>
                 </div>
-                <ul class="jp-card-actions">
-                    <li style="width: 100%">
-                      <el-tooltip :content="item.tip" placement="top">
-                          <router-link :to="item.path" :disabled="item.disabled">
-                            <i class="fa fa-folder-open-o" :style="`${item.disabled?'color:grey':''}`"></i>
-                          </router-link>
-                      </el-tooltip>
-                    </li>
-                </ul>
-            </div>
-        </el-card>
-      </el-col>
-    </el-row>
-  </div>
+            </el-card>
+        </el-col>
+        </el-row>
+      </div>
+    </div>
 </template>
 
 <script>
@@ -50,7 +52,7 @@
             tip: '可视化配置图表',
             remarks: '快速可视化开发图表',
             icon: 'fa fa-area-chart',
-            disabled: true,
+            disabled: false,
             path: '/echarts/EchartsList'
 
           },

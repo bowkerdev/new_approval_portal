@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page">
+      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
 		     <el-form-item prop="db.id">
                 <el-input size="small" v-model="searchForm.db.id" :placeholder="$i18nMy.t('目标数据库')" clearable></el-input>
@@ -13,6 +13,7 @@
             <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
+      <div class="top bg-white">
       <el-row>
         <el-button v-if="hasPermission('database:datamodel:dataSet:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('database:datamodel:dataSet:edit')" type="success" size="small" icon="el-icon-edit-outline" @click="edit()"
@@ -20,14 +21,6 @@
         <el-button v-if="hasPermission('database:datamodel:dataSet:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
                   :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
         <el-button-group class="pull-right">
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button
               type="default"
@@ -40,11 +33,11 @@
       </el-row>
     <el-table
       :data="dataList"
-      border
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       v-loading="loading"
-      size = "medium"
+      height="calc(100% - 80px)"
+      size = "small"
       class="table">
       <el-table-column
         type="selection"
@@ -96,8 +89,8 @@
       background
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
-
-    <el-dialog  customClass="customWidth" title="数据接口" :visible.sync="dialogInterfaceVisible"  v-dialogDrag>
+      </div>
+    <el-dialog title="数据接口" :visible.sync="dialogInterfaceVisible"  v-dialogDrag>
       <el-table :data="interfaceTable">
         <el-table-column property="type" width="120px" :label="$i18nMy.t('接口格式')"></el-table-column>
         <el-table-column property="url" :label="$i18nMy.t('接口地址')"></el-table-column>
@@ -126,7 +119,6 @@
         total: 0,
         orderBy: '',
         dataListSelections: [],
-        isSearchCollapse: false,
         isImportCollapse: false,
         dialogInterfaceVisible: false,
         interfaceTable: [],
@@ -247,9 +239,3 @@
     }
   }
 </script>
-
-<style >
-.customWidth{
-    width:80%!important;
-}
-</style>

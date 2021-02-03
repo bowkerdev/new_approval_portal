@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+    <div class="page">
+      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
 		     <el-form-item prop="version">
                 <el-input size="small" v-model="searchForm.version" :placeholder="$i18nMy.t('版本号')" clearable></el-input>
@@ -16,7 +16,7 @@
             <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
-  
+      <div class="top bg-white">
       <el-row>
         <el-button-group class="pull-right">
             <el-button
@@ -36,7 +36,8 @@
     <el-table
       :data="dataList"
       border
-      size="medium"
+      size="small"
+      height="calc(100% - 80px)"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       v-loading="loading"
@@ -92,6 +93,7 @@
       <el-table-column
         header-align="center"
         fixed="right"
+        :key="Math.random()"
         width="250"
         :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
@@ -113,6 +115,7 @@
     </el-pagination>
         <!-- 弹窗, 新增 / 修改 -->
     <FormDefinitionJsonForm  ref="formDefinitionJsonForm" @refreshDataList="refreshList"></FormDefinitionJsonForm>
+  </div>
   </div>
 </template>
 

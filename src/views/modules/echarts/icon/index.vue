@@ -33,8 +33,8 @@
         </el-tab-pane>
       </el-tabs>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">关闭</el-button>
-      <el-button  type="primary" @click="doSubmit()">确定</el-button>
+      <el-button size="small" @click="visible = false">关闭</el-button>
+      <el-button size="small"  type="primary" @click="doSubmit()">确定</el-button>
     </span>
   </el-dialog>
 </div>

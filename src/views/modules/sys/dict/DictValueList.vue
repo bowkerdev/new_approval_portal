@@ -8,8 +8,7 @@
         <el-table
           :data="dataList"
           v-loading="loading"
-          border
-          size="medium"
+           size="small"
           height="500px"
           @selection-change="selectionChangeDictHandle"
          class="table">

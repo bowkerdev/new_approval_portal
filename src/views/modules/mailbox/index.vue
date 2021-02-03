@@ -1,53 +1,61 @@
 <template>
-  <el-container style=" border: 1px solid #eee">
-  <el-aside width="200px">
-     
-    <el-menu @select="select" style="border:0">
-      <el-button size="small" style="width:100%" type="primary" @click="sendLetter">{{$i18nMy.t('写信')}}</el-button>
-        <el-menu-item-group>
-          <template slot="title">{{$i18nMy.t('我的信箱')}}</template>
-          <el-menu-item index="1">收件箱 ({{' '+ noReadCount}}/{{mailBoxCount + ' ' }})</el-menu-item>
-          <el-menu-item index="2">已发送 ({{' '+ mailComposeCount +' '}})</el-menu-item>
-          <el-menu-item index="3">草稿箱 ({{' '+ mailDraftCount+' ' }})</el-menu-item>
-          <el-menu-item index="4">已删除 ({{' '+ mailTrashCount+' ' }})</el-menu-item>
-        </el-menu-item-group>
-   
-        
-    </el-menu>
-  </el-aside>
-  
-  <el-container>
-    <el-header style="height:30px">
-      <el-row>
-        <el-col :span="10">
-      <el-dropdown @command="changeReadStatus">
+    <div class="jp-common-layout page">
+      <div class="jp-common-layout-left">
+        <div class="jp-common-title"> 
+            <el-button size="small" style="width:100%" type="primary" @click="sendLetter">{{$i18nMy.t('写信')}}</el-button>
+        </div>
+        <div class="jp-common-el-tree-scrollbar el-scrollbar">
+          <div class="el-scrollbar__wrap">
+              <div class="el-scrollbar__view">
+                <el-menu @select="select" style="border:0">
+                    <el-menu-item-group>
+                      <template slot="title">{{$i18nMy.t('我的信箱')}}</template>
+                      <el-menu-item index="1">收件箱 ({{' '+ noReadCount}}/{{mailBoxCount + ' ' }})</el-menu-item>
+                      <el-menu-item index="2">已发送 ({{' '+ mailComposeCount +' '}})</el-menu-item>
+                      <el-menu-item index="3">草稿箱 ({{' '+ mailDraftCount+' ' }})</el-menu-item>
+                      <el-menu-item index="4">已删除 ({{' '+ mailTrashCount+' ' }})</el-menu-item>
+                    </el-menu-item-group>
+                </el-menu>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="jp-common-layout-center jp-flex-main">
+        <el-form size="small" :inline="true"  class="query-form"  ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+          <el-form-item>
+              <el-dropdown @command="changeReadStatus">
+                <el-button size="small" type="primary">
         <el-button size="small" type="primary">{{$i18nMy.t('过滤')}}<i class="el-icon-arrow-down el-icon--right"></i>
-        </el-button>
-        <el-dropdown-menu slot="dropdown">
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="0">{{$i18nMy.t('未读')}}</el-dropdown-item>
           <el-dropdown-item command="1">{{$i18nMy.t('已读')}}</el-dropdown-item>
           <el-dropdown-item command="">{{$i18nMy.t('全部')}}</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <el-button size="small" type="primary" @click="refreshList">
-        <i class="el-icon-refresh"></i>
-        </el-button>
+                </el-dropdown-menu>
+              </el-dropdown>
+          </el-form-item>
+          <el-form-item>
+              <el-button size="small" type="primary" @click="refreshList">
+                <i class="el-icon-refresh"></i>
+              </el-button>
         <el-button  type="danger" size="small" icon="el-icon-delete" @click="del()" plain>{{$i18nMy.t('删除')}}</el-button>
-        </el-col>
-        <el-col :span="14">
+              </el-button>
+          </el-form-item>
+          <el-form-item>
+          </el-form-item>
+          <el-form-item class="pull-right">
         <el-input v-model="searchForm.mail.title" :placeholder="$i18nMy.t('请输入标题')">
-           <el-button slot="append" icon="el-icon-search" @click="refreshList"></el-button>
-        </el-input>
-        </el-col>
-      </el-row>
-    </el-header>
-    
-    <el-main>
+            <el-button slot="append" icon="el-icon-search" @click="refreshList"></el-button>
+          </el-input>
+          </el-form-item>
+        </el-form>
+
+    <div class="bg-white top">
       <el-table
           :data="dataList"
           v-loading="loading"
-          border
-          height="620px"
+          size = "small"
+          height="calc(100% - 50px)"
           @selection-change="selectionChangeHandle"
           @sort-change="sortChangeHandle"
           class="table">
@@ -102,13 +110,13 @@
           background
           layout="total, sizes, prev, pager, next, jumper">
         </el-pagination>
-    </el-main>
-  </el-container>
+    </div>
   <SendEmail @refreshList="refreshList" ref="sendEmail"></SendEmail>
   <SentMailDetail @refreshList="refreshList" ref="sentMailDetail"></SentMailDetail>
   <ReceivedMailDetail @refreshList="refreshList" ref="receivedMailDetail"></ReceivedMailDetail>
   <TrashMailDetail @refreshList="refreshList" ref="trashMailDetail"></TrashMailDetail>
-</el-container>
+      </div>
+    </div>
 </template>
 <script>
   import SendEmail from './SendEmail'

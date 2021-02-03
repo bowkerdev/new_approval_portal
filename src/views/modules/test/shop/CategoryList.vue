@@ -1,23 +1,21 @@
 <template>
-  <div>
+    <div class="page bg-white">
       <el-row>
-        <el-button v-if="hasPermission('test:shop:category:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
+        <el-button v-if="hasPermission('test:shop:category:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
       </el-row>
     <el-treetable
-      border
       :data="dataList"
       isBigData
-      max-height="1200"
       isTreeTable
       size="medium"
       v-loading = "loading"
       row-key="id"
-      class="table">
+      class="table treetable">
     <el-treetable-column
         prop="name"
         align="left"
         show-overflow-tooltip
-        :label="$i18nMy.t('类型名')">
+        label="类型名">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('test:shop:category:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('test:shop:category:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
@@ -27,19 +25,20 @@
     <el-treetable-column
         prop="remarks"
         show-overflow-tooltip
-        :label="$i18nMy.t('备注信息')">
+        label="备注信息">
       </el-treetable-column>
       <el-treetable-column
         header-align="center"
         align="center"
         fixed="right"
+        :key="Math.random()"
         width="300"
-        :label="$i18nMy.t('操作')">
+        label="操作">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('test:shop:category:view')" type="text" size="small" icon="el-icon-view" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
-          <el-button v-if="hasPermission('test:shop:category:edit')" type="text" size="small" icon="el-icon-edit" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
-          <el-button v-if="hasPermission('test:shop:category:del')" type="text" size="small" icon="el-icon-delete" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
-          <el-button v-if="hasPermission('test:shop:category:add')" type="text" size="small" icon="el-icon-circle-plus-outline" @click="addChild(scope.row.id, scope.row.name)">{{$i18nMy.t('添加下级商品类型')}}</el-button>
+          <el-button v-if="hasPermission('test:shop:category:view')" type="text" size="small" icon="el-icon-view" @click="view(scope.row.id)">查看</el-button>
+          <el-button v-if="hasPermission('test:shop:category:edit')" type="text" size="small" icon="el-icon-edit" @click="edit(scope.row.id)">修改</el-button>
+          <el-button v-if="hasPermission('test:shop:category:del')" type="text" size="small" icon="el-icon-delete" @click="del(scope.row.id)">删除</el-button>
+          <el-button v-if="hasPermission('test:shop:category:add')" type="text" size="small" icon="el-icon-circle-plus-outline" @click="addChild(scope.row.id, scope.row.name)">添加下级商品类型</el-button>
         </template>
       </el-treetable-column>
     </el-treetable>

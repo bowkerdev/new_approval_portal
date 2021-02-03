@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div class="page bg-white">
       <el-row>
         <el-button  type="danger"   size="small" icon="el-icon-delete" @click="del()"
                   :disabled="dataListSelections.length <= 0">{{$i18nMy.t('作废')}}</el-button>
       </el-row>
         <el-table
           :data="dataList"
-          border
-          size = "medium"
+          size = "small"
+          height="calc(100% - 80px)"
           v-loading="loading"
           @selection-change="selectionChangeHandle"
           class="table">
@@ -19,6 +19,8 @@
           </el-table-column>
           <el-table-column
             prop="vars.title"
+            show-overflow-tooltip
+            min-width="180px"
             :label="$i18nMy.t('标题')">
           </el-table-column>
           <el-table-column
@@ -27,14 +29,16 @@
           </el-table-column>
            <el-table-column
             prop="status"
-            :label="$i18nMy.t('状态')">
+            label="当前节点">
             <template slot-scope="scope">
-              <el-tag v-if="scope.row.code === 0 
-               || scope.row.code === 3
-               || scope.row.code === 4 
-               || scope.row.code === 5" type="danger">{{scope.row.status}}</el-tag>  <span v-if="scope.row.deleteReason">原因: {{scope.row.deleteReason}}</span>
-              <el-tag v-if="scope.row.code === 1" type="primary">{{scope.row.status}}  [{{scope.row.currentTask.name}}]</el-tag>
-              <el-tag v-if="scope.row.code === 2" type="success">{{scope.row.status}}</el-tag>
+              {{scope.row.taskName}}
+             </template>
+          </el-table-column>
+           <el-table-column
+            prop="status"
+            label="流程状态">
+            <template slot-scope="scope">
+                <el-tag  :type="scope.row.level"   effect="dark" size="small">{{scope.row.status}} </el-tag>
              </template>
           </el-table-column>
            <el-table-column
@@ -43,6 +47,7 @@
           </el-table-column>        
          <el-table-column
             fixed="right"
+            :key="Math.random()"
             header-align="center"
             align="center"
             width="150"

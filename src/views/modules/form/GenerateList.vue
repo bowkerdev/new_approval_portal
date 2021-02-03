@@ -1,6 +1,6 @@
 <template>
-<div>
-    <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="params" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page">
+    <el-form size="small" :inline="true"   v-if="showSearchBtn" class="query-form" ref="searchForm" :model="params" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
 		     <el-form-item  v-for="(option, index) in dataBindFields.filter((field)=>{
            return field.isSearch})"
@@ -100,7 +100,8 @@
           </el-form-item>
     </el-form>
           <!-- 导入导出-->
-      <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
+    <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
+      <el-form size="small" :inline="true" class="query-form" ref="importForm">
          <el-form-item>
           <el-button type="default" @click="downloadTpl()" size="small">{{$i18nMy.t('下载模板')}}</el-button>
          </el-form-item>
@@ -118,6 +119,8 @@
             </el-upload>
         </el-form-item>
       </el-form>
+    </el-dialog>
+  <div class="bg-white" :style="showSearchBtn? 'height:calc(100% - 76px)': 'height:100%'">
     <el-row>
       <el-button v-if="$route.query.previewMode || hasPermission(`form:${tableName}:add`)" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
       <el-button v-if="$route.query.previewMode || hasPermission(`form:${tableName}:edit`)" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
@@ -128,14 +131,7 @@
         {{item.name}}
       </el-button>
       <el-button-group class="pull-right">
-          <el-button
-            type="default"
-            size="small"
-            icon="el-icon-search"
-            v-if="showSearchBtn"
-            @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-          </el-button>
-          <el-button v-if="$route.query.previewMode || hasPermission(`form:${tableName}:import`)" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
+          <el-button v-if="$route.query.previewMode || hasPermission(`form:${tableName}:import`)" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse"></el-button>
           <el-button v-if="$route.query.previewMode || hasPermission(`form:${tableName}:export`)" type="default" size="small" icon="el-icon-download" title="导出" @click="exportExcel()"></el-button>
           <el-button
             type="default"
@@ -147,10 +143,10 @@
     </el-row>
     <el-table
       :data="dataList"
-      border
-      size="medium"
+      size="small"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
+      height="calc(100% - 80px)"
       v-loading="loading"
       class="table">
       <el-table-column
@@ -241,6 +237,7 @@
         header-align="center"
         align="center"
         fixed="right"
+        :key="Math.random()"
         width="200"
         :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
@@ -267,6 +264,7 @@
     </el-pagination>
          <!-- 弹窗, 新增 / 修改 -->
     <GenerateForm ref="previewForm" @refreshDataList="refreshList"></GenerateForm>
+  </div>
 </div>
 </template>
 <script>
@@ -296,7 +294,6 @@
          pageSize: 10,
          total: 0,
          orderBy: '',
-         isSearchCollapse: false,
          isImportCollapse: false,
          loading: false
        }

@@ -5,7 +5,7 @@
      v-dialogDrag
     width="700px"
     :visible.sync="visible">
-    <el-form :model="inputForm" status-icon :rules="dataRule" v-loading="loading" ref="inputForm" @keyup.enter.native="inputFormSubmit()"
+    <el-form size="small" :model="inputForm" status-icon :rules="dataRule" v-loading="loading" ref="inputForm" @keyup.enter.native="inputFormSubmit()"
              label-width="120px" @submit.native.prevent>
        <el-row :gutter="15">
         <el-col :span="24">
@@ -62,8 +62,8 @@
       </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
-      <el-button type="primary" @click="inputFormSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
+      <el-button size="small"  @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button size="small" type="primary" @click="inputFormSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </template>

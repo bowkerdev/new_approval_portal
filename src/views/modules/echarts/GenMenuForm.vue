@@ -5,7 +5,7 @@
     :close-on-click-modal="false"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm"  ref="inputForm" @keyup.enter.native="doSubmit()"
+    <el-form size="small" :model="inputForm"  ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="120px" @submit.native.prevent>
         <el-form-item label="上级菜单" prop="parent.id" :rules="[{required: true, message: '请选择上级菜单', trigger: 'blur'}]">
              <SelectTree 
@@ -31,8 +31,8 @@
     
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">关闭</el-button>
-      <el-button type="primary" @click="doSubmit()">确定</el-button>
+      <el-button size="small" @click="visible = false">关闭</el-button>
+      <el-button size="small" type="primary" @click="doSubmit()">确定</el-button>
     </span>
   </el-dialog>
   <Icon ref="icon" @getValue="value => inputForm.icon = value"></Icon>
@@ -58,8 +58,8 @@
           name: '',
           href: '',
           icon: '',
-          isShow: 1,
-          backgroundType: 1
+          isShow: '1',
+          affix: '2'
         }
       }
     },

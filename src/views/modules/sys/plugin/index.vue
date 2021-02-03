@@ -1,5 +1,6 @@
 <template>
-  <div>
+<div class="el-scrollbar__wrap wrap-white">
+  <div class="el-scrollbar__view">
     <el-row :gutter="10">
       <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" v-for="(item, index) in dataList" :key="index" style="padding-bottom:10px">
         <el-card class="box-card jp-card jp-card-bordered" shadow="hover" >
@@ -12,12 +13,13 @@
                 <div slot="content"><font size="4">{{item.name}}(<a :href="item.site" target="blank">{{$i18nMy.t('访问官网')}}</a>)</font><br/>
                 <p style="font-weight: 500" v-html="item.description"></p>
                 </div>
-                <el-button>{{$i18nMy.t('详情')}}</el-button>
+                <el-button size="small">{{$i18nMy.t('详情')}}</el-button>
               </el-tooltip>
             </div>
         </el-card>
       </el-col>
     </el-row>
+  </div>
   </div>
 </template>
 

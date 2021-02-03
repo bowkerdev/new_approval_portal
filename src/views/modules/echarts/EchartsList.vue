@@ -1,6 +1,6 @@
 <template>
-  <div>
-     <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page">
+     <el-form size="small" :inline="true"  class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="name">
           <el-input size="small" v-model="searchForm.name" placeholder="组件名称" clearable></el-input>
          </el-form-item>
@@ -9,6 +9,7 @@
         <el-button @click="resetSearch()" size="small">重置</el-button>
       </el-form-item>
       </el-form>
+      <div class="bg-white top">
       <el-row>
         <el-button v-if="hasPermission('echarts:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
         <el-button v-if="hasPermission('database:datamodel:dataSet:add')" type="primary" size="small" icon="el-icon-coin" @click="toDataSet()">数据源管理</el-button>
@@ -20,14 +21,6 @@
         <el-button type="default" size="small" icon="el-icon-edit-outline" @click="createMenu()"
          :disabled="dataListSelections.length != 1">创建菜单</el-button>
         <el-button-group class="pull-right">
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button 
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button 
               type="default"
@@ -41,7 +34,8 @@
     <el-table
       :data="dataList"
       v-loading="loading"
-      size = "medium"
+      size = "small"
+      height="calc(100% - 80px)"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       class="table">
@@ -62,6 +56,7 @@
       </el-table-column>
       <el-table-column
         fixed="right"
+        :key="Math.random()"
         header-align="center"
         align="center"
         width="300"
@@ -94,6 +89,7 @@
       background
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
+    </div>
     <EchartsForm @refreshDataList="refreshList" ref="echartsForm"/>
       <gen-menu-form ref="genMenuForm"></gen-menu-form>
   </div>
@@ -114,7 +110,6 @@
         total: 0,
         orderBy: '',
         dataListSelections: [],
-        isSearchCollapse: false,
         isImportCollapse: false,
         loading: false
       }

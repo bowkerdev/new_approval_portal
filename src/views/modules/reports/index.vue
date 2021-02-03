@@ -1,11 +1,12 @@
 <template>
-<div>
+<div class="page bg-white">
  <el-row>
  <el-button  type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
  </el-row>
   <el-table
     class="table"
-    size = "medium"
+    size = "small"
+    height="calc(100% - 40px)"
     :data="dataList">
      <el-table-column
       type="index"

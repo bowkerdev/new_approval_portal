@@ -1,25 +1,19 @@
 <template>
-  <div>
-    <el-row :gutter="10">
-    <el-col :span="5">
-      <el-card  shadow="never" :body-style="contentViewHeight">
-      <el-tag
-        closable
-        size="small" 
-        style="margin-bottom:5px"
-        v-if="selectDbName"
-        :disable-transitions="false"
-        @close="handleNodeClose">
-        {{selectDbName}}
-      </el-tag>
-     
-      <el-input
-        :placeholder="$i18nMy.t('输入关键字进行过滤')"
-        size="small"
-        v-model="filterText">
-      </el-input>
+    <div class="jp-common-layout page">
+      <div class="jp-common-layout-left">
+        <div class="jp-common-title"> 
+          <el-input
+          :placeholder="$i18nMy.t('输入关键字进行过滤')"
+          size="small"
+          clearable
+          v-model="filterText">
+        </el-input>
+        </div>
+      <div class="jp-common-el-tree-scrollbar el-scrollbar">
+      <div class="el-scrollbar__wrap">
+        <div class="el-scrollbar__view">
       <el-tree
-        class="filter-tree"
+         class="filter-tree"
         :data="databaseTreeData"
         :props="{
               value: 'id',             // ID字段名
@@ -29,14 +23,17 @@
         default-expand-all
         :filter-node-method="filterNode"
         :expand-on-click-node="false"
+        node-key="id"
+        highlight-current
         @node-click="handleNodeClick"
         ref="databaseTree">
       </el-tree>
-      </el-card>
-    </el-col>
-    <el-col :span="19">
-     <el-card  shadow="never" :body-style="contentViewHeight">
-     <el-form :inline="true"  ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="jp-common-layout-center jp-flex-main">
+     <el-form size="small" :inline="true"  class="query-form"  ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="name">
            <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('表名')" clearable></el-input>
         </el-form-item>
@@ -45,12 +42,12 @@
         <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
       </el-form-item>
       </el-form>
+    <div class="bg-white top">
     <el-table
       :data="dataList"
       v-loading="loading"
-      :height="600"
-      border
-      size = "medium"
+      height="calc(100% - 20px)"
+      size = "small"
       @selection-change="selectionChangeHandle"
       style="width: 100%;">
       <el-table-column
@@ -99,13 +96,12 @@
     <el-alert
       :title = "`总共${dataList.length}条记录`"
       type="success"
-      :closable="false">
-    </el-alert>
-    </el-card>
-    </el-col>
-    </el-row>
+      :closable="false"/>
+    </div>
+    </div>
+
     <el-dialog title="查看数据" width="80%" v-if="viewDataVisible"  v-dialogDrag :visible.sync="viewDataVisible">
-      <el-table :data="viewData.dataList">
+      <el-table size="small" :data="viewData.dataList">
         <el-table-column v-for="column in viewData.columnList" show-overflow-tooltip :key="column.name" :property="column.name" :label="column.description || column.name" ></el-table-column>
       </el-table>
     </el-dialog>
@@ -127,7 +123,6 @@
         orderBy: '',
         dataListSelections: [],
         loading: false,
-        selectDbName: '',
         dataSourceId: '',
         viewData: {
           columnList: [],
@@ -140,16 +135,13 @@
         this.$refs.databaseTree.filter(val)
       }
     },
-    computed: {
-      contentViewHeight () {
-        let height = this.$store.state.common.documentClientHeight - 122
-        return {minHeight: height + 'px'}
-      }
-    },
     activated () {
       this.refreshTree()
       if (this.searchForm.dataSourceId !== '') {
         this.refreshList()
+        this.$nextTick(() => {
+          this.$refs.databaseTree.setCurrentKey(this.searchForm.dataSourceId)
+        })
       }
     },
     methods: {
@@ -203,23 +195,18 @@
       handleNodeClick (data) {
         if (data.type === 'db') {
           this.searchForm.dataSourceId = data.id
-          this.selectDbName = '已选数据库: ' + data.label
           this.dataSourceId = data.id
           this.refreshList()
         }
       },
       handleNodeClose () {
         this.searchForm.dataSourceId = ''
-        this.selectDbName = ''
         this.dataSourceId = ''
         this.dataList = []
       },
       resetSearch () {
         this.$refs.searchForm.resetFields()
         this.refreshList()
-      },
-      edit (row) {
-  
       },
       view (row) {
         this.viewDataVisible = true

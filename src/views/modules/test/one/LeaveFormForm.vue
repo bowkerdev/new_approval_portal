@@ -5,11 +5,11 @@
     :close-on-click-modal="false"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" ref="inputForm" v-loading="loading" :class="method==='view'?'readonly':''"  :disabled="method==='view'"
+    <el-form :model="inputForm" size="small" ref="inputForm" v-loading="loading" :class="method==='view'?'readonly':''"  :disabled="method==='view'"
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('归属部门')" prop="office.id"
+            <el-form-item label="归属部门" prop="office.id"
                 :rules="[
                   {required: true, message:'归属部门不能为空', trigger:'blur'}
                  ]">
@@ -29,7 +29,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('员工')" prop="tuser.id"
+            <el-form-item label="员工" prop="tuser.id"
                 :rules="[
                   {required: true, message:'员工不能为空', trigger:'blur'}
                  ]">
@@ -37,7 +37,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('归属区域')" prop="area"
+            <el-form-item label="归属区域" prop="area"
                 :rules="[
                  ]">
                       <CityPicker 
@@ -49,7 +49,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('请假开始日期')" prop="beginDate"
+            <el-form-item label="请假开始日期" prop="beginDate"
                 :rules="[
                   {required: true, message:'请假开始日期不能为空', trigger:'blur'},
                   {validator: validator.date, trigger:'blur'}
@@ -59,12 +59,12 @@
                       v-model="inputForm.beginDate"
                       type="datetime"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      :placeholder="$i18nMy.t('选择日期时间')">
+                      placeholder="选择日期时间">
                     </el-date-picker>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('请假结束日期')" prop="endDate"
+            <el-form-item label="请假结束日期" prop="endDate"
                 :rules="[
                   {required: true, message:'请假结束日期不能为空', trigger:'blur'},
                   {validator: validator.date, trigger:'blur'}
@@ -74,22 +74,22 @@
                       v-model="inputForm.endDate"
                       type="datetime"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      :placeholder="$i18nMy.t('选择日期时间')">
+                      placeholder="选择日期时间">
                     </el-date-picker>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('备注信息')" prop="remarks"
+            <el-form-item label="备注信息" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写备注信息')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" placeholder="请填写备注信息"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
+      <el-button size="small" @click="visible = false">关闭</el-button>
+      <el-button size="small" type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>确定</el-button>
     </span>
   </el-dialog>
 </div>
@@ -131,11 +131,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = $i18nMy.t('新建请假表单')
+          this.title = `新建请假表单`
         } else if (method === 'edit') {
-          this.title = $i18nMy.t('修改请假表单')
+          this.title = '修改请假表单'
         } else if (method === 'view') {
-          this.title = $i18nMy.t('查看请假表单')
+          this.title = '查看请假表单'
         }
         this.visible = true
         this.loading = false

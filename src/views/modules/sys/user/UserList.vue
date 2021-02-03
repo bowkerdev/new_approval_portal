@@ -1,42 +1,40 @@
 <template>
-  <div>
-    <el-row :gutter="10">
-    <el-col :span="5">
-      <el-card  shadow="never" :body-style="contentViewHeight">
-      <el-tag
-        closable
-        size="small"
-        style="margin-bottom:5px"
-        v-if="selectOfficeName"
-        :disable-transitions="false"
-        @close="handleNodeClose">
-        {{selectOfficeName}}
-      </el-tag>
-      <el-input
+    <div class="jp-common-layout page">
+      <div class="jp-common-layout-left">
+        <div class="jp-common-title"> 
+          <el-input
         :placeholder="$i18nMy.t('输入关键字进行过滤')"
-        size="small"
-        v-model="filterText">
-      </el-input>
-      <el-tree
-        class="filter-tree"
-        :data="officeTreeData"
-        :props="{
-              value: 'id',             // ID字段名
-              label: 'name',         // 显示名称
-              children: 'children'    // 子级字段名
-            }"
-        default-expand-all
-        :filter-node-method="filterNode"
-        :expand-on-click-node="false"
-        @node-click="handleNodeClick"
-        ref="officeTree">
-      </el-tree>
-       </el-card>
-    </el-col>
-
-    <el-col :span="19">
-     <el-card  shadow="never" :body-style="contentViewHeight">
-     <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+          size="small"
+          clearable
+          v-model="filterText">
+        </el-input>
+        </div>
+      <div class="jp-common-el-tree-scrollbar el-scrollbar">
+      <div class="el-scrollbar__wrap">
+        <div class="el-scrollbar__view">
+            <el-tree
+              class="filter-tree jp-common-el-tree"
+              :render-content="renderContent"
+              :data="officeTreeData"
+              :props="{
+                    value: 'id',             // ID字段名
+                    label: 'name',         // 显示名称
+                    children: 'children'    // 子级字段名
+                  }"
+              node-key="id"
+              default-expand-all
+              :filter-node-method="filterNode"
+              :expand-on-click-node="false"
+              highlight-current
+              @node-click="handleNodeClick"
+              ref="officeTree">
+            </el-tree>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="jp-common-layout-center jp-flex-main">
+     <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="loginName">
           <el-input size="small" v-model="searchForm.loginName" :placeholder="$i18nMy.t('登录名')" clearable></el-input>
          </el-form-item>
@@ -48,59 +46,56 @@
         <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
       </el-form-item>
       </el-form>
-      <el-form :inline="true" v-show="isImportCollapse" ref="importForm">
-        <el-form-item>
+      <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
+        <el-form size="small" :inline="true" ref="importForm">
+          <el-form-item>
           <el-button  type="default" @click="downloadTpl()" size="small">{{$i18nMy.t('下载模板')}}</el-button>
-        </el-form-item>
-         <el-form-item prop="loginName">
-            <el-upload
-              class="upload-demo"
-              :action="`${this.$http.BASE_URL}/sys/user/import`"
-              :on-success="handleSuccess"
-              :before-upload="beforeUpload"
-               :show-file-list="true">
+          </el-form-item>
+          <el-form-item prop="loginName">
+              <el-upload
+                class="upload-demo"
+                :action="`${this.$http.BASE_URL}/sys/user/import`"
+                :on-success="handleSuccess"
+                :before-upload="beforeUpload"
+                :show-file-list="true">
               <el-button size="small" type="primary">{{$i18nMy.t('点击上传')}}</el-button>
-              <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
-            </el-upload>
-        </el-form-item>
-      </el-form>
+                <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
+              </el-upload>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
+    <div class="bg-white top">
       <el-row>
         <el-button v-if="hasPermission('sys:user:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('sys:user:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
          :disabled="dataListSelections.length != 1" plain>{{$i18nMy.t('修改')}}</el-button>
-        <el-button v-if="hasPermission('sys:user:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
-         <el-button-group class="pull-right">
-            <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-              <el-button
-                type="default"
-                size="small"
-                icon="el-icon-search"
-                @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-              </el-button>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="导入" placement="top">
-                <el-button v-if="hasPermission('sys:user:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="导出" placement="top">
-              <el-button v-if="hasPermission('sys:user:export')" type="default" size="small" icon="el-icon-download" title="导出" @click="exportExcel()"></el-button>
-            </el-tooltip>
-             <el-tooltip class="item" effect="dark" content="刷新" placement="top">
-              <el-button
-                type="default"
-                size="small"
-                icon="el-icon-refresh"
-                @click="refreshList">
-              </el-button>
-            </el-tooltip>
-        </el-button-group>
-      </el-row>
+      <el-button v-if="hasPermission('sys:user:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
+                :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}
+      </el-button>
+        <el-button-group class="pull-right">
+          <el-tooltip class="item" effect="dark" content="导入" placement="top">
+              <el-button v-if="hasPermission('sys:user:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse"></el-button>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="导出" placement="top">
+            <el-button v-if="hasPermission('sys:user:export')" type="default" size="small" icon="el-icon-download" title="导出" @click="exportExcel()"></el-button>
+          </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="刷新" placement="top">
+            <el-button 
+              type="default"
+              size="small"
+              icon="el-icon-refresh"
+              @click="refreshList">
+            </el-button>     
+          </el-tooltip>
+      </el-button-group>
+    </el-row>
     <el-table
       :data="dataList"
       v-loading="loading"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
-      size="medium"
+      size="small"
+      height="calc(100% - 80px)"
       class="table">
       <el-table-column
         type="selection"
@@ -115,7 +110,7 @@
          min-width="80"
         :label="$i18nMy.t('头像')">
         <template slot-scope="scope">
-          <img :src="scope.row.photo === ''?'/static/img/avatar.png':scope.row.photo" style="height:50px"/>
+          <img :src="scope.row.photo === ''?'/static/img/avatar.png':scope.row.photo" style="height:35px"/>
         </template>
       </el-table-column>
       <el-table-column
@@ -168,6 +163,7 @@
       </el-table-column>
       <el-table-column
         fixed="right"
+        :key="Math.random()"
         header-align="center"
         align="center"
         width="200"
@@ -188,14 +184,12 @@
       :total="total"
       background
       layout="total, sizes, prev, pager, next, jumper">
-    </el-pagination>
-     </el-card>
-    </el-col>
-    </el-row>
-
+    </el-pagination> 
+    </div>
     <!-- 弹窗, 新增 / 修改 -->
     <user-form  ref="userForm" @refreshDataList="refreshList"></user-form>
-  </div>
+    </div>
+    </div>
 </template>
 
 <script>
@@ -223,10 +217,8 @@
         total: 0,
         orderBy: '',
         dataListSelections: [],
-        isSearchCollapse: false,
         isImportCollapse: false,
-        loading: false,
-        selectOfficeName: ''
+        loading: false
       }
     },
     components: {
@@ -241,16 +233,20 @@
         this.$refs.officeTree.filter(val)
       }
     },
-    computed: {
-      contentViewHeight () {
-        let height = this.$store.state.common.documentClientHeight - 122
-        return {minHeight: height + 'px'}
-      }
-    },
     methods: {
       filterNode (value, data) {
         if (!value) return true
         return data.name.indexOf(value) !== -1
+      },
+      renderContent (h, { node, data, store }) {
+        return (
+              <span class="custom-tree-node">
+                {
+                  data.type === '1' ? <i class="fa fa-sitemap"></i> : <i class="fa fa-users"></i>
+                }
+                <span class="text">{node.label}</span>
+              </span>
+        )
       },
       // 获取数据列表
       refreshList () {
@@ -376,13 +372,6 @@
           this.searchForm.company.id = ''
           this.searchForm.office.id = data.id
         }
-        this.selectOfficeName = '已选机构: ' + data.name
-        this.refreshList()
-      },
-      handleNodeClose () {
-        this.searchForm.company.id = ''
-        this.searchForm.office.id = ''
-        this.selectOfficeName = ''
         this.refreshList()
       },
       beforeUpload (file) {
@@ -405,10 +394,16 @@
       resetSearch () {
         this.searchForm.company.id = ''
         this.searchForm.office.id = ''
-        this.selectOfficeName = ''
+        this.filterText = ''
+        this.$refs.officeTree.setCurrentKey(null)
         this.$refs.searchForm.resetFields()
         this.refreshList()
       }
     }
   }
 </script>
+<style lang="scss">
+.el-card__body {
+    overflow: auto;
+}
+</style>

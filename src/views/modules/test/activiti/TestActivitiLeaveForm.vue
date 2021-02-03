@@ -1,20 +1,20 @@
 <template>
 <div>
-    <el-form :model="inputForm" ref="inputForm" v-loading="loading"   :disabled="formReadOnly"
+    <el-form size="small" :model="inputForm" ref="inputForm" v-loading="loading" :disabled="formReadOnly"
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="24">
-            <el-form-item :label="$i18nMy.t('请假类型')" prop="leaveType"
+            <el-form-item label="请假类型" prop="leaveType"
                 :rules="[
                   {required: true, message:'请假类型不能为空', trigger:'blur'}
                  ]">
                     <el-radio-group v-model="inputForm.leaveType">
-                        <el-radio v-for="item in $dictUtils.getDictList('oa_leave_type')" :label="item.value" :key="item.id">{{item.label}}</el-radio>
+                        <el-radio v-for="item in $dictUtils.getDictList('oa_leave_type')" :label="item.value" :key="item.value">{{item.label}}</el-radio>
                     </el-radio-group>
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="$i18nMy.t('请假开始时间')" prop="startTime"
+            <el-form-item label="请假开始时间" prop="startTime"
                 :rules="[
                   {required: true, message:'请假开始时间不能为空', trigger:'blur'}
                  ]">
@@ -23,12 +23,12 @@
                       type="datetime"
                       style="width: 100%;"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      :placeholder="$i18nMy.t('选择日期时间')">
+                      placeholder="选择日期时间">
                     </el-date-picker>
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="$i18nMy.t('请假结束时间')" prop="endTime"
+            <el-form-item label="请假结束时间" prop="endTime"
                 :rules="[
                   {required: true, message:'请假结束时间不能为空', trigger:'blur'}
                  ]">
@@ -37,16 +37,16 @@
                       type="datetime"
                       style="width: 100%;"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      :placeholder="$i18nMy.t('选择日期时间')">
+                      placeholder="选择日期时间">
                     </el-date-picker>
            </el-form-item>
         </el-col>
         <el-col :span="24">
-            <el-form-item :label="$i18nMy.t('请假事由')" prop="reason"
+            <el-form-item label="请假事由" prop="reason"
                 :rules="[
                   {required: true, message:'请假事由不能为空', trigger:'blur'}
                  ]">
-          <el-input type="textarea" v-model="inputForm.reason" :placeholder="$i18nMy.t('请填写请假事由')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.reason" placeholder="请填写请假事由"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

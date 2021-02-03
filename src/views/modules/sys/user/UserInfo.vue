@@ -1,8 +1,10 @@
 <template>
+<div class="el-scrollbar__wrap wrap-white padding-20">
+  <div class="el-scrollbar__view">
 <el-tabs tab-position="left">
     <el-tab-pane :label="$i18nMy.t('基本信息')">
       <h3 style="margin-left:40px">{{$i18nMy.t('基本信息')}}</h3>
-      <el-form :model="generalForm" ref="generalForm" label-width="100px">
+      <el-form size="small" :model="generalForm" ref="generalForm" label-width="100px">
         <el-form-item :label="$i18nMy.t('姓名')" :rules="[ { required: true, message: $i18nMy.t('必填项不能为空'), trigger: 'blur' }]" prop="name">
           <el-input v-model="generalForm.name"></el-input>
         </el-form-item>
@@ -19,13 +21,13 @@
           <el-input v-model="generalForm.remarks"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitGeneralForm()">{{$i18nMy.t('保存')}}</el-button>
+          <el-button size="small" type="primary" @click="submitGeneralForm()">{{$i18nMy.t('保存')}}</el-button>
         </el-form-item>
       </el-form>
     </el-tab-pane>
     <el-tab-pane :label="$i18nMy.t('联系方式')">
       <h3 style="margin-left:40px">{{$i18nMy.t('联系方式')}}</h3>
-      <el-form :model="concatForm" ref="concatForm" label-width="100px">
+      <el-form size="small" :model="concatForm" ref="concatForm" label-width="100px">
         <el-form-item :label="$i18nMy.t('邮箱')" :rules="[{type:'email', message:'请输入正确的邮箱地址', trigger:'blur'}]" prop="email">
           <el-input v-model="concatForm.email"></el-input>
         </el-form-item>
@@ -36,7 +38,7 @@
           <el-input v-model="concatForm.phone"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitConcatForm()">{{$i18nMy.t('保存')}}</el-button>
+          <el-button  size="small" type="primary" @click="submitConcatForm()">{{$i18nMy.t('保存')}}</el-button>
         </el-form-item>
       </el-form>
     </el-tab-pane>
@@ -83,7 +85,7 @@
         </el-menu>
         <el-table
           :data="dataList"
-          border
+          size="small"
           v-loading = "loading"
           class="table">
           <el-table-column
@@ -149,6 +151,8 @@
       </el-pagination>
     </el-tab-pane>
   </el-tabs>
+</div>
+</div>
 </template>
 
 <script>

@@ -5,7 +5,7 @@
      v-dialogDrag
     :close-on-click-modal="false"
     :visible.sync="visible">
-    <el-form :model="inputForm" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" ref="inputForm" @keyup.enter.native="doSubmit()"
+    <el-form size="small" :model="inputForm" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" ref="inputForm" @keyup.enter.native="doSubmit()"
              label-width="120px" @submit.native.prevent>
           <el-form-item :label="$i18nMy.t('数据规则名称')" prop="name">
               <el-input  v-model="inputForm.name" :placeholder="$i18nMy.t('数据规则名称')"></el-input>

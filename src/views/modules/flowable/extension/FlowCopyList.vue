@@ -1,14 +1,14 @@
 <template>
-  <div>
+  <div class="page bg-white">
       <el-row>
         <el-button v-if="hasPermission('extension:flowCopy:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
                   :disabled="dataListSelections.length <= 0">{{$i18nMy.t('删除')}}</el-button>
       </el-row>
     <el-table
       :data="dataList"
-      border
-      size = "medium"
+      size = "small"
       v-loading = "loading"
+      height="calc(100% - 80px)"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       class="table">

@@ -1,7 +1,6 @@
 <template>
-  <div>
-
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page">
+      <el-form size="small" :inline="true"  class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="type">
           <el-input size="small" v-model="searchForm.type" :placeholder="$i18nMy.t('类型')" clearable></el-input>
         </el-form-item>
@@ -17,14 +16,6 @@
         <el-button v-if="hasPermission('sys:dict:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
                   :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
         <el-button-group class="pull-right">
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button 
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button 
               type="default"
@@ -38,8 +29,8 @@
         <el-table
           :data="dataList"
           v-loading="loading"
-          border
-          size="medium"
+          size="small"
+          height="calc(100% - 80px)"
           @selection-change="selectionChangeHandle"
           @sort-change="sortChangeHandle"
           class="table">
@@ -92,7 +83,7 @@
       background
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
-
+      </div>
     <!-- 弹窗, 新增 / 修改 -->
     <dict-type-form  ref="dictTypeForm" @refreshDataList="refreshList"></dict-type-form>
     <el-drawer
@@ -122,7 +113,6 @@ export default {
         total: 0,
         orderBy: '',
         dataListSelections: [],
-        isSearchCollapse: false,
         dictTypeTitle: '',
         rightVisible: false,
         loading: false

@@ -5,8 +5,8 @@
     :close-on-click-modal="false"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" :rules="dataRule" ref="inputForm" @keyup.enter.native="doSubmit()"
-             label-width="150px" @submit.native.prevent>
+    <el-form size="small" :model="inputForm" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" :rules="dataRule" ref="inputForm" @keyup.enter.native="doSubmit()"
+             label-width="100px" @submit.native.prevent>
            <el-form-item :label="$i18nMy.t('平台')" prop="type">
              <el-radio-group v-model="inputForm.platform" @change="getTreeData">
                <el-radio v-for="(itme, index) in $dictUtils.getDictList('PLATFORM')" :label="itme.value.toString()" :key="itme.value">{{ itme.label }}</el-radio>
@@ -55,10 +55,10 @@
               <el-radio v-for="item in this.$dictUtils.getDictList('show_hide')" :label="item.value" :key="item.id">{{item.label}}</el-radio>
             </el-radio-group>
           </el-form-item>
-         <el-form-item v-if="inputForm.type == '1'"  :label="$i18nMy.t('页面背景色')" prop="backgroundType">
-            <el-radio-group v-model="inputForm.backgroundType">
-              <el-radio label="1">{{$i18nMy.t('白色')}}</el-radio>
-              <el-radio label="2">{{$i18nMy.t('透明')}}</el-radio>
+         <el-form-item v-if="inputForm.type == '1'"  :label="$i18nMy.t('固定在标签栏')" prop="affix">
+            <el-radio-group v-model="inputForm.affix">
+              <el-radio label="1">{{$i18nMy.t('是')}}</el-radio>
+              <el-radio label="2">{{$i18nMy.t('否')}}</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item v-if="inputForm.type !== '0' && inputForm.type !== '3'" :label="$i18nMy.t('授权标识')" prop="permission">
@@ -73,8 +73,8 @@
           </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
-      <el-button v-if="method != 'view'" type="primary" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
+      <el-button size="small" @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button size="small" v-if="method != 'view'" type="primary" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
   <Icon ref="icon" @getValue="value => inputForm.icon = value"></Icon>
@@ -119,8 +119,7 @@
           remarks: '',
           target: '',
           isShow: '1',
-          backgroundType: '1',
-          platform:'portal'
+          affix: '2'
         },
         dataRule: {
           name: [
@@ -170,7 +169,7 @@
             this.$refs.menuParentTree.clearHandle()
             this.inputForm.parent.id = obj.parent.id
             this.inputForm.parent.name = obj.parent.name
-            this.$refs.menuParentTree.setTreeList(this.menuList)
+            this.$refs.menuParentTree.setTreeList(this.menuList) // 解决没值的bug
             this.$refs.menuParentTree.setCurrentKey(this.inputForm.parent.id , this.inputForm.parent.name)
             this.$refs.menuParentTree.initHandle ()
           })
@@ -188,7 +187,7 @@
           }
         })
       },
-      getTreeData(){
+      getTreeData(){ // 解决没值的bug
         this.$http({
           url: `/sys/menu/treeData?extId=${this.inputForm.id}&platform=${this.inputForm.platform}`,
           method: 'get'

@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page">
+      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
 		     <el-form-item prop="name">
                 <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('名称')" clearable></el-input>
@@ -13,21 +13,12 @@
             <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
+      <div class="top bg-white">
       <el-row>
         <el-button v-if="hasPermission('extension:button:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('extension:button:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
          :disabled="dataListSelections.length != 1">{{$i18nMy.t('修改')}}</el-button>
-        <el-button v-if="hasPermission('extension:button:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0">{{$i18nMy.t('删除')}}</el-button>
         <el-button-group class="pull-right">
-          <el-tooltip class="item" effect="dark" content="搜索" placement="top">
-            <el-button 
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button 
               type="default"
@@ -40,8 +31,8 @@
       </el-row>
     <el-table
       :data="dataList"
-      border
-      size = "medium"
+      size = "small"
+      height="calc(100% - 80px)"
       v-loading="loading"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
@@ -114,7 +105,6 @@
         total: 0,
         orderBy: '',
         dataListSelections: [],
-        isSearchCollapse: false,
         isImportCollapse: false,
         loading: false
       }
@@ -189,11 +179,18 @@
       view (id) {
         this.$refs.buttonForm.init('view', id)
       },
+      isDefaultButton (code) {
+        let defaultButtons = ['_flow_save', '_flow_agree', '_flow_reject', '_flow_back', '_flow_add_multi_instance', '_flow_del_multi_instance', '_flow_transfer', '_flow_delegate', '_flow_stop', '_flow_print']
+        return defaultButtons.filter((val) => {
+          return code === val
+        }).length > 0
+      },
       // 删除
-      del (id) {
-        let ids = id || this.dataListSelections.map(item => {
-          return item.id
-        }).join(',')
+      del (row) {
+        if (this.isDefaultButton(row.code)) {
+          this.$message.error(`不能删除预设按钮【${row.name}】`)
+          return
+        }
         this.$confirm(`确定删除所选项吗?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -203,7 +200,7 @@
           this.$http({
             url: '/extension/button/delete',
             method: 'delete',
-            params: {'ids': ids}
+            params: {'ids': row.id}
           }).then(({data}) => {
             this.loading = false
             if (data && data.success) {

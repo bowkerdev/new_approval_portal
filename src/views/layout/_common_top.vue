@@ -17,7 +17,7 @@
       </h1>
     </div>
     <div class="jp-navbar__body clearfix" style="overflow:hidden">
-      
+
       <el-menu
         class="jp-navbar__menu"
         mode="horizontal">
@@ -25,7 +25,7 @@
              <i  :class="sidebarFold ? 'fa fa-indent':'fa fa-outdent'"></i>
         </el-menu-item>
       </el-menu>
-    
+
       <el-menu class="jp-navbar__menu " :default-active="topMenuActiveIndex" ref="topMenu"  mode="horizontal">
         <el-menu-item  class="el_menu_item" v-for="menu in topMenuList"
           :index="menu.id"
@@ -50,7 +50,7 @@
           </el-menu-item>
         </el-submenu>
         </el-menu>
-      
+
       <el-menu
         class="jp-navbar__menu jp-navbar__menu--right"
         mode="horizontal">
@@ -121,9 +121,9 @@
         languageList:[],
         language: "中国 中文",
         languageIcon: "/static/images/china.png",
-        screenWidth: document.body.clientWidth
-        /* noticeTabs: [
-          {
+        screenWidth: document.body.clientWidth,
+        noticeTabs: [
+        /*  {
             title: '通知',
             count: 0,
             list: [
@@ -138,8 +138,8 @@
             ],
             emptyText: '你已读完所有消息',
             emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg'
-          }
-        ] */
+          }*/
+        ]
       }
     },
     components: {

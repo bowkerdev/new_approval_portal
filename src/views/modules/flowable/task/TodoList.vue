@@ -20,6 +20,7 @@
           <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
         </el-form-item>
       </el-form>
+      <div class="top bg-white">
       <el-row>
         <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">

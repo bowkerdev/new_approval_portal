@@ -54,11 +54,11 @@
       <el-menu
         class="jp-navbar__menu jp-navbar__menu--right"
         mode="horizontal">
-         <el-menu-item class="hide-sm">
+<!--        <el-menu-item class="hide-sm">
           <template slot="title">
                 <color-picker></color-picker>
           </template>
-        </el-menu-item>
+        </el-menu-item> 
         <el-menu-item class="hide-sm">
           <template slot="title">
                 <notice-icon
@@ -66,7 +66,7 @@
                     :tabs="noticeTabs" >
               </notice-icon>
           </template>
-        </el-menu-item>
+        </el-menu-item> -->
         <el-menu-item class="jp-navbar__avatar">
           <el-dropdown :show-timeout="0" placement="bottom">
             <span class="el-dropdown-link">
@@ -92,11 +92,11 @@
             </el-dropdown-menu>
           </el-dropdown>
         </el-menu-item>
-        <el-menu-item class="hide-sm"  @click="showRight">
+<!--        <el-menu-item class="hide-sm"  @click="showRight">
           <template slot="title">
                <i class="el-icon-more rotate-90" @click="showRight"></i>
           </template>
-        </el-menu-item>
+        </el-menu-item> -->
       </el-menu>
     </div>
     <!-- 弹窗, 修改密码 -->

@@ -21,8 +21,8 @@
             <el-button type="primary" @click="doSubmit(loginFormSetting)">{{$i18nMy.t('保存')}}</el-button>
           </el-form-item>
         </el-form>
-         
-          
+
+
       </el-card>
     </el-tab-pane>
     <el-tab-pane :label="$i18nMy.t('外观')" name="second">
@@ -242,7 +242,12 @@
     },
     methods: {
       handleAvatarSuccess (res, file) {
-        this.themeFormSetting.logo = res.url
+        if(res.success){
+          this.themeFormSetting.logo = res.url
+        }
+        else{
+           this.$message.error(res.msg)
+        }
       },
 
       beforeAvatarUpload (file) {
@@ -275,8 +280,8 @@
 </script>
 <style>
 .themeColorTag{
-  width:25px !important; 
-  height:25px !important; 
+  width:25px !important;
+  height:25px !important;
 }
  .themeColorTag.el-tag + .el-tag {
     margin-left: 5px;

@@ -123,6 +123,14 @@
                 return console.error('未能找到可用标签页!')
               }
             }
+            else if(route.component == null&&route.meta!=null&&route.meta.isHome){
+              route = this.dynamicMenuRoutes.filter(item => item.meta.affix == true)[0]
+              if (!route) {
+                return console.error('未能找到可用标签页!')
+              }
+              this.$router.push(route.path)
+              return
+            }
             tab = {
               menuId: route.meta.menuId || route.name,
               name: route.name,

@@ -16,7 +16,7 @@ export default {
     // 侧边栏类型名
     leftMenuCategory: '',
     // 主入口标签页
-    mainTabs: [{name: 'home', title: '首页', fullPath: '/home'}],
+    mainTabs: [],
     mainTabsActiveName: 'home',
     // 当前选中的top menu的index
     topMenuActiveIndex: '0'

@@ -155,6 +155,7 @@
         rightVisible: false,
         loading: false,
         dataRuleTitle: '',
+        platform:'portal',
         dataList: []
       }
     },

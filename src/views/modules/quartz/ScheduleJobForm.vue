@@ -77,6 +77,13 @@
 			        <el-input v-model="inputForm.className" :placeholder="$i18nMy.t('请填写任务类')"     ></el-input>
 	         </el-form-item>
         </el-col>
+
+        <el-col :span="24">
+            <el-form-item :label="$i18nMy.t('参数')" prop="param"
+                :rules="[]">
+        	<el-input  v-model="inputForm.param" :placeholder="$i18nMy.t('参数')"     ></el-input>
+           </el-form-item>
+        </el-col>
         <el-col :span="24">
             <el-form-item :label="$i18nMy.t('描述')" prop="description"
                 :rules="[
@@ -103,7 +110,7 @@
 
 <script>
   import Cron from '@/components/Cron/Cron.vue'
-  
+
   export default {
     data () {
       return {
@@ -122,6 +129,7 @@
           status: '',
           isInfo: '',
           className: '',
+          param : '',
           description: ''
         },
         validateClassName: (rule, value, callback) => {

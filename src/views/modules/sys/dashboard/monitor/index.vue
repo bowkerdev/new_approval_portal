@@ -1,6 +1,6 @@
 <template>
-    <div class="el-scrollbar__wrap">
-    <div class="el-scrollbar__view">
+  <div class="el-scrollbar__wrap">
+  <div class="el-scrollbar__view">
     <el-row :gutter="10" style="margin-bottom: 10px">
       <el-col
         :lg="18" :md="24" :sm="24" :xs="24"
@@ -61,7 +61,7 @@
           header="券核效率"
         >
 
-        <ve-gauge 
+        <ve-gauge
           height="200px"
           :series=" [
           {
@@ -228,6 +228,7 @@
         </el-card>
       </el-col>
     </el-row>
+  </div>
   </div>
 </template>
 

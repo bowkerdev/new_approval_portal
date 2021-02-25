@@ -92,6 +92,13 @@
         show-overflow-tooltip
         :label="$i18nMy.t('任务类')">
       </el-table-column>
+    <el-table-column
+        prop="param"
+        sortable="custom"
+        show-overflow-tooltip
+        :label="$i18nMy.t('参数')">
+      </el-table-column>  
+      
 	  <el-table-column
         prop="description"
         sortable="custom"

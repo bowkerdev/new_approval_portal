@@ -1,5 +1,9 @@
 <template>
   <div class="page">
+      <!--      max teng 2021年2月25日 15:19:00-->
+      <el-row style="background-color: #9cc9ec;padding: 15px;margin-bottom: 5px;">
+        <el-col><font style="color: red;">*</font>为确保系统统一性，字典配置请遵循以下规则：字典类型只能使用英文小写字母，数字，下划线，并以英文字母开头命名；</el-col>
+      </el-row>
       <el-form size="small" :inline="true"  class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="type">
           <el-input size="small" v-model="searchForm.type" :placeholder="$i18nMy.t('类型')" clearable></el-input>

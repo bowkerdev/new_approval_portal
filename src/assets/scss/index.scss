@@ -1263,3 +1263,154 @@ span{
     height: calc(100% - 80px);
   }
 }
+
+/*AZ Fixed Toolbar*/
+.container-fluid{
+    padding: 10px 10px 0px 10px;
+.tip {
+  padding: 8px 16px;
+  background-color: #ecf8ff;
+  border-radius: 4px;
+  border-left: 5px solid #50bfff;
+  margin: 20px 0;
+}
+
+.float-tool-collapse{
+    background-color: #EAEAEA;
+    border-radius: 0px;
+    position: relative;
+    z-index: 10;
+    margin: 0px -20px;
+}
+.AZ-fix-toolbar{
+    background-color: black;
+    color: white;
+    margin: -20px -20px 0px -20px;
+    padding: 0px 10px;
+    height: 32px;
+}
+.AZ-fix-toolbar button,
+.AZ-fix-toolbar button.el-button--default,
+.AZ-fix-toolbar button.el-button--primary,
+.AZ-fix-toolbar button.el-button--danger,
+.AZ-fix-toolbar button.el-button--warning{
+    background-color: black;
+    // color: white;
+    border: none;
+    border-radius: 0px;
+    position: relative;
+}
+.AZ-fix-toolbar button.el-button--default{
+  color: white;
+}
+.AZ-fix-toolbar button .float-menu{
+    position: absolute;
+    top: 32px;
+    left: 0px;
+    height: 0px;
+    opacity: 0;
+    overflow: hidden;
+    z-index:1002;
+}
+.AZ-fix-toolbar button:hover .float-menu{
+    opacity: 1;
+    height: auto;
+}
+.AZ-fix-toolbar button .float-menu .section-title{
+    color: black;
+    background-color: #BED7ED;
+}
+.AZ-fix-toolbar button .float-menu ul{
+    color: white;
+    background-color: #3376B3;
+    text-align: left;
+    padding-bottom: 10px;
+}
+
+.AZ-fix-toolbar button .float-menu ul li{
+    padding: 3px;
+    list-style-type: square;
+}
+
+.AZ-fix-toolbar button .float-menu ul li:hover{
+    background-color: #5396D3;
+}
+
+.AZ-fix-toolbar select,
+.AZ-fix-toolbar select.jp-input{
+    position: relative;
+    display: inline-block;
+    padding: 4px 11px;
+    height: 32px;
+    width: auto;
+    color: red;
+    background-color: transparent;
+    background-image: none;
+    border: none;
+    border-radius: 0px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.AZ-fix-toolbar select.jp-input.offpanel-on {
+    color: #4472c4;
+}
+
+.AZ-fix-toolbar button:hover,
+.AZ-fix-toolbar button:active,
+.AZ-fix-toolbar button:focus,
+.AZ-fix-toolbar button.el-button--default:hover,
+.AZ-fix-toolbar button.el-button--default:active,
+.AZ-fix-toolbar button.el-button--default:focus,
+.AZ-fix-toolbar button.el-button--primary:hover,
+.AZ-fix-toolbar button.el-button--primary:active,
+.AZ-fix-toolbar button.el-button--primary:focus,
+.AZ-fix-toolbar .customtab li a:hover{
+    background-color: #555555;
+    color: white;
+}
+.AZ-fix-toolbar button.el-button--warning:hover,
+.AZ-fix-toolbar button.el-button--warning:active,
+.AZ-fix-toolbar button.el-button--warning:focus{
+    background-color: #a05f0f;
+}
+.AZ-fix-toolbar button.el-button--danger:hover,
+.AZ-fix-toolbar button.el-button--danger:active,
+.AZ-fix-toolbar button.el-button--danger:focus{
+    background-color: darkred;
+}
+.AZ-fix-toolbar button.el-button.is-disabled:disabled,
+.AZ-fix-toolbar button.el-button.is-disabled:disabled:hover{
+    background-color: black;
+    color: #555555 !important;
+}
+.AZ-fix-toolbar .customtab{
+    display: inline-block;
+    height: 32px;
+    border: none;
+}
+.AZ-fix-toolbar .customtab li>a{
+    background-color: black;
+    color: white;
+    height: 32px;
+    line-height: 32px;
+    white-space: nowrap;
+    padding: 0px 15px;
+}
+
+.AZ-fix-toolbar li .jp-btn.active,
+.AZ-fix-toolbar li .jp-btn.active:active,
+.AZ-fix-toolbar li .jp-btn.active:focus,
+.AZ-fix-toolbar li .jp-btn.active:hover,
+.AZ-fix-toolbar .customtab li.active a,
+.AZ-fix-toolbar .customtab li.active a:focus,
+.AZ-fix-toolbar .customtab li.active a:hover{
+    background-color: #EAEAEA !important;
+    border: none;
+    color: #325694 !important;
+    font-weight: normal;
+}
+.AZ-fix-toolbar .float-tool-collapse .tab-pane{
+    color: black;
+    padding: 0px 0px 30px 0px;
+}

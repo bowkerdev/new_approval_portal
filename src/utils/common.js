@@ -13,8 +13,92 @@ var PI = 3.1415926535897932384626;
 var a = 6378245.0;
 var ee = 0.00669342162296594323;
 
-
 export default {
+  distinct : function (list){
+  	var arr = list,i,obj = {},result = [],len = arr.length;
+  	for(i = 0; i< arr.length; i++){
+  	   if(!obj[arr[i]]){ //如果能查找到，证明数组元素重复了
+  		   obj[arr[i]] = 1;
+  		   result.push(arr[i]);
+  	   }
+  	}
+  	return result;
+  },
+  find:function (list,comparisonFunction){
+    var arr=list;
+    for(var i=0;arr.length>i;i++){
+      if(comparisonFunction(arr[i]))return arr[i];
+    }
+  },
+  findArray:function (list,comparisonFunction){
+    var r=[];
+    var arr=list;
+    for(var i=0;arr.length>i;i++){
+      if(comparisonFunction(arr[i]))r.push(arr[i]);
+    }
+    return r;
+  },
+  unique:function(list,compare) {
+    list.sort();
+    var temp=[list[0]];
+    for(var i = 1; i < list.length; i++){
+      if(compare!=null){
+        if( compare(list[i],temp[temp.length-1])){
+          temp.push(list[i]);
+        }
+      }
+      else{
+        if( list[i] !== temp[temp.length-1]){
+          temp.push(list[i]);
+        }
+      }
+    }
+    return temp;
+  },
+  max:function(list, f) {
+    var max ;var rd;
+    list.forEach(function (o){
+      var data=f(o);
+      if(max==null){
+        max =data;
+        rd=o;
+      }
+      else{
+        if(max<data){
+          max=data;
+          rd=o;
+        }
+      }
+    });
+    return rd;
+  },
+
+  min:function(list, f) {
+    var min ;var rd;
+    list.forEach(function (o){
+      var data=f(o);
+      if(min==null){
+        min =data;
+        rd=o;
+      }
+      else{
+        if(min>data){
+          min=data;
+          rd=o;
+        }
+      }
+    });
+    return rd;
+  },
+  groupBy:function(list,f){
+    const groups = {};
+    list.forEach(function (o){
+      const group = f(o);
+      groups[group] = groups[group] || [];
+      groups[group].push(o);
+    });
+    return groups;
+  },
   // 获取
   getLocal(key = STORAGE_USER_KEY) {
     // console.log('get local operation')
@@ -191,6 +275,7 @@ export default {
     }
     return cs[paramName];     
   },
+
   filterApplyOption (searchForm,optionList){
     try{
       //清空选项后缀列表

@@ -20,8 +20,8 @@ Router.prototype.push = function push (location) {
 const _import = require('./import-' + process.env.NODE_ENV)
 // 全局路由
 const globalRoutes = [
-  {path: '/login', component: _import('modules/sys/login/login'), name: 'login', meta: {title: $i18nMy.t('登录')}},
-  {path: '/loginbowker', component: _import('modules/sys/login/loginbowker'), name: 'loginbowker', meta: {title: $i18nMy.t('登录')}}
+  {path: '/login', component: _import('modules/sys/login/login'), name: 'login', meta: {title: '登录'}},
+  {path: '/casLogin', component: _import('common/CasLogin'), name: 'casLogin', meta: { title: 'CAS登录' }}
 ]
 
 // 主入口路由
@@ -32,12 +32,14 @@ const mainRoutes = {
   redirect: {name: 'home'},
   meta: {title: '整体布局'},
   children: [
-    {path: '/form/generateList', component: _import('modules/form/GenerateList'), name: 'form-preview-list', meta: {title: $i18nMy.t('列表')}},
-    {path: '/home', component: _import('modules/wms/dashboard/WmsInventoryDashboard'), name: 'home', meta: {title: $i18nMy.t('首页'), backgroundType: '2'}},
+    {path: '/redirect/:path(.*)', component: _import('modules/redirect/index')},
+    {path: '/home', redirect: '',meta:{isHome:true} , name: 'home'},
     {path: '/flowable/task/TaskForm', component: _import('modules/flowable/task/TaskForm'), name: 'task-form', meta: {title: '流程表单'}},
+    {path: '/flowable/task/TaskFormEdit', component: _import('modules/flowable/task/TaskFormEdit'), name: 'task-form-edit', meta: {title: '流程表单'}},
     {path: '/flowable/task/TaskFormDetail', component: _import('modules/flowable/task/TaskFormDetail'), name: 'task-form-detail', meta: {title: '流程表单详情'}},
     {path: '/form/generateList', component: _import('modules/form/GenerateList'), name: 'form-preview-list', meta: {title: '列表'}},
-    {path: '/form/explorer', component: null, name: 'form-explorer', meta: {title: $i18nMy.t('浏览器'), type: 'iframe'}},
+    {path: '/echarts/GenerateChart', component: _import('modules/echarts/GenerateChart'), name: 'echarts-generate', meta: {title: '预览图表'}},
+    {path: '/form/explorer', component: null, name: 'form-explorer', meta: {title: '浏览器', type: 'iframe'}},
     {path: '/404', component: _import('common/404'), name: '404', meta: {title: '404未找到'}}
 
   ],

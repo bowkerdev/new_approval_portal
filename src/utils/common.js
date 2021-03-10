@@ -23,7 +23,7 @@ export default {
   	   }
   	}
   	return result;
-  };
+  },
   find:function (list,comparisonFunction){
     var arr=list;
     for(var i=0;arr.length>i;i++){

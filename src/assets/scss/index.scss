@@ -187,7 +187,7 @@ img {
           color: #515a6e;
         }
       }
-      
+
     }
   }
   &__header {
@@ -499,7 +499,7 @@ img {
   .el-icon-star-on{
     color:#67c23a !important;
   }
-} 
+}
 .operation-container {
 .cell {
   padding: 10px !important;
@@ -1267,6 +1267,7 @@ span{
 /*AZ Fixed Toolbar*/
 .container-fluid{
     padding: 10px 10px 0px 10px;
+}
 .tip {
   padding: 8px 16px;
   background-color: #ecf8ff;
@@ -1442,4 +1443,11 @@ span{
 .AZ-table th .cell{
   white-space: nowrap;
 }
-.AZ-anime{-webkit-transition-timing-function: ease;-o-transition-timing-function: ease;transition-timing-function: ease;-webkit-transition-duration: .5s;-o-transition-duration: .5s;transition-duration: .5s;}
+.AZ-anime{
+  -webkit-transition-timing-function: ease;
+  -o-transition-timing-function: ease;
+  transition-timing-function: ease;
+  -webkit-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+}

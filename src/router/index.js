@@ -42,38 +42,29 @@ const mainRoutes = {
     {path: '/form/explorer', component: null, name: 'form-explorer', meta: {title: '浏览器', type: 'iframe'}},
     {path: '/404', component: _import('common/404'), name: '404', meta: {title: '404未找到'}}
 
-  ],
-  beforeEnter (to, from, next) {
-    let token = Vue.cookie.get('token')
-    if (!token || !/\S/.test(token)) {
-      clearLoginInfo()
-      next({name: 'login'})
-    }
-    next()
-  }
+  ]
 }
 
 const router = new Router({
   mode: 'hash',
-  // mode: 'history',
   scrollBehavior: () => ({y: 0}),
   isAddDynamicMenuRoutes: false, // 是否已经添加动态(菜单)路由
   routes: globalRoutes.concat(mainRoutes)
 })
 
+  // 添加动态(菜单)路由
 router.beforeEach((to, from, next) => {
-	
-	if('AMS' !== process.env.VUE_APP_SYSTEM){
-		var tmp=common.getUrlParam("token");
-		  if(tmp!=null){
-		    Vue.cookie.set('token', tmp);
-		    var tmp2=common.getUrlParam("refreshToken");
-		    if(tmp2==null){
-		      tmp2=tmp;
-		    }
-		    Vue.cookie.set('refreshToken', tmp2);
-		  }
-	}
+  if('AMS' !== process.env.VUE_APP_SYSTEM){
+    var tmp=common.getUrlParam("token");
+      if(tmp!=null){
+        Vue.cookie.set('token', tmp);
+        var tmp2=common.getUrlParam("refreshToken");
+        if(tmp2==null){
+          tmp2=tmp;
+        }
+        Vue.cookie.set('refreshToken', tmp2);
+      }
+  }
   try{
     if(sessionStorage.getItem('dictList')==null ){
       http({
@@ -104,12 +95,26 @@ router.beforeEach((to, from, next) => {
   }catch(e){
     console.log(e.message)
   }
-
-
-  // 添加动态(菜单)路由
-  if (router.options.isAddDynamicMenuRoutes || fnCurrentRouteType(to, globalRoutes) === 'global') {
+  
+  let token = Vue.cookie.get('token')
+  if (!token || !/\S/.test(token)) { // token为空，跳转到login登录
+    clearLoginInfo()
+    if (process.env.VUE_APP_SSO_LOGIN === 'true') { // 如果是单点登录
+      if (to.name === 'casLogin') { // 单点登录跳转页面获取token
+        next()
+      } else {
+        window.location.href = `${process.env.VUE_APP_CAS_SERVER}/login?service=${process.env.VUE_APP_CLIENT_LOGIN}`
+      }
+    } else {
+      if (fnCurrentRouteType(to, globalRoutes) === 'global') {
+        next()
+      } else {
+        next({name: 'login'})
+      }
+    }
+  } else if (router.options.isAddDynamicMenuRoutes) { // 如果已经包含权限
     next()
-  } else {
+  } else { // 请求权限
     http({
       url: '/sys/user/getMenus',
       method: 'get'
@@ -160,7 +165,6 @@ function fnAddDynamicMenuRoutes (menuList = [], routes = []) {
     if (menuList[i].children && menuList[i].children.length >= 1) {
       temp = temp.concat(menuList[i].children)
     }
-
     if (menuList[i].href && /\S/.test(menuList[i].href)) {
       menuList[i].href = menuList[i].href.replace(/[/]$/, '')
       const route = {
@@ -173,7 +177,7 @@ function fnAddDynamicMenuRoutes (menuList = [], routes = []) {
           title: menuList[i].name,
           isDynamic: true,
           type: menuList[i].target,
-          backgroundType: menuList[i].backgroundType,
+          affix: menuList[i].affix === '1',
           iframeUrl: ''
         }
       }
@@ -186,7 +190,9 @@ function fnAddDynamicMenuRoutes (menuList = [], routes = []) {
         route['meta']['iframeUrl'] = `${process.env.VUE_APP_SERVER_URL}${menuList[i].href}`
       } else {
         try {
-          route['component'] = _import(`modules${menuList[i].href.split('?')[0]}`) || null
+          if (menuList[i].href) {
+            route['component'] = _import(`modules${menuList[i].href.split('?')[0]}`) || null
+          }
         } catch (e) {
           console.log(e)
         }

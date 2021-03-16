@@ -81,7 +81,7 @@
           </el-table>
            <el-button type="primary" size="small" @click="addRow" style="margin-top:10px;margin-bottom:10px">{{$i18nMy.t('增加参数')}}</el-button>
            <el-alert
-            title="SQL中添加参数的方式：格式：{#参数名#}，示例：select * from table where {#id#} 或者 select * from table where '{#id#}'"
+            title="SQL中添加参数的方式：格式：{#参数名#}，示例：select * from table where {#id#} , select * from table where '{#id#}' ,select * from table where id='#{id}' "
             :closable="false"
             type="success">
           </el-alert>

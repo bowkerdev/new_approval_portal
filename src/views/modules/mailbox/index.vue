@@ -1,7 +1,7 @@
 <template>
     <div class="jp-common-layout page">
       <div class="jp-common-layout-left">
-        <div class="jp-common-title"> 
+        <div class="jp-common-title">
             <el-button size="small" style="width:100%" type="primary" @click="sendLetter">{{$i18nMy.t('写信')}}</el-button>
         </div>
         <div class="jp-common-el-tree-scrollbar el-scrollbar">
@@ -25,6 +25,7 @@
           <el-form-item>
               <el-dropdown @command="changeReadStatus">
                 <el-button size="small" type="primary">
+                </el-button>
         <el-button size="small" type="primary">{{$i18nMy.t('过滤')}}<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
@@ -93,7 +94,7 @@
             width="210"
             :label="$i18nMy.t('操作')">
             <template slot-scope="scope">
-              <el-button  type="text"  size="mini"  icon="el-icon-view" 
+              <el-button  type="text"  size="mini"  icon="el-icon-view"
                         @click="view(scope.row.id)">{{$i18nMy.t('查阅')}}</el-button>
               <el-button v-if="index === '1'" type="text" icon="el-icon-edit" size="mini" @click="reply(scope.row)">{{$i18nMy.t('回复')}}</el-button>
               <el-button type="text" icon="el-icon-delete"  size="mini"  @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
@@ -303,7 +304,7 @@
     line-height: 60px;
     height: 30px;
   }
-  
+
   .el-aside {
     color: #333;
     border-right: 1px solid rgb(238, 238, 238);

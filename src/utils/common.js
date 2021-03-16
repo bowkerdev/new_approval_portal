@@ -38,6 +38,78 @@ export default {
     }
     return r;
   },
+  /**
+   * 判断时间数组是否有重叠时间
+   * times格式要求：[{start:'15:00',end:'15:59'}]
+   * @param times 时间数组
+   * @param startField 开始时间属性
+   * @param endField 结束时间属性
+   * @param type 数据类型：time | string
+   * @return string
+   * @author max teng
+   * @version 2021-03-15
+   * */
+  timesIsOverlapping(times,startField,endField,type){
+    if(this.isEmpty(startField)){
+      return 'Error:startField is empty'
+    }
+    if(this.isEmpty(endField)){
+      return 'Error:endField is empty'
+    }
+    if(this.isEmpty(type)){
+      return 'Error:type is empty'
+    }
+    if(times instanceof Array){
+      if(times.length > 2){
+        var timeArr = []
+        for(var i=0;i<times.length;i++){
+
+          var tmpTime = {start:'',end:''}
+          if('string' === type){
+            tmpTime.start = times[i][startField]
+            tmpTime.end = times[i][endField]
+          }
+          if('time' === type){
+            var startTime = new Date(times[i][startField])
+            var endTime = new Date(times[i][endField])
+            var sh = startTime.getHours()
+            var sm = startTime.getMinutes()
+            var eh = endTime.getHours()
+            var em = endTime.getMinutes()
+            tmpTime.start = (sh < 10?'0'+sh:sh)+":"+(sm < 10?'0'+sm:sm)
+            tmpTime.end = (eh < 10?'0'+eh:eh)+":"+(em < 10?'0'+em:em)
+          }
+
+          var tmpStart = {time:0,type:''}
+          tmpStart.id = new Date('2021-03-15 '+tmpTime.start+':00').getTime()
+          tmpStart.type = 0
+          tmpStart.start = new Date('2021-03-15 '+tmpTime.start+':00').getTime()
+          tmpStart.end = new Date('2021-03-15 '+tmpTime.end+':00').getTime()
+          tmpStart.startString = tmpTime.start
+          tmpStart.endString = tmpTime.end
+          timeArr.push(tmpStart)
+
+          var tmpEnd = {time:0,type:''}
+          tmpEnd.id = new Date('2021-03-15 '+tmpTime.end+':00').getTime()
+          tmpEnd.type = 1
+          tmpEnd.start = new Date('2021-03-15 '+tmpTime.start+':00').getTime()
+          tmpEnd.end = new Date('2021-03-15 '+tmpTime.end+':00').getTime()
+          tmpEnd.startString = tmpTime.start
+          tmpEnd.endString = tmpTime.end
+          timeArr.push(tmpEnd)
+        }
+        timeArr = timeArr.sort(function (a,b){return a.id - b.id})
+        for(var i=0;i<= (timeArr.length / 2);i++){
+          var start = timeArr[i*2]
+          var end = timeArr[i*2 + 1]
+          if(!(1 === (start.type + end.type) && start.end === end.end && start.start === end.start) ){
+            return 'Error:【'+start.startString+'-'+start.endString+'】【'+end.startString+'-'+end.endString+'】 time overlap!';
+          }
+        }
+      }
+    }
+    return '';
+  },
   unique:function(list,compare) {
     list.sort();
     var temp=[list[0]];

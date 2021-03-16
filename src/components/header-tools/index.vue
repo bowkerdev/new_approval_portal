@@ -1,9 +1,9 @@
 <template>
   <el-popover :placement="placement" :width="width" v-model="visible" class="header-filter">
     <div class="header-tools-order">
-      <div @click="sortOrder('ascending')" class="AZ-anime"><i class="el-icon-top"></i>&nbsp;升序</div>
-      <div @click="sortOrder('descending')" class="AZ-anime"><i class="el-icon-bottom"></i>&nbsp;降序</div>
-      <div @click="sortOrder(null)" class="AZ-anime"><i class="el-icon-close"></i>&nbsp;取消排序</div>
+      <div @click="sortOrder('ascending')" class="AZ-anime"><i class="el-icon-top"></i>&nbsp;{{$i18nMy.t('升序')}}</div>
+      <div @click="sortOrder('descending')" class="AZ-anime"><i class="el-icon-bottom"></i>&nbsp;{{$i18nMy.t('降序')}}</div>
+      <div @click="sortOrder(null)" class="AZ-anime"><i class="el-icon-close"></i>&nbsp;{{$i18nMy.t('取消排序')}}</div>
     </div>
     <h3 v-text="label"></h3>
     <div class="header-tools-body">
@@ -64,32 +64,32 @@
         },
         operationList:[],
         stringOperation:[
-          {value:'_eq',label:'正好是'},
-          {value:'_ne',label:'不是'},
-          {value:'_like',label:'包含'},
-          {value:'_not_like',label:'不包含'},
-          {value:'_in',label:'在之中'},
-          {value:'_not_in',label:'不在之中'},
-          {value:'_null',label:'为空'},
-          {value:'_not_null',label:'不为空'}
+          {value:'_eq',label:$i18nMy.t('正好是')},
+          {value:'_ne',label:$i18nMy.t('不是')},
+          {value:'_like',label:$i18nMy.t('包含')},
+          {value:'_not_like',label:$i18nMy.t('不包含')},
+          {value:'_in',label:$i18nMy.t('在之中')},
+          {value:'_not_in',label:$i18nMy.t('不在之中')},
+          {value:'_null',label:$i18nMy.t('为空')},
+          {value:'_not_null',label:$i18nMy.t('不为空')}
         ],
         numberOperation:[
-          {value:'_eq',label:'等于'},
-          {value:'_ne',label:'不等于'},
-          {value:'_ge',label:'大于等于'},
-          {value:'_le',label:'小于等于'},
-          {value:'_between',label:'介于以下项之间'},
-          {value:'_null',label:'为空'},
-          {value:'_not_null',label:'不为空'}
+          {value:'_eq',label:$i18nMy.t('等于')},
+          {value:'_ne',label:$i18nMy.t('不等于')},
+          {value:'_ge',label:$i18nMy.t('大于等于')},
+          {value:'_le',label:$i18nMy.t('小于等于')},
+          {value:'_between',label:$i18nMy.t('介于以下项之间')},
+          {value:'_null',label:$i18nMy.t('为空')},
+          {value:'_not_null',label:$i18nMy.t('不为空')}
         ],
         dateOperation:[
-          {value:'_eq',label:'正好是'},
-          {value:'_ne',label:'不是'},
-          {value:'_ge',label:'晚于'},
-          {value:'_le',label:'早于'},
-          {value:'_between',label:'介于以下时间之间'},
-          {value:'_null',label:'为空'},
-          {value:'_not_null',label:'不为空'}
+          {value:'_eq',label:$i18nMy.t('正好是')},
+          {value:'_ne',label:$i18nMy.t('不是')},
+          {value:'_ge',label:$i18nMy.t('晚于')},
+          {value:'_le',label:$i18nMy.t('早于')},
+          {value:'_between',label:$i18nMy.t('介于以下时间之间')},
+          {value:'_null',label:$i18nMy.t('为空')},
+          {value:'_not_null',label:$i18nMy.t('不为空')}
         ]
       }
     },

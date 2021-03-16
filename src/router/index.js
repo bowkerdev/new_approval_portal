@@ -54,6 +54,48 @@ const router = new Router({
 
   // 添加动态(菜单)路由
 router.beforeEach((to, from, next) => {
+  if('AMS' !== process.env.VUE_APP_SYSTEM){
+    var tmp=common.getUrlParam("token");
+      if(tmp!=null){
+        Vue.cookie.set('token', tmp);
+        var tmp2=common.getUrlParam("refreshToken");
+        if(tmp2==null){
+          tmp2=tmp;
+        }
+        Vue.cookie.set('refreshToken', tmp2);
+      }
+  }
+  try{
+    if(sessionStorage.getItem('dictList')==null ){
+      http({
+        url: '/sys/dict/getAll',
+        method: 'get'
+      }).then(({data}) => {
+        if (data && data.success) {
+          sessionStorage.setItem('dictList', JSON.stringify(data.dicts || '[]'))
+        }
+      }).catch((e) => {
+        console.log(e.message)
+      })
+    }
+
+    if(Vue.cookie.get('token')==null || Vue.cookie.get('token') == ''){
+      http({
+        url: '/sys/hasAllowLoginkey',
+        method: 'get'
+      }).then(({data}) => {
+        if (data && data.success && data.hasAllowLoginkey &&
+        (Vue.cookie.get('token')==null || Vue.cookie.get('token') == '')) {
+          window.location.href = data.loginOutUrl;
+        }
+      }).catch((e) => {
+        console.log(e.message)
+      })
+    }
+  }catch(e){
+    console.log(e.message)
+  }
+  
   let token = Vue.cookie.get('token')
   if (!token || !/\S/.test(token)) { // token为空，跳转到login登录
     clearLoginInfo()

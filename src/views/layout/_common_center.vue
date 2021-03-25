@@ -4,7 +4,7 @@
       <div class="jp-center" :style="isTab?'top: 34px;':'top:0px'">
             <div v-if="!isTab">
               <el-breadcrumb separator="/" style="padding-top:6px; padding-bottom:14px;">
-                  <el-breadcrumb-item><router-link to="/home">首页</router-link></el-breadcrumb-item>
+                 <!-- <el-breadcrumb-item><router-link to="/home">首页</router-link></el-breadcrumb-item> -->
                   <el-breadcrumb-item :key="index" v-for="(breadcrumb, index) in breadcrumbs">{{breadcrumb}}</el-breadcrumb-item>
               </el-breadcrumb>
             </div>
@@ -53,7 +53,7 @@
           if (val.meta && val.meta.parentIds) {
             let ids = val.meta.parentIds.split(',')
             ids.forEach((id) => {
-              if (id && id !== '0' && id !== '1') {
+              if (id && id !== '0' && id !== '1' && id != '') {
                 let obj = {title: ''}
                 this.getTitle(JSON.parse(sessionStorage.getItem('allMenuList') || '[]'), id, obj)
                 this.breadcrumbs.push(obj.title)

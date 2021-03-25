@@ -5,12 +5,14 @@
                :default-active="menuActiveName || 'home'"
                :collapse="sidebarFold"
                :collapseTransition="false"
+               :class="{'menu-show-complete': showCompleteName && isShowComplete()}"
                class="jp-sidebar__menu">
         <li class="jp-menu-category" v-if="!sidebarFold">{{leftMenuCategory}}</li>
         <sub-menu
           v-for="menu in leftMenuList"
           :key="menu.id"
           :menu="menu"
+          :showCompleteName="showCompleteName"
           :dynamicMenuRoutes="dynamicMenuRoutes">
         </sub-menu>
       </el-menu>
@@ -28,12 +30,34 @@
     -webkit-transition: all .25s,font .1s .15s,color .1s .15s;
     transition: all .25s,font .1s .15s,color .1s .15s;
 }
+/* show complete sidebar menu name */
+.jp-sidebar--1 .jp-sidebar__menu.el-menu.menu-show-complete .el-menu-item,
+.jp-sidebar--1 .jp-sidebar__menu.el-menu.menu-show-complete .el-submenu > .el-submenu__title {
+  height: auto;
+  white-space: normal;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+.menu-show-complete .el-submenu__title, 
+.menu-show-complete li.el-menu-item,
+.menu-show-complete .el-submenu {
+  height: auto !important;
+  line-height: 1.5 !important;
+}
 </style>
 
 <script>
   import SubMenu from './_common_left_submenu'
 
+  import { currentLangInshowCompName } from '@/utils/i18n'
+
   export default {
+    props: {
+      showCompleteName: {
+        type: Boolean,
+        default: false
+      }
+    },
     data () {
       return {
         dynamicMenuRoutes: []
@@ -149,7 +173,11 @@
           let topMenuActiveIndex = route.meta.parentIds && route.meta.parentIds.split(',').length > 2 ? route.meta.parentIds.split(',')[2] : '0'
           this.$store.commit('common/updateTopMenuActiveIndex', topMenuActiveIndex)
         }
+      },
+      isShowComplete () {
+        return currentLangInshowCompName()
       }
     }
   }
 </script>
+

@@ -6,6 +6,8 @@ import hkLocale from 'element-ui/lib/locale/lang/zh-TW'
 import vnLocale from 'element-ui/lib/locale/lang/vi'
 import camLocale from 'element-ui/lib/locale/lang/th' // 可能是泰语
 
+const showCompleteMenuNameConfig = ['en-US']
+
 Vue.config.lang = localStorage.getItem('lang') || 'en-US'
 // Vue.config.lang = 'en-US'
 var langList = [{
@@ -83,5 +85,10 @@ const i18n = new VueI18n({
 window.$i18n = i18n
 window.$setI18n = setup
 window.langList = langList
+
+export function currentLangInshowCompName() {
+  const currentLang = localStorage.getItem('lang') || Vue.config.lang
+  return showCompleteMenuNameConfig.indexOf(currentLang) > -1
+}
 
 export default i18n

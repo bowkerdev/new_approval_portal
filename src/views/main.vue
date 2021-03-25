@@ -4,7 +4,7 @@
     :class="{ 'jp-sidebar--fold': sidebarFold }">
     <template>
       <main-navbar ref="navbar" @showRight="showRight" />
-      <main-sidebar/>
+      <main-sidebar :showCompleteName="true" />
       <div class="jp-content__wrapper">
         <main-content/>
       </div>

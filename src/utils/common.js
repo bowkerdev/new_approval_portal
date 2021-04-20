@@ -14,6 +14,14 @@ var a = 6378245.0;
 var ee = 0.00669342162296594323;
 
 export default {
+  traverseTree: function(tree,callBack){ //遍历树  获取id数组
+    for(var i in tree){
+      callBack(tree[i])
+      if(tree[i].children){
+        this.traverseTree(tree[i].children,callBack);
+      }
+    }
+  },
   distinct : function (list){
   	var arr = list,i,obj = {},result = [],len = arr.length;
   	for(i = 0; i< arr.length; i++){
@@ -60,7 +68,7 @@ export default {
       return 'Error:type is empty'
     }
     if(times instanceof Array){
-      if(times.length > 2){
+      if(times.length > 1){
         var timeArr = []
         for(var i=0;i<times.length;i++){
 
@@ -110,17 +118,210 @@ export default {
     }
     return '';
   },
+  /**
+   * 获取月份所有的星期天
+   * @param date
+   * @param m
+   * @param dayNum
+   * @returns {[]}
+   * @author max teng
+   * @version 2021-03-15
+   */
+  getMonthSunday(date,m,dayNum){
+    var monthResult = []
+    for (var d = 1; d <= dayNum; d++) {
+      date.setMonth(m - 1, d)
+      // 返回表示星期的某一天的数字  0 --> 周日
+      let day = date.getDay()
+      if (0 === day) {
+        let month = date.getMonth() + 1
+        let day = date.getDate()
+        if (month < 10) {
+          month = '0' + month
+        }
+        if (day < 10) {
+          day = '0' + day
+        }
+        var tmp = {}
+        tmp.id = date.getFullYear() + '-' + month + '-' + day
+        tmp.date = new Date(tmp.id)
+        monthResult.push(tmp)
+      }
+    }
+    return monthResult
+  },
+  /**
+   * 获取月份所有天数
+   * @param year
+   * @param m
+   * @returns {number}
+   * @author max teng
+   * @version 2021-03-15
+   */
+  getMonthDayNum(year,m){
+    var dayNum = 0
+    switch (m) {
+      case 1:
+      case 3:
+      case 5:
+      case 7:
+      case 8:
+      case 10:
+      case 12:
+        dayNum = 31
+        break
+      case 4:
+      case 6:
+      case 9:
+      case 11:
+        dayNum = 30
+        break
+      case 2:
+        // eslint-disable-next-line no-mixed-operators
+        if (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0) {
+          dayNum = 29
+        } else {
+          dayNum = 28
+        }
+        break
+    }
+    return dayNum
+  },
+  /**
+   * 获取一整年或者某个月的的周日所对应的日期
+   * @param t 日期,如2021-03-16
+   * @param type 类型 year|month
+   * @return [{}]
+   * @author max teng
+   * @version 2021-03-02
+   */
+  getAllSunday(t,type) {
+    let time = t.replace(/-/g, ':')
+    time = time.split(':')
+    let date = new Date(time[0], (time[1] - 1), time[2])
+    let year = date.getFullYear()
+    let month = date.getMonth() + 1
+    // eslint-disable-next-line one-var
+    let d_index, dayNum = ''
+    let result = []
+    var monthResult = []
+    if('year' === type){
+      for (var m_index = 1; m_index <= 12; m_index++) {
+        dayNum = this.getMonthDayNum(year,m_index)
+        monthResult = this.getMonthSunday(date,m_index,dayNum)
+        for(d_index=0;d_index<monthResult.length;d_index++){
+          result.push(monthResult[d_index])
+        }
+      }
+    }
+    if('month' === type){
+      dayNum = this.getMonthDayNum(year,month)
+      monthResult = this.getMonthSunday(date,month,dayNum)
+      for(d_index=0;d_index<monthResult.length;d_index++){
+        result.push(monthResult[d_index])
+      }
+    }
+    console.log(result)
+    return result
+  },
+  /**
+   * 对级联数据进行分组
+   * @param data 要分组数据
+   * @param type 属性，要以哪个属性进行分组
+   * @return [{}]
+   * @author max teng
+   * @version 2020-03-17
+   */
+  initOriginalCascadeData(data){
+    let _that = this
+    var factoryObj = _that.getCascadeGroupData(data, 'factory')
+    var list = []
+    for(var factoryKey in factoryObj){
+      var factoryMap = {type:'factory',value:'',label:'',children:[]}
+      factoryMap.value = factoryKey
+      factoryMap.label = factoryKey
+      var buildingObj = _that.getCascadeGroupData(factoryObj[factoryKey], 'building')
+      for(var buildingKey in buildingObj){
+        var buildingMap = {type:'building',value:'',label:'',children:[]}
+        buildingMap.value = buildingKey
+        buildingMap.label = buildingKey
+        var floorObj = _that.getCascadeGroupData(buildingObj[buildingKey], 'floor')
+        for(var floorKey in floorObj){
+          var floorMap = {type:'floor',value:'',label:'',children:[]}
+          floorMap.value = floorKey
+          floorMap.label = floorKey
+          for(var i=0;i<floorObj[floorKey].length;i++){
+            var lineMap = {type:'line',value:'',label:''}
+            lineMap.value = floorObj[floorKey][i].line_id
+            lineMap.label = floorObj[floorKey][i].line_no
+            floorMap.children.push(lineMap)
+          }
+          buildingMap.children.push(floorMap)
+        }
+        factoryMap.children.push(buildingMap)
+      }
+      list.push(factoryMap)
+    }
+    console.log(list)
+    return list
+  },
+  /**
+   * 获取子树数据
+   * @param data
+   * @param value
+   * @return {[]}
+   */
+  getCascadeChildrenData(data,value){
+    let _that = this
+    var list=[]
+    if(!_that.isEmpty(value)){
+      for(var i=0;i< data.length;i++){
+        if(value === data[i].value){
+          list = data[i].children
+          break
+        }
+      }
+    }
+    return list
+  },
+  /**
+   * 分组
+   * @param data
+   * @param type
+   * @return {{}}
+   */
+  getCascadeGroupData (data, type) {
+    let _that = this
+    return _that.groupBy(data, function(e) { return [e[type]] })
+  },
   unique:function(list,compare) {
-    list.sort();
-    var temp=[list[0]];
+    if(list==null||list.length==0){
+      return []
+    }
+    list.sort()
+    var temp=[list[0]]
     for(var i = 1; i < list.length; i++){
       if(compare!=null){
-        if( compare(list[i],temp[temp.length-1])){
-          temp.push(list[i]);
+        var isAdd = true
+        for(var j=0;j< temp.length;j++){
+          if(!compare(list[i],temp[j])){
+            isAdd = false
+            break
+          }
+        }
+        if(isAdd){
+          temp.push(list[i])
         }
       }
       else{
-        if( list[i] !== temp[temp.length-1]){
+        var isAdd = true
+        for(var j=0;j< temp.length;j++){
+          if(list[i] === temp[j]){
+            isAdd = false
+            break
+          }
+        }
+        if(isAdd){
           temp.push(list[i]);
         }
       }

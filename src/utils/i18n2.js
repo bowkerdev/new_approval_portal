@@ -30,8 +30,9 @@ i18nMy.t = function t(key) {
     console.log("后台国际化："+key)
     window.translationedList.push(key);
     http({
-      url: '/sys/sysSimpleLanguage/save/automation?code=' + key,
-      method: 'post'
+      url: '/sys/sysSimpleLanguage/save/automation',
+      method: 'post',
+      data :{code : key}
     }).then(({
       data
     }) => {}).catch((e) => {})

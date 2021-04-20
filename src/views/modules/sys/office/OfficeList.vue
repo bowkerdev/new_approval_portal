@@ -7,7 +7,7 @@
       :data="dataList"
       isBigData
       isTreeTable
-       default-expand-all
+      expanded
       size="small"
       v-loading = "loading"
       row-key="id"

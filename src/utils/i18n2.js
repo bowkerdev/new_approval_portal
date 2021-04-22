@@ -32,6 +32,7 @@ i18nMy.t = function t(key) {
     http({
       url: '/sys/sysSimpleLanguage/save/automation',
       method: 'post',
+      headers:{'Content-Type':'application/json'},
       data :{code : key}
     }).then(({
       data

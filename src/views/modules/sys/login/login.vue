@@ -86,17 +86,14 @@
     },
     methods: {
       checkLoginPage(){
-        this.$http({
-          url: '/sys/hasAllowLoginkey',
-          method: 'get'
-        }).then(({data}) => {
-          if (data && data.success && data.hasAllowLoginkey &&
-          (Vue.cookie.get('token')==null && Vue.cookie.get('token') == '')) {
-            window.location.href = data.loginOutUrl
+        if (process.env.VUE_APP_SSO_LOGIN === 'true') { // 如果是单点登录
+          if(process.env.VUE_APP_SSO_TYPE=="cas"){
+            window.location.href = `${process.env.VUE_APP_CAS_SERVER}/login?service=${process.env.VUE_APP_CLIENT_LOGIN}`
           }
-        }).catch((e) => {
-          console.log(e.message)
-        })
+          else{
+            window.location.href = process.env.VUE_APP_SSO_SERVER
+          }
+        }
       },
       // 提交表单
       login () {

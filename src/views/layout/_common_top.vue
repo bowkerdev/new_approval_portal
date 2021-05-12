@@ -10,7 +10,7 @@
         </a>
       </h1> -->
       <h1 class="jp-navbar__brand" @click="$router.push({ name: 'home' })">
-        <a class="jp-navbar__brand-lg" href="javascript:;"> <img :src="logo" height="40px" width="40px"/> {{productName}}</a>
+        <a class="jp-navbar__brand-lg" href="javascript:;"> <img :src="logo" height="40px" width="40px"/>{{$i18nMy.t(productName)}}</a>
         <a class="jp-navbar__brand-mini" href="javascript:;">
           <img :src="logo" height="40px" width="40px"/>
         </a>

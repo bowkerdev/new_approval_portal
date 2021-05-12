@@ -4,6 +4,7 @@ $navbar--background-color: $--color-primary;
 $sidebar--background-color-dark:#223962;//#181922; // #263238;
 $sidebar--color-text-dark: rgba(163,175,183,.9);
 $content--background-color: #fff;
+@import './grid-layout.scss';
 
 body {
   -moz-osx-font-smoothing: grayscale;
@@ -1452,4 +1453,78 @@ span{
   -webkit-transition-duration: 0.5s;
   -o-transition-duration: 0.5s;
   transition-duration: 0.5s;
+}
+
+
+/*ZHIMI样式覆盖*/
+.el-form--inline .el-form-item{
+  margin-right: 0px;
+}
+.el-form.query-form.el-form--inline .el-form-item {
+  padding-right: 10px;
+  padding-left: 10px;
+  margin-right: 0px;
+  @extend .zm-lg-6;
+  @extend .zm-md-8;
+  @extend .zm-sm-24;
+}
+
+.el-form.query-form.el-form--inline .el-form-item.expand-2 {
+  @extend .zm-lg-12;
+  @extend .zm-md-16;
+  @extend .zm-sm-24;
+}
+
+.el-form.query-form.el-form--inline .el-form-item--small .el-form-item__content{
+  width: 100%;
+}
+
+.el-table th>.cell{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.jp-sidebar__menu .menu-name-text{
+  width: calc(100% - 40px);
+}
+
+.el-submenu__title,
+.el-submenu__title+.el-menu .el-menu-item{
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.el-submenu__title .menu-name-text>span,
+.el-submenu__title+.el-menu .menu-name-text>span{
+  display:-webkit-box;
+  overflow:hidden;
+  white-space:normal !important;
+  text-overflow:ellipsis;
+  word-wrap:break-word;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+}
+
+.query-form{
+  padding-left: 10px;
+}
+
+.el-dialog .el-form .el-row .el-form-item .el-form-item__label{
+  float: none;
+  text-align: left;
+  width: 100% !important;
+  font-weight: bold;
+}
+
+.el-dialog .el-form .el-row .el-form-item .el-form-item__label+.el-form-item__content{
+  margin-left: 0px !important;
+}
+
+.el-table__row .cell .el-button i+span{
+  display: none;
+}
+
+.el-table__row .cell .el-button:hover i+span{
+  display: inline-block;
 }

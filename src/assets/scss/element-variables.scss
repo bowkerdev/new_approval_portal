@@ -1,0 +1,38 @@
+// zhimi variables
+$zm-size-base: 13px;
+
+// element variables
+/* 改变主题色变量 */
+$--color-primary: #17176B;
+$--color-success: #488E23;
+$--color-warning: #CC8C2F;
+$--color-danger: #B82828; 
+$--color-info: #7F8082;
+
+// 字体
+// $--font-size-extra-large: 20px;
+// // 18px
+// $--font-size-large: 18px;
+// // 16px
+// $--font-size-medium: 16px;
+// // 14px
+$--font-size-base: $zm-size-base;
+// // 13px
+// $--font-size-small: 13px;
+// // 12px
+// $--font-size-extra-small: 12px;
+// // 500
+// $--font-weight-primary: 500;
+// // 100
+// $--font-weight-secondary: 100;
+// // 24px
+// $--font-line-height-primary: 2;
+// // 16px
+// $--font-line-height-secondary: 1.12;
+
+$--menu-item-font-size: 14px;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+@import "~element-ui/packages/theme-chalk/src/index";
+

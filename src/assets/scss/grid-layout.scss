@@ -1,0 +1,39 @@
+// screen size boundary
+// $screen-xs: 
+$screen-sm: 768px;
+$screen-md: 992px;
+$screen-lg: 1200px;
+
+// grid column
+$grid-column: 24;
+
+// Ultra small screen (Phone)
+@for $i from 1 to ($grid-column + 1) {
+  .zm-xs-#{$i} {
+    width: percentage(1 / $grid-column * $i);
+  }
+}
+// Small screen (tablet)
+@media (min-width: $screen-sm) {
+  @for $i from 1 to ($grid-column + 1) {
+    .zm-sm-#{$i} {
+      width: percentage(1 / $grid-column * $i);
+    }
+  }
+}
+// Medium screen (desktop display)
+@media (min-width: $screen-md) {
+  @for $i from 1 to ($grid-column + 1) {
+    .zm-md-#{$i} {
+      width: percentage(1 / $grid-column * $i);
+    }
+  }
+}
+// Large screen (large desktop display)
+@media (min-width: $screen-lg) {
+  @for $i from 1 to ($grid-column + 1) {
+    .zm-lg-#{$i} {
+      width: percentage(1 / $grid-column * $i);
+    }
+  }
+}

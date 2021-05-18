@@ -67,13 +67,23 @@
               </notice-icon>
           </template>
         </el-menu-item> -->
+
+        <el-menu-item v-if="defaultLayout !== 'top'" class="jp-navbar__avatar">
+          <route-search />
+        </el-menu-item>
+
+        <el-menu-item v-else @click="openSearchMenu">
+          <i class="el-icon-search" />
+          <full-screen-route-search ref="fullRouteSearch" />
+        </el-menu-item>
+
         <el-menu-item class="jp-navbar__avatar">
           <el-dropdown :show-timeout="0" placement="bottom">
             <span class="el-dropdown-link">
               <img :src="languageIcon" style="border-radius: 0px;width: 24px;"> {{ language }}
             </span>
             <el-dropdown-menu slot="dropdown" style="margin-top: -10px;">
-              <el-dropdown-item v-for="(item,i) in languageList" @click.native="changeLanguage" :lang='item.lang'>
+              <el-dropdown-item v-for="(item,i) in languageList" :key="i" @click.native="changeLanguage" :lang='item.lang'>
                 <img :src="item.src" style="border-radius: 0px;width: 24px;"> {{item.text}}
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -109,6 +119,8 @@
   import {clearLoginInfo} from '@/utils'
   import NoticeIcon from '@/components/NoticeIcon'
   import ColorPicker from '@/components/colors/ColorPicker'
+  import RouteSearch from '@/components/RouteSearch/search'
+  import FullScreenRouteSearch from '@/components/RouteSearch/search-fullscreen'
 
   export default {
     data () {
@@ -145,7 +157,9 @@
     components: {
       UpdatePassword,
       ColorPicker,
-      NoticeIcon
+      NoticeIcon,
+      RouteSearch,
+      FullScreenRouteSearch
     },
     computed: {
       navbarLayoutType () {
@@ -286,6 +300,9 @@
       }
     },
     methods: {
+      openSearchMenu() {
+        this.$refs.fullRouteSearch.visible = true
+      },
       fixTopMenu () {
         let width = window.getComputedStyle(this.$refs.navbar).width
         let size = (parseInt(width) - 800) / 124

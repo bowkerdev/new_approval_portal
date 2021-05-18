@@ -1,6 +1,6 @@
 <template>
-  <el-popover :placement="placement" :width="width" v-model="visible" :style="{ '--defaultTheme': defaultTheme}">
-    <div class="header-tools-order" :style="{ '--defaultTheme': defaultTheme}">
+  <el-popover :placement="placement" :width="width" v-model="visible">
+    <div class="header-tools-order">
       <div @click="sortOrder('ascending')" class="order-item AZ-anime"><i class="el-icon-top"></i>&nbsp;{{$i18nMy.t('升序')}}</div>
       <div @click="sortOrder('descending')" class="order-item AZ-anime"><i class="el-icon-bottom"></i>&nbsp;{{$i18nMy.t('降序')}}</div>
       <div @click="sortOrder(null)" class="order-item AZ-anime"><i class="el-icon-close"></i>&nbsp;{{$i18nMy.t('取消排序')}}</div>
@@ -27,7 +27,7 @@
       <el-button size="small" type="primary" @click="doSubmit()">{{$i18nMy.t('确定')}}</el-button>
     </div>
     <span slot="reference" class="header-tools-title">
-      <span :class="{'has-search':hasFilter()}" v-text="label"></span>
+      <span :class="{'has-search':hasFilter()}" :title="label" v-text="label"></span>
       <span style="white-space: nowrap;">
         <span class="caret-wrapper">
           <i class="sort-caret ascending"></i>
@@ -252,14 +252,14 @@
     }
 
     ::v-deep div:hover{
-      background-color: var(--defaultTheme);
+      background-color: #409EFF;
       color: white;
     }
 
   }
 
   .has-search{
-    color: var(--defaultTheme);
+    color: #409EFF;
   }
 
   .header-tools-body{
@@ -269,7 +269,7 @@
     -ms-overflow-style: none; /* IE 10+ */
 
     ::v-deep i {
-      color: var(--defaultTheme);
+      color: #409EFF;
       margin-left: 10px;
       font-size: 16px;
     }
@@ -284,10 +284,10 @@
     border-bottom-color: transparent;
   }
   .el-table .ascending .header-tools-title .sort-caret.ascending {
-    border-bottom-color: var(--defaultTheme);
+    border-bottom-color: #409EFF;
   }
   .el-table .descending .header-tools-title .sort-caret.descending {
-    border-top-color: var(--defaultTheme);
+    border-top-color: #409EFF;
   }
 
   .el-input+.el-input,

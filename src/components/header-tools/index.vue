@@ -314,6 +314,10 @@
     padding: 9px 15px;
     line-height: 1;
     height: 32px;
+    margin-top: 5px;
+  }
+  .header-tools-tag+.header-tools-tag{
+    margin-bottom: 0px;
     margin-left: 10px;
   }
   .header-tools-tag .el-icon-close{
@@ -323,7 +327,12 @@
     background-color: #409eff;
     color: #FFFFFF;
   }
-  .header-tools-tag+button.is-circle{
-    margin-left: 10px;
+  .header-tools-tag-field{
+    width: auto;
+    max-width: 50%;
+    overflow: auto;
+    display: inline-block;
+    vertical-align: top;
+    margin: -5px 10px 0px 10px;
   }
 </style>

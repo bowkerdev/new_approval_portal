@@ -586,5 +586,42 @@ export default {
 
     }
     return searchForm;
+  },
+  filterApplyOptionTags (optionList){
+    var tags = [];
+    try{
+      for(var prop in optionList){
+        var option = optionList[prop].option;
+        var operationLabel = optionList[prop].operationLabel;
+        var label = optionList[prop].label;
+        //设置选项
+        if (option.filterMode == '_between') {
+          tags.push({
+            label:label+': '+operationLabel+' '+option.inputValue+','+option.subInputValue,
+            prop:prop
+          });
+        } else if (['_in','_not_in'].indexOf(option.filterMode)>-1) {
+          tags.push({
+            label:label+': '+operationLabel+' ('+option.optionList.map(function(arrayElement){
+              return arrayElement.inputValue;
+            }).join(',')+')',
+            prop:prop
+          });
+        } else if (['_null','_not_null'].indexOf(option.filterMode)>-1) {
+          tags.push({
+            label:label+': '+operationLabel,
+            prop:prop
+          });
+        } else if (option.inputValue) {
+          tags.push({
+            label:label+': '+operationLabel+' '+option.inputValue,
+            prop:prop
+          });
+        }
+      }
+    }catch(e){
+
+    }
+    return tags;
   }
 }

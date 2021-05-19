@@ -140,8 +140,15 @@
       doSubmit () {
         var option = {
           prop: this.prop,
-          option: this.option
+          option: this.option,
+          label: this.label
         };
+        for (var i = 0; i < this.operationList.length; i++) {
+          if (this.option.filterMode == this.operationList[i].value) {
+            option.operationLabel = this.operationList[i].label;
+            break;
+          }
+        }
         this.$emit('apply-option', option)
         this.visible = false;
       },
@@ -297,5 +304,26 @@
 
   .el-select-dropdown__item {
     font-size: $--font-size-small;
+  }
+</style>
+<style>
+  .header-tools-tag{
+    background-color: #ecf5ff;
+    color: #409eff;
+    border: 1px solid #d9ecff;
+    padding: 9px 15px;
+    line-height: 1;
+    height: 32px;
+    margin-left: 10px;
+  }
+  .header-tools-tag .el-icon-close{
+    color: #409eff;
+  }
+  .header-tools-tag .el-tag__close:hover{
+    background-color: #409eff;
+    color: #FFFFFF;
+  }
+  .header-tools-tag+button.is-circle{
+    margin-left: 10px;
   }
 </style>

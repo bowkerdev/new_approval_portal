@@ -1,0 +1,94 @@
+@use "sass:map";
+
+.zm-progress-steps {
+  $step-item-height: 40px;
+  
+  $color-maps: (
+    "wait": #C0C4CC, 
+    "process": #606266, 
+    "finish": rgb(74, 189, 184), 
+    "error": rgb(75, 180, 103), 
+    "success": rgb(74, 189, 184),
+    'gradient-1': #ade8f4,
+    'gradient-2': #90e0ef,
+    'gradient-3': #48cae4,
+    'gradient-4': #00b4d8,
+    'gradient-5': #0096c7,
+    'gradient-6': #0077b6,
+    'gradient-current': #03045e
+  );
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  
+  $half-height: $step-item-height / 2;
+  $offset-length: 1px;
+
+  .steps-item {
+    position: relative;
+    margin-left: $half-height + $offset-length;
+    padding: 0 $half-height;
+    height: $step-item-height;
+    line-height: $step-item-height;
+    flex: 1 1 auto;
+    color: #fff;
+    font-size: 13px;
+
+    &:first-of-type {
+      margin-left: 0;
+    }
+
+    .steps-item-text {
+      height: inherit;
+      line-height: inherit;
+      cursor: pointer;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .attach {
+      width: $offset-length;
+      height: 0;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      border-style: solid;
+      border-width: $half-height;
+      box-sizing: content-box;
+
+      &.pre-attach {
+        right: -$half-height;
+        border-left-width: 0;
+        border-color: rgba(0,0,0,0);
+        transform: rotateY(180deg);
+        z-index: 1;
+      }
+
+      &.back-attach {
+        left: -$half-height;
+        border-right-width: 0;
+        border-left-color: rgba(0,0,0,0);
+      }
+    }
+  }
+
+  @each $key, $color in $color-maps {
+    .steps-item.#{$key} {
+      background-color: $color;
+
+      .attach.pre-attach {
+        border-right-color: $color;
+      }
+      .attach.back-attach {
+        border-color: $color;
+        border-left-color: rgba(0,0,0,0);
+      }
+    }
+  }
+  
+}
+
+

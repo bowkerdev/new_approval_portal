@@ -17,21 +17,18 @@
     'gradient-6': #0077b6,
     'gradient-current': #03045e
   );
-
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
   
   $half-height: $step-item-height / 2;
   $offset-length: 1px;
 
   .steps-item {
+    display: inline-block;
     position: relative;
     margin-left: $half-height + $offset-length;
     padding: 0 $half-height;
     height: $step-item-height;
     line-height: $step-item-height;
-    flex: 1 1 auto;
+    vertical-align: middle;
     color: #fff;
     font-size: 13px;
 

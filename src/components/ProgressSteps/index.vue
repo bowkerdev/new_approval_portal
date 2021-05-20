@@ -5,6 +5,7 @@
         :key="index"
         class="steps-item"
         :class="getItemBarClass(index)"
+        :style="generateStyle()"
         @click="clickStepFn(index)"
       >
         <div class="steps-item-text" :style="itemTextStyle()">
@@ -20,7 +21,9 @@
 </template>
 
 <script>
-const gradientTotal = 6
+const gradient_total = 6
+// 箭头条的长度, 修改scss：$step-item-height，要修改该值，为$step-item-height的一半
+const item_margin_left = 20
 
 export default {
   name: 'ProgressSteps',
@@ -33,10 +36,6 @@ export default {
       type: Array,
       required: true
     },
-    // clickFn: {
-    //   type: Function,
-    //   default: null
-    // },
     value: {
       type: Number
     },
@@ -54,7 +53,7 @@ export default {
     },
     gradient: {
       type: Boolean,
-      default: false
+      default: true
     },
     textAlign: {
       type: String,
@@ -82,14 +81,17 @@ export default {
       // index  <= activeIndex
       return this.activeIndex >= index
     },
+    generateStyle() {
+      return `width: calc((100% - ${item_margin_left * this.steps.length + 10}px) / ${this.steps.length});`
+    },
     getItemBarClass(index) {
       //渐变模式
       if(this.gradient) { 
         if(index === this.activeIndex) {
           return 'gradient-current'
         }
-        const classi = (index + 1) % gradientTotal
-        return 'gradient-' + (classi || gradientTotal)
+        const classi = (index + 1) % gradient_total
+        return 'gradient-' + (classi || gradient_total)
       } else {
         // 非渐变模式
         if (!this.isFinishStatus(index)) { return 'wait' }

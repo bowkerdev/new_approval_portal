@@ -1459,6 +1459,7 @@ span{
 /*ZHIMI样式覆盖*/
 .el-form--inline .el-form-item{
   margin-right: 0px;
+  vertical-align: bottom;
 }
 .el-form.query-form.el-form--inline .el-form-item {
   padding-right: 10px;
@@ -1475,8 +1476,23 @@ span{
   @extend .zm-sm-24;
 }
 
-.el-form.query-form.el-form--inline .el-form-item--small .el-form-item__content{
+.el-form.query-form.el-form--inline .el-form-item .el-form-item__content{
   width: 100%;
+}
+
+.el-select,
+.el-date-editor.el-input,
+.el-date-editor.el-input__inner{
+  width: 100%;
+}
+
+.el-date-editor .el-range-separator{
+  width: 6%;
+}
+
+.el-range-editor.el-input__inner{
+  width: 100%;
+  min-width: 350px;
 }
 
 .el-table th>.cell{
@@ -1527,4 +1543,10 @@ span{
 
 .el-table__row .cell .el-button:hover i+span{
   display: inline-block;
+}
+
+.el-form-item__error,
+.help-block{
+  position: relative;
+  top: 2px;
 }

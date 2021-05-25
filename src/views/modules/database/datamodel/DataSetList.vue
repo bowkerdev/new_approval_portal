@@ -1,12 +1,16 @@
 <template>
   <div class="page">
       <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-            <!-- 搜索框-->
+         <!-- 搜索框-->
 		     <el-form-item prop="db.id">
-                <el-input size="small" v-model="searchForm.db.id" :placeholder="$i18nMy.t('目标数据库')" clearable></el-input>
+				  <el-select v-model="searchForm.db.id" :placeholder="$i18nMy.t('目标数据库')" clearable>
+				   <el-option v-for="item in dbList" :key="item.id"
+				     :label="item.name" :value="item.id" >
+				   </el-option>
+				  </el-select>
 		     </el-form-item>
 		     <el-form-item prop="name">
-                <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('数据源名称')" clearable></el-input>
+          <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('数据源名称')" clearable></el-input>
 		     </el-form-item>
           <el-form-item>
             <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
@@ -22,12 +26,7 @@
                   :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
         <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
-            <el-button
-              type="default"
-              size="small"
-              icon="el-icon-refresh"
-              @click="refreshList">
-            </el-button>
+            <el-button type="default" size="small" icon="el-icon-refresh" @click="refreshList"></el-button>
           </el-tooltip>
         </el-button-group>
       </el-row>
@@ -113,6 +112,7 @@
           },
           name: ''
         },
+        dbList:[],
         dataList: [],
         pageNo: 1,
         pageSize: 10,
@@ -126,7 +126,11 @@
       }
     },
     activated () {
-      this.refreshList()
+      let _that=this
+      this.$dictUtils.getSqlDictList('DATASOURCE_DB_LIST',{},function(data){
+        _that.dbList = data
+        _that.refreshList()
+      })
     },
 
     methods: {

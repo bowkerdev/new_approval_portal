@@ -74,7 +74,11 @@
                   {required: true, message:'任务类不能为空', trigger:'blur'},
                    { validator: validateClassName, trigger: 'blur' }
                  ]">
-			        <el-input v-model="inputForm.className" :placeholder="$i18nMy.t('请填写任务类')"     ></el-input>
+                 <el-select v-model="inputForm.className" :placeholder="$i18nMy.t('请填写任务类')"   filterable allow-create  style="width: 100%;">
+                   <el-option v-for="item in taskClassList" :key="item.value"
+                     :label="item.label" :value="item.value">
+                   </el-option>
+                 </el-select>
 	         </el-form-item>
         </el-col>
 
@@ -119,6 +123,7 @@
         timeType: '',
         title: '',
         method: '',
+        taskClassList:[],
         visible: false,
         loading: false,
         inputForm: {
@@ -169,18 +174,23 @@
         }
         this.visible = true
         this.loading = false
+        var _that=this
         this.$nextTick(() => {
           this.$refs.inputForm.resetFields()
-          if (method === 'edit' || method === 'view') { // 修改或者查看
-            this.loading = true
-            this.$http({
-              url: `/quartz/scheduleJob/queryById?id=${this.inputForm.id}`,
-              method: 'get'
-            }).then(({data}) => {
-              this.inputForm = this.recover(this.inputForm, data.scheduleJob)
-              this.loading = false
-            })
-          }
+          this.$dictUtils.getSqlDictList('schedule_job_tasklist',{},function(data){
+            _that.taskClassList = data
+            debugger
+            if (method === 'edit' || method === 'view') { // 修改或者查看
+                _that.loading = true
+                _that.$http({
+                  url: `/quartz/scheduleJob/queryById?id=${_that.inputForm.id}`,
+                  method: 'get'
+                }).then(({data}) => {
+                  _that.inputForm = _that.recover(_that.inputForm, data.scheduleJob)
+                  _that.loading = false
+                })
+            }
+          })
         })
       },
       // 表单提交

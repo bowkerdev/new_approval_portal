@@ -57,10 +57,25 @@ export function getDictList (type) {
   return dicts || []
 }
 
+export function getSqlDictList (sqlName,params,callBack) {
+  $http({
+    url: "/database/datamodel/dataSet/getDataByName/"+sqlName+"/json",
+    method: 'get',
+    params: params
+  }).then(({data}) => {
+    if (data && data.success) {
+      callBack(data.result)
+    }
+    else{
+      callBack([])
+    }
+  })
+}
+
 export function refreshDictList () {
   $http.get('/sys/dict/getDictMap').then(({data}) => {
     sessionStorage.setItem('dictList', JSON.stringify(data.dictList || '[]'))
   })
 }
 
-export default {getDictLabel, getDictValue, getDictList, refreshDictList}
+export default {getDictLabel, getDictValue, getDictList,getSqlDictList, refreshDictList}

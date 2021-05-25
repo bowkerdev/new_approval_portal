@@ -132,14 +132,6 @@ router.beforeEach((to, from, next) => {
           sessionStorage.setItem('allMenuList', JSON.stringify(data.menuList || '[]'))
           sessionStorage.setItem('permissions', JSON.stringify(data.permissions || '[]'))
           sessionStorage.setItem('dictList', JSON.stringify(data.dictList || '[]'))
-          var tmpCookieStr = document.cookie.split(";")
-          console.log(tmpCookieStr)
-          for(var i=0;i<tmpCookieStr.length;i++){
-            var map=tmpCookieStr[i].trim().split("=")
-            if(map.length==2){
-              Vue.cookie.set(map[0], map[1]);
-            }
-          }
           next({...to, replace: true})
         } else {
           sessionStorage.setItem('allMenuList', '[]')

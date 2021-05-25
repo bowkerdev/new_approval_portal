@@ -11,7 +11,7 @@
         <el-input v-model="inputForm.label" :placeholder="$i18nMy.t('标签')"></el-input>
       </el-form-item>
       <el-form-item :label="$i18nMy.t('键值')" prop="value">
-        <el-input v-model="inputForm.value" :placeholder="$i18nMy.t('键值')"></el-input>
+        <el-input type="textarea" v-model="inputForm.value" :placeholder="$i18nMy.t('键值')"    ></el-input>
       </el-form-item>
       <el-form-item :label="$i18nMy.t('排序号')" prop="sort">
         <el-input-number  :step="1" v-model="inputForm.sort" :placeholder="$i18nMy.t('排序号')"></el-input-number>

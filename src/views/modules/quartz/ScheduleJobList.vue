@@ -21,13 +21,13 @@
          :disabled="dataListSelections.length != 1" plain>{{$i18nMy.t('立即执行一次')}}</el-button>
         <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
-            <el-button 
+            <el-button
               type="default"
               size="small"
               icon="el-icon-refresh"
               @click="refreshList">
             </el-button>
-          </el-tooltip>     
+          </el-tooltip>
         </el-button-group>
       </el-row>
     <el-table
@@ -97,8 +97,8 @@
         sortable="custom"
         show-overflow-tooltip
         :label="$i18nMy.t('参数')">
-      </el-table-column>  
-      
+      </el-table-column>
+
 	  <el-table-column
         prop="description"
         sortable="custom"
@@ -145,6 +145,7 @@
         pageSize: 10,
         total: 0,
         orderBy: '',
+        taskClassList:[],
         dataListSelections: [],
         isImportCollapse: false,
         loading: false
@@ -154,7 +155,11 @@
       ScheduleJobForm
     },
     activated () {
-      this.refreshList()
+      let _that=this
+      this.$dictUtils.getSqlDictList('schedule_job_tasklist',{},function(data){
+        _that.taskClassList = data
+        _that.refreshList()
+      })
     },
 
     methods: {
@@ -172,6 +177,12 @@
           }
         }).then(({data}) => {
           if (data && data.success) {
+            for(var i=0;i<data.page.list.length;i++){
+              var tmp=this.$common.find(this.taskClassList,function(e){return  e.value==data.page.list[i].className})
+              if(tmp!=null){
+                data.page.list[i].className=tmp.label
+              }
+            }
             this.dataList = data.page.list
             this.total = data.page.count
             this.loading = false

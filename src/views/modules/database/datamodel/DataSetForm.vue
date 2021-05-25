@@ -1,6 +1,6 @@
 <template>
 <div class="el-scrollbar__wrap wrap-white padding-20">
-  <div class="el-scrollbar__view">    
+  <div class="el-scrollbar__view">
       <el-row :gutter="20" v-loading="loading">
         <el-col :span="24">
            <el-row :gutter="20">
@@ -35,6 +35,7 @@
                             :rules="[
                               {required: true, message:'数据源名称不能为空', trigger:'blur'}
                             ]">
+                          <div>类型_组别_名称 </div>
                           <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写数据源名称')"     ></el-input>
                       </el-form-item>
                         <el-form-item label="sql语句" prop="sqlcmd"

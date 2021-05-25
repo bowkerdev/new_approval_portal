@@ -548,7 +548,16 @@ export default {
     }
     return cs[paramName];     
   },
-
+  getSqlList(sqlKey,that,fieldName){
+    that.$http({
+      url: '/database/datamodel/dataSet/getDataByName/'+sqlKey+'/json',
+      method: 'get'
+    }).then(({data}) => {
+      if (data && data.success) {
+        that[fieldName] = data.result
+      }
+    })
+  },
   filterApplyOption (searchForm,optionList){
     try{
       //清空选项后缀列表

@@ -140,6 +140,16 @@
         if (this.isTab) {
           // tab选中, 不存在先添加
           let tab = this.mainTabs.filter(item => item.fullPath === route.fullPath)[0]
+          let tab2 =this.$store.state.tagsView.visitedViews.filter(item => item.fullPath === route.fullPath)[0]
+          if (!tab2) {
+            if(route.matched.length>=2&&route.matched[1].instances!=null){
+              var instances =route.matched[1].instances.$refs ==null ?route.matched[1].instances.default:route.matched[1].instances
+              if(instances!=null){
+                instances.$refs.searchForm.resetFields()
+              }
+
+            }
+          }
           if (!tab) {
             if (route.meta.isDynamic) {
               route = this.dynamicMenuRoutes.filter(item => item.name === route.name)[0]

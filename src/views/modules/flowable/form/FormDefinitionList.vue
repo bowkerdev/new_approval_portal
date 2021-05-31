@@ -186,6 +186,7 @@
   import DesignForm from './MakeFlowableForm'
   import SelectTree from '@/components/treeSelect/treeSelect.vue'
   export default {
+    name: 'flowable-form-FormDefinitionList',
     data () {
       return {
         searchForm: {

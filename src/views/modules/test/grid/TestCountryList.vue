@@ -156,6 +156,7 @@
   import TestCountryForm from './TestCountryForm'
   import GridSelect from '@/components/gridSelect'
   export default {
+    name: 'test-grid-TestCountryList',
     data () {
       return {
         searchForm: {

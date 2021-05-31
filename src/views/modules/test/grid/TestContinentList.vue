@@ -111,6 +111,7 @@
 <script>
   import TestContinentForm from './TestContinentForm'
   export default {
+    name: 'test-grid-TestContinentList',
     data () {
       return {
         searchForm: {

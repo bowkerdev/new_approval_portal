@@ -125,6 +125,7 @@
   import SentMailDetail from './SentMailDetail'
   import TrashMailDetail from './TrashMailDetail'
   export default {
+    name: 'mailbox-index',
     data () {
       return {
         searchForm: {

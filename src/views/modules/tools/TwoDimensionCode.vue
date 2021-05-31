@@ -20,6 +20,7 @@
 
 <script>
   export default {
+    name: 'tools-TwoDimensionCode',
     data () {
       return {
         inputForm: {

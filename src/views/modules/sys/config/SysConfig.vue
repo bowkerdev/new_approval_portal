@@ -144,6 +144,7 @@
 </template>
 <script>
   export default {
+    name: 'sys-config-SysConfig',
     data () {
       return {
         activeName: 'first',

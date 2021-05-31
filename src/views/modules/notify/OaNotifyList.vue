@@ -136,6 +136,7 @@
 <script>
   import OaNotifyForm from './OaNotifyForm'
   export default {
+    name: 'notify-OaNotifyList',
     data () {
       return {
         searchForm: {

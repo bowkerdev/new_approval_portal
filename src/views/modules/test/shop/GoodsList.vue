@@ -140,6 +140,7 @@
   import GoodsForm from './GoodsForm'
   import SelectTree from '@/components/treeSelect/treeSelect.vue'
   export default {
+    name: 'test-shop-GoodsList',
     data () {
       return {
         searchForm: {

@@ -291,6 +291,7 @@
   import TestDataMainFormForm from './TestDataMainFormForm'
   import UserSelect from '@/components/userSelect'
   export default {
+    name: 'test-onetomany-TestDataMainFormList',
     data () {
       return {
         searchForm: {

@@ -157,6 +157,7 @@
 
 <script>
   export default {
+    name: 'sys-user-UserInfo',
     data () {
       var validatePass2 = (rule, value, callback) => {
         if (value !== this.pwdForm.newPassword) {

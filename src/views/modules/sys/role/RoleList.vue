@@ -116,6 +116,7 @@
   import RoleUserList from './RoleUserList'
 
   export default {
+    name: 'sys-role-RoleList',
     data () {
       return {
         searchForm: {

@@ -136,6 +136,7 @@
   import LeaveFormForm from './LeaveFormForm'
   import UserSelect from '@/components/userSelect'
   export default {
+    name: 'test-one-LeaveFormList',
     data () {
       return {
         searchForm: {

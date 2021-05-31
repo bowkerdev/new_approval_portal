@@ -28,6 +28,7 @@
   import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
   import interactionPlugin from '@fullcalendar/interaction'
   export default {
+    name: 'calendar-MyCalendar',
     data () {
       return {
         start: new Date(),

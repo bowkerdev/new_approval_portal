@@ -152,6 +152,7 @@
 
 <script>
   export default {
+    name: 'sys-log-LogList',
     data () {
       return {
         searchForm: {

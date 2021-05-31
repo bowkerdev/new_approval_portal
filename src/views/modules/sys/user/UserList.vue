@@ -196,6 +196,7 @@
   import UserForm from './UserForm'
 
   export default {
+    name: 'sys-user-UserList',
     data () {
       return {
         searchForm: {

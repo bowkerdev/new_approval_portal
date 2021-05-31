@@ -25,6 +25,7 @@
 
 <script>
   export default {
+    name: 'sys-plugin-index',
     data () {
       return {
         dataList: []

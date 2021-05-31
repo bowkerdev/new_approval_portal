@@ -150,6 +150,7 @@
   import DataRuleList from './DataRuleList'
 
   export default {
+    name: 'sys-menu-MenuList',
     data () {
       return {
         rightVisible: false,

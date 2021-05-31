@@ -22,7 +22,6 @@
 <style>
 .jp-menu-category {
     padding: 0 20px;
-    margin-top: 20px;
     font-size: 12px;
     line-height: 38px;
     color: #76838f;

@@ -1,9 +1,9 @@
 <template>
-  <el-popover :placement="placement" :width="width" v-model="visible" class="header-filter">
+  <el-popover :placement="placement" :width="width" v-model="visible">
     <div class="header-tools-order">
-      <div @click="sortOrder('ascending')" class="AZ-anime"><i class="el-icon-top"></i>&nbsp;{{$i18nMy.t('升序')}}</div>
-      <div @click="sortOrder('descending')" class="AZ-anime"><i class="el-icon-bottom"></i>&nbsp;{{$i18nMy.t('降序')}}</div>
-      <div @click="sortOrder(null)" class="AZ-anime"><i class="el-icon-close"></i>&nbsp;{{$i18nMy.t('取消排序')}}</div>
+      <div @click="sortOrder('ascending')" class="order-item AZ-anime"><i class="el-icon-top"></i>&nbsp;{{$i18nMy.t('升序')}}</div>
+      <div @click="sortOrder('descending')" class="order-item AZ-anime"><i class="el-icon-bottom"></i>&nbsp;{{$i18nMy.t('降序')}}</div>
+      <div @click="sortOrder(null)" class="order-item AZ-anime"><i class="el-icon-close"></i>&nbsp;{{$i18nMy.t('取消排序')}}</div>
     </div>
     <h3 v-text="label"></h3>
     <div class="header-tools-body">
@@ -12,10 +12,10 @@
           <el-option v-for="operation in operationList" :key="operation.value" :value="operation.value" :label="operation.label"></el-option>
         </el-select>
       </div>
-      <el-input v-if="['_null','_not_null','_in','_not_in'].indexOf(option.filterMode)<0" v-model="option.inputValue" size="mini" clearable />
-      <el-input v-if="['_between'].indexOf(option.filterMode)>-1" v-model="option.subInputValue" size="mini" clearable />
+      <el-input v-if="['_null','_not_null','_in','_not_in'].indexOf(option.filterMode)<0" v-model="option.inputValue" clearable />
+      <el-input v-if="['_between'].indexOf(option.filterMode)>-1" v-model="option.subInputValue" clearable />
       <div class="option-list-input container-flex-space-between" v-if="['_in','_not_in'].indexOf(option.filterMode)>-1" v-for="(op,opIndex) in option.optionList">
-        <el-input v-model="op.inputValue" @paste.native.capture.prevent="onPaste($event,opIndex)" size="mini" clearable />
+        <el-input v-model="op.inputValue" @paste.native.capture.prevent="onPaste($event,opIndex)" clearable />
         <div class="container-flex-space-between">
           <i @click="addFilter(opIndex)" class="el-icon-circle-plus"></i>
           <i v-if="option.optionList.length > 1" @click="removeFilter(opIndex)" class="el-icon-error"></i>
@@ -27,7 +27,14 @@
       <el-button size="small" type="primary" @click="doSubmit()">{{$i18nMy.t('确定')}}</el-button>
     </div>
     <span slot="reference" class="header-tools-title">
-      <span :class="{'has-search':hasFilter()}" v-text="label"></span><span><span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span><i class="el-icon-arrow-down AZ-anime" :class="{'has-search':hasFilter()}"></i></span>
+      <span :class="{'has-search':hasFilter()}" :title="label" v-text="label"></span>
+      <span style="white-space: nowrap;">
+        <span class="caret-wrapper">
+          <i class="sort-caret ascending"></i>
+          <i class="sort-caret descending"></i>
+        </span>
+        <i class="fa fa-filter AZ-anime" :class="{'has-search':hasFilter()}"></i>
+      </span>
     </span>
   </el-popover>
 </template>
@@ -101,6 +108,11 @@
       this.dataType == 'date'? this.dateOperation :
       this.stringOperation;
     },
+    computed: {
+      defaultTheme () {
+        return this.$store.state.config.defaultTheme
+      }
+    },
     methods: {
       addFilter (optionIndex) {
         this.option.optionList.splice(optionIndex+1,0,{
@@ -128,8 +140,15 @@
       doSubmit () {
         var option = {
           prop: this.prop,
-          option: this.option
+          option: this.option,
+          label: this.label
         };
+        for (var i = 0; i < this.operationList.length; i++) {
+          if (this.option.filterMode == this.operationList[i].value) {
+            option.operationLabel = this.operationList[i].label;
+            break;
+          }
+        }
         this.$emit('apply-option', option)
         this.visible = false;
       },
@@ -181,22 +200,40 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/assets/scss/element-variables.scss';
   h3{
-    margin: 15px 0px 5px 0px;
+    margin: 10px 0;
   }
 
   .header-tools-title{
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
+    line-height: 1.1;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .header-tools-title>span:first-child{
+    display:-webkit-box;
+    overflow:hidden;
+    white-space:normal !important;
+    text-overflow:ellipsis;
+    word-wrap:break-word;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+  }
+
+  .header-tools-title i{
+    cursor: pointer;
   }
 
   .filter-mode-select{
     width: 100px;
   }
 
-  .filter-mode-select >>>.el-input .el-input__inner{
+  .filter-mode-select ::v-deep .el-input .el-input__inner{
     padding-left: 0px;
     border: none;
   }
@@ -205,20 +242,27 @@
     margin-top: 10px;
   }
 
-  .header-tools-order{
+  .header-tools-order {
     border-bottom: 1px solid #EBEEF5;
     padding-bottom: 10px;
-  }
+    font-size: $--font-size-small;
 
-  .header-tools-order >>>div{
-    padding: 5px 0px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+    .order-item {
+      padding-top: 3px;
+      padding-bottom: 3px;
+    }
 
-  .header-tools-order >>>div:hover{
-    background-color: #66b1ff;
-    color: white;
+    ::v-deep div{
+      padding: 5px 0px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    ::v-deep div:hover{
+      background-color: #409EFF;
+      color: white;
+    }
+
   }
 
   .has-search{
@@ -230,33 +274,65 @@
     overflow: auto;
     scrollbar-width: none; /* firefox */
     -ms-overflow-style: none; /* IE 10+ */
+
+    ::v-deep i {
+      color: #409EFF;
+      margin-left: 10px;
+      font-size: 16px;
+    }
   }
 
   .header-tools-body::-webkit-scrollbar {
     display: none; /* Chrome Safari */
   }
 
-  .header-tools-body >>>i{
-    color: #66b1ff;
-    margin-left: 10px;
-    font-size: 16px;
-  }
-
-  .el-table .sort-caret{
+  .el-table .header-tools-title .caret-wrapper .sort-caret{
     border-top-color: transparent;
     border-bottom-color: transparent;
   }
-
-  .header-tools-title >>>.el-icon-arrow-down{
-    opacity: 0;
+  .el-table .ascending .header-tools-title .sort-caret.ascending {
+    border-bottom-color: #409EFF;
   }
-
-  .header-tools-title:hover >>>.el-icon-arrow-down{
-    opacity: 1;
+  .el-table .descending .header-tools-title .sort-caret.descending {
+    border-top-color: #409EFF;
   }
 
   .el-input+.el-input,
   .option-list-input+.option-list-input{
-    margin-top:10px;
+    margin-top: 4px;
+  }
+
+  .el-select-dropdown__item {
+    font-size: $--font-size-small;
+  }
+</style>
+<style>
+  .header-tools-tag{
+    background-color: #ecf5ff;
+    color: #409eff;
+    border: 1px solid #d9ecff;
+    padding: 9px 15px;
+    line-height: 1;
+    height: 32px;
+    margin-top: 5px;
+  }
+  .header-tools-tag+.header-tools-tag{
+    margin-bottom: 0px;
+    margin-left: 10px;
+  }
+  .header-tools-tag .el-icon-close{
+    color: #409eff;
+  }
+  .header-tools-tag .el-tag__close:hover{
+    background-color: #409eff;
+    color: #FFFFFF;
+  }
+  .header-tools-tag-field{
+    width: auto;
+    max-width: 50%;
+    overflow: auto;
+    display: inline-block;
+    vertical-align: top;
+    margin: -5px 10px 0px 10px;
   }
 </style>

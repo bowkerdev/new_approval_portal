@@ -402,8 +402,3 @@
     }
   }
 </script>
-<style lang="scss">
-.el-card__body {
-    overflow: auto;
-}
-</style>

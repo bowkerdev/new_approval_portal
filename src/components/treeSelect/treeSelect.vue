@@ -1,5 +1,5 @@
 <template>
-  <el-select :value="valueTitle" :size="size"  :disabled="disabled" :clearable="clearable" :placeholder="placeholder" @clear="clearHandle">
+  <el-select class="el-select-scope" :value="valueTitle" :size="size"  :disabled="disabled" :clearable="clearable" :placeholder="placeholder" @clear="clearHandle">
     <el-option :value="valueTitle"  :label="valueTitle" class="options">
       <el-tree  id="tree-option" v-if="openPanel"
         ref="selectTree"
@@ -170,7 +170,7 @@ export default {
     initScroll () {
       this.$nextTick(() => {
         let scrollWrap = document.querySelectorAll('.el-scrollbar .el-select-dropdown__wrap')[0]
-        let scrollBar = document.querySelectorAll('.el-scrollbar .el-scrollbar__bar')
+        let scrollBar = document.querySelectorAll('.el-select-scope .el-scrollbar .el-scrollbar__bar')
         if (scrollWrap) { scrollWrap.style.cssText = 'margin: 0px; max-height: none; overflow: hidden;' }
         if (scrollBar) {
           scrollBar.forEach(ele => {

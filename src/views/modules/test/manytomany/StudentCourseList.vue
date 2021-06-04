@@ -175,6 +175,7 @@
   import StudentCourseForm from './StudentCourseForm'
   import GridSelect from '@/components/gridSelect'
   export default {
+    name: 'test-manytomany-StudentCourseList',
     data () {
       return {
         searchForm: {

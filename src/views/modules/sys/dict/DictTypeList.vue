@@ -104,6 +104,7 @@
   import DictValueList from './DictValueList'
 
 export default {
+    name: 'sys-dict-DictTypeList',
     data () {
       return {
         searchForm: {

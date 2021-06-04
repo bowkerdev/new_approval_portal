@@ -135,6 +135,7 @@
 <script>
   import ScheduleJobForm from './ScheduleJobForm'
   export default {
+    name: 'quartz-ScheduleJobList',
     data () {
       return {
         searchForm: {

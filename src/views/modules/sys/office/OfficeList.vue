@@ -76,6 +76,7 @@
   import OfficeForm from './OfficeForm'
 
   export default {
+    name: 'sys-office-OfficeList',
     data () {
       return {
         loading: false,

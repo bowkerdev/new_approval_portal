@@ -112,6 +112,7 @@
 <script>
   import CourseForm from './CourseForm'
   export default {
+    name: 'test-manytomany-CourseList',
     data () {
       return {
         searchForm: {

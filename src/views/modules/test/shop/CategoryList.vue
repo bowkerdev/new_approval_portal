@@ -50,6 +50,7 @@
 <script>
   import CategoryForm from './CategoryForm'
   export default {
+    name: 'test-shop-CategoryList',
     data () {
       return {
         dataList: [],

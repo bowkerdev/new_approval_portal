@@ -67,6 +67,7 @@
   import AreaForm from './AreaForm'
 
   export default {
+    name: 'sys-area-AreaList',
     data () {
       return {
         loading: false,

@@ -50,6 +50,7 @@
 <script>
   import TestTreeForm from './TestTreeForm'
   export default {
+    name: 'test-tree-TestTreeList',
     data () {
       return {
         dataList: [],

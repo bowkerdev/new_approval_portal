@@ -145,6 +145,7 @@
 <script>
   import SysSimpleLanguageForm from './SysSimpleLanguageForm'
   export default {
+    name: 'sys-language-SysSimpleLanguageList',
     data () {
       return {
         searchForm: {

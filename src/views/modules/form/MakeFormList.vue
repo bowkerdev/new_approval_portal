@@ -122,6 +122,7 @@
   import MenuForm from './MenuForm'
   import DataRuleList from './DataRuleList'
   export default {
+    name: 'form-MakeFormList',
     data () {
       return {
         searchForm: {

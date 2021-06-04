@@ -111,6 +111,7 @@
 <script>
   import StudentForm from './StudentForm'
   export default {
+    name: 'test-manytomany-StudentList',
     data () {
       return {
         searchForm: {

@@ -143,25 +143,39 @@ router.beforeEach((to, from, next) => {
         dealError(e)
       })
     }
-    var ssoToken=common.getUrlParam("token")
-    if (process.env.VUE_APP_SSO_LOGIN === 'true' && process.env.VUE_APP_SSO_TYPE!="cas"&&ssoToken!=null&&ssoToken!='') {
+    function getSysToken(){
       http({
         url: `/sys/tokenLogin?ssoToken=${ssoToken}`,
         method: 'get'
       }).then(({data}) => {
         if (data && data.success) {
+          clearLoginInfo ()
           Vue.cookie.set(process.env.VUE_APP_SSO_TYPE+'_token', ssoToken)
           Vue.cookie.set('token', data.token)
           Vue.cookie.set('refreshToken', data.refreshToken)
           getMenus()
         } else {
-          debugger
           var e={response:{status:401,data:{code:401,msg:data.msg}}}
           dealError(e)
         }
       }).catch((e) => {
         dealError(e)
       })
+    }
+    var ssoToken=common.getUrlParam("token")
+    if (process.env.VUE_APP_SSO_LOGIN === 'true' && process.env.VUE_APP_SSO_TYPE!="cas"&&ssoToken!=null&&ssoToken!='') {
+      debugger
+      if(Vue.cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')!=ssoToken){
+        http({
+          url: '/sys/logout',
+          method: 'get'
+        }).then(({data}) => {
+           getSysToken()
+        })
+      }
+      else{
+        getSysToken()
+      }
     }
     else{
       getMenus()

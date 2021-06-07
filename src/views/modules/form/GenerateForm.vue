@@ -69,14 +69,19 @@
               for (let key in data.obj) {
                 let dataField = this.dataBindMap.get(key)
                 if (dataField && (dataField['type'] === 'checkbox' ||
-                dataField['type'] === 'imgupload' ||
-                dataField['type'] === 'table' ||
-                (dataField['type'] === 'select' && dataField.options.multiple) ||
-                dataField['type'] === 'fileupload')) {
-                  if (data.obj[key] !== undefined) {
+                    dataField['type'] === 'imgupload' ||
+                    dataField['type'] === 'table' ||
+                    (dataField['type'] === 'select' && dataField.options.multiple) ||
+                    dataField['type'] === 'fileupload')) {
+                  if (data.obj[key] && typeof data.obj[key] === 'string') {
                     data.obj[key] = JSON.parse(data.obj[key])
-                  } else {
+                  } else if (!data.obj[key]) {
                     data.obj[key] = []
+                  }
+                }
+                if (dataField && (dataField['type'] === 'number' || dataField['options'].dataType === 'number')) {
+                  if (data.obj[key] !== undefined && data.obj[key] !== '' && typeof data.obj[key] === 'string') {
+                    data.obj[key] = JSON.parse(data.obj[key])
                   }
                 }
               }
@@ -94,6 +99,12 @@
           } else if (genList[i].type === 'tabs') {
             genList[i].tabs.forEach(item => {
               this.generateModel(item.list)
+            })
+          } else if (genList[i].type === 'report') {
+            genList[i].rows.forEach(row => {
+              row.columns.forEach(column => {
+                this.generateModel(column.list)
+              })
             })
           } else {
             // 处理老版本没有dataBind值的情况，默认绑定数据

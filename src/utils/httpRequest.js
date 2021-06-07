@@ -39,9 +39,10 @@ axios.interceptors.request.use(config => {
   // 请求头带上token
   config.headers.token = Vue.cookie.get('token')
   // 请求地址处理
-  if (!config.url.indexOf('http') == 0) {
+  if (!config.url.startsWith('http')) {
     config.url = BASE_URL + config.url
   }
+
   const type = config.method
   const defaults = {}
   const arrayFormat = config.headers.arrayFormat || 'indices'

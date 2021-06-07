@@ -1,13 +1,13 @@
 <template>
   <div class="page">
-      <el-form size="small" :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
 		     <el-form-item prop="title">
                 <el-input size="small" v-model="searchForm.title" :placeholder="$i18nMy.t('标题')" clearable></el-input>
 		     </el-form-item>
           <el-form-item>
-            <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
-            <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
+            <el-button  type="primary" @click="refreshList()" size="small" icon="el-icon-search">{{$i18nMy.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
       <div class="top bg-white">
@@ -70,6 +70,7 @@
 	  <el-table-column
         prop="files"
         sortable="custom"
+        show-overflow-tooltip
         :label="$i18nMy.t('附件')">
         <template slot-scope="scope">
             <a :href="item" target="_blank" :key="index" v-for="(item, index) in (scope.row.files || '').split('|')">

@@ -48,7 +48,12 @@
     },
     watch: {
       $route: {
-        handler (val) {
+        handler (val, from) {
+          if (val && from && val.path === from.path && val.fullPath !== from.fullPath) { // 强制刷新参数不同的路由页面
+            this.$router.replace({
+              path: '/redirect' + val.fullPath
+            })
+          }
           this.breadcrumbs = []
           if (val.meta && val.meta.parentIds) {
             let ids = val.meta.parentIds.split(',')

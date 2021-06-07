@@ -6,8 +6,8 @@
                 <el-input size="small" v-model="searchForm.name" placeholder="课程名" clearable></el-input>
          </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small">查询</el-button>
-            <el-button @click="resetSearch()" size="small">重置</el-button>
+            <el-button type="primary" @click="refreshList()" size="small" icon="el-icon-search">查询</el-button>
+            <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">重置</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
@@ -112,7 +112,6 @@
 <script>
   import CourseForm from './CourseForm'
   export default {
-    name: 'test-manytomany-CourseList',
     data () {
       return {
         searchForm: {

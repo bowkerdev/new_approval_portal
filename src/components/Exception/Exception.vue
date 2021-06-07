@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     goHome () {
-      this.$events.$emit('closeTab', this.$route.fullPath)
+      this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
       this.$router.push('/')
     }
   },

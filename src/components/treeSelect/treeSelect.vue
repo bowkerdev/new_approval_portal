@@ -1,14 +1,14 @@
 <template>
-  <el-select class="el-select-scope" :value="valueTitle" :size="size"  :disabled="disabled" :clearable="clearable" :placeholder="placeholder" @clear="clearHandle">
+  <el-select :value="valueTitle" :size="size"  :disabled="disabled" :clearable="clearable" :placeholder="placeholderText" @clear="clearHandle">
     <el-option :value="valueTitle"  :label="valueTitle" class="options">
-      <el-tree  id="tree-option" v-if="openPanel"
+      <el-tree  id="tree-option"
         ref="selectTree"
         :accordion="accordion"
         :data="optionData"
         :show-checkbox="showCheckbox"
         :props="props"
         highlight-current
-        :node-key="props.value"
+        :node-key="props.value"    
         :default-expanded-keys="defaultExpandedKey"
         @check-change="handleCheckChange"
         @node-click="handleNodeClick">
@@ -79,6 +79,10 @@ export default {
       type: String,
       default: () => { return 'small' }
     },
+    placeholder: {
+      type: String,
+      default: () => { return '请选择' }
+    },
     isOnlySelectLeaf: {
       type: Boolean,
       default: () => {
@@ -91,17 +95,16 @@ export default {
       valueId: this.value,    // 初始值
       valueTitle: this.label,
       defaultExpandedKey: [],
-      placeholder: '请选择',
+      placeholderText: this.placeholder,
       treeList: [],
-      openPanel : true,
       valueData: this.data
     }
   },
   created () {
     if (this.url !== null) {
-      this.placeholder = '加载数据中...'
+      this.placeholderText = '加载数据中...'
       let interval = setInterval(() => {
-        this.placeholder = this.placeholder + '.'
+        this.placeholderText = this.placeholderText + '.'
       }, 500)
       this.$http({
         url: this.url,
@@ -111,7 +114,7 @@ export default {
         this.setTreeList(this.valueData)
         this.$nextTick(() => {
           this.initHandle()
-          this.placeholder = '请选择'
+          this.placeholderText = this.placeholder
           clearInterval(interval)
         })
       })
@@ -129,19 +132,9 @@ export default {
         }
       }
     },
-    setCurrentKey(id,name){
-      this.$refs.selectTree.setCurrentKey(id)
-      this.valueId = id
-      this.valueTitle = name
-      this.$emit('getValue', this.valueId, this.valueTitle)
-    },
     // 初始化值
     initHandle () {
       if (this.valueId) {
-        this.openPanel = false;
-        this.$nextTick(() => {
-        	this.openPanel = true;
-        })
         if (this.showCheckbox) {
           let ids = this.valueId.split(',')
           this.$refs.selectTree.setCheckedKeys(ids)
@@ -155,7 +148,7 @@ export default {
           })
 
           this.valueTitle = titles.join(',')
-        } else if (this.valueId !== '1' && this.$refs.selectTree.getNode(this.valueId)) {
+        } else if (this.$refs.selectTree.getNode(this.valueId)) {
           this.valueTitle = this.$refs.selectTree.getNode(this.valueId).data[this.props.label]     // 初始化显示
           this.$refs.selectTree.setCurrentKey(this.valueId)       // 设置默认选中
           this.defaultExpandedKey = [this.valueId]      // 设置默认展开
@@ -170,7 +163,7 @@ export default {
     initScroll () {
       this.$nextTick(() => {
         let scrollWrap = document.querySelectorAll('.el-scrollbar .el-select-dropdown__wrap')[0]
-        let scrollBar = document.querySelectorAll('.el-select-scope .el-scrollbar .el-scrollbar__bar')
+        let scrollBar = document.querySelectorAll('.el-scrollbar .el-scrollbar__bar')
         if (scrollWrap) { scrollWrap.style.cssText = 'margin: 0px; max-height: none; overflow: hidden;' }
         if (scrollBar) {
           scrollBar.forEach(ele => {
@@ -186,11 +179,11 @@ export default {
         return
       }
       if (node['disabled']) {
-        this.$message.warning($i18nMy.t('节点（#{label}）被禁止选择，请重新选择。').replace("#{label}",node[this.props.label]))
+        this.$message.warning('节点（' + node[this.props.label] + '）被禁止选择，请重新选择。')
         return
       }
       if (this.isOnlySelectLeaf && node.children.length > 0) {
-        this.$message.warning($i18nMy.t('不能选择根节点（#{label}）请重新选择。').replace("#{label}",node[this.props.label]))
+        this.$message.warning('不能选择根节点（' + node[this.props.label] + '）请重新选择。')
         return
       }
       this.valueTitle = node[this.props.label]

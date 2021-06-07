@@ -4,16 +4,20 @@
       <router-link
         v-for="tag in visitedViews"
         ref="tag"
-        :key="tag.path"
+        :key="tag.fullPath"
         :class="isActive(tag)?'active':''"
         :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
         tag="span"
         class="tags-view-item"
-        @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''"
+        v-slot="{ navigate }"
         @contextmenu.prevent.native="openMenu(tag,$event)"
+        @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''"
+       
       >
-        {{tag.query&&tag.query.title || tag.title }}
-        <span v-if="!isAffix(tag)" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
+        <span @click="navigate" @keypress.enter="navigate">
+          {{tag.query&&tag.query.title || tag.title }}
+          <span v-if="!isAffix(tag)" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
+        </span>
       </router-link>
     </scroll-pane>
     <ul v-show="visible" :style="{left:left+'px',top:top -60 +'px'}" class="contextmenu">
@@ -67,7 +71,7 @@ export default {
   },
   methods: {
     isActive (route) {
-      return route.path === this.$route.path
+      return route.fullPath === this.$route.fullPath
     },
     isAffix (tag) {
       return tag.meta && tag.meta.affix
@@ -85,7 +89,7 @@ export default {
           })
         }
         if (route.children) {
-          const tempTags = this.filterAffixTags(route.children, route.path)
+          const tempTags = this.filterAffixTags(route.children, route.fullPath)
           if (tempTags.length >= 1) {
             tags = [...tags, ...tempTags]
           }
@@ -113,7 +117,7 @@ export default {
       const tags = this.$refs.tag
       this.$nextTick(() => {
         for (const tag of tags) {
-          if (tag.to.path === this.$route.path) {
+          if (tag.to.fullPath === this.$route.fullPath) {
             this.$refs.scrollPane.moveToTarget(tag)
             // when query is different then update
             if (tag.to.fullPath !== this.$route.fullPath) {
@@ -149,7 +153,7 @@ export default {
     },
     closeAllTags (view) {
       this.$store.dispatch('tagsView/delAllViews').then(({ visitedViews }) => {
-        if (this.affixTags.some(tag => tag.path === view.path)) {
+        if (this.affixTags.some(tag => tag.fullPath === view.fullPath)) {
           return
         }
         this.toLastView(visitedViews, view)

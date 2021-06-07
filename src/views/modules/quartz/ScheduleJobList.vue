@@ -6,8 +6,8 @@
                 <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('任务名')" clearable></el-input>
 		     </el-form-item>
           <el-form-item>
-            <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
-            <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
+            <el-button  type="primary" @click="refreshList()" size="small" icon="el-icon-search">{{$i18nMy.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
       <div class="bg-white top">
@@ -92,13 +92,6 @@
         show-overflow-tooltip
         :label="$i18nMy.t('任务类')">
       </el-table-column>
-    <el-table-column
-        prop="param"
-        sortable="custom"
-        show-overflow-tooltip
-        :label="$i18nMy.t('参数')">
-      </el-table-column>
-
 	  <el-table-column
         prop="description"
         sortable="custom"

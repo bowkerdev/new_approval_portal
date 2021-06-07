@@ -6,8 +6,8 @@
             <user-select :limit='1' size="small" placeholder="请选择员工" :value="searchForm.tuser.id" @getValue='(value) => {searchForm.tuser.id=value}'></user-select>
          </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small">查询</el-button>
-            <el-button @click="resetSearch()" size="small">重置</el-button>
+            <el-button type="primary" @click="refreshList()" size="small" icon="el-icon-search">查询</el-button>
+            <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">重置</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
@@ -136,7 +136,6 @@
   import LeaveFormForm from './LeaveFormForm'
   import UserSelect from '@/components/userSelect'
   export default {
-    name: 'test-one-LeaveFormList',
     data () {
       return {
         searchForm: {

@@ -16,8 +16,8 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
-          <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
+          <el-button  type="primary" @click="refreshList()" size="small" icon="el-icon-search">{{$i18nMy.t('查询')}}</el-button>
+          <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">{{$i18nMy.t('重置')}}</el-button>
         </el-form-item>
       </el-form>
       <div class="top bg-white">
@@ -82,6 +82,8 @@
           <el-table-column
             fixed="right"
             :key="Math.random()"
+            header-align="center"
+            align="center"
             width="200"
             :label="$i18nMy.t('操作')">
             <template slot-scope="scope">

@@ -26,7 +26,6 @@
         <el-col :span="12">
             <el-form-item label="父级编号" prop="parent.id"
                 :rules="[
-                  {required: true, message:'父级编号不能为空', trigger:'blur'}
                  ]">
                 <SelectTree
                       ref="parent"

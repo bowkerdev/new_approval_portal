@@ -1,47 +1,75 @@
 <template>
-    <div class="page bg-white">
-      <el-row>
-        <el-button v-if="hasPermission('test:tree:testTree:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
-      </el-row>
-    <el-treetable
-      :data="dataList"
-      isBigData
-      isTreeTable
-      size="medium"
-      v-loading = "loading"
-      row-key="id"
-      class="table treetable">
-    <el-treetable-column
-        prop="name"
+    <div class="page">
+      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+            <!-- 搜索框-->
+         <el-form-item prop="name">
+                <el-input size="small" v-model="searchForm.name" placeholder="名称" clearable></el-input>
+         </el-form-item>
+         <el-form-item prop="remarks">
+                <el-input size="small" v-model="searchForm.remarks" placeholder="备注信息" clearable></el-input>
+         </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="refreshList()" size="small" icon="el-icon-search">查询</el-button>
+            <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">重置</el-button>
+          </el-form-item>
+      </el-form>
+    <div class="bg-white top">
+    <vxe-toolbar :refresh="{query: refreshList}" export print custom>
+      <template #buttons>
+          <el-row>
+            <el-button v-if="hasPermission('test:tree:testTree:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
+            <el-button v-if="hasPermission('test:tree:testTree:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
+                 :disabled="$refs.testTree && $refs.testTree.getCheckboxRecords().length !== 1" plain>修改</el-button>
+            <el-button v-if="hasPermission('test:tree:testTree:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
+                  :disabled="$refs.testTree && $refs.testTree.getCheckboxRecords().length === 0" plain>删除</el-button>
+          </el-row>
+      </template>
+    </vxe-toolbar>
+    <div style="height: calc(100% - 50px);">
+      <vxe-table
+        resizable
+        ref="testTree"
+        border="inner"
+        auto-resize
+        height="auto"
+        row-id="id"
+        size="small"
+        show-header-overflow
+        show-overflow
+        highlight-hover-row
+        :print-config="{}"
+        :export-config="{}"
+        :tree-config="{}"
+        :loading="loading"
+        :checkbox-config="{labelField: ''}"
+        :data="dataList">
+      <vxe-table-column type="checkbox" width="40px"> </vxe-table-column>
+    <vxe-table-column
+        field="name"
         align="left"
-        show-overflow-tooltip
-        label="名称">
+        tree-node 
+        title="名称">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('test:tree:testTree:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('test:tree:testTree:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
               <span v-else>{{scope.row.name}}</span>
             </template>
-      </el-treetable-column>
-    <el-treetable-column
-        prop="remarks"
-        show-overflow-tooltip
-        label="备注信息">
-      </el-treetable-column>
-      <el-treetable-column
-        header-align="center"
-        align="center"
-        fixed="right"
-        :key="Math.random()"
-        width="300"
-        label="操作">
+      </vxe-table-column>
+    <vxe-table-column
+        field="remarks"
+        title="备注信息">
+      </vxe-table-column>
+      <vxe-table-column title="操作" width="300px" fixed="right" align="center">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('test:tree:testTree:view')" type="text" size="small" icon="el-icon-view" @click="view(scope.row.id)">查看</el-button>
           <el-button v-if="hasPermission('test:tree:testTree:edit')" type="text" size="small" icon="el-icon-edit" @click="edit(scope.row.id)">修改</el-button>
           <el-button v-if="hasPermission('test:tree:testTree:del')" type="text" size="small" icon="el-icon-delete" @click="del(scope.row.id)">删除</el-button>
           <el-button v-if="hasPermission('test:tree:testTree:add')" type="text" size="small" icon="el-icon-circle-plus-outline" @click="addChild(scope.row.id, scope.row.name)">添加下级组织机构</el-button>
         </template>
-      </el-treetable-column>
-    </el-treetable>
+      </vxe-table-column>
+    </vxe-table>
+    </div>
+    </div>
         <!-- 弹窗, 新增 / 修改 -->
     <TestTreeForm  ref="testTreeForm" @refreshDataList="refreshList"></TestTreeForm>
   </div>
@@ -49,10 +77,14 @@
 
 <script>
   import TestTreeForm from './TestTreeForm'
+  import XEUtils from 'xe-utils'
   export default {
-    name: 'test-tree-TestTreeList',
     data () {
       return {
+        searchForm: {
+          name: '',
+          remarks: ''
+        },
         dataList: [],
         loading: false
       }
@@ -73,8 +105,21 @@
           method: 'get'
         }).then(({data}) => {
           this.dataList = data.treeData
+          this.handleSearch()
           this.loading = false
         })
+      },
+      handleSearch () {
+        let options = { children: 'children' }
+        let searchProps = ['name', 'remarks']
+        this.dataList = XEUtils.searchTree(this.dataList, item => searchProps.every(key => XEUtils.toValueString(this.searchForm[key]).trim() === '' || XEUtils.toValueString(item[key]).indexOf(this.searchForm[key]) > -1), options)
+        this.$nextTick(() => {
+          this.$refs.testTree.setAllTreeExpand(true)
+        })
+      },
+      resetSearch () {
+        this.$refs.searchForm.resetFields()
+        this.refreshList()
       },
         // 新增下级
       addChild (id, name) {
@@ -94,6 +139,9 @@
       },
       // 删除
       del (id) {
+        let ids = id || this.$refs.testTree.getCheckboxRecords().map(item => {
+          return item.id
+        }).join(',')
         this.$confirm(`确定删除所选项吗?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -103,7 +151,7 @@
           this.$http({
             url: '/test/tree/testTree/delete',
             method: 'delete',
-            params: {'id': id}
+            params: {'ids': ids}
           }).then(({data}) => {
             if (data && data.success) {
               this.$message.success(data.msg)

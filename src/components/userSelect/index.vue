@@ -1,6 +1,6 @@
 <template>
 <div>
-    <el-input :placeholder="$i18nMy.t('请选择')" :size="size" :disabled="disabled"  :readonly="readonly" style="line-hight:40px" v-model="name" class="input-with-select">
+    <el-input :placeholder="placeholder" :size="size" :disabled="disabled"  :readonly="readonly" style="line-hight:40px" v-model="name" class="input-with-select">
       <el-button slot="append" :disabled="disabled"  :readonly="readonly" @click="showUserSelect" icon="el-icon-search"></el-button>
     </el-input>
     <user-select ref="userSelect" @doSubmit="selectUsersToInput" :limit="limit" :selectData="selectData"></user-select>
@@ -22,6 +22,10 @@ export default {
     size: {
       type: String,
       default: () => { return 'small' }
+    },
+    placeholder: {
+      type: String,
+      default: () => { return $i18nMy.t('请选择') }
     },
     readonly: {
       type: Boolean,

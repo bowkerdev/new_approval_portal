@@ -57,7 +57,6 @@
     },
     methods: { // 选择月份
       handleDateClick (arg) {
-        debugger
         this.start = this.moment(arg.dateStr).format('YYYY-MM-DD HH:mm:ss')
         this.end = this.moment(arg.dateStr).format('YYYY-MM-DD HH:mm:ss')
         this.$refs.myCalendarForm.init('add', '', this.start, this.end)

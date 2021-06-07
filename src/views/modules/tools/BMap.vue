@@ -14,7 +14,6 @@
 // 引入富文本编辑器所需样式
 import {MP} from './map.js'
 export default {
-  name: 'tools-BMap',
   data () {
     return {
       ak: 'I7ioGmQbypWKuWMNv5fLPKU4mt3gzhrz', // 正式线上项目，务必替换成自己的key

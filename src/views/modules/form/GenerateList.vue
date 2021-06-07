@@ -95,8 +95,8 @@
           ></el-input>
 		     </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
-            <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
+            <el-button type="primary" @click="refreshList()" size="small" icon="el-icon-search">{{$i18nMy.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
     </el-form>
           <!-- 导入导出-->
@@ -343,6 +343,12 @@
            } else if (genList[i].type === 'tabs') {
              genList[i].tabs.forEach(item => {
                this.generateModel(item.list)
+             })
+           } else if (genList[i].type === 'report') {
+             genList[i].rows.forEach(row => {
+               row.columns.forEach(column => {
+                 this.generateModel(column.list)
+               })
              })
            } else {
             // 处理老版本没有dataBind值的情况，默认绑定数据

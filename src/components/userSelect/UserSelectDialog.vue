@@ -14,7 +14,7 @@
         <el-card class="org">
           <div slot="header" class="clearfix">
             <el-input
-              placeholder="请输入组织机构过滤"
+              :placeholder="$i18nMy.t('请输入组织机构过滤')"
               size="small"
               v-model="filterText">
             </el-input>
@@ -30,28 +30,28 @@
             highlight-current
             node-key="id"
             :render-content="renderContent"
-        :filter-node-method="filterNode"
-        :expand-on-click-node="false"
-        @node-click="handleNodeClick"
-        ref="officeTree">
-      </el-tree>
+            :filter-node-method="filterNode"
+            :expand-on-click-node="false"
+            @node-click="handleNodeClick"
+            ref="officeTree">
+          </el-tree>
         </el-card>
       </el-aside>
-  
+
     <el-container>
       <el-header style="text-align: left; font-size: 12px;height:30px">
         <el-form size="small" :inline="true" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <el-form-item prop="loginName">
-          <el-input size="small" v-model="searchForm.loginName" :placeholder="$i18nMy.t('登录名')" clearable></el-input>
-         </el-form-item>
+              <el-input size="small" v-model="searchForm.loginName" :placeholder="$i18nMy.t('登录名')" clearable></el-input>
+            </el-form-item>
 
             <el-form-item>
-              <el-button  type="primary" @click="refreshList()" size="small">查询</el-button>
-              <el-button @click="resetSearch()" size="small">重置</el-button>
+              <el-button  type="primary" @click="refreshList()" size="small" icon="el-icon-search">{{$i18nMy.t('查询')}}</el-button>
+              <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">{{$i18nMy.t('重置')}}</el-button>
             </el-form-item>
           </el-form>
       </el-header>
-      
+
       <el-main>
         <el-table
           :data="dataList"
@@ -82,7 +82,7 @@
             prop="photo"
             header-align="center"
             align="center"
-            label="头像">
+            :label="$i18nMy.t('头像')">
             <template slot-scope="scope">
               <img :src="scope.row.photo === ''?'/static/img/avatar.png':scope.row.photo" style="height:35px"/>
             </template>
@@ -93,7 +93,7 @@
             align="center"
             sortable="custom"
             min-width="90"
-            label="登录名">
+            :label="$i18nMy.t('登录名')">
           </el-table-column>
           <el-table-column
             prop="name"
@@ -101,7 +101,7 @@
             align="真实姓名"
             sortable="custom"
             min-width="90"
-            label="用户名">
+            :label="$i18nMy.t('用户名')">
           </el-table-column>
           <el-table-column
             prop="company.name"
@@ -109,7 +109,7 @@
             align="center"
             sortable="custom"
             min-width="110"
-            label="所属机构">
+            :label="$i18nMy.t('所属机构')">
           </el-table-column>
           <el-table-column
             prop="office.name"
@@ -117,17 +117,17 @@
             align="center"
             sortable="custom"
             min-width="110"
-            label="所属部门">
+            :label="$i18nMy.t('所属部门')">
           </el-table-column>
           <el-table-column
             prop="loginFlag"
             header-align="center"
             align="center"
             min-width="100"
-            label="状态">
+            :label="$i18nMy.t('状态')">
             <template slot-scope="scope">
-              <el-tag v-if="scope.row.loginFlag === '1'" size="small" type="success">正常</el-tag>
-              <el-tag v-else-if="scope.row.loginFlag === '0'" size="small" type="danger">禁用</el-tag>
+              <el-tag v-if="scope.row.loginFlag === '1'" size="small" type="success">{{$i18nMy.t('正常')}}</el-tag>
+              <el-tag v-else-if="scope.row.loginFlag === '0'" size="small" type="danger">{{$i18nMy.t('禁用')}}</el-tag>
             </template>
           </el-table-column>
         </el-table>
@@ -142,7 +142,7 @@
         </el-pagination>
       </el-main>
     </el-container>
-    
+
     <el-aside width="200px">
       <el-tag
         :key="tag.id"
@@ -159,7 +159,7 @@
       <el-button size="small" type="primary" @click="doSubmit()">{{$i18nMy.t('确定')}}</el-button>
     </span>
     </el-dialog>
-  
+
   </div>
 </template>
 
@@ -199,7 +199,7 @@
       },
       title: {
         type: String,
-        default: () => { return '用户选择' }
+        default: () => { return $i18nMy.t('用户选择') }
       },
       limit: {
         type: Number,

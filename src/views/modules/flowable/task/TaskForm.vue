@@ -102,20 +102,21 @@
   export default {
     activated () {
       this.init()
-      if (this.formType === '2') {
+      if (this.formType === '2') { // 读取外置表单
         if (this.formUrl === '/404') {
           this.form = null
           this.$message.info('没有关联流程表单!')
         } else {
           this.form = _import(`modules${this.formUrl}`)
         }
-      } else {
-      // 读取流程表单
-        if (this.formUrl === '/404') {
-          this.$refs.form.createForm('')
-        } else {
-          this.$refs.form.createForm(this.formUrl)
-        }
+      } else { // 读取动态表单
+        this.$nextTick(() => {
+          if (this.formUrl === '/404') {
+            this.$refs.form.createForm('')
+          } else {
+            this.$refs.form.createForm(this.formUrl)
+          }
+        })
         if (this.status === 'start') {
           // 读取启动表单配置
           this.$http.get('/flowable/form/getStartFormData',
@@ -147,9 +148,11 @@
         })
       }
     // 读取历史任务列表
-      this.$http.get(`/flowable/task/historicTaskList?procInsId=${this.procInsId}`).then(({data}) => {
-        this.historicTaskList = data.historicTaskList
-      })
+      if (this.procInsId) {
+        this.$http.get(`/flowable/task/historicTaskList?procInsId=${this.procInsId}`).then(({data}) => {
+          this.historicTaskList = data.historicTaskList
+        })
+      }
     },
     components: {
       UserSelect,
@@ -230,7 +233,7 @@
             }).then(({data}) => {
               if (data.success) {
                 this.$message.success(data.msg)
-                this.$events.$emit('closeTab', this.$route.fullPath)
+                this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
                 this.$router.push('/flowable/task/TodoList')
                 this.cc(data)
               }
@@ -244,7 +247,7 @@
             assignee: this.auditForm.assignee
           }, (data) => {
             if (data.success) {
-              this.$events.$emit('closeTab', this.$route.fullPath)
+              this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
               this.$router.push('/flowable/task/TodoList')
               this.cc(data)
             }
@@ -286,7 +289,7 @@
         }).then(({data}) => {
           if (data.success) {
             this.$message.success(data.msg)
-            this.$events.$emit('closeTab', this.$route.fullPath)
+            this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
             this.$router.push('/flowable/task/TodoList')
             this.cc(data)
           }
@@ -360,7 +363,7 @@
             }).then(({data}) => {
               if (data.success) {
                 this.$message.success(data.msg)
-                this.$events.$emit('closeTab', this.$route.fullPath)
+                this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
                 this.$router.push('/flowable/task/TodoList')
                 this.cc(data)
               }
@@ -369,7 +372,7 @@
         } else { // 动态表单
           this.$refs.form.submitTaskFormData(vars, this.procInsId, this.taskId, this.auditForm.assignee, this.auditForm, (data) => {
             if (data.success) {
-              this.$events.$emit('closeTab', this.$route.fullPath)
+              this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
               this.$router.push('/flowable/task/TodoList')
               this.cc(data)
             }

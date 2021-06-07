@@ -21,7 +21,7 @@
                           children: 'children'    // 子级字段名
                         }"
 
-                      url="/sys/office/treeData?type=2"
+                      url="/sys/office/treeData?type=1"
                       :value="inputForm.office.id"
                       :clearable="true"
                       :accordion="true"

@@ -82,18 +82,9 @@
           </el-table>
            <el-button type="primary" size="small" @click="addRow" style="margin-top:10px;margin-bottom:10px">{{$i18nMy.t('增加参数')}}</el-button>
            <el-alert
-            title="说明：" :closable="false" type="success">
-            <template slot='title'>
-                    <div class="iconSize">SQL中添加参数的方式：格式：{#参数名#}，'{#参数名#}'，#{参数名}:</div>
-                    <div class="iconSize">示例，入参id=1时，三种方式：</div>
-                    <div class="iconSize">1、select * from table where 1=1 {#id#}，sql将变成</div>
-                    <div class="iconSize">select * from table where 1=1 and id = 1</div>
-                    <div class="iconSize">2、select * from table where 1=1 '{#id#}'，sql将变成</div>
-                    <div class="iconSize">select * from table where 1=1 and id = '1'</div>
-                    <div class="iconSize">3、select * from table where id='#{id}'，sql将变成</div>
-                    <div class="iconSize">select * from table where id='1'</div>
-            </template>
-
+            title="SQL中添加参数的方式：格式：{#参数名#}，示例：select * from table where id = '{#ID#}'"
+            :closable="false"
+            type="success">
           </el-alert>
           <el-button type="primary" @click="doPreviewTable" size="small" style="margin-top:10px;margin-bottom:10px"><i class="fa fa-eye"></i> 解析</el-button>
           <el-button type="primary" @click="doPreviewData" size="small" style="margin-top:10px;margin-bottom:10px"> <i class="fa fa-eye"></i> 预览数据</el-button>
@@ -342,7 +333,7 @@
         })
       },
       goBack () {
-        this.$events.$emit('closeTab', this.$route.fullPath)
+        this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
         this.$router.push('/database/datamodel/DataSetList')
       }
     }

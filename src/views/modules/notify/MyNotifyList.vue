@@ -6,11 +6,11 @@
                 <el-input size="small" v-model="searchForm.title" :placeholder="$i18nMy.t('标题')" clearable></el-input>
 		     </el-form-item>
           <el-form-item>
-            <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
-            <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
+            <el-button  type="primary" @click="refreshList()" size="small" icon="el-icon-search">{{$i18nMy.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
-
+      <div class="top bg-white">
       <el-row>
         <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
@@ -100,6 +100,7 @@
       background
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
+      </div>
         <!-- 弹窗, 新增 / 修改 -->
     <OaNotifyForm  ref="oaNotifyForm" @refreshDataList="refreshList"></OaNotifyForm>
   </div>

@@ -218,7 +218,7 @@
             }).then(({data}) => {
               if (data.success) {
                 this.$message.success(data.msg)
-                this.$events.$emit('closeTab', this.$route.fullPath)
+                this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
                 this.$router.push('/flowable/task/TodoList')
                 this.cc(data)
               }
@@ -232,7 +232,7 @@
             assignee: this.auditForm.assignee
           }, (data) => {
             if (data.success) {
-              this.$events.$emit('closeTab', this.$route.fullPath)
+              this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
               this.$router.push('/flowable/task/TodoList')
               this.cc(data)
             }
@@ -274,7 +274,7 @@
         }).then(({data}) => {
           if (data.success) {
             this.$message.success(data.msg)
-            this.$events.$emit('closeTab', this.$route.fullPath)
+            this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
             this.$router.push('/flowable/task/TodoList')
             this.cc(data)
           }
@@ -340,7 +340,7 @@
             }).then(({data}) => {
               if (data.success) {
                 this.$message.success(data.msg)
-                this.$events.$emit('closeTab', this.$route.fullPath)
+                this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
                 this.$router.push('/flowable/task/TodoList')
                 this.cc(data)
               }
@@ -349,7 +349,7 @@
         } else { // 动态表单
           this.$refs.form.submitTaskFormData(vars, this.procInsId, this.taskId, this.auditForm.assignee, this.auditForm, (data) => {
             if (data.success) {
-              this.$events.$emit('closeTab', this.$route.fullPath)
+              this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
               this.$router.push('/flowable/task/TodoList')
               this.cc(data)
             }

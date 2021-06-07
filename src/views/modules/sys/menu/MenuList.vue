@@ -1,7 +1,12 @@
 <template>
   <div class="page">
     <el-form size="small" :inline="true"  class="query-form" ref="searchForm" :model="searchForm"  @keyup.enter.native="refreshList()" @submit.native.prevent>
-         <el-form-item prop="name">
+        <el-form-item prop="platform">
+         <el-radio-group v-model="searchForm.platform" >
+	  <el-radio  v-for="(itme, index) in $dictUtils.getDictList('PLATFORM')" :label="itme.value.toString()" :key="itme.value">{{ itme.label }}</el-radio>
+	 </el-radio-group>
+        </el-form-item>
+	<el-form-item prop="name">
           <el-input size="small"  v-model="searchForm.name"   :placeholder="$i18nMy.t('菜单名称')"   clearable></el-input>
         </el-form-item>
       <el-form-item>
@@ -41,6 +46,11 @@
               <el-link  type="primary" :underline="false" v-if="hasPermission('sys:menu:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('sys:menu:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
               <span v-else>{{scope.row.name}}</span>
+            </template>
+        </vxe-table-column>
+	<vxe-table-column  :title="$i18nMy.t('平台')" field="platform" align="center" tree-node>
+          <template slot-scope="scope">
+              <el-tag >{{ $dictUtils.getDictLabel("PLATFORM", scope.row.platform, '后台界面') }} </el-tag>
             </template>
         </vxe-table-column>
         <vxe-table-column  :title="$i18nMy.t('图标')" field="icon" align="center">
@@ -128,6 +138,7 @@
         loading: false,
         dataRuleTitle: '',
         searchForm: {
+	  platform:'portal',
           name: ''
         },
         dataList: []
@@ -145,7 +156,7 @@
       refreshList () {
         this.loading = true
         this.$http({
-          url: '/sys/menu/treeData2',
+          url: '/sys/menu/treeData2?platform='+this.platform,
           method: 'get'
         }).then(({data}) => {
           this.loading = false

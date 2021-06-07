@@ -14,6 +14,12 @@ var a = 6378245.0;
 var ee = 0.00669342162296594323;
 
 export default {
+  regExpEnNumberUnderscore:function (str) {
+    return RegExp(/^\w+$/).test(str)
+  },
+  regExpNumber: function(str)  {
+    return RegExp(/^[0-9]*$/).test(str)
+  },
   traverseTree: function(tree,callBack){ //遍历树  获取id数组
     for(var i in tree){
       callBack(tree[i])

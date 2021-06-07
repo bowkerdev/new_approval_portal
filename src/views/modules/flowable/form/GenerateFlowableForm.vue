@@ -1,29 +1,34 @@
 <template>
- <div v-loading="loading" style="min-height:50px">
-        <fm-generate-form 
-        
-              :data="options" 
-              :edit="edit"
-              v-if="visible"
-              class="readonly"
-              :value = "formData"
-              ref="generateForm"
-            >
-        </fm-generate-form>
- </div>
+  <div v-loading="loading" style="min-height:50px">
+    <component v-if="visible&&isCustom == true" ref="generateForm" :is="form"></component>
+    <fm-generate-form v-if="visible&&isCustom == false" :data="options" :edit="edit" class="readonly" :value="formData"
+      ref="generateForm">
+    </fm-generate-form>
+  </div>
 </template>
 
 <script>
+  const _import = require('@/router/import-' + process.env.NODE_ENV)
   export default {
-    data () {
+    data() {
       return {
+        form: null,
+        isCustom: false,
         title: '',
         method: '',
         visible: false,
         loading: false,
         formData: {},
         dataBindMap: new Map(),
-        options: {'list': [], 'config': {'labelWidth': 100, 'labelPosition': 'right', 'size': 'small', 'customClass': ''}}
+        options: {
+          'list': [],
+          'config': {
+            'labelWidth': 100,
+            'labelPosition': 'right',
+            'size': 'small',
+            'customClass': ''
+          }
+        }
       }
     },
     props: {
@@ -41,10 +46,9 @@
         default: true
       }
     },
-    components: {
-    },
+    components: {},
     methods: {
-      generateModel (genList) {
+      generateModel(genList) {
         for (let i = 0; i < genList.length; i++) {
           if (genList[i].type === 'grid') {
             genList[i].columns.forEach(item => {
@@ -63,7 +67,7 @@
           } else {
             // 处理老版本没有dataBind值的情况，默认绑定数据
             if (genList[i].options.dataBind) {
-              this.dataBindMap.set(genList[i].model, genList[i])
+              this.dataBindMap.set(genList[i].model, genList[i].type)
             }
           }
         }
@@ -78,7 +82,13 @@
             method: 'get'
           }).then(({data}) => {
             if (data.success) {
-              this.options = JSON.parse(data.formDefinition.formDefinitionJson.json)
+              var json = data.formDefinition.formDefinitionJson.json
+              if (json.indexOf('"type":"blank"') >= 0 || json.indexOf('"type": "blank"') >= 0) {
+                this.isCustom = true
+                this.form = _import(`modules/flowable/custom/${data.formDefinition.name}`)
+              }
+              // eslint-disable-next-line no-undef
+              this.options = this.DynamicFormLanguage.simpleLanguageFrom(JSON.parse(json))
               this.dataBindMap.clear()
               this.generateModel(this.options.list)
               setTimeout(() => {
@@ -88,10 +98,9 @@
                   let disabledArra = []
                   let showArra = []
                   this.taskFormData.forEach((item) => {
-                    if (item.value !== undefined) {
+                    if (item.value != null) {
                       this.formData[`${item.id}`] = item.value
                     }
-
                     if (item.readable === true) {
                       showArra.push(`${item.id}`)
                     }
@@ -123,9 +132,13 @@
                       }
                     }
                   }
-                  this.$refs.generateForm.hide(hideArra)
-                  this.$refs.generateForm.disabled(disabledArra, true)
-                  this.$refs.generateForm.setData(this.formData)
+                  if (!this.isCustom) {
+                    this.$refs.generateForm.hide(hideArra)
+                    this.$refs.generateForm.disabled(disabledArra, true)
+                    this.$refs.generateForm.setData(this.formData)
+                  } else {
+                    this.$refs.generateForm.createForm(this.options, this.formData, showArra, disabledArra, this.edit)
+                  }
                 })
               }, 500)
             } else {
@@ -138,52 +151,56 @@
           this.visible = true
         }
       },
-      submitStartFormData (vars, callback) {
+      submitStartFormData(vars, callback) {
         this.$refs.generateForm.getData().then(data => {
-          this.loading = true
-          this.$http({
-            url: `/flowable/form/submitStartFormData`,
-            method: 'post',
-            data: {
-              id: this.id,
-              ...vars,
-              data: JSON.stringify(data)
-            }
-          }).then(({data}) => {
-            if (data && data.success) {
-              this.visible = false
-              this.loading = false
-              this.$message.success(data.msg)
-              callback(data)
-            }
-          })
-        }).catch(e => {
+          this.submitStartFormDataToBackend(data, vars, callback)
+        }).catch(e => {})
+      },
+      submitTaskFormData(vars, procInsId, taskId, assign, comment, callback) {
+        this.$refs.generateForm.getData().then(data => {
+          this.submitTaskFormDataToBackend(data, vars, procInsId, taskId, assign, comment, callback)
+        }).catch(e => {})
+      },
+      submitStartFormDataToBackend(data, vars, callback) {
+        this.loading = true
+        this.$http({
+          url: `/flowable/form/submitStartFormData`,
+          method: 'post',
+          data: {
+            id: this.id,
+            ...vars,
+            data: JSON.stringify(data)
+          }
+        }).then(({data}) => {
+          if (data && data.success) {
+            this.visible = false
+            this.loading = false
+            this.$message.success(data.msg)
+            callback(data)
+          }
         })
       },
-      submitTaskFormData (vars, procInsId, taskId, assignee, comment, callback) {
-        this.$refs.generateForm.getData().then(data => {
-          data = {...vars, ...data}
-          this.loading = true
-          this.$http({
-            url: `/flowable/form/submitTaskFormData`,
-            method: 'post',
-            data: {
-              id: this.id,
-              procInsId: procInsId,
-              taskId: taskId,
-              assignee: assignee,
-              comment: comment,
-              data: JSON.stringify(data)
-            }
-          }).then(({data}) => {
-            if (data && data.success) {
-              this.visible = false
-              this.loading = false
-              this.$message.success(data.msg)
-              callback(data)
-            }
-          })
-        }).catch(e => {
+      submitTaskFormDataToBackend(data, vars, procInsId, taskId, assignee, comment, callback) {
+        data = {...vars, ...data}
+        this.loading = true
+        this.$http({
+          url: `/flowable/form/submitTaskFormData`,
+          method: 'post',
+          data: {
+            id: this.id,
+            procInsId: procInsId,
+            taskId: taskId,
+            assignee: assignee,
+            comment: comment,
+            data: JSON.stringify(data)
+          }
+        }).then(({data}) => {
+          if (data && data.success) {
+            this.visible = false
+            this.loading = false
+            this.$message.success(data.msg)
+            callback(data)
+          }
         })
       }
     }

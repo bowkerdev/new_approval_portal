@@ -35,8 +35,7 @@
                             :rules="[
                               {required: true, message:'数据源名称不能为空', trigger:'blur'}
                             ]">
-                          <div>类型_组别_名称 </div>
-                          <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写数据源名称')"     ></el-input>
+                          <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写数据源名称,并且遵循【类型_组别_名称】格式命名')"     ></el-input>
                       </el-form-item>
                         <el-form-item label="sql语句" prop="sqlcmd"
                             :rules="[
@@ -82,9 +81,18 @@
           </el-table>
            <el-button type="primary" size="small" @click="addRow" style="margin-top:10px;margin-bottom:10px">{{$i18nMy.t('增加参数')}}</el-button>
            <el-alert
-            title="SQL中添加参数的方式：格式：{#参数名#}，示例：select * from table where id = '{#ID#}'"
-            :closable="false"
-            type="success">
+            title="说明：" :closable="false" type="success">
+            <template slot='title'>
+                    <div class="iconSize">SQL中添加参数的方式：格式：{#参数名#}，'{#参数名#}'，#{参数名}:</div>
+                    <div class="iconSize">示例，入参id=1时，三种方式：</div>
+                    <div class="iconSize">1、select * from table where 1=1 {#id#}，sql将变成</div>
+                    <div class="iconSize">select * from table where 1=1 and id = 1</div>
+                    <div class="iconSize">2、select * from table where 1=1 '{#id#}'，sql将变成</div>
+                    <div class="iconSize">select * from table where 1=1 and id = '1'</div>
+                    <div class="iconSize">3、select * from table where id='#{id}'，sql将变成</div>
+                    <div class="iconSize">select * from table where id='1'</div>
+            </template>
+
           </el-alert>
           <el-button type="primary" @click="doPreviewTable" size="small" style="margin-top:10px;margin-bottom:10px"><i class="fa fa-eye"></i> 解析</el-button>
           <el-button type="primary" @click="doPreviewData" size="small" style="margin-top:10px;margin-bottom:10px"> <i class="fa fa-eye"></i> 预览数据</el-button>
@@ -303,6 +311,23 @@
       doSubmit () {
         this.$refs['inputForm'].validate((valid) => {
           if (valid) {
+            if('' === (this.inputForm.name || '')){
+              this.$message.warning("数据源名称不能为空")
+              return ;
+            }
+            if(!this.$common.regExpEnNumberUnderscore(this.inputForm.name)){
+              this.$message.warning("只能输入由数字、26个英文字母或者下划线组成的字符串")
+              return ;
+            }
+            if('_' === this.inputForm.name.substring(0,1)){
+              this.$message.warning("首字符不能为下划线")
+              return ;
+            }
+            if(this.$common.regExpNumber(this.inputForm.name.substring(0,1))){
+              this.$message.warning("首字符不能为数字")
+              return ;
+            }
+            this.inputForm.name = this.inputForm.name.toUpperCase();
             this.loading = true
             let params = []
             let columnList = []

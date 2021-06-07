@@ -179,11 +179,11 @@ export default {
         return
       }
       if (node['disabled']) {
-        this.$message.warning('节点（' + node[this.props.label] + '）被禁止选择，请重新选择。')
+        this.$message.warning($i18nMy.t('节点（#{label}）被禁止选择，请重新选择。').replace("#{label}",node[this.props.label]))
         return
       }
       if (this.isOnlySelectLeaf && node.children.length > 0) {
-        this.$message.warning('不能选择根节点（' + node[this.props.label] + '）请重新选择。')
+        this.$message.warning($i18nMy.t('不能选择根节点（#{label}）请重新选择。').replace("#{label}",node[this.props.label]))
         return
       }
       this.valueTitle = node[this.props.label]

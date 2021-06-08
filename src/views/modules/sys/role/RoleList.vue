@@ -75,7 +75,7 @@
         :key="Math.random()"
         header-align="center"
         align="center"
-        width="270"
+        width="400"
         :label="$i18nMy.t('操作')">
         <template slot-scope="scope">
           <el-button v-if="hasPermission('sys:role:edit')" icon="el-icon-edit" type="text" size="mini" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
@@ -208,7 +208,7 @@
         let ids = id || this.dataListSelections.map(item => {
           return item.id
         }).join(',')
-        this.$confirm(`确定删除所选项吗?`, '提示', {
+        this.$confirm($i18nMy.t('确定删除所选项吗') + '?', $i18nMy.t('提示'), {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

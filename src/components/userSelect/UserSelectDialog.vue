@@ -2,19 +2,18 @@
   <div>
     <el-dialog
     :title="title"
-    width="1000px"
+    width="1200px"
     :close-on-click-modal="false"
     :append-to-body="true"
      v-dialogDrag
      class="userDialog"
     :visible.sync="visible">
     <el-container style="height: 500px">
-      <el-aside width="200px">
-
-        <el-card class="org">
+      <div width="200px" style="margin-bottom: 10px;">
+        <el-card class="org" width="200px">
           <div slot="header" class="clearfix">
             <el-input
-              :placeholder="$i18nMy.t('请输入组织机构过滤')"
+              :placeholder="$i18nMy.t('请输入组织机构')"
               size="small"
               v-model="filterText">
             </el-input>
@@ -23,8 +22,8 @@
             :data="officeTreeData"
             :props="{
                   value: 'id',             // ID字段名
-                  label: 'name',         // 显示名称
-                  children: 'children'    // 子级字段名
+                  label: 'name',           // 显示名称
+                  children: 'children'     // 子级字段名
                 }"
             default-expand-all
             highlight-current
@@ -36,24 +35,27 @@
             ref="officeTree">
           </el-tree>
         </el-card>
-      </el-aside>
+      </div>
 
-    <el-container>
+    <el-container width="200px">
       <el-header style="text-align: left; font-size: 12px;height:30px">
         <el-form size="small" :inline="true" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <el-form-item prop="loginName">
-              <el-input size="small" v-model="searchForm.loginName" :placeholder="$i18nMy.t('登录名')" clearable></el-input>
+              <el-input size="small" v-model="searchForm.loginName" :placeholder="$i18nMy.t('员工号')" clearable></el-input>
             </el-form-item>
-
-            <el-form-item>
-              <el-button  type="primary" @click="refreshList()" size="small" icon="el-icon-search">{{$i18nMy.t('查询')}}</el-button>
-              <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">{{$i18nMy.t('重置')}}</el-button>
+            <el-form-item style="margin-left: 10px;" prop="name">
+              <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('姓名')" clearable></el-input>
+            </el-form-item>
+            <el-form-item style="margin-left: 20px;">
+              <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
+              <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
             </el-form-item>
           </el-form>
       </el-header>
 
       <el-main>
         <el-table
+        border
           :data="dataList"
           v-loading="loading"
           size="small"
@@ -78,7 +80,7 @@
             align="center"
             width="50">
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             prop="photo"
             header-align="center"
             align="center"
@@ -86,7 +88,7 @@
             <template slot-scope="scope">
               <img :src="scope.row.photo === ''?'/static/img/avatar.png':scope.row.photo" style="height:35px"/>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             prop="loginName"
             header-align="center"
@@ -119,7 +121,7 @@
             min-width="110"
             :label="$i18nMy.t('所属部门')">
           </el-table-column>
-          <el-table-column
+          <!--<el-table-column
             prop="loginFlag"
             header-align="center"
             align="center"
@@ -129,7 +131,7 @@
               <el-tag v-if="scope.row.loginFlag === '1'" size="small" type="success">{{$i18nMy.t('正常')}}</el-tag>
               <el-tag v-else-if="scope.row.loginFlag === '0'" size="small" type="danger">{{$i18nMy.t('禁用')}}</el-tag>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
         <el-pagination
           @size-change="sizeChangeHandle"
@@ -424,7 +426,7 @@
   }
   .el-card__body {
     padding: 10px;
-    max-height: 520px;
+    max-height: 440px;
     overflow: auto;
   }
 }
@@ -440,6 +442,12 @@
     .el-pagination{
       margin-top: 5px;
     }
+  }
+  .org .el-card__body {
+      padding: 10px;
+      max-height: 520px;
+      overflow: auto;
+      width: 300px;
   }
 }
 </style>

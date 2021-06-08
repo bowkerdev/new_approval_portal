@@ -1,17 +1,21 @@
 <template>
-  <div class="page">
+  <div class="page" style="height: calc(100% - 26px);">
       <!--      max teng 2021年2月25日 15:19:00-->
-      <el-row style="background-color: #9cc9ec;padding: 15px;margin-bottom: 5px;">
+      <!-- <el-row style="background-color: #9cc9ec;padding: 15px;margin-bottom: 5px;">
         <el-col><font style="color: red;">*</font>为确保系统统一性，字典配置请遵循以下规则：字典类型只能使用英文小写字母，数字，下划线，并以英文字母开头命名；</el-col>
-      </el-row>
+      </el-row> -->
       <el-form size="small" :inline="true"  class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="type">
-          <el-input size="small" v-model="searchForm.type" :placeholder="$i18nMy.t('类型')" clearable></el-input>
+          <el-input size="small" v-model="searchForm.type" :disabled="paramType==='reason'" :placeholder="$i18nMy.t('类型')" clearable></el-input>
         </el-form-item>
-      <el-form-item>
-        <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
-        <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
-      </el-form-item>
+        <el-form-item prop="description">
+          <el-input size="small" v-model="searchForm.description" :placeholder="$i18nMy.t('描述')" clearable></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
+          <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
+        </el-form-item>
+
       </el-form>
       <el-row>
         <el-button v-if="hasPermission('sys:dict:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
@@ -19,7 +23,8 @@
         :disabled="dataListSelections.length !== 1" plain>{{$i18nMy.t('修改')}}</el-button>
         <el-button v-if="hasPermission('sys:dict:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
                   :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
-        <el-button-group class="pull-right">
+                  <font style="margin-left:60px; color: red; font-size: 14px;">为确保系统统一性，字典配置请遵循以下规则：字典类型只能使用英文小写字母，数字，下划线，并以英文字母开头命名；</font>
+        <!-- <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button
               type="default"
@@ -28,13 +33,12 @@
               @click="refreshList">
             </el-button>
           </el-tooltip>
-        </el-button-group>
+        </el-button-group> -->
       </el-row>
         <el-table
           :data="dataList"
           v-loading="loading"
           size="small"
-          height="calc(100% - 80px)"
           @selection-change="selectionChangeHandle"
           @sort-change="sortChangeHandle"
           class="table">
@@ -62,7 +66,7 @@
           fixed="right"
           header-align="center"
           align="center"
-          width="250"
+          width="450"
           :label="$i18nMy.t('操作')">
           <template slot-scope="scope">
              <el-button v-if="hasPermission('sys:dict:view')" type="text" size="small"
@@ -108,7 +112,8 @@ export default {
     data () {
       return {
         searchForm: {
-          type: ''
+          type: '',
+          description: ''
         },
         dataList: [],
         pageNo: 1,
@@ -139,6 +144,7 @@ export default {
             'pageNo': this.pageNo,
             'pageSize': this.pageSize,
             'type': this.searchForm.type,
+            'description': this.searchForm.description,
             'orderBy': this.orderBy
           }
         }).then(({data}) => {
@@ -195,7 +201,7 @@ export default {
         let ids = id || this.dataListSelections.map(item => {
           return item.id
         }).join(',')
-        this.$confirm(`确定删除所选项吗?`, '提示', {
+        this.$confirm($i18nMy.t('确定删除所选项吗') + '?', $i18nMy.t('提示'), {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

@@ -1,12 +1,12 @@
 <template>
 <div>
   <el-dialog
-    :title="title+typeList[inputForm.type]"
+    :title="title+' '+typeList[inputForm.type]"
     :close-on-click-modal="false"
      v-dialogDrag
     :visible.sync="visible">
     <el-form size="small" :model="inputForm" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" :rules="dataRule" ref="inputForm" @keyup.enter.native="doSubmit()"
-             label-width="100px" @submit.native.prevent>
+             label-width="150px" @submit.native.prevent>
            <el-form-item :label="$i18nMy.t('平台')" prop="type">
              <el-radio-group v-model="inputForm.platform" @change="getTreeData">
                <el-radio v-for="(itme, index) in $dictUtils.getDictList('PLATFORM')" :label="itme.value.toString()" :key="itme.value">{{ itme.label }}</el-radio>

@@ -48,7 +48,7 @@
             align="center"
             width="50">
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             prop="photo"
             header-align="center"
             align="center"
@@ -56,7 +56,7 @@
             <template slot-scope="scope">
               <img :src="scope.row.photo === ''?'/static/img/avatar.png':scope.row.photo" style="height:35px"/>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             prop="loginName"
             sortable="custom"

@@ -6,6 +6,7 @@
     <el-table
       :data="rows"
       border
+      size="small"
       v-loading="loading"
       class="table"
       style="width: 100%;">

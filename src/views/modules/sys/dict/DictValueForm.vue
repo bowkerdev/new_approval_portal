@@ -1,12 +1,12 @@
 <template>
   <el-dialog
-    :title="!inputForm.id ? '新增' : '修改'"
+    :title="!inputForm.id ? $i18nMy.t('新增') : $i18nMy.t('修改')"
     :close-on-click-modal="false"
     append-to-body
      v-dialogDrag
     :visible.sync="visible">
     <el-form size="small" :model="inputForm" :rules="dataRule" v-loading="loading" ref="inputForm" @keyup.enter.native="doSubmit()"
-             label-width="80px" @submit.native.prevent>
+             label-width="180px" @submit.native.prevent>
       <el-form-item :label="$i18nMy.t('标签')" prop="label">
         <el-input v-model="inputForm.label" :placeholder="$i18nMy.t('标签')"></el-input>
       </el-form-item>

@@ -6,7 +6,7 @@
     append-to-body
     :visible.sync="visible">
     <el-form size="small" :model="inputForm" :rules="dataRule" v-loading="loading" :class="method==='view'?'readonly':''" :disabled="method==='view'" ref="inputForm" @keyup.enter.native="doSubmit()"
-             label-width="80px" @submit.native.prevent>
+             label-width="180px" @submit.native.prevent>
       <el-form-item :label="$i18nMy.t('类型')" prop="type">
         <el-input v-model="inputForm.type" maxlength="50" :placeholder="$i18nMy.t('类型')"></el-input>
       </el-form-item>

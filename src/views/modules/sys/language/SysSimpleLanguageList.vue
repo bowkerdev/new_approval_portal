@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+  <div class="page" style="height: calc(100% - 76px);">
+      <el-form size="small" :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="cn">
                 <el-input size="small" v-model="searchForm.cn" :placeholder="$i18nMy.t('简体中文')" clearable></el-input>
@@ -41,6 +41,7 @@
             </el-upload>
         </el-form-item>
       </el-form>
+      <div class="bg-white top">
       <el-row>
 <!--        <el-button v-if="hasPermission('sys:sysSimpleLanguage:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>-->
         <el-button v-if="hasPermission('sys:sysSimpleLanguage:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
@@ -67,11 +68,10 @@
       </el-row>
     <el-table
       :data="dataList"
-      border
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       v-loading="loading"
-      size="medium"
+      size="small"
       @expand-change="detail"
       class="table">
       <el-table-column
@@ -137,6 +137,7 @@
       background
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
+    </div>
         <!-- 弹窗, 新增 / 修改 -->
     <SysSimpleLanguageForm  ref="sysSimpleLanguageForm" @refreshDataList="refreshList"></SysSimpleLanguageForm>
   </div>
@@ -162,7 +163,7 @@
         total: 0,
         orderBy: '',
         dataListSelections: [],
-        isSearchCollapse: false,
+        isSearchCollapse: true,
         isImportCollapse: false,
         loading: false
       }

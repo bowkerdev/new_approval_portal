@@ -103,7 +103,7 @@
         align="center"
         width="50">
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="photo"
         header-align="center"
         align="center"
@@ -112,7 +112,7 @@
         <template slot-scope="scope">
           <img :src="scope.row.photo === ''?'/static/img/avatar.png':scope.row.photo" style="height:35px"/>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="loginName"
         sortable="custom"
@@ -329,7 +329,7 @@
         let ids = id || this.dataListSelections.map(item => {
           return item.id
         }).join(',')
-        this.$confirm(`确定删除所选项吗?`, '提示', {
+        this.$confirm($i18nMy.t('确定删除所选项吗') + '?', $i18nMy.t('提示'), {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

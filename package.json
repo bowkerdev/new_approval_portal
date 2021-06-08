@@ -61,7 +61,7 @@
     "vxe-table": "^3.2.11",
     "wangeditor": "^3.1.1",
     "fuse.js": "^6.4.6",
-    "pinyin": "^2.10.2"
+    "pinyin": "^2.10.2",
     "xe-utils": "^3.1.13"
   },
   "devDependencies": {

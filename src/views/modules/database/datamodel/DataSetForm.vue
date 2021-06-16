@@ -31,6 +31,14 @@
                             :accordion="true"
                             @getValue="(value) => {inputForm.db.id=value}"/>
                       </el-form-item>
+                      <el-form-item label="组别" prop="group" :rules="[{required: true, message:'组别', trigger:'blur'} ]">
+                          <el-select v-model="inputForm.group" placeholder="请选择"  style="width: 100%;">
+                              <el-option  v-for="item in $dictUtils.getDictList('DATASOURCE_GROUP')"
+                                :key="item.value" :label="item.label" :value="item.value">
+                              </el-option>
+                          </el-select>
+                      </el-form-item>
+
                         <el-form-item :label="$i18nMy.t('数据源名称')" prop="name"
                             :rules="[
                               {required: true, message:'数据源名称不能为空', trigger:'blur'}
@@ -176,6 +184,7 @@
             id: ''
           },
           name: '',
+          group:'',
           sqlcmd: ''
         },
         paramForm: {

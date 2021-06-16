@@ -108,6 +108,7 @@ router.beforeEach((to, from, next) => {
       if (process.env.VUE_APP_SSO_LOGIN === 'true') {
         if(e.response.status == 401 && e.response.data.code == 401){
           console.log(e.response.data.msg, 'color:blue')
+          alert(JSON.stringify(e))
           if(process.env.VUE_APP_SSO_TYPE=="cas"){
             window.location.href = `${process.env.VUE_APP_CAS_SERVER}/login?service=${process.env.VUE_APP_CLIENT_LOGIN}`
           }

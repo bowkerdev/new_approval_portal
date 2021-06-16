@@ -9,6 +9,14 @@
 				   </el-option>
 				  </el-select>
 		     </el-form-item>
+         <el-form-item prop="group">
+            <el-select v-model="searchForm.group" clearable  placeholder="组别" size="small">
+              <el-option
+                v-for="item in $dictUtils.getDictList('DATASOURCE_GROUP')"
+                :key="item.value"  :label="item.label"  :value="item.value">
+              </el-option>
+            </el-select>
+         </el-form-item>
 		     <el-form-item prop="name">
           <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('数据源名称')" clearable></el-input>
 		     </el-form-item>
@@ -54,6 +62,17 @@
           <span v-else>{{scope.row.name}}</span>
         </template>
       </el-table-column>
+
+      <el-table-column
+          prop="group"
+          show-overflow-tooltip
+          sortable="custom"
+          label="组别">
+          <template slot-scope="scope">
+                {{ $dictUtils.getDictLabel("DATASOURCE_GROUP", scope.row.group, '-') }}
+          </template>
+        </el-table-column>
+
 	  <el-table-column
         prop="db.name"
         sortable="custom"
@@ -110,6 +129,7 @@
             id: '',
             name: ''
           },
+          group:'',
           name: ''
         },
         dbList:[],

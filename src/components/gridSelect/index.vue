@@ -90,6 +90,7 @@
 </template>
 
 <script>
+  import { throttle } from 'lodash'
   export default {
     name: 'GridSelect',
     data () {
@@ -373,20 +374,23 @@
         this.searchForms = []
         this.refreshList()
       },
-      doSubmit () {
-        if (this.limit < this.dataListAllSelections.length) {
-          this.$message.error(`你最多只能选择${this.limit}条数据`)
-          return
-        }
-        this.visible = false
-        this.name = this.dataListSelections.map((item) => {
-          return item[this.labelName]
-        }).join(',')
-        let value = this.dataListSelections.map((item) => {
-          return item[this.labelValue]
-        }).join(',')
-        this.$emit('getValue', value, this.dataListSelections)
-      },
+      doSubmit: throttle(
+        function() {
+          if (this.limit < this.dataListAllSelections.length) {
+            this.$message.error(`你最多只能选择${this.limit}条数据`)
+            return
+          }
+          this.visible = false
+          this.name = this.dataListSelections.map((item) => {
+            return item[this.labelName]
+          }).join(',')
+          let value = this.dataListSelections.map((item) => {
+            return item[this.labelValue]
+          }).join(',')
+          this.$emit('getValue', value, this.dataListSelections)
+        },
+        3000
+      ),
       showSelectDialog () {
         this.visible = true
         this.init()

@@ -5,6 +5,7 @@ const STORAGE_USER_KEY = 'STORAGE_USER_KEY'
 // const STORAGE_QUERYMYLIST_KEY = 'STORAGE_QUERYMYLIST_KEY'
 // import { Toast } from 'mint-ui';
 import axios from 'axios'
+import { isPlainObject } from 'lodash'
 const prefix = 'http://testapi.gu-dao.cn';
 // import authService from '@/api/authService.js'
 //定义一些常量
@@ -569,32 +570,36 @@ export default {
       //清空选项后缀列表
       var filterModeList = ['_eq','_ne','_like','_not_like','_in','_not_in','_ge','_le','_null','_not_null']
       for(var prop in optionList){
-        var param = searchForm;
         var option = optionList[prop].option;
-        //递归遍历最里层prop
-        var ary = prop.split('.');
-        for(var index = 0; index < ary.length - 1 ;index++){
-          param = param[ary[index]];
+        // targetProp: 递归遍历最里层prop
+        // targetObj: targetProp最亲父母
+        let ary = prop.split('.')
+        const targetProp = ary.splice(-1, 1)[0]
+        let targetObj = searchForm
+        for (let prop of ary) {
+          if(!isPlainObject(targetObj[prop])) {
+            targetObj[prop] = {}
+          }
+          targetObj = targetObj[prop]
         }
-        var originalProp = ary[ary.length - 1];
         //清空前选项
         for(var index = 0; index < filterModeList.length; index++){
-          delete param[originalProp+filterModeList[index]];
+          delete targetObj[targetProp+filterModeList[index]];
         }
         //设置选项
         if (option.filterMode == '_between') {
           if (option.inputValue) {
-            param[ary[ary.length - 1]+'_ge'] = option.inputValue;
+            targetObj[targetProp+'_ge'] = option.inputValue;
           }
           if(option.subInputValue){
-            param[ary[ary.length - 1]+'_le'] = option.subInputValue;
+            targetObj[targetProp+'_le'] = option.subInputValue;
           }
         } else if (['_in','_not_in'].indexOf(option.filterMode)>-1) {
-          param[ary[ary.length - 1]+option.filterMode] = option.optionList.map(function(arrayElement){
+          targetObj[targetProp+option.filterMode] = option.optionList.map(function(arrayElement){
             return arrayElement.inputValue;
           }).join(',');
         } else {
-          param[ary[ary.length - 1]+option.filterMode] = option.inputValue;
+          targetObj[targetProp+option.filterMode] = option.inputValue;
         }
       }
     }catch(e){

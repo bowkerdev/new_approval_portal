@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <el-input :placeholder="placeholder" :disabled="disabled" :size="size" :readonly="true" style="line-hight:40px" v-model="name" class="input-with-select" >
-      <el-button slot="append" :disabled="disabled" @click="showSelectDialog" icon="el-icon-search"></el-button>
-    </el-input>
+  <div class="wrap">
+    <el-input :placeholder="placeholder" :disabled="disabled" :size="size" :readonly="true" style="line-hight:40px" v-model="name" class="input-with-select" />
+    <el-button class="select-btn" type="primary" plain :disabled="disabled" @click="showSelectDialog" icon="el-icon-search"></el-button>
     <el-dialog
     :title="title"
     :close-on-click-modal="false"
@@ -415,6 +414,17 @@
     width: 100%;
     white-space: normal;
     height: auto;
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+.wrap {
+  position: relative;
+
+  .select-btn {
+    position: absolute;
+    right: 0;
   }
 }
 </style>

@@ -37,7 +37,7 @@
   padding-top: 10px !important;
   padding-bottom: 10px !important;
 }
-.menu-show-complete .el-submenu__title, 
+.menu-show-complete .el-submenu__title,
 .menu-show-complete li.el-menu-item,
 .menu-show-complete .el-submenu {
   height: auto !important;
@@ -143,10 +143,9 @@
           if (!tab2) {
             if(route.matched.length>=2&&route.matched[1].instances!=null){
               var instances =route.matched[1].instances.$refs ==null ?route.matched[1].instances.default:route.matched[1].instances
-              if(instances!=null){
+              if(instances!=null && instances.$refs.searchForm){
                 instances.$refs.searchForm.resetFields()
               }
-
             }
           }
           if (!tab) {
@@ -189,4 +188,3 @@
     }
   }
 </script>
-

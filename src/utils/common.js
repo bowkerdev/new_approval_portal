@@ -14,6 +14,19 @@ var a = 6378245.0;
 var ee = 0.00669342162296594323;
 
 export default {
+  uuid:function() {
+      var s = [];
+      var hexDigits = "0123456789abcdef";
+      for (var i = 0; i < 36; i++) {
+          s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+      }
+      s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+      s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+      s[8] = s[13] = s[18] = s[23] = "-";
+  
+      var uuid = s.join("");
+      return uuid;
+  },
   regExpEnNumberUnderscore:function (str) {
     return RegExp(/^\w+$/).test(str)
   },
@@ -500,8 +513,6 @@ export default {
       return ""
     }
   },
-
-
   /**
    * 火星坐标系 (GCJ-02) 与百度坐标系 (BD-09) 的转换
    * 即谷歌、高德 转 百度
@@ -639,4 +650,5 @@ export default {
     }
     return tags;
   }
+
 }

@@ -205,14 +205,20 @@
     },
     activated () {
       this.inputForm.id = this.$route.query.id
-      this.$http({
-        url: `/database/datamodel/dataSet/queryById?id=${this.inputForm.id}`,
-        method: 'get'
-      }).then(({data}) => {
-        this.inputForm = this.recover(this.inputForm, data.dataSet)
-        this.columnForm.columnList = data.dataSet.columnList
-        this.paramForm.tableData = data.dataSet.params
-      })
+      if(this.inputForm.id !=null){
+        this.$http({
+          url: `/database/datamodel/dataSet/queryById?id=${this.inputForm.id}`,
+          method: 'get'
+        }).then(({data}) => {
+          this.inputForm = this.recover(this.inputForm, data.dataSet)
+          this.columnForm.columnList = data.dataSet.columnList
+          this.paramForm.tableData = data.dataSet.params
+        })
+      }
+      else{
+        Object.assign(this.$data, this.$options.data.call(this))
+      }
+
     },
     components: {
       SelectTree,

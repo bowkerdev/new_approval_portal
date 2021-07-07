@@ -67,7 +67,7 @@
               })
       }
 
-    // 读取流程状态
+      // 读取流程状态
       this.$http.get('/flowable/process/queryProcessStatus',
               {params: { procInsId: this.procInsId, procDefId: this.procDefId }}
               ).then(({data}) => {

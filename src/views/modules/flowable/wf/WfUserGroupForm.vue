@@ -20,7 +20,7 @@
                           children: 'children'    // 子级字段名
                         }"
 
-                      url="/sys/office/treeData?type=0"
+                      url="/sys/office/treeData?type=1"
                       :value="inputForm.company.id"
                       :clearable="true"
                       :accordion="true"

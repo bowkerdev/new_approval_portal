@@ -11,7 +11,7 @@
                       children: 'children'    // 子级字段名
                     }"
                    size="small"
-                  :url="`/sys/office/treeData?type=2`"
+                  :url="`/sys/office/treeData?type=1`"
                   :value="searchForm.company.id"
                   :clearable="true"
                   :accordion="true"
@@ -277,7 +277,7 @@
         let ids = id || this.dataListSelections.map(item => {
           return item.id
         }).join(',')
-        this.$confirm(`确定删除所选项吗?`, '提示', {
+        this.$confirm($i18nMy.t('确定删除所选项吗') + '?', $i18nMy.t('提示'), {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

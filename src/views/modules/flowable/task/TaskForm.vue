@@ -1,17 +1,17 @@
 <template>
-<div>
+<div style="height: 100%;overflow-y: auto;overflow-x: hidden;">
   <h4 style="text-align:center">{{title}}</h4>
 
   <el-tabs type="border-card" v-model="taskSelectedTab">
     <el-tab-pane :label="$i18nMy.t('表单信息')" name="form-first">
       <component id="printForm" :formReadOnly="formReadOnly" v-if="formType === '2'" :class="formReadOnly?'readonly':''"  ref="form" :businessId="businessId" :is="form"></component>
-      
+
       <PreviewForm  id="printForm"   v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="true" :taskFormData="taskFormData" ref="form"/>
     </el-tab-pane>
-    <el-tab-pane :label="$i18nMy.t('流程信息')" v-if="procInsId"  name="form-second">
+    <el-tab-pane :label="$i18nMy.t('流程信息')" v-if="procInsId" name="form-second">
       <flow-time-line :historicTaskList="historicTaskList"/>
     </el-tab-pane>
-    <el-tab-pane :label="$i18nMy.t('流程图')"  name="form-third">
+    <el-tab-pane :label="$i18nMy.t('流程图')"  v-if="procInsId" name="form-third">
        <el-card class="box-card"  shadow="hover">
           <div slot="header" class="clearfix">
             <span>{{$i18nMy.t('流程图')}}</span>
@@ -101,6 +101,9 @@
   const _import = require('@/router/import-' + process.env.NODE_ENV)
   export default {
     activated () {
+      if(this.$route.query.taskId != this.taskId ){
+        Object.assign(this.$data, this.$options.data.call(this))
+      }
       this.init()
       if (this.formType === '2') { // 读取外置表单
         if (this.formUrl === '/404') {
@@ -179,6 +182,14 @@
       }
     },
     methods: {
+      initChildFrom(query){
+        if(this.form !=null &&this.$refs.form.init !=null){
+          this.$refs.form.init(query)
+        }
+        else{
+          setTimeout(()=>{this.initChildFrom(query)},1000)
+        }
+      },
       init () {
         this.taskSelectedTab = 'form-first'
         this.procDefId = this.$route.query.procDefId
@@ -198,6 +209,7 @@
         this.auditForm.assignee = null
         this.auditForm.userIds = null
         this.auditForm.message = ''
+        this.initChildFrom(this.$route.query)
       },
       cc (data) {
         if (this.isCC && this.auditForm.userIds) {
@@ -285,6 +297,21 @@
         this.$http.post('/flowable/task/back', {
           taskId: this.taskId,
           backTaskDefKey: backTaskDefKey,
+          ...this.auditForm
+        }).then(({data}) => {
+          if (data.success) {
+            this.$message.success(data.msg)
+            this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
+            this.$router.push('/flowable/task/TodoList')
+            this.cc(data)
+          }
+        })
+      },
+      // 回退到发起人
+      backToModify () {
+        this.$http.post('/flowable/task/back', {
+          taskId: this.taskId,
+          backTaskDefKey: 'formModify',
           ...this.auditForm
         }).then(({data}) => {
           if (data.success) {
@@ -411,6 +438,9 @@
             break
           case '_flow_back': // 驳回到任意步骤
             this.turnBack()
+            break
+          case '_flow_back_modify': // 驳回到申请人
+            this.backToModify()
             break
           case '_flow_add_multi_instance': // 加签
             this.addMultiInstance()

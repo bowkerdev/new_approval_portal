@@ -126,7 +126,7 @@
                         this.formData[key] = []
                       }
                     }
-                    if (dataField && (dataField['type'] === 'number' || dataField['options'].dataType === 'number')) {
+                    if (dataField && (dataField['type'] === 'number' || (dataField['options'] && dataField['options'].dataType === 'number'))) {
                       if (this.formData[key] !== undefined && this.formData[key] !== '' && typeof this.formData[key] === 'string') {
                         this.formData[key] = JSON.parse(this.formData[key])
                       }

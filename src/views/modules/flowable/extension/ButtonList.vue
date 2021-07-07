@@ -192,7 +192,7 @@
           this.$message.error(`不能删除预设按钮【${row.name}】`)
           return
         }
-        this.$confirm(`确定删除所选项吗?`, '提示', {
+        this.$confirm($i18nMy.t('确定删除所选项吗') + '?', $i18nMy.t('提示'), {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

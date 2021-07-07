@@ -12,7 +12,7 @@
          <el-form-item prop="group">
             <el-select v-model="searchForm.group" clearable  placeholder="组别" size="small">
               <el-option
-                v-for="item in $dictUtils.getDictList('DATASOURCE_GROUP')"
+                v-for="item in $dictUtils.getDictList('datasource_group')"
                 :key="item.value"  :label="item.label"  :value="item.value">
               </el-option>
             </el-select>
@@ -69,7 +69,7 @@
           sortable="custom"
           label="组别">
           <template slot-scope="scope">
-                {{ $dictUtils.getDictLabel("DATASOURCE_GROUP", scope.row.group, '-') }}
+                {{ $dictUtils.getDictLabel("datasource_group", scope.row.group, '-') }}
           </template>
         </el-table-column>
 

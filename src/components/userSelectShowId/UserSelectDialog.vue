@@ -2,7 +2,7 @@
   <div>
     <el-dialog
     :title="title"
-    width="1000px"
+    width="1440px"
     :close-on-click-modal="false"
     :append-to-body="true"
      v-dialogDrag
@@ -12,12 +12,17 @@
     <el-container>
       <el-header style="text-align: left; font-size: 12px;height:30px">
         <el-form size="small" :inline="true" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-            <el-form-item prop="loginName">
-          <el-input size="small" v-model="searchForm.loginName" :placeholder="$i18nMy.t('登录名')" clearable></el-input>
-         </el-form-item>
-
-            <el-form-item>
-              <el-button  type="primary" @click="refreshList()" size="small">查询</el-button>
+            <el-form-item prop="loginName" style="padding-right: 5px;">
+              <el-input size="small" v-model="searchForm.loginName" :placeholder="$i18nMy.t('登录名')" clearable></el-input>
+            </el-form-item>
+            <el-form-item prop="name" style="padding-right: 5px;">
+              <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('姓名')" clearable></el-input>
+            </el-form-item>
+            <el-form-item prop="companyEmail" style="padding-right: 5px;">
+              <el-input size="small" v-model="searchForm.companyEmail" :placeholder="$i18nMy.t('邮箱')" clearable></el-input>
+            </el-form-item>
+            <el-form-item style="margin-left: 15px;">
+              <el-button type="primary" @click="refreshList()" size="small">查询</el-button>
               <el-button @click="resetSearch()" size="small">重置</el-button>
             </el-form-item>
           </el-form>
@@ -37,7 +42,7 @@
             header-align="center"
             align="center"
             v-if="limit <= 1"
-            width="50">
+            width="30">
               <template slot-scope="scope">
                   <el-radio :label="scope.row.id" :value="dataListAllSelections[0]&&dataListAllSelections[0].id" @change.native="getTemplateRow(scope.$index,scope.row)"><span></span></el-radio>
               </template>
@@ -50,15 +55,6 @@
             width="50">
           </el-table-column>
           <el-table-column
-            prop="photo"
-            header-align="center"
-            align="center"
-            label="头像">
-            <template slot-scope="scope">
-              <img :src="scope.row.photo === ''?'/static/img/avatar.png':scope.row.photo" style="height:35px"/>
-            </template>
-          </el-table-column>
-          <el-table-column
             prop="loginName"
             header-align="center"
             align="center"
@@ -69,13 +65,13 @@
           <el-table-column
             prop="name"
             header-align="center"
-            align="真实姓名"
+            align="center"
             sortable="custom"
             min-width="90"
-            label="用户名">
+            label="姓名">
           </el-table-column>
           <el-table-column
-            prop="company.name"
+            prop="companyName"
             header-align="center"
             align="center"
             sortable="custom"
@@ -83,7 +79,7 @@
             label="所属机构">
           </el-table-column>
           <el-table-column
-            prop="office.name"
+            prop="officeName"
             header-align="center"
             align="center"
             sortable="custom"
@@ -91,15 +87,12 @@
             label="所属部门">
           </el-table-column>
           <el-table-column
-            prop="loginFlag"
+            prop="companyEmail"
             header-align="center"
             align="center"
-            min-width="100"
-            label="状态">
-            <template slot-scope="scope">
-              <el-tag v-if="scope.row.loginFlag === '1'" size="small" type="success">正常</el-tag>
-              <el-tag v-else-if="scope.row.loginFlag === '0'" size="small" type="danger">禁用</el-tag>
-            </template>
+            sortable="custom"
+            min-width="110"
+            label="邮箱">
           </el-table-column>
         </el-table>
         <el-pagination
@@ -114,7 +107,7 @@
       </el-main>
     </el-container>
 
-    <el-aside width="200px">
+    <el-aside width="300px">
       <el-tag
         :key="tag.id"
         v-for="tag in dataListAllSelections"
@@ -146,7 +139,8 @@
           office: {
             id: ''
           },
-          name: ''
+          name: '',
+          companyEmail: ''
         },
         dataListAllSelections: [],   // 所有选中的数据包含跨页数据
         dataListSelections: [],

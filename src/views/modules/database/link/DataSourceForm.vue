@@ -6,7 +6,7 @@
      v-dialogDrag
     :visible.sync="visible">
     <el-form size="small" :model="inputForm" ref="inputForm" @keyup.enter.native="doSubmit()"
-             label-width="120px" 
+             label-width="120px"
              element-loading-text="正在测试数据库连接"
              :class="method==='view'?'readonly':''" :disabled="method==='view'"
              v-loading="loading" @submit.native.prevent>
@@ -55,14 +55,14 @@
             </el-form-item>
         </el-col>
          <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('数据库密码')" prop="password" :rules="[{required: true, message:'数据库密码名不能为空', trigger:'blur'}]">
-              <el-input v-model="inputForm.password" maxlength="50" placeholder=""></el-input>
+            <el-form-item :label="$i18nMy.t('数据库密码')" prop="newPassword" :rules="[{required: true, message:'数据库密码名不能为空', trigger:'blur'}]">
+              <el-input v-model="inputForm.newPassword" maxlength="50" placeholder=""></el-input>
             </el-form-item>
         </el-col>
     </el-row>
-      
-     
-     
+
+
+
     </el-form>
     <span slot="footer"  class="dialog-footer">
       <el-button v-if="method != 'view'" type="primary" @click="testDbLink()">{{$i18nMy.t('测试连接')}}</el-button>
@@ -102,6 +102,7 @@ export default {
         port: '',
         dbname: '',
         username: '',
+        newPassword: '',
         password: ''
       }
     }
@@ -136,6 +137,9 @@ export default {
       this.$refs['inputForm'].validate((valid) => {
         if (valid) {
           this.loading = true
+          if(this.inputForm.newPassword!=null&&this.inputForm.newPassword!=''){
+            this.inputForm.password = this.inputForm.newPassword
+          }
           this.$http.post('/database/datalink/dataSource/test', this.inputForm).then(({data}) => {
             this.$message.info(data.msg)
             this.loading = false
@@ -148,6 +152,9 @@ export default {
       this.$refs['inputForm'].validate((valid) => {
         if (valid) {
           this.loading = true
+          if(this.inputForm.newPassword!=null&&this.inputForm.newPassword!=''){
+            this.inputForm.password = this.inputForm.newPassword
+          }
           this.$http({
             url: `/database/datalink/dataSource/save`,
             method: 'post',

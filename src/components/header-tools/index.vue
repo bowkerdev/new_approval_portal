@@ -56,7 +56,8 @@
         default: 'string'
       },
       label: String,
-      prop: String
+      prop: String,
+      mirrorProp: String //解决列的prop和headerTools的prop不一致导致不能排序问题
     },
     data () {
       return {
@@ -157,6 +158,9 @@
           prop: this.prop,
           sort: sort
         };
+        if(this.mirrorProp) {
+          option['mirrorProp'] = this.mirrorProp
+        }
         this.$emit('sort-order', option);
         this.visible = false;
       },

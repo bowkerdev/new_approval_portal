@@ -1281,6 +1281,9 @@ span{
 // .el-scrollbar__wrap{
 //   overflow: auto !important;
 // }
+.el-scrollbar.overflow-auto > .el-scrollbar__wrap {
+  overflow: auto;
+}
 
 .jp-card-hoverable {
   cursor: pointer

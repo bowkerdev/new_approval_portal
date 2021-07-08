@@ -192,84 +192,88 @@ export default {
           on={{ "update:visible": () => (this.visible = false) }}
         >
           <el-scrollbar ref="scrollContainer">
-            <el-form
-              ref="searchForm"
-              labelPosition="top"
-              labelWidth="120px"
-              {...{ props: { model: this.searchForm } }}
-            >
-              <el-row>
-                {this.fields &&
-                  this.fields.map(el => {
+          
+            <div class="search-body-wrap">
+              <el-form
+                ref="searchForm"
+                labelPosition="top"
+                labelWidth="120px"
+                {...{ props: { model: this.searchForm } }}
+              >
+                <el-row>
+                  {this.fields &&
+                    this.fields.map(el => {
+                      return (
+                        <el-col {...{props: {...layout}}}>
+                          <el-form-item
+                            key={el.prop}
+                            label={this.$i18nMy.t(el.label)}
+                            prop={el.prop}
+                          >
+                            <el-input
+                              maxlength={this.maxInputLength}
+                              clearable={true}
+                              vModel={this.searchForm[el.prop]}
+                            />
+                          </el-form-item>
+                        </el-col>
+                      )
+                    })
+                  }
+                  <el-col {...{props: {...layout}}}>
+                    <el-form-item
+                      label="-"
+                    >
+                      <el-button type="primary" vOn:click={this.search}>
+                        { this.$i18nMy.t("查询") }
+                      </el-button>
+                      <el-button vOn:click={this.reset}>
+                        { this.$i18nMy.t("重置") }
+                      </el-button>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+              </el-form>
+
+              <el-table
+                ref="table"
+                border={true}
+                height={300}
+                data={this.tableData}
+                highlightCurrentRow={true}
+                {...{ directives: loadingDirectives }}
+                vOn:current-change={this.selectHandle}
+              >
+                {this.columns && 
+                  this.columns.map(col => {
                     return (
-                      <el-col {...{props: {...layout}}}>
-                        <el-form-item
-                          key={el.prop}
-                          label={this.$i18nMy.t(el.label)}
-                          prop={el.prop}
-                        >
-                          <el-input
-                            maxlength={this.maxInputLength}
-                            clearable={true}
-                            vModel={this.searchForm[el.prop]}
-                          />
-                        </el-form-item>
-                      </el-col>
+                      <el-table-column
+                        headerAlign="center"
+                        align="center"
+                        minWidth="100px"
+                        showOverflowTooltip={true}
+                        key={col.prop}
+                        prop={col.prop}
+                        label={col.label}
+                      />
                     )
                   })
                 }
-                <el-col {...{props: {...layout}}}>
-                  <el-form-item
-                    label="-"
-                  >
-                    <el-button type="primary" vOn:click={this.search}>
-                      { this.$i18nMy.t("查询") }
-                    </el-button>
-                    <el-button vOn:click={this.reset}>
-                      { this.$i18nMy.t("重置") }
-                    </el-button>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </el-form>
-
-            <el-table
-              ref="table"
-              border={true}
-              height={400}
-              data={this.tableData}
-              highlightCurrentRow={true}
-              {...{ directives: loadingDirectives }}
-              vOn:current-change={this.selectHandle}
-            >
-              {this.columns && 
-                this.columns.map(col => {
-                  return (
-                    <el-table-column
-                      headerAlign="center"
-                      align="center"
-                      minWidth="100px"
-                      showOverflowTooltip={true}
-                      key={col.prop}
-                      prop={col.prop}
-                      label={col.label}
-                    />
-                  )
-                })
-              }
-            </el-table>
-            <el-pagination
-              class="pagination"
-              background={true}
-              currentPage={this.pageNo}
-              pageSizes={[20, 50, 100]}
-              pageSize={this.pageSize}
-              total={this.count}
-              layout="total, sizes, prev, pager, next"
-              vOn:size-change={this.sizeChangeHandle}
-              vOn:current-change={this.currentChangeHandle}
-            />
+              </el-table>
+              <el-pagination
+                class="pagination"
+                background={true}
+                currentPage={this.pageNo}
+                pageSizes={[20, 50, 100]}
+                pageSize={this.pageSize}
+                total={this.count}
+                layout="total, sizes, prev, pager, next"
+                vOn:size-change={this.sizeChangeHandle}
+                vOn:current-change={this.currentChangeHandle}
+              />
+            </div>
           </el-scrollbar>
+          
           <span slot="footer" class="dialog-footer">
             <el-button vOn:click={() => {this.visible = false}}>
               {this.$i18nMy.t("关闭")}
@@ -303,13 +307,14 @@ export default {
     flex-grow: 1;
   }
 
-  .el-scrollbar {
-    padding: 0 10px;
-    height: 100%;
-    // width: calc(100% - 20px);
+  .el-scrollbar__wrap {
+    max-height: 500px;
   }
   .el-form--label-top .el-form-item__label {
     padding-bottom: 0;
+  }
+  .search-body-wrap {
+    padding: 0 20px;
   }
 
   .el-form {

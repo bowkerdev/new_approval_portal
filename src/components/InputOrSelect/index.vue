@@ -191,7 +191,6 @@ export default {
           visible={this.visible}
           on={{ "update:visible": () => (this.visible = false) }}
         >
-          <el-scrollbar ref="scrollContainer">
           
             <div class="search-body-wrap">
               <el-form
@@ -266,13 +265,13 @@ export default {
                 currentPage={this.pageNo}
                 pageSizes={[20, 50, 100]}
                 pageSize={this.pageSize}
+                pagerCount={5}
                 total={this.count}
                 layout="total, sizes, prev, pager, next"
                 vOn:size-change={this.sizeChangeHandle}
                 vOn:current-change={this.currentChangeHandle}
               />
             </div>
-          </el-scrollbar>
           
           <span slot="footer" class="dialog-footer">
             <el-button vOn:click={() => {this.visible = false}}>
@@ -300,16 +299,16 @@ export default {
   }
 }
 .input-select-dialog {
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
 
-  & .el-dialog__body {
-    flex-grow: 1;
-  }
+  // & .el-dialog__body {
+  //   flex-grow: 1;
+  // }
 
-  .el-scrollbar__wrap {
-    max-height: 500px;
-  }
+  // .el-scrollbar__wrap {
+  //   max-height: 500px;
+  // }
   .el-form--label-top .el-form-item__label {
     padding-bottom: 0;
   }

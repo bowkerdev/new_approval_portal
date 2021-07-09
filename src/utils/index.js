@@ -2,6 +2,21 @@ import Vue from 'vue'
 import router from '@/router'
 import store from '@/store'
 import $http from './httpRequest'
+import { isPlainObject } from 'lodash'
+import { snakeCase } from "lodash"
+
+export const operatorMap = {
+	"_eq": "=",
+	"_ne": "!=",
+	"_not_like": "not like",
+	"_like": "like",
+	"_ge": ">=",
+	"_le": "<=",
+	"_not_in": "not in",
+	"_in": "in",
+	"_not_null": "is not",
+	"_null": "is"
+}
 
 /**
  * 是否有权限
@@ -96,6 +111,85 @@ export function clearLoginInfo () {
   Vue.cookie.delete('token')
   store.commit('resetStore')
   router.options.isAddDynamicMenuRoutes = false
+}
+
+export function asyncDownloadPost (url, params) {
+	var ssoToken = Vue.cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')
+  $http({
+    method: 'POST',
+    url: "http://8.210.92.25:8080/zhimitool/ie/taskQueue/push/export",
+    headers:{'Content-Type': 'application/json; charset=utf-8'},
+		params:{token : ssoToken},
+    data: {sqlParam:JSON.stringify(params),configKey:url}
+  }).then(response => {
+    if (!response) {
+      return
+    }
+    window.open("https://www.baidu.com/","百度",null,true)
+  }).catch((error) => {
+
+  })
+}
+
+// {a: 1, b: {c:1}} => { 'a':1, 'b.c': 1 }
+export function getParamFromSearchForm4Exp (searchForm, fatherName = '') {
+	if (!isPlainObject(searchForm)) { return {} }
+	var res = {}
+	for(var key in searchForm) {
+		const item = searchForm[key]
+		const actulKey = fatherName? (fatherName + '.' + key): key
+		if (!isPlainObject(item)) {
+			// 非对象A
+			res[actulKey] = item
+		} else {
+			// 对象
+			res = { ...res, ...getParamFromSearchForm4Exp(item, actulKey) }
+		}
+	}
+	return res
+}
+
+export function getParamString4Exp (searchForm) {
+	var object = getParamFromSearchForm4Exp(searchForm)
+	debugger
+	if (!isPlainObject(object)) { return "" }
+	var res = " "
+	for(var key in object) {
+		const value = object[key]
+		var field = key
+		var op = "="
+		for(var condition in operatorMap) {
+			if (field.endsWith(condition)) {
+				field = field.substring(0, field.length - condition.length);
+				if (field.indexOf(".") <= -1){
+					field = snakeCase(field)
+					field = "a." + field
+				} else {
+					field = field.substring(0,field.lastIndexOf(".") + 1) + snakeCase(field.substring(field.lastIndexOf(".")))
+				}
+				op = operatorMap[condition]
+			}
+		}
+		if (op == 'is' || op == 'is not'){
+			var sql = " AND "
+			sql = sql + field + " "
+			sql = sql + op + " null"
+			res += sql
+		} else if (value) {
+			var sql = " AND "
+			sql = sql + field + " "
+			sql = sql + op + " "
+			if (op == 'like' || op == 'not like'){
+				sql = sql + "%" + value + "%"
+			} else if (op == 'in' || op == 'not in'){
+				sql = sql + "('" + value.replace(",","','") + "')"
+			} else {
+				sql = sql + "'" + value + "'"
+			}
+			res += sql
+		}
+	}
+	return res
 }
 
 /**
@@ -352,4 +446,4 @@ function hashCode (str) {
   }
   return hash
 }
-export default {escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}
+export default {asyncDownloadPost, getParamString4Exp, escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}

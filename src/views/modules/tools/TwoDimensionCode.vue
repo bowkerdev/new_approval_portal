@@ -1,5 +1,5 @@
 <template>
-<div class="el-scrollbar__wrap wrap-white padding-20">
+<div class="el-scrollbar__wrap overflow-auto wrap-white padding-20">
   <div class="el-scrollbar__view">
     <el-form size="small" :inline="true" :model="inputForm" ref="inputForm" label-width="120px">
       <el-form-item :label="$i18nMy.t('二维码内容')" prop="encoderContent" :rules="[{required: true, message:'内容不能为空', trigger:'blur'}]">

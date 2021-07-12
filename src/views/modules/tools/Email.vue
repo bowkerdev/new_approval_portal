@@ -1,5 +1,5 @@
 <template>
-<div class="el-scrollbar__wrap wrap-white padding-20">
+<div class="el-scrollbar__wrap overflow-auto wrap-white padding-20">
   <div class="el-scrollbar__view">
     <el-form size="small" :model="inputForm" ref="inputForm"
              label-width="120px">

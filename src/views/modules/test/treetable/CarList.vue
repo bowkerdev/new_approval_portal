@@ -16,7 +16,7 @@
           </el-row>
         </div>
         <div class="jp-common-el-tree-scrollbar el-scrollbar">
-        <div class="el-scrollbar__wrap">
+        <div class="el-scrollbar__wrap overflow-auto">
           <div class="el-scrollbar__view">
               <el-tree
                 class="filter-tree"

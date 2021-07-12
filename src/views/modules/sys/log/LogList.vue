@@ -2,7 +2,7 @@
     <div class="jp-common-layout page">
       <div class="jp-common-layout-left">
       <div class="jp-common-el-tree-scrollbar el-scrollbar">
-      <div class="el-scrollbar__wrap">
+      <div class="el-scrollbar__wrap overflow-auto">
         <div class="el-scrollbar__view">
         <el-menu @select="changeLog" style="margin-top:10px">
           <el-menu-item index="1">

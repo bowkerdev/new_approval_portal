@@ -28,7 +28,7 @@
       </el-form>
 
       <div class="bg-white top" style="padding:0px">
-      `<div class="el-scrollbar__wrap" style="padding:10px;height:calc(100% - 70px)">
+      `<div class="el-scrollbar__wrap overflow-auto" style="padding:10px;height:calc(100% - 70px)">
         <div class="el-scrollbar__view">
         <el-row>
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" >

@@ -1,5 +1,5 @@
 <template>
-<div class="el-scrollbar__wrap wrap-white padding-20">
+<div class="el-scrollbar__wrap overflow-auto wrap-white padding-20">
   <div class="el-scrollbar__view">
   <el-tabs v-model="activeName" >
     <el-tab-pane :label="$i18nMy.t('登录')" name="first">

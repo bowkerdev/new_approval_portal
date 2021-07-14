@@ -98,6 +98,39 @@ export function clearLoginInfo () {
   router.options.isAddDynamicMenuRoutes = false
 }
 
+export function asyncDownloadPost (url, params) {
+  var ssoToken=Vue.cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')
+  if(ssoToken ==null){
+    ssoToken=Vue.cookie.get("token")
+    var tokenType=""
+  }
+  else{
+    var tokenType=process.env.VUE_APP_SSO_TYPE
+  }
+  var commonToolsApi ="http://8.210.92.25:8080/zhimitool/ie/taskQueue/push"
+  var commonToolsProcessUrl ="http://8.210.92.25:8080/commontools-ui-bowker/#/ie/uploadDownloadContent"
+  $http({
+    method: 'POST',
+    url:commonToolsApi+'/export',
+    withCredentials:false,
+    headers:{'Content-Type': 'application/json; charset=utf-8',
+    "token":ssoToken,
+    "tokenType":tokenType
+    },
+    data: {sqlParam:JSON.stringify(params),configKey:url}
+  }).then(response => {
+    debugger
+    if (response.status != 200 && !response.data.success) {
+    }
+    else{
+      window.open(commonToolsProcessUrl+"?token="+
+        ssoToken+"&tokenType="+tokenType ,"通用平台",null,true)
+    }
+
+  }).catch((error) => {
+
+  })
+}
 /**
  * 表单对象赋值:
  * 对目标对象存在且源对象同样存在的属性，全部覆盖；
@@ -352,4 +385,4 @@ function hashCode (str) {
   }
   return hash
 }
-export default {escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}
+export default {asyncDownloadPost, escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}

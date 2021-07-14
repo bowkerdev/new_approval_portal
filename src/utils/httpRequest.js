@@ -15,6 +15,7 @@ axios.defaults.timeout = 5 * 60 * 1000 // 设置时间超时，单位毫秒
 axios.defaults.withCredentials = true
 // axios.defaults.headers = {'Content-Type': 'application/json; charset=utf-8'}
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8'
+
 // 非生产环境 && 开启代理, 接口前缀统一使用[/api]前缀做代理拦截!
 const BASE_URL = process.env.NODE_ENV !== 'production' ? process.env.VUE_APP_BASE_API : process.env.VUE_APP_SERVER_URL
 // 对面暴露的基础请求路径
@@ -37,7 +38,9 @@ axios.interceptors.request.use(config => {
     })
   }
   // 请求头带上token
-  config.headers.token = Vue.cookie.get('token')
+  if(config.headers.token==null||config.headers.token==""){
+    config.headers.token = Vue.cookie.get('token')
+  }
   // 请求地址处理
   if (!config.url.indexOf('http') == 0) {
     config.url = BASE_URL + config.url

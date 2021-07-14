@@ -1,5 +1,5 @@
 <template>
-  <div class="el-scrollbar__wrap">
+  <div class="el-scrollbar__wrap overflow-auto">
   <div class="el-scrollbar__view">
     <el-row :gutter="10" style="margin-bottom: 10px">
       <el-col

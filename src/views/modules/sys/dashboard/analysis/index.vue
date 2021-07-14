@@ -1,5 +1,5 @@
 <template>
-    <div class="el-scrollbar__wrap">
+    <div class="el-scrollbar__wrap overflow-auto">
       <div class="el-scrollbar__view">
         <div class="analyze">
             <el-row class="m-3">

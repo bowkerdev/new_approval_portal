@@ -1,5 +1,5 @@
 <template>
-<div class="el-scrollbar__wrap wrap-white padding-20">
+<div class="el-scrollbar__wrap overflow-auto wrap-white padding-20">
   <div class="el-scrollbar__view">
       <el-row :gutter="20" v-loading="loading">
         <el-col :span="24">

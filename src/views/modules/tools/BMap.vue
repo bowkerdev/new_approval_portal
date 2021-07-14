@@ -1,5 +1,5 @@
 <template>
-<div class="el-scrollbar__wrap wrap-white">
+<div class="el-scrollbar__wrap overflow-auto wrap-white">
   <div class="el-scrollbar__view">
   <!--百度地图容器-->
   <div style='width:100%;height:800px;border:#ccc solid 1px;' id='dituContent'></div>

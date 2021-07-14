@@ -1277,8 +1277,13 @@ span{
     height: calc(100% - 80px);
   }
 }
-.el-scrollbar__wrap{
-  overflow: auto !important;
+// 影响table滚动条
+// .el-scrollbar__wrap{
+//   overflow: auto !important;
+// }
+.el-scrollbar.overflow-auto > .el-scrollbar__wrap,
+.el-scrollbar__wrap.overflow-auto {
+  overflow: auto;
 }
 
 .jp-card-hoverable {

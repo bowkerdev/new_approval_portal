@@ -1,5 +1,5 @@
 <template>
-    <div class="el-scrollbar__wrap wrap-white">
+    <div class="el-scrollbar__wrap overflow-auto wrap-white">
       <div class="el-scrollbar__view">
         <el-row :gutter="0">
         <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in dataList" :key="item.id">

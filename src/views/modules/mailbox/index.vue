@@ -5,7 +5,7 @@
             <el-button size="small" style="width:100%" type="primary" @click="sendLetter">{{$i18nMy.t('写信')}}</el-button>
         </div>
         <div class="jp-common-el-tree-scrollbar el-scrollbar">
-          <div class="el-scrollbar__wrap">
+          <div class="el-scrollbar__wrap overflow-auto">
               <div class="el-scrollbar__view">
                 <el-menu @select="select" style="border:0">
                     <el-menu-item-group>

@@ -6,6 +6,7 @@
         ref="tag"
         :key="tag.fullPath"
         :class="isActive(tag)?'active':''"
+        :style="style(isActive(tag))"
         :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
         tag="span"
         class="tags-view-item"
@@ -72,6 +73,25 @@ export default {
   methods: {
     isActive (route) {
       return route.fullPath === this.$route.fullPath
+    },
+    style (isActiveFlag) {
+      if (!isActiveFlag) { return '' }
+      const defaultColor = this.$store.state.config.defaultTheme.replace('#', '')
+      let targetColor = defaultColor
+      if (/^([0-9a-z]{3}|[0-9a-z]{6})$/i.test(defaultColor)) {
+        if (defaultColor.length === 3) {
+          targetColor = ''
+          for (let i = 0; i < defaultColor.length; i++) {
+            targetColor += defaultColor[i] + defaultColor[i]
+          }
+        }
+        const rgb = []
+        for (let i = 0; i < defaultColor.length; i+=2) {
+          rgb.push(parseInt('0x' + defaultColor.slice(i, i + 2)))
+        }
+        targetColor = `rgba(${rgb.join(',')}, 0.6)`
+      }
+      return `background-color: ${targetColor}; border-color: ${targetColor};`
     },
     isAffix (tag) {
       return tag.meta && tag.meta.affix

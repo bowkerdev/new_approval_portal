@@ -33,7 +33,7 @@
                       </el-form-item>
                       <el-form-item label="组别" prop="group" :rules="[{required: true, message:'组别', trigger:'blur'} ]">
                           <el-select v-model="inputForm.group" placeholder="请选择"  style="width: 100%;">
-                              <el-option  v-for="item in $dictUtils.getDictList('datasource_group')"
+                              <el-option  v-for="item in $dictUtils.getDictList('DATASOURCE_GROUP')"
                                 :key="item.value" :label="item.label" :value="item.value">
                               </el-option>
                           </el-select>
@@ -141,7 +141,7 @@
 
 
     <el-dialog title="数据预览" :visible.sync="previewVisible"  v-dialogDrag>
-     <el-tabs v-if="previewVisible" type="border-card">
+     <el-tabs type="border-card">
         <el-tab-pane label="HTML">
               <el-table
                 :data="previewData.json"

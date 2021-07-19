@@ -1,7 +1,8 @@
 <template>
-  <div class="wrap">
-    <el-input :placeholder="placeholder" :disabled="disabled" :size="size" :readonly="true" style="line-hight:40px" v-model="name" class="input-with-select" />
-    <el-button class="select-btn" type="primary" plain :disabled="disabled" @click="showSelectDialog" icon="el-icon-search"></el-button>
+  <div>
+    <el-input :placeholder="placeholder" :disabled="disabled" :size="size" :readonly="true" style="line-hight:40px" v-model="name" class="input-with-select" >
+      <el-button slot="append" :disabled="disabled" @click="showSelectDialog" icon="el-icon-search"></el-button>
+    </el-input>
     <el-dialog
     :title="title"
     :close-on-click-modal="false"
@@ -10,7 +11,7 @@
      width="900px"
      class="gridDialog"
     :visible.sync="visible">
-    <el-row>
+    <el-row :gutter="15">
     <el-col :span="19">
     <el-form size="small" :inline="true" ref="searchForm" class="query-form"  @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item v-for="(search,index) in searchs" :key="index" :prop="search.prop">
@@ -68,7 +69,7 @@
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
     </el-col>
-    <el-col :span="5" style="padding: 0 10px;">
+    <el-col :span="5">
       <el-tag
         :key="tag.id"
         v-for="tag in dataListAllSelections"
@@ -89,9 +90,7 @@
 </template>
 
 <script>
-  import { throttle } from 'lodash'
   export default {
-    name: 'GridSelect',
     data () {
       return {
         searchForms: [],
@@ -116,10 +115,6 @@
       limit: {
         type: Number,
         default: 999999
-      },
-      httpMethod: {
-        type: String,
-        default: 'get'
       },
       columns: {
         type: Array,
@@ -168,11 +163,6 @@
       size: {
         type: String,
         default: () => { return 'small' }
-      },
-      // 附加查询条件
-      params: {
-        type: Object,
-        default: () => null
       }
     },
     watch: {
@@ -215,10 +205,8 @@
         this.$nextTick(() => {
           this.changePageCoreRecordData()
         })
-      },
-      // 清空选择
-      clearSelect() {
-        (this.name !== '') && (this.name = '')
+      
+
       },
       
            // 设置选中的方法
@@ -308,18 +296,14 @@
         this.searchs.forEach((search, index) => {
           searchForm[search.prop] = this.searchForms[index]
         })
-        // 其他相关参数
-        const relativeParams = this.params || {}
-        const queryObjKey = this.httpMethod.toUpperCase() === 'POST'? 'data': 'params'
         this.$http({
           url: this.dataListUrl,
-          method: this.httpMethod,
-          [queryObjKey]: {
+          method: 'get',
+          params: {
             'pageNo': this.pageNo,
             'pageSize': this.pageSize,
             'orderBy': this.orderBy,
-            ...searchForm,
-            ...relativeParams
+            ...searchForm
           }
         }).then(({data}) => {
           if (data && data.success) {
@@ -331,7 +315,6 @@
             this.setSelectRow()
           })
         })
-        
       },
       // 每页数
       sizeChangeHandle (val) {
@@ -373,23 +356,20 @@
         this.searchForms = []
         this.refreshList()
       },
-      doSubmit: throttle(
-        function() {
-          if (this.limit < this.dataListAllSelections.length) {
-            this.$message.error(`你最多只能选择${this.limit}条数据`)
-            return
-          }
-          this.visible = false
-          this.name = this.dataListSelections.map((item) => {
-            return item[this.labelName]
-          }).join(',')
-          let value = this.dataListSelections.map((item) => {
-            return item[this.labelValue]
-          }).join(',')
-          this.$emit('getValue', value, this.dataListSelections)
-        },
-        3000
-      ),
+      doSubmit () {
+        if (this.limit < this.dataListAllSelections.length) {
+          this.$message.error(`你最多只能选择${this.limit}条数据`)
+          return
+        }
+        this.visible = false
+        this.name = this.dataListSelections.map((item) => {
+          return item[this.labelName]
+        }).join(',')
+        let value = this.dataListSelections.map((item) => {
+          return item[this.labelValue]
+        }).join(',')
+        this.$emit('getValue', value)
+      },
       showSelectDialog () {
         this.visible = true
         this.init()
@@ -408,23 +388,6 @@
   .el-pagination{
     margin-top: 5px;
     margin-bottom: 4px;
-  }
-
-  .el-tag--small {
-    width: 100%;
-    white-space: normal;
-    height: auto;
-  }
-}
-</style>
-
-<style lang="scss" scoped>
-.wrap {
-  position: relative;
-
-  .select-btn {
-    position: absolute;
-    right: 0;
   }
 }
 </style>

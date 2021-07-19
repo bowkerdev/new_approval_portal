@@ -1,5 +1,5 @@
 <template>
-  <div class="el-scrollbar__wrap overflow-auto">
+  <div class="el-scrollbar__wrap">
   <div class="el-scrollbar__view">
     <el-row :gutter="10" style="margin-bottom: 10px">
       <el-col :lg="24" :md="24" :sm="24" :xs="24">
@@ -11,8 +11,10 @@
             <el-col :span="4" v-for="data in dataList2" :key="data.id">
               <el-card class="box-card" style="margin:5px">
                   <div class="actCard">
-                    <img src='@/assets/img/Scheme.png'/>
-                    <el-button style="color:#409EFF;margin-left:10px;width:150px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;"  type="text" @click="start(data)">{{data.name+' '+data.version}}</el-button>
+                    <!-- <img src='@/assets/img/Scheme.png'/> -->
+                    <div class="yuan1" :class="getRandomColor()">{{data.name.substring(0,1)}}</div>
+                    <el-button class="task-name"
+                    type="text" @click="start(data)">{{data.name+' '+data.version}}</el-button>
                   </div>
                 </el-card>
             </el-col>
@@ -48,7 +50,7 @@
     </el-row>
     <el-row :gutter="10" style="margin-bottom: 10px">
       <el-col
-        :lg="24" :md="24" :sm="24" :xs="24"
+        :lg="12" :md="12" :sm="12" :xs="12"
       >
         <el-card
           header="我的待办"
@@ -57,7 +59,7 @@
               :data="dataList"
               size = "small"
               v-loading="loading"
-              @selection-change="selectionChangeHandle"
+              height="286px"
               class="table">
               <el-table-column
                 type="selection"
@@ -132,6 +134,91 @@
              </el-dialog>
         </el-card>
         </el-col>
+        <el-col
+          :lg="12" :md="12" :sm="12" :xs="12"
+        >
+          <el-card
+            header="委托待办"
+          >
+            <el-table
+                :data="delegateList"
+                size = "small"
+                v-loading="loading"
+                height="286px"
+                class="table">
+                <el-table-column
+                  type="selection"
+                  header-align="center"
+                  align="center"
+                  width="50">
+                </el-table-column>
+                <el-table-column
+                  prop="vars.title"
+                  min-width="180px"
+                 show-overflow-tooltip
+                  :label="$i18nMy.t('实例标题')">
+                      <template slot-scope="scope">
+                        <el-link  type="primary" :underline="false" v-if="scope.row.status === 'todo'"  @click="todo(scope.row)">{{scope.row.vars.title}}</el-link>
+                        <span v-else>{{scope.row.vars.title}}</span>
+                      </template>
+                </el-table-column>
+                <el-table-column
+                  prop="processDefinitionName"
+                  :label="$i18nMy.t('流程名称')">
+                </el-table-column>
+                 <el-table-column
+                  prop="task.name"
+                  :label="$i18nMy.t('当前环节')">
+                    <template slot-scope="scope">
+                      <el-tag>{{scope.row.task.name}}</el-tag>
+                   </template>
+                </el-table-column>
+                 <el-table-column
+                  prop="task.assignee"
+                  :label="$i18nMy.t('流程委托人')">
+                </el-table-column>
+                <el-table-column
+                  prop="task.createTime"
+                  show-overflow-tooltip
+                  :label="$i18nMy.t('创建时间')">
+                   <template slot-scope="scope">
+                    {{scope.row.task.createTime | formatDate}}
+                   </template>
+                </el-table-column>
+                <el-table-column
+                  fixed="right"
+                  :key="Math.random()"
+                  header-align="center"
+                  align="center"
+                  width="200"
+                  :label="$i18nMy.t('操作')">
+                  <template slot-scope="scope">
+                    <!-- <el-button v-if="scope.row.status === 'claim'" type="text" size="small" @click="claim(scope.row)">{{$i18nMy.t('签收任务')}}</el-button> -->
+                    <el-button type="text" size="small" @click="todo(scope.row)">{{$i18nMy.t('办理')}}</el-button>
+                    <!--  <el-button v-if="scope.row.status === 'todo'" type="text" size="small" @click="transferTask(scope.row)">{{$i18nMy.t('委派')}}</el-button> -->
+                    <!--  <el-button v-if="scope.row.claimTime" type="text" size="small" @click="unclaim(scope.row)">{{$i18nMy.t('取消签收')}}</el-button> -->
+                    <el-button  type="text" size="small" @click="trace(scope.row)">{{$i18nMy.t('进度')}}</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+              <el-row>
+                <el-button-group class="pull-right" style="margin-top: 15px;">
+                  <el-tooltip class="item" effect="dark" content="More" placement="top">
+                    <el-button type="text" size="small" >{{$i18nMy.t('总数')}}</el-button>
+                  </el-tooltip>
+                </el-button-group>
+              </el-row>
+              <el-dialog
+               title="查看进度"
+               :close-on-click-modal="true"
+               :visible.sync="visible"
+                v-dialogDrag
+               width="70%"
+               height="600px">
+                  <flow-chart ref="preview" :processInstanceId="processInstanceId"></flow-chart>
+               </el-dialog>
+          </el-card>
+          </el-col>
         </el-row>
         <el-row :gutter="10" style="margin-bottom: 10px">
           <el-col
@@ -144,7 +231,6 @@
               :data="dataList1"
               size = "small"
               v-loading="loading1"
-              @selection-change="selectionChangeHandle"
               class="table">
               <el-table-column
                 type="selection"
@@ -223,9 +309,7 @@
 import pick from 'lodash.pick'
 import Vue from 'vue'
 import * as numeral from 'numeral'
-import NumberInfo from '@/components/numberInfo/NumberInfo'
-import ActiveChart from './ActiveChart'
-import CountDown from '@/components/countDown'
+
 const yuan = (val) => `&yen; ${numeral(val).format('0,0')}`
 
 export default Vue.extend({
@@ -237,6 +321,13 @@ export default Vue.extend({
         endDate: ''
       },
       searchDates: '',
+
+      delegateList: [],
+      pageNo3: 1,
+      pageSize3: 5,
+      total3: 0,
+      loading3: false,
+
       dataList: [],
       pageNo: 1,
       pageSize: 5,
@@ -257,6 +348,7 @@ export default Vue.extend({
   components: {
   },
   activated () {
+    this.refreshDelegateList()
     this.refreshList()
     this.refreshList1()
     this.refreshList2()
@@ -272,6 +364,9 @@ export default Vue.extend({
           }
         ]
       }
+    },
+    userName () {
+      return JSON.parse(localStorage.getItem('user')).name
     }
   },
   mounted () {
@@ -332,6 +427,24 @@ export default Vue.extend({
         }
       })
     },
+    refreshDelegateList () {
+      this.loading = true
+      this.$http({
+        url: '/flowable/task/delegate',
+        method: 'get',
+        params: {
+          'pageNo': this.pageNo3,
+          'pageSize': this.pageSize3,
+          ...this.searchForm
+        }
+      }).then(({data}) => {
+        if (data && data.success) {
+          this.delegateList = data.page.list
+          this.total3 = data.page.count
+          this.loading3 = false
+        }
+      })
+    },
     toTodoList () {
       this.$router.push(`/flowable/task/TodoList`)
     },
@@ -372,7 +485,7 @@ export default Vue.extend({
         if (data.success) {
           this.$router.push({
             path: '/flowable/task/TaskFormDetail',
-            query: {readOnly: true, taskId: row.executionId, title: `${row.processDefinitionName}【${row.name}】`, formTitle: `${row.processDefinitionName}`, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
+            query: {readOnly: true, taskId: row.executionId, title: `${row.processDefinitionName}【${row.name}】`, formTitle: `${row.vars.title}`, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
           })
         }
       })
@@ -401,6 +514,9 @@ export default Vue.extend({
     },
     defaultFormatter (value) {
       return defaultFormatter(value)
+    },
+    getRandomColor() {
+     return "yuan-color-" + (Math.floor(Math.random() * (5)) + 1)
     }
   }
 })
@@ -422,6 +538,43 @@ export default Vue.extend({
   text-align: center;
   margin:0 auto;
   line-height: 120px;
+}
+.yuan1{
+  background-color: #1c3f95;
+  font-size: 16px;
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  text-align: center;
+  line-height: 40px;
+  float: left;
+}
+.task-name {
+  color:#010407;
+  margin-left:5px;
+  width:90px;
+  text-overflow:ellipsis;
+  overflow:hidden;
+  white-space:nowrap;
+  text-align:left;
+  line-height: 16px;
+  font-size: 14px;
+}
+.yuan-color-1 {
+  background-color: #2f6dfd;
+}
+.yuan-color-2 {
+  background-color: #5e87f9;
+}
+.yuan-color-3 {
+  background-color: #5e3fd8;
+}
+.yuan-color-4 {
+  background-color: #1ea0cf;
+}
+.yuan-color-5 {
+  background-color: #2f6bf9;
 }
 .map-chart {
   padding-top: 24px;

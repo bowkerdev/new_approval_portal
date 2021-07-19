@@ -50,6 +50,9 @@
           this.form = null
           this.$message.info('没有关联流程表单!')
         } else {
+          if ( this.formUrl === "/oa/pr/form" ) {  // Jack：此处特殊处理，兼容老数据
+            this.formUrl = "/flow/pr/OaPrNewForm"
+          }
           this.form = _import(`modules${this.formUrl}`)
         }
       } else {

@@ -1,0 +1,63 @@
+<template>
+  <div style="height: 100%">
+        <el-tabs  type="border-card">
+          <el-tab-pane label="主要信息" >
+            <OaPrNewForm :formReadOnly="true"  ref="oaPrNewForm" ></OaPrNewForm>
+          </el-tab-pane>
+          <el-tab-pane label="补充文件" >
+            <OaPrNewFormForDoc :formReadOnly="true" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
+          </el-tab-pane>
+          <el-tab-pane label="供应商报价和合同" >
+            <OaPrNewFormForSupplier :formReadOnly="true" ref="oaPrNewFormForSupplier" ></OaPrNewFormForSupplier>
+          </el-tab-pane>
+        </el-tabs>
+  </div>
+</template>
+
+<script>
+  import OaPrNewForm from './OaPrNewForm'
+  import OaPrNewFormForDoc from './OaPrNewFormForDoc'
+  import OaPrNewFormForSupplier from './OaPrNewFormForSupplier'
+  export default {
+    data() {
+      return {
+        title: '',
+        method: '',
+        loading: false,
+        businessId:""
+      }
+    },
+    props: {
+      formReadOnly: {
+        type: Boolean,
+        default: false
+      }
+    },
+    components: {
+      OaPrNewForm,
+      OaPrNewFormForDoc,
+      OaPrNewFormForSupplier
+    },
+    activated() {
+      this.init()
+    },
+    methods: {
+      init(query) {
+        this.businessId=query.businessId
+        this.$refs.oaPrNewForm.init(query)
+        this.$refs.oaPrNewFormForDoc.init(query)
+        this.$refs.oaPrNewFormForSupplier.init(query)
+      },
+      // 表单提交
+      saveForm(callBack) {
+        debugger
+        callBack("oa_pr_new", this.businessId)
+      }
+    }
+  }
+</script>
+<style scoped lang = "less">
+  .el-form-item {
+      margin-bottom: 2px;
+  }
+</style>

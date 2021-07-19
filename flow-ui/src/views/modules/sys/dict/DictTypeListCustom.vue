@@ -6,7 +6,7 @@
       </el-row> -->
       <el-form size="small" :inline="true"  class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
          <el-form-item prop="type">
-          <el-input size="small" v-model="searchForm.type" :disabled="paramType==='reason'" :placeholder="$i18nMy.t('类型')" clearable></el-input>
+          <el-input size="small" v-model="searchForm.type" :disabled="true" :placeholder="$i18nMy.t('类型')" clearable></el-input>
         </el-form-item>
         <el-form-item prop="description">
           <el-input size="small" v-model="searchForm.description" :placeholder="$i18nMy.t('描述')" clearable></el-input>
@@ -17,25 +17,7 @@
         </el-form-item>
 
       </el-form>
-      <div class="bg-white">
-      <el-row v-if="paramType!='reason'">
-        <el-button v-if="hasPermission('sys:dict:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
-        <el-button v-if="hasPermission('sys:dict:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-        :disabled="dataListSelections.length !== 1" plain>{{$i18nMy.t('修改')}}</el-button>
-        <el-button v-if="hasPermission('sys:dict:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
-                  <font style="margin-left:60px; color: red; font-size: 14px;">为确保系统统一性，字典配置请遵循以下规则：字典类型只能使用英文小写字母，数字，下划线，并以英文字母开头命名；</font>
-        <!-- <el-button-group class="pull-right">
-          <el-tooltip class="item" effect="dark" content="刷新" placement="top">
-            <el-button
-              type="default"
-              size="small"
-              icon="el-icon-refresh"
-              @click="refreshList">
-            </el-button>
-          </el-tooltip>
-        </el-button-group> -->
-      </el-row>
+      <div class="bg-white top" style="overflow: auto;">
         <el-table
           :data="dataList"
           v-loading="loading"
@@ -73,25 +55,11 @@
              <el-button v-if="hasPermission('sys:dict:view')" type="text" size="small"
                       @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
             <el-divider direction="vertical"></el-divider>
-            <el-button v-if="hasPermission('sys:dict:edit') && paramType!='reason'" type="text" size="small"
-                      @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
-            <el-divider direction="vertical"></el-divider>
-            <el-button v-if="hasPermission('sys:dict:del') && paramType!='reason'" type="text" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
-            <el-divider direction="vertical"></el-divider>
+
             <el-button v-if="hasPermission('sys:dict:edit')" type="text" size="small" @click="showRight(scope.row)">{{$i18nMy.t('管理键值')}}</el-button>
           </template>
         </el-table-column>
       </el-table>
-    <el-pagination
-      @size-change="sizeChangeHandle"
-      @current-change="currentChangeHandle"
-      :current-page="pageNo"
-      :page-sizes="[10, 20, 50, 100]"
-      :page-size="pageSize"
-      :total="total"
-      background
-      layout="total, sizes, prev, pager, next, jumper">
-    </el-pagination>
     </div>
     <!-- 弹窗, 新增 / 修改 -->
     <dict-type-form  ref="dictTypeForm" @refreshDataList="refreshList"></dict-type-form>
@@ -119,7 +87,7 @@ export default {
         },
         dataList: [],
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 99999,
         total: 0,
         orderBy: '',
         dataListSelections: [],
@@ -143,19 +111,14 @@ export default {
       refreshList () {
         this.loading = true
         this.$http({
-          url: '/sys/dict/type/list',
+          url: "/database/datamodel/dataSet/getDataByName/"+this.paramType+"/json",
           method: 'get',
           params: {
-            'pageNo': this.pageNo,
-            'pageSize': this.pageSize,
-            'type': this.searchForm.type,
-            'description': this.searchForm.description,
-            'orderBy': this.orderBy
+            description: this.searchForm.description
           }
         }).then(({data}) => {
           if (data && data.success) {
-            this.dataList = data.page.list
-            this.total = data.page.count
+            this.dataList = data.result
             this.loading = false
           }
         })
@@ -207,8 +170,8 @@ export default {
           return item.id
         }).join(',')
         this.$confirm($i18nMy.t('确定删除所选项吗') + '?', $i18nMy.t('提示'), {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+          confirmButtonText: $i18nMy.t('确定'),
+          cancelButtonText: $i18nMy.t('取消'),
           type: 'warning'
         }).then(() => {
           this.$http({

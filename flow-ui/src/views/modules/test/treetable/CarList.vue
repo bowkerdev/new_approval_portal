@@ -73,7 +73,7 @@
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
-      <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
+      <el-dialog  :title="$i18nMy.t('导入Excel')" :visible.sync="isImportCollapse">
           <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
              <el-form-item>
               <el-button type="default" @click="downloadTpl()" size="small">下载模板</el-button>
@@ -249,7 +249,7 @@
         this.$refs.carKindForm.init('edit', {id: data.id, parent: {id: '', name: ''}})
       },
       delTreeNode (data) {
-        this.$confirm(`确定删除所选项吗?`, '提示', {
+        this.$confirm($i18nMy.t('确定删除所选项吗') + '?', $i18nMy.t('提示'), {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -336,7 +336,7 @@
         let ids = id || this.dataListSelections.map(item => {
           return item.id
         }).join(',')
-        this.$confirm(`确定删除所选项吗?`, '提示', {
+        this.$confirm($i18nMy.t('确定删除所选项吗') + '?', $i18nMy.t('提示'), {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

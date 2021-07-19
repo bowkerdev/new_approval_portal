@@ -12,7 +12,7 @@
             <el-form-item label="公司" prop="company.id"
                 :rules="[
                  ]">
-          <SelectTree
+          <!-- <SelectTree 
                       ref="company"
                       :props="{
                           value: 'id',             // ID字段名
@@ -20,11 +20,16 @@
                           children: 'children'    // 子级字段名
                         }"
 
-                      url="/sys/office/treeData?type=1"
+                      url="/sys/office/treeData?type=1&parentId=bowker"
                       :value="inputForm.company.id"
                       :clearable="true"
                       :accordion="true"
-                      @getValue="(value) => {inputForm.company.id=value}"/>
+                      @getValue="(value) => {inputForm.company.id=value}"/> -->
+               <el-select v-model="inputForm.company.id" :placeholder="$i18nMy.t('公司')" @change="siteChange" clearable>
+                <el-option v-for="item in siteList" :key="item.value"
+                  :label="item.label" :value="item.value" >
+                </el-option>
+               </el-select>
            </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -33,13 +38,14 @@
                  ]">
           <SelectTree
                       ref="department"
+                      v-if="ifSiteChange"
                       :props="{
                           value: 'id',             // ID字段名
                           label: 'name',         // 显示名称
                           children: 'children'    // 子级字段名
                         }"
 
-                      url="/sys/office/treeData?type=2"
+                      :url="`/sys/office/treeData?type=2&parentId=${inputForm.company.id}`"
                       :value="inputForm.department.id"
                       :clearable="true"
                       :accordion="true"
@@ -90,6 +96,8 @@
   export default {
     data () {
       return {
+        ifSiteChange: true,
+        siteList:[],
         title: '',
         method: '',
         visible: false,
@@ -115,7 +123,20 @@
       SelectTree,
       UserSelect
     },
+    activated () {
+      let _that=this
+      this.$dictUtils.getSqlDictList('GET_APPLY_SITE',{},function(data){
+        _that.siteList = data
+      })
+    },
     methods: {
+      siteChange(){
+        debugger
+        this.ifSiteChange = false;
+        this.$nextTick(() => {
+          this.ifSiteChange = true;
+        })
+      },
       init (method, id) {
         this.method = method
         this.inputForm.id = id

@@ -1,7 +1,7 @@
 <template>
 <div style="height: 100%;overflow-y: auto;overflow-x: hidden;">
   <h4 style="text-align:center">{{title}}</h4>
- 
+
   <el-tabs type="border-card" v-model="taskSelectedTab">
     <el-tab-pane :label="$i18nMy.t('表单信息')" name="form-first">
       <component id="printForm" :formReadOnly="formReadOnly" v-if="formType === '2'" :class="formReadOnly?'readonly':''"  ref="form" :businessId="businessId" :is="form"></component>

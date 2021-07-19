@@ -2,9 +2,9 @@ export default {
   namespaced: true,
   state: {
     // 导航条, 布局风格, defalut(默认) / inverse(反向)
-    navbarLayoutType: localStorage.getItem('navbarLayoutType') || '5',
+    navbarLayoutType: localStorage.getItem('navbarLayoutType') || '1',
     // 侧边栏, 布局皮肤, light(浅色) / dark(黑色)
-    sidebarLayoutSkin: localStorage.getItem('sidebarLayoutSkin') || '5',
+    sidebarLayoutSkin: localStorage.getItem('sidebarLayoutSkin') || '1',
     // 侧边栏, 折叠状态
     sidebarFold: false,
     // 开启tab

@@ -19,12 +19,13 @@
           :on-success="uploadSuccess"
           :show-file-list="true">
           <i class="el-icon-upload"></i>
-          <div class="el-upload__text">将文件拖到此处，或<em>点击选择文件</em></div>
+          <div class="el-upload__text">{{$i18nMy.t('将文件拖到此处，或')}}<em>{{$i18nMy.t('点击选择文件')}}</em></div>
+          <div class="el-upload__text" style="color: red; margin-top: 15px;">{{remarks}}</em></div>
         </el-upload>
         <el-row style="padding-top: 20px">
           <el-col :span="24">
-            <el-button type="primary" @click="downloadTpl()" size="small">下载模板</el-button>
-            <span style="height: 32px;line-height: 32px;padding-left: 10px;">只允许导入“xls”或“xlsx”格式文件！</span>
+            <el-button type="primary" @click="downloadTpl()" size="small">{{$i18nMy.t('下载模板')}}</el-button>
+            <span style="height: 32px;line-height: 32px;padding-left: 10px;">{{$i18nMy.t('只允许导入“xls”或“xlsx”格式文件！')}}</span>
           </el-col>
         </el-row>
       </div>
@@ -62,6 +63,12 @@ export default {
       type: String,
       default: () => {
         return ""
+      }
+    },
+    remarks: {
+      type: String,
+      default: () => {
+        return ''
       }
     },
     templateUrl:{
@@ -110,7 +117,7 @@ export default {
           if (data && data.success){
             if(data.rows.length > 0){
               _that.percentage = data.rows[0].progressRate;
-              console.log('当前进度：'+_that.percentage)
+              console.log($i18nMy.t('当前进度：')+_that.percentage)
               if (parseInt(_that.percentage || 0) >= 100) {
                 clearInterval(_that.timeInterval);
               }
@@ -133,29 +140,6 @@ export default {
       _that.percentage = 0;
       _that.loading = false;
     },
-    dataURLtoBlob:function(dataurl) {
-      var raw =window.atob(dataurl);
-      var rawLength=raw.length;
-      var uInt8Array=new Uint8Array(rawLength);
-      for(var i=0;i<rawLength;i++){
-        uInt8Array[i]=raw.charCodeAt(i);
-      }
-      return new Blob([uInt8Array],{type:'application/vnd.ms-excel'})
-    },
-    downloadFile:function (url,name){
-      var a = document.createElement("a")
-      a.setAttribute("href",url)
-      a.setAttribute("download",name)
-      a.setAttribute("target","_blank")
-      var clickEvent = document.createEvent("MouseEvents");
-      clickEvent.initEvent("click", true, true);
-      a.dispatchEvent(clickEvent);
-    },
-    downloadFileByBase64:function(base64,name){
-      var myBlob = this.dataURLtoBlob(base64)
-      var myUrl = URL.createObjectURL(myBlob)
-      this.downloadFile(myUrl,name)
-    },
     // 导入成功
     uploadSuccess (res, file) {
       let _that = this;
@@ -164,9 +148,6 @@ export default {
           message: res.msg})
       } else {
         _that.$message.error(res.msg)
-      }
-      if(null != res.fileBase64){
-        this.downloadFileByBase64(res.fileBase64,res.fileName);
       }
       setTimeout(function (){
         _that.closePercentage();
@@ -188,7 +169,7 @@ export default {
       let _that = this;
       _that.loading = true;
       _that.percentage = 0;
-      _that.tips = '正在上传中。。。';
+      _that.tips = $i18nMy.t('正在上传中……');
       _that.getProgressRate();
       // _that.$refs.upload.submit();
     }

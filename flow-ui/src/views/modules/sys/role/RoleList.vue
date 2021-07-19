@@ -19,13 +19,13 @@
                   :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}</el-button>
         <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
-            <el-button 
+            <el-button
               type="default"
               size="small"
               icon="el-icon-refresh"
               @click="refreshList">
             </el-button>
-          </el-tooltip>     
+          </el-tooltip>
         </el-button-group>
       </el-row>
     <el-table

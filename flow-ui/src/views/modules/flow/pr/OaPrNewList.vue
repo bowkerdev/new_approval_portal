@@ -1,57 +1,22 @@
 <template>
-    <div class="page">
+  <div class="page">
       <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
-         <el-form-item prop="continent.id">
-            <GridSelect
-                    title="选择所属洲"
-                    placeholder="请选择所属洲"
-                    labelName = 'name'
-                    labelValue = 'id'
-                    :value = "searchForm.continent.id"
-                    :limit="1"
-                    size="small"
-                    @getValue='(value) => {searchForm.continent.id=value}'
-                    :columns="[
-                    {
-                      prop: 'name',
-                      label: '洲名'
-                    },
-                    {
-                      prop: 'remarks',
-                      label: '备注'
-                    }
-                    ]"
-                    :searchs="[
-                    {
-                      prop: 'name',
-                      label: '洲名'
-                    },
-                    {
-                      prop: 'remarks',
-                      label: '备注'
-                    }
-                    ]"
-                    dataListUrl="/test/grid/testContinent/list"
-                    entityBeanName="testContinent"
-                    queryEntityUrl="/test/grid/testContinent/queryById">
-                  </GridSelect>
-         </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small" icon="el-icon-search">查询</el-button>
-            <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">重置</el-button>
+            <el-button type="primary" @click="refreshList()" size="small">查询</el-button>
+            <el-button @click="resetSearch()" size="small">重置</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
-      <el-dialog  :title="$i18nMy.t('导入Excel')" :visible.sync="isImportCollapse">
-          <el-form size="small" :inline="true" v-show="isImportCollapse"  ref="importForm">
+        <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
+          <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
              <el-form-item>
               <el-button type="default" @click="downloadTpl()" size="small">下载模板</el-button>
              </el-form-item>
              <el-form-item prop="loginName">
                 <el-upload
                   class="upload-demo"
-                  :action="`${this.$http.BASE_URL}/test/grid/testCountry/import`"
+                  :action="`${this.$http.BASE_URL}/flow/pr/oaPrNew/import`"
                   :on-success="uploadSuccess"
                    :show-file-list="true">
                   <el-button size="small" type="primary">点击上传</el-button>
@@ -62,15 +27,15 @@
       </el-dialog>
       <div class="bg-white top">
       <el-row>
-        <el-button v-if="hasPermission('test:grid:testCountry:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
-        <el-button v-if="hasPermission('test:grid:testCountry:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
+        <el-button v-if="hasPermission('flow:pr:oaPrNew:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
+        <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
          :disabled="dataListSelections.length != 1" plain>修改</el-button>
-        <el-button v-if="hasPermission('test:grid:testCountry:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
+        <el-button v-if="hasPermission('flow:pr:oaPrNew:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
                   :disabled="dataListSelections.length <= 0" plain>删除
         </el-button>
         <el-button-group class="pull-right">
-            <el-button v-if="hasPermission('test:grid:testCountry:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse"></el-button>
-            <el-button v-if="hasPermission('test:grid:testCountry:export')" type="default" size="small" icon="el-icon-download" title="导出" @click="exportExcel()"></el-button>
+            <el-button v-if="hasPermission('flow:pr:oaPrNew:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
+            <el-button v-if="hasPermission('flow:pr:oaPrNew:export')" type="default" size="small" icon="el-icon-download" title="导出" @click="exportExcel()"></el-button>
             <el-button
               type="default"
               size="small"
@@ -81,11 +46,12 @@
       </el-row>
     <el-table
       :data="dataList"
-       size="small"
-       height="calc(100% - 80px)"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       v-loading="loading"
+      size="small"
+      height="calc(100% - 80px)"
+      @expand-change="detail"
       class="table">
       <el-table-column
         type="selection"
@@ -93,34 +59,106 @@
         align="center"
         width="50">
       </el-table-column>
+      <el-table-column type="expand">
+      <template slot-scope="scope">
+      <el-tabs>
+            </el-tabs>
+      </template>
+      </el-table-column>
     <el-table-column
-        prop="name"
+        prop="applicationNo"
         show-overflow-tooltip
         sortable="custom"
-        label="国名">
+        label="申请单号">
             <template slot-scope="scope">
-              <el-link  type="primary" :underline="false" v-if="hasPermission('test:grid:testCountry:edit')" @click="edit(scope.row.id)">{{scope.row.name}}</el-link>
-              <el-link  type="primary" :underline="false" v-else-if="hasPermission('test:grid:testCountry:view')"  @click="view(scope.row.id)">{{scope.row.name}}</el-link>
-              <span v-else>{{scope.row.name}}</span>
+              <el-link  type="primary" :underline="false" v-if="hasPermission('flow:pr:oaPrNew:edit')" @click="edit(scope.row.id)">{{scope.row.applicationNo}}</el-link>
+              <el-link  type="primary" :underline="false" v-else-if="hasPermission('flow:pr:oaPrNew:view')"  @click="view(scope.row.id)">{{scope.row.applicationNo}}</el-link>
+              <span v-else>{{scope.row.applicationNo}}</span>
             </template>
       </el-table-column>
     <el-table-column
-        prop="sum"
+        prop="projectName"
         show-overflow-tooltip
         sortable="custom"
-        label="人口">
-      </el-table-column>
-      <el-table-column
-        prop="continent.name"
-        show-overflow-tooltip
-        sortable="custom"
-        label="所属洲">
+        label="项目名称">
       </el-table-column>
     <el-table-column
-        prop="remarks"
+        prop="applySiteCode"
         show-overflow-tooltip
         sortable="custom"
-        label="备注信息">
+        label="采购地区">
+        <template slot-scope="scope">
+              {{ $dictUtils.getDictLabel("apply_site_code", scope.row.applySiteCode, '-') }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="requesterDepartment.name"
+        show-overflow-tooltip
+        sortable="custom"
+        label="请求者部门">
+      </el-table-column>
+    <el-table-column
+        prop="expenseType"
+        show-overflow-tooltip
+        sortable="custom"
+        label="费用类型">
+        <template slot-scope="scope">
+              {{ $dictUtils.getDictLabel("expense_type", scope.row.expenseType, '-') }}
+        </template>
+      </el-table-column>
+    <el-table-column
+        prop="costCenter"
+        show-overflow-tooltip
+        sortable="custom"
+        label="成本中心">
+        <template slot-scope="scope">
+              {{ $dictUtils.getDictLabel("cost_center", scope.row.costCenter, '-') }}
+        </template>
+      </el-table-column>
+    <el-table-column
+        prop="assetGroup"
+        show-overflow-tooltip
+        sortable="custom"
+        label="固定资产类型">
+        <template slot-scope="scope">
+              {{ $dictUtils.getDictLabel("asset_group", scope.row.assetGroup, '-') }}
+        </template>
+      </el-table-column>
+    <el-table-column
+        prop="flow.taskName"
+        show-overflow-tooltip
+        sortable="custom"
+        label="当前环节">
+      </el-table-column>
+    <el-table-column
+        prop="approvedDate"
+        show-overflow-tooltip
+        sortable="custom"
+        label="状态日期">
+      </el-table-column>
+    <el-table-column
+        prop="requestRiority"
+        show-overflow-tooltip
+        sortable="custom"
+        label="申购优先级">
+        <template slot-scope="scope">
+              {{ $dictUtils.getDictLabel("request_priority", scope.row.requestRiority, '-') }}
+        </template>
+      </el-table-column>
+    <el-table-column
+        prop="contractCurrency"
+        show-overflow-tooltip
+        sortable="custom"
+        label="合同币种">
+        <template slot-scope="scope">
+              {{ $dictUtils.getDictLabel("pr_currency", scope.row.contractCurrency, '-') }}
+        </template>
+      </el-table-column>
+    <el-table-column
+        prop="totalContractAmount"
+        show-overflow-tooltip
+        sortable="custom"
+        label="合同总价">
       </el-table-column>
       <el-table-column
         header-align="center"
@@ -130,9 +168,9 @@
         width="200"
         label="操作">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('test:grid:testCountry:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">查看</el-button>
-          <el-button v-if="hasPermission('test:grid:testCountry:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">修改</el-button>
-          <el-button v-if="hasPermission('test:grid:testCountry:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">删除</el-button>
+          <el-button v-if="hasPermission('flow:pr:oaPrNew:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">查看</el-button>
+          <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">修改</el-button>
+          <el-button v-if="hasPermission('flow:pr:oaPrNew:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -148,20 +186,16 @@
     </el-pagination>
     </div>
         <!-- 弹窗, 新增 / 修改 -->
-    <TestCountryForm  ref="testCountryForm" @refreshDataList="refreshList"></TestCountryForm>
+    <OaPrNewForm  ref="oaPrNewForm" @refreshDataList="refreshList"></OaPrNewForm>
   </div>
 </template>
 
 <script>
-  import TestCountryForm from './TestCountryForm'
-  import GridSelect from '@/components/gridSelect'
+  import OaPrNewForm from './OaPrNewForm'
   export default {
     data () {
       return {
         searchForm: {
-          continent: {
-            id: ''
-          }
         },
         dataList: [],
         pageNo: 1,
@@ -174,8 +208,7 @@
       }
     },
     components: {
-      GridSelect,
-      TestCountryForm
+      OaPrNewForm
     },
     activated () {
       this.refreshList()
@@ -185,7 +218,7 @@
       refreshList () {
         this.loading = true
         this.$http({
-          url: '/test/grid/testCountry/list',
+          url: '/flow/pr/oaPrNew/list',
           method: 'get',
           params: {
             'pageNo': this.pageNo,
@@ -195,6 +228,7 @@
           }
         }).then(({data}) => {
           if (data && data.success) {
+            debugger
             this.dataList = data.page.list
             this.total = data.page.count
             this.loading = false
@@ -230,32 +264,32 @@
       },
       // 新增
       add () {
-        this.$refs.testCountryForm.init('add', '')
+        this.$refs.oaPrNewForm.init('add', '')
       },
       // 修改
       edit (id) {
         id = id || this.dataListSelections.map(item => {
           return item.id
         })[0]
-        this.$refs.testCountryForm.init('edit', id)
+        this.$refs.oaPrNewForm.init('edit', id)
       },
       // 查看
       view (id) {
-        this.$refs.testCountryForm.init('view', id)
+        this.$refs.oaPrNewForm.init('view', id)
       },
       // 删除
       del (id) {
         let ids = id || this.dataListSelections.map(item => {
           return item.id
         }).join(',')
-        this.$confirm($i18nMy.t('确定删除所选项吗') + '?', $i18nMy.t('提示'), {
+        this.$confirm(`确定删除所选项吗?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           this.loading = true
           this.$http({
-            url: '/test/grid/testCountry/delete',
+            url: '/flow/pr/oaPrNew/delete',
             method: 'delete',
             params: {'ids': ids}
           }).then(({data}) => {
@@ -264,6 +298,15 @@
               this.refreshList()
             }
             this.loading = false
+          })
+        })
+      },
+     // 查看详情
+      detail (row) {
+        this.$http.get(`/flow/pr/oaPrNew/queryById?id=${row.id}`).then(({data}) => {
+          this.dataList.forEach((item, index) => {
+            if (item.id === row.id) {
+            }
           })
         })
       },
@@ -278,13 +321,13 @@
       },
       // 下载模板
       downloadTpl () {
-        this.$utils.download('/test/grid/testCountry/import/template')
+        this.$utils.download('/flow/pr/oaPrNew/import/template')
       },
       exportExcel () {
         let params = {
           ...this.searchForm
         }
-        this.$utils.download('/test/grid/testCountry/export', params)
+        this.$utils.download('/flow/pr/oaPrNew/export', params)
       },
       resetSearch () {
         this.$refs.searchForm.resetFields()

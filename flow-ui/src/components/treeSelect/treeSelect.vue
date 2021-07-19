@@ -1,5 +1,5 @@
 <template>
-  <el-select class="el-select-scope" :value="valueTitle" :size="size"  :disabled="disabled" :clearable="clearable" :placeholder="placeholderText" @clear="clearHandle">
+  <el-select :value="valueTitle" :size="size"  :disabled="disabled" :clearable="clearable" :placeholder="placeholderText" @clear="clearHandle">
     <el-option :value="valueTitle"  :label="valueTitle" class="options">
       <el-tree  id="tree-option"
         ref="selectTree"
@@ -8,7 +8,7 @@
         :show-checkbox="showCheckbox"
         :props="props"
         highlight-current
-        :node-key="props.value"    
+        :node-key="props.value"
         :default-expanded-keys="defaultExpandedKey"
         @check-change="handleCheckChange"
         @node-click="handleNodeClick">
@@ -132,6 +132,10 @@ export default {
         }
       }
     },
+    initTreeList (datas) {
+        this.treeList = [];
+        setTreeList (datas);
+    },
     // 初始化值
     initHandle () {
       if (this.valueId) {
@@ -162,8 +166,8 @@ export default {
     // 初始化滚动条
     initScroll () {
       this.$nextTick(() => {
-        let scrollWrap = document.querySelectorAll('.el-select-scope .el-scrollbar .el-select-dropdown__wrap')[0]
-        let scrollBar = document.querySelectorAll('.el-select-scope .el-scrollbar .el-scrollbar__bar')
+        let scrollWrap = document.querySelectorAll('.el-scrollbar .el-select-dropdown__wrap')[0]
+        let scrollBar = document.querySelectorAll('.el-scrollbar .el-scrollbar__bar')
         if (scrollWrap) { scrollWrap.style.cssText = 'margin: 0px; max-height: none; overflow: hidden;' }
         if (scrollBar) {
           scrollBar.forEach(ele => {

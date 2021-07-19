@@ -1,0 +1,592 @@
+<template>
+  <div style="height: 100%;overflow-y: auto;overflow-x: hidden;">
+    <el-form size="small" :model="inputForm" ref="inputForm" v-loading="loading" :disabled="formReadOnly"
+      label-width="140px" style="width: calc(100% - 25px);">
+      <el-row :gutter="15">
+        <el-col :span="24">
+          <p style="text-align: center;margin: 20px;font-size: 20px;font-weight: 800;">
+            Win Hanverky Group Purchase Requisition Form
+          </p>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="申请单号" prop="applicationNo" :rules="[]">
+            <el-input v-model="inputForm.applicationNo" :disabled='true' placeholder="系统自动生成"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item  label="申请人" prop="requester" :rules="[]">
+            <user-select :limit='1' :value="inputForm.createBy.id" :disabled='true' @getValue='(value) => {inputForm.createBy.id=value}'>
+            </user-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item  label="申请时间" prop="createDate" :rules="[]">
+            <el-date-picker v-model="inputForm.createDate" type="datetime"  :disabled='true' style="width: 100%;"
+              value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+	      <el-col  :span="12">
+            <el-form-item label="申请人部门" prop="createByOffice.id"
+                :rules="[  ]">
+          <SelectTree ref="createByOffice" :disabled='true'
+                      :props="{
+                          value: 'id',             // ID字段名
+                          label: 'name',         // 显示名称
+                          children: 'children'    // 子级字段名
+                        }"
+                      url="/sys/office/treeData?type=2"
+                      :value="inputForm.createByOffice.id"
+                      :clearable="true"   :accordion="true"
+                      @getValue="(value) => {inputForm.createByOffice.id=value}"/>
+           </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="项目名称" prop="projectName" :rules="[]">
+            <el-input v-model="inputForm.projectName" placeholder="请填写项目名称"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="采购地区" prop="applySiteCode" :rules="[{required: true, message:'采购地区不能为空', trigger:'blur'}]">
+            <el-select v-model="inputForm.applySiteCode" placeholder="请选择" style="width: 100%;" @change="siteChange">
+              <el-option v-for="item in $dictUtils.getDictList('apply_site_code')" :key="item.value" :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="用户部门" prop="requesterDepartment.id" :rules="[{required: true, message:'用户部门不能为空', trigger:'blur'}]">
+            <SelectTree ref="requesterDepartment" v-if="ifSiteChange" :props="{
+                    value: 'id',             // ID字段名
+                    label: 'name',         // 显示名称
+                    children: 'children'    // 子级字段名
+                  }" :url="`/sys/office/treeData?type=2&parentCode=${inputForm.applySiteCode}`" :value="inputForm.requesterDepartment.id" :clearable="true"
+              :accordion="true" @getValue="(value) => {inputForm.requesterDepartment.id=value}" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="用户姓名" prop="requester" :rules="[{required: true, message:'用户姓名不能为空', trigger:'blur'}]">
+            <el-input v-model="inputForm.requester" placeholder="请填写用户姓名"></el-input>
+            <!-- <user-select :limit='1' :value="inputForm.requester" @getValue='(value) => {inputForm.requester=value}'>
+            </user-select> -->
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="费用类型" prop="expenseType" :rules="[{required: true, message:'费用类型不能为空', trigger:'blur'}
+                 ]">
+            <el-select v-model="inputForm.expenseType" placeholder="请选择" style="width: 100%;">
+              <el-option v-for="item in $dictUtils.getDictList('expense_type')" :key="item.value" :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="要求到货时间" prop="expectArrivalDate" :rules="[
+                 ]">
+            <el-date-picker v-model="inputForm.expectArrivalDate" type="datetime" style="width: 100%;"
+              value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="签约方公司" prop="legalEntity" :rules="[{required: true, message:'签约方公司不能为空', trigger:'blur'}
+                 ]">
+            <el-select v-model="inputForm.legalEntity" placeholder="请选择" style="width: 100%;">
+              <el-option v-for="item in $dictUtils.getDictListWithKey('all_company')" :key="item.value" :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="成本中心" prop="costCenter" :rules="[{required: true, message:'成本中心不能为空', trigger:'blur'}
+                 ]">
+            <el-select v-model="inputForm.costCenter" placeholder="请选择" style="width: 100%;">
+              <el-option v-for="item in $dictUtils.getDictListWithKey('cost_center')" :key="item.value" :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="固定资产类别" prop="assetGroup" :rules="[{required: true, message:'固定资产类别不能为空', trigger:'blur'}
+                 ]">
+            <el-select v-model="inputForm.assetGroup" placeholder="请选择" style="width: 100%;">
+              <el-option v-for="item in $dictUtils.getDictListWithKey('asset_group')" :key="item.value" :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="技术支持部门" prop="technicalAdvisor" :rules="[ ]">
+            <el-select v-model="inputForm.technicalAdvisor" placeholder="请选择" style="width: 100%;">
+             <el-option v-for="item in $dictUtils.getDictList('technical_advisor')" :key="item.value" :label="item.label"
+               :value="item.value">
+             </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="预算类型" prop="budgetType" :rules="[]">
+            <el-select v-model="inputForm.budgetType" placeholder="请选择" style="width: 100%;">
+              <el-option v-for="item in $dictUtils.getDictList('it_pr_budget')" :key="item.value" :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="申购优先级" prop="requestRiority" :rules="[{required: true, message:'申购优先级不能为空', trigger:'blur'}
+                 ]">
+            <el-select v-model="inputForm.requestRiority" placeholder="请选择" style="width: 100%;">
+              <el-option v-for="item in $dictUtils.getDictList('request_priority')" :key="item.value" :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="是否预算内" prop="isBudget" :rules="[
+                 ]">
+            <el-radio-group v-model="inputForm.isBudget">
+              <el-radio v-for="item in $dictUtils.getDictList('yes_no')" :label="item.value" :key="item.value">
+                {{item.label}}</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="审批通过日期" prop="approvedDate" :rules="[
+                 ]">
+            <el-date-picker v-model="inputForm.approvedDate" type="datetime" style="width: 100%;"
+              value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+
+      </el-row>
+      <el-row :gutter="15">
+        <el-col :span="6">
+          <el-form-item label="合同币种" prop="contractCurrency" :rules="[
+                 ]">
+            <el-select @change="currencyChange()" v-model="inputForm.contractCurrency" placeholder="请选择" style="width: 100%;">
+              <el-option v-for="item in $dictUtils.getDictList('pr_currency')" :key="item.value" :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="汇率" prop="exRate" :rules="[]">
+            {{inputForm.exRate}}
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="合同总价" prop="totalContractAmount" :rules="[
+                  {validator: validator.isFloatGteZero, trigger:'blur'}
+                 ]">
+            <el-input v-only-num.float="inputForm"  v-model="inputForm.totalContractAmount" placeholder="请填写合同总价"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="基础币种" prop="baseCurrency" :rules="[ ]">
+            {{inputForm.baseCurrency}}
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="基础币种总价" prop="totalBaseAmount" :rules="[]">
+            <span v-if="!isNaN(inputForm.exRate*inputForm.totalContractAmount)">
+              {{(inputForm.exRate*inputForm.totalContractAmount).toFixed(3)}}
+            </span>
+
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row >
+        <el-tabs type="border-card">
+          <el-tab-pane v-for="(item, index) in tabs" :label="item" :key ="index" style="overflow-x:auto;overflow-y:hidden ;">
+           <el-row v-if="index==0">
+             <el-button size="small" @click="addTabListGroup()" type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px" >
+             </el-button>
+           </el-row>
+           <el-table :data="detailInfo" height="300px" class="table" size="small" style="border: 1px solid #EBEEF5 !important">
+              <el-table-column prop="serialNumber" width="50" align="center" :label="$i18nMy.t('序号')"> </el-table-column>
+              <el-table-column prop="item" width="200" align="center" :label="$i18nMy.t('物品')">
+                <template slot-scope="{row}">
+                  <template v-if="row.edit">
+                    <el-input  size="small" v-model="row.item" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                  </template>
+                  <span v-else>{{ row.item }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="itemDescription" width="200" v-if="index == 0" align="center" :label="$i18nMy.t('描述')"   >
+                <template slot-scope="{row}">
+                  <template v-if="row.edit">
+                    <el-input  size="small" v-model="row.itemDescription" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                  </template>
+                  <span v-else>{{ row.itemDescription }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="brandName" width="200"  align="center" :label="$i18nMy.t('品牌')"   >
+                <template slot-scope="{row}">
+                  <template v-if="row.edit">
+                    <el-input  size="small" v-model="row.brandName" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                  </template>
+                  <span v-else>{{ row.brandName }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="modelNo" width="200" align="center" :label="$i18nMy.t('型号')"    >
+                <template slot-scope="{row}">
+                  <template v-if="row.edit">
+                    <el-input  size="small" v-model="row.modelNo" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                  </template>
+                  <span v-else>{{ row.modelNo }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="supplierName"  v-if="index == 2" width="200" align="center" :label="$i18nMy.t('供应商名称')"    >
+                <template slot-scope="{row}">
+                  <template v-if="row.edit">
+                    <el-input  size="small" :disabled="flowStage=='start'?true:false"  v-model="row.supplierName" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                  </template>
+                  <span v-else>{{ row.supplierName }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="includedVat" width="100" v-if="index == 2" align="center" :label="$i18nMy.t('包含VAT')"    >
+                <template slot-scope="{row}">
+                  <template v-if="row.edit">
+                      <el-checkbox :disabled="flowStage=='start'?true:false" v-model="row.includedVat" ></el-checkbox>
+                  </template>
+                  <span v-else>{{ row.includedVat }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="unitPrice" width="200" v-if="index != 0" align="center" :label="$i18nMy.t('单价')"    >
+                <template slot-scope="{row}">
+                  <template v-if="row.edit">
+                    <el-input  size="small" v-only-num.float="row"
+                    :disabled="flowStage=='start'?true:false"   v-model="row.unitPrice" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                  </template>
+                  <span v-else>{{ row.unitPrice }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="docUnitPrice" width="200" v-if="index == 2" align="center" :label="$i18nMy.t('文件单价')"    >
+                <template slot-scope="{row}">
+                  <template v-if="row.edit">
+                    <el-input  size="small" v-only-num.float="row"
+                    :disabled="flowStage=='start'?true:false"   v-model="row.docUnitPrice" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                  </template>
+                  <span v-else>{{ row.docUnitPrice }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="quantity" width="155" align="center" :label="$i18nMy.t('数量')"   >
+                <template slot-scope="{row}">
+                  <template v-if="row.edit">
+                    <el-input-number  size="small" v-model="row.quantity" :step="1"  :min="1" :max="100" label="数量"></el-input-number>
+                  </template>
+                  <span v-else>{{ row.quantity }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="uom" width="100"  align="center" :label="$i18nMy.t('单位')"    >
+                <template slot-scope="{row}">
+                  <template v-if="row.edit">
+                    <el-select  size="small" v-model="row.uom" placeholder="" style="width: 100%;">
+                      <el-option v-for="item in $dictUtils.getDictList('purchasing_unit')" :key="item.value" :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </template>
+                  <span v-else>{{ row.uom }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="expectArrivalDate" width="160" v-if="index == 0" align="center" :label="$i18nMy.t('预计到达时间')"    >
+                <template slot-scope="{row}">
+                  <template v-if="row.edit">
+                    <el-date-picker  size="small" v-model="row.expectArrivalDate" type="date"
+                      value-format="yyyy-MM-dd" placeholder="选择日期时间">
+                    </el-date-picker>
+                  </template>
+                  <span v-else>{{ row.expectArrivalDate }}</span>
+                </template>
+              </el-table-column>
+
+              <el-table-column  v-if="index == 2" align="center" :label="$i18nMy.t('文档报价')"    >
+                <template>
+                  <el-table-column prop="docAmount" width="155"  align="center" :label="$i18nMy.t('总数')"   >
+                    <template slot-scope="{row}">
+                      <template v-if="row.edit">
+                        <el-input  size="small" v-only-num.float="row"
+                        :disabled="flowStage=='start'?true:false"   v-model="row.docAmount" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                      </template>
+                      <span v-else>{{ row.docAmount }}</span>
+                    </template>
+                  </el-table-column>
+
+                  <el-table-column prop="docVatAmount" width="155" align="center" :label="$i18nMy.t('数量')+'VAT'"   >
+                    <template slot-scope="{row}">
+                      <template v-if="row.edit">
+                        <el-input  size="small" v-only-num.float="row"
+                        :disabled="flowStage=='start'?true:false"   v-model="row.docVatAmount" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                      </template>
+                      <span v-else>{{ row.docVatAmount }}</span>
+                    </template>
+                  </el-table-column>
+                </template>
+              </el-table-column>
+
+              <el-table-column v-if="index != 0" align="center" :label="$i18nMy.t('基础报价')" >
+                <template>
+                  <el-table-column prop="baseQuantity" width="155" align="center" :label="$i18nMy.t('数量')"   >
+                    <template slot-scope="{row}">
+                      <span v-if="!isNaN(row.docAmount*inputForm.exRate)">
+                        {{(row.docAmount*inputForm.exRate).toFixed(3)}}
+                      </span>
+                    </template>
+                  </el-table-column>
+
+                  <el-table-column v-if="index == 2" width="155" prop="baseVatQuantity" align="center" :label="$i18nMy.t('数量')+'VAT'"   >
+                    <template slot-scope="{row}">
+                      <span  v-if="!isNaN(row.docVatAmount*inputForm.exRate)">
+                        {{(row.docVatAmount*inputForm.exRate).toFixed(3)}}
+                      </span>
+                    </template>
+                  </el-table-column>
+                </template>
+              </el-table-column>
+
+              <el-table-column width="150"  align="center" :label="$i18nMy.t('操作')" class-name="td-operate">
+                <template slot-scope="{row}">
+                  <el-button v-if="row.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
+                  <el-button v-if="!row.edit" type="primary" size="small" icon="el-icon-edit" @click="changeTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
+                  <el-button v-if="!row.edit" type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-tab-pane>
+        </el-tabs>
+      </el-row>
+      <el-row :gutter="15">
+        <el-col :span="24">
+          <p style="text-align: left;margin: 10px 0px 10px 0px;font-size: 20px;font-weight: 500;">
+            申请理由
+          </p>
+        </el-col>
+        <el-col :span="24">
+          <label for="purchasePurpose" class="el-form-item__label">申购目的</label>
+          <el-input type="textarea" style="width: 100%;" v-model="inputForm.purchasePurpose" placeholder="请填写申购目的"></el-input>
+        </el-col>
+        <el-col :span="24" style="margin-top: 10px;">
+          <label for="roi" class="el-form-item__label">ROI</label>
+          <el-input type="textarea" style="width: 100%;" v-model="inputForm.roi" placeholder="请填写ROI"></el-input>
+        </el-col>
+        <el-col :span="24" style="margin-top: 10px;">
+          <label for="noBudgetExplain"  style="margin-top: 10px;" class="el-form-item__label">预算外说明</label>
+          <el-input type="textarea"  v-model="inputForm.noBudgetExplain" placeholder="请填写预算外说明"></el-input>
+        </el-col>
+        <el-col :span="24" style="margin-top: 10px;">
+          <label for="paymentSpecial"  style="margin-top: 10px;" class="el-form-item__label">支付说明</label>
+          <el-input type="textarea"  v-model="inputForm.paymentSpecial" placeholder="请填写支付说明"></el-input>
+        </el-col>
+      </el-row>
+    </el-form>
+  </div>
+</template>
+
+<script>
+  import SelectTree from '@/components/treeSelect/treeSelect.vue'
+  import UserSelect from '@/components/userSelect'
+  export default {
+    data() {
+      return {
+        ifSiteChange: true,
+        title: '',
+        method: '',
+        loading: false,
+        flowStage:'start',
+        detailInfo:[],
+        tabs:["基础信息","技术信息","财务信息"],
+        inputForm: {
+          id: '',
+          createBy:{id:this.$store.state.user.id},
+          createDate:this.$common.formatTime(new Date()),
+          createByOffice: {
+            id: this.$store.state.user.office.id
+          },
+          applicationNo: '',
+          projectName: '',
+          applySiteCode: '',
+          requesterDepartment: {
+            id: ''
+          },
+          requester: '',
+          expenseType: '',
+          expectArrivalDate: '',
+          legalEntity: '',
+          costCenter: '',
+          assetGroup: '',
+          technicalAdvisor: '',
+          budgetType: '',
+          approvedDate: '',
+          isBudget: '',
+          requestRiority: '',
+          contractCurrency: '',
+          exRate: '',
+          totalContractAmount: '',
+          baseCurrency: '',
+          totalBaseAmount: '',
+          purchasePurpose: '',
+          roi: '',
+          noBudgetExplain: '',
+          paymentSpecial: '',
+          detailInfo: '',
+          supplementaryDoc: '',
+          supplierInfo: ''
+        }
+      }
+    },
+    props: {
+      formReadOnly: {
+        type: Boolean,
+        default: false
+      }
+    },
+    components: {
+      SelectTree,
+      UserSelect
+    },
+    activated() {
+      //this.init()
+    },
+    methods: {
+      siteChange(){
+        this.ifSiteChange = false;
+        this.$nextTick(() => {
+          this.ifSiteChange = true;
+        })
+      },
+      initCreateBy(){
+        if(this.$common.isEmpty(this.$store.state.user.id)){
+          setTimeout(this.initCreateBy,500)
+          return
+        }
+        this.inputForm.createBy.id=this.$store.state.user.id
+        this.inputForm.createDate=this.$common.formatTime(new Date())
+        this.inputForm.createByOffice.id = this.$store.state.user.office.id
+        this.inputForm.baseCurrency= this.$dictUtils.getDictList('pr_currency')[0].value
+      },
+      init(query) {
+        debugger
+        if (query&&query.businessId) {
+          this.loading = true
+          this.inputForm.id = query.businessId
+          this.$nextTick(() => {
+            this.$http({
+              url: `/flow/pr/oaPrNew/queryById?id=${this.inputForm.id}`,
+              method: 'get'
+            }).then(({
+              data
+            }) => {
+              this.inputForm = this.recover(this.inputForm, data.oaPrNew)
+              if (!this.$common.isEmpty(this.inputForm.detailInfo)){
+                this.detailInfo = JSON.parse(this.inputForm.detailInfo)
+              }
+              this.loading = false
+            })
+          })
+        }
+        else{
+          Object.assign(this.$data, this.$options.data.call(this))
+          this.initCreateBy()
+        }
+      },
+      // 表单提交
+      saveForm(callBack) {
+        debugger
+        if(this.detailInfo.length ==0){
+           this.$message.warning($i18nMy.t('物品列表不能为空'))
+           return ;
+        }
+        for(var i=0;i<this.detailInfo.length;i++){
+          if(this.detailInfo[i].edit){
+            this.$message.warning($i18nMy.t('物品列表还有未保存的记录'))
+            return ;
+          }
+        }
+        this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
+        this.$refs['inputForm'].validate((valid) => {
+          if (valid) {
+            this.loading = true
+            this.$http({
+              url: `/flow/pr/oaPrNew/save`,
+              method: 'post',
+              data: this.inputForm
+            }).then(({
+              data
+            }) => {
+              this.loading = false
+              if (data && data.success) {
+                 callBack(data.businessTable, data.businessId)
+              }
+              else{
+                this.$message.error(data.msg)
+              }
+            })
+          }
+        })
+      },
+      _sortDetailInfo(){
+        for(var i=0;i<this.detailInfo.length;i++){
+          this.detailInfo[i].serialNumber=i+1
+        }
+        this.detailInfo=this.detailInfo.slice()
+      },
+      addTabListGroup(){
+        this.detailInfo.push({edit:true,serialNumber:this.detailInfo.length+1})
+        this.detailInfo=this.detailInfo.slice()
+      },
+      confirmTabListGroup(row){
+        if(this.$common.isEmpty(row.item)){
+           this.$message.warning($i18nMy.t('物品不能为空'))
+        }
+        else if(this.$common.isEmpty(row.quantity)){
+           this.$message.warning($i18nMy.t('数量不能为空'))
+        }
+        else if(this.$common.isEmpty(row.uom)){
+           this.$message.warning($i18nMy.t('单位不能为空'))
+        }
+        else if(this.$common.isEmpty(row.expectArrivalDate)){
+           this.$message.warning($i18nMy.t('预计到达时间不能为空'))
+        }
+        else{
+          row.edit =false
+        }
+      },
+      delTabListGroup(row){
+        var index=this.detailInfo.indexOf(row)
+        if (index > -1) {
+          this.detailInfo.splice(index, 1)
+        }
+        this._sortDetailInfo()
+      },
+      changeTabListGroup(row){
+        row.edit =true
+      },
+      currencyChange(){
+        debugger
+        var _pThis=this
+        var dict= this.$common.find(this.$dictUtils.getDictList('pr_currency_rate'),
+          function(e){return e.label == _pThis.inputForm.contractCurrency})
+        this.inputForm.exRate= dict==null?1:dict.value
+      },
+    }
+  }
+</script>
+<style scoped lang = "less">
+  .el-form-item {
+      margin-bottom: 10px;
+  }
+  .el-form-item__label {
+    line-height: 25px;
+  }
+</style>

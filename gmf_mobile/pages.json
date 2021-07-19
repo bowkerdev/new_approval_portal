@@ -1,0 +1,68 @@
+{
+	"pages": [
+		{
+			"path": "pages/city/map",
+			"style": {
+				"navigationBarTitleText": "临桂区风貌改造任务管理"
+			}
+		},
+		{
+			"path": "pages/city/city",
+			"style": {
+				"navigationBarTitleText": "临桂区下级乡镇情况"
+			}
+		},
+
+		{
+		    "path" : "pages/test/test",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+			"path": "pages/township/township",
+			"style": {
+				"navigationBarTitleText": "乡镇下级村委情况"
+			}
+		},
+		{
+			"path": "pages/village/village",
+			"style": {
+				"navigationBarTitleText": "村委下级自然村屯情况"
+			}
+		},
+		{
+			"path": "pages/cuntun/cuntun",
+			"style": {
+				"navigationBarTitleText": "自然村屯下级农户情况"
+			}
+		},
+		{
+			"path": "pages/farmer/farmer",
+			"style": {
+				"navigationBarTitleText": "农户改造情况填报"
+			}
+		}
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		// #ifdef MP-WEIXIN || H5
+		"navigationBarBackgroundColor": "#f8f8f8",
+		// #endif
+		// #ifdef  H5
+		"navigationStyle": "custom",
+		// #endif
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"borderStyle": "black",
+		"backgroundColor": "#333",
+		"color": "#8F8F94",
+		"selectedColor": "#f33e54",
+		"list": []
+	}
+}

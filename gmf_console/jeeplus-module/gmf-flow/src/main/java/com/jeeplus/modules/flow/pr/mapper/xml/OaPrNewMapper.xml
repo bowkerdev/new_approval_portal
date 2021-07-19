@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.modules.flow.pr.mapper.OaPrNewMapper">
+
+	<sql id="oaPrNewColumns">
+		a.id AS "id",
+		a.create_by AS "createBy.id",
+		a.create_by_office AS "createByOffice.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		(select START_TIME_ from act_hi_actinst where PROC_INST_ID_ = a.proc_ins_id and act_type_ in ('userTask','endEvent') order by START_TIME_ desc limit 1) as "approvedDate",
+		a.remarks AS "remarks",
+		(select ACT_NAME_ from act_hi_actinst where PROC_INST_ID_ = a.proc_ins_id and act_type_ in ('userTask','endEvent') order by START_TIME_ desc limit 1) as "flow.taskName",
+		a.del_flag AS "delFlag",
+		a.proc_ins_id AS "procInsId",
+		a.application_no AS "applicationNo",
+		a.project_name AS "projectName",
+		a.apply_site_code AS "applySiteCode",
+		a.requester_department AS "requesterDepartment.id",
+		a.requester AS "requester",
+		a.expense_type AS "expenseType",
+		a.expect_arrival_date AS "expectArrivalDate",
+		a.legal_entity AS "legalEntity",
+		a.cost_center AS "costCenter",
+		a.asset_group AS "assetGroup",
+		a.technical_advisor AS "technicalAdvisor",
+		a.budget_type AS "budgetType",
+		<!-- a.approved_date AS "approvedDate", -->
+		a.is_budget AS "isBudget",
+		a.request_riority AS "requestRiority",
+		a.contract_currency AS "contractCurrency",
+		a.ex_rate AS "exRate",
+		a.total_contract_amount AS "totalContractAmount",
+		a.base_currency AS "baseCurrency",
+		a.total_base_amount AS "totalBaseAmount",
+		a.purchase_purpose AS "purchasePurpose",
+		a.roi AS "roi",
+		a.no_budget_explain AS "noBudgetExplain",
+		a.payment_special AS "paymentSpecial",
+		a.detail_info AS "detailInfo",
+		a.supplementary_doc AS "supplementaryDoc",
+		a.supplier_info AS "supplierInfo",
+		createBy.name AS "createBy.name",
+		createBy.login_name AS "createBy.loginName",
+		createByOffice.name AS "createByOffice.name",
+		requesterDepartment.name AS "requesterDepartment.name"
+	</sql>
+
+	<sql id="oaPrNewJoins">
+
+		LEFT JOIN sys_user createBy ON createBy.id = a.create_by
+		LEFT JOIN sys_office createByOffice ON createByOffice.id = a.create_by_office
+		LEFT JOIN sys_office requesterDepartment ON requesterDepartment.id = a.requester_department
+	</sql>
+
+
+	<select id="get" resultType="OaPrNew" >
+		SELECT
+			<include refid="oaPrNewColumns"/>
+		FROM oa_pr_new a
+		<include refid="oaPrNewJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="OaPrNew" >
+		SELECT
+			<include refid="oaPrNewColumns"/>
+		FROM oa_pr_new a
+		<include refid="oaPrNewJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			${dataScope}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="OaPrNew" >
+		SELECT
+			<include refid="oaPrNewColumns"/>
+		FROM oa_pr_new a
+		<include refid="oaPrNewJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			${dataScope}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert">
+		INSERT INTO oa_pr_new(
+			id,
+			create_by,
+			create_by_office,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			proc_ins_id,
+			application_no,
+			project_name,
+			apply_site_code,
+			requester_department,
+			requester,
+			expense_type,
+			expect_arrival_date,
+			legal_entity,
+			cost_center,
+			asset_group,
+			technical_advisor,
+			budget_type,
+			approved_date,
+			is_budget,
+			request_riority,
+			contract_currency,
+			ex_rate,
+			total_contract_amount,
+			base_currency,
+			total_base_amount,
+			purchase_purpose,
+			roi,
+			no_budget_explain,
+			payment_special,
+			detail_info,
+			supplementary_doc,
+			supplier_info
+		) VALUES (
+			#{id},
+			#{createBy.id},
+			#{createByOffice.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{procInsId},
+			getDateSeq('PRPO-MIS', #{applySiteCode}, '%Y'), <!-- #{applicationNo}, -->
+			#{projectName},
+			#{applySiteCode},
+			#{requesterDepartment.id},
+			#{requester},
+			#{expenseType},
+			#{expectArrivalDate},
+			#{legalEntity},
+			#{costCenter},
+			#{assetGroup},
+			#{technicalAdvisor},
+			#{budgetType},
+			#{approvedDate},
+			#{isBudget},
+			#{requestRiority},
+			#{contractCurrency},
+			#{exRate},
+			#{totalContractAmount},
+			#{baseCurrency},
+			#{totalBaseAmount},
+			#{purchasePurpose},
+			#{roi},
+			#{noBudgetExplain},
+			#{paymentSpecial},
+			#{detailInfo},
+			#{supplementaryDoc},
+			#{supplierInfo}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE oa_pr_new SET
+			create_by_office = #{createByOffice.id},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			proc_ins_id = #{procInsId},
+			<!-- application_no = #{applicationNo}, -->
+			project_name = #{projectName},
+			apply_site_code = #{applySiteCode},
+			requester_department = #{requesterDepartment.id},
+			requester = #{requester},
+			expense_type = #{expenseType},
+			expect_arrival_date = #{expectArrivalDate},
+			legal_entity = #{legalEntity},
+			cost_center = #{costCenter},
+			asset_group = #{assetGroup},
+			technical_advisor = #{technicalAdvisor},
+			budget_type = #{budgetType},
+			approved_date = #{approvedDate},
+			is_budget = #{isBudget},
+			request_riority = #{requestRiority},
+			contract_currency = #{contractCurrency},
+			ex_rate = #{exRate},
+			total_contract_amount = #{totalContractAmount},
+			base_currency = #{baseCurrency},
+			total_base_amount = #{totalBaseAmount},
+			purchase_purpose = #{purchasePurpose},
+			roi = #{roi},
+			no_budget_explain = #{noBudgetExplain},
+			payment_special = #{paymentSpecial},
+			detail_info = #{detailInfo},
+			supplementary_doc = #{supplementaryDoc},
+			supplier_info = #{supplierInfo}
+		WHERE id = #{id}
+	</update>
+
+
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM oa_pr_new
+		WHERE id = #{id}
+	</update>
+
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE oa_pr_new SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="OaPrNew">
+		select * FROM oa_pr_new  where ${propertyName} = #{value}
+	</select>
+
+</mapper>

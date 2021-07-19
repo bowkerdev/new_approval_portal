@@ -43,6 +43,9 @@
   const _import = require('@/router/import-' + process.env.NODE_ENV)
   export default {
     activated () {
+      if(this.$route.query.taskId != this.taskId ){
+        Object.assign(this.$data, this.$options.data.call(this))
+      }
       this.init()
           // 读取流程表单
       if (this.formType === '2') {
@@ -100,6 +103,14 @@
       }
     },
     methods: {
+      initChildFrom(query){
+        if(this.form !=null &&this.$refs.form.init !=null){
+          this.$refs.form.init(query)
+        }
+        else{
+          setTimeout(()=>{this.initChildFrom(query)},1000)
+        }
+      },
       init () {
         this.selectedTab = 'form-first'
         this.procDefId = this.$route.query.procDefId
@@ -113,6 +124,7 @@
         this.businessId = this.$route.query.businessId
         this.procInsId = this.$route.query.procInsId
         this.formReadOnly = true
+        this.initChildFrom(this.$route.query)
       }
     },
     data () {

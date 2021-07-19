@@ -57,7 +57,7 @@
           </el-col>
         </el-row>
       <el-row :gutter="15">
-        <el-table :data="detailInfo" height="300px" class="table" size="small" border="none" style="border: 1px solid #EBEEF5 !important ; margin-left: 10px">
+        <el-table :data="detailInfo" height="300px" class="table" size="small" style="border: 1px solid #EBEEF5 !important ; margin-left: 10px">
            <el-table-column prop="serialNumber" width="50" align="center" :label="$i18nMy.t('序号')"> </el-table-column>
            <el-table-column prop="item" width="200" align="center" :label="$i18nMy.t('物品')">
            </el-table-column>

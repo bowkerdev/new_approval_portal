@@ -13,7 +13,7 @@
         v-slot="{ navigate }"
         @contextmenu.prevent.native="openMenu(tag,$event)"
         @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''"
-       
+
       >
         <span @click="navigate" @keypress.enter="navigate">
           {{tag.query&&tag.query.title || tag.title }}
@@ -76,22 +76,28 @@ export default {
     },
     style (isActiveFlag) {
       if (!isActiveFlag) { return '' }
-      const defaultColor = this.$store.state.config.defaultTheme.replace('#', '')
-      let targetColor = defaultColor
-      if (/^([0-9a-z]{3}|[0-9a-z]{6})$/i.test(defaultColor)) {
-        if (defaultColor.length === 3) {
-          targetColor = ''
-          for (let i = 0; i < defaultColor.length; i++) {
-            targetColor += defaultColor[i] + defaultColor[i]
+      if(this.$store.state.config.defaultTheme !=null){
+        const defaultColor = this.$store.state.config.defaultTheme.replace('#', '')
+        let targetColor = defaultColor
+        if (/^([0-9a-z]{3}|[0-9a-z]{6})$/i.test(defaultColor)) {
+          if (defaultColor.length === 3) {
+            targetColor = ''
+            for (let i = 0; i < defaultColor.length; i++) {
+              targetColor += defaultColor[i] + defaultColor[i]
+            }
           }
+          const rgb = []
+          for (let i = 0; i < defaultColor.length; i+=2) {
+            rgb.push(parseInt('0x' + defaultColor.slice(i, i + 2)))
+          }
+          targetColor = `rgba(${rgb.join(',')}, 0.6)`
         }
-        const rgb = []
-        for (let i = 0; i < defaultColor.length; i+=2) {
-          rgb.push(parseInt('0x' + defaultColor.slice(i, i + 2)))
-        }
-        targetColor = `rgba(${rgb.join(',')}, 0.6)`
+        return `background-color: ${targetColor}; border-color: ${targetColor};`
       }
-      return `background-color: ${targetColor}; border-color: ${targetColor};`
+      else{
+         let targetColor ='#1e10dd';
+         return `background-color: ${targetColor}; border-color: ${targetColor};`
+      }
     },
     isAffix (tag) {
       return tag.meta && tag.meta.affix

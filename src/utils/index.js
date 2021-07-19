@@ -113,38 +113,6 @@ export function clearLoginInfo () {
   router.options.isAddDynamicMenuRoutes = false
 }
 
-export function asyncDownloadPost (url, params) {
-  var ssoToken=Vue.cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')
-  if(ssoToken ==null){
-    ssoToken=Vue.cookie.get("token")
-    var tokenType=""
-  }
-  else{
-    var tokenType=process.env.VUE_APP_SSO_TYPE
-  }
-  var commonToolsApi ="http://8.210.92.25:8080/zhimitool/ie/taskQueue/push"
-  var commonToolsProcessUrl ="http://8.210.92.25:8080/commontools-ui-bowker/#/ie/uploadDownloadContent"
-  $http({
-    method: 'POST',
-    url:commonToolsApi+'/export',
-    withCredentials:false,
-    headers:{'Content-Type': 'application/json; charset=utf-8',
-    "token":ssoToken,
-    "tokenType":tokenType
-    },
-    data: {sqlParam:JSON.stringify(params),configKey:url}
-  }).then(response => {
-    if (response.status != 200 && !response.data.success) {
-    	//TODO 重复导出异常处理
-    }
-    else{
-      window.open(commonToolsProcessUrl+"?token="+
-        ssoToken+"&tokenType="+tokenType ,"通用平台",null,true)
-    }
-  }).catch((error) => {
-
-  })
-}
 
 // {a: 1, b: {c:1}} => { 'a':1, 'b.c': 1 }
 export function getParamFromSearchForm4Exp (searchForm, fatherName = '') {
@@ -166,7 +134,6 @@ export function getParamFromSearchForm4Exp (searchForm, fatherName = '') {
 
 export function getParamString4Exp (searchForm) {
 	var object = getParamFromSearchForm4Exp(searchForm)
-	debugger
 	if (!isPlainObject(object)) { return "" }
 	var res = " "
 	for(var key in object) {
@@ -287,6 +254,41 @@ export function download (url, params) {
     link.click()
     document.body.removeChild(link)
   // eslint-disable-next-line handle-callback-err
+
+  }).catch((error) => {
+
+  })
+}
+
+
+export function asyncDownloadPost (url, params) {
+  var ssoToken=Vue.cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')
+  if(ssoToken ==null){
+    ssoToken=Vue.cookie.get("token")
+    var tokenType=""
+  }
+  else{
+    var tokenType=process.env.VUE_APP_SSO_TYPE
+  }
+  var commonToolsApi ="http://8.210.92.25:8080/zhimitool/ie/taskQueue/push"
+  var commonToolsProcessUrl ="http://8.210.92.25:8080/commontools-ui-bowker/#/ie/UploadDownloadContent"
+  $http({
+    method: 'POST',
+    url:commonToolsApi+'/export',
+    withCredentials:false,
+    headers:{'Content-Type': 'application/json; charset=utf-8',
+    "token":ssoToken,
+    "tokenType":tokenType
+    },
+    data: {sqlParam:JSON.stringify(params),configKey:url}
+  }).then(response => {
+    debugger
+    if (response.status != 200 && !response.data.success) {
+    }
+    else{
+      window.open(commonToolsProcessUrl+"?token="+
+        ssoToken+"&tokenType="+tokenType+"&isIframe=true" ,"通用平台",null,true)
+    }
 
   }).catch((error) => {
 

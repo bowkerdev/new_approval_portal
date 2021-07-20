@@ -152,7 +152,7 @@ public class ExtUserTaskActivityBehavior extends UserTaskActivityBehavior {
             					sql=sql.replaceAll("\\#\\{"+v.getKey()+"\\}", v.getValue().toString());
             				}
             			}
-                    	sql=sql.replaceAll("\\#\\{taskDefId\\}", taskDefExtension.getTaskDefId());
+                    	sql=sql.replaceAll("\\#\\{taskDefId\\}", taskDefExtension.getTaskDefId().split("__")[0]);
                         Map userMap = SpringContextHolder.getBean (JdbcTemplate.class).queryForMap (sql);
                         candidateUserIds.add(String.valueOf(userMap.get ("id")));
                         break;

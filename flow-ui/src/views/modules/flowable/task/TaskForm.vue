@@ -311,7 +311,7 @@
       backToModify () {
         this.$http.post('/flowable/task/back', {
           taskId: this.taskId,
-          backTaskDefKey: 'formModify',
+          backTaskDefKey: 'FormModify',
           ...this.auditForm
         }).then(({data}) => {
           if (data.success) {

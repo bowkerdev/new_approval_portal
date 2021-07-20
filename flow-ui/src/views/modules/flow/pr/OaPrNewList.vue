@@ -59,10 +59,23 @@
         align="center"
         width="50">
       </el-table-column>
-      <el-table-column type="expand">
+      <el-table-column type="expand" >
       <template slot-scope="scope">
-      <el-tabs>
-            </el-tabs>
+        <el-table
+            size="small"
+            :data="scope.row.detailInfoList"
+            style="width: 100%">
+          <el-table-column  prop="item" show-overflow-tooltip :label="$i18nMy.t('物品')">
+          </el-table-column>
+          <el-table-column  prop="brandName" show-overflow-tooltip :label="$i18nMy.t('品牌')">
+          </el-table-column>
+          <el-table-column  prop="modelNo" show-overflow-tooltip :label="$i18nMy.t('型号')">
+          </el-table-column>
+          <el-table-column  prop="quantity" show-overflow-tooltip :label="$i18nMy.t('数量')">
+          </el-table-column>
+          <el-table-column  prop="uom" show-overflow-tooltip :label="$i18nMy.t('单位')">
+          </el-table-column>
+        </el-table>
       </template>
       </el-table-column>
     <el-table-column
@@ -186,7 +199,15 @@
     </el-pagination>
     </div>
         <!-- 弹窗, 新增 / 修改 -->
-    <OaPrNewForm  ref="oaPrNewForm" @refreshDataList="refreshList"></OaPrNewForm>
+    <el-dialog
+      title="详情"
+      :close-on-click-modal="false"
+       v-dialogDrag
+       width="1100px"
+      :visible.sync="visible">
+      <OaPrNewForm  ref="oaPrNewForm" ></OaPrNewForm>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -195,6 +216,7 @@
   export default {
     data () {
       return {
+        visible:false,
         searchForm: {
         },
         dataList: [],
@@ -264,18 +286,28 @@
       },
       // 新增
       add () {
-        this.$refs.oaPrNewForm.init('add', '')
+        //this.$refs.oaPrNewForm.init('add', '')
       },
       // 修改
       edit (id) {
+        debugger
         id = id || this.dataListSelections.map(item => {
           return item.id
         })[0]
-        this.$refs.oaPrNewForm.init('edit', id)
+        let query={businessId:id}
+        this.visible=true
+        this.$nextTick(() => {
+          this.$refs.oaPrNewForm.init(query)
+        })
       },
       // 查看
       view (id) {
-        this.$refs.oaPrNewForm.init('view', id)
+        debugger
+        let query={businessId:id}
+        this.visible=true
+        this.$nextTick(() => {
+          this.$refs.oaPrNewForm.init(query)
+        })
       },
       // 删除
       del (id) {
@@ -303,12 +335,10 @@
       },
      // 查看详情
       detail (row) {
-        this.$http.get(`/flow/pr/oaPrNew/queryById?id=${row.id}`).then(({data}) => {
-          this.dataList.forEach((item, index) => {
-            if (item.id === row.id) {
-            }
-          })
-        })
+        debugger
+        if(!this.$common.isEmpty(row.detailInfo)){
+          row.detailInfoList=JSON.parse(row.detailInfo)
+        }
       },
       // 导入成功
       uploadSuccess (res, file) {

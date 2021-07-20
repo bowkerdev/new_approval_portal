@@ -23,7 +23,7 @@ export default {
        tokenType:"",
        language:localStorage.getItem('lang'),
        commonToolsApi :"http://8.210.92.25:8080/zhimitool/ie/taskQueue/push" ,
-       commonToolsProcessUrl :"http://8.210.92.25:8080/commontools-ui-bowker/#/ie/uploadDownloadContent"
+       commonToolsProcessUrl :"http://8.210.92.25:8080/commontools-ui-bowker/#/ie/UploadDownloadContent"
     }
   },
   props: {
@@ -51,7 +51,7 @@ export default {
         this.$message.success({dangerouslyUseHTMLString: true, message: res.msg})
         debugger
         window.open(this.commonToolsProcessUrl+"?token="+
-          this.token+"&tokenType="+this.tokenType ,"通用平台",null,true)
+          this.token+"&tokenType="+this.tokenType+"&isIframe=true" ,"通用平台",null,true)
       } else {
         this.$message.error(res.msg)
       }

@@ -34,6 +34,7 @@ import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.history.HistoricProcessInstanceQuery;
 import org.flowable.engine.runtime.ActivityInstance;
 import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.identitylink.api.IdentityLink;
 import org.flowable.task.api.DelegationState;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.TaskQuery;
@@ -524,13 +525,16 @@ public class FlowTaskService extends BaseService {
             vars = Maps.newHashMap ();
         }
 
+        vars.put("lastTaskDefKey", flow.getTaskDefKey());  
+        vars.put("lastAssignee", UserUtils.getUser().getId()); // 设置为上一环节审批人,如果下一环节的审批人和上一环节相同,那么下一环节会自动审批通过
+        
         // 设置流程标题
         if (StringUtils.isNotBlank (flow.getTitle ())) {
             vars.put (FlowableConstant.TITLE, flow.getTitle ());
         }
 
-
         Task task = taskService.createTaskQuery ().taskId (flow.getTaskId ()).singleResult ();
+        
         // owner不为空说明可能存在委托任务
         if (StringUtils.isNotBlank (task.getOwner ())) {
             DelegationState delegationState = task.getDelegationState ();
@@ -558,6 +562,48 @@ public class FlowTaskService extends BaseService {
             // 提交任务
             taskService.complete (flow.getTaskId (), vars);
         }
+        
+        // ======================================================================================= add by Jack 20210720 当前环节审批完成后的处理
+		// 如果候选人只有一个，自动签收任务
+		TaskQuery testQuery = taskService.createTaskQuery().processInstanceId(flow.getProcInsId());
+		List<Task> todoList = testQuery.list();
+		for (Task todo : todoList) {
+			List<IdentityLink> list = taskService.getIdentityLinksForTask(todo.getId());
+			
+			/*String candidate = "";
+			int flag=0;
+			for(IdentityLink identityLink : list)
+			{
+				if(identityLink.getType().equals("candidate"))
+				{
+					candidate = identityLink.getUserId();
+					flag++;
+				}
+			}
+			if(flag==1)taskService.claim(todo.getId(), candidate);*/
+			
+			/*if (list.size() == 1){
+				IdentityLink identityLink = list.get(0);
+				if (identityLink.getType().equals("assignee") && identityLink.getUserId().contains("[") && identityLink.getUserId().contains("]") && identityLink.getUserId().contains(",")){
+					taskService.deleteUserIdentityLink(todo.getId(), identityLink.getUserId(), identityLink.getType());
+					String[] users =  StringUtils.trim(identityLink.getUserId().replace("[","").replace("]","").replaceAll(" ","")).split(",") ;
+					for(int i=0;i<users.length;i++){
+						taskService.addCandidateUser(todo.getId(), users[i]);
+					}
+				}
+			}*/
+			
+			// 如果下一环节的审批人和上一环节相同,那么下一环节会自动审批通过
+			for (IdentityLink identityLink : list){ 
+				if ("COMMENT__flow_agree".equals(flow.getComment().getCommentType()) && identityLink.getType().equals("assignee") && identityLink.getUserId().equals(vars.get("lastAssignee"))){
+					if(!"EC".equals(todo.getName()) && !"BOD".equals(todo.getName()) && !"modify PR".equals(todo.getName())){
+						flow.setTaskId(todo.getId());
+						flow.getComment().setFullMessage("Skip for same approver");						
+						this.complete(flow, vars);
+					}
+				}
+			}
+		}
     }
 
 

@@ -37,12 +37,6 @@
   padding-top: 10px !important;
   padding-bottom: 10px !important;
 }
-.menu-show-complete .el-submenu__title,
-.menu-show-complete li.el-menu-item,
-.menu-show-complete .el-submenu {
-  height: auto !important;
-  line-height: 1.5 !important;
-}
 </style>
 
 <script>

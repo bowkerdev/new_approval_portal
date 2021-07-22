@@ -32,7 +32,7 @@
         highlight-hover-row
         :print-config="{}"
         :export-config="{}"
-        :tree-config="{expandAll: true}"
+        :tree-config="{expandAll: false}"
         :loading="loading"
         :checkbox-config="{labelField: ''}"
         :data="dataList">

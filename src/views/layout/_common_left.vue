@@ -12,7 +12,6 @@
           v-for="menu in leftMenuList"
           :key="menu.id"
           :menu="menu"
-          :showCompleteName="showCompleteName"
           :dynamicMenuRoutes="dynamicMenuRoutes">
         </sub-menu>
       </el-menu>

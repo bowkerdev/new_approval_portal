@@ -1884,3 +1884,8 @@ span{
 .cell.el-tooltip {
   width: 100% !important;
 }
+
+// 表单条项错位
+.el-form-item--small .el-form-item__content, .el-form-item--small .el-form-item__label {
+  height: 32px;
+}

@@ -204,6 +204,7 @@
         this.businessId = this.$route.query.businessId
         this.procInsId = this.$route.query.procInsId
         this.formReadOnly = this.$route.query.formReadOnly !== undefined && this.$route.query.formReadOnly !== 'false' && this.$route.query.formReadOnly !== false
+        this.lastTaskDefKey = this.$route.query.lastTaskDefKey
         this.isCC = false
         this.isAssign = false
         this.auditForm.assignee = null
@@ -312,6 +313,36 @@
         this.$http.post('/flowable/task/back', {
           taskId: this.taskId,
           backTaskDefKey: 'FormModify',
+          ...this.auditForm
+        }).then(({data}) => {
+          if (data.success) {
+            this.$message.success(data.msg)
+            this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
+            this.$router.push('/flowable/task/TodoList')
+            this.cc(data)
+          }
+        })
+      },
+      // 补充资料
+      backToDocAdd () {
+        this.$http.post('/flowable/task/back', {
+          taskId: this.taskId,
+          backTaskDefKey: 'DocAdd',
+          ...this.auditForm
+        }).then(({data}) => {
+          if (data.success) {
+            this.$message.success(data.msg)
+            this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
+            this.$router.push('/flowable/task/TodoList')
+            this.cc(data)
+          }
+        })
+      },
+      // 回退到上一审批环节，用于资料补充
+      backToLastApprover () {
+        this.$http.post('/flowable/task/back', {
+          taskId: this.taskId,
+          backTaskDefKey: this.lastTaskDefKey,
           ...this.auditForm
         }).then(({data}) => {
           if (data.success) {
@@ -442,6 +473,12 @@
           case '_flow_back_modify': // 驳回到申请人
             this.backToModify()
             break
+          case '_flow_back_doc_add': // 资料补充
+            this.backToDocAdd()
+            break
+          case '_flow_back_last_approver': // 回到上一审批人
+            this.backToLastApprover()
+            break
           case '_flow_add_multi_instance': // 加签
             this.addMultiInstance()
             break
@@ -474,6 +511,7 @@
         historicTaskList: [],
         procDefId: '',
         procInsId: '',
+        lastTaskDefKey: '',
         formReadOnly: false,
         procDefKey: '',
         taskId: '',

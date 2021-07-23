@@ -61,10 +61,12 @@ public class BackUserTaskCmd implements Command<String>, Serializable {
             throw new FlowableException ("Task with id:" + taskId + " is not a UserTask");
         }
         FlowNode targetFlowElement = (FlowNode) process.getFlowElement(targetActivityId, true);
+        
         // 退回节点到当前节点不可达到，不允许退回
-        if (!FlowableUtils.isReachable(process, targetFlowElement, sourceFlowElement)) {
+        // Jack 20210721 注释掉，允许任意跳转，以简化流程设计
+        /*if (!FlowableUtils.isReachable(process, targetFlowElement, sourceFlowElement)) {
             throw new FlowableException ("Cannot back to [" + targetActivityId + "]");
-        }
+        }*/
         // ps:目标节点如果相对当前节点是在子流程内部，则无法直接退回，目前处理是只能退回到子流程开始节点
         String[] sourceAndTargetRealActivityId = FlowableUtils.getSourceAndTargetRealActivityId(sourceFlowElement,
                 targetFlowElement);
@@ -137,6 +139,9 @@ public class BackUserTaskCmd implements Command<String>, Serializable {
         List<String> realExecutionIds =
                 realExecutions.stream().map(ExecutionEntity::getId).collect(Collectors.toList());
         runtimeService.createChangeActivityStateBuilder().processInstanceId(processInstanceId).moveExecutionsToSingleActivityId(realExecutionIds, targetRealActivityId).changeState();
+        runtimeService.setVariable(task.getExecutionId(), "lastTaskDefKey", task.getTaskDefinitionKey());
+        runtimeService.setVariable(task.getExecutionId(), "lastAssignee", task.getAssignee());
+        
         // 目标节点相对当前节点处于并行网关内，需要特殊处理，需要手动生成并行网关汇聚节点(_end)的execution数据
         if (targetRealSpecialGateway != null) {
             createTargetInSpecialGatewayEndExecutions(commandContext, realExecutions, process,

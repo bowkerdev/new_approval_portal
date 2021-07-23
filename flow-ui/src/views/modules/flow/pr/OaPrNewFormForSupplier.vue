@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%;overflow-y: auto;overflow-x: hidden;">
+  <div style="height: 100%;overflow-y: auto;overflow-x: hidden; margin-left: 25px;">
     <el-form size="small" :model="inputForm" ref="inputForm" v-loading="loading" :disabled="formReadOnly"
       label-width="140px" style="width: calc(100% - 25px);">
       <el-row :gutter="15">

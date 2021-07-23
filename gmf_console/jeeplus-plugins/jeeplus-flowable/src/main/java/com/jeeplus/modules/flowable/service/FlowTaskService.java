@@ -42,6 +42,7 @@ import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.task.api.history.HistoricTaskInstanceQuery;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 import org.flowable.task.service.impl.persistence.entity.TaskEntityImpl;
+import org.flowable.variable.api.history.HistoricVariableInstance;
 import org.flowable.variable.api.history.HistoricVariableInstanceQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -421,8 +422,8 @@ public class FlowTaskService extends BaseService {
     }
 
     @Transactional(readOnly = false)
-    public String getSequence(String seqName){
-    	return flowMapper.getSequence(seqName);
+    public String getSequence(String seqName, String bizCode){
+    	return flowMapper.getSequence(seqName, bizCode);
     }
     
     public String getLatestProcessDefinitionId(String procDefKey){
@@ -470,6 +471,9 @@ public class FlowTaskService extends BaseService {
         if (bizList!=null && bizList.size()>0){
         	Map bizMap = bizList.get(0);
         	vars.putAll(bizMap);
+        	if (!StringUtils.isEmpty(String.valueOf(vars.get("application_no")))) {
+        		vars.put (FlowableConstant.TITLE, vars.get("application_no"));
+        	}
         }
 
         // 启动流程
@@ -598,7 +602,8 @@ public class FlowTaskService extends BaseService {
 				if ("COMMENT__flow_agree".equals(flow.getComment().getCommentType()) && identityLink.getType().equals("assignee") && identityLink.getUserId().equals(vars.get("lastAssignee"))){
 					if(!"EC".equals(todo.getName()) && !"BOD".equals(todo.getName()) && !"modify PR".equals(todo.getName())){
 						flow.setTaskId(todo.getId());
-						flow.getComment().setFullMessage("Skip for same approver");						
+						flow.getComment().setFullMessage("Skip for same approver");
+						flow.setTaskDefKey(todo.getTaskDefinitionKey());
 						this.complete(flow, vars);
 					}
 				}
@@ -644,7 +649,7 @@ public class FlowTaskService extends BaseService {
             User user = UserUtils.get (histIns.getAssignee ());
             if (user != null) {
                 e.setAssignee (histIns.getAssignee ());
-                e.setAssigneeName (user.getName ());
+                e.setAssigneeName (user.getLoginName() + " : " + user.getName ());
             }
         }
         // 获取意见评论内容
@@ -791,7 +796,7 @@ public class FlowTaskService extends BaseService {
         if(StringUtils.isBlank (task.getAssignee ())){
             taskService.claim (taskId, UserUtils.getUser ().getId ());
         }
-        if ("formModify".equals(backTaskDefKey)) {
+        if ("FormModify".equals(backTaskDefKey) || "DocAdd".equals(backTaskDefKey)) {
         	taskService.addComment (taskId, task.getProcessInstanceId (), comment.getCommentType (), comment.getFullMessage ());
             managementService.executeCommand (new BackUserTaskCmd (runtimeService,
                     taskId, backTaskDefKey));
@@ -1030,5 +1035,26 @@ public class FlowTaskService extends BaseService {
       }
       return map;
     }
+    
+    /**
+     *@Description  获取历史流程变量
+     *@Date 10:18 2019/4/17
+     *@Param [processInstanceId, key]
+      * processInstanceId 流程实例id
+      * key 键
+     *@return java.lang.Object
+     **/
+     public Object getHisVariable(String processInstanceId,String key) {
+         Object variable = null;
+         List<HistoricVariableInstance> list = historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstanceId).list();
+         for (int i = 0; i < list.size(); i++) {
+             HistoricVariableInstance historicVariableInstance = list.get(i);
+             if (historicVariableInstance.getVariableName().equals(key)) {
+                 variable = historicVariableInstance.getValue();
+             }
+         }
+  
+         return variable;
+     } 
 
 }

@@ -14,6 +14,7 @@
 		(select ACT_NAME_ from act_hi_actinst where PROC_INST_ID_ = a.proc_ins_id and act_type_ in ('userTask','endEvent') order by START_TIME_ desc limit 1) as "flow.taskName",
 		a.del_flag AS "delFlag",
 		a.proc_ins_id AS "procInsId",
+		(select PROC_DEF_ID_ from act_hi_procinst where PROC_INST_ID_ = a.proc_ins_id) as "flow.procDefId",
 		a.application_no AS "applicationNo",
 		a.project_name AS "projectName",
 		a.apply_site_code AS "applySiteCode",

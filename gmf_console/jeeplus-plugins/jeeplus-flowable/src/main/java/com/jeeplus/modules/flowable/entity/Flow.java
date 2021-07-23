@@ -70,7 +70,7 @@ public class Flow extends DataEntity<Flow> {
 
 
 	private String formUrl;//流程表单地址
-
+	private String lastTaskDefKey;// 上一处理环节
 
 	public Flow() {
 		super();

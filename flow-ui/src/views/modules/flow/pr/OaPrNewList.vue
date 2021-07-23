@@ -60,11 +60,12 @@
         width="50">
       </el-table-column>
       <el-table-column type="expand" >
-      <template slot-scope="scope">
+      <template slot-scope="scope" >
         <el-table
+            border
             size="small"
             :data="scope.row.detailInfoList"
-            style="width: 100%">
+            style="margin-top:-21px;" >
           <el-table-column  prop="item" show-overflow-tooltip :label="$i18nMy.t('物品')">
           </el-table-column>
           <el-table-column  prop="brandName" show-overflow-tooltip :label="$i18nMy.t('品牌')">
@@ -82,11 +83,10 @@
         prop="applicationNo"
         show-overflow-tooltip
         sortable="custom"
+        width="200"
         label="申请单号">
             <template slot-scope="scope">
-              <el-link  type="primary" :underline="false" v-if="hasPermission('flow:pr:oaPrNew:edit')" @click="edit(scope.row.id)">{{scope.row.applicationNo}}</el-link>
-              <el-link  type="primary" :underline="false" v-else-if="hasPermission('flow:pr:oaPrNew:view')"  @click="view(scope.row.id)">{{scope.row.applicationNo}}</el-link>
-              <span v-else>{{scope.row.applicationNo}}</span>
+              <el-link  type="primary" :underline="false" @click="flowDetail(scope.row)">{{scope.row.applicationNo}}</el-link>
             </template>
       </el-table-column>
     <el-table-column
@@ -173,7 +173,7 @@
         sortable="custom"
         label="合同总价">
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         header-align="center"
         align="center"
         fixed="right"
@@ -181,11 +181,11 @@
         width="200"
         label="操作">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('flow:pr:oaPrNew:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">查看</el-button>
+          <el-button v-if="hasPermission('flow:pr:oaPrNew:view')" type="text" icon="el-icon-view" size="small" @click="flowDetail(scope.row)">查看</el-button>
           <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">修改</el-button>
           <el-button v-if="hasPermission('flow:pr:oaPrNew:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">删除</el-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
     <el-pagination
       @size-change="sizeChangeHandle"
@@ -213,6 +213,7 @@
 
 <script>
   import OaPrNewForm from './OaPrNewForm'
+  import pick from 'lodash.pick'
   export default {
     data () {
       return {
@@ -307,6 +308,19 @@
         this.visible=true
         this.$nextTick(() => {
           this.$refs.oaPrNewForm.init(query)
+        })
+      },
+      flowDetail (row) {
+        this.$http.get('/flowable/task/getTaskDef', {params: {
+          procInsId: row.procInsId,
+          procDefId: row.flow.procDefId,
+        }}).then(({data}) => {
+          if (data.success) {
+            this.$router.push({
+              path: '/flowable/task/TaskFormDetail',
+              query: {readOnly: true, title: row.applicationNo, formTitle: row.applicationNo, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
+            })
+          }
         })
       },
       // 删除

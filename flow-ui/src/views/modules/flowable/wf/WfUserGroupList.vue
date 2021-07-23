@@ -3,7 +3,7 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="company.id">
-            <SelectTree
+            <!-- <SelectTree
                   ref="company.id"
                   :props="{
                       value: 'id',             // ID字段名
@@ -15,10 +15,17 @@
                   :value="searchForm.company.id"
                   :clearable="true"
                   :accordion="true"
-                  @getValue="(value) => {searchForm.company.id=value}"/>
+                  @getValue="(value) => {searchForm.company.id=value}"/> -->
+             <el-select size="small" v-model="searchForm.company.id" placeholder="所有公司" @change="siteChange" clearable>
+              <el-option v-for="item in siteList" :key="item.value"
+                :label="item.label" :value="item.value" >
+              </el-option>
+             </el-select>
          </el-form-item>
          <el-form-item prop="department.id">
             <SelectTree
+                  placeholder="所有部门"
+                  v-if="ifSiteChange"
                   ref="department.id"
                   :props="{
                       value: 'id',             // ID字段名
@@ -26,7 +33,7 @@
                       children: 'children'    // 子级字段名
                     }"
                    size="small"
-                  :url="`/sys/office/treeData?type=2`"
+                   :url="`/sys/office/treeData?type=2&parentId=${searchForm.company.id}`"
                   :value="searchForm.department.id"
                   :clearable="true"
                   :accordion="true"
@@ -39,7 +46,7 @@
                 <el-input size="small" v-model="searchForm.userGroup" placeholder="组标识" clearable></el-input>
          </el-form-item>
          <el-form-item prop="user.id">
-            <user-select :limit='1' size="small" :value="searchForm.user.id" @getValue='(value) => {searchForm.user.id=value}'></user-select>
+            <user-select placeholder="用户"  :limit='1' size="small" :value="searchForm.user.id" @getValue='(value) => {searchForm.user.id=value}'></user-select>
          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small">查询</el-button>
@@ -181,6 +188,8 @@
   export default {
     data () {
       return {
+        ifSiteChange: true,
+        siteList:[],
         searchForm: {
           company: {
             id: ''
@@ -211,10 +220,20 @@
       WfUserGroupForm
     },
     activated () {
+      let _that=this
+      this.$dictUtils.getSqlDictList('GET_APPLY_SITE',{},function(data){
+        _that.siteList = data
+      })
       this.refreshList()
     },
 
     methods: {
+      siteChange(){
+        this.ifSiteChange = false;
+        this.$nextTick(() => {
+          this.ifSiteChange = true;
+        })
+      },
       // 获取数据列表
       refreshList () {
         this.loading = true

@@ -142,6 +142,8 @@ public class FlowableTaskController extends BaseController {
             } else {
                 flow.setFinishedProcIns(flowTaskService.getFinishedProcIns(flow.getProcInsId()));
             }
+            
+            flow.setLastTaskDefKey(String.valueOf(flowTaskService.getHisVariable(flow.getProcInsId(), "lastTaskDefKey")));
         }
 
         flow.setFormUrl(formKey);
@@ -354,7 +356,7 @@ public class FlowableTaskController extends BaseController {
     @PostMapping(value = "/back")
     public AjaxJson back(String backTaskDefKey, String taskId, TaskComment comment) {
         flowTaskService.backTask(backTaskDefKey, taskId, comment);
-        return AjaxJson.success ("驳回成功!");
+        return AjaxJson.success ("操作成功!");
     }
 
 

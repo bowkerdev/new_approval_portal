@@ -335,7 +335,7 @@ public class AppFlowableTaskController extends BaseController {
     @PostMapping(value = "/back")
     public AjaxJson back(String backTaskDefKey, String taskId, TaskComment comment) {
         flowTaskService.backTask(backTaskDefKey, taskId, comment);
-        return AjaxJson.success ("驳回成功!");
+        return AjaxJson.success ("操作成功!");
     }
 
 

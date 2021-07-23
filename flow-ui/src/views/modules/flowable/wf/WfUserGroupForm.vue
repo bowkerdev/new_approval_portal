@@ -12,20 +12,7 @@
             <el-form-item label="公司" prop="company.id"
                 :rules="[
                  ]">
-          <!-- <SelectTree 
-                      ref="company"
-                      :props="{
-                          value: 'id',             // ID字段名
-                          label: 'name',         // 显示名称
-                          children: 'children'    // 子级字段名
-                        }"
-
-                      url="/sys/office/treeData?type=1&parentId=bowker"
-                      :value="inputForm.company.id"
-                      :clearable="true"
-                      :accordion="true"
-                      @getValue="(value) => {inputForm.company.id=value}"/> -->
-               <el-select v-model="inputForm.company.id" :placeholder="$i18nMy.t('公司')" @change="siteChange" clearable>
+               <el-select size="small" v-model="inputForm.company.id" placeholder="ALL" @change="siteChange" clearable>
                 <el-option v-for="item in siteList" :key="item.value"
                   :label="item.label" :value="item.value" >
                 </el-option>
@@ -36,7 +23,7 @@
             <el-form-item label="部门" prop="department.id"
                 :rules="[
                  ]">
-          <SelectTree
+          <SelectTree placeholder="ALL"
                       ref="department"
                       v-if="ifSiteChange"
                       :props="{
@@ -56,21 +43,21 @@
             <el-form-item label="流程标识" prop="procDefKey"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.procDefKey" placeholder="请填写流程标识"     ></el-input>
+              <el-input size="small" v-model="inputForm.procDefKey" placeholder="请填写流程标识"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item label="组标识" prop="userGroup"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.userGroup" placeholder="请填写组标识"     ></el-input>
+              <el-input size="small" v-model="inputForm.userGroup" placeholder="请填写组标识"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item label="组标识辅助码" prop="userGroupCode"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.userGroupCode" placeholder="请填写组标识辅助码"     ></el-input>
+              <el-input size="small" v-model="inputForm.userGroupCode" placeholder="请填写组标识辅助码"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -131,7 +118,6 @@
     },
     methods: {
       siteChange(){
-        debugger
         this.ifSiteChange = false;
         this.$nextTick(() => {
           this.ifSiteChange = true;

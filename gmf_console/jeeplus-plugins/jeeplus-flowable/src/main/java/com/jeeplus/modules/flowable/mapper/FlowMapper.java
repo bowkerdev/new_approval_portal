@@ -24,7 +24,7 @@ import com.jeeplus.modules.flowable.entity.Flow;
 public interface FlowMapper extends BaseMapper<Flow> {
     int updateProcInsIdByBusinessId(Flow act);
     int updateProcStatusByProcInsId(@Param("procInsId")String procInsId,@Param("procStatus")String procStatus,@Param("businessTable")String businessTable);
-    String getSequence(@Param("seqName") String seqName);
+    String getSequence(@Param("seqName") String seqName, @Param("bizCode") String bizCode);
     String getLatestProcessDefinitionId(@Param("procDefKey") String procDefKey);
     
     List<Map> querySql(Map map);

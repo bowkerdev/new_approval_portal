@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%;overflow-y: auto;overflow-x: hidden;">
+  <div style="height: 100%;overflow-y: auto;overflow-x: hidden; margin-left: 25px; margin-left: 25px;">
     <el-form size="small" :model="inputForm" ref="inputForm" v-loading="loading" :disabled="formReadOnly"
       label-width="140px" style="width: calc(100% - 25px);">
       <el-row :gutter="15">
@@ -56,8 +56,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-      <el-row :gutter="15">
-        <el-table :data="detailInfo" height="300px" class="table" size="small" style="border: 1px solid #EBEEF5 !important ; margin-left: 10px">
+      <el-row :gutter="15" style="margin-right: 10px">
+        <el-table :data="detailInfo" height="300px" class="table" size="small" style="border: 1px solid #EBEEF5 !important ; margin-left: 10px;">
            <el-table-column prop="serialNumber" width="50" align="center" :label="$i18nMy.t('序号')"> </el-table-column>
            <el-table-column prop="item" width="200" align="center" :label="$i18nMy.t('物品')">
            </el-table-column>
@@ -100,7 +100,7 @@
         <el-button size="small" @click="addTabListGroup()" type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px" >
         </el-button>
       </el-row>
-      <el-row :gutter="15">
+      <el-row :gutter="15" style="margin-right: 10px">
           <el-table :data="supplementaryDoc" height="300px" class="table" style="border: 1px solid #EBEEF5 !important ; margin-left: 10px">
             <el-table-column prop="serialNumber" width="50" align="center" :label="$i18nMy.t('序号')"> </el-table-column>
             <el-table-column prop="description" width="200" align="center" :label="$i18nMy.t('描述')">

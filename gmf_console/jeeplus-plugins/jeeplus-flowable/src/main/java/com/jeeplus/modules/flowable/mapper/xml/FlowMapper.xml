@@ -15,7 +15,7 @@
 	</update>
 	
 	<select id="getSequence" resultType="java.lang.String">
-	    select LPAD(nextval(#{seqName}),5,'0') as seq
+	    select getDateSeq(#{seqName}, #{bizCode}, '%Y') as seq
 	</select>
 	
 	<select id="getLatestProcessDefinitionId" resultType="java.lang.String">

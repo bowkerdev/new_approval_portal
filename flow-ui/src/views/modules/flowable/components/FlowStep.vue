@@ -4,8 +4,8 @@
         <span>流转记录</span>
       </div>
       <el-steps :active="historicTaskStepNodeList.length">
-        <el-step :key="index" v-for="(node, index) in historicTaskStepNodeList" 
-        :title="node.activityName" finish-status="success" 
+        <el-step :key="index" v-for="(node, index) in historicTaskStepNodeList"
+        :title="node.activityName" finish-status="success"
          :description="node.assigneeName + node.time"></el-step>
       </el-steps>
       <el-table
@@ -19,26 +19,28 @@
       </el-table-column>
       <el-table-column
         prop="assigneeName"
-        label="执行人"
-        width="180">
+        label="执行人">
       </el-table-column>
       <el-table-column
         prop="histIns.startTime"
-        label="开始时间">
+        label="开始时间"
+        width="150">
         <template slot-scope="scope">
           {{scope.row.histIns.startTime | formatDate}}
         </template>
       </el-table-column>
        <el-table-column
         prop="histIns.endTime"
-        label="结束时间">
+        label="结束时间"
+        width="150">
         <template slot-scope="scope">
           {{scope.row.histIns.endTime | formatDate}}
         </template>
       </el-table-column>
        <el-table-column
         prop="comment.status"
-        label="办理状态">
+        label="办理状态"
+        width="150">
       </el-table-column>
        <el-table-column
         prop="comment.message"
@@ -46,7 +48,8 @@
       </el-table-column>
        <el-table-column
         prop="durationTime"
-        label="任务历时">
+        label="任务历时"
+        width="150">
         <template slot-scope="scope">
           {{scope.row.durationTime || '0秒'}}
         </template>

@@ -3,13 +3,13 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="oaKey">
-                <el-input size="small" v-model="searchForm.oaKey" placeholder="流程标识" clearable></el-input>
+                <el-input size="small" v-model="searchForm.oaKey" :placeholder="$i18nMy.t('流程标识')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="url">
-                <el-input size="small" v-model="searchForm.url" placeholder="通知的接口" clearable></el-input>
+                <el-input size="small" v-model="searchForm.url" :placeholder="$i18nMy.t('通知的接口')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="paramList">
-                <el-input size="small" v-model="searchForm.paramList" placeholder="需返回的参数列表" clearable></el-input>
+                <el-input size="small" v-model="searchForm.paramList" :placeholder="$i18nMy.t('需返回的参数列表')" clearable></el-input>
          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询'})}</el-button>

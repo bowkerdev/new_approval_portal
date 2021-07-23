@@ -23,6 +23,7 @@ import com.jeeplus.core.web.BaseController;
 import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.modules.flow.pr.entity.OaPrNew;
 import com.jeeplus.modules.flow.pr.service.OaPrNewService;
+import com.jeeplus.modules.sys.utils.DictUtils;
 
 /**
  * PR申请单Controller
@@ -79,7 +80,7 @@ public class OaPrNewController extends BaseController {
 		}
 		//新增或编辑保存
 		oaPrNewService.save(oaPrNew);//保存
-		return AjaxJson.success("保存PR申请单成功").put("businessTable", "oa_pr_new").put("businessId", oaPrNew.getId());
+		return AjaxJson.success(DictUtils.getLanguageLabel("保存PR申请单成功","")).put("businessTable", "oa_pr_new").put("businessId", oaPrNew.getId());
 	}
 
 
@@ -92,7 +93,7 @@ public class OaPrNewController extends BaseController {
 		for(String id : idArray){
 			oaPrNewService.delete(new OaPrNew(id));
 		}
-		return AjaxJson.success("删除PR申请单成功");
+		return AjaxJson.success(DictUtils.getLanguageLabel("删除PR申请单成功",""));
 	}
 
 

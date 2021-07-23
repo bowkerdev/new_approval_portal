@@ -9,13 +9,13 @@
           </p>
         </el-col>
         <el-col :span="12">
-          <el-form-item  label="创建者" prop="requester" :rules="[]">
+          <el-form-item  :label="$i18nMy.t('创建者')" prop="requester" :rules="[]">
             <user-select :limit='1' :value="inputForm.createBy.id" :disabled='true' @getValue='(value) => {inputForm.createBy.id=value}'>
             </user-select>
           </el-form-item>
         </el-col>
 	      <el-col  :span="12">
-          <el-form-item label="创建者部门" prop="createByOffice.id"  :rules="[  ]">
+          <el-form-item :label="$i18nMy.t('创建者部门')" prop="createByOffice.id"  :rules="[  ]">
             <SelectTree ref="createByOffice" :disabled='true'
               :props="{value: 'id',label: 'name',  children: 'children'}"
               url="/sys/office/treeData?type=2"  :value="inputForm.createByOffice.id"
@@ -23,22 +23,22 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="请求者" prop="requester" :rules="[]">
+          <el-form-item :label="$i18nMy.t('请求者')" prop="requester" :rules="[]">
             <user-select :limit='1' :value="inputForm.requester" :disabled='true'  @getValue='(value) => {inputForm.requester=value}'>
             </user-select>
           </el-form-item>
         </el-col>
 
         <el-col :span="12">
-          <el-form-item label="请求者部门" prop="requesterDepartment.id" :rules="[ ]">
+          <el-form-item :label="$i18nMy.t('请求者部门')" prop="requesterDepartment.id" :rules="[ ]">
             <SelectTree ref="requesterDepartment" :disabled='true' :props="{value: 'id',label: 'name', children: 'children'}"
               url="/sys/office/treeData?type=2" :value="inputForm.requesterDepartment.id" :clearable="true"
               :accordion="true" @getValue="(value) => {inputForm.requesterDepartment.id=value}" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="固定资产类型" prop="assetGroup" :rules="[]">
-            <el-select v-model="inputForm.assetGroup" :disabled='true' placeholder="请选择" style="width: 100%;">
+          <el-form-item :label="$i18nMy.t('固定资产类型')" prop="assetGroup" :rules="[]">
+            <el-select v-model="inputForm.assetGroup" :disabled='true' :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('asset_group')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
@@ -46,8 +46,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="成本中心" prop="costCenter" :rules="[]">
-            <el-select v-model="inputForm.costCenter" :disabled='true' placeholder="请选择" style="width: 100%;">
+          <el-form-item :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[]">
+            <el-select v-model="inputForm.costCenter" :disabled='true' :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('cost_center')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
@@ -58,16 +58,16 @@
       <br/>
       <el-row :gutter="0">
         <p style="float: left;" class="sub-title">
-          供应商报价和合同上传
+          {{$i18nMy.t('供应商报价和合同上传')}}
         </p><div style="float: left;"><el-button size="small" @click="addTabListGroup()" type="primary" icon="el-icon-plus" style="float: left;margin-top: 7px;margin-left: 10px;padding: 5px 30px;" ></el-button></div>
         <div style="width: 100%;overflow: auto; border:1px solid #EBEEF5">
           <table style="min-width: 100%;border-collapse: collapse; border:1px solid #EBEEF5" class="supplierTable"
           cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff" >
             <thead>
               <tr class="head-background-color head1-height">
-              <th>供应商名称</th><th>付款条件</th><th>币种</th><th>原价</th><th>折扣价</th><th>最终报价</th><th>预计到货日期</th>
-              <th>预计最晚到货日期</th><th>备注</th><th>文件类型</th><th colspan="3">附件</th><th>关联项目</th><th>上传者</th><th>上传日期</th>
-              <th colspan="2">操作</th>
+              <th>{{$i18nMy.t('供应商名称')}}</th><th>{{$i18nMy.t('付款条件')}}</th><th>{{$i18nMy.t('币种')}}</th><th>{{$i18nMy.t('原价')}}</th><th>{{$i18nMy.t('折扣价')}}</th><th>{{$i18nMy.t('最终报价')}}</th><th>{{$i18nMy.t('预计到货日期')}}</th>
+              <th>{{$i18nMy.t('预计最晚到货日期')}}</th><th>{{$i18nMy.t('备注')}}</th><th>{{$i18nMy.t('文件类型')}}</th><th colspan="3">{{$i18nMy.t('附件')}}</th><th>{{$i18nMy.t('关联项目')}}</th><th>{{$i18nMy.t('上传者')}}</th><th>{{$i18nMy.t('上传日期')}}</th>
+              <th colspan="2">{{$i18nMy.t('操作')}}</th>
               </tr>
             </thead>
             <tbody v-for="(item, index) in supplierInfo" :key="'index_'+index">
@@ -85,7 +85,7 @@
                 </span>
               </td>
               <td :rowspan="item.docListSize" class="width-100">
-                <el-select  size="small" v-model="item.currency" v-if="item.edit" placeholder="请选择">
+                <el-select  size="small" v-model="item.currency" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in $dictUtils.getDictList('pr_currency')" :key="item.value" :label="item.label"
                     :value="item.value">
                   </el-option>
@@ -117,7 +117,7 @@
               </td>
 
               <td class="width-100">
-                <el-select  size="small" v-model="item.docList[0].documentType" v-if="item.edit" placeholder="请选择">
+                <el-select  size="small" v-model="item.docList[0].documentType" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in $dictUtils.getDictList('pr_document_type')" :key="item.value" :label="item.label"
                     :value="item.value">
                   </el-option>
@@ -138,18 +138,18 @@
                         item.docList[0].attachment =''
                       }"
                       :before-remove="(file, fileList) => {
-                        return $confirm(`确定移除 ${file.name}？`)
+                        return $confirm($i18nMy.t('确定移除')+` ${file.name}?`)
                       }"
                       :limit="1"
                       :on-exceed="(files, fileList) =>{
-                        $message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+                        $message.warning($common.stringFormat('当前限制选择 1 个文件，本次选择了 {0} 个文件，共选择了 {1} 个文件',files.length,files.length + fileList.length))
                       }"
                       :file-list="attachmentsArra[item.id][item.docList[0].id]">
-                      <el-button :disabled="!item.edit" style="padding: 5px 30px;" size="small" type="primary" >上传</el-button>
+                      <el-button :disabled="!item.edit" style="padding: 5px 30px;" size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
                     </el-upload>
               </td>
               <td class="width-100">
-                <el-select  size="small" multiple v-model="item.docList[0].linkToItems" v-if="item.edit" placeholder="请选择">
+                <el-select  size="small" multiple v-model="item.docList[0].linkToItems" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in detailInfo" :key="item.serialNumber" :label="item.serialNumber"
                     :value="item.serialNumber">
                   </el-option>
@@ -176,7 +176,7 @@
 <!-- 第一行  -->
               <tr class="data-content"  style="background-color: #fff3cf;" v-for="(item2, index2) in item.docList.slice(1)" :key="'index2_'+index2"  >
                 <td class="width-100">
-                    <el-select  size="small" v-model="item2.documentType" v-if="item.edit" placeholder="请选择">
+                    <el-select  size="small" v-model="item2.documentType" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                       <el-option v-for="item in $dictUtils.getDictList('pr_document_type')" :key="item.value" :label="item.label"
                         :value="item.value">
                       </el-option>
@@ -197,18 +197,18 @@
                           item2.attachment =''
                         }"
                         :before-remove="(file, fileList) => {
-                          return $confirm(`确定移除 ${file.name}？`)
+                          return $confirm($i18nMy.t('确定移除')+` ${file.name}?`)
                         }"
                         :limit="1"
                         :on-exceed="(files, fileList) =>{
-                          $message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+                          $message.warning($common.stringFormat('当前限制选择 1 个文件，本次选择了 {0} 个文件，共选择了 {1} 个文件',files.length,files.length + fileList.length))
                         }"
                         :file-list="attachmentsArra[item.id][item2.id]">
-                        <el-button :disabled="!item.edit" style="padding: 5px 30px;"  size="small" type="primary" >上传</el-button>
+                        <el-button :disabled="!item.edit" style="padding: 5px 30px;"  size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
                       </el-upload>
                 </td>
                 <td class="width-100">
-                  <el-select  multiple size="small" v-model="item2.linkToItems" v-if="item.edit" placeholder="请选择">
+                  <el-select  multiple size="small" v-model="item2.linkToItems" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                     <el-option v-for="item in detailInfo" :key="item.serialNumber" :label="item.serialNumber"
                       :value="item.serialNumber">
                     </el-option>
@@ -234,8 +234,8 @@
               </tr>
               <tr class="head-background-color head2-height">
                 <td style="background-color: #FFFFFF;border:none"></td>
-                <td class="first-td"><!-- 编号</td><td> -->项目</td><td>品牌名称</td><td>型号</td><td>提供单价</td><td>折扣单价</td>
-                <td>MOQ</td><td>预计到货日期</td><td>预计最晚到货日期</td><td>采纳</td><td colspan="5">原因</td>
+                <td class="first-td"><!-- 编号</td><td> -->{{$i18nMy.t('项目')}}</td><td>{{$i18nMy.t('品牌名称')}}</td><td>{{$i18nMy.t('型号')}}</td><td>{{$i18nMy.t('提供单价')}}</td><td>{{$i18nMy.t('折扣单价')}}</td>
+                <td>MOQ</td><td>{{$i18nMy.t('预计到货日期')}}</td><td>{{$i18nMy.t('预计最晚到货日期')}}</td><td>{{$i18nMy.t('采纳')}}</td><td colspan="5">{{$i18nMy.t('原因')}}</td>
               </tr>
               <tr class="data-content" v-for="(item3, index3) in item.detailInfo" :key="'index3_'+index3">
                 <td  style="background-color: #FFFFFF;border:none"></td>
@@ -263,7 +263,7 @@
                 </td>
                 <td class="width-100">
                   <el-date-picker  size="small"  v-if="item.edit"  v-model="item3.expectArrivalDate" type="date"
-                    value-format="yyyy-MM-dd" placeholder="选择日期时间">
+                    value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('选择日期时间')">
                   </el-date-picker>
                   <span v-else>
                     {{item3.expectArrivalDate}}
@@ -271,7 +271,7 @@
                 </td>
                 <td class="width-100" >
                   <el-date-picker  size="small" class="width-200" v-if="item.edit"  v-model="item3.expectLastArrivalDate" type="date"
-                    value-format="yyyy-MM-dd" placeholder="选择日期时间">
+                    value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('选择日期时间')">
                   </el-date-picker>
                   <span v-else>
                     {{item3.expectLastArrivalDate}}
@@ -304,12 +304,12 @@
          cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff">
           <thead>
             <tr class="head-background-color">
-              <th rowspan="2">编号</th><th rowspan="2">项目</th><th rowspan="2">品牌名称</th><th rowspan="2">型号</th>
-              <th rowspan="2">市场价格</th><th rowspan="2">更新单价</th><th rowspan="2">请求数量</th><th rowspan="2">UOM</th>
-              <th colspan="2">文档报价</th><th  colspan="2">基础报价</th>
+              <th rowspan="2">{{$i18nMy.t('编号')}}</th><th rowspan="2">{{$i18nMy.t('项目')}}</th><th rowspan="2">{{$i18nMy.t('品牌名称')}}</th><th rowspan="2">{{$i18nMy.t('型号')}}</th>
+              <th rowspan="2">{{$i18nMy.t('市场价格')}}</th><th rowspan="2">{{$i18nMy.t('更新单价')}}</th><th rowspan="2">{{$i18nMy.t('请求数量')}}</th><th rowspan="2">UOM</th>
+              <th colspan="2">{{$i18nMy.t('文档报价')}}</th><th  colspan="2">{{$i18nMy.t('基础报价')}}</th>
             </tr>
             <tr class="head-background-color">
-              <th>金额</th><th>金额(增值税)</th><th>金额</th><th>金额(增值税)</th>
+              <th>{{$i18nMy.t('金额')}}</th><th>金额(增值税)</th><th>{{$i18nMy.t('金额')}}</th><th>金额(增值税)</th>
             </tr>
           </thead>
           <tbody v-for="(item, index) in detailInfo">
@@ -338,8 +338,8 @@
             </tr>
             <tr class="head-background-color head2-height">
               <td style="background-color: #FFFFFF;border:none"></td>
-              <td class="first-td">供应商名称</td><td>付款条款</td><td>提供的货币</td><td>提供的单价</td><td>提供的单价（基础货币）</td>
-              <td>MOQ</td><td>预计到货日期</td><td>预计最晚到货日期</td><td>相关文档</td><td>采纳</td><td>原因</td>
+              <td class="first-td">{{$i18nMy.t('供应商名称')}}</td><td>{{$i18nMy.t('付款条款')}}</td><td>{{$i18nMy.t('提供的货币')}}</td><td>{{$i18nMy.t('提供的单价')}}</td><td>{{$i18nMy.t('提供的单价（基础货币）')}}</td>
+              <td>MOQ</td><td>{{$i18nMy.t('预计到货日期')}}</td><td>{{$i18nMy.t('预计最晚到货日期')}}</td><td>{{$i18nMy.t('相关文档')}}</td><td>{{$i18nMy.t('采纳')}}</td><td>{{$i18nMy.t('原因')}}</td>
             </tr>
             <tr class="data-content" v-for="(item, index) in supplierInfoByDetailInfo[item.item]" >
               <td style="background-color: #FFFFFF;border:none"></td>

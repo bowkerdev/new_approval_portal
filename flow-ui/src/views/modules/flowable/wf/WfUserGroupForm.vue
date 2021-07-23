@@ -12,7 +12,7 @@
             <el-form-item label="公司" prop="company.id"
                 :rules="[
                  ]">
-               <el-select size="small" v-model="inputForm.company.id" placeholder="ALL" @change="siteChange" clearable>
+               <el-select size="small" v-model="inputForm.company.id" :placeholder="$i18nMy.t('ALL')" @change="siteChange" clearable>
                 <el-option v-for="item in siteList" :key="item.value"
                   :label="item.label" :value="item.value" >
                 </el-option>
@@ -23,7 +23,7 @@
             <el-form-item label="部门" prop="department.id"
                 :rules="[
                  ]">
-          <SelectTree placeholder="ALL"
+          <SelectTree :placeholder="$i18nMy.t('ALL')"
                       ref="department"
                       v-if="ifSiteChange"
                       :props="{
@@ -43,21 +43,21 @@
             <el-form-item label="流程标识" prop="procDefKey"
                 :rules="[
                  ]">
-              <el-input size="small" v-model="inputForm.procDefKey" placeholder="请填写流程标识"     ></el-input>
+              <el-input size="small" v-model="inputForm.procDefKey" :placeholder="$i18nMy.t('请填写流程标识')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item label="组标识" prop="userGroup"
                 :rules="[
                  ]">
-              <el-input size="small" v-model="inputForm.userGroup" placeholder="请填写组标识"     ></el-input>
+              <el-input size="small" v-model="inputForm.userGroup" :placeholder="$i18nMy.t('请填写组标识')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item label="组标识辅助码" prop="userGroupCode"
                 :rules="[
                  ]">
-              <el-input size="small" v-model="inputForm.userGroupCode" placeholder="请填写组标识辅助码"     ></el-input>
+              <el-input size="small" v-model="inputForm.userGroupCode" :placeholder="$i18nMy.t('请填写组标识辅助码')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">

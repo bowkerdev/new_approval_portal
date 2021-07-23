@@ -14,7 +14,7 @@
        <el-container>
               <el-aside width="250px" style="padding-left: 15px">
                 <p>请选择一个数据源：</p>
-                <el-select style="width:215px; padding-top:5px" @change="resetMetas" v-model="inputForm.dataSet.id" filterable placeholder="请选择一个数据源">
+                <el-select style="width:215px; padding-top:5px" @change="resetMetas" v-model="inputForm.dataSet.id" filterable :placeholder="$i18nMy.t('请选择一个数据源')">
                 <el-option
                   v-for="(item, index) in dataSets"
                   :key="index"

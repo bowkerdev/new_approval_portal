@@ -3,15 +3,15 @@
       <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small">查询</el-button>
-            <el-button @click="resetSearch()" size="small">重置</el-button>
+            <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
         <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
           <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
              <el-form-item>
-              <el-button type="default" @click="downloadTpl()" size="small">下载模板</el-button>
+              <el-button type="default" @click="downloadTpl()" size="small">{{$i18nMy.t('下载模板')}}</el-button>
              </el-form-item>
              <el-form-item prop="loginName">
                 <el-upload
@@ -19,7 +19,7 @@
                   :action="`${this.$http.BASE_URL}/flow/pr/oaPrNew/import`"
                   :on-success="uploadSuccess"
                    :show-file-list="true">
-                  <el-button size="small" type="primary">点击上传</el-button>
+                  <el-button size="small" type="primary">{{$i18nMy.t('点击上传')}}</el-button>
                   <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
                 </el-upload>
             </el-form-item>
@@ -27,9 +27,9 @@
       </el-dialog>
       <div class="bg-white top">
       <el-row>
-        <el-button v-if="hasPermission('flow:pr:oaPrNew:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
+        <el-button v-if="hasPermission('flow:pr:oaPrNew:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1" plain>修改</el-button>
+         :disabled="dataListSelections.length != 1" plain>{{$i18nMy.t('修改')}}</el-button>
         <el-button v-if="hasPermission('flow:pr:oaPrNew:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
                   :disabled="dataListSelections.length <= 0" plain>删除
         </el-button>
@@ -84,7 +84,7 @@
         show-overflow-tooltip
         sortable="custom"
         width="200"
-        label="申请单号">
+        :label="$i18nMy.t('申请单号')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" @click="flowDetail(scope.row)">{{scope.row.applicationNo}}</el-link>
             </template>
@@ -93,13 +93,13 @@
         prop="projectName"
         show-overflow-tooltip
         sortable="custom"
-        label="项目名称">
+        :label="$i18nMy.t('项目名称')">
       </el-table-column>
     <el-table-column
         prop="applySiteCode"
         show-overflow-tooltip
         sortable="custom"
-        label="采购地区">
+        :label="$i18nMy.t('采购地区')">
         <template slot-scope="scope">
               {{ $dictUtils.getDictLabel("apply_site_code", scope.row.applySiteCode, '-') }}
         </template>
@@ -108,13 +108,13 @@
         prop="requesterDepartment.name"
         show-overflow-tooltip
         sortable="custom"
-        label="请求者部门">
+        :label="$i18nMy.t('请求者部门')">
       </el-table-column>
     <el-table-column
         prop="expenseType"
         show-overflow-tooltip
         sortable="custom"
-        label="费用类型">
+        :label="$i18nMy.t('费用类型')">
         <template slot-scope="scope">
               {{ $dictUtils.getDictLabel("expense_type", scope.row.expenseType, '-') }}
         </template>
@@ -123,7 +123,7 @@
         prop="costCenter"
         show-overflow-tooltip
         sortable="custom"
-        label="成本中心">
+        :label="$i18nMy.t('成本中心')">
         <template slot-scope="scope">
               {{ $dictUtils.getDictLabel("cost_center", scope.row.costCenter, '-') }}
         </template>
@@ -132,7 +132,7 @@
         prop="assetGroup"
         show-overflow-tooltip
         sortable="custom"
-        label="固定资产类型">
+        :label="$i18nMy.t('固定资产类型')">
         <template slot-scope="scope">
               {{ $dictUtils.getDictLabel("asset_group", scope.row.assetGroup, '-') }}
         </template>
@@ -141,19 +141,19 @@
         prop="flow.taskName"
         show-overflow-tooltip
         sortable="custom"
-        label="当前环节">
+        :label="$i18nMy.t('当前环节')">
       </el-table-column>
     <el-table-column
         prop="approvedDate"
         show-overflow-tooltip
         sortable="custom"
-        label="状态日期">
+        :label="$i18nMy.t('状态日期')">
       </el-table-column>
     <el-table-column
         prop="requestRiority"
         show-overflow-tooltip
         sortable="custom"
-        label="申购优先级">
+        :label="$i18nMy.t('申购优先级')">
         <template slot-scope="scope">
               {{ $dictUtils.getDictLabel("request_priority", scope.row.requestRiority, '-') }}
         </template>
@@ -162,7 +162,7 @@
         prop="contractCurrency"
         show-overflow-tooltip
         sortable="custom"
-        label="合同币种">
+        :label="$i18nMy.t('合同币种')">
         <template slot-scope="scope">
               {{ $dictUtils.getDictLabel("pr_currency", scope.row.contractCurrency, '-') }}
         </template>
@@ -171,7 +171,7 @@
         prop="totalContractAmount"
         show-overflow-tooltip
         sortable="custom"
-        label="合同总价">
+        :label="$i18nMy.t('合同总价')">
       </el-table-column>
       <!-- <el-table-column
         header-align="center"
@@ -179,11 +179,11 @@
         fixed="right"
         :key="Math.random()"
         width="200"
-        label="操作">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('flow:pr:oaPrNew:view')" type="text" icon="el-icon-view" size="small" @click="flowDetail(scope.row)">查看</el-button>
-          <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">修改</el-button>
-          <el-button v-if="hasPermission('flow:pr:oaPrNew:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">删除</el-button>
+          <el-button v-if="hasPermission('flow:pr:oaPrNew:view')" type="text" icon="el-icon-view" size="small" @click="flowDetail(scope.row)">{{$i18nMy.t('查看')}}</el-button>
+          <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('flow:pr:oaPrNew:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
         </template>
       </el-table-column> -->
     </el-table>

@@ -5,7 +5,7 @@
          <el-form-item prop="student.id">
             <GridSelect
                     title="选择学生"
-                    placeholder="请选择学生"
+                    :placeholder="$i18nMy.t('请选择学生')"
                     labelName = 'name'
                     labelValue = 'id'
                     :value = "searchForm.student.id"
@@ -32,7 +32,7 @@
          <el-form-item prop="course.id">
             <GridSelect
                     title="选择课程"
-                    placeholder="请选择课程"
+                    :placeholder="$i18nMy.t('请选择课程')"
                     labelName = 'name'
                     labelValue = 'id'
                     :value = "searchForm.course.id"

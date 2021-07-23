@@ -5,7 +5,7 @@
           <el-row :gutter="5">
             <el-col :span="20">
               <el-input
-                placeholder="输入关键字进行过滤"
+                :placeholder="$i18nMy.t('输入关键字进行过滤')"
                 size="small"
                 v-model="filterText">
               </el-input>

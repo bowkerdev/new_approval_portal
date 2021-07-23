@@ -13,7 +13,7 @@
                   :rules="[
                   {required: true, message:'文档名称不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.name" placeholder="请填写文档名称"     ></el-input>
+              <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写文档名称')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -75,7 +75,7 @@
                 :rules="[
                   {required: true, message:'备注信息不能为空', trigger:'blur'}
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" placeholder="请填写备注信息"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写备注信息')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

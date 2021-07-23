@@ -16,7 +16,7 @@
                   :clearable="true"
                   :accordion="true"
                   @getValue="(value) => {searchForm.company.id=value}"/> -->
-             <el-select size="small" v-model="searchForm.company.id" placeholder="所有公司" @change="siteChange" clearable>
+             <el-select size="small" v-model="searchForm.company.id" :placeholder="$i18nMy.t('所有公司')" @change="siteChange" clearable>
               <el-option v-for="item in siteList" :key="item.value"
                 :label="item.label" :value="item.value" >
               </el-option>
@@ -24,7 +24,7 @@
          </el-form-item>
          <el-form-item prop="department.id">
             <SelectTree
-                  placeholder="所有部门"
+                  :placeholder="$i18nMy.t('所有部门')"
                   v-if="ifSiteChange"
                   ref="department.id"
                   :props="{
@@ -40,13 +40,13 @@
                   @getValue="(value) => {searchForm.department.id=value}"/>
          </el-form-item>
          <el-form-item prop="procDefKey">
-                <el-input size="small" v-model="searchForm.procDefKey" placeholder="流程标识" clearable></el-input>
+                <el-input size="small" v-model="searchForm.procDefKey" :placeholder="$i18nMy.t('流程标识')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="userGroup">
-                <el-input size="small" v-model="searchForm.userGroup" placeholder="组标识" clearable></el-input>
+                <el-input size="small" v-model="searchForm.userGroup" :placeholder="$i18nMy.t('组标识')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="user.id">
-            <user-select placeholder="用户"  :limit='1' size="small" :value="searchForm.user.id" @getValue='(value) => {searchForm.user.id=value}'></user-select>
+            <user-select :placeholder="$i18nMy.t('用户')"  :limit='1' size="small" :value="searchForm.user.id" @getValue='(value) => {searchForm.user.id=value}'></user-select>
          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small">查询</el-button>

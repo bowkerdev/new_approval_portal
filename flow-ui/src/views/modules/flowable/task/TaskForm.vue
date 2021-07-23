@@ -325,17 +325,19 @@
       },
       // 补充资料
       backToDocAdd () {
-        this.$http.post('/flowable/task/back', {
-          taskId: this.taskId,
-          backTaskDefKey: 'DocAdd',
-          ...this.auditForm
-        }).then(({data}) => {
-          if (data.success) {
-            this.$message.success(data.msg)
-            this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
-            this.$router.push('/flowable/task/TodoList')
-            this.cc(data)
-          }
+        this.$refs.form.saveForm((businessTable, businessId) => {
+          this.$http.post('/flowable/task/back', {
+            taskId: this.taskId,
+            backTaskDefKey: 'DocAdd',
+            ...this.auditForm
+          }).then(({data}) => {
+            if (data.success) {
+              this.$message.success(data.msg)
+              this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
+              this.$router.push('/flowable/task/TodoList')
+              this.cc(data)
+            }
+          })
         })
       },
       // 回退到上一审批环节，用于资料补充

@@ -10,12 +10,12 @@
       <el-row  :gutter="15">
         <el-col :span="24">
             <el-form-item label="名称" prop="name">
-			        <el-input v-model="inputForm.name" placeholder="请填写名称"     ></el-input>
+			        <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写名称')"     ></el-input>
 	         </el-form-item>
         </el-col>
         <el-col :span="24">
             <el-form-item label="编码" prop="code">
-			        <el-input :readonly="isDefaultButton(inputForm.code)" v-model="inputForm.code" placeholder="请输入按钮编码"     ></el-input>
+			        <el-input :readonly="isDefaultButton(inputForm.code)" v-model="inputForm.code" :placeholder="$i18nMy.t('请输入按钮编码')"     ></el-input>
            </el-form-item>
            <el-form-item>
               <div class="tip">
@@ -27,7 +27,7 @@
         </el-col>
         <el-col :span="24">
             <el-form-item label="排序" prop="sort">
-			        <el-input-number v-model="inputForm.sort" placeholder="请填写排序"     ></el-input-number>
+			        <el-input-number v-model="inputForm.sort" :placeholder="$i18nMy.t('请填写排序')"     ></el-input-number>
 	         </el-form-item>
         </el-col>
         </el-row>

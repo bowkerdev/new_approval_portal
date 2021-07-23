@@ -9,7 +9,7 @@
                 :rules="[
                   {required: true, message:'收件地址不能为空', trigger:'blur'}
                  ]">
-          		   <el-input v-model="inputForm.emailAddress" placeholder="输入多个邮件地址请用英文符号;隔开"></el-input>
+          		   <el-input v-model="inputForm.emailAddress" :placeholder="$i18nMy.t('输入多个邮件地址请用英文符号;隔开')"></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="4">

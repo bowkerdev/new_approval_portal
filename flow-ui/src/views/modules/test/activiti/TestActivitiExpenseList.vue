@@ -3,7 +3,7 @@
       <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="user.id">
-            <user-select :limit='1' size="small" placeholder="请选择员工姓名" :value="searchForm.user.id" @getValue='(value) => {searchForm.user.id=value}'></user-select>
+            <user-select :limit='1' size="small" :placeholder="$i18nMy.t('请选择员工姓名')" :value="searchForm.user.id" @getValue='(value) => {searchForm.user.id=value}'></user-select>
          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small" icon="el-icon-search">查询</el-button>

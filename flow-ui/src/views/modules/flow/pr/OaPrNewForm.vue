@@ -9,25 +9,25 @@
           </p>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="申请单号" prop="applicationNo" :rules="[]">
-            <el-input v-model="inputForm.applicationNo" :disabled='true' placeholder="系统自动生成"></el-input>
+          <el-form-item :label="$i18nMy.t('申请单号')" prop="applicationNo" :rules="[]">
+            <el-input v-model="inputForm.applicationNo" :disabled='true' :placeholder="$i18nMy.t('系统自动生成')"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item  label="申请人" prop="requester" :rules="[]">
+          <el-form-item  :label="$i18nMy.t('申请人')" prop="requester" :rules="[]">
             <user-select :limit='1' :value="inputForm.createBy.id" :disabled='true' @getValue='(value) => {inputForm.createBy.id=value}'>
             </user-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item  label="申请时间" prop="createDate" :rules="[]">
+          <el-form-item  :label="$i18nMy.t('申请时间')" prop="createDate" :rules="[]">
             <el-date-picker v-model="inputForm.createDate" type="datetime"  :disabled='true' style="width: 100%;"
-              value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间">
+              value-format="yyyy-MM-dd HH:mm:ss" :placeholder="$i18nMy.t('选择日期时间')">
             </el-date-picker>
           </el-form-item>
         </el-col>
 	      <el-col  :span="12">
-            <el-form-item label="申请人部门" prop="createByOffice.id"
+            <el-form-item :label="$i18nMy.t('申请人部门')" prop="createByOffice.id"
                 :rules="[  ]">
           <SelectTree ref="createByOffice" :disabled='true'
                       :props="{
@@ -42,13 +42,13 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="项目名称" prop="projectName" :rules="[]">
-            <el-input v-model="inputForm.projectName" placeholder="请填写项目名称"></el-input>
+          <el-form-item :label="$i18nMy.t('项目名称')" prop="projectName" :rules="[]">
+            <el-input v-model="inputForm.projectName" :placeholder="$i18nMy.t('请填写项目名称')"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="采购地区" prop="applySiteCode" :rules="[{required: true, message:'采购地区不能为空', trigger:'blur'}]">
-            <el-select v-model="inputForm.applySiteCode" placeholder="请选择" style="width: 100%;" @change="siteChange">
+          <el-form-item :label="$i18nMy.t('采购地区')" prop="applySiteCode" :rules="[{required: true, message:'采购地区不能为空', trigger:'blur'}]">
+            <el-select v-model="inputForm.applySiteCode" :placeholder="$i18nMy.t('请选择')" style="width: 100%;" @change="siteChange">
               <el-option v-for="item in $dictUtils.getDictList('apply_site_code')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
@@ -56,7 +56,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="用户部门" prop="requesterDepartment.id" :rules="[{required: true, message:'用户部门不能为空', trigger:'blur'}]">
+          <el-form-item :label="$i18nMy.t('用户部门')" prop="requesterDepartment.id" :rules="[{required: true, message:'用户部门不能为空', trigger:'blur'}]">
             <SelectTree ref="requesterDepartment" v-if="ifSiteChange" :props="{
                     value: 'id',             // ID字段名
                     label: 'name',         // 显示名称
@@ -66,16 +66,16 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="用户姓名" prop="requester" :rules="[{required: true, message:'用户姓名不能为空', trigger:'blur'}]">
-            <el-input v-model="inputForm.requester" placeholder="请填写用户姓名"></el-input>
+          <el-form-item :label="$i18nMy.t('用户姓名')" prop="requester" :rules="[{required: true, message:'用户姓名不能为空', trigger:'blur'}]">
+            <el-input v-model="inputForm.requester" :placeholder="$i18nMy.t('请填写用户姓名')"></el-input>
             <!-- <user-select :limit='1' :value="inputForm.requester" @getValue='(value) => {inputForm.requester=value}'>
             </user-select> -->
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="费用类型" prop="expenseType" :rules="[{required: true, message:'费用类型不能为空', trigger:'blur'}
+          <el-form-item :label="$i18nMy.t('费用类型')" prop="expenseType" :rules="[{required: true, message:'费用类型不能为空', trigger:'blur'}
                  ]">
-            <el-select v-model="inputForm.expenseType" placeholder="请选择" style="width: 100%;">
+            <el-select v-model="inputForm.expenseType" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('expense_type')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
@@ -83,17 +83,17 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="要求到货时间" prop="expectArrivalDate" :rules="[
+          <el-form-item :label="$i18nMy.t('要求到货时间')" prop="expectArrivalDate" :rules="[
                  ]">
             <el-date-picker v-model="inputForm.expectArrivalDate" type="datetime" style="width: 100%;"
-              value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间">
+              value-format="yyyy-MM-dd HH:mm:ss" :placeholder="$i18nMy.t('选择日期时间')">
             </el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="签约方公司" prop="legalEntity" :rules="[{required: true, message:'签约方公司不能为空', trigger:'blur'}
+          <el-form-item :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: true, message:'签约方公司不能为空', trigger:'blur'}
                  ]">
-            <el-select v-model="inputForm.legalEntity" placeholder="请选择" style="width: 100%;">
+            <el-select v-model="inputForm.legalEntity" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictListWithKey('all_company')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
@@ -101,9 +101,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="成本中心" prop="costCenter" :rules="[{required: true, message:'成本中心不能为空', trigger:'blur'}
+          <el-form-item :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[{required: true, message:'成本中心不能为空', trigger:'blur'}
                  ]">
-            <el-select v-model="inputForm.costCenter" placeholder="请选择" style="width: 100%;">
+            <el-select v-model="inputForm.costCenter" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictListWithKey('cost_center')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
@@ -111,9 +111,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="固定资产类别" prop="assetGroup" :rules="[{required: true, message:'固定资产类别不能为空', trigger:'blur'}
+          <el-form-item :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[{required: true, message:'固定资产类别不能为空', trigger:'blur'}
                  ]">
-            <el-select v-model="inputForm.assetGroup" placeholder="请选择" style="width: 100%;">
+            <el-select v-model="inputForm.assetGroup" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictListWithKey('asset_group')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
@@ -121,8 +121,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="技术支持部门" prop="technicalAdvisor" :rules="[ ]">
-            <el-select v-model="inputForm.technicalAdvisor" placeholder="请选择" style="width: 100%;">
+          <el-form-item :label="$i18nMy.t('技术支持部门')" prop="technicalAdvisor" :rules="[ ]">
+            <el-select v-model="inputForm.technicalAdvisor" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
              <el-option v-for="item in $dictUtils.getDictList('technical_advisor')" :key="item.value" :label="item.label"
                :value="item.value">
              </el-option>
@@ -130,8 +130,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="预算类型" prop="budgetType" :rules="[]">
-            <el-select v-model="inputForm.budgetType" placeholder="请选择" style="width: 100%;">
+          <el-form-item :label="$i18nMy.t('预算类型')" prop="budgetType" :rules="[]">
+            <el-select v-model="inputForm.budgetType" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('it_pr_budget')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
@@ -139,9 +139,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="申购优先级" prop="requestRiority" :rules="[{required: true, message:'申购优先级不能为空', trigger:'blur'}
+          <el-form-item :label="$i18nMy.t('申购优先级')" prop="requestRiority" :rules="[{required: true, message:'申购优先级不能为空', trigger:'blur'}
                  ]">
-            <el-select v-model="inputForm.requestRiority" placeholder="请选择" style="width: 100%;">
+            <el-select v-model="inputForm.requestRiority" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('request_priority')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
@@ -149,7 +149,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="是否预算内" prop="isBudget" :rules="[
+          <el-form-item :label="$i18nMy.t('是否预算内')" prop="isBudget" :rules="[
                  ]">
             <el-radio-group v-model="inputForm.isBudget">
               <el-radio v-for="item in $dictUtils.getDictList('yes_no')" :label="item.value" :key="item.value">
@@ -158,10 +158,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="审批通过日期" prop="approvedDate" :rules="[
+          <el-form-item :label="$i18nMy.t('审批通过日期')" prop="approvedDate" :rules="[
                  ]">
             <el-date-picker v-model="inputForm.approvedDate" type="datetime" style="width: 100%;"
-              value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间">
+              value-format="yyyy-MM-dd HH:mm:ss" :placeholder="$i18nMy.t('选择日期时间')">
             </el-date-picker>
           </el-form-item>
         </el-col>
@@ -169,9 +169,9 @@
       </el-row>
       <el-row :gutter="15">
         <el-col :span="6">
-          <el-form-item label="合同币种" prop="contractCurrency" :rules="[
+          <el-form-item :label="$i18nMy.t('合同币种')" prop="contractCurrency" :rules="[
                  ]">
-            <el-select @change="currencyChange()" v-model="inputForm.contractCurrency" placeholder="请选择" style="width: 100%;">
+            <el-select @change="currencyChange()" v-model="inputForm.contractCurrency" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('pr_currency')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
@@ -179,24 +179,24 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="汇率" prop="exRate" :rules="[]">
+          <el-form-item :label="$i18nMy.t('汇率')" prop="exRate" :rules="[]">
             {{inputForm.exRate}}
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="合同总价" prop="totalContractAmount" :rules="[
+          <el-form-item :label="$i18nMy.t('合同总价')" prop="totalContractAmount" :rules="[
                   {validator: validator.isFloatGteZero, trigger:'blur'}
                  ]">
-            <el-input v-only-num.float="inputForm"  v-model="inputForm.totalContractAmount" placeholder="请填写合同总价"></el-input>
+            <el-input v-only-num.float="inputForm"  v-model="inputForm.totalContractAmount" :placeholder="$i18nMy.t('请填写合同总价')"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="基础币种" prop="baseCurrency" :rules="[ ]">
+          <el-form-item :label="$i18nMy.t('基础币种')" prop="baseCurrency" :rules="[ ]">
             {{inputForm.baseCurrency}}
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="基础币种总价" prop="totalBaseAmount" :rules="[]">
+          <el-form-item :label="$i18nMy.t('基础币种总价')" prop="totalBaseAmount" :rules="[]">
             <span v-if="!isNaN(inputForm.exRate*inputForm.totalContractAmount)">
               {{(inputForm.exRate*inputForm.totalContractAmount).toFixed(3)}}
             </span>
@@ -283,7 +283,7 @@
               <el-table-column prop="quantity" width="155" align="center" :label="$i18nMy.t('数量')"   >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
-                    <el-input-number  size="small" v-model="row.quantity" :step="1"  :min="1" :max="100" label="数量"></el-input-number>
+                    <el-input-number  size="small" v-model="row.quantity" :step="1"  :min="1" :max="100" :label="$i18nMy.t('数量')"></el-input-number>
                   </template>
                   <span v-else>{{ row.quantity }}</span>
                 </template>
@@ -304,7 +304,7 @@
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-date-picker  size="small" v-model="row.expectArrivalDate" type="date"
-                      value-format="yyyy-MM-dd" placeholder="选择日期时间">
+                      value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('选择日期时间')">
                     </el-date-picker>
                   </template>
                   <span v-else>{{ row.expectArrivalDate }}</span>
@@ -373,20 +373,20 @@
           </p>
         </el-col>
         <el-col :span="24">
-          <label for="purchasePurpose" class="el-form-item__label">申购目的</label>
-          <el-input type="textarea" style="width: 100%;" v-model="inputForm.purchasePurpose" placeholder="请填写申购目的"></el-input>
+          <label for="purchasePurpose" class="el-form-item__label">{{$i18nMy.t('申购目的')}}</label>
+          <el-input type="textarea" style="width: 100%;" v-model="inputForm.purchasePurpose" :placeholder="$i18nMy.t('请填写申购目的')"></el-input>
         </el-col>
         <el-col :span="24" style="margin-top: 10px;">
           <label for="roi" class="el-form-item__label">ROI</label>
-          <el-input type="textarea" style="width: 100%;" v-model="inputForm.roi" placeholder="请填写ROI"></el-input>
+          <el-input type="textarea" style="width: 100%;" v-model="inputForm.roi" :placeholder="$i18nMy.t('请填写ROI')"></el-input>
         </el-col>
         <el-col :span="24" style="margin-top: 10px;">
-          <label for="noBudgetExplain"  style="margin-top: 10px;" class="el-form-item__label">预算外说明</label>
-          <el-input type="textarea"  v-model="inputForm.noBudgetExplain" placeholder="请填写预算外说明"></el-input>
+          <label for="noBudgetExplain"  style="margin-top: 10px;" class="el-form-item__label">{{$i18nMy.t('预算外说明')}}</label>
+          <el-input type="textarea"  v-model="inputForm.noBudgetExplain" :placeholder="$i18nMy.t('请填写预算外说明')"></el-input>
         </el-col>
         <el-col :span="24" style="margin-top: 10px;">
-          <label for="paymentSpecial"  style="margin-top: 10px;" class="el-form-item__label">支付说明</label>
-          <el-input type="textarea"  v-model="inputForm.paymentSpecial" placeholder="请填写支付说明"></el-input>
+          <label for="paymentSpecial"  style="margin-top: 10px;" class="el-form-item__label">{{$i18nMy.t('支付说明')}}</label>
+          <el-input type="textarea"  v-model="inputForm.paymentSpecial" :placeholder="$i18nMy.t('请填写支付说明')"></el-input>
         </el-col>
       </el-row>
     </el-form>
@@ -513,6 +513,7 @@
             return ;
           }
         }
+        this.inputForm.totalBaseAmount=this.inputForm.exRate*this.inputForm.totalContractAmount
         this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
         this.$refs['inputForm'].validate((valid) => {
           if (valid) {

@@ -5,7 +5,7 @@
          <el-form-item prop="continent.id">
             <GridSelect
                     title="选择所属洲"
-                    placeholder="请选择所属洲"
+                    :placeholder="$i18nMy.t('请选择所属洲')"
                     labelName = 'name'
                     labelValue = 'id'
                     :value = "searchForm.continent.id"

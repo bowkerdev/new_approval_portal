@@ -3,7 +3,7 @@
       <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="name">
-                <el-input size="small" v-model="searchForm.name" placeholder="姓名" clearable></el-input>
+                <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('姓名')" clearable></el-input>
          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small" icon="el-icon-search">查询</el-button>

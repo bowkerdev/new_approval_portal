@@ -34,7 +34,7 @@
             </el-select>
           </el-form-item>
           <el-form-item  :label="$i18nMy.t('规则值')" prop="value">
-            <el-input v-model="inputForm.value" placeholder="value"></el-input>
+            <el-input v-model="inputForm.value" :placeholder="$i18nMy.t('value')"></el-input>
           </el-form-item>
            <el-form-item label="自定义sql" prop="sqlSegment">
              <el-input v-model="inputForm.sqlSegment" type="textarea"

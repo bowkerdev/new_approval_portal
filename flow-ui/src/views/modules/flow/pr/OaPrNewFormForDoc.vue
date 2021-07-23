@@ -9,13 +9,13 @@
           </p>
         </el-col>
         <el-col :span="12">
-            <el-form-item  label="创建者" prop="requester" :rules="[]">
+            <el-form-item  :label="$i18nMy.t('创建者')" prop="requester" :rules="[]">
               <user-select :limit='1' :value="inputForm.createBy.id" :disabled='true' @getValue='(value) => {inputForm.createBy.id=value}'>
               </user-select>
             </el-form-item>
           </el-col>
           <el-col  :span="12">
-            <el-form-item label="创建者部门" prop="createByOffice.id"  :rules="[  ]">
+            <el-form-item :label="$i18nMy.t('创建者部门')" prop="createByOffice.id"  :rules="[  ]">
               <SelectTree ref="createByOffice" :disabled='true'
                 :props="{value: 'id',label: 'name',  children: 'children'}"
                 url="/sys/office/treeData?type=2"  :value="inputForm.createByOffice.id"
@@ -23,23 +23,23 @@
              </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="用户姓名" prop="requester" :rules="[]">
-              <el-input v-model="inputForm.requester" :disabled='true' placeholder="请填写用户姓名"></el-input>
+            <el-form-item :label="$i18nMy.t('用户姓名')" prop="requester" :rules="[]">
+              <el-input v-model="inputForm.requester" :disabled='true' :placeholder="$i18nMy.t('请填写用户姓名')"></el-input>
               <!-- <user-select :limit='1' :value="inputForm.requester" @getValue='(value) => {inputForm.requester=value}'>
               </user-select> -->
             </el-form-item>
           </el-col>
 
           <el-col :span="12">
-            <el-form-item label="用户部门" prop="requesterDepartment.id" :rules="[ ]">
+            <el-form-item :label="$i18nMy.t('用户部门')" prop="requesterDepartment.id" :rules="[ ]">
               <SelectTree ref="requesterDepartment" :disabled='true' :props="{value: 'id',label: 'name', children: 'children'}"
                 url="/sys/office/treeData?type=2" :value="inputForm.requesterDepartment.id" :clearable="true"
                 :accordion="true" @getValue="(value) => {inputForm.requesterDepartment.id=value}" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="固定资产类型" prop="assetGroup" :rules="[]">
-              <el-select v-model="inputForm.assetGroup" :disabled='true' placeholder="请选择" style="width: 100%;">
+            <el-form-item :label="$i18nMy.t('固定资产类型')" prop="assetGroup" :rules="[]">
+              <el-select v-model="inputForm.assetGroup" :disabled='true' :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
                 <el-option v-for="item in $dictUtils.getDictList('asset_group')" :key="item.value" :label="item.label"
                   :value="item.value">
                 </el-option>
@@ -47,8 +47,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="成本中心" prop="costCenter" :rules="[]">
-              <el-select v-model="inputForm.costCenter" :disabled='true' placeholder="请选择" style="width: 100%;">
+            <el-form-item :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[]">
+              <el-select v-model="inputForm.costCenter" :disabled='true' :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
                 <el-option v-for="item in $dictUtils.getDictList('cost_center')" :key="item.value" :label="item.label"
                   :value="item.value">
                 </el-option>
@@ -114,7 +114,7 @@
             <el-table-column prop="documentType" width="120"  align="center" :label="$i18nMy.t('文件类型')"   >
               <template slot-scope="{row}">
                 <template v-if="row.edit">
-                  <el-select  size="small" v-model="row.documentType"  placeholder="请选择">
+                  <el-select  size="small" v-model="row.documentType"  :placeholder="$i18nMy.t('请选择')">
                     <el-option v-for="item in $dictUtils.getDictList('pr_document_type')" :key="item.value" :label="item.label"
                       :value="item.value">
                     </el-option>
@@ -137,14 +137,14 @@
                         row.attachment =''
                       }"
                       :before-remove="(file, fileList) => {
-                        return $confirm(`确定移除 ${file.name}？`)
+                        return $confirm(`${$i18nMy.t('确定移除')} ${file.name}?`)
                       }"
                       :limit="1"
                       :on-exceed="(files, fileList) =>{
-                        $message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+                        $message.warning($common.stringFormat('当前限制选择 1 个文件，本次选择了 {0} 个文件，共选择了 {1} 个文件',files.length,files.length + fileList.length) )
                       }"
                       :file-list="attachmentsArra[row.id]">
-                      <el-button :disabled="!row.edit" style="padding: 5px 30px;"  size="small" type="primary" >上传</el-button>
+                      <el-button :disabled="!row.edit" style="padding: 5px 30px;"  size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
                     </el-upload>
               </template>
             </el-table-column>
@@ -272,7 +272,6 @@
       },
       // 表单提交
       saveForm(callBack) {
-        debugger
         if(this.supplementaryDoc.length ==0){
            this.$message.warning($i18nMy.t('请上传文档'))
            return ;

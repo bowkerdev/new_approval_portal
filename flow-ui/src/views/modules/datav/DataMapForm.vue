@@ -13,14 +13,14 @@
                 :rules="[
                   {required: true, message:'地图名称不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.name" placeholder="请填写地图名称"     ></el-input>
+              <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写地图名称')"     ></el-input>
            </el-form-item>
         </el-col>
          <el-col :span="12">
             <el-form-item label="地图说明" prop="remarks"
                 :rules="[
                  ]">
-          <el-input  v-model="inputForm.remarks" placeholder="请填写说明信息"     ></el-input>
+          <el-input  v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写说明信息')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -28,7 +28,7 @@
                 :rules="[
                   {required: true, message:'地图数据不能为空', trigger:'blur'}
                  ]">
-          <el-input type="textarea"  :autosize="{ minRows: 10, maxRows: 10}" v-model="inputForm.data" placeholder="请填写地图数据"     ></el-input>
+          <el-input type="textarea"  :autosize="{ minRows: 10, maxRows: 10}" v-model="inputForm.data" :placeholder="$i18nMy.t('请填写地图数据')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

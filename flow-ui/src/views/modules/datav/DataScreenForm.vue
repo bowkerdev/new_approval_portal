@@ -29,7 +29,7 @@
         </el-col>
         <el-col :span="24">
             <el-form-item label="名称" prop="name" :rules="[{required: true, message:'名称不能为空', trigger:'blur'}]">
-              <el-input v-model="inputForm.name" placeholder="请填写大屏名称" ></el-input>
+              <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写大屏名称')" ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="24" v-if="method === 'add'">
@@ -54,7 +54,7 @@
             <el-form-item label="启用" prop="status"
                 :rules="[
                  ]">
-                <el-select v-model="inputForm.status" placeholder="请选择"  style="width: 100%;">
+                <el-select v-model="inputForm.status" :placeholder="$i18nMy.t('请选择')"  style="width: 100%;">
                           <el-option
                             v-for="item in $dictUtils.getDictList('yes_no')"
                             :key="item.value"
@@ -68,7 +68,7 @@
             <el-form-item label="备注信息" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" placeholder="请填写备注信息"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写备注信息')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

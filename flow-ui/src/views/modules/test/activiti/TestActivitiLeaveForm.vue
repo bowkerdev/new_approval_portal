@@ -23,7 +23,7 @@
                       type="datetime"
                       style="width: 100%;"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      placeholder="选择日期时间">
+                      :placeholder="$i18nMy.t('选择日期时间')">
                     </el-date-picker>
            </el-form-item>
         </el-col>
@@ -37,7 +37,7 @@
                       type="datetime"
                       style="width: 100%;"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      placeholder="选择日期时间">
+                      :placeholder="$i18nMy.t('选择日期时间')">
                     </el-date-picker>
            </el-form-item>
         </el-col>
@@ -46,7 +46,7 @@
                 :rules="[
                   {required: true, message:'请假事由不能为空', trigger:'blur'}
                  ]">
-          <el-input type="textarea" v-model="inputForm.reason" placeholder="请填写请假事由"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.reason" :placeholder="$i18nMy.t('请填写请假事由')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

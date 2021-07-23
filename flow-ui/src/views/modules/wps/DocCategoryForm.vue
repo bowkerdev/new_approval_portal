@@ -32,7 +32,7 @@
                 :rules="[
                   {required: true, message:'名称不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.name" size="small" placeholder="请填写名称"     ></el-input>
+              <el-input v-model="inputForm.name" size="small" :placeholder="$i18nMy.t('请填写名称')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -41,14 +41,14 @@
                   {required: true, message:'排序不能为空', trigger:'blur'},
                   {validator: validator.isNumber, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.sort" size="small" placeholder="请填写排序"     ></el-input>
+              <el-input v-model="inputForm.sort" size="small" :placeholder="$i18nMy.t('请填写排序')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="24">
             <el-form-item label="备注信息" size="small" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" placeholder="请填写备注信息"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写备注信息')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

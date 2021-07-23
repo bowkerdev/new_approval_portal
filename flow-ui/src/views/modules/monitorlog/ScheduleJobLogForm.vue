@@ -12,56 +12,56 @@
             <el-form-item label="任务名" prop="name"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.name" placeholder="请填写任务名"     ></el-input>
+              <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写任务名')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item label="type" prop="type"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.type" placeholder="请填写type"     ></el-input>
+              <el-input v-model="inputForm.type" :placeholder="$i18nMy.t('请填写type')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item label="param" prop="param"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.param" placeholder="请填写param"     ></el-input>
+              <el-input v-model="inputForm.param" :placeholder="$i18nMy.t('请填写param')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item label="返回结果" prop="returnMsg"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.returnMsg" placeholder="请填写返回结果"     ></el-input>
+              <el-input v-model="inputForm.returnMsg" :placeholder="$i18nMy.t('请填写返回结果')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item label="OK/ERROR" prop="result"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.result" placeholder="请填写OK/ERROR"     ></el-input>
+              <el-input v-model="inputForm.result" :placeholder="$i18nMy.t('请填写OK/ERROR')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item label="start_time" prop="startTime"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.startTime" placeholder="请填写start_time"     ></el-input>
+              <el-input v-model="inputForm.startTime" :placeholder="$i18nMy.t('请填写start_time')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item label="end_time" prop="endTime"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.endTime" placeholder="请填写end_time"     ></el-input>
+              <el-input v-model="inputForm.endTime" :placeholder="$i18nMy.t('请填写end_time')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item label="remarks" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" placeholder="请填写remarks"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写remarks')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

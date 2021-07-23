@@ -12,7 +12,7 @@
             <el-form-item label="标题" prop="title"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.title" placeholder="请填写标题"     ></el-input>
+              <el-input v-model="inputForm.title" :placeholder="$i18nMy.t('请填写标题')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="24">

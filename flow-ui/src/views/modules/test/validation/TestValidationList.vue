@@ -3,10 +3,10 @@
       <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="num">
-                <el-input size="small" v-model="searchForm.num" placeholder="浮点数字" clearable></el-input>
+                <el-input size="small" v-model="searchForm.num" :placeholder="$i18nMy.t('浮点数字')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="num2">
-                <el-input size="small" v-model="searchForm.num2" placeholder="整数" clearable></el-input>
+                <el-input size="small" v-model="searchForm.num2" :placeholder="$i18nMy.t('整数')" clearable></el-input>
          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small" icon="el-icon-search">查询</el-button>

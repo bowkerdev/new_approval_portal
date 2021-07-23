@@ -74,14 +74,14 @@
                   {required: true, message:'分数不能为空', trigger:'blur'},
                   {validator: validator.isDigits, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.score" placeholder="请填写分数"     ></el-input>
+              <el-input v-model="inputForm.score" :placeholder="$i18nMy.t('请填写分数')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item label="备注信息" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" placeholder="请填写备注信息"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写备注信息')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

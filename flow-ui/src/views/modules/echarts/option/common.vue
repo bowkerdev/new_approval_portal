@@ -19,7 +19,7 @@
             <el-input-number v-model="main.activeOption.title.textStyle.fontSize"></el-input-number>
           </el-form-item>
           <el-form-item label="字体位置">
-            <el-select v-model="main.activeOption.title.left" placeholder="请选择">
+            <el-select v-model="main.activeOption.title.left" :placeholder="$i18nMy.t('请选择')">
               <el-option
                 v-for="item in dicOption.textAlign"
                 :key="item.value"
@@ -48,7 +48,7 @@
             </el-switch>
           </el-form-item>
            <el-form-item label="位置">
-              <el-select v-model="main.activeOption.extend.series.label.normal.position" placeholder="请选择">
+              <el-select v-model="main.activeOption.extend.series.label.normal.position" :placeholder="$i18nMy.t('请选择')">
                 <el-option
                   v-for="item in dicOption.labelPosition"
                   :key="item"
@@ -66,7 +66,7 @@
             </el-color-picker>
           </el-form-item>
           <el-form-item label="字体粗细">
-              <el-select v-model="main.activeOption.extend.series.label.normal.fontWeight" placeholder="请选择">
+              <el-select v-model="main.activeOption.extend.series.label.normal.fontWeight" :placeholder="$i18nMy.t('请选择')">
                 <el-option
                   v-for="item in dicOption.fontWeight"
                   :key="item.value"
@@ -129,7 +129,7 @@
             <el-switch v-model="main.activeOption.legend.show"></el-switch>
           </el-form-item>
           <el-form-item label="位置">
-              <el-select v-model="main.activeOption.legend.orient" placeholder="请选择">
+              <el-select v-model="main.activeOption.legend.orient" :placeholder="$i18nMy.t('请选择')">
                 <el-option
                   v-for="item in dicOption.orientList"
                   :key="item.value"

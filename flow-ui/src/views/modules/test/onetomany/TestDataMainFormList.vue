@@ -3,10 +3,10 @@
       <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="tuser.id">
-            <user-select :limit='1' size="small" placeholder="请选择用户" :value="searchForm.tuser.id" @getValue='(value) => {searchForm.tuser.id=value}'></user-select>
+            <user-select :limit='1' size="small" :placeholder="$i18nMy.t('请选择用户')" :value="searchForm.tuser.id" @getValue='(value) => {searchForm.tuser.id=value}'></user-select>
          </el-form-item>
          <el-form-item prop="name">
-                <el-input size="small" v-model="searchForm.name" placeholder="名称" clearable></el-input>
+                <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('名称')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="sex">
                   <el-radio-group v-model="searchForm.sex">

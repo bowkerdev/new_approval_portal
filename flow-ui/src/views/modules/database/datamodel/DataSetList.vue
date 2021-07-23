@@ -10,7 +10,7 @@
 				  </el-select>
 		     </el-form-item>
          <el-form-item prop="group">
-            <el-select v-model="searchForm.group" clearable  placeholder="组别" size="small">
+            <el-select v-model="searchForm.group" clearable  :placeholder="$i18nMy.t('组别')" size="small">
               <el-option
                 v-for="item in $dictUtils.getDictList('DATASOURCE_GROUP')"
                 :key="item.value"  :label="item.label"  :value="item.value">

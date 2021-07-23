@@ -62,7 +62,7 @@
                 :rules="[
                   {required: true, message:'名称不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.name" placeholder="请填写名称"     ></el-input>
+              <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写名称')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -123,7 +123,7 @@
                       type="datetime"
                       style="width: 100%;"
                       value-format="yyyy-MM-dd HH:mm:ss"
-                      placeholder="选择日期时间">
+                      :placeholder="$i18nMy.t('选择日期时间')">
                     </el-date-picker>
            </el-form-item>
         </el-col>
@@ -131,7 +131,7 @@
             <el-form-item label="备注信息" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" placeholder="请填写备注信息"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写备注信息')"     ></el-input>
            </el-form-item>
         </el-col>
     <el-col :span="24">

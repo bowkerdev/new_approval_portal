@@ -29,7 +29,7 @@
       <el-col :span="16">
         <el-form-item  v-if="!procInsId"  label="流程标题" prop="title">
           <el-input
-            placeholder="请输入流程标题"
+            :placeholder="$i18nMy.t('请输入流程标题')"
             v-model="title">
           </el-input>
       </el-form-item>
@@ -37,7 +37,7 @@
           <el-input
             type="textarea"
             :rows="3"
-            placeholder="请输入审批意见"
+            :placeholder="$i18nMy.t('请输入审批意见')"
             v-model="auditForm.message">
           </el-input>
       </el-form-item>

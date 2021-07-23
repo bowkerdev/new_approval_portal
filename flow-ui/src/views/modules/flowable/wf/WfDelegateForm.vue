@@ -26,28 +26,28 @@
             <el-form-item label="开始时间" prop="startTime"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.startTime" placeholder="请填写开始时间"     ></el-input>
+              <el-input v-model="inputForm.startTime" :placeholder="$i18nMy.t('请填写开始时间')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item label="结束时间" prop="endTime"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.endTime" placeholder="请填写结束时间"     ></el-input>
+              <el-input v-model="inputForm.endTime" :placeholder="$i18nMy.t('请填写结束时间')"     ></el-input>
            </el-form-item>
         </el-col>
         <!-- <el-col :span="12">
             <el-form-item label="task_name" prop="taskName"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.taskName" placeholder="请填写task_name"     ></el-input>
+              <el-input v-model="inputForm.taskName" :placeholder="$i18nMy.t('请填写task_name')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item label="申请单号" prop="applicationNo"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.applicationNo" placeholder="请填写申请单号"     ></el-input>
+              <el-input v-model="inputForm.applicationNo" :placeholder="$i18nMy.t('请填写申请单号')"     ></el-input>
            </el-form-item>
         </el-col> -->
         </el-row>

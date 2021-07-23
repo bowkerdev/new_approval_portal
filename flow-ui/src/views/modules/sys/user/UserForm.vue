@@ -85,7 +85,7 @@
         </el-col>
         <el-col :span="24">
           <el-form-item :label="$i18nMy.t('角色')" prop="roleIdList">
-              <el-select v-model="inputForm.roleIdList" style="width:100%" multiple placeholder="请选择">
+              <el-select v-model="inputForm.roleIdList" style="width:100%" multiple :placeholder="$i18nMy.t('请选择')">
                 <el-option
                   v-for="role in roleList"
                   :key="role.id"

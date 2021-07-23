@@ -3,7 +3,7 @@
     :close-on-click-modal="false"
      v-dialogDrag
     :visible.sync="visible" :appendToBody="true">
-         <el-select v-model="backTaskDefKey" style="width:100%" placeholder="请选择驳回节点">
+         <el-select v-model="backTaskDefKey" style="width:100%" :placeholder="$i18nMy.t('请选择驳回节点')">
           <el-option
             v-for="item in backNodes"
             :key="item.taskDefKey"

@@ -32,7 +32,7 @@
                             @getValue="(value) => {inputForm.db.id=value}"/>
                       </el-form-item>
                       <el-form-item label="组别" prop="group" :rules="[{required: true, message:'组别', trigger:'blur'} ]">
-                          <el-select v-model="inputForm.group" placeholder="请选择"  style="width: 100%;">
+                          <el-select v-model="inputForm.group" :placeholder="$i18nMy.t('请选择')"  style="width: 100%;">
                               <el-option  v-for="item in $dictUtils.getDictList('DATASOURCE_GROUP')"
                                 :key="item.value" :label="item.label" :value="item.value">
                               </el-option>

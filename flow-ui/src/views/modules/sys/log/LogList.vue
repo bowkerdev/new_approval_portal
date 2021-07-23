@@ -45,7 +45,7 @@
             <el-input size="small" v-model="searchForm.createBy.name" :placeholder="$i18nMy.t('操作用户')" clearable></el-input>
         </el-form-item>
         <el-form-item prop="requestUri">
-            <el-input size="small" v-model="searchForm.requestUri" placeholder="URI" clearable></el-input>
+            <el-input size="small" v-model="searchForm.requestUri" :placeholder="$i18nMy.t('URI')" clearable></el-input>
         </el-form-item>
         <el-form-item>
           <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>

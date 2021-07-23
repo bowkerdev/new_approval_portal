@@ -82,22 +82,22 @@
           <el-form-item label="accessKeyId" :rules="[
                   {required: true, message:'必填项不能为空', trigger:'blur'}
                  ]">
-            <el-input v-model="smsFormSetting.accessKeyId" placeholder="此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)"></el-input>
+            <el-input v-model="smsFormSetting.accessKeyId" :placeholder="$i18nMy.t('此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)')"></el-input>
           </el-form-item>
           <el-form-item label="accessKeySecret" :rules="[
                   {required: true, message:'必填项不能为空', trigger:'blur'}
                  ]">
-            <el-input v-model="smsFormSetting.accessKeySecret" placeholder="此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)"></el-input>
+            <el-input v-model="smsFormSetting.accessKeySecret" :placeholder="$i18nMy.t('此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)')"></el-input>
           </el-form-item>
           <el-form-item :label="$i18nMy.t('短信签名')" :rules="[
                   {required: true, message:'必填项不能为空', trigger:'blur'}
                  ]">
-            <el-input v-model="smsFormSetting.signature" placeholder="必填:短信签名-可在短信控制台中找到"></el-input>
+            <el-input v-model="smsFormSetting.signature" :placeholder="$i18nMy.t('必填:短信签名-可在短信控制台中找到')"></el-input>
           </el-form-item>
           <el-form-item :label="$i18nMy.t('短信模板')" :rules="[
                   {required: true, message:'必填项不能为空', trigger:'blur'}
                  ]">
-            <el-input v-model="smsFormSetting.templateCode" placeholder="必填:短信模板编号-可在短信控制台中找到"></el-input>
+            <el-input v-model="smsFormSetting.templateCode" :placeholder="$i18nMy.t('必填:短信模板编号-可在短信控制台中找到')"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="doSubmit(smsFormSetting)">{{$i18nMy.t('保存')}}</el-button>
@@ -114,22 +114,22 @@
           <el-form-item :label="$i18nMy.t('邮箱服务器地址')" :rules="[
                   {required: true, message:'必填项不能为空', trigger:'blur'}
                  ]">
-            <el-input v-model="emailFormSetting.smtp" placeholder="此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)"></el-input>
+            <el-input v-model="emailFormSetting.smtp" :placeholder="$i18nMy.t('此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)')"></el-input>
           </el-form-item>
           <el-form-item :label="$i18nMy.t('邮箱服务器端口')" :rules="[
                   {required: true, message:'必填项不能为空', trigger:'blur'}
                  ]">
-            <el-input v-model="emailFormSetting.port" placeholder="此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)"></el-input>
+            <el-input v-model="emailFormSetting.port" :placeholder="$i18nMy.t('此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)')"></el-input>
           </el-form-item>
           <el-form-item :label="$i18nMy.t('系统邮箱地址')" :rules="[
                   {required: true, message:'必填项不能为空', trigger:'blur'}
                  ]">
-            <el-input v-model="emailFormSetting.mailName" placeholder="必填:短信签名-可在短信控制台中找到"></el-input>
+            <el-input v-model="emailFormSetting.mailName" :placeholder="$i18nMy.t('必填:短信签名-可在短信控制台中找到')"></el-input>
           </el-form-item>
           <el-form-item :label="$i18nMy.t('系统邮箱密码')" :rules="[
                   {required: true, message:'必填项不能为空', trigger:'blur'}
                  ]">
-            <el-input v-model="emailFormSetting.mailPassword" placeholder="必填:短信模板编号-可在短信控制台中找到"></el-input>
+            <el-input v-model="emailFormSetting.mailPassword" :placeholder="$i18nMy.t('必填:短信模板编号-可在短信控制台中找到')"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="doSubmit(emailFormSetting)">{{$i18nMy.t('保存')}}</el-button>

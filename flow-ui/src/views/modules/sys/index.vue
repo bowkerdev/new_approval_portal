@@ -105,7 +105,7 @@
                 :key="Math.random()"
                 header-align="center"
                 align="center"
-                width="200"
+                width="100"
                 :label="$i18nMy.t('操作')">
                 <template slot-scope="scope">
                   <!-- <el-button v-if="scope.row.status === 'claim'" type="text" size="small" @click="claim(scope.row)">{{$i18nMy.t('签收任务')}}</el-button> -->
@@ -190,7 +190,7 @@
                   :key="Math.random()"
                   header-align="center"
                   align="center"
-                  width="200"
+                  width="100"
                   :label="$i18nMy.t('操作')">
                   <template slot-scope="scope">
                     <!-- <el-button v-if="scope.row.status === 'claim'" type="text" size="small" @click="claim(scope.row)">{{$i18nMy.t('签收任务')}}</el-button> -->

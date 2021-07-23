@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="wrap">
     <el-input :placeholder="$i18nMy.t('请选择')" :size="size" :readonly="true" style="line-hight:40px" v-model="name" class="input-with-select" >
-      <el-button slot="append" @click="showSelectDialog" icon="el-icon-search"></el-button>
     </el-input>
+    <el-button class="select-btn" type="primary" plain :disabled="disabled" @click="showSelectDialog" icon="el-icon-search"></el-button>
     <el-dialog
     :title="title"
     :close-on-click-modal="false"
@@ -346,3 +346,14 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+.wrap {
+  position: relative;
+
+  .select-btn {
+    position: absolute;
+    right: 0;
+  }
+}
+</style>

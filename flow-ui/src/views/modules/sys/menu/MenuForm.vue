@@ -161,6 +161,9 @@
           method: 'get'
         }).then(({data}) => {
           this.menuList = data.treeData
+          if(this.menuList.length==0){
+            this.menuList =JSON.parse("[{\"id\":\"1\",\"createBy\":{\"id\":\"1\",\"roleIds\":\"\",\"admin\":true,\"roleIdList\":[],\"roleNames\":\"\"},\"createDate\":\"2013-05-27 16:00:00\",\"updateBy\":{\"id\":\"1\",\"roleIds\":\"\",\"admin\":true,\"roleIdList\":[],\"roleNames\":\"\"},\"updateDate\":\"2013-05-27 16:00:00\",\"parent\":{\"id\":\"0\",\"sort\":30,\"children\":[],\"isShow\":\"1\",\"type\":\"1\",\"platform\":\"portal\",\"parentId\":\"0\"},\"parentIds\":\"0,\",\"name\":\"功能菜单\",\"sort\":0,\"children\":[],\"icon\":\"fa fa-home\",\"isShow\":\"1\",\"type\":\"1\",\"platform\":\"portal\",\"parentId\":\"0\"}]")
+          }
           this.inputForm.parent.id = ''
           this.inputForm.parent.name = ''
         }).then(() => {
@@ -194,6 +197,9 @@
           method: 'get'
         }).then(({data}) => {
           this.menuList = data.treeData
+          if(this.menuList.length==0){
+            this.menuList =JSON.parse("[{\"id\":\"1\",\"createBy\":{\"id\":\"1\",\"roleIds\":\"\",\"admin\":true,\"roleIdList\":[],\"roleNames\":\"\"},\"createDate\":\"2013-05-27 16:00:00\",\"updateBy\":{\"id\":\"1\",\"roleIds\":\"\",\"admin\":true,\"roleIdList\":[],\"roleNames\":\"\"},\"updateDate\":\"2013-05-27 16:00:00\",\"parent\":{\"id\":\"0\",\"sort\":30,\"children\":[],\"isShow\":\"1\",\"type\":\"1\",\"platform\":\"portal\",\"parentId\":\"0\"},\"parentIds\":\"0,\",\"name\":\"功能菜单\",\"sort\":0,\"children\":[],\"icon\":\"fa fa-home\",\"isShow\":\"1\",\"type\":\"1\",\"platform\":\"portal\",\"parentId\":\"0\"}]")
+          }
         }).then(() => {
           this.visible = true
           this.$nextTick(() => {

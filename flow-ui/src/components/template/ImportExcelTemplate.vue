@@ -140,6 +140,30 @@ export default {
       _that.percentage = 0;
       _that.loading = false;
     },
+
+    dataURLtoBlob:function(dataurl) {
+      var raw =window.atob(dataurl);
+      var rawLength=raw.length;
+      var uInt8Array=new Uint8Array(rawLength);
+      for(var i=0;i<rawLength;i++){
+        uInt8Array[i]=raw.charCodeAt(i);
+      }
+      return new Blob([uInt8Array],{type:'application/vnd.ms-excel'})
+    },
+    downloadFile:function (url,name){
+      var a = document.createElement("a")
+      a.setAttribute("href",url)
+      a.setAttribute("download",name)
+      a.setAttribute("target","_blank")
+      var clickEvent = document.createEvent("MouseEvents");
+      clickEvent.initEvent("click", true, true);
+      a.dispatchEvent(clickEvent);
+    },
+    downloadFileByBase64:function(base64,name){
+      var myBlob = this.dataURLtoBlob(base64)
+      var myUrl = URL.createObjectURL(myBlob)
+      this.downloadFile(myUrl,name)
+    },
     // 导入成功
     uploadSuccess (res, file) {
       let _that = this;

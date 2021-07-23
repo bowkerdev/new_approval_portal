@@ -270,8 +270,8 @@ export function asyncDownloadPost (url, params) {
   else{
     var tokenType=process.env.VUE_APP_SSO_TYPE
   }
-  var commonToolsApi ="http://8.210.92.25:8080/zhimitool/ie/taskQueue/push"
-  var commonToolsProcessUrl ="http://8.210.92.25:8080/commontools-ui-bowker/#/ie/UploadDownloadContent"
+  var commonToolsApi ="https://commontools.bowkerasia.com/zhimitool/ie/taskQueue/push"
+  var commonToolsProcessUrl ="https://commontools.bowkerasia.com/commontools-ui-bowker/#/ie/UploadDownloadContent"
   $http({
     method: 'POST',
     url:commonToolsApi+'/export',

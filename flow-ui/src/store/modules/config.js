@@ -1,3 +1,5 @@
+import { defaultThemeColor } from '@/utils/theme-color'
+
 export default {
   namespaced: true,
   state: {
@@ -15,7 +17,7 @@ export default {
    /*
       外观配置
     */
-    defaultTheme: localStorage.getItem('defaultTheme'), // 默认主题
+    defaultTheme: localStorage.getItem('defaultTheme') || defaultThemeColor, // 默认主题
     defaultLayout: localStorage.getItem('defaultLayout'),
     productName: '', // 产品名称
     logo: '' // 产品logo: '',

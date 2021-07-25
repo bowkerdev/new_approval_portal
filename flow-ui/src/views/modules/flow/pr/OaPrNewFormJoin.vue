@@ -1,14 +1,11 @@
 <template>
   <div style="height: 100%">
-        <el-tabs  type="border-card">
+        <el-tabs  type="border-card" v-model="activeName">
           <el-tab-pane :label="$i18nMy.t('主要信息')" >
-            <OaPrNewForm :formReadOnly="true"  ref="oaPrNewForm" ></OaPrNewForm>
+            <OaPrNewForm  ref="oaPrNewForm" ></OaPrNewForm>
           </el-tab-pane>
           <el-tab-pane :label="$i18nMy.t('补充文件')" >
-            <OaPrNewFormForDoc :formReadOnly="true" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
-          </el-tab-pane>
-          <el-tab-pane :label="$i18nMy.t('供应商报价和合同')" >
-            <OaPrNewFormForSupplier :formReadOnly="true" ref="oaPrNewFormForSupplier" ></OaPrNewFormForSupplier>
+            <OaPrNewFormForDoc ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
           </el-tab-pane>
         </el-tabs>
   </div>
@@ -17,10 +14,10 @@
 <script>
   import OaPrNewForm from './OaPrNewForm'
   import OaPrNewFormForDoc from './OaPrNewFormForDoc'
-  import OaPrNewFormForSupplier from './OaPrNewFormForSupplier'
   export default {
     data() {
       return {
+        activeName:'0',
         title: '',
         method: '',
         loading: false,
@@ -35,21 +32,35 @@
     },
     components: {
       OaPrNewForm,
-      OaPrNewFormForDoc,
-      OaPrNewFormForSupplier
+      OaPrNewFormForDoc
+    },
+    watch:{
+      activeName(val, oldVal){//普通的watch监听
+        debugger
+        if(val=='0'){
+          this.$refs.oaPrNewForm.inputForm.supplementaryDoc=
+            JSON.stringify(this.$refs.oaPrNewFormForDoc.supplementaryDoc)
+        }
+        else{
+          this.$refs.oaPrNewFormForDoc.inputForm=this.$refs.oaPrNewForm.inputForm
+          this.$refs.oaPrNewFormForDoc.detailInfo=this.$refs.oaPrNewForm.detailInfo
+        }
+      }
     },
     activated() {
-      //this.init()
+      var query={businessId:'77e400d5c0734a7fa55e43d6369c66ed'}
+      this.init(query)
     },
     methods: {
       init(query) {
         this.businessId=query.businessId
         this.$refs.oaPrNewForm.init(query)
         this.$refs.oaPrNewFormForDoc.init(query)
-        this.$refs.oaPrNewFormForSupplier.init(query)
       },
       // 表单提交
       saveForm(callBack) {
+        this.$refs.oaPrNewForm.inputForm.supplementaryDoc=
+          JSON.stringify(this.$refs.oaPrNewFormForDoc.supplementaryDoc)
         callBack("oa_pr_new", this.businessId)
       }
     }

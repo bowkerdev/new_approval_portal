@@ -494,7 +494,7 @@
         }
         this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
         this.inputForm.supplierInfo=JSON.stringify(this.supplierInfo)
-
+        this.inputForm.totalBaseAmount=this.inputForm.exRate*this.inputForm.totalContractAmount
         this.$refs['inputForm'].validate((valid) => {
           if (valid) {
             this.loading = true
@@ -507,7 +507,7 @@
             }) => {
               this.loading = false
               if (data && data.success) {
-                 callBack(data.businessTable, data.businessId)
+                //callBack(data.businessTable, data.businessId)
               }
               else{
                 this.$message.error(data.msg)
@@ -579,12 +579,12 @@
         this.detailInfo.splice(this.detailInfo.length)
       },
       _updateDetailInfoDocUnitPrice(){
-        debugger
         for(var i=0;i<this.detailInfo.length;i++){
           var obj=this.detailInfo[i]
           obj.docUnitPrice = 0
           obj.docAmount  =0
         }
+        this.inputForm.totalContractAmount = 0
         for(var i=0;i<this.supplierInfo.length;i++){
           if(!this.supplierInfo[i].edit){
             for(var j=0;j<this.supplierInfo[i].detailInfo.length;j++){
@@ -595,6 +595,7 @@
                  obj.docUnitPrice = this.supplierInfo[i].detailInfo[j].offeredUnitPrice
                  obj.docAmount = this.supplierInfo[i].detailInfo[j].offeredUnitPrice*
                   parseInt(this.supplierInfo[i].detailInfo[j].moq||"0")
+                 this.inputForm.totalContractAmount += obj.docAmount
               }
             }
           }
@@ -637,7 +638,6 @@
         }
       },
       _getSupplierArrivalDate(){
-        debugger
         for(var h=0;h<this.supplierInfo.length;h++){
           var supplierInfo=this.supplierInfo[h]
           if(!supplierInfo.edit){

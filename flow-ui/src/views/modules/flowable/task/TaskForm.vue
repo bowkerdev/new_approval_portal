@@ -74,14 +74,12 @@
 </el-card>
 
 <div class="FlowFormFooter">
-
   <template v-for="(button, index) in buttons">
       <template  v-show="button.isHide === '0'">
         <el-button type="primary"  v-if="button.code !== '_flow_print'"  :key="index" @click="submit(button, buttons)"  v-noMoreClick plain>{{button.name}}</el-button>
         <el-button type="primary" v-if="button.code === '_flow_print'" v-print="printObj" :key="index" @click="submit(button, buttons)"  v-noMoreClick plain>{{button.name}}</el-button>
       </template>
   </template>
-
 </div>
 <task-back-nodes ref="taskBackNodes" @getBackTaskDefKey="back"/>
 <user-select-dialog title="选择转办用户" ref="transferUserSelectDialog" :limit="1" @doSubmit="selectUsersToTransferTask"></user-select-dialog>
@@ -138,7 +136,7 @@
       }
        // 读取按钮配置
       if (this.status === 'start') {
-        this.buttons = [{code: '_flow_start', name: '启动', isHide: '0'}]
+        this.buttons = [{code: '_flow_start', name: '启动', isHide: '0'},{code: '_flow_save', name: '暂存', isHide: '0'}]
       } else if (this.procDefKey && this.taskDefKey) {
         // 读取按钮
         this.$http.get('/extension/taskDefExtension/queryByDefIdAndTaskId', {params: {
@@ -230,7 +228,9 @@
       },
       // 暂存草稿
       save () {
-
+        this.$refs.form.saveForm((businessTable, businessId) => {
+          
+        })
       },
       // 启动流程
       start (vars) {

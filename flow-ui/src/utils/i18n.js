@@ -15,17 +15,17 @@ var langList = [{
     src: "/static/images/china.png",
     text: "中国 中文"
   },
-  {
+  /* {
     lang: 'zh-TW',
     src: "/static/images/cnhk.png",
     text: "中國香港 繁體中文"
-  },
+  }, */
   {
     lang: 'en-US',
     src: "/static/images/united-kingdom.png",
     text: "EN English"
   },
-  {
+ /* {
     lang: 'vn',
     src: "/static/images/vn.png",
     text: "VN Việt Nam"
@@ -34,7 +34,7 @@ var langList = [{
     lang: 'cam',
     src: "/static/images/cam.png",
     text: "CAM Cambodia"
-  },
+  }, */
 ]
 const setup = lang => {
   localStorage.setItem('lang', lang)

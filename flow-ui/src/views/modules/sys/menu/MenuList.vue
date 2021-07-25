@@ -138,7 +138,7 @@
         loading: false,
         dataRuleTitle: '',
         searchForm: {
-	  platform:'portal',
+          platform:'portal',
           name: ''
         },
         dataList: []
@@ -156,7 +156,7 @@
       refreshList () {
         this.loading = true
         this.$http({
-          url: '/sys/menu/treeData2?platform='+this.platform,
+          url: '/sys/menu/treeData2?platform='+this.searchForm.platform,
           method: 'get'
         }).then(({data}) => {
           this.loading = false

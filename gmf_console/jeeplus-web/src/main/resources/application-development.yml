@@ -45,19 +45,19 @@ spring:
       p6spy: false # 默认false,线上必须关闭。开发阶段可以打开调试输出mybatis语句，但是有许多莫名其妙的bug，以及严重的性能问题，所以正式环境必须关闭。
       datasource:
         master:
-          username: root
-          password: 123456
+          #username: root
+          #password: 123456
           #url: jdbc:mysql://gmfzhimi.oicp.io:29823/digital_guilin?useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true&serverTimezone=GMT&allowMultiQueries=true
-          url: jdbc:mysql://192.168.2.136:3306/flow?useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true&serverTimezone=GMT&allowMultiQueries=true
+          #url: jdbc:mysql://192.168.2.136:3306/flow?useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true&serverTimezone=GMT&allowMultiQueries=true
           
           #username: zhimi
           #password: zhimi@123
           #url: jdbc:mysql://rm-wz9w577q07r007727hm.mysql.rds.aliyuncs.com:3306/digital_guilin?useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true&serverTimezone=Asia/Shanghai
           
-          #username: root
-          #password: root
-          #url: jdbc:mysql://127.0.0.1:3306/flow?useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true&autoReconnect=true&serverTimezone=Asia/Shanghai
-          #driver-class-name: com.mysql.cj.jdbc.Driver
+          username: root
+          password: root
+          url: jdbc:mysql://127.0.0.1:3306/flow?useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true&autoReconnect=true&serverTimezone=Asia/Shanghai
+          driver-class-name: com.mysql.cj.jdbc.Driver
           
           #oracle database settings
           #            username: monitor

@@ -4,7 +4,7 @@
     <el-row :gutter="10" style="margin-bottom: 10px">
       <el-col :lg="24" :md="24" :sm="24" :xs="24">
         <el-card
-          header="流程申请"
+          :header="$i18nMy.t('流程申请')"
           class="pie-card"
         >
           <el-row>
@@ -53,20 +53,14 @@
         :lg="12" :md="12" :sm="12" :xs="12"
       >
         <el-card
-          header="我的待办"
+          :header="$i18nMy.t('我的待办')"
         >
           <el-table
               :data="dataList"
               size = "small"
               v-loading="loading"
-              height="286px"
-              class="table">
-              <el-table-column
-                type="selection"
-                header-align="center"
-                align="center"
-                width="50">
-              </el-table-column>
+              height="277px"
+              class="table my-table-margin">
               <el-table-column
                 prop="vars.title"
                 min-width="180px"
@@ -105,7 +99,7 @@
                 :key="Math.random()"
                 header-align="center"
                 align="center"
-                width="200"
+                width="150"
                 :label="$i18nMy.t('操作')">
                 <template slot-scope="scope">
                   <!-- <el-button v-if="scope.row.status === 'claim'" type="text" size="small" @click="claim(scope.row)">{{$i18nMy.t('签收任务')}}</el-button> -->
@@ -124,7 +118,7 @@
               </el-button-group>
             </el-row>
             <el-dialog
-             title="查看进度"
+             :title="$i18nMy.t('查看进度')"
              :close-on-click-modal="true"
              :visible.sync="visible"
               v-dialogDrag
@@ -138,20 +132,14 @@
           :lg="12" :md="12" :sm="12" :xs="12"
         >
           <el-card
-            header="委托待办"
+            :header="$i18nMy.t('委托待办')"
           >
             <el-table
                 :data="delegateList"
                 size = "small"
                 v-loading="loading"
-                height="286px"
-                class="table">
-                <el-table-column
-                  type="selection"
-                  header-align="center"
-                  align="center"
-                  width="50">
-                </el-table-column>
+                height="277px"
+                class="table my-table-margin">
                 <el-table-column
                   prop="vars.title"
                   min-width="180px"
@@ -190,7 +178,7 @@
                   :key="Math.random()"
                   header-align="center"
                   align="center"
-                  width="200"
+                  width="150"
                   :label="$i18nMy.t('操作')">
                   <template slot-scope="scope">
                     <!-- <el-button v-if="scope.row.status === 'claim'" type="text" size="small" @click="claim(scope.row)">{{$i18nMy.t('签收任务')}}</el-button> -->
@@ -204,12 +192,12 @@
               <el-row>
                 <el-button-group class="pull-right" style="margin-top: 15px;">
                   <el-tooltip class="item" effect="dark" content="More" placement="top">
-                    <el-button type="text" size="small" >{{$i18nMy.t('总数')}}</el-button>
+                    <el-button type="text" size="small" >{{$i18nMy.t('更多')}}</el-button>
                   </el-tooltip>
                 </el-button-group>
               </el-row>
               <el-dialog
-               title="查看进度"
+               :title="$i18nMy.t('查看进度')"
                :close-on-click-modal="true"
                :visible.sync="visible"
                 v-dialogDrag
@@ -222,32 +210,18 @@
         </el-row>
         <el-row :gutter="10" style="margin-bottom: 10px">
           <el-col
-            :lg="24" :md="24" :sm="24" :xs="24"
+            :lg="12" :md="12" :sm="12" :xs="12"
           >
         <el-card
-          header="我的经办"
+          :header="$i18nMy.t('我的经办')"
         >
             <el-table
               :data="dataList1"
               size = "small"
               v-loading="loading1"
-              class="table">
-              <el-table-column
-                type="selection"
-                header-align="center"
-                align="center"
-                width="50">
-              </el-table-column>
-              <el-table-column
-                prop="name"
-                show-overflow-tooltip=""
-                :label="$i18nMy.t('任务')">
-                <template slot-scope="scope">
-                  {{scope.row.name}}
-                     <el-button v-if="scope.row.back" type="warning" size="mini"
-                            @click="callback(scope.row)">{{$i18nMy.t('撤销')}}</el-button>
-                </template>
-              </el-table-column>
+              height="277px"
+              class="table my-table-margin">
+
               <el-table-column
                 prop="vars.title"
                 show-overflow-tooltip
@@ -257,6 +231,16 @@
               <el-table-column
                 prop="processDefinitionName"
                 :label="$i18nMy.t('流程名称')">
+              </el-table-column>
+              <el-table-column
+                prop="name"
+                show-overflow-tooltip=""
+                :label="$i18nMy.t('任务')">
+                <template slot-scope="scope">
+                  {{scope.row.name}}
+                     <!-- <el-button v-if="scope.row.back" type="warning" size="mini"
+                            @click="callback(scope.row)">{{$i18nMy.t('撤销')}}</el-button> -->
+                </template>
               </el-table-column>
               <el-table-column
                 prop="status"
@@ -273,7 +257,7 @@
               <el-table-column
                 prop="endTime"
                 show-overflow-tooltip
-                :label="$i18nMy.t('完成时间')">
+                :label="$i18nMy.t('处理时间')">
                  <template slot-scope="scope">
                   {{scope.row.endTime | formatDate}}
                  </template>
@@ -295,6 +279,78 @@
               <el-button-group class="pull-right" style="margin-top: 15px;">
                 <el-tooltip class="item" effect="dark" content="More" placement="top">
                   <el-button type="text" size="small" @click="toHistoryList">{{$i18nMy.t('更多')}}</el-button>
+                </el-tooltip>
+              </el-button-group>
+            </el-row>
+        </el-card>
+      </el-col>
+      <el-col
+        :lg="12" :md="12" :sm="12" :xs="12"
+      >
+        <el-card
+          :header="$i18nMy.t('我的申请')"
+        >
+            <el-table
+              :data="dataList3"
+              size = "small"
+              v-loading="loading3"
+              height="277px"
+              class="table my-table-margin">
+              <el-table-column
+                prop="vars.title"
+                show-overflow-tooltip
+                min-width="180px"
+                :label="$i18nMy.t('实例标题')">
+              </el-table-column>
+              <el-table-column
+                prop="processDefinitionName"
+                show-overflow-tooltip
+                :label="$i18nMy.t('流程名称')">
+              </el-table-column>
+               <el-table-column
+                prop="taskName"
+                show-overflow-tooltip
+                :label="$i18nMy.t('当前环节')">
+              </el-table-column>
+               <el-table-column
+                prop="status"
+                show-overflow-tooltip
+                :label="$i18nMy.t('办理状态')">
+                <template slot-scope="scope">
+                      <el-tag  :type="scope.row.level"   effect="dark" size="small">{{scope.row.status}} </el-tag>
+                 </template>
+              </el-table-column>
+              <el-table-column
+                prop="startTime"
+                show-overflow-tooltip
+                :label="$i18nMy.t('创建时间')">
+                 <template slot-scope="scope">
+                  {{scope.row.startTime | formatDate}}
+                 <!-- <p class="text-grey">{{scope.row.endTime | formatDate}}</p> -->
+                 </template>
+              </el-table-column>
+
+              <el-table-column
+                :label="$i18nMy.t('操作')">
+                <template slot-scope="scope">
+                   <el-button  type="text" size="small" @click="detail(scope.row)">{{$i18nMy.t('历史')}}</el-button>
+                    <!-- <el-dropdown  size="small" style=" margin-left: 10px;">
+                        <el-button type="text" size="small">
+                              更多<i class="el-icon-arrow-down el-icon--right"></i>
+                        </el-button>
+                        <el-dropdown-menu slot="dropdown" >
+                          <el-dropdown-item v-if="scope.row.code === 1" ><el-button type="text"  size="small" @click="urge(scope.row)">催办</el-button></el-dropdown-item>
+                          <el-dropdown-item v-if="scope.row.code === 1"><el-button type="text"  size="small" @click="revoke(scope.row)">撤销</el-button></el-dropdown-item>
+                          <el-dropdown-item v-if="scope.row.code === 3 || scope.row.code === 4"><el-button  type="text" color="red"  size="small" @click="restart(scope.row)">编辑</el-button></el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown> -->
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-row>
+              <el-button-group class="pull-right" style="margin-top: 15px;">
+                <el-tooltip class="item" effect="dark" content="More" placement="top">
+                  <el-button type="text" size="small" @click="toApplyList">{{$i18nMy.t('更多')}}</el-button>
                 </el-tooltip>
               </el-button-group>
             </el-row>
@@ -339,6 +395,9 @@ export default Vue.extend({
       dataList2: [],
       total2: 0,
       loading2: false,
+      dataList3: [],
+      total3: 0,
+      loading3: false,
       visible: false,
       currentTask: null,
       dataListSelections: [],
@@ -352,6 +411,7 @@ export default Vue.extend({
     this.refreshList()
     this.refreshList1()
     this.refreshList2()
+    this.refreshList3()
   },
   computed: {
     tags () {
@@ -373,8 +433,26 @@ export default Vue.extend({
 
   },
   methods: {
+    refreshList3 () {
+      this.loading3 = true
+      this.$http({
+        url: '/flowable/task/myApplyed',
+        method: 'get',
+        params: {
+          'pageNo': this.pageNo,
+          'pageSize': this.pageSize,
+          ...this.searchForm
+        }
+      }).then(({data}) => {
+        if (data && data.success) {
+          this.dataList3 = data.page.list
+          this.total3 = data.page.count
+          this.loading3 = false
+        }
+      })
+    },
     refreshList2 () {
-      this.loading = true
+      this.loading2 = true
       this.$http({
         url: '/flowable/process/list',
         method: 'get',
@@ -451,6 +529,9 @@ export default Vue.extend({
     toHistoryList () {
       this.$router.push(`/flowable/task/HistoryList`)
     },
+    toApplyList () {
+      this.$router.push(`/flowable/task/ApplyList`)
+    },
     todo (row) {
       this.$http.get('/flowable/task/getTaskDef', {params: {
         taskId: row.task.id,
@@ -485,7 +566,7 @@ export default Vue.extend({
         if (data.success) {
           this.$router.push({
             path: '/flowable/task/TaskFormDetail',
-            query: {readOnly: true, taskId: row.executionId, title: `${row.processDefinitionName}【${row.name}】`, formTitle: `${row.vars.title}`, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
+            query: {readOnly: true, taskId: row.executionId, title: `${row.processDefinitionName}【${row.name || row.taskName}】`, formTitle: `${row.vars.title}`, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
           })
         }
       })
@@ -524,7 +605,12 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 @import '@/assets/scss/theme.scss';
-
+.el-card__header {
+    padding: 10px 20px !important;
+}
+.my-table-margin {
+    margin-top: -10px;
+}
 .func-text {
   margin-top: 10px;
 }
@@ -598,4 +684,5 @@ export default Vue.extend({
     height: auto;
   }
 }
+
 </style>

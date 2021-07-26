@@ -130,12 +130,12 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('预算类型')" prop="budgetType" :rules="[]">
-            <el-select v-model="inputForm.budgetType" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
-              <el-option v-for="item in $dictUtils.getDictList('it_pr_budget')" :key="item.value" :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
+          <el-form-item label-width="220px" :label="$i18nMy.t('是否预算内')" prop="isBudget" :rules="[
+                 ]">
+            <el-radio-group v-model="inputForm.isBudget">
+              <el-radio v-for="item in $dictUtils.getDictList('yes_no')" :label="item.value" :key="item.value">
+                {{item.label}}</el-radio>
+            </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -148,23 +148,23 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('是否预算内')" prop="isBudget" :rules="[
-                 ]">
-            <el-radio-group v-model="inputForm.isBudget">
-              <el-radio v-for="item in $dictUtils.getDictList('yes_no')" :label="item.value" :key="item.value">
-                {{item.label}}</el-radio>
-            </el-radio-group>
+        <!-- <el-col :span="12">
+          <el-form-item label-width="220px" :label="$i18nMy.t('预算类型')" prop="budgetType" :rules="[]">
+            <el-select v-model="inputForm.budgetType" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
+              <el-option v-for="item in $dictUtils.getDictList('it_pr_budget')" :key="item.value" :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
-        </el-col>
-        <el-col :span="12">
+        </el-col> -->
+        <!-- <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('审批通过日期')" prop="approvedDate" :rules="[
                  ]">
             <el-date-picker v-model="inputForm.approvedDate" type="datetime" style="width: 100%;"
               value-format="yyyy-MM-dd HH:mm:ss" :placeholder="$i18nMy.t('选择日期时间')">
             </el-date-picker>
           </el-form-item>
-        </el-col>
+        </el-col> -->
 
       </el-row>
       <el-row :gutter="15">

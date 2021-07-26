@@ -85,6 +85,8 @@ public class OaPrNew extends DataEntity<OaPrNew> {
 	@ExcelField(title="供应商材料", align=2, sort=35)
 	private String supplierInfo;		// 供应商材料
 	
+	private String isDraft;		// 是否是草稿 ： 1：是
+	
 	private Flow flow = new Flow();
 	
 	public OaPrNew() {

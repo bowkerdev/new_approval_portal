@@ -44,13 +44,13 @@
            <el-table-column
             prop="vars.userName"
             :label="$i18nMy.t('流程发起人')">
-          </el-table-column>        
+          </el-table-column>
          <el-table-column
             fixed="right"
             :key="Math.random()"
             header-align="center"
             align="center"
-            width="150"
+            width="200"
             :label="$i18nMy.t('操作')">
             <template slot-scope="scope">
               <el-button  type="text" size="small"

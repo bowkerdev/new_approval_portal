@@ -219,6 +219,7 @@
       return {
         visible:false,
         searchForm: {
+          isDraft: ''
         },
         dataList: [],
         pageNo: 1,
@@ -234,6 +235,8 @@
       OaPrNewForm
     },
     activated () {
+      var _that=this;
+      _that.searchForm.isDraft = (_that.$route.query.isDraft || '')
       this.refreshList()
     },
     methods: {

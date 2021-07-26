@@ -70,7 +70,14 @@
 		FROM oa_pr_new a
 		<include refid="oaPrNewJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			a.del_flag = #{DEL_FLAG_NORMAL} 
+				<if test='isDraft == "1"'>
+					and a.proc_ins_id is null
+					and a.create_by = #{createBy.id}
+				</if>
+				<if test='isDraft != "1"'>
+					and a.proc_ins_id is not null
+				</if>
 			${dataScope}
 		</where>
 		<choose>

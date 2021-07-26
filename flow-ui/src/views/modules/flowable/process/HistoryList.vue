@@ -52,7 +52,7 @@
           <el-table-column
             header-align="center"
             align="center"
-            width="150"
+            width="200"
             :label="$i18nMy.t('操作')">
             <template slot-scope="scope">
             <el-button  type="text" size="small"

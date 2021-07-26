@@ -24,6 +24,7 @@ import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.modules.flow.pr.entity.OaPrNew;
 import com.jeeplus.modules.flow.pr.service.OaPrNewService;
 import com.jeeplus.modules.sys.utils.DictUtils;
+import com.jeeplus.modules.sys.utils.UserUtils;
 
 /**
  * PR申请单Controller
@@ -54,6 +55,9 @@ public class OaPrNewController extends BaseController {
 	 */
 	@GetMapping("list")
 	public AjaxJson list(OaPrNew oaPrNew, HttpServletRequest request, HttpServletResponse response) {
+		if ("1".equals(oaPrNew.getIsDraft())) {
+			oaPrNew.setCreateBy(UserUtils.getUser());
+		}
 		Page<OaPrNew> page = oaPrNewService.findPage(new Page<OaPrNew>(request, response), oaPrNew);
 		return AjaxJson.success().put("page",page);
 	}

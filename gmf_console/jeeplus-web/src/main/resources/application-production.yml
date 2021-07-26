@@ -47,7 +47,7 @@ spring:
         master:
           username: zhimi
           password: A4hw8#ZC
-          url: jdbc:mysql://rm-3nsd064vt280cmc06.mysql.rds.aliyuncs.com:3306/approval?verifyServerCertificate=false&useSSL=false&requireSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&noAccessToProcedureBodies=true&serverTimezone=Asia/Shanghai
+          url: jdbc:mysql://rm-3nsd064vt280cmc06.mysql.rds.aliyuncs.com:3306/flow?verifyServerCertificate=false&useSSL=false&requireSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&noAccessToProcedureBodies=true&serverTimezone=Asia/Shanghai
           driver-class-name: com.mysql.cj.jdbc.Driver
           
           #oracle database settings
@@ -137,6 +137,36 @@ mybatis:
     prefix:
     boolValue: TRUE
     blobType: BLOB
+#oss配置
+config:
+  accessory:
+    type: azureBlob       #local, aliyun, minIO ,azureBlob
+    baseDir: file
+    local:
+     location: d:\\accessory
+    aliyun:
+     endpoint: oss-cn-hangzhou.aliyuncs.com
+     accessKeyId: LTAI4Fhraue2ayc1KQMkZz5F
+     accessKeySecret: hMpiD9KXcuWNMgzZxFt1fXK0gRMR70
+     bucketName: testajgw
+    minIO:
+     endpoint:
+     accessKey:
+     secretKey:
+     bucketName:
+    azureBlob:
+     serverUrl: 'https://bowkerstorage.blob.core.windows.net'
+     blobName: commontools
+     connectionString: 'DefaultEndpointsProtocol=https;AccountName=bowkerstorage;AccountKey=i9cQSmIHnrqbGOGQnT1laRSxMS+TcOHYrJz0r9nevygrJH9c7RruvS/hs+JJm+WvwbjUxt/o2X6dr84OslysZQ==;EndpointSuffix=core.windows.net'
+#wps配置
+wps:
+  appid: 
+  appsecret: 
+  download_host: http://xxxxxx.org/jeeplus-vue
+  domain: https://wwo.wps.cn
+  downloadCallbackPath: /usr/local/wps
+  webctx: /jeeplus-vue
+  
 #============================#
 #===== System settings ======#
 #============================#
@@ -147,7 +177,7 @@ copyrightYear: 2020
 version: V-1.0
 allowLoginkey: 
 # 为空 ， bowker_baseportal , gmf_center , cas
-ssoType: bowker_baseportal
+ssoType: 
 #演示模式: 不能操作和保存的模块： sys
 demoMode: false
 #上传文件绝对路径, 路径中不允许包含“userfiles”   【占锐： 如果是 /opt/jeeplusdir   这种相对路径，会在项目所在磁盘根目录下创建/opt/jeeplusdir 文件夹】

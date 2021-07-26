@@ -5,7 +5,6 @@
                :default-active="menuActiveName || 'home'"
                :collapse="sidebarFold"
                :collapseTransition="false"
-               :class="{'menu-show-complete': showCompleteName && isShowComplete()}"
                class="jp-sidebar__menu">
         <li class="jp-menu-category" v-if="!sidebarFold">{{leftMenuCategory}}</li>
         <sub-menu

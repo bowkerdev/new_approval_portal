@@ -4,8 +4,10 @@
     :index="menu.id + ''"
     :popper-class="'jp-sidebar--' + sidebarLayoutSkin + '-popper'">
     <template slot="title">
-      <i :class="`${menu.icon} jp-sidebar__menu-icon`" style=" display: inline-block!important;"></i>
-      <span>{{ menuName(menu.name) }}</span>
+      <i :class="`${menu.icon} jp-sidebar__menu-icon`"></i>
+      <div class="menu-name-text" slot="title">
+        <span>{{ menu.name }}</span>
+      </div>
     </template>
     <sub-menu
       v-for="item in menu.children"
@@ -16,14 +18,15 @@
     </sub-menu>
   </el-submenu>
   <el-menu-item v-else :index="menu.id + ''" @click="gotoRouteHandle(menu)">
-    <i :class="`${menu.icon} jp-sidebar__menu-icon`" style="display: inline-block!important;"></i>
-    <span slot="title">{{ menuName(menu.name) }}</span>
+    <i :class="`${menu.icon} jp-sidebar__menu-icon`"></i>
+    <div class="menu-name-text" slot="title">
+      <span>{{ menu.name }}</span>
+    </div>
   </el-menu-item>
 </template>
 
 <script>
   import SubMenu from './_common_left_submenu'
-  import { currentLangInshowCompName } from '@/utils/i18n'
 
   export default {
     name: 'sub-menu',
@@ -52,15 +55,6 @@
       }
     },
     methods: {
-      menuName(name) {
-        if(this.showCompleteName && currentLangInshowCompName()) {
-          return name
-        }
-        if (name && (name.length > 17)) {
-    			return name.substring(0,15) + '...';
-    		}
-    		return name
-      },
       translateRouterPath (menu) {
         return '/' + menu.href.replace(/^\//g, '')
       },

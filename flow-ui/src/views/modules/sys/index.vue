@@ -10,11 +10,11 @@
           <el-row>
             <el-col :span="4" v-for="data in dataList2" :key="data.id">
               <el-card class="box-card" style="margin:5px">
-                  <div class="actCard">
+                  <div class="actCard" @click="start(data)">
                     <!-- <img src='@/assets/img/Scheme.png'/> -->
                     <div class="yuan1" :class="getRandomColor()">{{data.name.substring(0,1)}}</div>
                     <el-button class="task-name"
-                    type="text" @click="start(data)">{{data.name+' '+data.version}}</el-button>
+                    type="text">{{data.name+' '+data.version}}</el-button>
                   </div>
                 </el-card>
             </el-col>
@@ -573,8 +573,8 @@ export default Vue.extend({
     },
     start (row) {
             // 读取流程表单
-      let tabTitle = `发起流程【${row.name}】`
-      let processTitle = `${this.userName} 在 ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} 发起了 [${row.name}]`
+      let tabTitle = $i18nMy.t('发起流程') + '：' + $i18nMy.t(`${row.name}`)
+      let processTitle = `${this.userName} start process : ${row.name}  ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} `
       this.$http.get('/flowable/task/getTaskDef', {params: {
         procDefId: row.id,
         status: 'start'

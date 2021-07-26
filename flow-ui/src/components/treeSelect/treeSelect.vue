@@ -81,7 +81,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: () => { return '请选择' }
+      default: () => { return $i18nMy.t('请选择') }
     },
     isOnlySelectLeaf: {
       type: Boolean,

@@ -9,13 +9,13 @@
           </p>
         </el-col>
         <el-col :span="12">
-          <el-form-item  :label="$i18nMy.t('创建者')" prop="requester" :rules="[]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('申请人')" prop="createBy.id" :rules="[]">
             <user-select :limit='1' :value="inputForm.createBy.id" :disabled='true' @getValue='(value) => {inputForm.createBy.id=value}'>
             </user-select>
           </el-form-item>
         </el-col>
 	      <el-col  :span="12">
-          <el-form-item :label="$i18nMy.t('创建者部门')" prop="createByOffice.id"  :rules="[  ]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('申请人部门')" prop="createByOffice.id"  :rules="[  ]">
             <SelectTree ref="createByOffice" :disabled='true'
               :props="{value: 'id',label: 'name',  children: 'children'}"
               url="/sys/office/treeData?type=2"  :value="inputForm.createByOffice.id"
@@ -23,21 +23,21 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18nMy.t('请求者')" prop="requester" :rules="[]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户姓名')" prop="requester" :rules="[]">
             <user-select :limit='1' :value="inputForm.requester" :disabled='true'  @getValue='(value) => {inputForm.requester=value}'>
             </user-select>
           </el-form-item>
         </el-col>
 
         <el-col :span="12">
-          <el-form-item :label="$i18nMy.t('请求者部门')" prop="requesterDepartment.id" :rules="[ ]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment.id" :rules="[ ]">
             <SelectTree ref="requesterDepartment" :disabled='true' :props="{value: 'id',label: 'name', children: 'children'}"
               url="/sys/office/treeData?type=2" :value="inputForm.requesterDepartment.id" :clearable="true"
               :accordion="true" @getValue="(value) => {inputForm.requesterDepartment.id=value}" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18nMy.t('固定资产类型')" prop="assetGroup" :rules="[]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类型')" prop="assetGroup" :rules="[]">
             <el-select v-model="inputForm.assetGroup" :disabled='true' :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('asset_group')" :key="item.value" :label="item.label"
                 :value="item.value">
@@ -46,7 +46,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[]">
             <el-select v-model="inputForm.costCenter" :disabled='true' :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('cost_center')" :key="item.value" :label="item.label"
                 :value="item.value">
@@ -234,13 +234,13 @@
               </tr>
               <tr class="head-background-color head2-height">
                 <td style="background-color: #FFFFFF;border:none"></td>
-                <td class="first-td"><!-- 编号</td><td> -->{{$i18nMy.t('项目')}}</td><td>{{$i18nMy.t('品牌名称')}}</td><td>{{$i18nMy.t('型号')}}</td><td>{{$i18nMy.t('提供单价')}}</td><td>{{$i18nMy.t('折扣单价')}}</td>
+                <td class="first-td">{{$i18nMy.t('序号')}}</td><td>{{$i18nMy.t('物品')}}</td><td>{{$i18nMy.t('品牌名称')}}</td><td>{{$i18nMy.t('型号')}}</td><td>{{$i18nMy.t('提供单价')}}</td><td>{{$i18nMy.t('折扣单价')}}</td>
                 <td>MOQ</td><td>{{$i18nMy.t('预计到货日期')}}</td><td>{{$i18nMy.t('预计最晚到货日期')}}</td><td>{{$i18nMy.t('采纳')}}</td><td colspan="5">{{$i18nMy.t('原因')}}</td>
               </tr>
               <tr class="data-content" v-for="(item3, index3) in item.detailInfo" :key="'index3_'+index3">
                 <td  style="background-color: #FFFFFF;border:none"></td>
-                <td class="first-td"><!-- {{item3.serialNumber}}</td>
-                <td> -->{{item3.item}} </td>
+                <td class="first-td">{{item3.serialNumber}}</td>
+                <td>{{item3.item}} </td>
                 <td> {{item3.brandName}} </td>
                 <td> {{item3.modelNo}} </td>
                 <td>
@@ -262,7 +262,7 @@
                   </span>
                 </td>
                 <td class="width-100">
-                  <el-date-picker  size="small"  v-if="item.edit"  v-model="item3.expectArrivalDate" type="date"
+                  <el-date-picker  size="small" class="width-150" v-if="item.edit"  v-model="item3.expectArrivalDate" type="date"
                     value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('选择日期时间')">
                   </el-date-picker>
                   <span v-else>
@@ -297,19 +297,19 @@
       <br/>
       <el-row :gutter="0">
       <p class="sub-title">
-        中标供应商和更新的单价详细信息
+        {{$i18nMy.t('中标供应商和更新的单价详细信息')}}
       </p>
       <div style="width: 100%;overflow: auto;" >
         <table style="min-width: 100%;border-collapse: collapse; border:1px solid #EBEEF5" class="supplierTable"
          cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff">
           <thead>
             <tr class="head-background-color">
-              <th rowspan="2">{{$i18nMy.t('编号')}}</th><th rowspan="2">{{$i18nMy.t('项目')}}</th><th rowspan="2">{{$i18nMy.t('品牌名称')}}</th><th rowspan="2">{{$i18nMy.t('型号')}}</th>
+              <th rowspan="2">{{$i18nMy.t('序号')}}</th><th rowspan="2">{{$i18nMy.t('物品')}}</th><th rowspan="2">{{$i18nMy.t('品牌名称')}}</th><th rowspan="2">{{$i18nMy.t('型号')}}</th>
               <th rowspan="2">{{$i18nMy.t('市场价格')}}</th><th rowspan="2">{{$i18nMy.t('更新单价')}}</th><th rowspan="2">{{$i18nMy.t('请求数量')}}</th><th rowspan="2">UOM</th>
               <th colspan="2">{{$i18nMy.t('文档报价')}}</th><th  colspan="2">{{$i18nMy.t('基础报价')}}</th>
             </tr>
             <tr class="head-background-color">
-              <th>{{$i18nMy.t('金额')}}</th><th>金额(增值税)</th><th>{{$i18nMy.t('金额')}}</th><th>金额(增值税)</th>
+              <th>{{$i18nMy.t('金额')}}</th><th>{{$i18nMy.t('金额(增值税)')}}</th><th>{{$i18nMy.t('金额')}}</th><th>{{$i18nMy.t('金额(增值税)')}}</th>
             </tr>
           </thead>
           <tbody v-for="(item, index) in detailInfo">
@@ -338,7 +338,7 @@
             </tr>
             <tr class="head-background-color head2-height">
               <td style="background-color: #FFFFFF;border:none"></td>
-              <td class="first-td">{{$i18nMy.t('供应商名称')}}</td><td>{{$i18nMy.t('付款条款')}}</td><td>{{$i18nMy.t('提供的货币')}}</td><td>{{$i18nMy.t('提供的单价')}}</td><td>{{$i18nMy.t('提供的单价（基础货币）')}}</td>
+              <td class="first-td">{{$i18nMy.t('供应商名称')}}</td><td>{{$i18nMy.t('付款条件')}}</td><td>{{$i18nMy.t('币种')}}</td><td>{{$i18nMy.t('提供单价')}}</td><td>{{$i18nMy.t('提供的单价（基础货币）')}}</td>
               <td>MOQ</td><td>{{$i18nMy.t('预计到货日期')}}</td><td>{{$i18nMy.t('预计最晚到货日期')}}</td><td>{{$i18nMy.t('相关文档')}}</td><td>{{$i18nMy.t('采纳')}}</td><td>{{$i18nMy.t('原因')}}</td>
             </tr>
             <tr class="data-content" v-for="(item, index) in supplierInfoByDetailInfo[item.item]" >
@@ -695,8 +695,8 @@
       margin-bottom: 10px;
   }
   .width-150{
-    min-width: 120px;
-    width : 120px;
+    min-width: 130px;
+    width : 130px;
     text-align: center;
   }
   .width-100{

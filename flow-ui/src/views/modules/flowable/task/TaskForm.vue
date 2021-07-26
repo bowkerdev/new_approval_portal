@@ -30,13 +30,13 @@
 <el-card style="margin-top:10px; margin-bottom:66px" v-if="!procInsId || taskId">
     <el-form size="small" :model="auditForm"   ref="auditForm" label-width="120px">
       <el-col :span="16">
-        <el-form-item  v-if="!procInsId"  :label="$i18nMy.t('流程标题')" prop="title">
+        <el-form-item  v-if="!procInsId"  :label="$i18nMy.t('流程标题')" prop="title" v-show="false">
           <el-input
             :placeholder="$i18nMy.t('请输入流程标题')"
             v-model="title">
           </el-input>
-      </el-form-item>
-      <el-form-item  v-if="taskId"  :label="$i18nMy.t('审批信息')" prop="comment">
+        </el-form-item>
+      <el-form-item label-width="220px"  v-if="taskId"  :label="$i18nMy.t('审批信息')" prop="comment" >
           <el-input
             type="textarea"
             :rows="3"
@@ -45,7 +45,7 @@
           </el-input>
       </el-form-item>
     </el-col>
-    <el-col :span="16">
+    <el-col :span="16" v-show="false">
       <el-form-item>
         <el-checkbox v-model="isCC">{{$i18nMy.t('是否抄送')}}</el-checkbox>
       </el-form-item>
@@ -58,12 +58,12 @@
       </el-form-item>
     </el-col>
     <el-col :span="16">
-      <el-form-item>
-        <el-checkbox v-model="isAssign">指定下一步处理者(不设置就使用默认处理人)</el-checkbox>
+      <el-form-item label-width="220px" style="margin-top: 30px;">
+        <el-checkbox v-model="isAssign">{{$i18nMy.t('指定下一步处理者(不设置就使用默认处理人)')}}</el-checkbox>
       </el-form-item>
     </el-col>
     <el-col :span="16">
-      <el-form-item v-if="isAssign"  :rules="[
+      <el-form-item label-width="220px" v-if="isAssign"  :rules="[
               {required: true, message: $i18nMy.t('用户不能为空'), trigger: 'blur'}
             ]"  prop="assignee" :label="$i18nMy.t('指定')">
             <user-select :limit="1" :value="auditForm.assignee"  @getValue='(value) => {auditForm.assignee=value}'>></user-select>
@@ -106,7 +106,7 @@
       if (this.formType === '2') { // 读取外置表单
         if (this.formUrl === '/404') {
           this.form = null
-          this.$message.info('没有关联流程表单!')
+          this.$message.info($i18nMy.t('没有关联流程表单!'))
         } else {
           this.form = _import(`modules${this.formUrl}`)
         }
@@ -136,7 +136,7 @@
       }
        // 读取按钮配置
       if (this.status === 'start') {
-        this.buttons = [{code: '_flow_start', name: '启动', isHide: '0'},{code: '_flow_save', name: '暂存', isHide: '0'}]
+        this.buttons = [{code: '_flow_start', name: $i18nMy.t('启动'), isHide: '0'},{code: '_flow_save', name: $i18nMy.t('保存为草稿'), isHide: '0'}]
       } else if (this.procDefKey && this.taskDefKey) {
         // 读取按钮
         this.$http.get('/extension/taskDefExtension/queryByDefIdAndTaskId', {params: {
@@ -229,7 +229,7 @@
       // 暂存草稿
       save () {
         this.$refs.form.saveForm((businessTable, businessId) => {
-          
+
         })
       },
       // 启动流程
@@ -273,9 +273,9 @@
       },
       // 驳回
       reject () {
-        this.$confirm(`确定驳回流程吗?`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm($i18nMy.t(`确定驳回流程吗?`), $i18nMy.t('提示'), {
+          confirmButtonText: $i18nMy.t('确定'),
+          cancelButtonText: $i18nMy.t('取消'),
           type: 'warning'
         }).then(() => {
           this.$http.post('/flowable/task/backNodes', {
@@ -393,9 +393,9 @@
       },
       // 终止
       stop () {
-        this.$confirm(`确定终止流程吗?`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm($i18nMy.t(`确定终止流程吗?`), $i18nMy.t('提示'), {
+          confirmButtonText: $i18nMy.t('确定'),
+          cancelButtonText: $i18nMy.t('取消'),
           type: 'warning'
         }).then(() => {
           this.$http.post('/flowable/process/stop', {id: this.procInsId, ...this.auditForm}).then(({data}) => {

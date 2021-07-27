@@ -58,34 +58,34 @@
         </el-row>
       <el-row :gutter="15" style="margin-right: 10px">
         <el-table :data="detailInfo" height="300px" class="table" size="small" style="border: 1px solid #EBEEF5 !important ; margin-left: 10px;">
-           <el-table-column prop="serialNumber" width="50" align="center" :label="$i18nMy.t('序号')"> </el-table-column>
-           <el-table-column prop="item" width="200" align="center" :label="$i18nMy.t('物品')">
+           <el-table-column prop="serialNumber" width="50" align="right" :label="$i18nMy.t('序号')"> </el-table-column>
+           <el-table-column prop="item" align="left" :label="$i18nMy.t('物品')">
            </el-table-column>
-           <el-table-column prop="brandName" width="200"  align="center" :label="$i18nMy.t('品牌')">
+           <el-table-column prop="brandName" align="left" :label="$i18nMy.t('品牌')">
            </el-table-column>
-           <el-table-column prop="modelNo" width="200" align="center" :label="$i18nMy.t('型号')">
+           <el-table-column prop="modelNo" align="left" :label="$i18nMy.t('型号')">
            </el-table-column>
-           <el-table-column prop="unitPrice" width="200" align="center" :label="$i18nMy.t('单价')">
+           <el-table-column prop="unitPrice" width="100" align="right" :label="$i18nMy.t('单价')">
            </el-table-column>
-           <el-table-column prop="docUnitPrice" width="200" align="center" :label="$i18nMy.t('文件单价')">
+           <el-table-column prop="docUnitPrice" width="150" align="right" :label="$i18nMy.t('文件单价')">
            </el-table-column>
-           <el-table-column prop="quantity" width="155" align="center" :label="$i18nMy.t('数量')">
+           <el-table-column prop="quantity" width="100" align="left" :label="$i18nMy.t('数量')">
            </el-table-column>
-           <el-table-column prop="uom" width="100"  align="center" :label="$i18nMy.t('单位')">
+           <el-table-column prop="uom" width="100"  align="left" :label="$i18nMy.t('单位')">
            </el-table-column>
-           <el-table-column  align="center" :label="$i18nMy.t('文档报价')">
+           <el-table-column  align="left" :label="$i18nMy.t('文档报价')">
              <template>
-               <el-table-column prop="docQuantity" width="155"  align="center" :label="$i18nMy.t('数量')">
+               <el-table-column prop="docQuantity" width="100"  align="left" :label="$i18nMy.t('数量')">
                </el-table-column>
-               <el-table-column prop="docVatQuantity" width="155" align="center" :label="$i18nMy.t('数量')+'VAT'">
+               <el-table-column prop="docVatQuantity" width="100" align="left" :label="$i18nMy.t('数量')+'VAT'">
                </el-table-column>
              </template>
            </el-table-column>
-           <el-table-column align="center" :label="$i18nMy.t('基础报价')" >
+           <el-table-column align="left" :label="$i18nMy.t('基础报价')" >
              <template>
-               <el-table-column prop="baseQuantity" width="155" align="center" :label="$i18nMy.t('数量')"   >
+               <el-table-column prop="baseQuantity" width="100" align="left" :label="$i18nMy.t('数量')"   >
                </el-table-column>
-               <el-table-column width="155" prop="baseVatQuantity" align="center" :label="$i18nMy.t('数量')+'VAT'">
+               <el-table-column width="100" prop="baseVatQuantity" align="left" :label="$i18nMy.t('数量')+'VAT'">
                </el-table-column>
              </template>
            </el-table-column>
@@ -102,8 +102,8 @@
       </el-row>
       <el-row :gutter="15" style="margin-right: 10px">
           <el-table :data="supplementaryDoc" height="300px" class="table" style="border: 1px solid #EBEEF5 !important ; margin-left: 10px">
-            <el-table-column prop="serialNumber" width="50" align="center" :label="$i18nMy.t('序号')"> </el-table-column>
-            <el-table-column prop="description" width="200" align="center" :label="$i18nMy.t('描述')">
+            <el-table-column prop="serialNumber" width="50" align="right" :label="$i18nMy.t('序号')"> </el-table-column>
+            <el-table-column prop="description" width="200" align="left" :label="$i18nMy.t('描述')">
               <template slot-scope="{row}">
                 <template v-if="row.edit">
                   <el-input  size="small" v-model="row.description" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
@@ -111,7 +111,7 @@
                 <span v-else>{{ row.description }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="documentType" width="120"  align="center" :label="$i18nMy.t('文件类型')"   >
+            <el-table-column prop="documentType" width="120"  align="left" :label="$i18nMy.t('文件类型')"   >
               <template slot-scope="{row}">
                 <template v-if="row.edit">
                   <el-select  size="small" v-model="row.documentType"  :placeholder="$i18nMy.t('请选择')">
@@ -124,7 +124,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column prop="attachment" width="250" align="center" :label="$i18nMy.t('附件')"   >
+            <el-table-column prop="attachment" width="250" align="left" :label="$i18nMy.t('附件')"   >
               <template slot-scope="{row}">
                 <el-upload :class="row.attachment==''?'':'hide'"
                   :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
@@ -149,16 +149,16 @@
               </template>
             </el-table-column>
 
-            <el-table-column prop="uploaderDepartment"  align="center" :label="$i18nMy.t('上传者部门')"   >
+            <el-table-column prop="uploaderDepartment"  align="left" :label="$i18nMy.t('上传者部门')"   >
             </el-table-column>
 
-            <el-table-column width="120" prop="uploadedBy"  align="center" :label="$i18nMy.t('上传者')"   >
+            <el-table-column width="120" prop="uploadedBy"  align="left" :label="$i18nMy.t('上传者')"   >
             </el-table-column>
 
-            <el-table-column prop="uploadedDate"  align="center" :label="$i18nMy.t('上传日期')"   >
+            <el-table-column prop="uploadedDate"  align="left" :label="$i18nMy.t('上传日期')"   >
             </el-table-column>
 
-            <el-table-column width="150" align="center" :label="$i18nMy.t('操作')" class-name="td-operate">
+            <el-table-column width="150" align="left" :label="$i18nMy.t('操作')" class-name="td-operate">
               <template slot-scope="{row}">
                 <el-button v-if="row.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
                 <el-button v-if="!row.edit" type="primary" size="small" icon="el-icon-edit" @click="changeTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>

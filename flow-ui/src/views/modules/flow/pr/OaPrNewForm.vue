@@ -212,9 +212,9 @@
              <el-button size="small" @click="addTabListGroup()" type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px" >
              </el-button>
            </el-row>
-           <el-table :data="detailInfo" height="300px" class="table" size="small" style="border: 1px solid #EBEEF5 !important">
+           <el-table :data="detailInfo" height="300px" class="table" size="small" border >
               <el-table-column prop="serialNumber" width="50" align="center" :label="$i18nMy.t('序号')"> </el-table-column>
-              <el-table-column prop="item" width="200" align="center" :label="$i18nMy.t('物品')">
+              <el-table-column prop="item" align="left" :label="$i18nMy.t('物品')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-model="row.item" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
@@ -222,7 +222,7 @@
                   <span v-else>{{ row.item }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="itemDescription" width="200" v-if="index == 0" align="center" :label="$i18nMy.t('描述')"   >
+              <el-table-column prop="itemDescription" v-if="index == 0" align="left" :label="$i18nMy.t('描述')"   >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-model="row.itemDescription" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
@@ -230,7 +230,7 @@
                   <span v-else>{{ row.itemDescription }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="brandName" width="200"  align="center" :label="$i18nMy.t('品牌')"   >
+              <el-table-column prop="brandName" align="left" :label="$i18nMy.t('品牌')"   >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-model="row.brandName" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
@@ -238,7 +238,7 @@
                   <span v-else>{{ row.brandName }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="modelNo" width="200" align="center" :label="$i18nMy.t('型号')"    >
+              <el-table-column prop="modelNo" align="left" :label="$i18nMy.t('型号')"    >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-model="row.modelNo" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
@@ -246,7 +246,7 @@
                   <span v-else>{{ row.modelNo }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="supplierName"  v-if="index == 2" width="200" align="center" :label="$i18nMy.t('供应商名称')"    >
+              <el-table-column prop="supplierName"  v-if="index == 2" align="left" :label="$i18nMy.t('供应商名称')"    >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" :disabled="flowStage=='start'?true:false"  v-model="row.supplierName" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
@@ -254,7 +254,7 @@
                   <span v-else>{{ row.supplierName }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="includedVat" width="100" v-if="index == 2" align="center" :label="$i18nMy.t('包含VAT')"    >
+              <el-table-column prop="includedVat" v-if="index == 2" align="left" :label="$i18nMy.t('包含VAT')"    >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                       <el-checkbox :disabled="flowStage=='start'?true:false" v-model="row.includedVat" ></el-checkbox>
@@ -262,7 +262,7 @@
                   <span v-else>{{ row.includedVat }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="unitPrice" width="200" v-if="index != 0" align="center" :label="$i18nMy.t('单价')"    >
+              <el-table-column prop="unitPrice" width="120" v-if="index != 0" align="right" :label="$i18nMy.t('单价')"    >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-only-num.float="row"
@@ -271,7 +271,7 @@
                   <span v-else>{{ row.unitPrice }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="docUnitPrice" width="200" v-if="index == 2" align="center" :label="$i18nMy.t('文件单价')"    >
+              <el-table-column prop="docUnitPrice" v-if="index == 2" align="right" :label="$i18nMy.t('文件单价')"    >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-only-num.float="row"
@@ -280,7 +280,7 @@
                   <span v-else>{{ row.docUnitPrice }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="quantity" width="155" align="center" :label="$i18nMy.t('数量')"   >
+              <el-table-column prop="quantity" width="150" align="right" :label="$i18nMy.t('数量')"   >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input-number  size="small" v-model="row.quantity" :step="1"  :min="1" :max="100" :label="$i18nMy.t('数量')"></el-input-number>
@@ -288,7 +288,7 @@
                   <span v-else>{{ row.quantity }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="uom" width="100"  align="center" :label="$i18nMy.t('单位')"    >
+              <el-table-column prop="uom" width="100" align="left" :label="$i18nMy.t('单位')"    >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-select  size="small" v-model="row.uom" placeholder="" style="width: 100%;">
@@ -300,7 +300,7 @@
                   <span v-else>{{ row.uom }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="expectArrivalDate" width="160" v-if="index == 0" align="center" :label="$i18nMy.t('预计到达时间')"    >
+              <el-table-column prop="expectArrivalDate" width="150" v-if="index == 0" align="right" :label="$i18nMy.t('预计到达时间')"    >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-date-picker  size="small" v-model="row.expectArrivalDate" type="date"
@@ -311,9 +311,9 @@
                 </template>
               </el-table-column>
 
-              <el-table-column  v-if="index == 2" align="center" :label="$i18nMy.t('文档报价')"    >
+              <el-table-column  v-if="index == 2" align="left" :label="$i18nMy.t('文档报价')"    >
                 <template>
-                  <el-table-column prop="docAmount" width="155"  align="center" :label="$i18nMy.t('总数')"   >
+                  <el-table-column prop="docAmount" align="right" :label="$i18nMy.t('总数')"   >
                     <template slot-scope="{row}">
                       <template v-if="row.edit">
                         <el-input  size="small" v-only-num.float="row"
@@ -323,7 +323,7 @@
                     </template>
                   </el-table-column>
 
-                  <el-table-column prop="docVatAmount" width="155" align="center" :label="$i18nMy.t('数量')+'VAT'"   >
+                  <el-table-column prop="docVatAmount" align="right" :label="$i18nMy.t('总数')+'(VAT)'"   >
                     <template slot-scope="{row}">
                       <template v-if="row.edit">
                         <el-input  size="small" v-only-num.float="row"
@@ -337,7 +337,7 @@
 
               <el-table-column v-if="index != 0" align="center" :label="$i18nMy.t('基础报价')" >
                 <template>
-                  <el-table-column prop="baseQuantity" width="155" align="center" :label="$i18nMy.t('数量')"   >
+                  <el-table-column prop="baseQuantity" align="right" :label="$i18nMy.t('总数')"   >
                     <template slot-scope="{row}">
                       <span v-if="!isNaN(row.docAmount*inputForm.exRate)">
                         {{(row.docAmount*inputForm.exRate).toFixed(3)}}
@@ -345,7 +345,7 @@
                     </template>
                   </el-table-column>
 
-                  <el-table-column v-if="index == 2" width="155" prop="baseVatQuantity" align="center" :label="$i18nMy.t('数量')+'VAT'"   >
+                  <el-table-column v-if="index == 2" prop="baseVatQuantity" align="left" :label="$i18nMy.t('总数')+'(VAT)'"   >
                     <template slot-scope="{row}">
                       <span  v-if="!isNaN(row.docVatAmount*inputForm.exRate)">
                         {{(row.docVatAmount*inputForm.exRate).toFixed(3)}}
@@ -355,11 +355,11 @@
                 </template>
               </el-table-column>
 
-              <el-table-column width="150"  align="center" :label="$i18nMy.t('操作')" class-name="td-operate">
+              <el-table-column width="130" align="left" :label="$i18nMy.t('操作')" class-name="td-operate">
                 <template slot-scope="{row}">
-                  <el-button v-if="row.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
-                  <el-button v-if="!row.edit" type="primary" size="small" icon="el-icon-edit" @click="changeTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
-                  <el-button v-if="!row.edit" type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
+                  <el-button v-if="row.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(row)" style="float: left; "></el-button>
+                  <el-button v-if="!row.edit" type="primary" size="small" icon="el-icon-edit" @click="changeTabListGroup(row)" style="float: left; "></el-button>
+                  <el-button v-if="!row.edit" type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(row)" style="float: left; "></el-button>
                 </template>
               </el-table-column>
             </el-table>

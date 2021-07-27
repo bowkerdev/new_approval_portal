@@ -72,19 +72,19 @@
             </thead>
             <tbody v-for="(item, index) in supplierInfo" :key="'index_'+index">
               <tr class="data-content" style="background-color: #fff3cf;">
-              <td :rowspan="item.docListSize" class="width-150">
+              <td :rowspan="item.docListSize" >
                 <el-input  size="small" v-if="item.edit" v-model="item.supplierName"  ></el-input>
                 <span v-else>
                   {{item.supplierName}}
                 </span>
               </td>
-              <td :rowspan="item.docListSize" class="width-100">
+              <td :rowspan="item.docListSize" >
                 <el-input  size="small" v-if="item.edit" v-model="item.paymentTerms"  ></el-input>
                 <span v-else>
                   {{item.paymentTerms}}
                 </span>
               </td>
-              <td :rowspan="item.docListSize" class="width-100">
+              <td :rowspan="item.docListSize" >
                 <el-select  size="small" v-model="item.currency" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in $dictUtils.getDictList('pr_currency')" :key="item.value" :label="item.label"
                     :value="item.value">
@@ -94,29 +94,29 @@
                   {{$dictUtils.getDictLabel("pr_currency",item.currency, '-')}}
                 </span>
               </td>
-              <td :rowspan="item.docListSize" class="width-100">
+              <td :rowspan="item.docListSize" class="my-right">
                   {{item.originalPrice}}
               </td>
-              <td :rowspan="item.docListSize" class="width-100">
+              <td :rowspan="item.docListSize" class="my-right">
                   {{item.discountedAmount}}
               </td>
-              <td :rowspan="item.docListSize" class="width-100">
+              <td :rowspan="item.docListSize" class="my-right">
                   {{item.totalOfferedPrice}}
               </td>
-              <td :rowspan="item.docListSize" class="width-150">
+              <td :rowspan="item.docListSize" class="my-right">
                   {{item.expectArrivalDate}}
               </td>
-              <td :rowspan="item.docListSize" class="width-150">
+              <td :rowspan="item.docListSize" class="my-right">
                   {{item.expectLastArrivalDate}}
               </td>
-              <td :rowspan="item.docListSize" class="width-200">
+              <td :rowspan="item.docListSize" >
                 <el-input  size="small" v-if="item.edit" v-model="item.remarks"  ></el-input>
                 <span v-else>
                   {{item.remarks}}
                 </span>
               </td>
 
-              <td class="width-100">
+              <td >
                 <el-select  size="small" v-model="item.docList[0].documentType" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in $dictUtils.getDictList('pr_document_type')" :key="item.value" :label="item.label"
                     :value="item.value">
@@ -126,7 +126,7 @@
                   {{$dictUtils.getDictLabel("pr_document_type",item.docList[0].documentType, '-')}}
                 </span>
               </td>
-              <td colspan="3" class="width-400">
+              <td colspan="3" >
                 <el-upload :class="item.docList[0].attachment==''?'':'hide'"
                   :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
                       :headers="{token: $cookie.get('token')}"
@@ -148,7 +148,7 @@
                       <el-button :disabled="!item.edit" style="padding: 5px 30px;" size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
                     </el-upload>
               </td>
-              <td class="width-100">
+              <td style="min-width: 70px;">
                 <el-select  size="small" multiple v-model="item.docList[0].linkToItems" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in detailInfo" :key="item.serialNumber" :label="item.serialNumber"
                     :value="item.serialNumber">
@@ -158,16 +158,16 @@
                   {{item.docList[0].linkToItems.join(',')}}
                 </span>
               </td>
-              <td class="width-100">
+              <td >
                   {{item.docList[0].uploadedBy}}
               </td>
-              <td class="width-100">
+              <td class="my-right">
                   {{item.docList[0].uploadedDate}}
               </td>
-              <td class="width-50">
+              <td  width="30px">
                 <el-button v-if="item.edit" :disabled="item.docList.length ==1" type="danger" size="small" icon="el-icon-delete" @click="delDoc(index,0)" class="operationButton"></el-button>
               </td>
-              <td :rowspan="item.docListSize" class="width-100">
+              <td :rowspan="item.docListSize" width="60px">
                 <el-button v-if="item.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(index)" class="operationButton"></el-button>
                 <el-button v-if="!item.edit" type="primary" size="small" icon="el-icon-edit" @click="changeTabListGroup(index)" class="operationButton"></el-button>
                 <el-button v-if="item.edit" type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(index)" class="operationButton"></el-button>
@@ -175,7 +175,7 @@
               </tr>
 <!-- 第一行  -->
               <tr class="data-content"  style="background-color: #fff3cf;" v-for="(item2, index2) in item.docList.slice(1)" :key="'index2_'+index2"  >
-                <td class="width-100">
+                <td >
                     <el-select  size="small" v-model="item2.documentType" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                       <el-option v-for="item in $dictUtils.getDictList('pr_document_type')" :key="item.value" :label="item.label"
                         :value="item.value">
@@ -185,7 +185,7 @@
                       {{$dictUtils.getDictLabel("pr_document_type",item2.documentType, '-')}}
                     </span>
                 </td>
-                <td colspan="3" class="width-400">
+                <td colspan="3" >
                   <el-upload :class="item2.attachment==''?'':'hide'"
                     :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
                         :headers="{token: $cookie.get('token')}"
@@ -207,7 +207,7 @@
                         <el-button :disabled="!item.edit" style="padding: 5px 30px;"  size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
                       </el-upload>
                 </td>
-                <td class="width-100">
+                <td >
                   <el-select  multiple size="small" v-model="item2.linkToItems" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                     <el-option v-for="item in detailInfo" :key="item.serialNumber" :label="item.serialNumber"
                       :value="item.serialNumber">
@@ -217,10 +217,10 @@
                     {{item2.linkToItems.join(',')}}
                   </span>
                 </td>
-                <td class="width-100">
+                <td >
                     {{item2.uploadedBy}}
                 </td>
-                <td class="width-100">
+                <td class="my-right">
                     {{item2.uploadedDate}}
                 </td>
                 <td class="width-50">
@@ -235,56 +235,56 @@
               <tr class="head-background-color head2-height">
                 <td style="background-color: #FFFFFF;border:none"></td>
                 <td class="first-td">{{$i18nMy.t('序号')}}</td><td>{{$i18nMy.t('物品')}}</td><td>{{$i18nMy.t('品牌名称')}}</td><td>{{$i18nMy.t('型号')}}</td><td>{{$i18nMy.t('提供单价')}}</td><td>{{$i18nMy.t('折扣单价')}}</td>
-                <td>MOQ</td><td>{{$i18nMy.t('预计到货日期')}}</td><td>{{$i18nMy.t('预计最晚到货日期')}}</td><td>{{$i18nMy.t('采纳')}}</td><td colspan="5">{{$i18nMy.t('原因')}}</td>
+                <td>MOQ</td><td>{{$i18nMy.t('预计到货日期')}}</td><td>{{$i18nMy.t('预计最晚到货日期')}}</td><td>{{$i18nMy.t('原因')}}</td><td>{{$i18nMy.t('采纳')}}</td>
               </tr>
               <tr class="data-content" v-for="(item3, index3) in item.detailInfo" :key="'index3_'+index3">
                 <td  style="background-color: #FFFFFF;border:none"></td>
                 <td class="first-td">{{item3.serialNumber}}</td>
-                <td>{{item3.item}} </td>
+                <td> {{item3.item}} </td>
                 <td> {{item3.brandName}} </td>
                 <td> {{item3.modelNo}} </td>
-                <td>
+                <td class="my-right">
                   <el-input  v-on:input="calculationPrice(index)" v-only-num.float="item3"  size="small" v-if="item.edit" v-model="item3.offeredUnitPrice"  ></el-input>
                   <span v-else>
                     {{item3.offeredUnitPrice}}
                   </span>
                 </td>
-                <td>
+                <td class="my-right">
                   <el-input  v-on:input="calculationPrice(index)" v-only-num.float="item3"  size="small" v-if="item.edit" v-model="item3.discountedUnitPrice"  ></el-input>
                   <span v-else>
                     {{item3.discountedUnitPrice}}
                   </span>
                 </td>
-                <td>
+                <td class="my-right">
                   <el-input v-on:input="calculationPrice(index)"  v-only-num="item3"  size="small" v-if="item.edit" v-model="item3.moq" ></el-input>
                   <span v-else>
                     {{item3.moq}}
                   </span>
                 </td>
-                <td class="width-100">
-                  <el-date-picker  size="small" class="width-150" v-if="item.edit"  v-model="item3.expectArrivalDate" type="date"
+                <td class="my-right">
+                  <el-date-picker  size="small"  v-if="item.edit"  v-model="item3.expectArrivalDate" type="date"
                     value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('选择日期时间')">
                   </el-date-picker>
                   <span v-else>
                     {{item3.expectArrivalDate}}
                   </span>
                 </td>
-                <td class="width-100" >
-                  <el-date-picker  size="small" class="width-200" v-if="item.edit"  v-model="item3.expectLastArrivalDate" type="date"
+                <td class="my-right">
+                  <el-date-picker  size="small"  v-if="item.edit"  v-model="item3.expectLastArrivalDate" type="date"
                     value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('选择日期时间')">
                   </el-date-picker>
                   <span v-else>
                     {{item3.expectLastArrivalDate}}
                   </span>
                 </td>
-                <td >
-                  <el-checkbox @change="awardedChange(item,item3.serialNumber)" :disabled="item.edit"  v-model="item3.awarded" ></el-checkbox>
-                </td>
-                <td colspan="5">
+                <td>
                   <el-input  size="small" v-if="item.edit" v-model="item3.reason"  ></el-input>
                   <span v-else>
                     {{item3.reason}}
                   </span>
+                </td>
+                <td >
+                  <el-checkbox @change="awardedChange(item,item3.serialNumber)" :disabled="item.edit"  v-model="item3.awarded" ></el-checkbox>
                 </td>
               </tr>
               <tr>
@@ -694,28 +694,37 @@
   .el-form-item {
       margin-bottom: 10px;
   }
+  .my-right{
+    text-align: right;
+  }
+  .my-left{
+    text-align: left;
+  }
+  .my-center{
+    text-align: center;
+  }
   .width-150{
-    min-width: 130px;
-    width : 130px;
+    /* min-width: 130px;
+    width : 130px; */
     text-align: center;
   }
   .width-100{
-    min-width: 90px;
-    width : 90px;
+   /* min-width: 90px;
+    width : 90px; */
     text-align: center;
   }
   .width-200{
-    min-width: 180px;
-    width : 180px;
+    /* min-width: 180px;
+    width : 180px; */
     text-align: center;
   }
   .width-400{
-    min-width: 300px;
-    width : 300px;
+    /* min-width: 300px;
+    width : 300px; */
   }
   .width-50{
-    min-width: 50px;
-    width : 50px;
+    /* min-width: 50px;
+    width : 50px; */
     text-align: center;
   }
   .supplierTable .operationButton{

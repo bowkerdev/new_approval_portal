@@ -397,7 +397,7 @@ img {
       }
       .el-menu,
       .el-submenu.is-opened {
-        background-color: transparent;
+        background-color: $sidebar--background-color-dark;
         > .el-submenu__title {
           color: #fff;
           i {

@@ -17,7 +17,7 @@
     </div>
   </aside>
 </template>
-<style>
+<style lang="scss">
 .jp-menu-category {
     padding: 0 20px;
     font-size: 12px;
@@ -28,12 +28,46 @@
     transition: all .25s,font .1s .15s,color .1s .15s;
 }
 /* show complete sidebar menu name */
-.jp-sidebar--1 .jp-sidebar__menu.el-menu.menu-show-complete .el-menu-item,
-.jp-sidebar--1 .jp-sidebar__menu.el-menu.menu-show-complete .el-submenu > .el-submenu__title {
-  height: auto;
-  white-space: normal;
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
+aside {
+  .jp-sidebar__menu.el-menu .el-menu-item,
+  .jp-sidebar__menu.el-menu .el-submenu > .el-submenu__title {
+    height: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .jp-sidebar__menu .menu-name-text {
+    display: inline-block;
+  }
+
+  .jp-sidebar__menu.el-menu .menu-name-text {
+    white-space: normal;
+  }
+
+  .el-submenu__title, 
+  li.el-menu-item,
+  .el-submenu {
+    height: auto !important;
+    line-height: 1.5 !important;
+  }
+
+  .el-menu--collapse .el-menu-item {
+    height: 40px !important;
+    line-height: 40px !important;
+  }
+}
+.el-menu--vertical .el-menu.el-menu--popup {
+  .el-menu-item {
+    height: auto !important;
+    line-height: 1.5 !important;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .menu-name-text {
+    white-space: normal;
+    display: inline-block;
+  }
 }
 </style>
 

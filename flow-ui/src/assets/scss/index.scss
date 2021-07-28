@@ -392,12 +392,20 @@ img {
         &:focus,
         &:hover {
           color: #fff;
-          background-color: rgba(0, 0, 0, 0.1) !important;
+          background-color: rgba(255, 255, 255, 0.05);
         }
       }
-      .el-menu,
       .el-submenu.is-opened {
-        background-color: $sidebar--background-color-dark;
+        background-color: rgba(0, 0, 0, 0.15);
+        > .el-submenu__title {
+          color: #fff;
+          i {
+            color: #fff;
+          }
+        }
+      }
+      .el-menu {
+        background-color: transparent;
         > .el-submenu__title {
           color: #fff;
           i {
@@ -1883,9 +1891,4 @@ span{
 // table 
 .cell.el-tooltip {
   width: 100% !important;
-}
-
-// 表单条项错位
-.el-form-item--small .el-form-item__content, .el-form-item--small .el-form-item__label {
-  height: 32px;
 }

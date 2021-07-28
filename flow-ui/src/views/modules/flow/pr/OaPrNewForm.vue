@@ -212,9 +212,9 @@
              <el-button size="small" @click="addTabListGroup()" type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px" >
              </el-button>
            </el-row>
-           <el-table :data="detailInfo" height="300px" class="table" size="small" border >
+           <el-table :data="detailInfo" height="300px" class="table" size="small" border  >
               <el-table-column prop="serialNumber" width="50" align="center" :label="$i18nMy.t('序号')"> </el-table-column>
-              <el-table-column prop="item" align="left" :label="$i18nMy.t('物品')">
+              <el-table-column prop="item" align="left"  :label="'* '+$i18nMy.t('物品')" >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-model="row.item" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
@@ -280,7 +280,7 @@
                   <span v-else>{{ row.docUnitPrice }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="quantity" width="150" align="right" :label="$i18nMy.t('数量')"   >
+              <el-table-column prop="quantity" width="155" align="right" :label="'* '+$i18nMy.t('数量')"   >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input-number  size="small" v-model="row.quantity" :step="1"  :min="1" :max="100" :label="$i18nMy.t('数量')"></el-input-number>
@@ -288,7 +288,7 @@
                   <span v-else>{{ row.quantity }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="uom" width="100" align="left" :label="$i18nMy.t('单位')"    >
+              <el-table-column prop="uom" width="100" align="left" :label="'* '+$i18nMy.t('单位')"    >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-select  size="small" v-model="row.uom" placeholder="" style="width: 100%;">
@@ -300,7 +300,7 @@
                   <span v-else>{{ row.uom }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="expectArrivalDate" width="150" v-if="index == 0" align="right" :label="$i18nMy.t('预计到达时间')"    >
+              <el-table-column prop="expectArrivalDate" width="150" v-if="index == 0" align="right" :label="'* '+$i18nMy.t('预计到达时间')"    >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-date-picker  size="small" v-model="row.expectArrivalDate" type="date"
@@ -311,7 +311,7 @@
                 </template>
               </el-table-column>
 
-              <el-table-column  v-if="index == 2" align="left" :label="$i18nMy.t('文档报价')"    >
+              <el-table-column  v-if="index == 2" align="center" :label="$i18nMy.t('文档报价')"    >
                 <template>
                   <el-table-column prop="docAmount" align="right" :label="$i18nMy.t('总数')"   >
                     <template slot-scope="{row}">
@@ -345,7 +345,7 @@
                     </template>
                   </el-table-column>
 
-                  <el-table-column v-if="index == 2" prop="baseVatQuantity" align="left" :label="$i18nMy.t('总数')+'(VAT)'"   >
+                  <el-table-column v-if="index == 2" prop="baseVatQuantity" align="right" :label="$i18nMy.t('总数')+'(VAT)'"   >
                     <template slot-scope="{row}">
                       <span  v-if="!isNaN(row.docVatAmount*inputForm.exRate)">
                         {{(row.docVatAmount*inputForm.exRate).toFixed(3)}}
@@ -548,16 +548,16 @@
       },
       confirmTabListGroup(row){
         if(this.$common.isEmpty(row.item)){
-           this.$message.warning($i18nMy.t('物品不能为空'))
+           this.$message.warning($i18nMy.t('物品') + $i18nMy.t('不能为空'))
         }
         else if(this.$common.isEmpty(row.quantity)){
-           this.$message.warning($i18nMy.t('数量不能为空'))
+           this.$message.warning($i18nMy.t('数量') + $i18nMy.t('不能为空'))
         }
         else if(this.$common.isEmpty(row.uom)){
-           this.$message.warning($i18nMy.t('单位不能为空'))
+           this.$message.warning($i18nMy.t('单位') + $i18nMy.t('不能为空'))
         }
         else if(this.$common.isEmpty(row.expectArrivalDate)){
-           this.$message.warning($i18nMy.t('预计到达时间不能为空'))
+           this.$message.warning($i18nMy.t('预计到达时间') + $i18nMy.t('不能为空'))
         }
         else{
           row.edit =false
@@ -589,5 +589,9 @@
   }
   .el-form-item__label {
     line-height: 25px;
+  }
+  .el-table th.must>.cell:before {
+  	content: '*';
+  	color: #ff1818;
   }
 </style>

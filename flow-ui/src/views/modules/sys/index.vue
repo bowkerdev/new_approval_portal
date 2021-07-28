@@ -63,7 +63,7 @@
               class="table my-table-margin">
               <el-table-column
                 prop="vars.title"
-                min-width="180px"
+                min-width="140px"
                show-overflow-tooltip
                 :label="$i18nMy.t('实例标题')">
                     <template slot-scope="scope">
@@ -78,9 +78,9 @@
                <el-table-column
                 prop="task.name"
                 :label="$i18nMy.t('当前环节')">
-                  <template slot-scope="scope">
+                 <!-- <template slot-scope="scope">
                     <el-tag>{{scope.row.task.name}}</el-tag>
-                 </template>
+                 </template> -->
               </el-table-column>
                <el-table-column
                 prop="vars.userName"
@@ -142,7 +142,7 @@
                 class="table my-table-margin">
                 <el-table-column
                   prop="vars.title"
-                  min-width="180px"
+                  min-width="140px"
                  show-overflow-tooltip
                   :label="$i18nMy.t('实例标题')">
                       <template slot-scope="scope">
@@ -157,9 +157,9 @@
                  <el-table-column
                   prop="task.name"
                   :label="$i18nMy.t('当前环节')">
-                    <template slot-scope="scope">
+                   <!-- <template slot-scope="scope">
                       <el-tag>{{scope.row.task.name}}</el-tag>
-                   </template>
+                   </template> -->
                 </el-table-column>
                  <el-table-column
                   prop="task.assignee"
@@ -178,7 +178,7 @@
                   :key="Math.random()"
                   header-align="center"
                   align="center"
-                  width="150"
+                  width="100"
                   :label="$i18nMy.t('操作')">
                   <template slot-scope="scope">
                     <!-- <el-button v-if="scope.row.status === 'claim'" type="text" size="small" @click="claim(scope.row)">{{$i18nMy.t('签收任务')}}</el-button> -->
@@ -225,7 +225,7 @@
               <el-table-column
                 prop="vars.title"
                 show-overflow-tooltip
-                min-width="180px"
+                min-width="140px"
                 :label="$i18nMy.t('实例标题')">
               </el-table-column>
               <el-table-column
@@ -246,9 +246,6 @@
                 prop="status"
                 show-overflow-tooltip
                 :label="$i18nMy.t('办理状态')">
-                <template slot-scope="scope">
-                    <el-tag :type="scope.row.level"   effect="dark" size="small">{{scope.row.status}} </el-tag>
-                 </template>
               </el-table-column>
                <el-table-column
                 prop="vars.userName"
@@ -299,7 +296,7 @@
               <el-table-column
                 prop="vars.title"
                 show-overflow-tooltip
-                min-width="180px"
+                min-width="140px"
                 :label="$i18nMy.t('实例标题')">
               </el-table-column>
               <el-table-column
@@ -316,9 +313,6 @@
                 prop="status"
                 show-overflow-tooltip
                 :label="$i18nMy.t('办理状态')">
-                <template slot-scope="scope">
-                      <el-tag  :type="scope.row.level"   effect="dark" size="small">{{scope.row.status}} </el-tag>
-                 </template>
               </el-table-column>
               <el-table-column
                 prop="startTime"
@@ -572,6 +566,7 @@ export default Vue.extend({
       })
     },
     start (row) {
+      debugger
             // 读取流程表单
       let tabTitle = $i18nMy.t('发起流程') + '：' + $i18nMy.t(`${row.name}`)
       let processTitle = `${this.userName} start process : ${row.name}  ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} `

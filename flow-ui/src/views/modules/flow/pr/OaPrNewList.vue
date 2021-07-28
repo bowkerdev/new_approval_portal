@@ -34,8 +34,8 @@
                   :disabled="dataListSelections.length <= 0" plain>删除
         </el-button>
         <el-button-group class="pull-right">
-            <el-button v-if="hasPermission('flow:pr:oaPrNew:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
-            <el-button v-if="hasPermission('flow:pr:oaPrNew:export')" type="default" size="small" icon="el-icon-download" title="导出" @click="exportExcel()"></el-button>
+            <!-- <el-button v-if="hasPermission('flow:pr:oaPrNew:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
+            <el-button v-if="hasPermission('flow:pr:oaPrNew:export')" type="default" size="small" icon="el-icon-download" title="导出" @click="exportExcel()"></el-button> -->
             <el-button
               type="default"
               size="small"
@@ -72,7 +72,7 @@
           </el-table-column>
           <el-table-column  prop="modelNo" show-overflow-tooltip :label="$i18nMy.t('型号')">
           </el-table-column>
-          <el-table-column  prop="quantity" show-overflow-tooltip :label="$i18nMy.t('数量')">
+          <el-table-column  prop="quantity" align="right" show-overflow-tooltip :label="$i18nMy.t('数量')">
           </el-table-column>
           <el-table-column  prop="uom" show-overflow-tooltip :label="$i18nMy.t('单位')">
           </el-table-column>
@@ -86,7 +86,8 @@
         width="200"
         :label="$i18nMy.t('申请单号')">
             <template slot-scope="scope">
-              <el-link  type="primary" :underline="false" @click="flowDetail(scope.row)">{{scope.row.applicationNo}}</el-link>
+              <el-link v-if="!$common.isEmpty(scope.row.procInsId)"  type="primary" :underline="false" @click="flowDetail(scope.row)">{{scope.row.applicationNo}}</el-link>
+              <el-link v-if="$common.isEmpty(scope.row.procInsId)"  type="primary" :underline="false" @click="start(scope.row)">{{scope.row.applicationNo}}</el-link>
             </template>
       </el-table-column>
     <el-table-column
@@ -288,6 +289,26 @@
         }
         this.refreshList()
       },
+
+      start (param) {
+        debugger
+        let row = {id: "prpo:4:7a75e55b-edf1-11eb-b6fe-362eb7b6edf6", name: "PRPO", key: "prpo"}
+        // 读取流程表单
+        let tabTitle = $i18nMy.t('发起流程') + '：' + $i18nMy.t(`${row.name}`)
+        let processTitle = `${this.userName} start process : ${row.name}  ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} `
+        this.$http.get('/flowable/task/getTaskDef', {params: {
+          procDefId: row.id,
+          status: 'start'
+        }}).then(({data}) => {
+          if (data.success) {
+            this.$router.push({
+              path: '/flowable/task/TaskForm',
+              query: {procDefId: row.id, procDefKey: row.key, status: 'start', title: tabTitle, formType: data.flow.formType, formUrl: data.flow.formUrl, formTitle: processTitle, businessId: param.id}
+            })
+          }
+        })
+      },
+
       // 新增
       add () {
         //this.$refs.oaPrNewForm.init('add', '')

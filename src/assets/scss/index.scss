@@ -392,12 +392,12 @@ img {
         &:focus,
         &:hover {
           color: #fff;
-          background-color: rgba(0, 0, 0, 0.1) !important;
+          background-color: mix(#fff, $sidebar--background-color-dark, 2.5%);
         }
       }
       .el-menu,
       .el-submenu.is-opened {
-        background-color: $sidebar--background-color-dark;
+        background-color: mix(#000, $sidebar--background-color-dark, 15%);
         > .el-submenu__title {
           color: #fff;
           i {

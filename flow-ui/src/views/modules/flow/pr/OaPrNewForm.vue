@@ -171,11 +171,7 @@
         <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('合同币种')" prop="contractCurrency" :rules="[
                  ]">
-            <el-select @change="currencyChange()" v-model="inputForm.contractCurrency" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
-              <el-option v-for="item in $dictUtils.getDictList('pr_currency')" :key="item.value" :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
+             {{ $dictUtils.getDictLabel("pr_currency", inputForm.contractCurrency, '-') }}
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -183,11 +179,21 @@
             {{inputForm.exRate}}
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('合同总价')" prop="totalContractAmount" :rules="[
-                  {validator: validator.isFloatGteZero, trigger:'blur'}
-                 ]">
-            <el-input v-only-num.float="inputForm"  v-model="inputForm.totalContractAmount" :placeholder="$i18nMy.t('请填写合同总价')"></el-input>
+        <el-col :span="6">
+          <el-form-item label-width="220px" :label="$i18nMy.t('合同总价')" prop="totalContractAmount" :rules="[]">
+            {{inputForm.totalContractAmount}}
+          </el-form-item>
+        </el-col>
+        <el-col :span="3">
+          <el-form-item label-width="10px" label=""  :rules="[]">
+            <span v-if="!isNaN(inputForm.totalContractAmount*inputForm.vat)&&this.inputForm.totalContractAmount !=''">
+              {{(inputForm.totalContractAmount*inputForm.vat).toFixed(3)}}
+            </span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="3">
+          <el-form-item label-width="10px" label=""  :rules="[]">
+            {{ $dictUtils.getDictLabel("pr_currency", inputForm.contractCurrency, '-') }}
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -195,18 +201,30 @@
             {{inputForm.baseCurrency}}
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('基础币种总价')" prop="totalBaseAmount" :rules="[]">
-            <span v-if="!isNaN(inputForm.exRate*inputForm.totalContractAmount)">
+            <span v-if="!isNaN(inputForm.exRate*inputForm.totalContractAmount)&&this.inputForm.totalContractAmount !=''">
               {{(inputForm.exRate*inputForm.totalContractAmount).toFixed(3)}}
             </span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="3">
+          <el-form-item label-width="10px" label="" :rules="[]">
+            <span v-if="!isNaN(inputForm.exRate*inputForm.vat*inputForm.totalContractAmount)&&this.inputForm.totalContractAmount !=''">
+              {{(inputForm.exRate*inputForm.vat*inputForm.totalContractAmount).toFixed(3)}}
+            </span>
+          </el-form-item>
 
+        </el-col>
+        <el-col :span="3">
+          <el-form-item label-width="10px" label="" :rules="[]">
+            {{ $dictUtils.getDictLabel("pr_currency", inputForm.baseCurrency, '-') }}
           </el-form-item>
         </el-col>
       </el-row>
 
       <el-row >
-        <el-tabs type="border-card">
+        <el-tabs type="border-card" v-model="activeName">
           <el-tab-pane v-for="(item, index) in tabs" :label="item" :key ="index" style="overflow-x:auto;overflow-y:hidden ;">
            <el-row v-if="index==0">
              <el-button size="small" @click="addTabListGroup()" type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px" >
@@ -262,11 +280,11 @@
                   <span v-else>{{ row.includedVat }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="unitPrice" width="120" v-if="index != 0" align="right" :label="$i18nMy.t('单价')"    >
+              <el-table-column prop="unitPrice" width="120" v-if="index != 0" align="right" :label="'* '+$i18nMy.t('单价')"    >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-only-num.float="row"
-                    :disabled="flowStage=='start'?true:false"   v-model="row.unitPrice" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                      v-model="row.unitPrice" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
                   </template>
                   <span v-else>{{ row.unitPrice }}</span>
                 </template>
@@ -359,7 +377,7 @@
                 <template slot-scope="{row}">
                   <el-button v-if="row.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(row)" style="float: left; "></el-button>
                   <el-button v-if="!row.edit" type="primary" size="small" icon="el-icon-edit" @click="changeTabListGroup(row)" style="float: left; "></el-button>
-                  <el-button v-if="!row.edit" type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(row)" style="float: left; "></el-button>
+                  <el-button type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(row)" style="float: left; "></el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -399,6 +417,7 @@
   export default {
     data() {
       return {
+        activeName:'0',
         ifSiteChange: true,
         title: '',
         method: '',
@@ -432,6 +451,7 @@
           requestRiority: '',
           contractCurrency: '',
           exRate: '',
+          vat:1,
           totalContractAmount: '',
           baseCurrency: '',
           totalBaseAmount: '',
@@ -456,7 +476,7 @@
       UserSelect
     },
     activated() {
-      //this.init()
+      this.init()
     },
     methods: {
       siteChange(){
@@ -474,9 +494,9 @@
         this.inputForm.createDate=this.$common.formatTime(new Date())
         this.inputForm.createByOffice.id = this.$store.state.user.office.id
         this.inputForm.baseCurrency= 'HKD'//this.$dictUtils.getDictList('pr_currency')[0].value
+        this.inputForm.vat = parseFloat(this.$dictUtils.getDictLabel("vat","pr_config" , "1.1") )
       },
       init(query) {
-        debugger
         if (query&&query.businessId) {
           this.loading = true
           this.inputForm.id = query.businessId
@@ -502,7 +522,6 @@
       },
       // 表单提交
       saveForm(callBack) {
-        debugger
         if(this.detailInfo.length ==0){
            this.$message.warning($i18nMy.t('物品列表不能为空'))
            return ;
@@ -559,6 +578,10 @@
         else if(this.$common.isEmpty(row.expectArrivalDate)){
            this.$message.warning($i18nMy.t('预计到达时间') + $i18nMy.t('不能为空'))
         }
+        else if(this.$common.isEmpty(row.unitPrice)){
+          this.$message.warning($i18nMy.t('单价') + $i18nMy.t('不能为空'))
+          this.activeName='1'
+        }
         else{
           row.edit =false
         }
@@ -574,7 +597,6 @@
         row.edit =true
       },
       currencyChange(){
-        debugger
         var _pThis=this
         var dict= this.$common.find(this.$dictUtils.getDictList('pr_currency_rate'),
           function(e){return e.label == _pThis.inputForm.contractCurrency})

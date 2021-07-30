@@ -134,6 +134,9 @@
         }}).then(({data}) => {
           if (data.success) {
             this.buttons = data.taskDefExtension.flowButtonList
+            for(var i=0;i<this.buttons.length;i++){
+              this.buttons[i].name = $i18nMy.t(this.buttons[i].name)
+            }
           }
         })
       }

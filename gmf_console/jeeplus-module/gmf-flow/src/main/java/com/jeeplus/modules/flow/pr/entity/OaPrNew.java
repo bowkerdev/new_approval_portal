@@ -64,25 +64,27 @@ public class OaPrNew extends DataEntity<OaPrNew> {
 	private String contractCurrency;		// 合同币种
 	@ExcelField(title="汇率", align=2, sort=25)
 	private Double exRate;		// 汇率
-	@ExcelField(title="合同总价", align=2, sort=26)
+	@ExcelField(title="vat", align=2, sort=26)
+	private Double vat;		// vat
+	@ExcelField(title="合同总价", align=2, sort=27)
 	private Double totalContractAmount;		// 合同总价
-	@ExcelField(title="基础币种", dictType="db_type", align=2, sort=27)
+	@ExcelField(title="基础币种", dictType="db_type", align=2, sort=28)
 	private String baseCurrency;		// 基础币种
-	@ExcelField(title="基础币种总价", align=2, sort=28)
+	@ExcelField(title="基础币种总价", align=2, sort=29)
 	private Double totalBaseAmount;		// 基础币种总价
-	@ExcelField(title="申购目的", align=2, sort=29)
+	@ExcelField(title="申购目的", align=2, sort=30)
 	private String purchasePurpose;		// 申购目的
-	@ExcelField(title="ROI", align=2, sort=30)
+	@ExcelField(title="ROI", align=2, sort=31)
 	private String roi;		// ROI
-	@ExcelField(title="预算外说明", align=2, sort=31)
+	@ExcelField(title="预算外说明", align=2, sort=32)
 	private String noBudgetExplain;		// 预算外说明
-	@ExcelField(title="支付说明", align=2, sort=32)
+	@ExcelField(title="支付说明", align=2, sort=33)
 	private String paymentSpecial;		// 支付说明
-	@ExcelField(title="基础明细", align=2, sort=33)
+	@ExcelField(title="基础明细", align=2, sort=34)
 	private String detailInfo;		// 基础明细
-	@ExcelField(title="补充材料", align=2, sort=34)
+	@ExcelField(title="补充材料", align=2, sort=35)
 	private String supplementaryDoc;		// 补充材料
-	@ExcelField(title="供应商材料", align=2, sort=35)
+	@ExcelField(title="供应商材料", align=2, sort=36)
 	private String supplierInfo;		// 供应商材料
 	
 	private String isDraft;		// 是否是草稿 ： 1：是
@@ -96,5 +98,4 @@ public class OaPrNew extends DataEntity<OaPrNew> {
 	public OaPrNew(String id){
 		super(id);
 	}
-	
 }

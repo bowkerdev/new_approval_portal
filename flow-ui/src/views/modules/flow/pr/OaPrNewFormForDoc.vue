@@ -210,6 +210,7 @@
           requestRiority: '',
           contractCurrency: '',
           exRate: '',
+          vat:1,
           totalContractAmount: '',
           baseCurrency: '',
           totalBaseAmount: '',

@@ -216,6 +216,7 @@ function fnAddDynamicMenuRoutes (menuList = [], routes = []) {
       menuList[i].href = menuList[i].href.replace(/[/]$/, '')
       const route = {
         path: menuList[i].href.split('?')[0],
+        fullPath : menuList[i].href,
         component: null,
         name: menuList[i].href.replace(/^\//g, '').replace(/[/]/g, '-').replace(/[?]/g, '-').replace(/&/g, '-').replace(/=/g, '-'),
         meta: {

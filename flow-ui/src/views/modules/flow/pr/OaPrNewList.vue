@@ -255,7 +255,6 @@
           }
         }).then(({data}) => {
           if (data && data.success) {
-            debugger
             this.dataList = data.page.list
             this.total = data.page.count
             this.loading = false

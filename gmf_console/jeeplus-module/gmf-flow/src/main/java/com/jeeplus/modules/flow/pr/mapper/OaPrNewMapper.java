@@ -11,7 +11,7 @@ import com.jeeplus.modules.flow.pr.entity.OaPrNew;
 /**
  * PR申请单MAPPER接口
  * @author zhimi
- * @version 2021-06-29
+ * @version 2021-07-30
  */
 @Mapper
 @Repository

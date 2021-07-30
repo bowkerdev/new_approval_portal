@@ -59,7 +59,7 @@
       <el-row :gutter="0">
         <p style="float: left;" class="sub-title">
           {{$i18nMy.t('供应商报价和合同上传')}}
-        </p><div style="float: left;"><el-button size="small" @click="addTabListGroup()" type="primary" icon="el-icon-plus" style="float: left;margin-top: 7px;margin-left: 10px;padding: 5px 30px;" ></el-button></div>
+        </p><div style="float: left;"><el-button size="small" :disabled="detailInfo.length==0" @click="addTabListGroup()" type="primary" icon="el-icon-plus" style="float: left;margin-top: 7px;margin-left: 10px;padding: 5px 30px;" ></el-button></div>
         <div style="width: 100%;overflow: auto; border:1px solid #EBEEF5">
           <table style="min-width: 100%;border-collapse: collapse; border:1px solid #EBEEF5" class="supplierTable"
           cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff" >
@@ -404,6 +404,7 @@
           requestRiority: '',
           contractCurrency: '',
           exRate: '',
+          vat:1,
           totalContractAmount: '',
           baseCurrency: '',
           totalBaseAmount: '',
@@ -583,8 +584,10 @@
           var obj=this.detailInfo[i]
           obj.docUnitPrice = 0
           obj.docAmount  =0
+          obj.docVatAmount = 0
         }
         this.inputForm.totalContractAmount = 0
+        var vatRate= this.inputForm.vat
         for(var i=0;i<this.supplierInfo.length;i++){
           if(!this.supplierInfo[i].edit){
             for(var j=0;j<this.supplierInfo[i].detailInfo.length;j++){
@@ -592,10 +595,15 @@
                 var serialNumber = this.supplierInfo[i].detailInfo[j].serialNumber
                 var obj=this.$common.find(this.detailInfo,
                    function(e){return e.serialNumber== serialNumber})
-                 obj.docUnitPrice = this.supplierInfo[i].detailInfo[j].offeredUnitPrice
-                 obj.docAmount = this.supplierInfo[i].detailInfo[j].offeredUnitPrice*
+                obj.supplierName = this.supplierInfo[i].supplierName
+                obj.docUnitPrice = this.supplierInfo[i].detailInfo[j].offeredUnitPrice||0
+                obj.docAmount = obj.docUnitPrice*
                   parseInt(this.supplierInfo[i].detailInfo[j].moq||"0")
-                 this.inputForm.totalContractAmount += obj.docAmount
+
+                obj.docVatAmount = (vatRate*obj.docAmount).toFixed(3)
+
+                this.inputForm.totalContractAmount += (obj.docAmount||0)
+                this.inputForm.contractCurrency = this.supplierInfo[i].currency
               }
             }
           }

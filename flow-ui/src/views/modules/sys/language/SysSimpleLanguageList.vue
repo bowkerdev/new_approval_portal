@@ -191,7 +191,6 @@
             ..._self.searchForm
           }
         }).then(({data}) => {
-          debugger
           if (data && data.success) {
             _self.dataList = data.page.list
             console.log(_self.dataList)

@@ -60,6 +60,4 @@ public class JeeplusWebApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(JeeplusWebApplication.class, args);
     }
-
-
 }

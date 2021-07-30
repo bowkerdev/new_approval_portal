@@ -36,7 +36,6 @@
     },
     watch:{
       activeName(val, oldVal){//普通的watch监听
-        debugger
         if(val=='0'){
           this.$refs.oaPrNewForm.inputForm.supplementaryDoc=
             JSON.stringify(this.$refs.oaPrNewFormForDoc.supplementaryDoc)
@@ -48,8 +47,8 @@
       }
     },
     activated() {
-      var query={businessId:'77e400d5c0734a7fa55e43d6369c66ed'}
-      this.init(query)
+      //var query={businessId:'77e400d5c0734a7fa55e43d6369c66ed'}
+      //this.init(query)
     },
     methods: {
       init(query) {
@@ -61,6 +60,10 @@
       saveForm(callBack) {
         this.$refs.oaPrNewForm.inputForm.supplementaryDoc=
           JSON.stringify(this.$refs.oaPrNewFormForDoc.supplementaryDoc)
+
+        this.$refs.oaPrNewForm.saveForm((businessTable, businessId) => {
+           callBack(businessTable, businessId)
+        })
         callBack("oa_pr_new", this.businessId)
       }
     }

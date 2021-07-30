@@ -16,7 +16,7 @@
 
       >
         <span @click="navigate" @keypress.enter="navigate">
-          {{tag.query&&tag.query.title || tag.title }}
+          {{tag.query&&$i18nMy.t(tag.query.title) || tag.title }}
           <span v-if="!isAffix(tag)" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
         </span>
       </router-link>

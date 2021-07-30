@@ -1,0 +1,39 @@
+.split-parent {
+  display: flex;
+
+  &,
+  .split-left,
+  .split-right {
+    height: 100%;
+  }
+  // split-left
+  .split-left {
+    background-color: #fff;
+
+    .fix-top-btns {
+      margin: 10px;
+    }
+    .el-scrollbar .el-tree {
+      padding: 10px;
+    }
+
+    .el-scrollbar {
+      height: calc(100% - 60px);
+    }
+  }
+  .split-right {
+    display: flex;
+    flex-direction: column;
+
+    .flex-grow-item {
+      flex-grow: 1;
+    }
+  }
+  // 拖动条
+  .gutter.gutter-horizontal {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+    background-repeat: no-repeat;
+    background-color: rgb(229, 231, 235);
+    background-position: 50% center;
+  }
+}

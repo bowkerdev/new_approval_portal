@@ -143,7 +143,7 @@
 </div>
 </template>
 <script>
-  import theme_color_list from '@/utils/theme-color'
+  import theme_color_list, { defaultThemeColor } from '@/utils/theme-color'
   export default {
     name: 'sys-config-SysConfig',
     data () {
@@ -154,7 +154,7 @@
           singleLoginType: '1'
         },
         themeFormSetting: {
-          defaultTheme: '#1890FF',
+          defaultTheme: defaultThemeColor,
           productName: '',
           logo: '',
           defaultLayout: '',

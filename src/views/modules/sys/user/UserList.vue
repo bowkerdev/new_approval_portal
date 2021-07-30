@@ -46,7 +46,7 @@
         <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">{{$i18nMy.t('重置')}}</el-button>
       </el-form-item>
       </el-form>
-      <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
+      <el-dialog  :title="$i18nMy.t('导入Excel')" :visible.sync="isImportCollapse">
         <el-form size="small" :inline="true" ref="importForm">
           <el-form-item>
           <el-button  type="default" @click="downloadTpl()" size="small">{{$i18nMy.t('下载模板')}}</el-button>

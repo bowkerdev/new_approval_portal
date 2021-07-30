@@ -72,6 +72,7 @@
       @sort-change="sortChangeHandle"
       v-loading="loading"
       size="small"
+      height="calc(100% - 80px)"
       @expand-change="detail"
       class="table">
       <el-table-column
@@ -81,14 +82,19 @@
         width="50">
       </el-table-column>
     <el-table-column
+        prop="code"
+        sortable="custom"
+        :label="$i18nMy.t('识别码')">
+            <template slot-scope="scope">
+              <el-link  type="primary" :underline="false" v-if="hasPermission('sys:sysSimpleLanguage:edit')" @click="edit(scope.row.id)">{{scope.row.code}}</el-link>
+              <el-link  type="primary" :underline="false" v-else-if="hasPermission('sys:sysSimpleLanguage:view')"  @click="view(scope.row.id)">{{scope.row.code}}</el-link>
+              <span v-else>{{scope.row.code}}</span>
+            </template>
+      </el-table-column>
+    <el-table-column
         prop="cn"
         sortable="custom"
         :label="$i18nMy.t('简体中文')">
-            <template slot-scope="scope">
-              <el-link  type="primary" :underline="false" v-if="hasPermission('sys:sysSimpleLanguage:edit')" @click="edit(scope.row.id)">{{scope.row.cn}}</el-link>
-              <el-link  type="primary" :underline="false" v-else-if="hasPermission('sys:sysSimpleLanguage:view')"  @click="view(scope.row.id)">{{scope.row.cn}}</el-link>
-              <span v-else>{{scope.row.cn}}</span>
-            </template>
       </el-table-column>
     <el-table-column
         prop="hk"
@@ -109,11 +115,6 @@
         prop="cam"
         sortable="custom"
         :label="$i18nMy.t('柬埔寨')">
-      </el-table-column>
-    <el-table-column
-        prop="code"
-        sortable="custom"
-        :label="$i18nMy.t('识别码')">
       </el-table-column>
       <el-table-column
         header-align="center"

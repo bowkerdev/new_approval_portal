@@ -181,6 +181,7 @@
         </el-row>
         <el-table
           :data="dataList"
+          ref="userTable"
           v-loading="loading"
           @selection-change="selectionChangeHandle"
           @sort-change="sortChangeHandle"
@@ -358,7 +359,7 @@
     components: {
       UserForm
     },
-    created () {
+    activated () {
       this.refreshTree()
       this.refreshList()
     },
@@ -421,6 +422,7 @@
       sizeChangeHandle (val) {
         this.pageSize = val
         this.pageNo = 1
+        this.$refs.userTable.doLayout()
         this.refreshList()
       },
       // 当前页

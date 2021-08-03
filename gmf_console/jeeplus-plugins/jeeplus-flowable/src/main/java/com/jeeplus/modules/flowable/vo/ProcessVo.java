@@ -5,11 +5,15 @@ import lombok.Data;
 import java.util.Date;
 import java.util.Map;
 
+import com.jeeplus.core.persistence.DataEntity;
+import com.jeeplus.modules.flowable.wf.entity.WfDelegate;
+
 @Data
-public class ProcessVo {
+public class ProcessVo extends DataEntity<ProcessVo>{
     private String processInstanceId; // 流程实例ID
     private String processDefinitionId; // 流程定义ID
     private String processDefinitionName; // 流程名称
+    private String title; // 流程标题
     private String activityId;
     private int version; // 流程版本
     private Map vars; // 流程变量

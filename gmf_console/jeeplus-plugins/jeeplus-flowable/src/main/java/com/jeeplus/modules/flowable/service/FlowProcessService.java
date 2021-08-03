@@ -12,6 +12,7 @@ import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.service.BaseService;
 import com.jeeplus.modules.flowable.constant.FlowableConstant;
 import com.jeeplus.modules.flowable.entity.TaskComment;
+import com.jeeplus.modules.flowable.mapper.FlowMapper;
 import com.jeeplus.modules.flowable.service.converter.json.FlowModelService;
 import com.jeeplus.modules.flowable.vo.ActionType;
 import com.jeeplus.modules.flowable.vo.ProcessStatus;
@@ -88,7 +89,9 @@ public class FlowProcessService extends BaseService {
     private TaskService taskService;
     @Autowired
     private FlowableBpmnModelService flowableBpmnModelService;
-
+    @Autowired
+    private FlowMapper flowMapper;
+    
     /**
      * 根据key获取流程
      */
@@ -158,7 +161,7 @@ public class FlowProcessService extends BaseService {
     /**
      * 运行中的流程
      */
-    public Page<ProcessVo> runningList(Page<ProcessInstance> page, String procInsId, String procDefKey) throws Exception {
+    public Page<ProcessVo> runningList(Page<ProcessInstance> page, String procInsId, String procDefKey, String title) throws Exception {
         List<ProcessVo> result = new ArrayList<ProcessVo>();
         Page<ProcessVo> resultPage = new Page<>();
         ProcessInstanceQuery processInstanceQuery = runtimeService.createProcessInstanceQuery().includeProcessVariables().orderByStartTime().desc();
@@ -171,8 +174,10 @@ public class FlowProcessService extends BaseService {
             processInstanceQuery.processDefinitionKey(procDefKey);
         }
         
-      //processInstanceQuery.variableValueEquals("title", "TOBVNBF1202012000005");
-
+        if (StringUtils.isNotBlank(title)) {
+        	processInstanceQuery.variableValueLike("title", "%"+title+"%");
+        }
+        
         page.setCount(processInstanceQuery.count());
         resultPage.setCount(processInstanceQuery.count());
 
@@ -190,6 +195,12 @@ public class FlowProcessService extends BaseService {
             processVo.setProcessDefinitionName (p.getProcessDefinitionName ());
             processVo.setActivityId (p.getActivityId ());
             processVo.setVars (p.getProcessVariables());
+            User user = UserUtils.get(String.valueOf(p.getProcessVariables().get("applyUserId")));
+            if (user==null) {
+            	user = new User();
+            	user.setName(String.valueOf(p.getProcessVariables().get("applyUserId")));
+            }
+            processVo.setCreateBy(user);
             result.add(processVo);
         }
         resultPage.setList(result);
@@ -200,38 +211,29 @@ public class FlowProcessService extends BaseService {
     /**
      * 已结束的流程
      */
-    public Page<ProcessVo> historyList(Page<ProcessVo> page, String procInsId, String procDefKey) throws Exception {
-
-        HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery().includeProcessVariables().finished()
-                .orderByProcessInstanceEndTime().desc();
-
-        if (StringUtils.isNotBlank(procInsId)) {
-            query.processInstanceId(procInsId);
-        }
-
-        if (StringUtils.isNotBlank(procDefKey)) {
-            query.processDefinitionKey(procDefKey);
-        }
-        
-        //query.variableValueEquals("title", "TOBVNBF1202012000005");
-
-        page.setCount(query.count());
-        List<HistoricProcessInstance> list = Lists.newArrayList();
-        if (page.getMaxResults() == -1) {
-            list = query.list();
-        } else {
-            list = query.listPage(page.getFirstResult(), page.getMaxResults());
-        }
-        List<ProcessVo> mapList = Lists.newArrayList();
-        for(HistoricProcessInstance instance:list){
-            ProcessVo processVo = queryProcessState(instance.getProcessDefinitionId (), instance.getId ());
-            processVo.setVars (instance.getProcessVariables());
-            processVo.setProcessDefinitionName (instance.getProcessDefinitionName());
+    public Page<ProcessVo> historyList(Page<ProcessVo> page, String procInsId, String procDefKey, String title) throws Exception {
+    	ProcessVo pVo = new ProcessVo();
+    	pVo.setPage(page);
+    	pVo.setTitle(title);
+    	List<ProcessVo> list = flowMapper.findHistoryList(pVo) ;
+    	List<ProcessVo> mapList = Lists.newArrayList();
+ 
+        for(ProcessVo instance: list){        	
+        	HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(instance.getProcessInstanceId()).includeProcessVariables().singleResult();
+            ProcessVo processVo = queryProcessState(instance.getProcessDefinitionId (), instance.getProcessInstanceId());
+            processVo.setVars (historicProcessInstance.getProcessVariables());
+            processVo.setProcessDefinitionName (historicProcessInstance.getProcessDefinitionName());
             processVo.setStartTime (instance.getStartTime());
             processVo.setEndTime (instance.getEndTime());
-            processVo.setProcessInstanceId (instance.getId());
+            processVo.setProcessInstanceId (instance.getProcessInstanceId());
             processVo.setProcessDefinitionId (instance.getProcessDefinitionId());
-            processVo.setDeleteReason ( instance.getDeleteReason());
+            processVo.setDeleteReason (historicProcessInstance.getDeleteReason());
+            User user = UserUtils.get(historicProcessInstance.getStartUserId());
+            if (user==null) {
+            	user = new User();
+            	user.setName(historicProcessInstance.getStartUserId());
+            }
+            processVo.setCreateBy(user);
             mapList.add(processVo);
         }
         page.setList(mapList);

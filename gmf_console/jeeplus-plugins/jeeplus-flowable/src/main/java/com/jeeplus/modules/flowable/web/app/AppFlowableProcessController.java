@@ -50,8 +50,8 @@ public class AppFlowableProcessController extends BaseController {
 
 
     @GetMapping("runningData")
-    public AjaxJson runningListData(String procInsId, String procDefKey, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-        Page<ProcessVo> page = flowProcessService.runningList(new Page<ProcessInstance>(request, response), procInsId, procDefKey);
+    public AjaxJson runningListData(String procInsId, String procDefKey, String title, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+        Page<ProcessVo> page = flowProcessService.runningList(new Page<ProcessInstance>(request, response), procInsId, procDefKey, title);
         return AjaxJson.success().put("page", page);
     }
 
@@ -60,8 +60,8 @@ public class AppFlowableProcessController extends BaseController {
      * 已结束的实例
      */
     @GetMapping("historyListData")
-    public AjaxJson historyListData(String procInsId, String procDefKey, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception{
-        Page<ProcessVo> page = flowProcessService.historyList(new Page<ProcessVo>(request, response), procInsId, procDefKey);
+    public AjaxJson historyListData(String procInsId, String procDefKey, String title, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception{
+        Page<ProcessVo> page = flowProcessService.historyList(new Page<ProcessVo>(request, response), procInsId, procDefKey, title);
         return AjaxJson.success().put("page", page);
     }
 

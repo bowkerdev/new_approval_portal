@@ -1888,7 +1888,14 @@ span{
   top: 2px;
 }
 
-// table 
+// table
 .cell.el-tooltip {
   width: 100% !important;
+}
+
+.el-step__main{padding: 0px 5px;}
+.el-step__title{line-height: 1.2;padding: 10px 0px;}
+
+.el-step__description.is-finish{
+ color: #81858c !important;
 }

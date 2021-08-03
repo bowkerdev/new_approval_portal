@@ -1,12 +1,12 @@
 <template>
 <div>
   <h4 style="text-align:center">{{title}}</h4>
-  <img  v-if="code === 1" class="process-status-img" src="../../../../assets/img/flowable/1.png"/>
+  <!-- <img  v-if="code === 1" class="process-status-img" src="../../../../assets/img/flowable/1.png"/>
   <img  v-if="code === 2" class="process-status-img" src="../../../../assets/img/flowable/2.png"/>
   <img  v-if="code === 3" class="process-status-img" src="../../../../assets/img/flowable/3.png"/>
   <img  v-if="code === 4" class="process-status-img" src="../../../../assets/img/flowable/4.png"/>
   <img  v-if="code === 5" class="process-status-img" src="../../../../assets/img/flowable/5.png"/>
-  <img  v-if="code === 6" class="process-status-img" src="../../../../assets/img/flowable/6.png"/>
+  <img  v-if="code === 6" class="process-status-img" src="../../../../assets/img/flowable/6.png"/> -->
   <el-tabs type="border-card" v-model="selectedTab">
     <el-tab-pane :label="$i18nMy.t('表单信息')" name="form-first">
 

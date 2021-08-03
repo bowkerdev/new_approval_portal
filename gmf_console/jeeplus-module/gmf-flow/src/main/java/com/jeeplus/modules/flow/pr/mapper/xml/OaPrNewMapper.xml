@@ -80,6 +80,27 @@
 					and a.proc_ins_id is not null
 				</if>
 			${dataScope}
+			<if test="beginCreateDate != null and endCreateDate != null ">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
+			<if test="applicationNo != null and applicationNo != ''">
+				AND a.application_no = #{applicationNo}
+			</if>
+			<if test="projectName != null and projectName != ''">
+				AND a.project_name = #{projectName}
+			</if>
+			<if test="applySiteCode != null and applySiteCode != ''">
+				AND a.apply_site_code = #{applySiteCode}
+			</if>
+			<if test="requesterDepartment != null and requesterDepartment.id != null and requesterDepartment.id != ''">
+				AND a.requester_department = #{requesterDepartment.id}
+			</if>
+			<if test="expenseType != null and expenseType != ''">
+				AND a.expense_type = #{expenseType}
+			</if>
+			<if test="requestRiority != null and requestRiority != ''">
+				AND a.request_riority = #{requestRiority}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

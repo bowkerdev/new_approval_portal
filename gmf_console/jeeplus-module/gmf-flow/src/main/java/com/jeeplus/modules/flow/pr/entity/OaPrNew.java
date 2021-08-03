@@ -38,7 +38,7 @@ public class OaPrNew extends DataEntity<OaPrNew> {
 	private Office requesterDepartment;		// 请求者部门
 	@ExcelField(title="请求者", align=2, sort=13)
 	private String requester;		// 请求者
-	@ExcelField(title="费用类型", dictType="db_type", align=2, sort=14)
+	@ExcelField(title="费用类型", dictType="expense_type", align=2, sort=14)
 	private String expenseType;		// 费用类型
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@ExcelField(title="要求到货时间", align=2, sort=15)
@@ -58,7 +58,7 @@ public class OaPrNew extends DataEntity<OaPrNew> {
 	private Date approvedDate;		// 审批通过日期
 	@ExcelField(title="是否预算内", dictType="db_type", align=2, sort=22)
 	private String isBudget;		// 是否预算内
-	@ExcelField(title="申购优先级", dictType="db_type", align=2, sort=23)
+	@ExcelField(title="申购优先级", dictType="request_priority", align=2, sort=23)
 	private String requestRiority;		// 申购优先级
 	@ExcelField(title="合同币种", dictType="db_type", align=2, sort=24)
 	private String contractCurrency;		// 合同币种
@@ -88,6 +88,8 @@ public class OaPrNew extends DataEntity<OaPrNew> {
 	private String supplierInfo;		// 供应商材料
 	
 	private String isDraft;		// 是否是草稿 ： 1：是
+	private Date beginCreateDate;		// 开始 创建时间
+	private Date endCreateDate;		// 结束 创建时间
 	
 	private Flow flow = new Flow();
 	

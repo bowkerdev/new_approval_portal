@@ -1,5 +1,15 @@
 <template>
   <div class="page bg-white">
+      <el-form size="small" :inline="true"  class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+            <!-- 搜索框-->
+          <el-form-item prop="title">
+                <el-input size="small" v-model="searchForm.title" :placeholder="$i18nMy.t('标题')" clearable></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
+          </el-form-item>
+      </el-form>
       <el-row>
         <el-button  type="danger"   size="small" icon="el-icon-delete" @click="del()"
                   :disabled="dataListSelections.length <= 0">{{$i18nMy.t('作废')}}</el-button>
@@ -42,7 +52,7 @@
              </template>
           </el-table-column>
            <el-table-column
-            prop="vars.userName"
+            prop="createBy.name"
             :label="$i18nMy.t('流程发起人')">
           </el-table-column>
          <el-table-column
@@ -55,8 +65,8 @@
             <template slot-scope="scope">
               <el-button  type="text" size="small"
                         @click="detail(scope.row)">{{$i18nMy.t('详情')}}</el-button>
-              <el-button  type="text" size="small"
-                        @click="trace(scope.row)">{{$i18nMy.t('进度')}}</el-button>
+              <!-- <el-button  type="text" size="small"
+                        @click="trace(scope.row)">{{$i18nMy.t('进度')}}</el-button> -->
               <el-button  type="text" size="small"
                         @click="del(scope.row.id)">{{$i18nMy.t('作废')}}</el-button>
             </template>
@@ -90,6 +100,11 @@
   export default {
     data () {
       return {
+        searchForm: {
+          beginDate: '',
+          endDate: '',
+          title: ''
+        },
         dataList: [],
         pageNo: 1,
         pageSize: 10,
@@ -125,6 +140,10 @@
             this.loading = false
           }
         })
+      },
+      resetSearch () {
+        this.$refs.searchForm.resetFields()
+        this.refreshList()
       },
       // 每页数
       sizeChangeHandle (val) {

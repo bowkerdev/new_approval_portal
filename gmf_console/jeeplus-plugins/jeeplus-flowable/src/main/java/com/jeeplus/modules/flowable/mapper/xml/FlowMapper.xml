@@ -25,5 +25,26 @@
 	<select id="querySql" resultType="java.util.Map">
 	    ${sql}
 	</select>
+	
+	<select id="findHistoryList" resultType="com.jeeplus.modules.flowable.vo.ProcessVo" >
+		select 
+			`PROC_INST_ID_` as processInstanceId,
+			`PROC_DEF_ID_` as processDefinitionId,
+			`START_TIME_` as startTime,
+			`END_TIME_` as endTime
+		from act_hi_procinst a 
+		<where>
+			a.END_TIME_ is not null 
+			<if test="title != null and title != ''">
+				and exists (select 1 from act_hi_varinst v where v.PROC_INST_ID_=a.PROC_INST_ID_ and v.NAME_ = 'title' and v.TEXT_ LIKE
+				    <if test="_databaseId == 'postgre'">'%'||#{title}||'%'</if>
+					<if test="_databaseId == 'oracle'">'%'||#{title}||'%'</if>
+					<if test="_databaseId == 'mssql'">'%'+#{title}+'%'</if>
+					<if test="_databaseId == 'mysql'">concat('%',#{title},'%')</if>
+				)
+			</if>
+		</where>
+		ORDER BY a.END_TIME_ desc
+	</select>
 
 </mapper>

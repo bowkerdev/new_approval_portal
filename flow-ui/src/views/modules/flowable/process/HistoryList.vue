@@ -1,13 +1,23 @@
 <template>
   <div class="page bg-white">
-      <el-row>
+      <el-form size="small" :inline="true"  class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+            <!-- 搜索框-->
+          <el-form-item prop="title">
+                <el-input size="small" v-model="searchForm.title" :placeholder="$i18nMy.t('标题')" clearable></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
+          </el-form-item>
+      </el-form>
+      <!-- <el-row>
         <el-button  type="danger"   size="small" icon="el-icon-delete" @click="del()"
                   :disabled="dataListSelections.length <= 0">{{$i18nMy.t('删除')}}</el-button>
-      </el-row>
+      </el-row> -->
         <el-table
           :data="dataList"
           size = "small"
-          height="calc(100% - 80px)"
+          height="calc(100% - 180px)"
           v-loading="loading"
           @selection-change="selectionChangeHandle"
           class="table">
@@ -21,21 +31,21 @@
             prop="vars.title"
             show-overflow-tooltip
             min-width="180px"
-            :label="$i18nMy.t('实例名称')">
+            :label="$i18nMy.t('标题')">
           </el-table-column>
           <el-table-column
             prop="processDefinitionName"
             :label="$i18nMy.t('流程名称')">
           </el-table-column>
            <el-table-column
-            prop="vars.userName"
+            prop="createBy.name"
             :label="$i18nMy.t('流程发起人')">
           </el-table-column>
           <el-table-column
-            prop="deleteReason"
+            prop="status"
             width="150"
             show-overflow-tooltip
-            :label="$i18nMy.t('流程启动时间')">
+            :label="$i18nMy.t('流程状态')">
              <template slot-scope="scope">
                 <el-tag  :type="scope.row.level"   effect="dark" size="small">{{scope.row.status}} </el-tag>
              </template>
@@ -55,12 +65,12 @@
             width="200"
             :label="$i18nMy.t('操作')">
             <template slot-scope="scope">
-            <el-button  type="text" size="small"
-                        @click="trace(scope.row)">{{$i18nMy.t('流程图')}}</el-button>
+              <!-- <el-button  type="text" size="small"
+                        @click="trace(scope.row)">{{$i18nMy.t('流程图')}}</el-button> -->
               <el-button  type="text" size="small"
-                        @click="detail(scope.row)">{{$i18nMy.t('历史')}}</el-button>
-              <el-button  type="text" size="small"
-                        @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
+                        @click="detail(scope.row)">{{$i18nMy.t('详情')}}</el-button>
+              <!-- <el-button  type="text" size="small"
+                        @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button> -->
             </template>
           </el-table-column>
         </el-table>
@@ -94,7 +104,8 @@
       return {
         searchForm: {
           beginDate: '',
-          endDate: ''
+          endDate: '',
+          title: ''
         },
         searchDates: '',
         dataList: [],
@@ -144,6 +155,10 @@
             this.loading = false
           }
         })
+      },
+      resetSearch () {
+        this.$refs.searchForm.resetFields()
+        this.refreshList()
       },
       // 每页数
       sizeChangeHandle (val) {

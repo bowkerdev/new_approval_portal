@@ -47,8 +47,8 @@ spring:
         master:
           #username: root
           #password: 123456
-          #url: jdbc:mysql://gmfzhimi.oicp.io:29823/digital_guilin?useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true&serverTimezone=GMT&allowMultiQueries=true
-          #url: jdbc:mysql://192.168.2.136:3306/flow?useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true&serverTimezone=GMT&allowMultiQueries=true
+          #url: jdbc:mysql://gmfzhimi.oicp.io:29823/flow_prod?useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true&serverTimezone=GMT&allowMultiQueries=true
+          #url: jdbc:mysql://192.168.2.136:3306/flow_prod?useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true&serverTimezone=GMT&allowMultiQueries=true
           
           #username: zhimi
           #password: zhimi@123
@@ -56,7 +56,7 @@ spring:
           
           username: root
           password: root
-          url: jdbc:mysql://127.0.0.1:3306/flow?useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true&autoReconnect=true&serverTimezone=Asia/Shanghai
+          url: jdbc:mysql://127.0.0.1:3306/flow_prod?useUnicode=true&characterEncoding=utf-8&useSSL=false&nullCatalogMeansCurrent=true&autoReconnect=true&serverTimezone=Asia/Shanghai
           driver-class-name: com.mysql.cj.jdbc.Driver
           
           #oracle database settings
@@ -214,7 +214,7 @@ jwt.accessToken.expireTime: 86400000 # 24小时，单位毫秒
 
 # 产品授权 - 
 productId: Y2020010392
-license: 0BFBF004A11CB6B68E34F3B9440ED770C349C20E6E9F0EA4CF1F5F255FEF4874A07FADD423295DD848ED0263F215456ACF52D257F211320624AB4BA56EF9D0AC
+license: 5E831B589AEC1070D50232E338DBA28FB9DEAF6133B7C0692B69FA8B2E4934F23DE5A30A262AAF6AA3B582E8029D0B2F9F830E007B9D12EBAD1BA71EB5A494BE
 
 
 

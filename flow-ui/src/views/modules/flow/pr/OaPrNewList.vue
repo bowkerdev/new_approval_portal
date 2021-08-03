@@ -1,7 +1,73 @@
 <template>
-  <div class="page">
+  <div class="page" style="height: calc(100% - 40px);">
       <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
+         <el-form-item prop="createDate">
+               <el-date-picker
+                    v-model="searchForm.createDate"
+                    type="daterange"
+                    size="small"
+                    align="right"
+                    value-format="yyyy-MM-dd hh:mm:ss"
+                    unlink-panels
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期">
+                 </el-date-picker>
+         </el-form-item>
+         <el-form-item prop="applicationNo">
+                <el-input size="small" v-model="searchForm.applicationNo" placeholder="申请单号" clearable></el-input>
+         </el-form-item>
+         <el-form-item prop="projectName">
+                <el-input size="small" v-model="searchForm.projectName" placeholder="项目名称" clearable></el-input>
+         </el-form-item>
+         <el-form-item prop="applySiteCode">
+                  <el-select size="small" v-model="searchForm.applySiteCode" placeholder="请选择所属工厂" @change="siteChange" style="width: 100%;">
+                    <el-option
+                      v-for="item in $dictUtils.getDictList('apply_site_code')"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+         </el-form-item>
+         <el-form-item prop="requesterDepartment.id">
+            <SelectTree
+                  ref="requesterDepartment.id"
+                  v-if="ifSiteChange"
+                  :props="{
+                      value: 'id',             // ID字段名
+                      label: 'name',         // 显示名称
+                      children: 'children'    // 子级字段名
+                    }"
+                  size="small"
+                  placeholder="请选择请求者部门"
+                  :url="`/sys/office/treeData?type=2&parentCode=${searchForm.applySiteCode}`"
+                  :value="searchForm.requesterDepartment.id"
+                  :clearable="true"
+                  :accordion="true"
+                  @getValue="(value) => {searchForm.requesterDepartment.id=value}"/>
+         </el-form-item>
+         <el-form-item prop="expenseType">
+                  <el-select size="small" v-model="searchForm.expenseType" placeholder="请选择费用类型"  style="width: 100%;">
+                    <el-option
+                      v-for="item in $dictUtils.getDictList('expense_type')"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+         </el-form-item>
+         <el-form-item prop="requestRiority">
+                  <el-select size="small" v-model="searchForm.requestRiority" placeholder="请选择申购优先级"  style="width: 100%;">
+                    <el-option
+                      v-for="item in $dictUtils.getDictList('request_priority')"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+         </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
             <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
@@ -50,7 +116,7 @@
       @sort-change="sortChangeHandle"
       v-loading="loading"
       size="small"
-      height="calc(100% - 80px)"
+      height="calc(100% - 120px)"
       @expand-change="detail"
       class="table">
       <el-table-column
@@ -215,12 +281,23 @@
 <script>
   import OaPrNewForm from './OaPrNewForm'
   import pick from 'lodash.pick'
+  import SelectTree from '@/components/treeSelect/treeSelect.vue'
   export default {
     data () {
       return {
+        ifSiteChange: true,
         visible:false,
         searchForm: {
-          isDraft: ''
+          isDraft: '',
+          createDate: '',
+          applicationNo: '',
+          projectName: '',
+          applySiteCode: '',
+          requesterDepartment: {
+            id: ''
+          },
+          expenseType: '',
+          requestRiority: ''
         },
         dataList: [],
         pageNo: 1,
@@ -233,14 +310,22 @@
       }
     },
     components: {
+      SelectTree,
       OaPrNewForm
     },
     activated () {
       var _that=this;
+
       _that.searchForm.isDraft = (_that.$route.query.isDraft || '')
       this.refreshList()
     },
     methods: {
+      siteChange(){
+        this.ifSiteChange = false;
+        this.$nextTick(() => {
+          this.ifSiteChange = true;
+        })
+      },
       // 获取数据列表
       refreshList () {
         this.loading = true
@@ -251,7 +336,9 @@
             'pageNo': this.pageNo,
             'pageSize': this.pageSize,
             'orderBy': this.orderBy,
-            ...this.searchForm
+            beginCreateDate: this.searchForm.createDate[0],
+            endCreateDate: this.searchForm.createDate[1],
+            ...this.lodash.omit(this.searchForm, 'createDate')
           }
         }).then(({data}) => {
           if (data && data.success) {
@@ -392,7 +479,9 @@
       },
       exportExcel () {
         let params = {
-          ...this.searchForm
+          beginCreateDate: this.searchForm.createDate[0],
+          endCreateDate: this.searchForm.createDate[1],
+          ...this.lodash.omit(this.searchForm, 'createDate')
         }
         this.$utils.download('/flow/pr/oaPrNew/export', params)
       },

@@ -87,6 +87,7 @@
                 this.isCustom = true
                 this.form = _import(`modules/flowable/custom/${data.formDefinition.name}`)
               }
+              debugger
               // eslint-disable-next-line no-undef
               this.options = this.DynamicFormLanguage.simpleLanguageFrom(JSON.parse(json))
               this.dataBindMap.clear()
@@ -114,19 +115,22 @@
                     }
                   })
                   for (let key in this.formData) {
-                    let dataField = this.dataBindMap.get(key)
-                    if (dataField && (dataField['type'] === 'checkbox' ||
-                        dataField['type'] === 'imgupload' ||
-                        dataField['type'] === 'table' ||
-                        (dataField['type'] === 'select' && dataField.options.multiple) ||
-                        dataField['type'] === 'fileupload')) {
+                    let dataFieldType = this.dataBindMap.get(key)
+                    console.log(dataFieldType)
+                    if (dataFieldType && (dataFieldType === 'checkbox' ||
+                        dataFieldType === 'imgupload' ||
+                        dataFieldType === 'table' ||
+                        // ??  (dataFieldType === 'select' && dataField.options.multiple) ||
+                        dataFieldType === 'fileupload')) {
                       if (this.formData[key] && typeof this.formData[key] === 'string') {
                         this.formData[key] = JSON.parse(this.formData[key])
                       } else if (!this.formData[key]) {
                         this.formData[key] = []
                       }
                     }
-                    if (dataField && (dataField['type'] === 'number' || (dataField['options'] && dataField['options'].dataType === 'number'))) {
+                    if (dataFieldType && (dataFieldType === 'number' ||
+                          (dataFieldType &&
+                           dataFieldType.dataType === 'number'))) {
                       if (this.formData[key] !== undefined && this.formData[key] !== '' && typeof this.formData[key] === 'string') {
                         this.formData[key] = JSON.parse(this.formData[key])
                       }

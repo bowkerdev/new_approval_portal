@@ -23,7 +23,7 @@ import java.util.Properties;
     exclude = {
         DruidDataSourceAutoConfigure.class,
         org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
-    }
+    } 
 )
 public class JeeplusWebApplication extends SpringBootServletInitializer {
     // 其中 dataSource 框架会自动为我们注入

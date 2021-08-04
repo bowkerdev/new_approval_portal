@@ -2,27 +2,14 @@
   <div class="page" style="height: calc(100% - 40px);">
       <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
-         <el-form-item prop="createDate">
-               <el-date-picker
-                    v-model="searchForm.createDate"
-                    type="daterange"
-                    size="small"
-                    align="right"
-                    value-format="yyyy-MM-dd hh:mm:ss"
-                    unlink-panels
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期">
-                 </el-date-picker>
-         </el-form-item>
          <el-form-item prop="applicationNo">
-                <el-input size="small" v-model="searchForm.applicationNo" placeholder="申请单号" clearable></el-input>
+                <el-input size="small" v-model="searchForm.applicationNo" :placeholder="$i18nMy.t('申请单号')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="projectName">
-                <el-input size="small" v-model="searchForm.projectName" placeholder="项目名称" clearable></el-input>
+                <el-input size="small" v-model="searchForm.projectName" :placeholder="$i18nMy.t('项目名称')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="applySiteCode">
-                  <el-select size="small" v-model="searchForm.applySiteCode" placeholder="请选择所属工厂" @change="siteChange" style="width: 100%;">
+                  <el-select size="small" v-model="searchForm.applySiteCode" :placeholder="$i18nMy.t('采购地区')" @change="siteChange" style="width: 100%;">
                     <el-option
                       v-for="item in $dictUtils.getDictList('apply_site_code')"
                       :key="item.value"
@@ -41,7 +28,7 @@
                       children: 'children'    // 子级字段名
                     }"
                   size="small"
-                  placeholder="请选择请求者部门"
+                  :placeholder="$i18nMy.t('请求者部门')"
                   :url="`/sys/office/treeData?type=2&parentCode=${searchForm.applySiteCode}`"
                   :value="searchForm.requesterDepartment.id"
                   :clearable="true"
@@ -49,7 +36,7 @@
                   @getValue="(value) => {searchForm.requesterDepartment.id=value}"/>
          </el-form-item>
          <el-form-item prop="expenseType">
-                  <el-select size="small" v-model="searchForm.expenseType" placeholder="请选择费用类型"  style="width: 100%;">
+                  <el-select size="small" v-model="searchForm.expenseType" :placeholder="$i18nMy.t('费用类型')"  style="width: 100%;">
                     <el-option
                       v-for="item in $dictUtils.getDictList('expense_type')"
                       :key="item.value"
@@ -59,7 +46,7 @@
                   </el-select>
          </el-form-item>
          <el-form-item prop="requestRiority">
-                  <el-select size="small" v-model="searchForm.requestRiority" placeholder="请选择申购优先级"  style="width: 100%;">
+                  <el-select size="small" v-model="searchForm.requestRiority" :placeholder="$i18nMy.t('申购优先级')"  style="width: 100%;">
                     <el-option
                       v-for="item in $dictUtils.getDictList('request_priority')"
                       :key="item.value"
@@ -67,6 +54,19 @@
                       :value="item.value">
                     </el-option>
                   </el-select>
+         </el-form-item>
+         <el-form-item prop="createDate">
+               <el-date-picker
+                    v-model="searchForm.createDate"
+                    type="daterange"
+                    size="small"
+                    align="right"
+                    value-format="yyyy-MM-dd hh:mm:ss"
+                    unlink-panels
+                    range-separator="~"
+                    :start-placeholder="$i18nMy.t('开始申请时间')"
+                    :end-placeholder="$i18nMy.t('结束申请时间')">
+                 </el-date-picker>
          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
@@ -92,12 +92,12 @@
           </el-form>
       </el-dialog>
       <div class="bg-white top">
-      <el-row>
+      <el-row v-show="false">
         <el-button v-if="hasPermission('flow:pr:oaPrNew:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
          :disabled="dataListSelections.length != 1" plain>{{$i18nMy.t('修改')}}</el-button>
         <el-button v-if="hasPermission('flow:pr:oaPrNew:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>删除
+                  :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}
         </el-button>
         <el-button-group class="pull-right">
             <!-- <el-button v-if="hasPermission('flow:pr:oaPrNew:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
@@ -211,10 +211,10 @@
         :label="$i18nMy.t('当前环节')">
       </el-table-column>
     <el-table-column
-        prop="approvedDate"
+        prop="createDate"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18nMy.t('状态日期')">
+        :label="$i18nMy.t('申请时间')">
       </el-table-column>
     <el-table-column
         prop="requestRiority"

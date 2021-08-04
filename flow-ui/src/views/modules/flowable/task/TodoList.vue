@@ -21,22 +21,22 @@
         </el-form-item>
       </el-form>
       <div class="top bg-white">
-      <el-row>
+      <!-- <el-row>
         <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
-            <el-button 
+            <el-button
               type="default"
               size="small"
               icon="el-icon-refresh"
               @click="refreshList">
             </el-button>
-          </el-tooltip>     
+          </el-tooltip>
         </el-button-group>
-      </el-row>
+      </el-row> -->
         <el-table
           :data="dataList"
           size = "small"
-          height="calc(100% - 80px)"
+          height="calc(100% - 120px)"
           v-loading="loading"
           @selection-change="selectionChangeHandle"
           class="table">
@@ -113,11 +113,11 @@
          v-dialogDrag
         width="70%"
         height="600px">
-       
+
           <flow-chart ref="preview" :processInstanceId="processInstanceId"></flow-chart>
         </el-dialog>
         <user-select ref="userSelect" :limit="1" @doSubmit="selectUsersToTransferTask"></user-select>
-        
+
   </div>
 </template>
 

@@ -9,31 +9,33 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item label="委托人" prop="owner.id"
+            <el-form-item :label="$i18nMy.t('委托人')" prop="owner.id"
                 :rules="[
                  ]">
                 <user-select :limit='1' :value="inputForm.owner.id" @getValue='(value) => {inputForm.owner.id=value}'></user-select>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="代理人" prop="delegate.id"
+            <el-form-item :label="$i18nMy.t('代理人')" prop="delegate.id"
                 :rules="[
                  ]">
                 <user-select :limit='1' :value="inputForm.delegate.id" @getValue='(value) => {inputForm.delegate.id=value}'></user-select>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="开始时间" prop="startTime"
-                :rules="[
-                 ]">
-              <el-input v-model="inputForm.startTime" :placeholder="$i18nMy.t('请填写开始时间')"     ></el-input>
+           <el-form-item :label="$i18nMy.t('开始时间')" prop="startTime" :rules="[
+                  ]">
+             <el-date-picker v-model="inputForm.startTime" type="date" style="width: 100%;"
+               value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('开始时间')">
+             </el-date-picker>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="结束时间" prop="endTime"
-                :rules="[
-                 ]">
-              <el-input v-model="inputForm.endTime" :placeholder="$i18nMy.t('请填写结束时间')"     ></el-input>
+           <el-form-item  :label="$i18nMy.t('结束时间')" prop="endTime" :rules="[
+                  ]">
+             <el-date-picker v-model="inputForm.endTime" type="date" style="width: 100%;"
+               value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('结束时间')">
+             </el-date-picker>
            </el-form-item>
         </el-col>
         <!-- <el-col :span="12">
@@ -53,8 +55,8 @@
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button size="small" @click="visible = false">关闭</el-button>
-      <el-button size="small" type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>确定</el-button>
+      <el-button size="small" @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button size="small" type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </div>
@@ -92,11 +94,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = `新建流程委托设置`
+          this.title = $i18nMy.t('新建')
         } else if (method === 'edit') {
-          this.title = '修改流程委托设置'
+          this.title = $i18nMy.t('修改')
         } else if (method === 'view') {
-          this.title = '查看流程委托设置'
+          this.title = $i18nMy.t('查看')
         }
         this.visible = true
         this.loading = false

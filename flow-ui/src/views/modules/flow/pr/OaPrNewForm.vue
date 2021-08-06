@@ -43,7 +43,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('项目名称')" prop="projectName" :rules="[]">
-            <el-input v-model="inputForm.projectName" :placeholder="$i18nMy.t('请填写项目名称')"></el-input>
+            <el-input v-model="inputForm.projectName" :placeholder="$i18nMy.t('请填写项目名称')" maxlength="100"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -67,7 +67,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('用户姓名')" prop="requester" :rules="[{required: true, message:'用户姓名不能为空', trigger:'blur'}]">
-            <el-input v-model="inputForm.requester" :placeholder="$i18nMy.t('请填写用户姓名')"></el-input>
+            <el-input v-model="inputForm.requester" :placeholder="$i18nMy.t('请填写用户姓名')" maxlength="30"></el-input>
             <!-- <user-select :limit='1' :value="inputForm.requester" @getValue='(value) => {inputForm.requester=value}'>
             </user-select> -->
           </el-form-item>
@@ -85,7 +85,7 @@
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('要求到货时间')" prop="expectArrivalDate" :rules="[
                  ]">
-            <el-date-picker v-model="inputForm.expectArrivalDate" type="datetime" style="width: 100%;"
+            <el-date-picker v-model="inputForm.expectArrivalDate" type="date" style="width: 100%;"
               value-format="yyyy-MM-dd HH:mm:ss" :placeholder="$i18nMy.t('选择日期时间')">
             </el-date-picker>
           </el-form-item>
@@ -122,7 +122,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('技术支持部门')" prop="technicalAdvisor" :rules="[ ]">
-            <el-select v-model="inputForm.technicalAdvisor" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
+            <el-select v-model="inputForm.technicalAdvisor" :placeholder="$i18nMy.t('请选择')" style="width: 100%;" clearable>
              <el-option v-for="item in $dictUtils.getDictList('technical_advisor')" :key="item.value" :label="item.label"
                :value="item.value">
              </el-option>
@@ -240,7 +240,7 @@
                   <span v-else>{{ row.item }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="itemDescription" v-if="index == 0" align="left" :label="$i18nMy.t('描述')"   >
+              <el-table-column prop="itemDescription" v-if="index == 0" align="left" :label="$i18nMy.t('描述')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-model="row.itemDescription" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
@@ -248,7 +248,7 @@
                   <span v-else>{{ row.itemDescription }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="brandName" align="left" :label="$i18nMy.t('品牌')"   >
+              <el-table-column prop="brandName" align="left" :label="$i18nMy.t('品牌')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-model="row.brandName" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
@@ -256,7 +256,7 @@
                   <span v-else>{{ row.brandName }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="modelNo" align="left" :label="$i18nMy.t('型号')"    >
+              <el-table-column prop="modelNo" align="left" :label="$i18nMy.t('型号')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-model="row.modelNo" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
@@ -264,15 +264,15 @@
                   <span v-else>{{ row.modelNo }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="supplierName"  v-if="index == 2" align="left" :label="$i18nMy.t('供应商名称')"    >
+              <el-table-column prop="supplierName"  v-if="index == 2" align="left" :label="$i18nMy.t('供应商名称')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
-                    <el-input  size="small" :disabled="flowStage=='start'?true:false"  v-model="row.supplierName" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                    <el-input  size="small" :disabled="flowStage=='start'?true:false"  v-model="row.supplierName" placeholder="" ></el-input>
                   </template>
                   <span v-else>{{ row.supplierName }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="includedVat" v-if="index == 2" align="left" :label="$i18nMy.t('包含VAT')"    >
+              <el-table-column prop="includedVat" v-if="index == 2" align="left" :label="$i18nMy.t('包含VAT')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                       <el-checkbox :disabled="flowStage=='start'?true:false" v-model="row.includedVat" ></el-checkbox>
@@ -280,25 +280,25 @@
                   <span v-else>{{ row.includedVat }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="unitPrice" width="120" v-if="index != 0" align="right" :label="'* '+$i18nMy.t('单价')"    >
+              <el-table-column prop="unitPrice" width="120" v-if="index != 0" align="right" :label="'* '+$i18nMy.t('单价')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-only-num.float="row"
-                      v-model="row.unitPrice" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                      v-model="row.unitPrice" placeholder="" ></el-input>
                   </template>
                   <span v-else>{{ row.unitPrice }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="docUnitPrice" v-if="index == 2" align="right" :label="$i18nMy.t('文件单价')"    >
+              <el-table-column prop="docUnitPrice" v-if="index == 2" align="right" :label="$i18nMy.t('报价单单价')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-only-num.float="row"
-                    :disabled="flowStage=='start'?true:false"   v-model="row.docUnitPrice" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                    :disabled="flowStage=='start'?true:false"   v-model="row.docUnitPrice" placeholder="" ></el-input>
                   </template>
                   <span v-else>{{ row.docUnitPrice }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="quantity" width="155" align="right" :label="'* '+$i18nMy.t('数量')"   >
+              <el-table-column prop="quantity" width="155" align="right" :label="'* '+$i18nMy.t('数量')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input-number  size="small" v-model="row.quantity" :step="1"  :min="1" :max="100" :label="$i18nMy.t('数量')"></el-input-number>
@@ -306,7 +306,7 @@
                   <span v-else>{{ row.quantity }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="uom" width="100" align="left" :label="'* '+$i18nMy.t('单位')"    >
+              <el-table-column prop="uom" width="100" align="left" :label="'* '+$i18nMy.t('单位')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-select  size="small" v-model="row.uom" placeholder="" style="width: 100%;">
@@ -329,23 +329,23 @@
                 </template>
               </el-table-column>
 
-              <el-table-column  v-if="index == 2" align="center" :label="$i18nMy.t('文档报价')"    >
+              <el-table-column  v-if="index == 2" align="center" :label="$i18nMy.t('报价单币种')">
                 <template>
-                  <el-table-column prop="docAmount" align="right" :label="$i18nMy.t('总数')"   >
+                  <el-table-column prop="docAmount" align="right" :label="$i18nMy.t('总数')">
                     <template slot-scope="{row}">
                       <template v-if="row.edit">
                         <el-input  size="small" v-only-num.float="row"
-                        :disabled="flowStage=='start'?true:false"   v-model="row.docAmount" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                        :disabled="flowStage=='start'?true:false"   v-model="row.docAmount" placeholder="" ></el-input>
                       </template>
                       <span v-else>{{ row.docAmount }}</span>
                     </template>
                   </el-table-column>
 
-                  <el-table-column prop="docVatAmount" align="right" :label="$i18nMy.t('总数')+'(VAT)'"   >
+                  <el-table-column prop="docVatAmount" align="right" :label="$i18nMy.t('总数')+'(VAT)'">
                     <template slot-scope="{row}">
                       <template v-if="row.edit">
                         <el-input  size="small" v-only-num.float="row"
-                        :disabled="flowStage=='start'?true:false"   v-model="row.docVatAmount" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                        :disabled="flowStage=='start'?true:false"   v-model="row.docVatAmount" placeholder="" ></el-input>
                       </template>
                       <span v-else>{{ row.docVatAmount }}</span>
                     </template>
@@ -355,7 +355,7 @@
 
               <el-table-column v-if="index != 0" align="center" :label="$i18nMy.t('基础报价')" >
                 <template>
-                  <el-table-column prop="baseQuantity" align="right" :label="$i18nMy.t('总数')"   >
+                  <el-table-column prop="baseQuantity" align="right" :label="$i18nMy.t('总数')">
                     <template slot-scope="{row}">
                       <span v-if="!isNaN(row.docAmount*inputForm.exRate)">
                         {{(row.docAmount*inputForm.exRate).toFixed(3)}}
@@ -546,6 +546,7 @@
             }) => {
               this.loading = false
               if (data && data.success) {
+                 this.$message.success(data.msg)
                  callBack(data.businessTable, data.businessId)
               }
               else{

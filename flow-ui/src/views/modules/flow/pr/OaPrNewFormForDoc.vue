@@ -267,9 +267,6 @@
             })
           })
         }
-        else{
-          this.$message.warning($i18nMy.t('数据异常'))
-        }
       },
       // 表单提交
       saveForm(callBack) {

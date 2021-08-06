@@ -347,7 +347,11 @@
               <td >{{item.paymentTerms}}</td>
               <td >{{item.currency}}</td>
               <td >{{item.offeredUnitPrice}}</td>
-              <td >{{item.offeredBaseUnitPrice}}</td>
+              <td >
+                  <span v-if="!isNaN(item.offeredBaseUnitPrice*inputForm.exRate)">
+                    {{(item.offeredBaseUnitPrice*inputForm.exRate).toFixed(3)}}
+                  </span>
+              </td>
               <td >{{item.moq}}</td>
               <td >{{item.expectArrivalDate}}</td>
               <td >{{item.expectLastArrivalDate}}</td>
@@ -476,9 +480,6 @@
             })
           })
         }
-        else{
-          this.$message.warning($i18nMy.t('数据异常'))
-        }
       },
       // 表单提交
       saveForm(callBack) {
@@ -553,7 +554,7 @@
           obj.paymentTerms =supplierInfo.paymentTerms
           obj.currency =supplierInfo.currency
           obj.offeredUnitPrice =supplierInfo.detailInfo[i].offeredUnitPrice
-          obj.offeredBaseUnitPrice =supplierInfo.detailInfo[i].offeredUnitPrice
+          obj.offeredBaseUnitPrice =supplierInfo.detailInfo[i].offeredUnitPrice * (this.inputForm.exRate||1)
           obj.moq =supplierInfo.detailInfo[i].moq
           obj.expectArrivalDate =supplierInfo.detailInfo[i].expectArrivalDate
           obj.expectLastArrivalDate =supplierInfo.detailInfo[i].expectLastArrivalDate

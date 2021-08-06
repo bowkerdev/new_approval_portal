@@ -178,7 +178,7 @@
                   :key="Math.random()"
                   header-align="center"
                   align="center"
-                  width="100"
+                  width="150"
                   :label="$i18nMy.t('操作')">
                   <template slot-scope="scope">
                     <!-- <el-button v-if="scope.row.status === 'claim'" type="text" size="small" @click="claim(scope.row)">{{$i18nMy.t('签收任务')}}</el-button> -->
@@ -261,14 +261,13 @@
               </el-table-column>
               <el-table-column
                 fixed="right"
-                :key="Math.random()"
                 header-align="center"
                 align="center"
                 width="100"
                 :label="$i18nMy.t('操作')">
                 <template slot-scope="scope">
                   <el-button  type="text" size="small"
-                            @click="detail(scope.row)">{{$i18nMy.t('历史')}}</el-button>
+                            @click="detail(scope.row)">{{$i18nMy.t('查看')}}</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -325,9 +324,13 @@
               </el-table-column>
 
               <el-table-column
+                fixed="right"
+                header-align="center"
+                align="center"
+                width="100"
                 :label="$i18nMy.t('操作')">
                 <template slot-scope="scope">
-                   <el-button  type="text" size="small" @click="detail(scope.row)">{{$i18nMy.t('历史')}}</el-button>
+                   <el-button  type="text" size="small" @click="detail(scope.row)">{{$i18nMy.t('查看')}}</el-button>
                     <!-- <el-dropdown  size="small" style=" margin-left: 10px;">
                         <el-button type="text" size="small">
                               更多<i class="el-icon-arrow-down el-icon--right"></i>

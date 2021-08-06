@@ -16,6 +16,9 @@
         prop="histIns.activityName"
         label="执行环节"
         width="180">
+        <template slot-scope="scope">
+          {{scope.row.histIns.activityName || scope.row.comment.status}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="assigneeName"

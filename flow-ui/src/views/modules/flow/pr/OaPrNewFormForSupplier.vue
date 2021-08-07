@@ -346,7 +346,7 @@
               <td class="first-td">{{item.supplierName}}</td>
               <td >{{item.paymentTerms}}</td>
               <td >{{item.currency}}</td>
-              <td >{{item.offeredUnitPrice}}</td>
+              <td >{{item.finallyUnitPrice}}</td>
               <td >
                   <span v-if="!isNaN(item.offeredBaseUnitPrice*inputForm.exRate)">
                     {{(item.offeredBaseUnitPrice*inputForm.exRate).toFixed(3)}}
@@ -564,7 +564,13 @@
           obj.supplierName =supplierInfo.supplierName
           obj.paymentTerms =supplierInfo.paymentTerms
           obj.currency =supplierInfo.currency
+          var tmp= supplierInfo.detailInfo[i].discountedUnitPrice
+          if(this.$common.isEmpty(tmp)){
+            tmp =supplierInfo.detailInfo[i].offeredUnitPrice
+          }
+          obj.finallyUnitPrice =tmp
           obj.offeredUnitPrice =supplierInfo.detailInfo[i].offeredUnitPrice
+
           obj.offeredBaseUnitPrice =supplierInfo.detailInfo[i].offeredUnitPrice * (this.inputForm.exRate||1)
           obj.moq =supplierInfo.detailInfo[i].moq
           obj.expectArrivalDate =supplierInfo.detailInfo[i].expectArrivalDate
@@ -612,7 +618,6 @@
                 if(this.$common.isEmpty(tmp)){
                   tmp = this.supplierInfo[i].detailInfo[j].offeredUnitPrice
                 }
-
                 obj.docUnitPrice = tmp||0
                 obj.docAmount = obj.docUnitPrice*
                   parseInt(this.supplierInfo[i].detailInfo[j].moq||"0")

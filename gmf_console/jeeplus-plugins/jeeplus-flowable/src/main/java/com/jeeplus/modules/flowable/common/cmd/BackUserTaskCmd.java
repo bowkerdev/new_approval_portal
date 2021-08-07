@@ -3,6 +3,8 @@ package com.jeeplus.modules.flowable.common.cmd;
 import com.google.common.collect.Sets;
 import com.jeeplus.modules.flowable.constant.FlowableConstant;
 import com.jeeplus.modules.flowable.utils.FlowableUtils;
+import com.jeeplus.modules.sys.utils.UserUtils;
+
 import org.flowable.bpmn.model.*;
 import org.flowable.bpmn.model.Process;
 import org.flowable.common.engine.api.FlowableException;
@@ -141,6 +143,9 @@ public class BackUserTaskCmd implements Command<String>, Serializable {
         runtimeService.createChangeActivityStateBuilder().processInstanceId(processInstanceId).moveExecutionsToSingleActivityId(realExecutionIds, targetRealActivityId).changeState();
         runtimeService.setVariable(task.getExecutionId(), "lastTaskDefKey", task.getTaskDefinitionKey());
         runtimeService.setVariable(task.getExecutionId(), "lastAssignee", task.getAssignee());
+        if (!UserUtils.getUser().getId().equals(task.getAssignee())) { //my delegate
+        	runtimeService.setVariable(task.getExecutionId(), "delegate", UserUtils.getUser().getId());
+        }
         
         // 目标节点相对当前节点处于并行网关内，需要特殊处理，需要手动生成并行网关汇聚节点(_end)的execution数据
         if (targetRealSpecialGateway != null) {

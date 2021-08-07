@@ -12,15 +12,15 @@
                 <el-input size="small" v-model="searchForm.applicationNo" :placeholder="$i18nMy.t('申请单号')" clearable></el-input>
          </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small">查询</el-button>
-            <el-button @click="resetSearch()" size="small">重置</el-button>
+            <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
-      <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
+      <el-dialog  :title="$i18nMy.t('导入Excel')" :visible.sync="isImportCollapse">
           <el-form size="small" :inline="true" v-show="isImportCollapse"  ref="importForm">
              <el-form-item>
-              <el-button type="default" @click="downloadTpl()" size="small">下载模板</el-button>
+              <el-button type="default" @click="downloadTpl()" size="small">{{$i18nMy.t('下载模板')}}</el-button>
              </el-form-item>
              <el-form-item prop="loginName">
                 <el-upload
@@ -28,23 +28,23 @@
                   :action="`${this.$http.BASE_URL}/flowable/wf/wfDelegate/import`"
                   :on-success="uploadSuccess"
                    :show-file-list="true">
-                  <el-button size="small" type="primary">点击上传</el-button>
-                  <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
+                  <el-button size="small" type="primary">{{$i18nMy.t('点击上传')}}</el-button>
+                  <div slot="tip" class="el-upload__tip">{{$i18nMy.t('只允许导入“xls”或“xlsx”格式文件！')}}</div>
                 </el-upload>
             </el-form-item>
           </el-form>
       </el-dialog>
       <div class="bg-white top">
       <el-row>
-        <el-button v-if="hasPermission('flowable:wf:wfDelegate:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
+        <el-button v-if="hasPermission('flowable:wf:wfDelegate:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('flowable:wf:wfDelegate:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1" plain>修改</el-button>
+         :disabled="dataListSelections.length != 1" plain>{{$i18nMy.t('修改')}}</el-button>
         <el-button v-if="hasPermission('flowable:wf:wfDelegate:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>删除
+                  :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}
         </el-button>
         <el-button-group class="pull-right">
-            <el-button v-if="hasPermission('flowable:wf:wfDelegate:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse"></el-button>
-            <el-button v-if="hasPermission('flowable:wf:wfDelegate:export')" type="default" size="small" icon="el-icon-download" title="导出" @click="exportExcel()"></el-button>
+            <el-button v-if="hasPermission('flowable:wf:wfDelegate:import')" type="default" size="small" icon="el-icon-upload2" :title="$i18nMy.t('导入')" @click="isImportCollapse = !isImportCollapse"></el-button>
+            <el-button v-if="hasPermission('flowable:wf:wfDelegate:export')" type="default" size="small" icon="el-icon-download" :title="$i18nMy.t('导出')" @click="exportExcel()"></el-button>
             <el-button
               type="default"
               size="small"
@@ -71,7 +71,7 @@
         prop="owner.name"
         show-overflow-tooltip
         sortable="custom"
-        label="委托人">
+        :label="$i18nMy.t('委托人')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('flowable:wf:wfDelegate:edit')" @click="edit(scope.row.id)">{{scope.row.owner.name}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('flowable:wf:wfDelegate:view')"  @click="view(scope.row.id)">{{scope.row.owner.name}}</el-link>
@@ -82,31 +82,31 @@
         prop="delegate.name"
         show-overflow-tooltip
         sortable="custom"
-        label="代理人">
+        :label="$i18nMy.t('代理人')">
       </el-table-column>
     <el-table-column
         prop="startTime"
         show-overflow-tooltip
         sortable="custom"
-        label="开始时间">
+        :label="$i18nMy.t('开始时间')">
       </el-table-column>
     <el-table-column
         prop="endTime"
         show-overflow-tooltip
         sortable="custom"
-        label="结束时间">
+        :label="$i18nMy.t('结束时间')">
       </el-table-column>
     <el-table-column
         prop="applicationNo"
         show-overflow-tooltip
         sortable="custom"
-        label="申请单号">
+        :label="$i18nMy.t('申请单号')">
       </el-table-column>
     <el-table-column
-        prop="任务节点"
+        prop="taskName"
         show-overflow-tooltip
         sortable="custom"
-        label="task_name">
+        :label="$i18nMy.t('任务节点')">
       </el-table-column>
       <el-table-column
         header-align="center"
@@ -114,11 +114,11 @@
         fixed="right"
         :key="Math.random()"
         width="200"
-        label="操作">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('flowable:wf:wfDelegate:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">查看</el-button>
-          <el-button v-if="hasPermission('flowable:wf:wfDelegate:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">修改</el-button>
-          <el-button v-if="hasPermission('flowable:wf:wfDelegate:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">删除</el-button>
+          <el-button v-if="hasPermission('flowable:wf:wfDelegate:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
+          <el-button v-if="hasPermission('flowable:wf:wfDelegate:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('flowable:wf:wfDelegate:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -238,9 +238,9 @@
         let ids = id || this.dataListSelections.map(item => {
           return item.id
         }).join(',')
-        this.$confirm(`确定删除所选项吗?`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm($i18nMy.t(`确定删除所选项吗?`), $i18nMy.t('提示'), {
+          confirmButtonText: $i18nMy.t('确定'),
+          cancelButtonText: $i18nMy.t('取消'),
           type: 'warning'
         }).then(() => {
           this.loading = true

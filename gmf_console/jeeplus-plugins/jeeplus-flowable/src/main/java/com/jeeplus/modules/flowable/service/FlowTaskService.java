@@ -300,6 +300,7 @@ public class FlowTaskService extends BaseService {
 
         for (int i = 0; i < list.size (); i++) {
             HistoricActivityInstance histIns = list.get (i);
+            
             // 只显示开始节点和结束节点，并且执行人不为空的任务
             if (StringUtils.isNotBlank (histIns.getAssignee ())
                     && historyService.createHistoricTaskInstanceQuery ().taskId (histIns.getTaskId ()).count () != 0
@@ -308,6 +309,14 @@ public class FlowTaskService extends BaseService {
                     || BpmnXMLConstants.ELEMENT_EVENT_END.equals (histIns.getActivityType ())) {
                 // 获取流程发起人名称
                 Flow e = queryTaskState (histIns);
+                
+                if (histIns.getTaskId ()!=null) {
+                    HistoricTaskInstance hisTaskIns = historyService.createHistoricTaskInstanceQuery ().taskId (histIns.getTaskId ()).includeTaskLocalVariables().singleResult();
+                    if (hisTaskIns.getTaskLocalVariables()!=null && hisTaskIns.getTaskLocalVariables().get("delegate")!=null) {
+                    	User delegateUser = UserUtils.get((String)hisTaskIns.getTaskLocalVariables().get("delegate"));
+                    	e.setAssigneeName(delegateUser.getLoginName() + " : " + delegateUser.getName()+ " [Delegate by " +e.getAssigneeName() +"]" ); 
+                    }
+                }
 
                 actList.add (e);
             }
@@ -538,7 +547,9 @@ public class FlowTaskService extends BaseService {
         }
 
         Task task = taskService.createTaskQuery ().taskId (flow.getTaskId ()).singleResult ();
-        
+        if (!UserUtils.getUser().getId().equals(task.getAssignee())) { //my delegate
+        	taskService.setVariableLocal(flow.getTaskId (), "delegate", UserUtils.getUser().getId());
+        }
         // owner不为空说明可能存在委托任务
         if (StringUtils.isNotBlank (task.getOwner ())) {
             DelegationState delegationState = task.getDelegationState ();
@@ -626,7 +637,7 @@ public class FlowTaskService extends BaseService {
                     User user = UserUtils.get (il.get (0).getStartUserId ());
                     if (user != null) {
                         e.setAssignee (histIns.getAssignee ());
-                        e.setAssigneeName (user.getName ());
+                        e.setAssigneeName (user.getLoginName() + " : " + user.getName ());
                     }
                 }
             }

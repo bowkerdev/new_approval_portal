@@ -117,20 +117,18 @@
         this.formData = formData
         this.visible = true
         this.edit = edit
-        setTimeout(() => {
-          this.$nextTick(() => {
-            let hideArra = this.$refs.generateForm.getDataBindFields().filter((field) => {
-              if (showArra!=null&&!showArra.includes(field)) {
-                return true
-              }
-            })
-            this.$refs.generateForm.hide(hideArra)
-            this.$refs.generateForm.disabled(disabledArra, true)
-            if (JSON.stringify(this.formData) != '{}') {
-              this.$refs.generateForm.setData(this.formData)
+        this.$nextTick(() => {
+          let hideArra = this.$refs.generateForm.getDataBindFields().filter((field) => {
+            if (showArra!=null&&!showArra.includes(field)) {
+              return true
             }
           })
-        }, 500)
+          this.$refs.generateForm.hide(hideArra)
+          this.$refs.generateForm.disabled(disabledArra, true)
+          if (JSON.stringify(this.formData) != '{}') {
+            this.$refs.generateForm.setData(this.formData)
+          }
+        })
       },
       getData() {
         return this.$refs.generateForm.getData()

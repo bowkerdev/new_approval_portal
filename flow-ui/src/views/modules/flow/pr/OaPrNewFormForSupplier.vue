@@ -85,8 +85,8 @@
                 </span>
               </td>
               <td :rowspan="item.docListSize" >
-                <el-select  size="small" v-model="item.currency" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
-                  <el-option v-for="item in $dictUtils.getDictList('pr_currency')" :key="item.value" :label="item.label"
+                <el-select @change="currencyChange"  size="small" v-model="item.currency" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
+                  <el-option v-for="item in $dictUtils.getDictList('pr_currency')" on :key="item.value" :label="item.label"
                     :value="item.value">
                   </el-option>
                 </el-select>
@@ -481,6 +481,17 @@
           })
         }
       },
+      currencyChange(){
+        if(this.supplierInfo.length>0&&
+          !this.$common.isEmpty(this.supplierInfo[0].currency)){
+          this.inputForm.contractCurrency = this.supplierInfo[0].currency
+          var _pThis=this
+          var dict= this.$common.find(this.$dictUtils.getDictList('pr_currency_rate'),
+            function(e){return e.label == _pThis.inputForm.contractCurrency})
+          this.inputForm.exRate= dict==null?1:dict.value
+        }
+
+      },
       // 表单提交
       saveForm(callBack) {
         debugger
@@ -597,7 +608,12 @@
                 var obj=this.$common.find(this.detailInfo,
                    function(e){return e.serialNumber== serialNumber})
                 obj.supplierName = this.supplierInfo[i].supplierName
-                obj.docUnitPrice = this.supplierInfo[i].detailInfo[j].offeredUnitPrice||0
+                var tmp= this.supplierInfo[i].detailInfo[j].discountedUnitPrice
+                if(this.$common.isEmpty(tmp)){
+                  tmp = this.supplierInfo[i].detailInfo[j].offeredUnitPrice
+                }
+
+                obj.docUnitPrice = tmp||0
                 obj.docAmount = obj.docUnitPrice*
                   parseInt(this.supplierInfo[i].detailInfo[j].moq||"0")
 
@@ -674,15 +690,40 @@
       confirmTabListGroup(index){
         if(this.$common.isEmpty(this.supplierInfo[index].supplierName)){
            this.$message.warning($i18nMy.t('供应商不能为空'))
+           return
         }
-        else{
-          this.supplierInfo[index].edit =false
-          this._getSupplierInfoByDetailInfoList()
-          this._updateDetailInfoDocUnitPrice()
-          this._getSupplierArrivalDate()
-          this.detailInfo.splice(this.detailInfo.length) // 触发更新
-          this.supplierInfo.splice(this.supplierInfo.length)
+        if(this.$common.isEmpty(this.supplierInfo[index].currency)){
+           this.$message.warning($i18nMy.t('币种不能为空'))
+           return
         }
+        for(var i=0;i<this.supplierInfo[index].docList.length;i++){
+          if(this.$common.isEmpty(this.supplierInfo[index].docList[i].attachment)){
+             this.$message.warning($i18nMy.t('附件不能为空'))
+             return
+          }
+          if(this.$common.isEmpty(this.supplierInfo[index].docList[i].linkToItems)){
+             this.$message.warning($i18nMy.t('关联项目不能为空'))
+             return
+          }
+        }
+        for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
+          if(this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].offeredUnitPrice)){
+             this.$message.warning($i18nMy.t('报价单价不能为空'))
+             return
+          }
+          if(this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].moq)){
+             this.$message.warning($i18nMy.t('MOQ不能为空'))
+             return
+          }
+        }
+
+        this.supplierInfo[index].edit =false
+        this._getSupplierInfoByDetailInfoList()
+        this._updateDetailInfoDocUnitPrice()
+        this._getSupplierArrivalDate()
+        this.detailInfo.splice(this.detailInfo.length) // 触发更新
+        this.supplierInfo.splice(this.supplierInfo.length)
+
       },
       delTabListGroup(index){
         this.supplierInfo.splice(index, 1)

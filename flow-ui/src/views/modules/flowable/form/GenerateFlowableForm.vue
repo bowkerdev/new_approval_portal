@@ -72,6 +72,14 @@
           }
         }
       },
+      createCustomForm(showArra,disabledArra){
+        if(this.$refs.generateForm==null||this.$refs.generateForm.createForm ==null){
+          setTimeout(() => { this.createCustomForm(showArra,disabledArra)},1000)
+        }
+        else{
+          this.$refs.generateForm.createForm(this.options, this.formData, showArra, disabledArra, this.edit)
+        }
+      },
       createForm (id) {
         if (id) {
           this.loading = true
@@ -92,7 +100,7 @@
               this.options = this.DynamicFormLanguage.simpleLanguageFrom(JSON.parse(json))
               this.dataBindMap.clear()
               this.generateModel(this.options.list)
-              setTimeout(() => {
+              this.$nextTick(() => {
                 this.loading = false
                 this.visible = true
                 this.$nextTick(() => {
@@ -141,10 +149,11 @@
                     this.$refs.generateForm.disabled(disabledArra, true)
                     this.$refs.generateForm.setData(this.formData)
                   } else {
-                    this.$refs.generateForm.createForm(this.options, this.formData, showArra, disabledArra, this.edit)
+                    debugger
+                    this.createCustomForm(showArra,disabledArra)
                   }
                 })
-              }, 500)
+              })
             } else {
               this.loading = false
               this.visible = true

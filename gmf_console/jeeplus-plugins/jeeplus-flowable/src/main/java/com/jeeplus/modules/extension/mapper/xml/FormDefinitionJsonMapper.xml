@@ -12,11 +12,12 @@
 		a.json AS "json",
 		a.version AS "version",
 		a.status AS "status",
-		a.is_primary AS "isPrimary"
+		a.is_primary AS "isPrimary",
+		b.name as name
 	</sql>
 
 	<sql id="formDefinitionJsonJoins">
-
+		join act_extension_form_def b on  a.form_definition_id = b.id
 	</sql>
 
 

@@ -202,7 +202,6 @@
         this.status = this.$route.query.status
         this.title = this.$route.query.formTitle
         this.printObj.popTitle = this.title
-        debugger
         this.businessId = this.$route.query.businessId
         this.procInsId = this.$route.query.procInsId
         this.formReadOnly = this.$route.query.formReadOnly !== undefined && this.$route.query.formReadOnly !== 'false' && this.$route.query.formReadOnly !== false

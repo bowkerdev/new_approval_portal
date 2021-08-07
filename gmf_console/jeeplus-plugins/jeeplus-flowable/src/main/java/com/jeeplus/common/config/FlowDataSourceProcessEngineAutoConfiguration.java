@@ -1,6 +1,7 @@
 package com.jeeplus.common.config;
 
-import javax.sql.DataSource;
+import com.jeeplus.modules.flowable.common.factory.MyActivityBehaviorFactory;
+import com.jeeplus.modules.flowable.service.ext.FlowIdentityServiceImpl;
 
 import org.activiti.compatibility.spring.SpringFlowable5CompatibilityHandlerFactory;
 import org.flowable.idm.engine.IdmEngineConfiguration;
@@ -12,8 +13,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.jeeplus.modules.flowable.common.factory.MyActivityBehaviorFactory;
-import com.jeeplus.modules.flowable.service.ext.FlowIdentityServiceImpl;
+import javax.sql.DataSource;
 
 @Configuration
 @EnableConfigurationProperties(FlowableProperties.class)

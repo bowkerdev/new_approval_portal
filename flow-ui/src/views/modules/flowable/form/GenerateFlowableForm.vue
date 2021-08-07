@@ -109,11 +109,6 @@
                       disabledArra.push(`${item.id}`)
                     }
                   })
-                  let hideArra = this.$refs.generateForm.getDataBindFields().filter((field) => {
-                    if (!showArra.includes(field)) {
-                      return true
-                    }
-                  })
                   for (let key in this.formData) {
                     let dataFieldType = this.dataBindMap.get(key)
                     console.log(dataFieldType)
@@ -137,6 +132,11 @@
                     }
                   }
                   if (!this.isCustom) {
+                    let hideArra = this.$refs.generateForm.getDataBindFields().filter((field) => {
+                      if (!showArra.includes(field)) {
+                        return true
+                      }
+                    })
                     this.$refs.generateForm.hide(hideArra)
                     this.$refs.generateForm.disabled(disabledArra, true)
                     this.$refs.generateForm.setData(this.formData)

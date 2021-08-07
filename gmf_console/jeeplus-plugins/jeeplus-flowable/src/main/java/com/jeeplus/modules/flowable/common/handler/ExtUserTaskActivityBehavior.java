@@ -147,11 +147,13 @@ public class ExtUserTaskActivityBehavior extends UserTaskActivityBehavior {
                     	for(FormProperty f:formData.getFormProperties()){
                     		sql=sql.replaceAll("\\#\\{"+f.getName()+"\\}", f.getValue());
                     	}
-                    	for(Map.Entry<String, Object> v: vars.entrySet()){
-            				if(sql.indexOf(String.format("#{%s}", v.getKey()))>0){
-            					sql=sql.replaceAll("\\#\\{"+v.getKey()+"\\}", v.getValue().toString());
-            				}
-            			}
+						if(vars !=null){
+							for(Map.Entry<String, Object> v: vars.entrySet()){
+	            				if(sql.indexOf(String.format("#{%s}", v.getKey()))>0){
+	            					sql=sql.replaceAll("\\#\\{"+v.getKey()+"\\}", v.getValue().toString());
+	            				}
+	            			}
+						}
                     	sql=sql.replaceAll("\\#\\{taskDefId\\}", taskDefExtension.getTaskDefId().split("__")[0]);
                         Map userMap = SpringContextHolder.getBean (JdbcTemplate.class).queryForMap (sql);
                         candidateUserIds.add(String.valueOf(userMap.get ("id")));

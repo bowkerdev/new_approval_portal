@@ -21,6 +21,8 @@ public class FormDefinitionJson extends DataEntity<FormDefinitionJson> {
 	private String status;		// 状态
 	private String isPrimary;		// 是否主版本
 	
+	private String name;
+	
 	public FormDefinitionJson() {
 		super();
 	}
@@ -72,6 +74,14 @@ public class FormDefinitionJson extends DataEntity<FormDefinitionJson> {
 
 	public void setIsPrimary(String isPrimary) {
 		this.isPrimary = isPrimary;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }

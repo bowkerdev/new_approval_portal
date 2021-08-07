@@ -348,8 +348,8 @@
               <td >{{item.currency}}</td>
               <td >{{item.finallyUnitPrice}}</td>
               <td >
-                  <span v-if="!isNaN(item.offeredBaseUnitPrice*inputForm.exRate)">
-                    {{(item.offeredBaseUnitPrice*inputForm.exRate).toFixed(3)}}
+                  <span v-if="!isNaN(item.finallyUnitPrice*inputForm.exRate)">
+                    {{(item.finallyUnitPrice*inputForm.exRate).toFixed(3)}}
                   </span>
               </td>
               <td >{{item.moq}}</td>
@@ -570,8 +570,7 @@
           }
           obj.finallyUnitPrice =tmp
           obj.offeredUnitPrice =supplierInfo.detailInfo[i].offeredUnitPrice
-
-          obj.offeredBaseUnitPrice =supplierInfo.detailInfo[i].offeredUnitPrice * (this.inputForm.exRate||1)
+          obj.offeredBaseUnitPrice =obj.finallyUnitPrice * (this.inputForm.exRate||1)
           obj.moq =supplierInfo.detailInfo[i].moq
           obj.expectArrivalDate =supplierInfo.detailInfo[i].expectArrivalDate
           obj.expectLastArrivalDate =supplierInfo.detailInfo[i].expectLastArrivalDate

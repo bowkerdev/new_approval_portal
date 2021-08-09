@@ -85,13 +85,14 @@
                 </span>
               </td>
               <td :rowspan="item.docListSize" >
-                <el-select @change="currencyChange"  size="small" v-model="item.currency" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
+                <el-select @change="currencyChange"  size="small" v-model="item.currency"
+                  v-if="item.edit&&index==0" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in $dictUtils.getDictList('pr_currency')" on :key="item.value" :label="item.label"
                     :value="item.value">
                   </el-option>
                 </el-select>
                 <span v-else>
-                  {{$dictUtils.getDictLabel("pr_currency",item.currency, '-')}}
+                  {{$dictUtils.getDictLabel("pr_currency",supplierInfo[0].currency, '-')}}
                 </span>
               </td>
               <td :rowspan="item.docListSize" class="my-right">
@@ -224,7 +225,7 @@
                     {{item2.uploadedDate}}
                 </td>
                 <td class="width-50">
-                  <el-button v-if="item.edit" type="danger" size="small" icon="el-icon-delete" @click="delDoc(index,index2)" class="operationButton"></el-button>
+                  <el-button v-if="item.edit" type="danger" size="small" icon="el-icon-delete" @click="delDoc(index,index2+1)" class="operationButton"></el-button>
                 </td>
               </tr>
               <tr style="background-color: #fff3cf;">
@@ -492,18 +493,23 @@
         }
 
       },
-      // 表单提交
-      saveForm(callBack) {
-        debugger
+      checkForm(){
         if(this.supplierInfo.length ==0){
            this.$message.warning($i18nMy.t('供应商列表不能为空'))
-           return ;
+           return false;
         }
         for(var i=0;i<this.supplierInfo.length;i++){
           if(this.supplierInfo[i].edit){
             this.$message.warning($i18nMy.t('供应商列表还有未保存的记录'))
-            return ;
+            return false;
           }
+        }
+        return true
+      },
+      // 表单提交
+      saveForm(callBack) {
+        if(!this.checkForm()){
+          return
         }
         this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
         this.inputForm.supplierInfo=JSON.stringify(this.supplierInfo)
@@ -548,7 +554,6 @@
         this.supplierInfo[index].docList.splice(index2, 1)
         this.supplierInfo[index].docListSize=this.supplierInfo[index].docList.length+1
       },
-
       _getSupplierInfoByDetailInfo(supplierInfo){
         for(var i=0;i<supplierInfo.detailInfo.length;i++){
           var item=supplierInfo.detailInfo[i].item
@@ -570,7 +575,6 @@
           }
           obj.finallyUnitPrice =tmp
           obj.offeredUnitPrice =supplierInfo.detailInfo[i].offeredUnitPrice
-          obj.offeredBaseUnitPrice =obj.finallyUnitPrice * (this.inputForm.exRate||1)
           obj.moq =supplierInfo.detailInfo[i].moq
           obj.expectArrivalDate =supplierInfo.detailInfo[i].expectArrivalDate
           obj.expectLastArrivalDate =supplierInfo.detailInfo[i].expectLastArrivalDate
@@ -617,12 +621,13 @@
                 if(this.$common.isEmpty(tmp)){
                   tmp = this.supplierInfo[i].detailInfo[j].offeredUnitPrice
                 }
+                var size = parseInt(this.supplierInfo[i].detailInfo[j].moq||"0")
+                if(size < this.supplierInfo[i].detailInfo[j].quantity){
+                  size=parseInt(this.supplierInfo[i].detailInfo[j].quantity)
+                }
                 obj.docUnitPrice = tmp||0
-                obj.docAmount = obj.docUnitPrice*
-                  parseInt(this.supplierInfo[i].detailInfo[j].moq||"0")
-
+                obj.docAmount = obj.docUnitPrice*size
                 obj.docVatAmount = (vatRate*obj.docAmount).toFixed(3)
-
                 this.inputForm.totalContractAmount += (obj.docAmount||0)
                 this.inputForm.contractCurrency = this.supplierInfo[i].currency
               }
@@ -696,7 +701,7 @@
            this.$message.warning($i18nMy.t('供应商不能为空'))
            return
         }
-        if(this.$common.isEmpty(this.supplierInfo[index].currency)){
+        if(this.$common.isEmpty(this.supplierInfo[0].currency)){
            this.$message.warning($i18nMy.t('币种不能为空'))
            return
         }

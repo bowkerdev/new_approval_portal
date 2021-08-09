@@ -66,8 +66,9 @@
             })
           } else {
             // 处理老版本没有dataBind值的情况，默认绑定数据
-            if (genList[i].options.dataBind) {
-              this.dataBindMap.set(genList[i].model, genList[i].type)
+            if (genList[i].options.dataBind) {//
+              this.dataBindMap.set(genList[i].model,
+                {type:genList[i].type,defaultType:genList[i].options.defaultType})
             }
           }
         }
@@ -95,7 +96,6 @@
                 this.isCustom = true
                 this.form = _import(`modules/flowable/custom/${data.formDefinition.name}`)
               }
-              debugger
               // eslint-disable-next-line no-undef
               this.options = this.DynamicFormLanguage.simpleLanguageFrom(JSON.parse(json))
               this.dataBindMap.clear()
@@ -118,13 +118,13 @@
                     }
                   })
                   for (let key in this.formData) {
-                    let dataFieldType = this.dataBindMap.get(key)
-                    console.log(dataFieldType)
+                    let dataField = this.dataBindMap.get(key)
+                    let dataFieldType = dataField.type
                     if (dataFieldType && (dataFieldType === 'checkbox' ||
                         dataFieldType === 'imgupload' ||
                         dataFieldType === 'table' ||
-                        dataFieldType === 'blank' ||
-                        (dataFieldType === 'select' && dataField.options.multiple) ||
+                        (dataFieldType === 'blank' && dataField.defaultType !='String' ) ||
+                        dataFieldType === 'select' ||
                         dataFieldType === 'fileupload')) {
                       if (this.formData[key] && typeof this.formData[key] === 'string') {
                         this.formData[key] = JSON.parse(this.formData[key])

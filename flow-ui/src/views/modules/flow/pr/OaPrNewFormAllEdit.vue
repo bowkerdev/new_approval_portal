@@ -59,33 +59,48 @@
           }
         }
         // 非直接关联数据，保存的时候同步
-        if(val=='0'){// 点击第一个tab
-          if(!this.detailInfoEdit&&
-            !this.compArray(this.$refs.oaPrNewFormForSupplier.detailInfo,this.$refs.oaPrNewForm.detailInfo)){
-            this.$refs.oaPrNewForm.detailInfo=JSON.parse(
-              JSON.stringify(this.$refs.oaPrNewFormForSupplier.detailInfo))
-            this.$refs.oaPrNewForm.currencyChange()
-          }
+        if(val=='0'&&oldVal =='2'){// 第三个界面进入第一个界面，才需要更新第一个界面的数据
+          this.setPage1Data()
         }
         else if(val=='1'){// 点击第二个tab
-          this.$refs.oaPrNewFormForDoc.inputForm=this.$refs.oaPrNewForm.inputForm
-          this.$refs.oaPrNewFormForDoc.detailInfo=this.$refs.oaPrNewForm.detailInfo
-        }
-        else{
-          this.$refs.oaPrNewFormForSupplier.inputForm=this.$refs.oaPrNewForm.inputForm
-          if(!this.compArray(this.$refs.oaPrNewFormForSupplier.detailInfo,this.$refs.oaPrNewForm.detailInfo)){
-            console.log("清理数据")
-            this.$refs.oaPrNewFormForSupplier.supplierInfo = []
-            this.$refs.oaPrNewFormForSupplier.supplierInfoByDetailInfo = []
-            this.$refs.oaPrNewFormForSupplier.detailInfo=JSON.parse(
-              JSON.stringify(this.$refs.oaPrNewForm.detailInfo))
+          if(oldVal =='0'){
+            this.setPage3Data()
           }
-
+          else if(oldVal =='2'){
+            this.setPage1Data()
+          }
+          this.setPage2Data()
+        }
+        else if(val=='2'&&oldVal =='0'){
+          this.setPage3Data()
         }
       }
     },
     methods: {
+      setPage1Data(){
+        if(!this.detailInfoEdit&&
+          !this.compArray(this.$refs.oaPrNewFormForSupplier.detailInfo,this.$refs.oaPrNewForm.detailInfo)){
+          this.$refs.oaPrNewForm.detailInfo=JSON.parse(
+            JSON.stringify(this.$refs.oaPrNewFormForSupplier.detailInfo))
+          this.$refs.oaPrNewForm.currencyChange()
+        }
+      },
+      setPage2Data(){
+        this.$refs.oaPrNewFormForDoc.inputForm=this.$refs.oaPrNewForm.inputForm
+        this.$refs.oaPrNewFormForDoc.detailInfo=this.$refs.oaPrNewForm.detailInfo
+      },
+      setPage3Data(){
+        this.$refs.oaPrNewFormForSupplier.inputForm=this.$refs.oaPrNewForm.inputForm
+        if(!this.compArray(this.$refs.oaPrNewFormForSupplier.detailInfo,this.$refs.oaPrNewForm.detailInfo)){
+          console.log("清理数据")
+          this.$refs.oaPrNewFormForSupplier.supplierInfo = []
+          this.$refs.oaPrNewFormForSupplier.supplierInfoByDetailInfo = []
+          this.$refs.oaPrNewFormForSupplier.detailInfo=JSON.parse(
+            JSON.stringify(this.$refs.oaPrNewForm.detailInfo))
+        }
+      },
       init(query) {
+        debugger
         this.businessId=query.businessId
         this.$refs.oaPrNewForm.init(query)
         this.$refs.oaPrNewFormForDoc.init(query)
@@ -120,10 +135,21 @@
         if(this.activeName !=0){
           this.$refs.oaPrNewForm.detailInfo=this.$refs.oaPrNewFormForSupplier.detailInfo
         }
-        this.$refs.oaPrNewForm.supplierInfo=
-        JSON.stringify(this.$refs.oaPrNewFormForSupplier.supplierInfo)
+        if(!this.$refs.oaPrNewFormForDoc.checkForm()){
+          this.activeName= '1'
+          return ;
+        }
+        if(!this.$refs.oaPrNewFormForSupplier.checkForm()){
+          this.activeName= '2'
+          return ;
+        }
+        this.activeName= '0'
+        this.$refs.oaPrNewForm.inputForm.supplierInfo=
+          JSON.stringify(this.$refs.oaPrNewFormForSupplier.supplierInfo)
+          
         this.$refs.oaPrNewForm.inputForm.supplementaryDoc=
           JSON.stringify(this.$refs.oaPrNewFormForDoc.supplementaryDoc)
+          
         this.$refs.oaPrNewForm.saveForm((businessTable, businessId) => {
            callBack(businessTable, businessId)
         })

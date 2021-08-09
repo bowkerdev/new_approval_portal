@@ -25,8 +25,6 @@
      </el-tab-pane>
   </el-tabs>
 
-
-
 <el-card style="margin-top:10px; margin-bottom:66px" v-if="!procInsId || taskId">
     <el-form size="small" :model="auditForm"   ref="auditForm" label-width="120px">
       <el-col :span="16">

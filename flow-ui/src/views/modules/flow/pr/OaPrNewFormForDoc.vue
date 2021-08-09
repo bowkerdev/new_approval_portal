@@ -162,7 +162,7 @@
               <template slot-scope="{row}">
                 <el-button v-if="row.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
                 <el-button v-if="!row.edit" type="primary" size="small" icon="el-icon-edit" @click="changeTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
-                <el-button v-if="!row.edit" type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
+                <el-button  type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -268,17 +268,23 @@
           })
         }
       },
-      // 表单提交
-      saveForm(callBack) {
-        if(this.supplementaryDoc.length ==0){
-           this.$message.warning($i18nMy.t('请上传文档'))
-           return ;
-        }
+      checkForm(){
         for(var i=0;i<this.supplementaryDoc.length;i++){
           if(this.supplementaryDoc[i].edit){
             this.$message.warning($i18nMy.t('附件列表还有未保存的记录'))
             return ;
           }
+        }
+        return true
+      },
+      // 表单提交
+      saveForm(callBack) {
+        if(this.supplementaryDoc.length ==0){// 单独打开时，必须上传
+           this.$message.warning($i18nMy.t('请上传文档'))
+           return ;
+        }
+        if(!this.checkForm()){
+          return
         }
         this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
         this.inputForm.supplementaryDoc=JSON.stringify(this.supplementaryDoc)

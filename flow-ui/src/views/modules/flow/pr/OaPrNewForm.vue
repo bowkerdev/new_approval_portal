@@ -187,7 +187,7 @@
         <el-col :span="3">
           <el-form-item label-width="10px" label=""  :rules="[]">
             <span v-if="!isNaN(inputForm.totalContractAmount*inputForm.vat)&&this.inputForm.totalContractAmount !=''">
-              {{(inputForm.totalContractAmount*inputForm.vat).toFixed(3)}}
+              {{(inputForm.totalContractAmount*inputForm.vat).toFixed(2)}}
             </span>
           </el-form-item>
         </el-col>
@@ -204,14 +204,14 @@
         <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('基础币种总价')" prop="totalBaseAmount" :rules="[]">
             <span v-if="!isNaN(inputForm.exRate*inputForm.totalContractAmount)&&this.inputForm.totalContractAmount !=''">
-              {{(inputForm.exRate*inputForm.totalContractAmount).toFixed(3)}}
+              {{(inputForm.exRate*inputForm.totalContractAmount).toFixed(2)}}
             </span>
           </el-form-item>
         </el-col>
         <el-col :span="3">
           <el-form-item label-width="10px" label="" :rules="[]">
             <span v-if="!isNaN(inputForm.exRate*inputForm.vat*inputForm.totalContractAmount)&&this.inputForm.totalContractAmount !=''">
-              {{(inputForm.exRate*inputForm.vat*inputForm.totalContractAmount).toFixed(3)}}
+              {{(inputForm.exRate*inputForm.vat*inputForm.totalContractAmount).toFixed(2)}}
             </span>
           </el-form-item>
 
@@ -280,7 +280,7 @@
                   <span v-else>{{ row.includedVat }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="unitPrice" width="120" v-if="index != 0" align="right" :label="'* '+$i18nMy.t('单价')">
+              <el-table-column prop="unitPrice" width="120" align="right" :label="'* '+$i18nMy.t('市场价格')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-only-num.float="row"
@@ -358,7 +358,7 @@
                   <el-table-column prop="baseQuantity" align="right" :label="$i18nMy.t('总数')">
                     <template slot-scope="{row}">
                       <span v-if="!isNaN(row.docAmount*inputForm.exRate)">
-                        {{(row.docAmount*inputForm.exRate).toFixed(3)}}
+                        {{(row.docAmount*inputForm.exRate).toFixed(2)}}
                       </span>
                     </template>
                   </el-table-column>
@@ -366,7 +366,7 @@
                   <el-table-column v-if="index == 2" prop="baseVatQuantity" align="right" :label="$i18nMy.t('总数')+'(VAT)'"   >
                     <template slot-scope="{row}">
                       <span  v-if="!isNaN(row.docVatAmount*inputForm.exRate)">
-                        {{(row.docVatAmount*inputForm.exRate).toFixed(3)}}
+                        {{(row.docVatAmount*inputForm.exRate).toFixed(2)}}
                       </span>
                     </template>
                   </el-table-column>

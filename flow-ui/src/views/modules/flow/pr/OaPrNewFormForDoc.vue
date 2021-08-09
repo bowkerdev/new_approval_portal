@@ -93,7 +93,7 @@
       </el-row>
       <el-row :gutter="0">
         <p style="text-align: left;margin: 10px 0px 10px 0px;font-size: 20px;font-weight: 500;">
-          补充文件
+          {{$i18nMy.t('补充文件')}}
         </p>
       </el-row>
       <el-row :gutter="15">

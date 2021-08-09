@@ -328,12 +328,12 @@
               <td>{{item.docVatAmount}}</td>
               <td>
                 <span v-if="!isNaN(item.docAmount*inputForm.exRate)">
-                  {{(item.docAmount*inputForm.exRate).toFixed(3)}}
+                  {{(item.docAmount*inputForm.exRate).toFixed(2)}}
                 </span>
               </td>
               <td>
                 <span v-if="!isNaN(item.docVatAmount*inputForm.exRate)">
-                  {{(item.docVatAmount*inputForm.exRate).toFixed(3)}}
+                  {{(item.docVatAmount*inputForm.exRate).toFixed(2)}}
                 </span>
               </td>
             </tr>
@@ -350,7 +350,7 @@
               <td >{{item.finallyUnitPrice}}</td>
               <td >
                   <span v-if="!isNaN(item.finallyUnitPrice*inputForm.exRate)">
-                    {{(item.finallyUnitPrice*inputForm.exRate).toFixed(3)}}
+                    {{(item.finallyUnitPrice*inputForm.exRate).toFixed(2)}}
                   </span>
               </td>
               <td >{{item.moq}}</td>
@@ -627,7 +627,7 @@
                 }
                 obj.docUnitPrice = tmp||0
                 obj.docAmount = obj.docUnitPrice*size
-                obj.docVatAmount = (vatRate*obj.docAmount).toFixed(3)
+                obj.docVatAmount = (vatRate*obj.docAmount).toFixed(2)
                 this.inputForm.totalContractAmount += (obj.docAmount||0)
                 this.inputForm.contractCurrency = this.supplierInfo[i].currency
               }

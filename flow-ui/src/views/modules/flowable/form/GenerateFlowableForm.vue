@@ -123,7 +123,8 @@
                     if (dataFieldType && (dataFieldType === 'checkbox' ||
                         dataFieldType === 'imgupload' ||
                         dataFieldType === 'table' ||
-                        // ??  (dataFieldType === 'select' && dataField.options.multiple) ||
+                        dataFieldType === 'blank' ||
+                        (dataFieldType === 'select' && dataField.options.multiple) ||
                         dataFieldType === 'fileupload')) {
                       if (this.formData[key] && typeof this.formData[key] === 'string') {
                         this.formData[key] = JSON.parse(this.formData[key])

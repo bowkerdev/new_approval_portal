@@ -378,15 +378,17 @@
 
       start (param) {
         debugger
-        let row = {id: "prpo:4:7a75e55b-edf1-11eb-b6fe-362eb7b6edf6", name: "PRPO", key: "prpo"}
+        let row = {id: param.flow.procDefId, name: "PRPO", key: "prpo"}
         // 读取流程表单
         let tabTitle = $i18nMy.t('发起流程') + '：' + $i18nMy.t(`${row.name}`)
-        let processTitle = `${this.userName} start process : ${row.name}  ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} `
+        let processTitle = `Start Process : ${row.name}  ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} `
+        debugger
         this.$http.get('/flowable/task/getTaskDef', {params: {
           procDefId: row.id,
           status: 'start'
         }}).then(({data}) => {
           if (data.success) {
+            debugger
             this.$router.push({
               path: '/flowable/task/TaskForm',
               query: {procDefId: row.id, procDefKey: row.key, status: 'start', title: tabTitle, formType: data.flow.formType, formUrl: data.flow.formUrl, formTitle: processTitle, businessId: param.id}

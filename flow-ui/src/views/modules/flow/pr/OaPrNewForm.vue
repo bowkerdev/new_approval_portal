@@ -476,7 +476,7 @@
       UserSelect
     },
     activated() {
-      this.init()
+      //this.init()
     },
     methods: {
       siteChange(){

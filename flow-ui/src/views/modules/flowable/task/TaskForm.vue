@@ -97,9 +97,11 @@
   const _import = require('@/router/import-' + process.env.NODE_ENV)
   export default {
     activated () {
-      if(this.$route.query.taskId != this.taskId ){
-        Object.assign(this.$data, this.$options.data.call(this))
+      this.taskSelectedTab = 'form-first'
+      if(this.taskId !='null'){
+        return
       }
+      Object.assign(this.$data, this.$options.data.call(this))
       this.init()
       if (this.formType === '2') { // 读取外置表单
         if (this.formUrl === '/404') {
@@ -230,7 +232,7 @@
       // 暂存草稿
       save () {
         this.$refs.form.saveForm((businessTable, businessId) => {
-          
+
         })
       },
       // 启动流程
@@ -517,7 +519,7 @@
         lastTaskDefKey: '',
         formReadOnly: false,
         procDefKey: '',
-        taskId: '',
+        taskId: 'null',
         taskFormData: [],
         taskDefKey: '',
         status: '',

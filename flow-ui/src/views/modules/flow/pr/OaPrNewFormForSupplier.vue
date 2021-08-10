@@ -704,7 +704,8 @@
         if(this.$common.isEmpty(this.supplierInfo[0].currency)){
            this.$message.warning($i18nMy.t('币种不能为空'))
            return
-        }
+        } 
+        this.supplierInfo[index].currency = this.supplierInfo[0].currency
         for(var i=0;i<this.supplierInfo[index].docList.length;i++){
           if(this.$common.isEmpty(this.supplierInfo[index].docList[i].attachment)){
              this.$message.warning($i18nMy.t('附件不能为空'))

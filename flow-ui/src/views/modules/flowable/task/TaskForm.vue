@@ -244,7 +244,7 @@
               businessTable: businessTable,
               businessId: businessId,
               ...vars,
-              title: this.title,
+              //title: this.title,  // title用作申请单号，后台生成
               assignee: this.auditForm.assignee
             }).then(({data}) => {
               if (data.success) {
@@ -259,7 +259,7 @@
           this.$refs.form.submitStartFormData({
             processDefinitionId: this.procDefId,
             ...vars,
-            title: this.title,
+            //title: this.title, // title用作申请单号，后台生成
             assignee: this.auditForm.assignee
           }, (data) => {
             if (data.success) {

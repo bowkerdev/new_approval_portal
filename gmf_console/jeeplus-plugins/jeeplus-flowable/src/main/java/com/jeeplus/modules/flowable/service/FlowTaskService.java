@@ -108,8 +108,6 @@ public class FlowTaskService extends BaseService {
     @Autowired
     private FlowProcessService flowProcessService;
     @Autowired
-    private FlowTaskService flowTaskService;
-    @Autowired
     private JdbcTemplate jdbcTemplate;
     
     /**
@@ -485,7 +483,7 @@ public class FlowTaskService extends BaseService {
         	if (!StringUtils.isEmpty(String.valueOf(vars.get("application_no")))) {
         		vars.put (FlowableConstant.TITLE, vars.get("application_no"));
         	} else {
-        		String seq = flowTaskService.getSequence(StringUtils.upperCase(procDefKey), null);
+        		String seq = this.getSequence(StringUtils.upperCase(procDefKey), null);
         		vars.put (FlowableConstant.TITLE, seq);
         	}
         }

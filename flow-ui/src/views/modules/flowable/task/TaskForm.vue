@@ -113,19 +113,17 @@
           this.form = _import(`modules${this.formUrl}`)
         }
       } else { // 读取动态表单
-        this.$nextTick(() => {
-          if (this.formUrl === '/404') {
-            this.$refs.form.createForm('')
-          } else {
-            this.$refs.form.createForm(this.formUrl)
-          }
-        })
         if (this.status === 'start') {
           // 读取启动表单配置
           this.$http.get('/flowable/form/getStartFormData',
               {params: {processDefinitionId: this.procDefId}}
               ).then(({data}) => {
                 this.taskFormData = data.startFormData
+                if (this.formUrl === '/404') {
+                  this.$refs.form.createForm('')
+                } else {
+                  this.$refs.form.createForm(this.formUrl)
+                }
               })
         } else {
           // 读取任务表单配置
@@ -133,6 +131,11 @@
               {params: {taskId: this.taskId}}
               ).then(({data}) => {
                 this.taskFormData = data.taskFormData
+                if (this.formUrl === '/404') {
+                  this.$refs.form.createForm('')
+                } else {
+                  this.$refs.form.createForm(this.formUrl)
+                }
               })
         }
       }

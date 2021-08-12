@@ -542,7 +542,7 @@ export default Vue.extend({
         if (data.success) {
           this.$router.push({
             path: '/flowable/task/TaskForm',
-            query: {formTitle: `${row.vars.title}`, title: `审批【${row.task.name || ''}】`, ...pick(data.flow, 'formType', 'formReadOnly', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId', 'lastTaskDefKey')}
+            query: {formTitle: `${row.vars.title}`, title: `${row.vars.title}`, ...pick(data.flow, 'formType', 'formReadOnly', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId', 'lastTaskDefKey')}
           })
         }
       })

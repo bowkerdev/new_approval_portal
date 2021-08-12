@@ -569,10 +569,9 @@ export default Vue.extend({
       })
     },
     start (row) {
-      debugger
-            // 读取流程表单
+      // 读取流程表单
       let tabTitle = $i18nMy.t('发起流程') + '：' + $i18nMy.t(`${row.name}`)
-      let processTitle = `${this.userName} start process : ${row.name}  ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} `
+      let processTitle = ''//`${this.userName} start process : ${row.name}  ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} `
       this.$http.get('/flowable/task/getTaskDef', {params: {
         procDefId: row.id,
         status: 'start'

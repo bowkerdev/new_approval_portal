@@ -136,9 +136,14 @@
               })
         }
       }
+      debugger
        // 读取按钮配置
       if (this.status === 'start') {
-        this.buttons = [{code: '_flow_start', name: $i18nMy.t('启动'), isHide: '0'},{code: '_flow_save', name: $i18nMy.t('保存为草稿'), isHide: '0'}]
+        if (this.formUrl.indexOf("flow/pr/")>0) { // 目前只有PR能保存草稿 Jack
+          this.buttons = [{code: '_flow_start', name: $i18nMy.t('启动'), isHide: '0'}, {code: '_flow_save', name: $i18nMy.t('保存为草稿'), isHide: '0'}]
+        } else {
+          this.buttons = [{code: '_flow_start', name: $i18nMy.t('启动'), isHide: '0'}]
+        }
       } else if (this.procDefKey && this.taskDefKey) {
         // 读取按钮
         this.$http.get('/extension/taskDefExtension/queryByDefIdAndTaskId', {params: {
@@ -246,7 +251,7 @@
               businessTable: businessTable,
               businessId: businessId,
               ...vars,
-              title: this.title,
+              //title: this.title,  // title用作申请单号，后台生成
               assignee: this.auditForm.assignee
             }).then(({data}) => {
               if (data.success) {
@@ -261,7 +266,7 @@
           this.$refs.form.submitStartFormData({
             processDefinitionId: this.procDefId,
             ...vars,
-            title: this.title,
+            //title: this.title, // title用作申请单号，后台生成
             assignee: this.auditForm.assignee
           }, (data) => {
             if (data.success) {

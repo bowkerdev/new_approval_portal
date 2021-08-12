@@ -482,6 +482,9 @@ public class FlowTaskService extends BaseService {
         	vars.putAll(bizMap);
         	if (!StringUtils.isEmpty(String.valueOf(vars.get("application_no")))) {
         		vars.put (FlowableConstant.TITLE, vars.get("application_no"));
+        	} else {
+        		String seq = this.getSequence(StringUtils.upperCase(procDefKey), null);
+        		vars.put (FlowableConstant.TITLE, seq);
         	}
         }
 

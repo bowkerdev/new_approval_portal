@@ -5,7 +5,7 @@
     :close-on-click-modal="false"
      v-dialogDrag
     :visible.sync="visible">
-    <el-form :model="inputForm" ref="inputForm" v-loading="loading" :class="method==='view'?'readonly':''"  :disabled="method==='view'"
+    <el-form :model="inputForm" size="small" ref="inputForm" v-loading="loading" :class="method==='view'?'readonly':''"  :disabled="method==='view'"
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
@@ -22,18 +22,18 @@
               <el-input v-model="inputForm.url" :placeholder="$i18nMy.t('请填写通知的接口')"     ></el-input>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
-            <el-form-item label="需返回的参数列表" prop="paramList"
+        <el-col :span="24">
+            <el-form-item label="需返回的参数处理js" prop="getParamJs"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.paramList" :placeholder="$i18nMy.t('请填写需返回的参数列表')"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.getParamJs" placeholder="请填写需返回的参数处理js"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">{{$i18nMy.t("关闭")}}</el-button>
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t("确定")}}</el-button>
+      <el-button size="small" @click="visible = false">{{$i18nMy.t("关闭")}}</el-button>
+      <el-button size="small" type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t("确定")}}</el-button>
     </span>
   </el-dialog>
 </div>
@@ -51,7 +51,7 @@
           id: '',
           oaKey: '',
           url: '',
-          paramList: ''
+          getParamJs: ''
         }
       }
     },

@@ -12,7 +12,7 @@
 		a.del_flag AS "delFlag",
 		a.oa_key AS "oaKey",
 		a.url AS "url",
-		a.param_list AS "paramList"
+		a.get_param_js AS "getParamJs"
 	</sql>
 
 	<sql id="actCallbackUpperSystemConfigJoins">
@@ -50,13 +50,6 @@
 					<if test="_databaseId == 'mssql'">'%'+#{url}+'%'</if>
 					<if test="_databaseId == 'mysql'">concat('%',#{url},'%')</if>
 			</if>
-			<if test="paramList != null and paramList != ''">
-				AND a.param_list LIKE
-				    <if test="_databaseId == 'postgre'">'%'||#{paramList}||'%'</if>
-					<if test="_databaseId == 'oracle'">'%'||#{paramList}||'%'</if>
-					<if test="_databaseId == 'mssql'">'%'+#{paramList}+'%'</if>
-					<if test="_databaseId == 'mysql'">concat('%',#{paramList},'%')</if>
-			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -76,7 +69,11 @@
 		<include refid="actCallbackUpperSystemConfigJoins"/>
 		<where>
 		 a.del_flag = '0'
-		 and a.oa_key = #{oaKey} 
+		 AND a.oa_key LIKE
+				    <if test="_databaseId == 'postgre'"> #{oaKey}||':%'</if>
+					<if test="_databaseId == 'oracle'">  #{oaKey}||':%'</if>
+					<if test="_databaseId == 'mssql'">   #{oaKey}+':%'</if>
+					<if test="_databaseId == 'mysql'">concat(#{oaKey},':%')</if>
 		</where>
 	</select>
 
@@ -110,7 +107,7 @@
 			del_flag,
 			oa_key,
 			url,
-			param_list
+			get_param_js
 		) VALUES (
 			#{id},
 			#{createBy.id},
@@ -121,7 +118,7 @@
 			#{delFlag},
 			#{oaKey},
 			#{url},
-			#{paramList}
+			#{getParamJs}
 		)
 	</insert>
 
@@ -132,7 +129,7 @@
 			remarks = #{remarks},
 			oa_key = #{oaKey},
 			url = #{url},
-			param_list = #{paramList}
+			get_param_js = #{getParamJs}
 		WHERE id = #{id}
 	</update>
 
@@ -152,8 +149,8 @@
 
 
 	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
-	<select id="findUniqueByProperty" resultType="ActCallbackUpperSystemConfig" statementType="STATEMENT">
-		select * FROM act_callback_upper_system_config  where ${propertyName} = '${value}'
+	<select id="findUniqueByProperty" resultType="ActCallbackUpperSystemConfig">
+		select * FROM act_callback_upper_system_config  where ${propertyName} = #{value}
 	</select>
 
 </mapper>

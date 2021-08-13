@@ -117,18 +117,15 @@ public class ShiroConfig {
         filterRuleMap.put( "/sys/sysConfig/queryById", "anon");
         filterRuleMap.put( "/sys/file/webupload/uploadWithoutLogin", "anon");
         filterRuleMap.put( "/sys/file/webupload/deleteByUrlWithoutLogin", "anon");
-
         filterRuleMap.put( "/sys/sysSimpleLanguage/save/automation", "anon");
-        
         filterRuleMap.put( "/dg/dgNongfang/**", "anon");
-
 		filterRuleMap.put( "/sys/hasAllowLoginkey", "anon");
 		filterRuleMap.put( "/dd/authority/useInfo", "anon");
 		filterRuleMap.put( "api/**", "anon");
 		
-		
-		
         filterRuleMap.put( "/database/datamodel/dataSet/getDataByNameForAll/**", "anon");
+        filterRuleMap.put( "/flow/compatible/borrowsample/saveAjax", "anon");
+        filterRuleMap.put( "/flow/compatible/borrowsample/endApproveAjax", "anon");
         
         // 所有请求通过我们自己的JWT Filter
         filterRuleMap.put("/**", "jwt,kickout");

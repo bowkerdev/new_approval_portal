@@ -221,45 +221,46 @@ public class FlowableModelController extends BaseController {
 		}
 	   }
 
-		protected ModelRepresentation updateModel(Model model, MultiValueMap<String, String> values, boolean forceNewVersion) {
-			String name = (String)values.getFirst("name");
-			String key = ((String)values.getFirst("key")).replaceAll(" ", "");
-			String description = (String)values.getFirst("description");
-			String isNewVersionString = (String)values.getFirst("newversion");
-			String newVersionComment = null;
-			ModelKeyRepresentation modelKeyInfo = this.modelService.validateModelKey(model, model.getModelType(), key);
-			if (modelKeyInfo.isKeyAlreadyExists()) {
-				throw new BadRequestException("Model with provided key already exists " + key);
-			} else {
-				boolean newVersion = false;
-				if (forceNewVersion) {
-					newVersion = true;
-					newVersionComment = (String)values.getFirst("comment");
-				} else if (isNewVersionString != null) {
-					newVersion = "true".equals(isNewVersionString);
-					newVersionComment = (String)values.getFirst("comment");
+	protected ModelRepresentation updateModel(Model model, MultiValueMap<String, String> values, boolean forceNewVersion) {
+		String name = (String)values.getFirst("name");
+		String key = ((String)values.getFirst("key")).replaceAll(" ", "");
+		String description = (String)values.getFirst("description");
+		String isNewVersionString = (String)values.getFirst("newversion");
+		String newVersionComment = null;
+		ModelKeyRepresentation modelKeyInfo = this.modelService.validateModelKey(model, model.getModelType(), key);
+		if (modelKeyInfo.isKeyAlreadyExists()) {
+			throw new BadRequestException("Model with provided key already exists " + key);
+		} else {
+			boolean newVersion = false;
+			if (forceNewVersion) {
+				newVersion = true;
+				newVersionComment = (String)values.getFirst("comment");
+			} else if (isNewVersionString != null) {
+				newVersion = "true".equals(isNewVersionString);
+				newVersionComment = (String)values.getFirst("comment");
+			}
+
+			String json = (String)values.getFirst("json_xml");
+			json = this.flowableModelService.changeXmlToJson(json);
+
+			try {
+				ObjectNode editorJsonNode = (ObjectNode)this.objectMapper.readTree(json);
+				ObjectNode propertiesNode = (ObjectNode)editorJsonNode.get("properties");
+				propertiesNode.put("process_id", key);
+				propertiesNode.put("name", name);
+				if (StringUtils.isNotEmpty(description)) {
+					propertiesNode.put("documentation", description);
 				}
 
-				String json = (String)values.getFirst("json_xml");
-				json = this.flowableModelService.changeXmlToJson(json);
-
-				try {
-					ObjectNode editorJsonNode = (ObjectNode)this.objectMapper.readTree(json);
-					ObjectNode propertiesNode = (ObjectNode)editorJsonNode.get("properties");
-					propertiesNode.put("process_id", key);
-					propertiesNode.put("name", name);
-					if (StringUtils.isNotEmpty(description)) {
-						propertiesNode.put("documentation", description);
-					}
-
-					editorJsonNode.set("properties", propertiesNode);
-					model = this.modelService.saveModel(model.getId(), name, key, description, editorJsonNode.toString(), newVersion, newVersionComment, SecurityUtils.getCurrentUserObject());
-					return new ModelRepresentation(model);
-				} catch (Exception var15) {
-					throw new BadRequestException("Process model could not be saved " + model.getId());
-				}
+				editorJsonNode.set("properties", propertiesNode);
+				model = this.modelService.saveModel(model.getId(), name, key, description, editorJsonNode.toString(), newVersion, newVersionComment, SecurityUtils.getCurrentUserObject());
+				return new ModelRepresentation(model);
+			} catch (Exception var15) {
+				var15.printStackTrace();
+				throw new BadRequestException("Process model could not be saved " + model.getId());
 			}
 		}
+	}
 
 
 	protected void checkForDuplicateKey(ModelRepresentation modelRepresentation) {

@@ -14,9 +14,9 @@ import com.jeeplus.modules.flowable.callback.entity.ActCallbackUpperSystemConfig
 import com.jeeplus.modules.flowable.callback.mapper.ActCallbackUpperSystemConfigMapper;
 
 /**
- * 配置设置Service
+ * *Service
  * @author LJ
- * @version 2020-09-25
+ * @version 2021-08-13
  */
 @Service
 @Transactional(readOnly = true)

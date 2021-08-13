@@ -155,8 +155,10 @@ public class ExtUserTaskActivityBehavior extends UserTaskActivityBehavior {
 	            			}
 						}
                     	sql=sql.replaceAll("\\#\\{taskDefId\\}", taskDefExtension.getTaskDefId().split("__")[0]);
-                        Map userMap = SpringContextHolder.getBean (JdbcTemplate.class).queryForMap (sql);
-                        candidateUserIds.add(String.valueOf(userMap.get ("id")));
+                    	List<Map<String, Object>>  userMaps = SpringContextHolder.getBean (JdbcTemplate.class).queryForList (sql);
+                        for(Map<String, Object>userMap:userMaps ){
+                        	candidateUserIds.add(String.valueOf(userMap.get ("id")));
+                        }
                         break;
                     case "custom":
                         //根据你的自定义标记，请自行实现

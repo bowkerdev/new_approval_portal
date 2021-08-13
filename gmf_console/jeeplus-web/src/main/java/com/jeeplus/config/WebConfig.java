@@ -9,9 +9,12 @@ import com.google.common.collect.Lists;
 import com.jeeplus.config.web.LogInterceptor;
 import com.jeeplus.core.mapper.JsonMapper;
 import com.jeeplus.modules.flowable.interceptor.FlowableHandlerInterceptor;
+import com.jeeplus.modules.sys.security.shiro.LoggableDispatcherServlet;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -110,17 +113,14 @@ public class WebConfig implements WebMvcConfigurer {
         byteSupportedMediaTypes.add(MediaType.valueOf("image/*"));
         byteArrayHttpMessageConverter.setSupportedMediaTypes(byteSupportedMediaTypes);
         converters.add(byteArrayHttpMessageConverter);
-
-
     }
-
 
     /**
      * druidServlet注册
      */
     @Bean
-    public ServletRegistrationBean druidServletRegistration() {
-        ServletRegistrationBean registration = new ServletRegistrationBean(new StatViewServlet());
+    public ServletRegistrationBean<StatViewServlet> druidServletRegistration() {
+        ServletRegistrationBean<StatViewServlet> registration = new ServletRegistrationBean<StatViewServlet>(new StatViewServlet());
         registration.addUrlMappings("/druid/*");
         return registration;
     }

@@ -13,44 +13,34 @@
         </el-col>
         <el-col :span="12">
           <el-form size="small"  :model="inputForm" ref="inputForm" v-loading="loading" label-width="150px">
-                        <el-form-item :label="$i18nMy.t('目标数据库')" prop="db.id"
-                            :rules="[
-                              {required: true, message:'目标数据库不能为空', trigger:'blur'}
-                            ]">
-                          <SelectTree
-                            ref="db"
-                            :props="{
-                                value: 'id',             // ID字段名
-                                label: 'label',         // 显示名称
-                                children: 'children'    // 子级字段名
-                              }"
+            <el-form-item :label="$i18nMy.t('目标数据库')" prop="db.id"
+                :rules="[{required: true, message:'目标数据库不能为空', trigger:'blur'}]">
+                  <SelectTree ref="db"
+                    :props="{
+                        value: 'id',    // ID字段名
+                        label: 'label',         // 显示名称
+                        children: 'children'    // 子级字段名
+                    }"
+                    url="/database/datalink/dataSource/treeData2"
+                    :value="inputForm.db.id"  :clearable="true"  :accordion="true"
+                    @getValue="(value) => {inputForm.db.id=value}"/>
+            </el-form-item>
+            <el-form-item label="组别" prop="group" :rules="[{required: true, message:'组别', trigger:'blur'} ]">
+                <el-select v-model="inputForm.group" :placeholder="$i18nMy.t('请选择')"  style="width: 100%;">
+                    <el-option  v-for="item in $dictUtils.getDictList('DATASOURCE_GROUP')"
+                      :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                </el-select>
+            </el-form-item>
 
-                            url="/database/datalink/dataSource/treeData2"
-                            :value="inputForm.db.id"
-                            :clearable="true"
-                            :accordion="true"
-                            @getValue="(value) => {inputForm.db.id=value}"/>
-                      </el-form-item>
-                      <el-form-item label="组别" prop="group" :rules="[{required: true, message:'组别', trigger:'blur'} ]">
-                          <el-select v-model="inputForm.group" :placeholder="$i18nMy.t('请选择')"  style="width: 100%;">
-                              <el-option  v-for="item in $dictUtils.getDictList('DATASOURCE_GROUP')"
-                                :key="item.value" :label="item.label" :value="item.value">
-                              </el-option>
-                          </el-select>
-                      </el-form-item>
-
-                        <el-form-item :label="$i18nMy.t('数据源名称')" prop="name"
-                            :rules="[
-                              {required: true, message:'数据源名称不能为空', trigger:'blur'}
-                            ]">
-                          <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写数据源名称,并且遵循【类型_组别_名称】格式命名')"     ></el-input>
-                      </el-form-item>
-                        <el-form-item label="sql语句" prop="sqlcmd"
-                            :rules="[
-                              {required: true, message:'sql语句不能为空', trigger:'blur'}
-                            ]">
-                          <editor v-model="inputForm.sqlcmd" @init="editorInitSQL" lang="sql" height="200px" style="border: 1px solid #d9d9d9;"></editor>
-                      </el-form-item>
+            <el-form-item :label="$i18nMy.t('数据源名称')" prop="name"
+              :rules="[{required: true, message:'数据源名称不能为空', trigger:'blur'}]">
+                <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写数据源名称,并且遵循【类型_组别_名称】格式命名')"     ></el-input>
+            </el-form-item>
+                <el-form-item label="sql语句" prop="sqlcmd"
+                  :rules="[{required: true, message:'sql语句不能为空', trigger:'blur'}]">
+                <editor v-model="inputForm.sqlcmd" @init="editorInitSQL" lang="sql" height="200px" style="border: 1px solid #d9d9d9;"></editor>
+            </el-form-item>
           </el-form>
         </el-col>
         <el-col :span="12">
@@ -215,10 +205,6 @@
           this.paramForm.tableData = data.dataSet.params
         })
       }
-      else{
-        Object.assign(this.$data, this.$options.data.call(this))
-      }
-
     },
     components: {
       SelectTree,

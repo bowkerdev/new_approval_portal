@@ -12,9 +12,9 @@ import org.apache.ibatis.annotations.Mapper;
 import com.jeeplus.modules.flowable.callback.entity.ActCallbackUpperSystemConfig;
 
 /**
- * 配置设置MAPPER接口
+ * *MAPPER接口
  * @author LJ
- * @version 2020-09-25
+ * @version 2021-08-13
  */
 @Mapper
 @Repository

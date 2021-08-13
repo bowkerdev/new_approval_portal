@@ -1,53 +1,47 @@
 <template>
-  <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+    <div class="page">
+      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="oaKey">
-                <el-input size="small" v-model="searchForm.oaKey" :placeholder="$i18nMy.t('流程标识')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.oaKey" placeholder="流程标识" clearable></el-input>
          </el-form-item>
          <el-form-item prop="url">
-                <el-input size="small" v-model="searchForm.url" :placeholder="$i18nMy.t('通知的接口')" clearable></el-input>
-         </el-form-item>
-         <el-form-item prop="paramList">
-                <el-input size="small" v-model="searchForm.paramList" :placeholder="$i18nMy.t('需返回的参数列表')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.url" placeholder="通知的接口" clearable></el-input>
          </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询'})}</el-button>
-            <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
+            <el-button type="primary" @click="refreshList()" size="small" icon="el-icon-search">查询</el-button>
+            <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">重置</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
-      <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
-         <el-form-item>
-          <el-button type="default" @click="downloadTpl()" size="small">{{$i18nMy.t('下载模板')}}</el-button>
-         </el-form-item>
-         <el-form-item prop="loginName">
-            <el-upload
-              class="upload-demo"
-              :action="`${this.$http.BASE_URL}/flowable/callback/actCallbackUpperSystemConfig/import`"
-              :on-success="uploadSuccess"
-               :show-file-list="true">
-              <el-button size="small" type="primary">{{$i18nMy.t('点击上传')}}</el-button>
-              <div slot="tip" class="el-upload__tip">{{$i18nMy.t('只允许导入“xls”或“xlsx”格式文件！')}}</div>
-            </el-upload>
-        </el-form-item>
-      </el-form>
+      <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
+          <el-form size="small" :inline="true" v-show="isImportCollapse"  ref="importForm">
+             <el-form-item>
+              <el-button type="default" @click="downloadTpl()" size="small">下载模板</el-button>
+             </el-form-item>
+             <el-form-item prop="loginName">
+                <el-upload
+                  class="upload-demo"
+                  :action="`${this.$http.BASE_URL}/flowable/callback/actCallbackUpperSystemConfig/import`"
+                  :on-success="uploadSuccess"
+                   :show-file-list="true">
+                  <el-button size="small" type="primary">点击上传</el-button>
+                  <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
+                </el-upload>
+            </el-form-item>
+          </el-form>
+      </el-dialog>
+      <div class="bg-white top">
       <el-row>
-        <el-button v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
+        <el-button v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
         <el-button v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1" plain>{{$i18nMy.t('修改')}}</el-button>
+         :disabled="dataListSelections.length != 1" plain>修改</el-button>
         <el-button v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}
+                  :disabled="dataListSelections.length <= 0" plain>删除
         </el-button>
         <el-button-group class="pull-right">
-            <el-button
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-            <el-button v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:import')" type="default" size="small" icon="el-icon-upload2" :title="$i18nMy.t('导入')" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
-            <el-button v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:export')" type="default" size="small" icon="el-icon-download" :title="$i18nMy.t('导出')" @click="exportExcel()"></el-button>
+            <el-button v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse"></el-button>
+            <el-button v-if="hasPermission('flowable:callback:actCallbackUpperSystemConfig:export')" type="default" size="small" icon="el-icon-download" title="导出" @click="exportExcel()"></el-button>
             <el-button
               type="default"
               size="small"
@@ -58,8 +52,8 @@
       </el-row>
     <el-table
       :data="dataList"
-      border
-      size="medium"
+       size="small"
+       height="calc(100% - 80px)"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       v-loading="loading"
@@ -88,7 +82,7 @@
         label="通知的接口">
       </el-table-column>
     <el-table-column
-        prop="paramList"
+        prop="getParamJs"
         show-overflow-tooltip
         sortable="custom"
         label="需返回的参数列表">
@@ -97,6 +91,7 @@
         header-align="center"
         align="center"
         fixed="right"
+        :key="Math.random()"
         width="200"
         label="操作">
         <template  slot-scope="scope">
@@ -116,6 +111,7 @@
       background
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
+    </div>
         <!-- 弹窗, 新增 / 修改 -->
     <ActCallbackUpperSystemConfigForm  ref="actCallbackUpperSystemConfigForm" @refreshDataList="refreshList"></ActCallbackUpperSystemConfigForm>
   </div>
@@ -128,8 +124,7 @@
       return {
         searchForm: {
           oaKey: '',
-          url: '',
-          paramList: ''
+          url: ''
         },
         dataList: [],
         pageNo: 1,
@@ -137,7 +132,6 @@
         total: 0,
         orderBy: '',
         dataListSelections: [],
-        isSearchCollapse: false,
         isImportCollapse: false,
         loading: false
       }
@@ -148,7 +142,6 @@
     activated () {
       this.refreshList()
     },
-
     methods: {
       // 获取数据列表
       refreshList () {
@@ -250,7 +243,10 @@
         this.$utils.download('/flowable/callback/actCallbackUpperSystemConfig/import/template')
       },
       exportExcel () {
-        this.$utils.download('/flowable/callback/actCallbackUpperSystemConfig/export')
+        let params = {
+          ...this.searchForm
+        }
+        this.$utils.download('/flowable/callback/actCallbackUpperSystemConfig/export', params)
       },
       resetSearch () {
         this.$refs.searchForm.resetFields()

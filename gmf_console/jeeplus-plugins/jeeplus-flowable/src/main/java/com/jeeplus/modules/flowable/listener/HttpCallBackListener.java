@@ -1,5 +1,6 @@
 package com.jeeplus.modules.flowable.listener;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jeeplus.common.utils.CookieUtils;
 import com.jeeplus.common.utils.SpringContextHolder;
@@ -23,7 +24,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import javax.servlet.http.HttpServletRequest;
 @Component("httpCallBackListener")
 public class HttpCallBackListener implements ExecutionListener {
@@ -47,41 +53,13 @@ public class HttpCallBackListener implements ExecutionListener {
 			asynHttpLogService= SpringContextHolder.getBean(AsynHttpLogService.class);
 		}
 	}
-	@SuppressWarnings("rawtypes")
-	private JSONObject getMapData(HashMap map,String param) {
-		String[] tmps=param.split("\\.");
-		HashMap copyMap=map;
-		int i=0;
-		JSONObject json=new JSONObject();
-		for(;tmps.length > i+1;i++){
-			String tmp = tmps[i];
-			copyMap=(HashMap) copyMap.get(tmp);
-			if(copyMap == null){
-				break;
-			}
-		}
-		if(copyMap == null){
-			return new JSONObject();
-		}
-		json.put(tmps[i], copyMap.get(tmps[i]));
-		return json;
-	}
+
 	
-	@SuppressWarnings("rawtypes")
-	private JSONObject getReturnJson(String paramList,HashMap flowMapPid) {
-		String[] tmps=paramList.split(";");
-		JSONObject json=new JSONObject();
-		for(String tmp:tmps){
-			json.putAll(getMapData(flowMapPid,tmp));
-		}
-		return json;
-	}
-	
-	private String getToken() {
+	private String getToken(String tokenKey) {
 		HttpServletRequest request=Servlets.getRequest();
-		String token0 = request.getParameter(JWTUtil.TOKEN);
-        String token1 = request.getHeader(JWTUtil.TOKEN);
-        String token2 = CookieUtils.getCookie(request, JWTUtil.TOKEN);
+		String token0 = request.getParameter(tokenKey);
+        String token1 = request.getHeader(tokenKey);
+        String token2 = CookieUtils.getCookie(request, tokenKey);
         if(StringUtils.isNotBlank(token0)){
             return token0;
         }
@@ -91,6 +69,9 @@ public class HttpCallBackListener implements ExecutionListener {
         if(StringUtils.isNotBlank(token2)){
             return token2;
         }
+        return null;
+	}
+	private String getAdminToken() {
         User user = UserUtils.getByLoginName("admin");
         if(user !=null){
         	String token = JWTUtil.createAccessToken(user.getLoginName(), user.getPassword());
@@ -98,7 +79,31 @@ public class HttpCallBackListener implements ExecutionListener {
         }
         return null;
 	}
-	
+	private void setHeader(Map<String, String> headers) {
+		headers.put("Content-Type","application/json");
+    	String token=getToken("bowker_baseportal_token");
+    	if(StringUtils.isNoneBlank(token)){
+    		headers.put(JWTUtil.TOKEN,token );
+    		headers.put(JWTUtil.TOKENTYPE,"bowker_baseportal" );
+    	}
+    	else{
+    		token = getToken(JWTUtil.TOKEN);
+    		if(StringUtils.isNoneBlank(token)){
+    			headers.put(JWTUtil.TOKEN,token);
+    		}
+    		else{
+    			headers.put(JWTUtil.TOKEN,getAdminToken());
+    		}
+    	}
+	}
+	private String  runJs(String script,String json) throws NoSuchMethodException, ScriptException {
+		ScriptEngine engine = new ScriptEngineManager().getEngineByName("js");
+		engine.eval(script);
+		Invocable invoke = (Invocable) engine;
+		String resultString = (String) invoke.invokeFunction(
+				"getParams",json);
+		return resultString;
+	}
     @SuppressWarnings({  "rawtypes" })
 	public void notify(DelegateExecution delegateExecution) {
     	Date d=new Date();
@@ -106,19 +111,42 @@ public class HttpCallBackListener implements ExecutionListener {
         String processInstanceId = delegateExecution.getProcessInstanceId();
         try {
         	init();
-            HashMap flowMapPid = flowTaskService.getFlowMapPid(processInstanceId);
-            List<ActCallbackUpperSystemConfig> list=actCallbackUpperSystemConfigService.findListByOaKey((String)((Map)flowMapPid.get("procDef")).get("processDefinitionKey"));
-            if(list.size()==1){
+            HashMap flowMap = flowTaskService.getFlowMapPid(processInstanceId);
+            JSONObject json=(JSONObject) JSON.toJSON(flowMap);
+            String assigneeId =json.getJSONObject("procIns").getJSONObject("currentTask").getString("assignee");
+            User assigneeObj= UserUtils.get(assigneeId);
+            json.getJSONObject("procIns").getJSONObject("currentTask").put("assigneeLoginName", assigneeObj.getLoginName());
+            json.getJSONObject("procIns").getJSONObject("currentTask").put("assigneeName", assigneeObj.getName());
+            String jsonString=json.toString();
+            String processDefinitionKey=json.getJSONObject("procDef").getString("processDefinitionKey");
+            List<ActCallbackUpperSystemConfig> list=actCallbackUpperSystemConfigService.findListByOaKey(processDefinitionKey+":");
+            ActCallbackUpperSystemConfig c=null;
+            if(list.size()>1){
+            	String taskDefinitionKey=json.getJSONObject("procIns").getJSONObject("currentTask").getString("taskDefinitionKey");
+            	Optional<ActCallbackUpperSystemConfig> tmp=list.stream()
+            			.filter(t -> t.getOaKey().endsWith(processDefinitionKey+":"+taskDefinitionKey)).findFirst();
+            	if(tmp.isPresent()){ // : 后为空，为整个流程通用，不为空，则是指定
+            		c=tmp.get();
+            	}
+            	else{
+            		c=list.stream()
+                		.filter(t -> t.getOaKey().endsWith(processDefinitionKey+":")).findFirst().get();
+            	}
+            }
+            else if(list.size() ==1){
+            	c=list.get(0);
+            }
+            if(c!=null){
             	Map<String, String> headers=new HashMap<>();
-            	headers.put("Content-Type","application/json");
-            	headers.put(JWTUtil.TOKEN, getToken());
-            	String json=this.getReturnJson(list.get(0).getParamList(),flowMapPid).toJSONString();
-            	log.setParam(json);
-            	String res=HttpUtil.post(list.get(0).getUrl(), json, headers);
+            	this.setHeader(headers);
+            	if(StringUtils.isNoneBlank(c.getGetParamJs())){
+            		jsonString = this.runJs(c.getGetParamJs(),jsonString);
+            	}
+            	log.setParam(jsonString);
+            	String res=HttpUtil.post(list.get(0).getUrl(), jsonString, headers);
             	log.setReturnString(res);
             	log.setExecTime(new Date().getTime()-d.getTime());
             }
-            
         } catch (Exception e) {
             e.printStackTrace();
             log.setReturnString(e.getMessage());

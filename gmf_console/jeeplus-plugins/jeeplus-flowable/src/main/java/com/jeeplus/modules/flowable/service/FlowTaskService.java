@@ -1040,6 +1040,15 @@ public class FlowTaskService extends BaseService {
         map.put("vars", historicProcessInstance.getProcessVariables());
         procDefMap.put("name", historicProcessInstance.getProcessDefinitionName());
         procDefMap.put("version", historicProcessInstance.getProcessDefinitionVersion());
+        if(state.get("currentTask")!=null){
+        	HashMap currentTask =(HashMap) state.get("currentTask");
+        	if(StringUtils.isNoneBlank((String)currentTask.get("id"))){
+        		List<TaskComment> commentList = this.getTaskComments ((String)currentTask.get("id"));
+        		if(commentList.size()>0){
+        			state.put("comments", commentList);
+        		}
+        	}
+        }
         procInsMap.putAll(state);
         map.put("procDef", procDefMap);
         map.put("procIns", procInsMap);

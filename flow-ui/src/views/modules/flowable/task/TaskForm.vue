@@ -97,6 +97,7 @@
   const _import = require('@/router/import-' + process.env.NODE_ENV)
   export default {
     activated () {
+      debugger
       this.taskSelectedTab = 'form-first'
       if(this.taskId !='null'){
         return
@@ -111,19 +112,22 @@
           this.form = _import(`modules${this.formUrl}`)
         }
       } else { // 读取动态表单
-        this.$nextTick(() => {
-          if (this.formUrl === '/404') {
-            this.$refs.form.createForm('')
-          } else {
-            this.$refs.form.createForm(this.formUrl)
-          }
-        })
+        function _createForm(pThis){
+          pThis.$nextTick(() => {
+            if (pThis.formUrl === '/404') {
+              pThis.$refs.form.createForm('')
+            } else {
+              pThis.$refs.form.createForm(pThis.formUrl)
+            }
+          })
+        }
         if (this.status === 'start') {
           // 读取启动表单配置
           this.$http.get('/flowable/form/getStartFormData',
               {params: {processDefinitionId: this.procDefId}}
               ).then(({data}) => {
                 this.taskFormData = data.startFormData
+                _createForm(this)
               })
         } else {
           // 读取任务表单配置
@@ -131,6 +135,7 @@
               {params: {taskId: this.taskId}}
               ).then(({data}) => {
                 this.taskFormData = data.taskFormData
+                _createForm(this)
               })
         }
       }

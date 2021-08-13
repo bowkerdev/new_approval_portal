@@ -6,7 +6,7 @@
     <el-tab-pane :label="$i18nMy.t('表单信息')" name="form-first">
       <component id="printForm" :formReadOnly="formReadOnly" v-if="formType === '2'" :class="formReadOnly?'readonly':''"  ref="form" :businessId="businessId" :is="form"></component>
 
-      <PreviewForm  id="printForm"   v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="true" :taskFormData="taskFormData" ref="form"/>
+      <PreviewForm id="printForm" class="zm-preview-form-wrapper" v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="true" :taskFormData="taskFormData" ref="form"/>
     </el-tab-pane>
     <el-tab-pane :label="$i18nMy.t('流程信息')" v-if="procInsId" name="form-second">
       <flow-time-line :historicTaskList="historicTaskList"/>
@@ -87,6 +87,8 @@
 </template>
 
 <script>
+  // 样式问题
+  import '@/assets/scss/form-definition.scss'
   // import FlowChart from '../modeler/FlowChart'
   import UserSelect from '@/components/userSelect'
   import PreviewForm from '@/views/modules/flowable/form/GenerateFlowableForm'
@@ -97,7 +99,6 @@
   const _import = require('@/router/import-' + process.env.NODE_ENV)
   export default {
     activated () {
-      debugger
       this.taskSelectedTab = 'form-first'
       if(this.taskId !='null'){
         return
@@ -141,7 +142,11 @@
       }
        // 读取按钮配置
       if (this.status === 'start') {
-        this.buttons = [{code: '_flow_start', name: $i18nMy.t('启动'), isHide: '0'},{code: '_flow_save', name: $i18nMy.t('保存为草稿'), isHide: '0'}]
+        if (this.formUrl.indexOf("flow/pr/")>0) { // 目前只有PR能保存草稿 Jack
+          this.buttons = [{code: '_flow_start', name: $i18nMy.t('启动'), isHide: '0'}, {code: '_flow_save', name: $i18nMy.t('保存为草稿'), isHide: '0'}]
+        } else {
+          this.buttons = [{code: '_flow_start', name: $i18nMy.t('启动'), isHide: '0'}]
+        }
       } else if (this.procDefKey && this.taskDefKey) {
         // 读取按钮
         this.$http.get('/extension/taskDefExtension/queryByDefIdAndTaskId', {params: {
@@ -249,7 +254,7 @@
               businessTable: businessTable,
               businessId: businessId,
               ...vars,
-              title: this.title,
+              //title: this.title,  // title用作申请单号，后台生成
               assignee: this.auditForm.assignee
             }).then(({data}) => {
               if (data.success) {
@@ -264,7 +269,7 @@
           this.$refs.form.submitStartFormData({
             processDefinitionId: this.procDefId,
             ...vars,
-            title: this.title,
+            //title: this.title, // title用作申请单号，后台生成
             assignee: this.auditForm.assignee
           }, (data) => {
             if (data.success) {

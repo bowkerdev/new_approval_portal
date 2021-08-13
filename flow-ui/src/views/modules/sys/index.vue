@@ -542,7 +542,7 @@ export default Vue.extend({
         if (data.success) {
           this.$router.push({
             path: '/flowable/task/TaskForm',
-            query: {formTitle: `${row.vars.title}`, title: `审批【${row.task.name || ''}】`, ...pick(data.flow, 'formType', 'formReadOnly', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId', 'lastTaskDefKey')}
+            query: {formTitle: `${row.vars.title}`, title: `${row.vars.title}`, ...pick(data.flow, 'formType', 'formReadOnly', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId', 'lastTaskDefKey')}
           })
         }
       })
@@ -569,10 +569,9 @@ export default Vue.extend({
       })
     },
     start (row) {
-      debugger
-            // 读取流程表单
+      // 读取流程表单
       let tabTitle = $i18nMy.t('发起流程') + '：' + $i18nMy.t(`${row.name}`)
-      let processTitle = `${this.userName} start process : ${row.name}  ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} `
+      let processTitle = ''//`${this.userName} start process : ${row.name}  ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} `
       this.$http.get('/flowable/task/getTaskDef', {params: {
         procDefId: row.id,
         status: 'start'

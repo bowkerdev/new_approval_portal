@@ -1,0 +1,19 @@
+.zm-preview-form-wrapper {
+  // 表格，表单item的label输入框错位问题
+  .el-form .el-row td .el-form-item .el-form-item__label {
+    float: none;
+    text-align: left;
+    width: 100% !important;
+    font-weight: bold;
+
+    & + .el-form-item__content {
+      margin-left: 0px !important;
+    }
+  }
+}
+
+// table 宽度撑满
+// 使用了行内样式
+.zm-preview-form-wrapper .form-table table {
+  width: 100% !important;
+}

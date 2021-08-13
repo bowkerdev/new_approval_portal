@@ -95,11 +95,16 @@ public class FlowableFormController extends BaseController {
                 }
             }
         }
+        
         String procDefKey = processDefinitionId.split(":")[0];
         String seq = flowTaskService.getSequence(StringUtils.upperCase(procDefKey), null);
-        formValues.put("application_no", seq);        
-        formValues.put("title", seq); // update by Jack 20210722
-        
+        if (StringUtils.isEmpty(String.valueOf(formValues.get("application_no")))){
+	        formValues.put("application_no", seq);
+        }
+        // 设置流程标题
+        if (StringUtils.isBlank(title)) {
+            formValues.put("title", seq);
+        }
         String procInsId = formService.submitStartFormData(processDefinitionId,formValues).getId();//启动流程，提交表单
 
         //指定下一步处理人

@@ -391,8 +391,9 @@
           </p>
         </el-col>
         <el-col :span="24">
-          <label for="purchasePurpose" class="el-form-item__label">{{$i18nMy.t('申购目的')}}</label>
+        <el-form-item class="updown" :label="$i18nMy.t('申购目的')" prop="purchasePurpose" :rules="[{required: true, message:'申购目的不能为空', trigger:'blur'}]">
           <el-input type="textarea" style="width: 100%;" v-model="inputForm.purchasePurpose" :placeholder="$i18nMy.t('请填写申购目的')"></el-input>
+         </el-form-item>
         </el-col>
         <el-col :span="24" style="margin-top: 10px;">
           <label for="roi" class="el-form-item__label">{{$i18nMy.t('投资回报分析')}}</label>
@@ -617,4 +618,8 @@
   	content: '*';
   	color: #ff1818;
   }
+
+  .updown ::v-deep label{float:none !important;}
+
+  .updown ::v-deep label+div{float:none !important;margin-left:0px !important;}
 </style>

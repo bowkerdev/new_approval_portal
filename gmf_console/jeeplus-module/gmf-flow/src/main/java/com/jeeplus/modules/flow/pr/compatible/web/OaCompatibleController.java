@@ -47,16 +47,23 @@ public class OaCompatibleController extends BaseController {
 	@RequestMapping(value = "borrowsample/saveAjax" ,method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxJson borrowsample(@RequestBody BorrowSampleOrderHead borrowSampleOrderHead) throws Exception{
+		ProcessInstanceQuery processInstanceQuery = runtimeService.createProcessInstanceQuery().includeProcessVariables().orderByStartTime().desc();
+		processInstanceQuery.variableValueLike("orderId", borrowSampleOrderHead.getOrderId().toString());
+        List<ProcessInstance> runningList = processInstanceQuery.list();
+        if(runningList.size()!=0){
+        	throw new RuntimeException("订单已经提交");
+        }
+		
 		AjaxJson r=new AjaxJson();
 		User u =UserUtils.getByUserName(borrowSampleOrderHead.getCreateByLoginName());
 		String token=JWTUtil.createAccessToken(u.getLoginName(), u.getPassword());
 		String host=DictUtils.getDictValue("thisHost", "flowCompatible", "http://localhost:8082/approval");
-		String borrowsampleFlowId=DictUtils.getDictValue("borrowsampleFlowId", "flowCompatible", "sample_approve");
+		String borrowsampleFlowId=DictUtils.getDictValue("borrowsampleFlowId", "flow_compatible", "sample_approve");
 		Map<String,String> headers =new HashMap<>();
 		headers.put(JWTUtil.TOKEN, token);
 		Map<String, String> params =new HashMap<>();
 		params.put("processDefinitionId", borrowsampleFlowId);
-		params.put("title", DictUtils.getLanguageLabel("版衣借还审批", ""));	
+		params.put("title", borrowSampleOrderHead.getOrderNo());	
 		JSONObject res=(JSONObject) JSON.toJSON(borrowSampleOrderHead);
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		changeBorrowSampleDate(res,"approveTime",sdf);

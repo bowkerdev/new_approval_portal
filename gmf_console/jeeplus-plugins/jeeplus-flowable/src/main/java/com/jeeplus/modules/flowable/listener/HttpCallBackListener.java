@@ -117,9 +117,9 @@ public class HttpCallBackListener implements ExecutionListener {
             User assigneeObj= UserUtils.get(assigneeId);
             json.getJSONObject("procIns").getJSONObject("currentTask").put("assigneeLoginName", assigneeObj.getLoginName());
             json.getJSONObject("procIns").getJSONObject("currentTask").put("assigneeName", assigneeObj.getName());
-            String jsonString=json.toString();
             String processDefinitionKey=json.getJSONObject("procDef").getString("processDefinitionKey");
-            List<ActCallbackUpperSystemConfig> list=actCallbackUpperSystemConfigService.findListByOaKey(processDefinitionKey+":");
+            List<ActCallbackUpperSystemConfig> list=actCallbackUpperSystemConfigService.findListByOaKey(processDefinitionKey);
+            
             ActCallbackUpperSystemConfig c=null;
             if(list.size()>1){
             	String taskDefinitionKey=json.getJSONObject("procIns").getJSONObject("currentTask").getString("taskDefinitionKey");
@@ -136,14 +136,21 @@ public class HttpCallBackListener implements ExecutionListener {
             else if(list.size() ==1){
             	c=list.get(0);
             }
+            if(c!=null) json.put("upstreamSystemUrl", c.getUrl());
+            String jsonString=json.toString();
+            log.setParam(jsonString);
             if(c!=null){
             	Map<String, String> headers=new HashMap<>();
             	this.setHeader(headers);
             	if(StringUtils.isNoneBlank(c.getGetParamJs())){
             		jsonString = this.runJs(c.getGetParamJs(),jsonString);
+            		JSONObject tmp=JSON.parseObject(jsonString);
+            		if(!tmp.getString("upstreamSystemUrl").equals(c.getUrl())){
+            			c.setUrl(tmp.getString("upstreamSystemUrl"));
+            		}            		
             	}
             	log.setParam(jsonString);
-            	String res=HttpUtil.post(list.get(0).getUrl(), jsonString, headers);
+            	String res=HttpUtil.post(c.getUrl(), jsonString, headers);
             	log.setReturnString(res);
             	log.setExecTime(new Date().getTime()-d.getTime());
             }

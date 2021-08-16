@@ -12,11 +12,12 @@
         class="tags-view-item"
         v-slot="{ navigate }"
         @contextmenu.prevent.native="openMenu(tag,$event)"
-        @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''"
+        @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''">
 
-      >
         <span @click="navigate" @keypress.enter="navigate">
-          {{tag.query&&$i18nMy.t(tag.query.title) || tag.title }}
+          {{tag.query
+          &&(hasChinese(tag.query.title)?$i18nMy.t(tag.query.title):tag.query.title)
+          || tag.title }}
           <span v-if="!isAffix(tag)" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
         </span>
       </router-link>
@@ -71,6 +72,12 @@ export default {
     this.addTags()
   },
   methods: {
+    hasChinese(code){
+      if(/.*[\u4e00-\u9fa5]+.*$/.test(code)){
+        return true
+      }
+      return false
+    },
     isActive (route) {
       return route.fullPath === this.$route.fullPath
     },

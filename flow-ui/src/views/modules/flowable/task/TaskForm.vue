@@ -477,8 +477,7 @@
             this.save()
             break
           case '_flow_agree': // 同意
-            this.agree(vars)   
-            
+            this.agree(vars)
             break
           case '_flow_reject': // 驳回
             this.reject()

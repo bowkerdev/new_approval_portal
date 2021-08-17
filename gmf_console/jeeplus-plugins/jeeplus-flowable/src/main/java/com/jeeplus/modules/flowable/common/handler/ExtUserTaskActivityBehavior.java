@@ -2,6 +2,7 @@ package com.jeeplus.modules.flowable.common.handler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +25,15 @@ import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.jeeplus.common.utils.Collections3;
 import com.jeeplus.common.utils.SpringContextHolder;
 import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.modules.database.datamodel.entity.DataSet;
 import com.jeeplus.modules.database.datamodel.service.DataSetService;
+import com.jeeplus.modules.database.datamodel.utils.DataSourceUtils;
 import com.jeeplus.modules.extension.entity.FlowAssignee;
 import com.jeeplus.modules.extension.entity.TaskDefExtension;
 import com.jeeplus.modules.extension.service.TaskDefExtensionService;
@@ -136,29 +140,39 @@ public class ExtUserTaskActivityBehavior extends UserTaskActivityBehavior {
                     	TaskFormData formData= formService.getTaskFormData(task.getId());
                     	Map<String, Object> vars = SpringContextHolder.getBean (RuntimeService.class).getVariables(task.getExecutionId());
                     	String sql=flowAssignee.getValue ();
-                    	if(sql.startsWith("sqlKey:")){
-                    		DataSetService dataSetService =SpringContextHolder.getBean (DataSetService.class);
-                    		List<DataSet> tmps= dataSetService.findListByName(sql.substring(7));
-                    		if(tmps.size()!=1){
-                    			break;
-                    		}
-                    		sql=tmps.get(0).getSqlcmd();
-                    	}
+                    	Map<String,String>params=new HashMap<String, String>();
                     	for(FormProperty f:formData.getFormProperties()){
-                    		sql=sql.replaceAll("\\#\\{"+f.getName()+"\\}", f.getValue());
+                    		params.put(f.getName(), f.getValue());
                     	}
 						if(vars !=null){
 							for(Map.Entry<String, Object> v: vars.entrySet()){
-	            				if(sql.indexOf(String.format("#{%s}", v.getKey()))>0){
-	            					sql=sql.replaceAll("\\#\\{"+v.getKey()+"\\}", v.getValue().toString());
-	            				}
+								if(v.getValue()!=null){
+									params.put(v.getKey(), v.getValue().toString());
+								}
 	            			}
 						}
-                    	sql=sql.replaceAll("\\#\\{taskDefId\\}", taskDefExtension.getTaskDefId().split("__")[0]);
-                    	List<Map<String, Object>>  userMaps = SpringContextHolder.getBean (JdbcTemplate.class).queryForList (sql);
-                        for(Map<String, Object>userMap:userMaps ){
-                        	candidateUserIds.add(String.valueOf(userMap.get ("id")));
-                        }
+						String [] tmp=taskDefExtension.getTaskDefId().split("__");
+						if(tmp.length>0){
+							params.put("taskDefId", tmp[0]);
+						}
+                    	
+                    	if(sql.startsWith("sqlKey:")){
+                    		JSONArray userMaps= DataSourceUtils.getDataBySql(sql.substring(7), params);
+                    		for(int i=0;i<userMaps.size();i++ ){
+                    			JSONObject userMap = userMaps.getJSONObject(i);
+                            	candidateUserIds.add(userMap.getString("id"));
+                            }
+                    	}
+                    	else{
+                    		for(Map.Entry<String, String> v: params.entrySet()){
+                    			sql=sql.replaceAll("\\#\\{"+v.getKey()+"\\}", v.getValue());
+	            			}
+                    		List<Map<String, Object>>  userMaps = SpringContextHolder.getBean (JdbcTemplate.class).queryForList (sql);
+                            for(Map<String, Object>userMap:userMaps ){
+                            	candidateUserIds.add(String.valueOf(userMap.get ("id")));
+                            }
+                    	}
+                    	
                         break;
                     case "custom":
                         //根据你的自定义标记，请自行实现

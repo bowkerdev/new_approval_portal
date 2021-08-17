@@ -145,7 +145,8 @@ public class HttpCallBackListener implements ExecutionListener {
             	if(StringUtils.isNoneBlank(c.getGetParamJs())){
             		jsonString = this.runJs(c.getGetParamJs(),jsonString);
             		JSONObject tmp=JSON.parseObject(jsonString);
-            		if(!tmp.getString("upstreamSystemUrl").equals(c.getUrl())){
+            		if(StringUtils.isNoneBlank(tmp.getString("upstreamSystemUrl"))
+            		  &&!c.getUrl().equals(tmp.getString("upstreamSystemUrl"))){
             			c.setUrl(tmp.getString("upstreamSystemUrl"));
             		}            		
             	}
@@ -154,11 +155,14 @@ public class HttpCallBackListener implements ExecutionListener {
             	log.setReturnString(res);
             	log.setExecTime(new Date().getTime()-d.getTime());
             }
+            asynHttpLogService.save(log);
         } catch (Exception e) {
             e.printStackTrace();
             log.setReturnString(e.getMessage());
         	log.setExecTime(new Date().getTime()-d.getTime());
+        	asynHttpLogService.save(log);
+        	throw new RuntimeException(e);
         }
-        asynHttpLogService.save(log);
+        
     }
 }

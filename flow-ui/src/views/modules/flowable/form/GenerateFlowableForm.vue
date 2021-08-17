@@ -150,7 +150,6 @@
                     this.$refs.generateForm.disabled(disabledArra, true)
                     this.$refs.generateForm.setData(this.formData)
                   } else {
-                    debugger
                     this.createCustomForm(showArra,disabledArra)
                   }
                 })
@@ -168,12 +167,12 @@
       submitStartFormData(vars, callback) {
         this.$refs.generateForm.getData().then(data => {
           this.submitStartFormDataToBackend(data, vars, callback)
-        }).catch(e => {})
+        }).catch(e => {this.visible = true;this.loading = false})
       },
       submitTaskFormData(vars, procInsId, taskId, assign, comment, callback) {
         this.$refs.generateForm.getData().then(data => {
           this.submitTaskFormDataToBackend(data, vars, procInsId, taskId, assign, comment, callback)
-        }).catch(e => {})
+        }).catch(e => {this.visible = true;this.loading = false})
       },
       submitStartFormDataToBackend(data, vars, callback) {
         this.loading = true

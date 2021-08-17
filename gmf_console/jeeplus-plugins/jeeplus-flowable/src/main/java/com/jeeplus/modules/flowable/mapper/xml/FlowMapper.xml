@@ -46,5 +46,14 @@
 		</where>
 		ORDER BY a.END_TIME_ desc
 	</select>
+	
+	<select id="findLastestHiActList" resultType="com.jeeplus.modules.flowable.vo.ActVo" >
+		select if(a.ACT_TYPE_='endEvent', '结束', a.ACT_NAME_) as name, a.ASSIGNEE_ as assignee, concat(u.login_name,' : ',u.name) as assigneeName  
+		from act_hi_actinst a
+		left join sys_user u on a.ASSIGNEE_ = u.id
+		where a.PROC_INST_ID_ = #{procInsId} and a.ACT_TYPE_ in ('userTask','startEvent','endEvent')
+		order by a.START_TIME_ desc limit 1
+	</select>
+	
 
 </mapper>

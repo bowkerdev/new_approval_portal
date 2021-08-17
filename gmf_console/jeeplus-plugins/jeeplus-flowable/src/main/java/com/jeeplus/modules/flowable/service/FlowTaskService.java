@@ -64,6 +64,7 @@ import com.jeeplus.modules.flowable.mapper.FlowMapper;
 import com.jeeplus.modules.flowable.service.converter.json.FlowModelService;
 import com.jeeplus.modules.flowable.utils.FlowableUtils;
 import com.jeeplus.modules.flowable.utils.ProcessDefCache;
+import com.jeeplus.modules.flowable.vo.ActVo;
 import com.jeeplus.modules.flowable.vo.ActionType;
 import com.jeeplus.modules.flowable.vo.HisTaskVo;
 import com.jeeplus.modules.flowable.vo.ProcessStatus;
@@ -256,9 +257,13 @@ public class FlowTaskService extends BaseService {
             if(((List) currentTaskList).size () > 0){
                 TaskVo currentTaskVo =  new TaskVo (currentTaskList.get (0));
                 hisTaskVo.setCurrentTask (currentTaskVo);
+            }else{
+            	//historyService.createHistoricTaskInstanceQuery ().processInstanceId(histTask.getProcessInstanceId()).orderByTaskCreateTime().desc();
+            	List<ActVo> actList = flowMapper.findLastestHiActList(histTask.getProcessInstanceId());
+            	if (actList!=null && actList.size()>0){ 
+            		hisTaskVo.setCurrentTask(new TaskVo (actList.get(0)));
+            	}
             }
-
-
 
             // 获取意见评论内容
 

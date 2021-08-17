@@ -181,6 +181,14 @@ public class ExtUserTaskActivityBehavior extends UserTaskActivityBehavior {
             }
         }
         List<String> candidateIds = new ArrayList<> (candidateUserIds);
+        
+        String candidateIdStr = "";
+        for (String cid : candidateIds) {
+        	candidateIdStr += cid;
+        }
+        if (StringUtils.isEmpty(candidateIdStr)) {
+        	throw new RuntimeException("Error: Task assignee is null");
+        }
         //此处可以根据业务逻辑自定义
         if (candidateIds.size () == 0) {
             super.handleAssignments (taskService, null, owner, Lists.newArrayList (), Lists.newArrayList (), task, expressionManager, execution);

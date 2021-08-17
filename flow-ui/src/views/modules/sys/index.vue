@@ -99,8 +99,9 @@
                 :key="Math.random()"
                 header-align="center"
                 align="center"
+                v-if="false"
                 width="150"
-                :label="$i18nMy.t('操作')">
+                :label="$i18nMy.t('操作11')">
                 <template slot-scope="scope">
                   <!-- <el-button v-if="scope.row.status === 'claim'" type="text" size="small" @click="claim(scope.row)">{{$i18nMy.t('签收任务')}}</el-button> -->
                   <el-button type="text" size="small" @click="todo(scope.row)">{{$i18nMy.t('办理')}}</el-button>
@@ -178,6 +179,7 @@
                   :key="Math.random()"
                   header-align="center"
                   align="center"
+                  v-if="false"
                   width="150"
                   :label="$i18nMy.t('操作')">
                   <template slot-scope="scope">
@@ -227,6 +229,9 @@
                 show-overflow-tooltip
                 min-width="140px"
                 :label="$i18nMy.t('实例标题')">
+                <template slot-scope="scope">
+                  <el-link  type="primary" :underline="false" @click="detail(scope.row)">{{scope.row.vars.title}}</el-link>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="processDefinitionName"
@@ -235,22 +240,23 @@
               <el-table-column
                 prop="name"
                 show-overflow-tooltip=""
-                :label="$i18nMy.t('任务')">
+                :label="$i18nMy.t('我的经办')">
                 <template slot-scope="scope">
                   {{scope.row.name}}
                      <!-- <el-button v-if="scope.row.back" type="warning" size="mini"
                             @click="callback(scope.row)">{{$i18nMy.t('撤销')}}</el-button> -->
                 </template>
               </el-table-column>
-              <el-table-column
+              <!-- <el-table-column
+                prop="vars.userName"
+                :label="$i18nMy.t('流程发起人')">
+              </el-table-column> -->
+              
+              <!-- <el-table-column
                 prop="status"
                 show-overflow-tooltip
                 :label="$i18nMy.t('办理状态')">
-              </el-table-column>
-               <el-table-column
-                prop="vars.userName"
-                :label="$i18nMy.t('流程发起人')">
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column
                 prop="endTime"
                 show-overflow-tooltip
@@ -260,9 +266,20 @@
                  </template>
               </el-table-column>
               <el-table-column
+                prop="currentTask.name"
+                show-overflow-tooltip
+                :label="$i18nMy.t('当前环节')">
+              </el-table-column>
+              <el-table-column
+                prop="currentTask.assigneeName"
+                show-overflow-tooltip
+                :label="$i18nMy.t('当前处理人')">
+              </el-table-column>
+              <el-table-column
                 fixed="right"
                 header-align="center"
                 align="center"
+                v-if="false"
                 width="100"
                 :label="$i18nMy.t('操作')">
                 <template slot-scope="scope">
@@ -295,8 +312,11 @@
               <el-table-column
                 prop="vars.title"
                 show-overflow-tooltip
-                min-width="140px"
+                min-width="120px"
                 :label="$i18nMy.t('实例标题')">
+                <template slot-scope="scope">
+                  <el-link  type="primary" :underline="false" @click="detail(scope.row)">{{scope.row.vars.title}}</el-link>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="processDefinitionName"
@@ -308,11 +328,16 @@
                 show-overflow-tooltip
                 :label="$i18nMy.t('当前环节')">
               </el-table-column>
-               <el-table-column
+              <el-table-column
+                prop="task.assigneeName"
+                show-overflow-tooltip
+                :label="$i18nMy.t('当前处理人')">
+              </el-table-column>
+               <!-- <el-table-column
                 prop="status"
                 show-overflow-tooltip
                 :label="$i18nMy.t('办理状态')">
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column
                 prop="startTime"
                 show-overflow-tooltip
@@ -328,6 +353,7 @@
                 header-align="center"
                 align="center"
                 width="100"
+                v-if="false"
                 :label="$i18nMy.t('操作')">
                 <template slot-scope="scope">
                    <el-button  type="text" size="small" @click="detail(scope.row)">{{$i18nMy.t('查看')}}</el-button>
@@ -563,7 +589,7 @@ export default Vue.extend({
         if (data.success) {
           this.$router.push({
             path: '/flowable/task/TaskFormDetail',
-            query: {readOnly: true, taskId: row.executionId, title: `${row.processDefinitionName}【${row.name || row.taskName}】`, formTitle: `${row.vars.title}`, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
+            query: {readOnly: true, taskId: row.executionId, title: `${row.vars.title}`, formTitle: `${row.vars.title}`, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
           })
         }
       })

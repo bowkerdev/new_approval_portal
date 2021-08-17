@@ -1,6 +1,6 @@
 <template>
   <div>
-      <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+      <el-form :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="company.id">
             <!-- <SelectTree
@@ -69,6 +69,7 @@
             </el-upload>
         </el-form-item>
       </el-form>
+      <div class="bg-white top">
       <el-row>
         <el-button v-if="hasPermission('flowable:wf:wfUserGroup:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
         <el-button v-if="hasPermission('flowable:wf:wfUserGroup:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
@@ -176,6 +177,7 @@
       background
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
+    </div>
         <!-- 弹窗, 新增 / 修改 -->
     <WfUserGroupForm  ref="wfUserGroupForm" @refreshDataList="refreshList"></WfUserGroupForm>
   </div>

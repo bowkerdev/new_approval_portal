@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.jeeplus.core.persistence.BaseMapper;
 import com.jeeplus.modules.flowable.entity.Flow;
+import com.jeeplus.modules.flowable.vo.ActVo;
 import com.jeeplus.modules.flowable.vo.ProcessVo;
 
 /**
@@ -29,5 +30,6 @@ public interface FlowMapper extends BaseMapper<Flow> {
     String getLatestProcessDefinitionId(@Param("procDefKey") String procDefKey);
  
     List<ProcessVo> findHistoryList(ProcessVo entity);
+    List<ActVo> findLastestHiActList(@Param("procInsId")String procInsId);
     List<Map> querySql(Map map);
 }

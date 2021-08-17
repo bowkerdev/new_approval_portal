@@ -79,6 +79,16 @@
             :label="$i18nMy.t('流程发起人')">
           </el-table-column>
           <el-table-column
+            prop="currentTask.name"
+            show-overflow-tooltip
+            :label="$i18nMy.t('当前环节')">
+          </el-table-column>
+          <el-table-column
+            prop="currentTask.assigneeName"
+            show-overflow-tooltip
+            :label="$i18nMy.t('当前处理人')">
+          </el-table-column>
+          <el-table-column
             prop="endTime"
             show-overflow-tooltip
             :label="$i18nMy.t('完成时间')">

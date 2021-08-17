@@ -56,6 +56,9 @@
           if ( this.formUrl === "/oa/pr/form" ) {  // Jack：此处特殊处理，兼容老数据
             this.formUrl = "/flow/pr/OaPrNewForm"
           }
+          if(this.formUrl === "/oa/borrowSampleOrderHead/form"){// 特殊处理版衣历史数据
+            this.formUrl= '/flow/compatible/bs/borrowSampleOrder'
+          }
           this.form = _import(`modules${this.formUrl}`)
         }
       } else {

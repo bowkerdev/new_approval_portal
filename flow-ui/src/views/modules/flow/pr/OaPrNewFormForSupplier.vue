@@ -616,7 +616,8 @@
                 var obj=this.$common.find(this.detailInfo,
                    function(e){return e.serialNumber== serialNumber})
                 obj.supplierName = this.supplierInfo[i].supplierName
-                obj.docUnitPrice = this.supplierInfo[i].detailInfo[j].discountedUnitPrice||0
+                obj.docUnitPrice = this.supplierInfo[i].detailInfo[j].discountedUnitPrice||
+                  (this.supplierInfo[i].detailInfo[j].offeredUnitPrice||0)
                 var size = parseInt(this.supplierInfo[i].detailInfo[j].moq||"0")
                 if(size < this.supplierInfo[i].detailInfo[j].quantity){
                   size=parseInt(this.supplierInfo[i].detailInfo[j].quantity)
@@ -651,17 +652,16 @@
             parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
         }
         this.supplierInfo[index].originalPrice=totalOfferedPrice
-        debugger
         var discountedAmount =0
         for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
-          this.supplierInfo[index].detailInfo[i].discountedUnitPrice=
+          var discountedUnitPrice=
             parseInt(this.supplierInfo[index].detailInfo[i].discountedUnitPrice||"0")
-          if(this.supplierInfo[index].detailInfo[i].discountedUnitPrice == 0){
-            discountedAmount+=parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")*
-              parseInt(this.supplierInfo[index].detailInfo[i].offeredUnitPrice)
+          if(discountedUnitPrice == 0){
+            discountedAmount+=parseInt(this.supplierInfo[index].detailInfo[i].offeredUnitPrice||"0")*
+              parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
           }
           else{
-            discountedAmount+=parseInt(this.supplierInfo[index].detailInfo[i].discountedUnitPrice||"0")*
+            discountedAmount+=discountedUnitPrice*
               parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
           }
         }

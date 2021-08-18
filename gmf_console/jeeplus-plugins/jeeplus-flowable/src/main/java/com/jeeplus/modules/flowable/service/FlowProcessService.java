@@ -580,6 +580,10 @@ public class FlowProcessService extends BaseService {
      */
     public ProcessVo queryProcessState( String processDefinitionId, String processInstanceId) throws Exception {
         ProcessVo processVo = new ProcessVo ();
+        List<ActVo> actList = flowMapper.findLastestHiActList(processInstanceId);
+    	if (actList!=null && actList.size()>0){ 
+    		processVo.setAct( actList.get(0) );
+    	}
         // 通过流程实例ID查询流程实例
         ProcessInstance pi = runtimeService.createProcessInstanceQuery ()
                 .processInstanceId (processInstanceId).singleResult ();
@@ -591,15 +595,10 @@ public class FlowProcessService extends BaseService {
             } else {
                 //执行实例
                 processVo.setProcessStatus (ProcessStatus.WAITING);
-                /*Task currentTask = taskService.createTaskQuery ().processInstanceId (processInstanceId).list ().get (0);
-                processVo.setTask (new TaskVo (currentTask));*/
+                Task currentTask = taskService.createTaskQuery ().processInstanceId (processInstanceId).list ().get (0);
+                processVo.setTask (new TaskVo (currentTask));
+                processVo.setTaskName (currentTask.getName ());
                 
-                List<ActVo> actList = flowMapper.findLastestHiActList(processInstanceId);
-            	if (actList!=null && actList.size()>0){ 
-            		processVo.setTask(new TaskVo (actList.get(0)));
-            	}
-                
-                processVo.setTaskName (processVo.getTask().getName ());
                 return processVo;
             }
 

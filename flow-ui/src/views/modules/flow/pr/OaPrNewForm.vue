@@ -62,7 +62,7 @@
                     label: 'name',         // 显示名称
                     children: 'children'    // 子级字段名
                   }" :url="`/sys/office/treeData?type=2&parentCode=${inputForm.applySiteCode}`" :value="inputForm.requesterDepartment.id" :clearable="true"
-              :accordion="true" @getValue="(value) => {inputForm.requesterDepartment.id=value}" />
+              :accordion="true" @getValue="(value, name) => {inputForm.requesterDepartment.id=value; inputForm.requesterDepartment.name=name}" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -431,13 +431,15 @@
           createBy:{id:this.$store.state.user.id},
           createDate:this.$common.formatTime(new Date()),
           createByOffice: {
-            id: this.$store.state.user.office.id
+            id: this.$store.state.user.office.id,
+            name: this.$store.state.user.office.name
           },
           applicationNo: '',
           projectName: '',
           applySiteCode: '',
           requesterDepartment: {
-            id: ''
+            id: '',
+            name: ''
           },
           requester: '',
           expenseType: '',

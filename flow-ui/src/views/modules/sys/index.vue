@@ -324,12 +324,12 @@
                 :label="$i18nMy.t('流程名称')">
               </el-table-column>
                <el-table-column
-                prop="taskName"
+                prop="act.name"
                 show-overflow-tooltip
                 :label="$i18nMy.t('当前环节')">
               </el-table-column>
               <el-table-column
-                prop="task.assigneeName"
+                prop="act.assigneeName"
                 show-overflow-tooltip
                 :label="$i18nMy.t('当前处理人')">
               </el-table-column>

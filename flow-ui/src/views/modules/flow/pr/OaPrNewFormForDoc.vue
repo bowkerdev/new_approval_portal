@@ -15,11 +15,8 @@
             </el-form-item>
           </el-col>
           <el-col  :span="12">
-            <el-form-item  label-width="220px" :label="$i18nMy.t('申请人部门')" prop="createByOffice.id"  :rules="[  ]">
-              <SelectTree ref="createByOffice" :disabled='true'
-                :props="{value: 'id',label: 'name',  children: 'children'}"
-                url="/sys/office/treeData?type=2"  :value="inputForm.createByOffice.id"
-                :clearable="true"   :accordion="true"   @getValue="(value) => {inputForm.createByOffice.id=value}"/>
+            <el-form-item  label-width="220px" :label="$i18nMy.t('申请人部门')" prop="createByOffice.name"  :rules="[  ]">
+              <el-input v-model="inputForm.createByOffice.name" :disabled='true' ></el-input>
              </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -31,10 +28,8 @@
           </el-col>
 
           <el-col :span="12">
-            <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment.id" :rules="[ ]">
-              <SelectTree ref="requesterDepartment" :disabled='true' :props="{value: 'id',label: 'name', children: 'children'}"
-                url="/sys/office/treeData?type=2" :value="inputForm.requesterDepartment.id" :clearable="true"
-                :accordion="true" @getValue="(value) => {inputForm.requesterDepartment.id=value}" />
+            <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment.name" :rules="[ ]">
+              <el-input v-model="inputForm.requesterDepartment.name" :disabled='true' ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -199,13 +194,15 @@
           createBy:{id:this.$store.state.user.id},
           createDate:this.$common.formatTime(new Date()),
           createByOffice: {
-            id: this.$store.state.user.office.id
+            id: '',
+            name: ''
           },
           applicationNo: '',
           projectName: '',
           applySiteCode: '',
           requesterDepartment: {
-            id: ''
+            id: '',
+            name: ''
           },
           requester: '',
           expenseType: '',

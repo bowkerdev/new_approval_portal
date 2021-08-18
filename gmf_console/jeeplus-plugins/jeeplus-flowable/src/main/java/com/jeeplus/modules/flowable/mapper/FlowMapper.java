@@ -27,6 +27,9 @@ public interface FlowMapper extends BaseMapper<Flow> {
     int updateProcInsIdByBusinessId(Flow act);
     int updateProcStatusByProcInsId(@Param("procInsId")String procInsId,@Param("procStatus")String procStatus,@Param("businessTable")String businessTable);
     String getSequence(@Param("seqName") String seqName, @Param("bizCode") String bizCode);
+    
+    String getRemarks(@Param("procInsId") String procInsId, @Param("procDefKey") String procDefKey);
+
     String getLatestProcessDefinitionId(@Param("procDefKey") String procDefKey);
  
     List<ProcessVo> findHistoryList(ProcessVo entity);

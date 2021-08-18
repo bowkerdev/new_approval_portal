@@ -18,31 +18,6 @@
                   </div>
                 </el-card>
             </el-col>
-            <!-- <el-col :span="6" style="text-align: center;">
-              <div style="text-align: center;">
-                <img src="http://prportal.bowkerasia.com/prportal/static/images/MyTask.png" width="120px"/>
-                <div class="yuan"><strong>T</strong></div>
-                <p class="func-text">My task</p>
-              </div>
-            </el-col>
-            <el-col :span="6" style="text-align: center;">
-               <div style="text-align: center;">
-                 <div class="yuan"><strong>A</strong></div>
-                 <p class="func-text">My Application</p>
-               </div>
-            </el-col>
-            <el-col :span="6" style="text-align: center;">
-              <div style="text-align: center;">
-                <div class="yuan"><strong>E</strong></div>
-                <p class="func-text">PR Enquiry</p>
-              </div>
-            </el-col>
-            <el-col :span="6" style="text-align: center;">
-              <div style="text-align: center;">
-                <div class="yuan"><strong>PR</strong></div>
-                <p class="func-text">New PR</p>
-              </div>
-            </el-col> -->
           </el-row>
         </el-card>
       </el-col>
@@ -59,11 +34,11 @@
               :data="dataList"
               size = "small"
               v-loading="loading"
-              height="277px"
+              height="245px"
               class="table my-table-margin">
               <el-table-column
                 prop="vars.title"
-                min-width="140px"
+                min-width="120px"
                show-overflow-tooltip
                 :label="$i18nMy.t('实例标题')">
                     <template slot-scope="scope">
@@ -73,10 +48,17 @@
               </el-table-column>
               <el-table-column
                 prop="processDefinitionName"
+                show-overflow-tooltip
                 :label="$i18nMy.t('流程名称')">
+              </el-table-column>
+              <el-table-column
+                prop="remarks"
+                show-overflow-tooltip
+                :label="$i18nMy.t('流程信息')">
               </el-table-column>
                <el-table-column
                 prop="task.name"
+                show-overflow-tooltip
                 :label="$i18nMy.t('当前环节')">
                  <!-- <template slot-scope="scope">
                     <el-tag>{{scope.row.task.name}}</el-tag>
@@ -84,6 +66,7 @@
               </el-table-column>
                <el-table-column
                 prop="vars.userName"
+                show-overflow-tooltip
                 :label="$i18nMy.t('流程发起人')">
               </el-table-column>
               <el-table-column
@@ -101,7 +84,7 @@
                 align="center"
                 v-if="false"
                 width="150"
-                :label="$i18nMy.t('操作11')">
+                :label="$i18nMy.t('操作')">
                 <template slot-scope="scope">
                   <!-- <el-button v-if="scope.row.status === 'claim'" type="text" size="small" @click="claim(scope.row)">{{$i18nMy.t('签收任务')}}</el-button> -->
                   <el-button type="text" size="small" @click="todo(scope.row)">{{$i18nMy.t('办理')}}</el-button>
@@ -139,11 +122,11 @@
                 :data="delegateList"
                 size = "small"
                 v-loading="loading"
-                height="277px"
+                height="245px"
                 class="table my-table-margin">
                 <el-table-column
                   prop="vars.title"
-                  min-width="140px"
+                  min-width="120px"
                  show-overflow-tooltip
                   :label="$i18nMy.t('实例标题')">
                       <template slot-scope="scope">
@@ -153,17 +136,22 @@
                 </el-table-column>
                 <el-table-column
                   prop="processDefinitionName"
+                  show-overflow-tooltip
                   :label="$i18nMy.t('流程名称')">
+                </el-table-column>
+                <el-table-column
+                  prop="remarks"
+                  show-overflow-tooltip
+                  :label="$i18nMy.t('流程信息')">
                 </el-table-column>
                  <el-table-column
                   prop="task.name"
+                  show-overflow-tooltip
                   :label="$i18nMy.t('当前环节')">
-                   <!-- <template slot-scope="scope">
-                      <el-tag>{{scope.row.task.name}}</el-tag>
-                   </template> -->
                 </el-table-column>
                  <el-table-column
                   prop="task.assignee"
+                  show-overflow-tooltip
                   :label="$i18nMy.t('流程委托人')">
                 </el-table-column>
                 <el-table-column
@@ -194,7 +182,7 @@
               <el-row>
                 <el-button-group class="pull-right" style="margin-top: 15px;">
                   <el-tooltip class="item" effect="dark" content="More" placement="top">
-                    <el-button type="text" size="small" >{{$i18nMy.t('更多')}}</el-button>
+                    <el-button type="text" size="small" @click="toDelegateList">{{$i18nMy.t('更多')}}</el-button>
                   </el-tooltip>
                 </el-button-group>
               </el-row>
@@ -221,13 +209,13 @@
               :data="dataList1"
               size = "small"
               v-loading="loading1"
-              height="277px"
+              height="245px"
               class="table my-table-margin">
 
               <el-table-column
                 prop="vars.title"
                 show-overflow-tooltip
-                min-width="140px"
+                min-width="120px"
                 :label="$i18nMy.t('实例标题')">
                 <template slot-scope="scope">
                   <el-link  type="primary" :underline="false" @click="detail(scope.row)">{{scope.row.vars.title}}</el-link>
@@ -235,7 +223,13 @@
               </el-table-column>
               <el-table-column
                 prop="processDefinitionName"
+                show-overflow-tooltip
                 :label="$i18nMy.t('流程名称')">
+              </el-table-column>
+              <el-table-column
+                prop="remarks"
+                show-overflow-tooltip
+                :label="$i18nMy.t('流程信息')">
               </el-table-column>
               <el-table-column
                 prop="name"
@@ -251,7 +245,7 @@
                 prop="vars.userName"
                 :label="$i18nMy.t('流程发起人')">
               </el-table-column> -->
-              
+
               <!-- <el-table-column
                 prop="status"
                 show-overflow-tooltip
@@ -307,7 +301,7 @@
               :data="dataList3"
               size = "small"
               v-loading="loading3"
-              height="277px"
+              height="245px"
               class="table my-table-margin">
               <el-table-column
                 prop="vars.title"
@@ -322,6 +316,11 @@
                 prop="processDefinitionName"
                 show-overflow-tooltip
                 :label="$i18nMy.t('流程名称')">
+              </el-table-column>
+              <el-table-column
+                prop="remarks"
+                show-overflow-tooltip
+                :label="$i18nMy.t('流程信息')">
               </el-table-column>
                <el-table-column
                 prop="act.name"
@@ -548,6 +547,9 @@ export default Vue.extend({
     },
     toTodoList () {
       this.$router.push(`/flowable/task/TodoList`)
+    },
+    toDelegateList () {
+      this.$router.push(`/flowable/task/DelegateList`)
     },
     toHistoryList () {
       this.$router.push(`/flowable/task/HistoryList`)

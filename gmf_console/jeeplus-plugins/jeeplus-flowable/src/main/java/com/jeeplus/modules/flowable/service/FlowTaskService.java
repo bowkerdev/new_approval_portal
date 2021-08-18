@@ -204,6 +204,7 @@ public class FlowTaskService extends BaseService {
             processVo.setProcessDefinitionName ( ProcessDefCache.get (task.getProcessDefinitionId ()).getName ());
             processVo.setVersion (ProcessDefCache.get (task.getProcessDefinitionId ()).getVersion ());
             processVo.setStatus ("todo");
+            processVo.setRemarks(flowMapper.getRemarks(task.getProcessInstanceId(), StringUtils.split(task.getProcessDefinitionId(),":")[0])); 
             page.getList ().add (processVo);
         }
 
@@ -274,8 +275,10 @@ public class FlowTaskService extends BaseService {
                 hisTaskVo.setLevel (comment.getLevel ());
                 hisTaskVo.setType (comment.getType ());
                 hisTaskVo.setStatus (comment.getStatus ());
-
             }
+            
+            hisTaskVo.setRemarks(flowMapper.getRemarks(histTask.getProcessInstanceId(), StringUtils.split(histTask.getProcessDefinitionId(),":")[0])); 
+            
             page.getList ().add (hisTaskVo);
         }
         return page;
@@ -406,6 +409,7 @@ public class FlowTaskService extends BaseService {
         }
         for (HistoricProcessInstance historicProcessInstance : histList) {
             ProcessVo processVo =  flowProcessService.queryProcessState (historicProcessInstance.getProcessDefinitionId (), historicProcessInstance.getId ());
+            processVo.setRemarks(flowMapper.getRemarks(historicProcessInstance.getId(), historicProcessInstance.getProcessDefinitionKey())); 
             processVo.setEndTime (historicProcessInstance.getEndTime ());
             processVo.setStartTime (historicProcessInstance.getStartTime ());
             processVo.setProcessDefinitionId (historicProcessInstance.getProcessDefinitionId ());

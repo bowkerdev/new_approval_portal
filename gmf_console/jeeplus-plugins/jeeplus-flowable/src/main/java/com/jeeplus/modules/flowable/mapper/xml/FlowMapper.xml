@@ -55,5 +55,8 @@
 		order by a.START_TIME_ desc, a.ACT_TYPE_ desc limit 1
 	</select>
 	
+	<select id="getRemarks" resultType="java.lang.String">
+	    select getRemarks(#{procInsId}, #{procDefKey}) as remarks
+	</select>
 
 </mapper>

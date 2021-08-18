@@ -172,6 +172,9 @@ aside {
               if(instances!=null && instances.$refs.searchForm){
                 instances.$refs.searchForm.resetFields()
               }
+              if(instances!=null&& instances.initOk == true){
+                instances.initOk = false
+              }
             }
           }
           if (!tab) {

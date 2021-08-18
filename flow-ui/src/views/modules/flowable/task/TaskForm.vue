@@ -100,11 +100,12 @@
   export default {
     activated () {
       this.taskSelectedTab = 'form-first'
-      if(this.taskId !='null'){
+      if(this.initOk){
         return
       }
       Object.assign(this.$data, this.$options.data.call(this))
       this.init()
+      this.initOk = true
       if (this.formType === '2') { // 读取外置表单
         if (this.formUrl === '/404') {
           this.form = null
@@ -519,6 +520,7 @@
     },
     data () {
       return {
+        initOk:false,
         form: null,
         formType: '',
         formUrl: '',
@@ -529,7 +531,7 @@
         lastTaskDefKey: '',
         formReadOnly: false,
         procDefKey: '',
-        taskId: 'null',
+        taskId: '',
         taskFormData: [],
         taskDefKey: '',
         status: '',

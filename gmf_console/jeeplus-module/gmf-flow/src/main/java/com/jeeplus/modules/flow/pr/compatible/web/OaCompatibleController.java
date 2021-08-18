@@ -57,7 +57,7 @@ public class OaCompatibleController extends BaseController {
 		AjaxJson r=new AjaxJson();
 		User u =UserUtils.getByUserName(borrowSampleOrderHead.getCreateByLoginName());
 		String token=JWTUtil.createAccessToken(u.getLoginName(), u.getPassword());
-		String host=DictUtils.getDictValue("thisHost", "flowCompatible", "http://localhost:8082/approval");
+		String host=DictUtils.getDictValue("thisHost", "flow_compatible", "http://localhost:8082/approval");
 		String borrowsampleFlowId=DictUtils.getDictValue("borrowsampleFlowId", "flow_compatible", "sample_approve");
 		Map<String,String> headers =new HashMap<>();
 		headers.put(JWTUtil.TOKEN, token);
@@ -85,28 +85,23 @@ public class OaCompatibleController extends BaseController {
 	@ResponseBody
 	public AjaxJson endApproveAjax(String orderIds) throws Exception{
 		AjaxJson r=new AjaxJson();
-		try{
-			User u =UserUtils.getByUserName("admin");
-			String token=JWTUtil.createAccessToken(u.getLoginName(), u.getPassword());
-			String host=DictUtils.getDictValue("thisHost", "flowCompatible", "http://localhost:8082/approval");
-			Map<String,String> headers =new HashMap<>();
-			headers.put(JWTUtil.TOKEN, token);
-			
-			String [] tmp=orderIds.split(",");
-			for(String orderId:tmp){
-				ProcessInstanceQuery processInstanceQuery = runtimeService.createProcessInstanceQuery().includeProcessVariables().orderByStartTime().desc();
-				processInstanceQuery.variableValueLike("orderId", orderId);
-		        List<ProcessInstance> runningList = processInstanceQuery.list();
-		        for(ProcessInstance p:runningList){
-		        	Map<String, String> params =new HashMap<>();
-		        	params.put("id", p.getId());
-		        	params.put("message", "wms 终止");
-		        	HttpUtil.post(host+"/flowable/process/stop", params, headers);
-		        }
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
-			throw e;
+		User u =UserUtils.getByUserName("admin");
+		String token=JWTUtil.createAccessToken(u.getLoginName(), u.getPassword());
+		String host=DictUtils.getDictValue("thisHost", "flow_compatible", "http://localhost:8082/approval");
+		Map<String,String> headers =new HashMap<>();
+		headers.put(JWTUtil.TOKEN, token);
+		
+		String [] tmp=orderIds.split(",");
+		for(String orderId:tmp){
+			ProcessInstanceQuery processInstanceQuery = runtimeService.createProcessInstanceQuery().includeProcessVariables().orderByStartTime().desc();
+			processInstanceQuery.variableValueLike("orderId", orderId);
+	        List<ProcessInstance> runningList = processInstanceQuery.list();
+	        for(ProcessInstance p:runningList){
+	        	Map<String, String> params =new HashMap<>();
+	        	params.put("id", p.getId());
+	        	params.put("message", "wms 终止");
+	        	HttpUtil.post(host+"/flowable/process/stop", params, headers);
+	        }
 		}
 		return r;
 	}

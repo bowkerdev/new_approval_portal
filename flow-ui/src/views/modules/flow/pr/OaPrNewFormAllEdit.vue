@@ -100,7 +100,6 @@
         }
       },
       init(query) {
-        debugger
         this.businessId=query.businessId
         this.$refs.oaPrNewForm.init(query)
         this.$refs.oaPrNewFormForDoc.init(query)
@@ -146,10 +145,10 @@
         this.activeName= '0'
         this.$refs.oaPrNewForm.inputForm.supplierInfo=
           JSON.stringify(this.$refs.oaPrNewFormForSupplier.supplierInfo)
-          
+
         this.$refs.oaPrNewForm.inputForm.supplementaryDoc=
           JSON.stringify(this.$refs.oaPrNewFormForDoc.supplementaryDoc)
-          
+
         this.$refs.oaPrNewForm.saveForm((businessTable, businessId) => {
            callBack(businessTable, businessId)
         })

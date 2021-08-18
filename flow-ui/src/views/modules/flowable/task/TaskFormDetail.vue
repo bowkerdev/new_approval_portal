@@ -43,11 +43,13 @@
   const _import = require('@/router/import-' + process.env.NODE_ENV)
   export default {
     activated () {
-      if(this.$route.query.taskId != this.taskId ){
-        Object.assign(this.$data, this.$options.data.call(this))
+      if(this.initOk){
+        return
       }
+      Object.assign(this.$data, this.$options.data.call(this))
       this.init()
-          // 读取流程表单
+      this.initOk = true
+      // 读取流程表单
       if (this.formType === '2') {
         if (this.formUrl === '/404') {
           this.form = null
@@ -63,7 +65,7 @@
         }
       } else {
       // 读取流程表单
-       
+
         function _createForm(pThis){
           pThis.$nextTick(() => {
             if (pThis.formUrl === '/404') {
@@ -138,6 +140,7 @@
     },
     data () {
       return {
+        initOk:false,
         form: null,
         formType: '',
         formUrl: '',

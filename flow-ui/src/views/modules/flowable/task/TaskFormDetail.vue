@@ -63,16 +63,22 @@
         }
       } else {
       // 读取流程表单
-        if (this.formUrl === '/404') {
-          this.$refs.form.createForm('')
-        } else {
-          this.$refs.form.createForm(this.formUrl)
+       
+        function _createForm(pThis){
+          pThis.$nextTick(() => {
+            if (pThis.formUrl === '/404') {
+              pThis.$refs.form.createForm('')
+            } else {
+              pThis.$refs.form.createForm(pThis.formUrl)
+            }
+          })
         }
 
         this.$http.get('/flowable/form/getHistoryTaskFormData',
               {params: { processInstanceId: this.procInsId, procDefId: this.procDefId, taskDefKey: this.taskDefKey }}
               ).then(({data}) => {
                 this.taskFormData = data.taskFormData
+                _createForm(this)
               })
       }
 

@@ -3,23 +3,22 @@
  */
 package com.jeeplus.modules.flowable.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.collect.Lists;
-import com.jeeplus.common.json.AjaxJson;
-import com.jeeplus.common.utils.StringUtils;
-import com.jeeplus.core.persistence.Page;
-import com.jeeplus.core.service.BaseService;
-import com.jeeplus.modules.flowable.constant.FlowableConstant;
-import com.jeeplus.modules.flowable.entity.TaskComment;
-import com.jeeplus.modules.flowable.mapper.FlowMapper;
-import com.jeeplus.modules.flowable.service.converter.json.FlowModelService;
-import com.jeeplus.modules.flowable.vo.ActionType;
-import com.jeeplus.modules.flowable.vo.ProcessStatus;
-import com.jeeplus.modules.flowable.vo.ProcessVo;
-import com.jeeplus.modules.flowable.vo.TaskVo;
-import com.jeeplus.modules.sys.entity.User;
-import com.jeeplus.modules.sys.utils.UserUtils;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.zip.ZipInputStream;
+
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.flowable.bpmn.constants.BpmnXMLConstants;
@@ -36,7 +35,6 @@ import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.engine.history.HistoricProcessInstance;
-import org.flowable.engine.history.HistoricProcessInstanceQuery;
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.Model;
 import org.flowable.engine.repository.ProcessDefinition;
@@ -54,16 +52,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.zip.ZipInputStream;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.Lists;
+import com.jeeplus.common.json.AjaxJson;
+import com.jeeplus.common.utils.StringUtils;
+import com.jeeplus.core.persistence.Page;
+import com.jeeplus.core.service.BaseService;
+import com.jeeplus.modules.flowable.constant.FlowableConstant;
+import com.jeeplus.modules.flowable.entity.TaskComment;
+import com.jeeplus.modules.flowable.mapper.FlowMapper;
+import com.jeeplus.modules.flowable.service.converter.json.FlowModelService;
+import com.jeeplus.modules.flowable.vo.ActVo;
+import com.jeeplus.modules.flowable.vo.ActionType;
+import com.jeeplus.modules.flowable.vo.ProcessStatus;
+import com.jeeplus.modules.flowable.vo.ProcessVo;
+import com.jeeplus.modules.flowable.vo.TaskVo;
+import com.jeeplus.modules.sys.entity.User;
+import com.jeeplus.modules.sys.utils.UserUtils;
 
 /**
  * 流程定义相关Service
@@ -585,9 +591,15 @@ public class FlowProcessService extends BaseService {
             } else {
                 //执行实例
                 processVo.setProcessStatus (ProcessStatus.WAITING);
-                Task currentTask = taskService.createTaskQuery ().processInstanceId (processInstanceId).list ().get (0);
-                processVo.setTask (new TaskVo (currentTask));
-                processVo.setTaskName (currentTask.getName ());
+                /*Task currentTask = taskService.createTaskQuery ().processInstanceId (processInstanceId).list ().get (0);
+                processVo.setTask (new TaskVo (currentTask));*/
+                
+                List<ActVo> actList = flowMapper.findLastestHiActList(processInstanceId);
+            	if (actList!=null && actList.size()>0){ 
+            		processVo.setTask(new TaskVo (actList.get(0)));
+            	}
+                
+                processVo.setTaskName (processVo.getTask().getName ());
                 return processVo;
             }
 

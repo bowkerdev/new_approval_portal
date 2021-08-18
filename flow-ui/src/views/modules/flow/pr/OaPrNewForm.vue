@@ -536,7 +536,7 @@
           }
         }
         if(this.inputForm.expenseType=='OPEX'&&this.inputForm.totalBaseAmount>2000){
-           this.$message.warning($i18nMy.t('金额必须小于')+"2,000HKD")
+           this.$message.warning("OPEX "+$i18nMy.t('金额必须小于')+" 2,000HKD")
            return ;
         }
 

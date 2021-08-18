@@ -533,6 +533,11 @@
             return ;
           }
         }
+        if(this.inputForm.expenseType=='OPEX'&&this.inputForm.totalBaseAmount>2000){
+           this.$message.warning($i18nMy.t('金额必须小于')+"2,000HKD")
+           return ;
+        }
+
         this.inputForm.totalBaseAmount=this.inputForm.exRate*this.inputForm.totalContractAmount
         this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
         this.$refs['inputForm'].validate((valid) => {

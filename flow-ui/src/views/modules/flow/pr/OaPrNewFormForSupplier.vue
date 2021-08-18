@@ -617,15 +617,11 @@
                 var obj=this.$common.find(this.detailInfo,
                    function(e){return e.serialNumber== serialNumber})
                 obj.supplierName = this.supplierInfo[i].supplierName
-                var tmp= this.supplierInfo[i].detailInfo[j].discountedUnitPrice
-                if(this.$common.isEmpty(tmp)){
-                  tmp = this.supplierInfo[i].detailInfo[j].offeredUnitPrice
-                }
+                obj.docUnitPrice = this.supplierInfo[i].detailInfo[j].discountedUnitPrice||0
                 var size = parseInt(this.supplierInfo[i].detailInfo[j].moq||"0")
                 if(size < this.supplierInfo[i].detailInfo[j].quantity){
                   size=parseInt(this.supplierInfo[i].detailInfo[j].quantity)
                 }
-                obj.docUnitPrice = tmp||0
                 obj.docAmount = obj.docUnitPrice*size
                 obj.docVatAmount = (vatRate*obj.docAmount).toFixed(2)
                 this.inputForm.totalContractAmount += (obj.docAmount||0)
@@ -656,20 +652,23 @@
             parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
         }
         this.supplierInfo[index].originalPrice=totalOfferedPrice
-
+        debugger
         var discountedAmount =0
         for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
-          discountedAmount+=parseInt(this.supplierInfo[index].detailInfo[i].discountedUnitPrice||"0")*
-            parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
+          this.supplierInfo[index].detailInfo[i].discountedUnitPrice=
+            parseInt(this.supplierInfo[index].detailInfo[i].discountedUnitPrice||"0")
+          if(this.supplierInfo[index].detailInfo[i].discountedUnitPrice == 0){
+            discountedAmount+=parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")*
+              parseInt(this.supplierInfo[index].detailInfo[i].offeredUnitPrice)
+          }
+          else{
+            discountedAmount+=parseInt(this.supplierInfo[index].detailInfo[i].discountedUnitPrice||"0")*
+              parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
+          }
         }
         this.supplierInfo[index].discountedAmount=discountedAmount
+        this.supplierInfo[index].totalOfferedPrice =discountedAmount
 
-        if(this.supplierInfo[index].discountedAmount !=null && this.supplierInfo[index].discountedAmount !=0){
-           this.supplierInfo[index].totalOfferedPrice = this.supplierInfo[index].discountedAmount
-        }
-        else{
-          this.supplierInfo[index].totalOfferedPrice = this.supplierInfo[index].originalPrice
-        }
       },
       _getSupplierArrivalDate(){
         for(var h=0;h<this.supplierInfo.length;h++){
@@ -704,7 +703,7 @@
         if(this.$common.isEmpty(this.supplierInfo[0].currency)){
            this.$message.warning($i18nMy.t('币种不能为空'))
            return
-        } 
+        }
         this.supplierInfo[index].currency = this.supplierInfo[0].currency
         for(var i=0;i<this.supplierInfo[index].docList.length;i++){
           if(this.$common.isEmpty(this.supplierInfo[index].docList[i].attachment)){

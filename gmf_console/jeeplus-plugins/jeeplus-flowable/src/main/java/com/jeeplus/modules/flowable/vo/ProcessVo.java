@@ -23,7 +23,7 @@ public class ProcessVo extends DataEntity<ProcessVo>{
     private String deleteReason; //流程作废原因
     private HisTaskVo hisTask; // 历史流程节点
     private TaskVo task; //流程当前节点
-
+    private ActVo act; //流程当前节点
 
     private int code; // 流程状态码
     private String status; //流程状态

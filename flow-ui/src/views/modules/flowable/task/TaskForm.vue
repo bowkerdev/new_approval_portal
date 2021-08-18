@@ -34,7 +34,7 @@
             v-model="title">
           </el-input>
         </el-form-item>
-      <el-form-item label-width="220px"  v-if="taskId"  :label="$i18nMy.t('审批信息')" prop="comment" >
+      <el-form-item label-width="180px"  v-if="taskId"  :label="$i18nMy.t('审批信息')" prop="comment" >
           <el-input
             type="textarea"
             :rows="3"
@@ -56,12 +56,12 @@
       </el-form-item>
     </el-col>
     <el-col :span="16">
-      <el-form-item label-width="220px" style="margin-top: 30px;">
+      <el-form-item label-width="155px" style="margin-top: 10px;">
         <el-checkbox v-model="isAssign">{{$i18nMy.t('指定下一步处理者(不设置就使用默认处理人)')}}</el-checkbox>
       </el-form-item>
     </el-col>
     <el-col :span="16">
-      <el-form-item label-width="220px" v-if="isAssign"  :rules="[
+      <el-form-item label-width="180px" v-if="isAssign"  :rules="[
               {required: true, message: $i18nMy.t('用户不能为空'), trigger: 'blur'}
             ]"  prop="assignee" :label="$i18nMy.t('指定')">
             <user-select :limit="1" :value="auditForm.assignee"  @getValue='(value) => {auditForm.assignee=value}'>></user-select>

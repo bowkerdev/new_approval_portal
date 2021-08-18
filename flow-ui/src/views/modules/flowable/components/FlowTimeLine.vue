@@ -1,31 +1,31 @@
 <template>
           <el-card class="box-card"  shadow="hover">
           <div slot="header" class="clearfix">
-            <span>流程信息</span>
+            <span>{{$i18nMy.t('流程信息')}}</span>
           </div>
 
           <el-timeline :reverse="true" v-if="historicTaskMap.size">
-   
+
               <el-timeline-item color="#3f9eff" :key="index" v-for="(arra, index) in historicTaskMap"  :timestamp="moment(arra[1][0].histIns.endTime).format('YYYY-MM-DD')" placement="top">
-                
+
                 <el-card  class="flow">
                   <h4>{{arra[1][0].histIns.activityName}}</h4>
                   <el-row :gutter="25">
                   <template  v-for="(act, index) in arra[1]" >
                       <el-col  class="tip" style="margin-left:10px" :key="index" :span="11">
                   <div class="item">
-                        <span class="label"  >审批人 : </span>
+                        <span class="label"  >{{$i18nMy.t('审批人')}} : </span>
                         <span class="value">{{act.assigneeName}}</span>
-                        
+
                   </div>
                   <div class="item">
-                        <span class="label" >办理状态 : </span>
+                        <span class="label" >{{$i18nMy.t('办理状态')}} : </span>
                         <span class="value">
-                          <el-tag :type="act.comment.level"   effect="dark" size="small">{{act.comment.status}} </el-tag>
+                          <el-tag :type="act.comment.level" effect="dark" size="small">{{$i18nMy.t(act.comment.status)}} </el-tag>
                         </span>
                   </div>
                   <div class="item">
-                        <span class="label" >审批意见 : </span>
+                        <span class="label" >{{$i18nMy.t('审批意见')}} : </span>
                              <el-tooltip effect="dark"  :content="act.comment.message"  placement="top-start">
                                 <span  class="value">
                                  {{act.comment.message}}
@@ -33,20 +33,20 @@
                              </el-tooltip>
                   </div>
                   <div class="item">
-                        <span class="label" >开始时间 : </span>
+                        <span class="label" >{{$i18nMy.t('开始时间')}} : </span>
                         <span class="value">
                             {{act.histIns.startTime | formatDate}}
                         </span>
                   </div>
                   <div class="item">
-                        <span class="label" >结束时间 : </span>
+                        <span class="label" >{{$i18nMy.t('结束时间')}} : </span>
                         <span class="value">
                            {{act.histIns.endTime | formatDate}}
                         </span>
                   </div>
                   <div class="item">
-                        <span class="label" >用时 : </span>
-                        <span class="value">{{act.durationTime || '0秒'}}</span>
+                        <span class="label" >{{$i18nMy.t('任务历时')}} : </span>
+                        <span class="value">{{act.durationTime || '0 s'}}</span>
                   </div>
                     </el-col>
                   </template>
@@ -96,7 +96,7 @@ export default {
       .label {
           display: inline-block;
           height: 100%;
-          width: 70px;
+          width: 150px;
           font-size: 14px;
           color: #5e6d82;
 

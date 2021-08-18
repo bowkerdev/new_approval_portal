@@ -15,25 +15,21 @@
           </el-form-item>
         </el-col>
 	      <el-col  :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('申请人部门')" prop="createByOffice.id"  :rules="[  ]">
-            <SelectTree ref="createByOffice" :disabled='true'
-              :props="{value: 'id',label: 'name',  children: 'children'}"
-              url="/sys/office/treeData?type=2"  :value="inputForm.createByOffice.id"
-              :clearable="true"   :accordion="true"   @getValue="(value) => {inputForm.createByOffice.id=value}"/>
+          <el-form-item label-width="220px" :label="$i18nMy.t('申请人部门')" prop="createByOffice.name"  :rules="[  ]">
+            <el-input v-model="inputForm.createByOffice.name" :disabled='true' ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('用户姓名')" prop="requester" :rules="[]">
-            <user-select :limit='1' :value="inputForm.requester" :disabled='true'  @getValue='(value) => {inputForm.requester=value}'>
-            </user-select>
+            <el-input v-model="inputForm.requester" :disabled='true' :placeholder="$i18nMy.t('请填写用户姓名')"></el-input>
+            <!-- <user-select :limit='1' :value="inputForm.requester" :disabled='true'  @getValue='(value) => {inputForm.requester=value}'>
+            </user-select> -->
           </el-form-item>
         </el-col>
 
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment.id" :rules="[ ]">
-            <SelectTree ref="requesterDepartment" :disabled='true' :props="{value: 'id',label: 'name', children: 'children'}"
-              url="/sys/office/treeData?type=2" :value="inputForm.requesterDepartment.id" :clearable="true"
-              :accordion="true" @getValue="(value) => {inputForm.requesterDepartment.id=value}" />
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment.name" :rules="[ ]">
+            <el-input v-model="inputForm.requesterDepartment.name" :disabled='true' ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -388,13 +384,15 @@
           createBy:{id:""},
           createDate:"",
           createByOffice: {
-            id:""
+            id: '',
+            name: ''
           },
           applicationNo: '',
           projectName: '',
           applySiteCode: '',
           requesterDepartment: {
-            id: ''
+            id: '',
+            name: ''
           },
           requester: '',
           expenseType: '',
@@ -450,6 +448,7 @@
               data
             }) => {
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
+              debugger
               this.detailInfo = JSON.parse(this.inputForm.detailInfo)
               if(!this.$common.isEmpty(this.inputForm.supplierInfo)){
                 this.supplierInfo = JSON.parse(this.inputForm.supplierInfo)
@@ -704,7 +703,7 @@
         if(this.$common.isEmpty(this.supplierInfo[0].currency)){
            this.$message.warning($i18nMy.t('币种不能为空'))
            return
-        } 
+        }
         this.supplierInfo[index].currency = this.supplierInfo[0].currency
         for(var i=0;i<this.supplierInfo[index].docList.length;i++){
           if(this.$common.isEmpty(this.supplierInfo[index].docList[i].attachment)){

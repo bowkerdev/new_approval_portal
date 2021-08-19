@@ -2,13 +2,13 @@
   <div style="height: 100%">
         <el-tabs  type="border-card" v-model="activeName">
           <el-tab-pane :label="$i18nMy.t('主要信息')" >
-            <OaPrNewForm ref="oaPrNewForm" ></OaPrNewForm>
+            <OaPrNewForm :formReadOnly="isReadOnly" ref="oaPrNewForm" ></OaPrNewForm>
           </el-tab-pane>
           <el-tab-pane :label="$i18nMy.t('补充文件')" >
-            <OaPrNewFormForDoc ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
+            <OaPrNewFormForDoc :formReadOnly="isReadOnly" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
           </el-tab-pane>
           <el-tab-pane :label="$i18nMy.t('供应商报价和合同')" >
-            <OaPrNewFormForSupplier  ref="oaPrNewFormForSupplier" ></OaPrNewFormForSupplier>
+            <OaPrNewFormForSupplier :formReadOnly="isReadOnly"  ref="oaPrNewFormForSupplier" ></OaPrNewFormForSupplier>
           </el-tab-pane>
         </el-tabs>
   </div>
@@ -21,6 +21,7 @@
   export default {
     data() {
       return {
+        isReadOnly: false,
         activeName:'0',
         title: '',
         method: '',
@@ -101,6 +102,7 @@
       },
       init(query) {
         this.businessId=query.businessId
+        this.isReadOnly=query.readOnly
         this.$refs.oaPrNewForm.init(query)
         this.$refs.oaPrNewFormForDoc.init(query)
         this.$refs.oaPrNewFormForSupplier.init(query)

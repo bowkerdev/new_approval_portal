@@ -1,7 +1,7 @@
 <template>
   <div class="page">
-      <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-        <el-form-item prop="searchDates" :label="$i18nMy.t('创建时间')">
+      <el-form size="small" :inline="true"  class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+        <el-form-item :label="$i18nMy.t('创建时间')" prop="searchDates">
           <el-date-picker
             v-model="searchDates"
             type="daterange"
@@ -16,13 +16,13 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
-          <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
+          <el-button  type="primary" @click="refreshList()" size="small" icon="el-icon-search">{{$i18nMy.t('查询')}}</el-button>
+          <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">{{$i18nMy.t('重置')}}</el-button>
         </el-form-item>
       </el-form>
-      <div class="bg-white top">
-      <el-row>
-           <el-button-group class="pull-right">
+      <div class="top bg-white">
+      <!-- <el-row>
+        <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button
               type="default"
@@ -32,12 +32,12 @@
             </el-button>
           </el-tooltip>
         </el-button-group>
-      </el-row>
+      </el-row> -->
         <el-table
           :data="dataList"
           size = "small"
+          height="calc(100% - 120px)"
           v-loading="loading"
-          height="calc(100% - 80px)"
           @selection-change="selectionChangeHandle"
           class="table">
           <el-table-column
@@ -48,12 +48,15 @@
           </el-table-column>
           <el-table-column
             prop="vars.title"
-            show-overflow-tooltip
+           show-overflow-tooltip
             :label="$i18nMy.t('实例标题')">
+                <template slot-scope="scope">
+                  <el-link  type="primary" :underline="false" v-if="scope.row.status === 'todo'"  @click="todo(scope.row)">{{scope.row.vars.title}}</el-link>
+                  <span v-else>{{scope.row.vars.title}}</span>
+                </template>
           </el-table-column>
           <el-table-column
             prop="processDefinitionName"
-            show-overflow-tooltip
             :label="$i18nMy.t('流程名称')">
           </el-table-column>
           <el-table-column
@@ -62,53 +65,42 @@
             :label="$i18nMy.t('流程信息')">
           </el-table-column>
            <el-table-column
-            prop="taskName"
+            prop="task.name"
+            :label="$i18nMy.t('当前环节')">
+              <template slot-scope="scope">
+                <el-tag>{{scope.row.task.name}}</el-tag>
+             </template>
+          </el-table-column>
+          <el-table-column
+            prop="task.assignee"
             show-overflow-tooltip
-            label="当前节点">
+            :label="$i18nMy.t('流程委托人')">
           </el-table-column>
            <el-table-column
-            prop="status"
-            show-overflow-tooltip
-            label="流程状态">
-            <template slot-scope="scope">
-                  <el-tag  :type="scope.row.level"   effect="dark" size="small">{{scope.row.status}} </el-tag>
-             </template>
+            prop="vars.userName"
+            :label="$i18nMy.t('流程发起人')">
           </el-table-column>
           <el-table-column
-            prop="act.name"
+            prop="task.createTime"
             show-overflow-tooltip
-            :label="$i18nMy.t('当前环节')">
-          </el-table-column>
-          <el-table-column
-            prop="act.assigneeName"
-            show-overflow-tooltip
-            :label="$i18nMy.t('当前处理人')">
-          </el-table-column>
-          <el-table-column
-            prop="startTime"
-            show-overflow-tooltip
-            label="发起时间 / 结束时间">
+            :label="$i18nMy.t('创建时间')">
              <template slot-scope="scope">
-              <p>{{scope.row.startTime | formatDate}}</p>
-              <p class="text-grey">{{scope.row.endTime | formatDate}}</p>
+              {{scope.row.task.createTime | formatDate}}
              </template>
           </el-table-column>
-
           <el-table-column
-            width="150"
+            fixed="right"
+            :key="Math.random()"
+            header-align="center"
+            align="center"
+            width="200"
             :label="$i18nMy.t('操作')">
             <template slot-scope="scope">
-               <el-button  type="text" size="small" @click="detail(scope.row)">历史</el-button>
-                <el-dropdown  size="small" style=" margin-left: 10px;">
-                    <el-button type="text" size="small">
-                          更多<i class="el-icon-arrow-down el-icon--right"></i>
-                    </el-button>
-                    <el-dropdown-menu slot="dropdown" >
-                      <el-dropdown-item v-if="scope.row.code === 1" ><el-button type="text"  size="small" @click="urge(scope.row)">催办</el-button></el-dropdown-item>
-                      <el-dropdown-item v-if="scope.row.code === 1"><el-button type="text"  size="small" @click="revoke(scope.row)">撤销</el-button></el-dropdown-item>
-                      <el-dropdown-item v-if="scope.row.code === 3 || scope.row.code === 4"><el-button  type="text" color="red"  size="small" @click="restart(scope.row)">编辑</el-button></el-dropdown-item>
-                    </el-dropdown-menu>
-                </el-dropdown>
+              <!-- <el-button v-if="scope.row.status === 'claim'" type="text" size="small" @click="claim(scope.row)">{{$i18nMy.t('签收任务')}}</el-button> -->
+              <el-button type="text" size="small" @click="todo(scope.row)">{{$i18nMy.t('办理')}}</el-button>
+              <!--  <el-button v-if="scope.row.status === 'todo'" type="text" size="small" @click="transferTask(scope.row)">{{$i18nMy.t('委派')}}</el-button> -->
+              <!--  <el-button v-if="scope.row.claimTime" type="text" size="small" @click="unclaim(scope.row)">{{$i18nMy.t('取消签收')}}</el-button> -->
+              <el-button  type="text" size="small" @click="trace(scope.row)">{{$i18nMy.t('进度')}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -124,21 +116,24 @@
       </el-pagination>
       </div>
        <el-dialog
-        title="查看流程历史"
+        title="查看进度"
         :close-on-click-modal="true"
         :visible.sync="visible"
          v-dialogDrag
+        width="70%"
         height="600px">
 
-          <iframe :src="processPhotoUrl" frameborder="0" scrolling="auto" width="100%" height="600px"></iframe>
+          <flow-chart ref="preview" :processInstanceId="processInstanceId"></flow-chart>
         </el-dialog>
-        <urge-form ref="urgeForm"></urge-form>
+        <user-select ref="userSelect" :limit="1" @doSubmit="selectUsersToTransferTask"></user-select>
+
   </div>
 </template>
 
 <script>
+  // import FlowChart from '../modeler/FlowChart'
   import pick from 'lodash.pick'
-  import UrgeForm from './UrgeForm'
+  import UserSelect from '@/components/userSelect/UserSelectDialog'
   export default {
     data () {
       return {
@@ -153,8 +148,9 @@
         total: 0,
         loading: false,
         visible: false,
+        currentTask: null,
         dataListSelections: [],
-        processPhotoUrl: '',
+        processInstanceId: '',
         pickerOptions: {
           shortcuts: [{
             text: '最近一周',
@@ -184,11 +180,12 @@
         }
       }
     },
-    components: {
-      UrgeForm
-    },
     activated () {
       this.refreshList()
+    },
+    components: {
+      UserSelect
+      // FlowChart
     },
     watch: {
       searchDates () {
@@ -206,7 +203,7 @@
       refreshList () {
         this.loading = true
         this.$http({
-          url: '/flowable/task/myApplyed',
+          url: '/flowable/task/delegate',
           method: 'get',
           params: {
             'pageNo': this.pageNo,
@@ -236,55 +233,56 @@
       selectionChangeHandle (val) {
         this.dataListSelections = val
       },
+      claim (row) {
+        this.$http.post('/flowable/task/claim', {taskId: row.task.id}).then(({data}) => {
+          if (data.success) {
+            this.$message.success(data.msg)
+            this.refreshList()
+          }
+        })
+      },
+      unclaim (row) {
+        this.$http.post('/flowable/task/unclaim', {taskId: row.task.id}).then(({data}) => {
+          if (data.success) {
+            this.$message.success(data.msg)
+            this.refreshList()
+          }
+        })
+      },
+      todo (row) {
+        this.$http.get('/flowable/task/getTaskDef', {params: {
+          taskId: row.task.id,
+          taskName: row.task.name,
+          taskDefKey: row.task.taskDefinitionKey,
+          procInsId: row.task.processInstanceId,
+          procDefId: row.task.processDefinitionId,
+          procDefKey: row.task.processDefKey,
+          status: row.status
+        }}).then(({data}) => {
+          if (data.success) {
+            this.$router.push({
+              path: '/flowable/task/TaskForm',
+              query: {formTitle: `${row.vars.title}`, title: `审批【${row.task.name || ''}】`, ...pick(data.flow, 'formType', 'formReadOnly', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
+            })
+          }
+        })
+      },
       trace (row) {
-        this.processPhotoUrl = `${this.$http.BASE_URL}/flowable/task/trace/photo/${row.processInstanceId}`
+        this.processInstanceId = row.task.processInstanceId
         this.visible = true
-      },
-      detail (row) {
-        this.$http.get('/flowable/task/getTaskDef', {params: {
-          procInsId: row.processInstanceId,
-          procDefId: row.processDefinitionId
-        }}).then(({data}) => {
-          if (data.success) {
-            this.$router.push({
-              path: '/flowable/task/TaskFormDetail',
-              query: {readOnly: true, title: row.vars.title, formTitle: row.vars.title, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
-            })
-          }
+        this.$nextTick(() => {
+          this.$refs.preview.init()
         })
       },
-      // 重新填写
-      restart (row) {
-              // 读取流程表单
-        this.$http.get('/flowable/task/getTaskDef', {params: {
-          procInsId: row.processInstanceId,
-          procDefId: row.processDefinitionId
-        }}).then(({data}) => {
-          if (data.success) {
-            this.$router.push({
-              path: '/flowable/task/TaskFormEdit',
-              query: {status: 'start', title: row.vars.title, formTitle: row.vars.title, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
-            })
-          }
-        })
+      transferTask (row) {
+        this.currentTask = row.task
+        this.$refs.userSelect.init()
       },
-          // 撤销申请
-      revoke (row) {
-        this.$confirm(`确定要撤销该流程吗?`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$http.post('/flowable/process/revokeProcIns', {'id': row.processInstanceId}).then(({data}) => {
-            if (data && data.success) {
-              this.$message.success(data.msg)
-              this.refreshList()
-            }
-          })
+      selectUsersToTransferTask (user) {
+        this.$http.post('/flowable/task/delegate', {taskId: this.currentTask.id, userId: user[0].id}).then(({data}) => {
+          this.$message.success(data.msg)
+          this.refreshList()
         })
-      },
-      urge (row) {
-        this.$refs.urgeForm.init()
       },
       resetSearch () {
         this.searchDates = ''
@@ -296,13 +294,3 @@
     }
   }
 </script>
-<style>
-p {
-  margin: 0;
-  padding: 0;
-}
-
-.text-grey {
-    color: #999!important;
-}
-</style>

@@ -27,18 +27,9 @@
           </el-form-item>
         </el-col>
 	      <el-col  :span="12">
-            <el-form-item label-width="220px" :label="$i18nMy.t('申请人部门')" prop="createByOffice.id"
+            <el-form-item label-width="220px" :label="$i18nMy.t('申请人部门')" prop="createByOffice.name"
                 :rules="[  ]">
-          <SelectTree ref="createByOffice" :disabled='true'
-                      :props="{
-                          value: 'id',             // ID字段名
-                          label: 'name',         // 显示名称
-                          children: 'children'    // 子级字段名
-                        }"
-                      url="/sys/office/treeData?type=2"
-                      :value="inputForm.createByOffice.id"
-                      :clearable="true"   :accordion="true"
-                      @getValue="(value) => {inputForm.createByOffice.id=value}"/>
+                <el-input v-model="inputForm.createByOffice.name" :disabled='true' :placeholder="$i18nMy.t('申请人部门')"></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -66,7 +57,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('用户姓名')" prop="requester" :rules="[{required: true, message:'用户姓名不能为空', trigger:'blur'}]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户姓名')" prop="requester" :rules="[{required: true, message:$i18nMy.t('请填写用户姓名'), trigger:'blur'}]">
             <el-input v-model="inputForm.requester" :placeholder="$i18nMy.t('请填写用户姓名')" maxlength="30"></el-input>
             <!-- <user-select :limit='1' :value="inputForm.requester" @getValue='(value) => {inputForm.requester=value}'>
             </user-select> -->
@@ -391,7 +382,7 @@
           </p>
         </el-col>
         <el-col :span="24">
-        <el-form-item class="updown" :label="$i18nMy.t('申购目的')" prop="purchasePurpose" :rules="[{required: true, message:'申购目的不能为空', trigger:'blur'}]">
+        <el-form-item class="updown" :label="$i18nMy.t('申购目的')" prop="purchasePurpose" :rules="[{required: true, message:$i18nMy.t('请填写申购目的'), trigger:'blur'}]">
           <el-input type="textarea" style="width: 100%;" v-model="inputForm.purchasePurpose" :placeholder="$i18nMy.t('请填写申购目的')"></el-input>
          </el-form-item>
         </el-col>

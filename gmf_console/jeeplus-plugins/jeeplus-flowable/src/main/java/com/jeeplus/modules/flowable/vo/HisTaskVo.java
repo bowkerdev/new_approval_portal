@@ -29,7 +29,7 @@ public class HisTaskVo {
     private String status; // 任务办理描述： 同意，驳回
     private String level; // 文字颜色
     private Map vars;
-
+    private String remarks; // 备注
     private TaskVo currentTask; // 当前流程节点
 
     public HisTaskVo(HistoricTaskInstance task){

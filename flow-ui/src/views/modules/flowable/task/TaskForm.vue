@@ -156,6 +156,7 @@
         }}).then(({data}) => {
           if (data.success) {
             this.buttons = data.taskDefExtension.flowButtonList
+            //this.buttons.push({"id":"69bfd7c0d32c4dbea8f222403f03de44","name":"导出","code":"_flow_export","isHide":"0","sort":2,"taskDef":{"id":"1718327c4c424c96b9a3cbfe04a1e973","flowAssigneeList":[],"flowButtonList":[],"flowConditionList":[]}})
             for(var i=0;i<this.buttons.length;i++){
               this.buttons[i].name = $i18nMy.t(this.buttons[i].name)
             }
@@ -453,7 +454,9 @@
           })
         }
       },
-
+      exportData(){
+        this.$utils.syncDownloadPost("approve_"+this.procDefKey,{id:this.businessId},this.$refs.form)
+      },
       submit (currentBtn, buttons) {
         let vars = {} // 存储流程变量
 
@@ -513,6 +516,9 @@
           case '_flow_print':// 打印
             this.print()
             break
+          case '_flow_export':// 打印
+              this.exportData()
+              break
           default:
             this.commit(vars) // 自定义按钮提交
         }

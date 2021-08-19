@@ -260,6 +260,42 @@ export function download (url, params) {
   })
 }
 
+export function syncDownloadPost (url, params,pThis) {
+  var ssoToken=Vue.cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')
+  if(ssoToken ==null){
+    ssoToken=Vue.cookie.get("token")
+    var tokenType=""
+  }
+  else{
+    var tokenType=process.env.VUE_APP_SSO_TYPE
+  }
+  ssoToken ="eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJqd3QiLCJpYXQiOjE2MjkwNzE1MjksInN1YiI6IntcInJvbGVpZFwiOlwiLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLFwiLFwidXNlcmlkXCI6MixcInBsYXRmb3JtXCI6XCIxLDIsMyw0LDUsNixTMiw3LFMxLDE1LDgsOSwxMCwxMSwxMiwxMywxNCxtcCx3ZCxocCxhcFwiLFwidXNlcm5hbWVcIjpcImFkbWluXCJ9IiwiZXhwIjoxNjI5OTM1NTI5fQ.n73LTkRgXoWzoQnUU0fNNJXFdAXqIM6hRiUhP1Hc36U"
+  tokenType="bowker_baseportal"
+  var param ={"exportConfig":{"configKey":url},param:JSON.stringify(params)}
+  pThis.loading=true
+  $http({
+    method: 'POST',
+    url:"https://commontools.bowkerasia.com/zhimitool/ie/exportConfig/syncExport",
+    //url:"http://127.0.0.1:8082/zhimitool/ie/exportConfig/syncExport",
+    withCredentials:false,
+    headers:{'Content-Type': 'application/json; charset=utf-8',
+    "token":ssoToken,
+    "tokenType":tokenType
+    },
+    data:param
+  }).then(response => {
+    pThis.loading=false
+    if (response.status != 200 && !response.data.success) {
+      debugger
+    }
+    else{
+       window.open(response.data.taskData.resultFile)
+    }
+  }).catch((error) => {
+    pThis.loading=false
+    console.log("网络异常："+error)
+  })
+}
 
 export function asyncDownloadPost (url, params) {
   var ssoToken=Vue.cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')
@@ -282,8 +318,8 @@ export function asyncDownloadPost (url, params) {
     },
     data: {sqlParam:JSON.stringify(params),configKey:url}
   }).then(response => {
-    debugger
     if (response.status != 200 && !response.data.success) {
+      debugger
     }
     else{
       window.open(commonToolsProcessUrl+"?token="+
@@ -463,4 +499,4 @@ function hashCode (str) {
   }
   return hash
 }
-export default {asyncDownloadPost, getParamString4Exp, escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}
+export default {asyncDownloadPost,syncDownloadPost, getParamString4Exp, escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}

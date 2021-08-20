@@ -3,22 +3,22 @@
     ref="generateForm">
     <template slot="summaryPurchases" slot-scope="scope" >
       <el-table :data="scope.model.summaryPurchases" size="small" height="auto"
-      class="table" :header-cell-style="rowClass">
+      class="table mpo-approval-self-table" :header-cell-style="rowClass">
         <el-table-column prop="summaryType"  show-overflow-tooltip  label=""></el-table-column>
         <el-table-column  align="center" :label="$i18nMy.t('扣存')" >
           <template>
-            <el-table-column prop="deductionQty"  show-overflow-tooltip :label="$i18nMy.t('数量')"></el-table-column>
-            <el-table-column prop="deductionUsd"  show-overflow-tooltip label="USD"></el-table-column>
-            <el-table-column prop="deductionCny"  show-overflow-tooltip label="CNY"></el-table-column>
-            <el-table-column prop="deductionHkd"  show-overflow-tooltip label="HKD"></el-table-column>
+            <el-table-column prop="deductionQty"  header-align="center" align="right" show-overflow-tooltip :label="$i18nMy.t('数量')"></el-table-column>
+            <el-table-column prop="deductionUsd"  header-align="center" align="right" show-overflow-tooltip label="USD"></el-table-column>
+            <el-table-column prop="deductionCny"  header-align="center" align="right" show-overflow-tooltip label="CNY"></el-table-column>
+            <el-table-column prop="deductionHkd"  header-align="center" align="right" show-overflow-tooltip label="HKD"></el-table-column>
           </template>
         </el-table-column>
         <el-table-column align="center" :label="$i18nMy.t('新采购单')" >
           <template>
-            <el-table-column prop="newQty"  show-overflow-tooltip :label="$i18nMy.t('数量')"></el-table-column>
-            <el-table-column prop="newUsd"  show-overflow-tooltip label="USD"></el-table-column>
-            <el-table-column prop="newCny"  show-overflow-tooltip label="CNY"></el-table-column>
-            <el-table-column prop="newHkd"  show-overflow-tooltip label="HKD"></el-table-column>
+            <el-table-column prop="newQty"  header-align="center" align="right" show-overflow-tooltip :label="$i18nMy.t('数量')"></el-table-column>
+            <el-table-column prop="newUsd"  header-align="center" align="right" show-overflow-tooltip label="USD"></el-table-column>
+            <el-table-column prop="newCny"  header-align="center" align="right" show-overflow-tooltip label="CNY"></el-table-column>
+            <el-table-column prop="newHkd"  header-align="center" align="right" show-overflow-tooltip label="HKD"></el-table-column>
           </template>
         </el-table-column>
         <el-table-column align="center" :label="$i18nMy.t('对比结果（成本报表）')" >
@@ -32,7 +32,7 @@
 
     <template slot="detailsPurchases" slot-scope="scope" >
       <el-table :data="scope.model.detailsPurchases" size="small" height="auto"
-      class="table" :header-cell-style="rowClass2" >
+      class="table mpo-approval-self-table" :header-cell-style="rowClass2" >
         <el-table-column prop="detailsType"  show-overflow-tooltip  label="类型"></el-table-column>
         <el-table-column prop="requestDate"  show-overflow-tooltip  label="提出日期"></el-table-column>
         <el-table-column prop="reason"  show-overflow-tooltip  label="原因"></el-table-column>
@@ -40,24 +40,24 @@
         <el-table-column prop="factory"  show-overflow-tooltip  label="工厂"></el-table-column>
         <el-table-column  align="center" :label="$i18nMy.t('扣存')" >
           <template>
-            <el-table-column prop="deductionQty"  show-overflow-tooltip :label="$i18nMy.t('数量')"></el-table-column>
-            <el-table-column prop="deductionUsd"  show-overflow-tooltip label="USD"></el-table-column>
-            <el-table-column prop="deductionCny"  show-overflow-tooltip label="CNY"></el-table-column>
-            <el-table-column prop="deductionHkd"  show-overflow-tooltip label="HKD"></el-table-column>
+            <el-table-column prop="deductionQty"  header-align="center" align="right" show-overflow-tooltip :label="$i18nMy.t('数量')"></el-table-column>
+            <el-table-column prop="deductionUsd"  header-align="center" align="right" show-overflow-tooltip label="USD"></el-table-column>
+            <el-table-column prop="deductionCny"  header-align="center" align="right" show-overflow-tooltip label="CNY"></el-table-column>
+            <el-table-column prop="deductionHkd"  header-align="center" align="right" show-overflow-tooltip label="HKD"></el-table-column>
           </template>
         </el-table-column>
         <el-table-column align="center" :label="$i18nMy.t('新采购单')" >
           <template>
-            <el-table-column prop="newQty"  show-overflow-tooltip :label="$i18nMy.t('数量')"></el-table-column>
-            <el-table-column prop="newUsd"  show-overflow-tooltip label="USD"></el-table-column>
-            <el-table-column prop="newCny"  show-overflow-tooltip label="CNY"></el-table-column>
-            <el-table-column prop="newHkd"  show-overflow-tooltip label="HKD"></el-table-column>
+            <el-table-column prop="newQty"  header-align="center" align="right" show-overflow-tooltip :label="$i18nMy.t('数量')"></el-table-column>
+            <el-table-column prop="newUsd"  header-align="center" align="right" show-overflow-tooltip label="USD"></el-table-column>
+            <el-table-column prop="newCny"  header-align="center" align="right" show-overflow-tooltip label="CNY"></el-table-column>
+            <el-table-column prop="newHkd"  header-align="center" align="right" show-overflow-tooltip label="HKD"></el-table-column>
           </template>
         </el-table-column>
         <el-table-column align="center" :label="$i18nMy.t('对比结果（成本报表）')" >
           <template>
-            <el-table-column prop="numberMpoHigherCostSheet"  show-overflow-tooltip :label="$i18nMy.t('价格高于成本报表的采购单数量')"></el-table-column>
-            <el-table-column prop="numberOfMpoWithoutUnitPrice"  show-overflow-tooltip :label="$i18nMy.t('缺少单价的采购单数量')"></el-table-column>
+            <el-table-column prop="numberMpoHigherCostSheet"  header-align="center" align="right" show-overflow-tooltip :label="$i18nMy.t('价格高于成本报表的采购单数量')"></el-table-column>
+            <el-table-column prop="numberOfMpoWithoutUnitPrice"  header-align="center" align="right" show-overflow-tooltip :label="$i18nMy.t('缺少单价的采购单数量')"></el-table-column>
           </template>
         </el-table-column>
       </el-table>
@@ -66,7 +66,6 @@
 </template>
 
 <script>
-  import validate from '@/utils/validate'
   export default {
     data() {
       return {
@@ -138,6 +137,18 @@
     }
   }
 </script>
-<style >
+
+<style lang="scss">
+.mpo-approval-self-table {
+  &.el-table td, 
+  &.el-table th.is-leaf,
+  &.el-table--border td, 
+  &.el-table--border th, 
+  &.el-table--border, 
+  .el-table--group,
+  & .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
+    border-color: rgb(153, 153, 153);
+  }
+}
 
 </style>

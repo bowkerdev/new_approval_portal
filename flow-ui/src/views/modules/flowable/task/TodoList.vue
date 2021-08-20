@@ -48,7 +48,6 @@
           </el-table-column>
           <el-table-column
             prop="vars.title"
-            min-width="180px"
            show-overflow-tooltip
             :label="$i18nMy.t('实例标题')">
                 <template slot-scope="scope">
@@ -59,6 +58,11 @@
           <el-table-column
             prop="processDefinitionName"
             :label="$i18nMy.t('流程名称')">
+          </el-table-column>
+          <el-table-column
+            prop="remarks"
+            show-overflow-tooltip
+            :label="$i18nMy.t('流程信息')">
           </el-table-column>
            <el-table-column
             prop="task.name"

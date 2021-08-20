@@ -9,10 +9,8 @@
   <img  v-if="code === 6" class="process-status-img" src="../../../../assets/img/flowable/6.png"/> -->
   <el-tabs type="border-card" v-model="selectedTab">
     <el-tab-pane :label="$i18nMy.t('表单信息')" name="form-first">
-
       <component :formReadOnly="formReadOnly" v-if="formType === '2'"  :class="formReadOnly?'readonly':''" ref="form" :businessId="businessId" :is="form"></component>
       <PreviewForm   v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="false" :taskFormData="taskFormData" ref="form"/>
-
     </el-tab-pane>
     <el-tab-pane :label="$i18nMy.t('流程信息')" v-if="procInsId"  name="form-second">
        <flow-time-line :historicTaskList="historicTaskList"/>
@@ -30,7 +28,10 @@
           <flow-step :historicTaskList="historicTaskList"/>
      </el-tab-pane>
   </el-tabs>
-
+  <div v-if="button !=null " style="height:66px ;">-</div>
+  <div v-if="button !=null " class="FlowFormFooter">
+    <el-button type="primary"    @click="exportData()"  v-noMoreClick plain>{{button.name}}</el-button>
+  </div>
 </div>
 </template>
 
@@ -136,10 +137,29 @@
         this.procInsId = this.$route.query.procInsId
         this.formReadOnly = true
         this.initChildFrom(this.$route.query)
+        this.$http.get('/extension/taskDefExtension/queryByDefIdAndTaskId', {params: {
+          processDefId: this.procDefKey,
+          taskDefId: this.taskDefKey
+        }}).then(({data}) => {
+          if (data.success&&data.taskDefExtension!=null&&data.taskDefExtension.flowButtonList.length>0) {
+            this.buttons = data.taskDefExtension.flowButtonList
+            //this.buttons.push({"id":"69bfd7c0d32c4dbea8f222403f03de44","name":"导出","code":"_flow_export","isHide":"0","sort":2,"taskDef":{"id":"1718327c4c424c96b9a3cbfe04a1e973","flowAssigneeList":[],"flowButtonList":[],"flowConditionList":[]}})
+            this.buttons.forEach((btn) => {
+              if (btn.code && btn.code=='_flow_export') {
+                this.button=btn
+              }
+            })
+          }
+        })
+      },
+      exportData(){
+        this.$utils.syncDownloadPost("approve_"+this.procDefKey,{id:this.businessId},this.$refs.form)
       }
     },
     data () {
       return {
+        buttons:[],
+        button:null,
         initOk:false,
         form: null,
         formType: '',

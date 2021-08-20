@@ -27,18 +27,9 @@
           </el-form-item>
         </el-col>
 	      <el-col  :span="12">
-            <el-form-item label-width="220px" :label="$i18nMy.t('申请人部门')" prop="createByOffice.id"
+            <el-form-item label-width="220px" :label="$i18nMy.t('申请人部门')" prop="createByOffice.name"
                 :rules="[  ]">
-          <SelectTree ref="createByOffice" :disabled='true'
-                      :props="{
-                          value: 'id',             // ID字段名
-                          label: 'name',         // 显示名称
-                          children: 'children'    // 子级字段名
-                        }"
-                      url="/sys/office/treeData?type=2"
-                      :value="inputForm.createByOffice.id"
-                      :clearable="true"   :accordion="true"
-                      @getValue="(value) => {inputForm.createByOffice.id=value}"/>
+                <el-input v-model="inputForm.createByOffice.name" :disabled='true' :placeholder="$i18nMy.t('申请人部门')"></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -66,7 +57,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('用户姓名')" prop="requester" :rules="[{required: true, message:'用户姓名不能为空', trigger:'blur'}]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户姓名')" prop="requester" :rules="[{required: true, message:$i18nMy.t('请填写用户姓名'), trigger:'blur'}]">
             <el-input v-model="inputForm.requester" :placeholder="$i18nMy.t('请填写用户姓名')" maxlength="30"></el-input>
             <!-- <user-select :limit='1' :value="inputForm.requester" @getValue='(value) => {inputForm.requester=value}'>
             </user-select> -->
@@ -181,14 +172,12 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('合同总价')" prop="totalContractAmount" :rules="[]">
-            {{inputForm.totalContractAmount}}
+            <div class="myformText1"> {{inputForm.totalContractAmount}}</div>
           </el-form-item>
         </el-col>
         <el-col :span="3">
           <el-form-item label-width="10px" label=""  :rules="[]">
-            <span v-if="!isNaN(inputForm.totalContractAmount*inputForm.vat)&&this.inputForm.totalContractAmount !=''">
-              {{(inputForm.totalContractAmount*inputForm.vat).toFixed(2)}}
-            </span>
+            <div class="myformText2">{{inputForm.totalVatContractAmount}}(VAT)</div>
           </el-form-item>
         </el-col>
         <el-col :span="3">
@@ -203,16 +192,17 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('基础币种总价')" prop="totalBaseAmount" :rules="[]">
-            <span v-if="!isNaN(inputForm.exRate*inputForm.totalContractAmount)&&this.inputForm.totalContractAmount !=''">
+            <div class="myformText1" v-if="!isNaN(inputForm.exRate*inputForm.totalContractAmount)&&this.inputForm.totalContractAmount !=''">
               {{(inputForm.exRate*inputForm.totalContractAmount).toFixed(2)}}
-            </span>
+            </div>
           </el-form-item>
         </el-col>
         <el-col :span="3">
           <el-form-item label-width="10px" label="" :rules="[]">
-            <span v-if="!isNaN(inputForm.exRate*inputForm.vat*inputForm.totalContractAmount)&&this.inputForm.totalContractAmount !=''">
-              {{(inputForm.exRate*inputForm.vat*inputForm.totalContractAmount).toFixed(2)}}
-            </span>
+            <div class="myformText2"
+              v-if="!isNaN(inputForm.exRate*inputForm.totalVatContractAmount)&&this.inputForm.totalVatContractAmount !=''">
+              {{(inputForm.exRate*inputForm.totalVatContractAmount).toFixed(2)}}(VAT)
+            </div>
           </el-form-item>
 
         </el-col>
@@ -272,14 +262,6 @@
                   <span v-else>{{ row.supplierName }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="includedVat" v-if="index == 2" align="left" :label="$i18nMy.t('包含VAT')">
-                <template slot-scope="{row}">
-                  <template v-if="row.edit">
-                      <el-checkbox :disabled="flowStage=='start'?true:false" v-model="row.includedVat" ></el-checkbox>
-                  </template>
-                  <span v-else>{{ row.includedVat }}</span>
-                </template>
-              </el-table-column>
               <el-table-column prop="unitPrice" width="120" align="right" :label="'* '+$i18nMy.t('市场价格')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
@@ -326,6 +308,12 @@
                     </el-date-picker>
                   </template>
                   <span v-else>{{ row.expectArrivalDate }}</span>
+                </template>
+              </el-table-column>
+
+              <el-table-column prop="vat" v-if="index == 2" align="left" :label="$i18nMy.t('VAT')">
+                <template slot-scope="{row}">
+                  <span >{{ inputForm.vat*100 }} %</span>
                 </template>
               </el-table-column>
 
@@ -391,7 +379,7 @@
           </p>
         </el-col>
         <el-col :span="24">
-        <el-form-item class="updown" :label="$i18nMy.t('申购目的')" prop="purchasePurpose" :rules="[{required: true, message:'申购目的不能为空', trigger:'blur'}]">
+        <el-form-item class="updown" :label="$i18nMy.t('申购目的')" prop="purchasePurpose" :rules="[{required: true, message:$i18nMy.t('请填写申购目的'), trigger:'blur'}]">
           <el-input type="textarea" style="width: 100%;" v-model="inputForm.purchasePurpose" :placeholder="$i18nMy.t('请填写申购目的')"></el-input>
          </el-form-item>
         </el-col>
@@ -454,7 +442,7 @@
           requestRiority: '',
           contractCurrency: '',
           exRate: '',
-          vat:1,
+          vat:null,
           totalContractAmount: '',
           baseCurrency: '',
           totalBaseAmount: '',
@@ -513,6 +501,10 @@
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
               if (!this.$common.isEmpty(this.inputForm.detailInfo)){
                 this.detailInfo = JSON.parse(this.inputForm.detailInfo)
+                this.inputForm.totalVatContractAmount=0
+                for(var i=0;i<this.detailInfo.length;i++){
+                  this.inputForm.totalVatContractAmount+=this.detailInfo[i].docVatAmount
+                }
               }
               this.loading = false
             })
@@ -604,13 +596,7 @@
       },
       changeTabListGroup(row){
         row.edit =true
-      },
-      currencyChange(){
-        var _pThis=this
-        var dict= this.$common.find(this.$dictUtils.getDictList('pr_currency_rate'),
-          function(e){return e.label == _pThis.inputForm.contractCurrency})
-        this.inputForm.exRate= dict==null?1:dict.value
-      },
+      }
     }
   }
 </script>
@@ -624,6 +610,14 @@
   .el-table th.must>.cell:before {
   	content: '*';
   	color: #ff1818;
+  }
+  .myformText1{
+    text-align: right;
+    width: 70px;
+  }
+  .myformText2{
+    text-align: right;
+    width: 110px;
   }
 
   .updown ::v-deep label{float:none !important;}

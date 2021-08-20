@@ -47,7 +47,7 @@ spring:
         master:
           username: zhimi
           password: A4hw8#ZC
-          url: jdbc:mysql://rm-3nsd064vt280cmc06.mysql.rds.aliyuncs.com:3306/flow?verifyServerCertificate=false&useSSL=false&requireSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&noAccessToProcedureBodies=true&serverTimezone=Asia/Shanghai
+          url: jdbc:mysql://rm-3nsd064vt280cmc06.mysql.rds.aliyuncs.com:3306/flow_v1?verifyServerCertificate=false&useSSL=false&requireSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&noAccessToProcedureBodies=true&serverTimezone=Asia/Shanghai
           driver-class-name: com.mysql.cj.jdbc.Driver
           
           #oracle database settings

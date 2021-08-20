@@ -630,11 +630,14 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 @import '@/assets/scss/theme.scss';
-.el-card__header {
-    padding: 10px 20px !important;
+.el-table--border::after, .el-table--group::after, .el-table::before {
+    content: '';
+    position: absolute;
+    background-color: #ffffff;
+    z-index: 1;
 }
 .my-table-margin {
-    margin-top: -10px;
+    margin-top: -15px;
 }
 .func-text {
   margin-top: 10px;

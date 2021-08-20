@@ -18,85 +18,127 @@
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">申请单号</text>
-						<text class="float-right">{{inputForm.applicationNo}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.applicationNo}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入申请单号" v-model="inputForm.applicationNo" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">申请人</text>
-						<text class="float-right">{{inputForm.createBy.name}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.createBy.name}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入申请人" v-model="inputForm.createBy.id" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">申请时间</text>
-						<text class="float-right">{{inputForm.createDate}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.createDate}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入申请时间" v-model="inputForm.createDate" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">申请人部门</text>
-						<text class="float-right">{{inputForm.createByOffice.name}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.createByOffice.name}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入申请人部门" v-model="inputForm.createByOffice.id" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">项目名称</text>
-						<text class="float-right">{{inputForm.projectName}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.projectName}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入项目名称" v-model="inputForm.projectName" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">采购地区</text>
-						<text class="float-right">{{inputForm.applySiteCode}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.applySiteCode}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入采购地区" v-model="inputForm.applySiteCode" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">用户部门</text>
-						<text class="float-right">{{inputForm.requesterDepartment.name}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.requesterDepartment.name}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入用户部门" v-model="inputForm.requesterDepartment.id" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">用户姓名</text>
-						<text class="float-right">{{inputForm.requester}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.requester}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入用户姓名" v-model="inputForm.requester" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">费用类型</text>
-						<text class="float-right">{{inputForm.expenseType}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.expenseType}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入费用类型" v-model="inputForm.expenseType" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">要求到货时间</text>
-						<text class="float-right">{{inputForm.expectArrivalDate}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.expectArrivalDate}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入要求到货时间" v-model="inputForm.expectArrivalDate" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">签约方公司</text>
-						<text class="float-right">{{inputForm.legalEntityLabel}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.legalEntityLabel}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入签约方公司" v-model="inputForm.legalEntity" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">成本中心</text>
-						<text class="float-right">{{inputForm.costCenterLabel}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.costCenterLabel}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入成本中心" v-model="inputForm.costCenter" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">固定资产类型</text>
-						<text class="float-right">{{inputForm.assetGroupLabel}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.assetGroupLabel}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入固定资产类型" v-model="inputForm.assetGroup" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">技术支持部门</text>
-						<text class="float-right">{{inputForm.technicalAdvisorLabel}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.technicalAdvisorLabel}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入技术支持部门" v-model="inputForm.technicalAdvisor" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
@@ -105,11 +147,23 @@
 						<text class="float-right">
 							<radio-group>
 								<label class="radio">
-									 <radio class='radio' style="transform:scale(0.7)" :class="inputForm.isBudget=='1'?'checked':''" :checked="inputForm.isBudget=='1'?true:false" value="1" disabled="true"></radio>
+									 <radio class='radio' 
+										 style="transform:scale(0.7)" 
+										 :class="inputForm.isBudget=='1'?'checked':''" 
+										 :checked="inputForm.isBudget=='1'?true:false" 
+										 value="1" 
+										 :disabled="formReadOnly">
+									 </radio>
 									 Yes
 								</label>
 								<label class="radio">
-									<radio class='radio' style="transform:scale(0.7)" :class="inputForm.isBudget=='0'?'checked':''" :checked="inputForm.isBudget=='0'?true:false" value="0" disabled="true"></radio>
+									<radio class='radio' 
+										style="transform:scale(0.7)" 
+										:class="inputForm.isBudget=='0'?'checked':''" 
+										:checked="inputForm.isBudget=='0'?true:false" 
+										value="0" 
+										:disabled="formReadOnly">
+									</radio>
 									No
 								</label>
 							</radio-group>
@@ -119,19 +173,28 @@
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">申购优先级</text>
-						<text class="float-right">{{inputForm.requestRiorityLabel}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.requestRiorityLabel}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入申购优先级" v-model="inputForm.requestRiority" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">汇率</text>
-						<text class="float-right">{{parseFloat(inputForm.exRate || 0).toFixed(2)}}</text>
+						<text class="float-right" v-if="formReadOnly">{{parseFloat(inputForm.exRate || 0).toFixed(2)}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入汇率" v-model="inputForm.exRate" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">合同币种</text>
-						<text class="float-right">{{inputForm.contractCurrency}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.contractCurrency}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入合同币种" v-model="inputForm.contractCurrency" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
@@ -147,7 +210,10 @@
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">基础币种</text>
-						<text class="float-right">{{inputForm.baseCurrency}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.baseCurrency}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入基础币种" v-model="inputForm.baseCurrency" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
@@ -229,7 +295,7 @@
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docAmount*inputForm.exRate).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">基础报价总数</view>
+							<view class="title detail-info-title detail-info-title-left">基础报价总数(VAT)</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docVatAmount*inputForm.exRate).toFixed(2)}}</view>
 						</view>
 					</view>
@@ -246,7 +312,7 @@
 					<view style="width: 100%;height: 100%;">
 						<view style="width: 100%;height: 40px;line-height: 40px;font-weight: bold;">申购目的</view>
 						<view class="detail-info-row">
-							<textarea v-model="inputForm.purchasePurpose" placeholder="请填写申购目的" style="margin-top: 0px;" disabled="true"></textarea>
+							<textarea v-model="inputForm.purchasePurpose" placeholder="请填写申购目的" style="margin-top: 0px;" :disabled="formReadOnly"></textarea>
 						</view>
 					</view>
 				</view>
@@ -254,7 +320,7 @@
 					<view style="width: 100%;height: 100%;">
 						<view style="width: 100%;height: 40px;line-height: 40px;font-weight: bold;">投资回报分析</view>
 						<view class="detail-info-row">
-							<textarea v-model="inputForm.roi" placeholder="请填写ROI" style="margin-top: 0px;" disabled="true"></textarea>
+							<textarea v-model="inputForm.roi" placeholder="请填写ROI" style="margin-top: 0px;" :disabled="formReadOnly"></textarea>
 						</view>
 					</view>
 				</view>
@@ -262,7 +328,7 @@
 					<view style="width: 100%;height: 100%;">
 						<view style="width: 100%;height: 40px;line-height: 40px;font-weight: bold;">预算外说明</view>
 						<view class="detail-info-row">
-							<textarea v-model="inputForm.noBudgetExplain" placeholder="请填写预算外说明" style="margin-top: 0px;" disabled="true"></textarea>
+							<textarea v-model="inputForm.noBudgetExplain" placeholder="请填写预算外说明" style="margin-top: 0px;" :disabled="formReadOnly"></textarea>
 						</view>
 					</view>
 				</view>
@@ -270,7 +336,7 @@
 					<view style="width: 100%;height: 100%;">
 						<view style="width: 100%;height: 40px;line-height: 40px;font-weight: bold;">支付说明</view>
 						<view class="detail-info-row">
-							<textarea v-model="inputForm.paymentSpecial" placeholder="请填写支付说明" style="margin-top: 0px;" disabled="true"></textarea>
+							<textarea v-model="inputForm.paymentSpecial" placeholder="请填写支付说明" style="margin-top: 0px;" :disabled="formReadOnly"></textarea>
 						</view>
 					</view>
 				</view>
@@ -286,37 +352,55 @@
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">申请人</text>
-						<text class="float-right">{{inputForm.createBy.name}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.createBy.name}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入申请人" v-model="inputForm.createBy.id" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">申请人部门</text>
-						<text class="float-right">{{inputForm.createByOffice.name}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.createByOffice.name}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入申请人部门" v-model="inputForm.createByOffice.id" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">用户姓名</text>
-						<text class="float-right">{{inputForm.requester}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.requester}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入用户姓名" v-model="inputForm.requester" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">用户部门</text>
-						<text class="float-right">{{inputForm.requesterDepartment.name}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.requesterDepartment.name}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入用户部门" v-model="inputForm.requesterDepartment.id" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">固定资产类型</text>
-						<text class="float-right">{{inputForm.assetGroupLabel}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.assetGroupLabel}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入固定资产类型" v-model="inputForm.assetGroup" ></input>
+						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
 						<text class="float-left">成本中心</text>
-						<text class="float-right">{{inputForm.costCenterLabel}}</text>
+						<text class="float-right" v-if="formReadOnly">{{inputForm.costCenterLabel}}</text>
+						<text class="float-right" v-if="!formReadOnly">
+							<input placeholder="请输入成本中心" v-model="inputForm.costCenter" ></input>
+						</text>
 					</view>
 				</view>
 			</view>

@@ -1,13 +1,11 @@
 {
-    "name" : "digital_village",
-    "appid" : "__UNI__D7B3090",
-    "description" : "",
-    "versionName" : "1.0.0",
-    "versionCode" : "100",
+    "name" : "jeeplus",
+    "appid" : "__UNI__8E0DC6F",
+    "description" : "jeeplus移动审批平台",
+    "versionName" : "jeeplus mobile 1.0",
+    "versionCode" : 1,
     "transformPx" : false,
     "app-plus" : {
-        "usingComponents" : true,
-        "compilerVersion" : 3,
         /* 5+App特有相关 */
         "modules" : {},
         /* 模块配置 */
@@ -18,24 +16,33 @@
                 "permissions" : [
                     "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
                     "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
                     "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
                     "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.CAMERA\"/>",
+                    "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
                     "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
                     "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+                    "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
                     "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ]
             },
             "ios" : {},
             /* ios打包配置 */
-            "sdkConfigs" : {}
+            "sdkConfigs" : {
+                "ad" : {}
+            }
         }
     },
     /* SDK配置 */
@@ -45,30 +52,42 @@
         /* 小程序特有相关 */
         "appid" : "",
         "setting" : {
-            "urlCheck" : true
-        },
-        "usingComponents" : true
+            "urlCheck" : false,
+            "es6" : true
+        }
     },
     "h5" : {
-        "title" : "Digital Village",
-        "domain" : "digital-village",
+        "title" : "jeeplus",
+        "domain" : "demo1.jeeplus.org",
         "devServer" : {
-            "port" : 16889,
+            "port" : 8000,
             "disableHostCheck" : true,
             "proxy" : {
-                "/digital" : {
-                    "target" : "http://111.59.93.135:16889/digital", //目标接口域名  "http://111.59.93.26:16004/digital"
-                    "changeOrigin" : true, //是否跨域
-                    "secure" : false, // 设置支持https协议的代理
+                "/api" : {
+                    "target" : "http://localhost:8082", // 需要跨域的域名
+                    "changeOrigin" : true,
+                    "secure" : false,
                     "pathRewrite" : {
-                        "^/digital" : ""
+                        "^/api" : ""
+                    }
+                },
+                "/userfiles" : {
+                    "target" : "http://localhost:8082", // 需要跨域的域名
+                    "changeOrigin" : true,
+                    "secure" : false,
+                    "pathRewrite" : {
+                        "^/userfiles" : "/userfiles"
                     }
                 }
             }
         },
         "router" : {
-            "mode" : "hash",
-            "base" : "digital-village"
+            "base" : "/"
+        },
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
         }
     }
 }

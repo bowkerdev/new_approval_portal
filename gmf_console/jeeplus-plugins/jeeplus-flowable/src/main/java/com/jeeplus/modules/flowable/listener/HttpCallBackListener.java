@@ -113,48 +113,52 @@ public class HttpCallBackListener implements ExecutionListener {
         	init();
             HashMap flowMap = flowTaskService.getFlowMapPid(processInstanceId);
             JSONObject json=(JSONObject) JSON.toJSON(flowMap);
-            String assigneeId =json.getJSONObject("procIns").getJSONObject("currentTask").getString("assignee");
-            User assigneeObj= UserUtils.get(assigneeId);
-            json.getJSONObject("procIns").getJSONObject("currentTask").put("assigneeLoginName", assigneeObj.getLoginName());
-            json.getJSONObject("procIns").getJSONObject("currentTask").put("assigneeName", assigneeObj.getName());
-            String processDefinitionKey=json.getJSONObject("procDef").getString("processDefinitionKey");
-            List<ActCallbackUpperSystemConfig> list=actCallbackUpperSystemConfigService.findListByOaKey(processDefinitionKey);
+            log.setParam(json.toJSONString());
+            if(flowMap.size()>0){
+                String assigneeId =json.getJSONObject("procIns").getJSONObject("currentTask").getString("assignee");
+                User assigneeObj= UserUtils.get(assigneeId);
+                json.getJSONObject("procIns").getJSONObject("currentTask").put("assigneeLoginName", assigneeObj.getLoginName());
+                json.getJSONObject("procIns").getJSONObject("currentTask").put("assigneeName", assigneeObj.getName());
+                String processDefinitionKey=json.getJSONObject("procDef").getString("processDefinitionKey");
+                List<ActCallbackUpperSystemConfig> list=actCallbackUpperSystemConfigService.findListByOaKey(processDefinitionKey);
+                
+                ActCallbackUpperSystemConfig c=null;
+                if(list.size()>1){
+                	String taskDefinitionKey=json.getJSONObject("procIns").getJSONObject("currentTask").getString("taskDefinitionKey");
+                	Optional<ActCallbackUpperSystemConfig> tmp=list.stream()
+                			.filter(t -> t.getOaKey().endsWith(processDefinitionKey+":"+taskDefinitionKey)).findFirst();
+                	if(tmp.isPresent()){ // : 后为空，为整个流程通用，不为空，则是指定
+                		c=tmp.get();
+                	}
+                	else{
+                		c=list.stream()
+                    		.filter(t -> t.getOaKey().endsWith(processDefinitionKey+":")).findFirst().get();
+                	}
+                }
+                else if(list.size() ==1){
+                	c=list.get(0);
+                }
+                if(c!=null) json.put("upstreamSystemUrl", c.getUrl());
+                String jsonString=json.toString();
+                log.setParam(jsonString);
+                if(c!=null){
+                	Map<String, String> headers=new HashMap<>();
+                	this.setHeader(headers);
+                	if(StringUtils.isNoneBlank(c.getGetParamJs())){
+                		jsonString = this.runJs(c.getGetParamJs(),jsonString);
+                		JSONObject tmp=JSON.parseObject(jsonString);
+                		if(StringUtils.isNoneBlank(tmp.getString("upstreamSystemUrl"))
+                		  &&!c.getUrl().equals(tmp.getString("upstreamSystemUrl"))){
+                			c.setUrl(tmp.getString("upstreamSystemUrl"));
+                		}            		
+                	}
+                	log.setParam(jsonString);
+                	String res=HttpUtil.post(c.getUrl(), jsonString, headers);
+                	log.setReturnString(res);
+                	log.setExecTime(new Date().getTime()-d.getTime());
+                }
+            }
             
-            ActCallbackUpperSystemConfig c=null;
-            if(list.size()>1){
-            	String taskDefinitionKey=json.getJSONObject("procIns").getJSONObject("currentTask").getString("taskDefinitionKey");
-            	Optional<ActCallbackUpperSystemConfig> tmp=list.stream()
-            			.filter(t -> t.getOaKey().endsWith(processDefinitionKey+":"+taskDefinitionKey)).findFirst();
-            	if(tmp.isPresent()){ // : 后为空，为整个流程通用，不为空，则是指定
-            		c=tmp.get();
-            	}
-            	else{
-            		c=list.stream()
-                		.filter(t -> t.getOaKey().endsWith(processDefinitionKey+":")).findFirst().get();
-            	}
-            }
-            else if(list.size() ==1){
-            	c=list.get(0);
-            }
-            if(c!=null) json.put("upstreamSystemUrl", c.getUrl());
-            String jsonString=json.toString();
-            log.setParam(jsonString);
-            if(c!=null){
-            	Map<String, String> headers=new HashMap<>();
-            	this.setHeader(headers);
-            	if(StringUtils.isNoneBlank(c.getGetParamJs())){
-            		jsonString = this.runJs(c.getGetParamJs(),jsonString);
-            		JSONObject tmp=JSON.parseObject(jsonString);
-            		if(StringUtils.isNoneBlank(tmp.getString("upstreamSystemUrl"))
-            		  &&!c.getUrl().equals(tmp.getString("upstreamSystemUrl"))){
-            			c.setUrl(tmp.getString("upstreamSystemUrl"));
-            		}            		
-            	}
-            	log.setParam(jsonString);
-            	String res=HttpUtil.post(c.getUrl(), jsonString, headers);
-            	log.setReturnString(res);
-            	log.setExecTime(new Date().getTime()-d.getTime());
-            }
             asynHttpLogService.save(log);
         } catch (Exception e) {
             e.printStackTrace();

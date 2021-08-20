@@ -377,18 +377,16 @@
       },
 
       start (param) {
-        debugger
         let row = {id: param.flow.procDefId, name: "PRPO", key: "prpo"}
         // 读取流程表单
         let tabTitle = $i18nMy.t('发起流程') + '：' + $i18nMy.t(`${row.name}`)
         let processTitle = `Start Process : ${row.name}  ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} `
-        debugger
+
         this.$http.get('/flowable/task/getTaskDef', {params: {
           procDefId: row.id,
           status: 'start'
         }}).then(({data}) => {
           if (data.success) {
-            debugger
             this.$router.push({
               path: '/flowable/task/TaskForm',
               query: {procDefId: row.id, procDefKey: row.key, status: 'start', title: tabTitle, formType: data.flow.formType, formUrl: data.flow.formUrl, formTitle: processTitle, businessId: param.id}
@@ -403,7 +401,6 @@
       },
       // 修改
       edit (id) {
-        debugger
         id = id || this.dataListSelections.map(item => {
           return item.id
         })[0]
@@ -415,7 +412,6 @@
       },
       // 查看
       view (id) {
-        debugger
         let query={businessId:id}
         this.visible=true
         this.$nextTick(() => {

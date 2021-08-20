@@ -82,7 +82,6 @@
           !this.compArray(this.$refs.oaPrNewFormForSupplier.detailInfo,this.$refs.oaPrNewForm.detailInfo)){
           this.$refs.oaPrNewForm.detailInfo=JSON.parse(
             JSON.stringify(this.$refs.oaPrNewFormForSupplier.detailInfo))
-          this.$refs.oaPrNewForm.currencyChange()
         }
       },
       setPage2Data(){

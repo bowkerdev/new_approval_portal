@@ -303,7 +303,7 @@
             <tr class="head-background-color">
               <th rowspan="2">{{$i18nMy.t('序号')}}</th><th rowspan="2">{{$i18nMy.t('物品')}}</th><th rowspan="2">{{$i18nMy.t('品牌名称')}}</th><th rowspan="2">{{$i18nMy.t('型号')}}</th>
               <th rowspan="2">{{$i18nMy.t('市场价格')}}</th><th rowspan="2">{{$i18nMy.t('更新单价')}}</th><th rowspan="2">{{$i18nMy.t('请求数量')}}</th><th rowspan="2">UOM</th>
-              <th colspan="2">{{$i18nMy.t('文档报价')}}</th><th  colspan="2">{{$i18nMy.t('基础报价')}}</th>
+              <th rowspan="2">VAT</th><th colspan="2">{{$i18nMy.t('文档报价')}}</th><th  colspan="2">{{$i18nMy.t('基础报价')}}</th>
             </tr>
             <tr class="head-background-color">
               <th>{{$i18nMy.t('金额')}}</th><th>{{$i18nMy.t('金额(增值税)')}}</th><th>{{$i18nMy.t('金额')}}</th><th>{{$i18nMy.t('金额(增值税)')}}</th>
@@ -319,7 +319,7 @@
               <td>{{item.docUnitPrice}}</td>
               <td>{{item.quantity}}</td>
               <td>{{item.uom}}</td>
-
+              <td>{{inputForm.vat *100}}%</td>
               <td>{{item.docAmount}}</td>
               <td>{{item.docVatAmount}}</td>
               <td>
@@ -336,7 +336,7 @@
             <tr class="head-background-color head2-height">
               <td style="background-color: #FFFFFF;border:none"></td>
               <td class="first-td">{{$i18nMy.t('供应商名称')}}</td><td>{{$i18nMy.t('付款条件')}}</td><td>{{$i18nMy.t('币种')}}</td><td>{{$i18nMy.t('提供单价')}}</td><td>{{$i18nMy.t('提供的单价（基础货币）')}}</td>
-              <td>MOQ</td><td>{{$i18nMy.t('预计到货日期')}}</td><td>{{$i18nMy.t('预计最晚到货日期')}}</td><td>{{$i18nMy.t('相关文档')}}</td><td>{{$i18nMy.t('采纳')}}</td><td>{{$i18nMy.t('原因')}}</td>
+              <td>MOQ</td><td>{{$i18nMy.t('预计到货日期')}}</td><td>{{$i18nMy.t('预计最晚到货日期')}}</td><td colspan="2">{{$i18nMy.t('相关文档')}}</td><td>{{$i18nMy.t('采纳')}}</td><td>{{$i18nMy.t('原因')}}</td>
             </tr>
             <tr class="data-content" v-for="(item, index) in supplierInfoByDetailInfo[item.item]" >
               <td style="background-color: #FFFFFF;border:none"></td>
@@ -352,7 +352,7 @@
               <td >{{item.moq}}</td>
               <td >{{item.expectArrivalDate}}</td>
               <td >{{item.expectLastArrivalDate}}</td>
-              <td >{{item.relatedQuotation}}</td>
+              <td colspan="2">{{item.relatedQuotation}}</td>
               <td ><el-checkbox :disabled="true" v-model="item.awarded" ></el-checkbox></td>
               <td >{{item.reason}}</td>
             </tr>
@@ -407,7 +407,7 @@
           requestRiority: '',
           contractCurrency: '',
           exRate: '',
-          vat:1,
+          vat:null,
           totalContractAmount: '',
           baseCurrency: '',
           totalBaseAmount: '',
@@ -441,6 +441,7 @@
           this.loading = true
           this.inputForm.id = query.businessId
           this.$nextTick(() => {
+            debugger
             this.$http({
               url: `/flow/pr/oaPrNew/queryById?id=${this.inputForm.id}`,
               method: 'get'
@@ -448,7 +449,6 @@
               data
             }) => {
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
-              debugger
               this.detailInfo = JSON.parse(this.inputForm.detailInfo)
               if(!this.$common.isEmpty(this.inputForm.supplierInfo)){
                 this.supplierInfo = JSON.parse(this.inputForm.supplierInfo)
@@ -489,8 +489,15 @@
           var dict= this.$common.find(this.$dictUtils.getDictList('pr_currency_rate'),
             function(e){return e.label == _pThis.inputForm.contractCurrency})
           this.inputForm.exRate= dict==null?1:dict.value
-        }
+          this.inputForm.exRate = parseFloat(this.inputForm.exRate)
 
+          var dict= this.$common.find(this.$dictUtils.getDictList('pr_currency_vat'),
+            function(e){return e.label == _pThis.inputForm.contractCurrency})
+          this.inputForm.vat= dict==null?1:dict.value
+
+          this.inputForm.vat = parseFloat(this.inputForm.vat)
+
+        }
       },
       checkForm(){
         if(this.supplierInfo.length ==0){
@@ -525,7 +532,7 @@
             }) => {
               this.loading = false
               if (data && data.success) {
-                //callBack(data.businessTable, data.businessId)
+                callBack(data.businessTable, data.businessId)
               }
               else{
                 this.$message.error(data.msg)
@@ -599,6 +606,10 @@
         }
         this.detailInfo.splice(this.detailInfo.length)
       },
+      _setDetailInfoAmount(obj){
+        obj.docAmount = obj.docUnitPrice*obj.realQuantity
+        obj.docVatAmount =parseFloat(((this.inputForm.vat +1)*obj.docAmount).toFixed(2))
+      },
       _updateDetailInfoDocUnitPrice(){
         for(var i=0;i<this.detailInfo.length;i++){
           var obj=this.detailInfo[i]
@@ -606,8 +617,8 @@
           obj.docAmount  =0
           obj.docVatAmount = 0
         }
+        this.inputForm.totalVatContractAmount = 0
         this.inputForm.totalContractAmount = 0
-        var vatRate= this.inputForm.vat
         for(var i=0;i<this.supplierInfo.length;i++){
           if(!this.supplierInfo[i].edit){
             for(var j=0;j<this.supplierInfo[i].detailInfo.length;j++){
@@ -622,12 +633,15 @@
                 if(size < this.supplierInfo[i].detailInfo[j].quantity){
                   size=parseInt(this.supplierInfo[i].detailInfo[j].quantity)
                 }
-                obj.docAmount = obj.docUnitPrice*size
-                obj.docVatAmount = (vatRate*obj.docAmount).toFixed(2)
+                obj.realQuantity=size
+                this._setDetailInfoAmount(obj)
                 this.inputForm.totalContractAmount += (obj.docAmount||0)
+                this.inputForm.totalVatContractAmount += (obj.docVatAmount||0)
                 this.inputForm.contractCurrency = this.supplierInfo[i].currency
               }
             }
+            this.inputForm.totalVatContractAmount = parseFloat(this.inputForm.totalVatContractAmount.toFixed(2))
+            this.inputForm.totalContractAmount = parseFloat(this.inputForm.totalContractAmount.toFixed(2))
           }
         }
       },

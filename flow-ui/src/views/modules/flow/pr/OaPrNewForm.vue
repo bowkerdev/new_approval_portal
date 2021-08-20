@@ -172,14 +172,12 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('合同总价')" prop="totalContractAmount" :rules="[]">
-            {{inputForm.totalContractAmount}}
+            <div class="myformText1"> {{inputForm.totalContractAmount}}</div>
           </el-form-item>
         </el-col>
         <el-col :span="3">
           <el-form-item label-width="10px" label=""  :rules="[]">
-            <span v-if="!isNaN(inputForm.totalContractAmount*inputForm.vat)&&this.inputForm.totalContractAmount !=''">
-              {{(inputForm.totalContractAmount*inputForm.vat).toFixed(2)}}
-            </span>
+            <div class="myformText2">{{inputForm.totalVatContractAmount}}(VAT)</div>
           </el-form-item>
         </el-col>
         <el-col :span="3">
@@ -194,16 +192,17 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('基础币种总价')" prop="totalBaseAmount" :rules="[]">
-            <span v-if="!isNaN(inputForm.exRate*inputForm.totalContractAmount)&&this.inputForm.totalContractAmount !=''">
+            <div class="myformText1" v-if="!isNaN(inputForm.exRate*inputForm.totalContractAmount)&&this.inputForm.totalContractAmount !=''">
               {{(inputForm.exRate*inputForm.totalContractAmount).toFixed(2)}}
-            </span>
+            </div>
           </el-form-item>
         </el-col>
         <el-col :span="3">
           <el-form-item label-width="10px" label="" :rules="[]">
-            <span v-if="!isNaN(inputForm.exRate*inputForm.vat*inputForm.totalContractAmount)&&this.inputForm.totalContractAmount !=''">
-              {{(inputForm.exRate*inputForm.vat*inputForm.totalContractAmount).toFixed(2)}}
-            </span>
+            <div class="myformText2"
+              v-if="!isNaN(inputForm.exRate*inputForm.totalVatContractAmount)&&this.inputForm.totalVatContractAmount !=''">
+              {{(inputForm.exRate*inputForm.totalVatContractAmount).toFixed(2)}}(VAT)
+            </div>
           </el-form-item>
 
         </el-col>
@@ -263,14 +262,6 @@
                   <span v-else>{{ row.supplierName }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="includedVat" v-if="index == 2" align="left" :label="$i18nMy.t('包含VAT')">
-                <template slot-scope="{row}">
-                  <template v-if="row.edit">
-                      <el-checkbox :disabled="flowStage=='start'?true:false" v-model="row.includedVat" ></el-checkbox>
-                  </template>
-                  <span v-else>{{ row.includedVat }}</span>
-                </template>
-              </el-table-column>
               <el-table-column prop="unitPrice" width="120" align="right" :label="'* '+$i18nMy.t('市场价格')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
@@ -317,6 +308,12 @@
                     </el-date-picker>
                   </template>
                   <span v-else>{{ row.expectArrivalDate }}</span>
+                </template>
+              </el-table-column>
+
+              <el-table-column prop="vat" v-if="index == 2" align="left" :label="$i18nMy.t('VAT')">
+                <template slot-scope="{row}">
+                  <span >{{ inputForm.vat*100 }} %</span>
                 </template>
               </el-table-column>
 
@@ -445,7 +442,7 @@
           requestRiority: '',
           contractCurrency: '',
           exRate: '',
-          vat:1,
+          vat:null,
           totalContractAmount: '',
           baseCurrency: '',
           totalBaseAmount: '',
@@ -504,6 +501,10 @@
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
               if (!this.$common.isEmpty(this.inputForm.detailInfo)){
                 this.detailInfo = JSON.parse(this.inputForm.detailInfo)
+                this.inputForm.totalVatContractAmount=0
+                for(var i=0;i<this.detailInfo.length;i++){
+                  this.inputForm.totalVatContractAmount+=this.detailInfo[i].docVatAmount
+                }
               }
               this.loading = false
             })
@@ -595,13 +596,7 @@
       },
       changeTabListGroup(row){
         row.edit =true
-      },
-      currencyChange(){
-        var _pThis=this
-        var dict= this.$common.find(this.$dictUtils.getDictList('pr_currency_rate'),
-          function(e){return e.label == _pThis.inputForm.contractCurrency})
-        this.inputForm.exRate= dict==null?1:dict.value
-      },
+      }
     }
   }
 </script>
@@ -615,6 +610,14 @@
   .el-table th.must>.cell:before {
   	content: '*';
   	color: #ff1818;
+  }
+  .myformText1{
+    text-align: right;
+    width: 70px;
+  }
+  .myformText2{
+    text-align: right;
+    width: 110px;
   }
 
   .updown ::v-deep label{float:none !important;}

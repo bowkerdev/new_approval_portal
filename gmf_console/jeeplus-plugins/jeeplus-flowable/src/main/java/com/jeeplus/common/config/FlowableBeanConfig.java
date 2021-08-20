@@ -26,7 +26,6 @@ public class FlowableBeanConfig {
 		return flowableModelerAppProperties;
 	}
 
-
 	@Bean
 	public Liquibase liquibase(DataSource dataSource) {
 		LOGGER.info("Configuring Liquibase");

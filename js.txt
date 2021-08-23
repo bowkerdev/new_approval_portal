@@ -1,0 +1,119 @@
+var supplier_info=[{"id":"1569cad4-8ab4-4838-8932-2428e6f18f4d","edit":false,"docListSize":2,"docList":[{"attachment":"https://bowkerstorage.blob.core.windows.net/commontools/flow/pr/2021/7/admin/失败记录20210721222755826.xlsx","uploadedBy":"admin","uploadedDate":"2021-07-26 ","linkToItems":[1,2],"documentType":"Quotation"}],"detailInfo":[{"edit":false,"serialNumber":1,"quantity":1,"item":"1","itemDescription":"1","brandName":"1","modelNo":"1","uom":"QTY","expectArrivalDate":"2021-07-28","docUnitPrice":0,"docAmount":0,"offeredUnitPrice":"44","discountedUnitPrice":"40","moq":"1","awarded":true},{"edit":false,"serialNumber":2,"quantity":2,"item":"2","itemDescription":"2","brandName":"2","modelNo":"2","uom":"QTY","expectArrivalDate":"2021-07-28","docUnitPrice":0,"docAmount":0,"offeredUnitPrice":"44","discountedUnitPrice":"40","moq":"1"}],"supplierName":"A","paymentTerms":"30","currency":"RMB","remarks":"倒是 ","originalPrice":88,"discountedAmount":80,"totalOfferedPrice":80,"expectArrivalDate":"2021-07-28","expectLastArrivalDate":""},{"id":"a78af7b4-09a6-4a86-8fe5-f5530b592ba4","edit":false,"docListSize":3,"docList":[{"attachment":"https://bowkerstorage.blob.core.windows.net/commontools/flow/pr/2021/7/admin/失败记录202107212227554.xlsx","uploadedBy":"admin","uploadedDate":"2021-07-26 ","linkToItems":[1],"documentType":"Contract"},{"attachment":"https://bowkerstorage.blob.core.windows.net/commontools/flow/pr/2021/7/admin/logo528.png","uploadedBy":"admin","uploadedDate":"2021-07-26 ","id":"2582aefd-331f-4097-9269-fca5c9622e89","linkToItems":[2],"documentType":"Quotation"}],"detailInfo":[{"edit":false,"serialNumber":1,"quantity":1,"item":"1","itemDescription":"1","brandName":"1","modelNo":"1","uom":"QTY","expectArrivalDate":"2021-07-28","docUnitPrice":0,"docAmount":0,"offeredUnitPrice":"50","discountedUnitPrice":"45","moq":"1","expectLastArrivalDate":"2021-07-15"},{"edit":false,"serialNumber":2,"quantity":2,"item":"2","itemDescription":"2","brandName":"2","modelNo":"2","uom":"QTY","expectArrivalDate":"2021-07-28","docUnitPrice":0,"docAmount":0,"offeredUnitPrice":"50","discountedUnitPrice":"45","moq":"1","expectLastArrivalDate":"2021-07-29","awarded":true}],"supplierName":"B","paymentTerms":"13","currency":"RMB","remarks":"的方式","expectArrivalDate":"2021-07-28","expectLastArrivalDate":"2021-07-29","originalPrice":100,"discountedAmount":90,"totalOfferedPrice":90}]
+
+function addAttributes(row,dataKey,attributesKey,attributesValue){
+	if(typeof(row[dataKey])!='string'||!(row[dataKey] !=null&&
+	row[dataKey].indexOf("{")==0 && 
+	row[dataKey].lastIndexOf("}")==row[dataKey].length-1)){
+		var obj={};
+		obj.value= row[dataKey]||'';
+		obj.type= 'modifyCellStyle';
+		row[dataKey]=obj
+	}
+	else{
+		row[dataKey] =JSON.parse(row[dataKey])
+	}
+	row[dataKey][attributesKey]=attributesValue
+	row[dataKey]=JSON.stringify(row[dataKey])
+}
+
+function setMerge(row,dataKey,colspan,rowspan) {
+	var obj={};
+	obj.colspan= colspan;
+	obj.rowspan= rowspan;
+	obj.value= row[dataKey]||'';
+	obj.type= 'modifyCellStyle';
+	row[dataKey]=JSON.stringify(obj)
+}
+function dealRowMerge(row){
+	setMerge(row,"data1",2,1)
+	setMerge(row,"data2",3,1)
+	setMerge(row,"data7",2,1)
+	setMerge(row,"data8",2,1)
+	setMerge(row,"data9",2,1)
+	setMerge(row,"data10",2,1)
+	setMerge(row,"data11",3,1)
+	return row
+}
+function dealHeadRowColor(row,backgroundColor){
+	for(var j=2;j<=12;j++){
+		addAttributes(row,"data"+j,"backgroundColor",backgroundColor)
+	}
+	return row
+}
+function dealHeadRowWrapText(row,wrapText){
+	for(var j=2;j<=12;j++){
+		addAttributes(row,"data"+j,"wrapText",wrapText)
+	}
+	return row
+}
+
+var list=[]
+for(var i=0;i<supplier_info.length;i++){
+    var row={}
+    row.data1=supplier_info[i].supplierName 
+    row.data2=supplier_info[i].paymentTerms 
+	row.data3=supplier_info[i].currency 
+	row.data4=supplier_info[i].originalPrice 
+	row.data5=supplier_info[i].discountedAmount 
+	row.data6=supplier_info[i].totalOfferedPrice 
+	row.data7=supplier_info[i].expectArrivalDate
+	row.data8=supplier_info[i].expectLastArrivalDate
+	row.data9=supplier_info[i].remarks
+	
+	row.data10=supplier_info[i].docList[0].documentType
+	row.data11=supplier_info[i].docList[0].attachment
+	row.data12=supplier_info[i].docList[0].linkToItems.join()
+	row.data13=supplier_info[i].docList[0].uploadedBy
+	row.data14=supplier_info[i].docList[0].uploadedDate
+	dealRowMerge(row)
+	addAttributes(row,"data11","mediaType","http")
+	
+	if(supplier_info[i].docList.length>1){
+		for(var j=1;j<=9;j++){
+			addAttributes(row,"data"+j,"rowspan",supplier_info[i].docList.length)
+			if(row["data"+j].indexOf("colspan")==-1){
+				row["data"+j] =JSON.parse(row["data"+j])
+				row["data"+j].colspan = 1
+				row["data"+j]=JSON.stringify(row["data"+j])
+			}
+		}
+	}
+	
+	list.push(row)
+	for(var j=1;j<supplier_info[i].docList.length;j++){
+		var row={}
+		row.data10=supplier_info[i].docList[j].documentType
+		row.data11=supplier_info[i].docList[j].attachment
+		row.data12=supplier_info[i].docList[j].linkToItems.join()
+		row.data13=supplier_info[i].docList[j].uploadedBy
+		row.data14=supplier_info[i].docList[j].uploadedDate
+		dealRowMerge(row)
+		addAttributes(row,"data11","mediaType","http")
+		list.push(row)
+	}
+	var row={}
+	row.data2="No."
+	row.data3="Item"
+	row.data4="Brand Name"
+	row.data5="Model No."
+	row.data6="Offered Unit Price"?
+	row.data7="Discounted Unit Price"	
+	row.data8="MOQ"	
+	row.data9="Expect Arrival Date"	
+	row.data10="Expect Last Arrival Date"		
+	row.data11="Awarded"		
+	row.data12="Reason"
+	dealRowMerge(row)
+	dealHeadRowColor(row,'230,230,230')
+	dealHeadRowWrapText(row,true)
+	addAttributes(row,"data2","height",200*3)
+	addAttributes(row,"data12","colspan",2)
+	addAttributes(row,"data12","rowspan",1)
+	list.push(row)
+	var row={}
+	setMerge(row,'data1',23,1)
+	list.push(row)
+}
+
+
+console.log(JSON.stringify(list))

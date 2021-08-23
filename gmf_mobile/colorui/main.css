@@ -1230,7 +1230,7 @@ button.cuIcon.lg {
 .cu-list.menu-avatar>.cu-item .content {
 	position: absolute;
 	left: 146upx;
-	width: calc(100% - 96upx - 60upx - 120upx - 20upx);
+	width: calc(100% - 96upx - 60upx - 120upx);
 	line-height: 1.6em;
 }
 
@@ -1253,7 +1253,7 @@ button.cuIcon.lg {
 }
 
 .cu-list.menu-avatar>.cu-item .action {
-	width: 100upx;
+	width: 120upx;
 	text-align: center
 }
 
@@ -2317,7 +2317,7 @@ button.cuIcon.lg {
 
 .cu-form-group {
 	background-color: #ffffff;
-	padding: 1upx 30upx;
+	padding: 1upx 40upx;
 	display: flex;
 	align-items: center;
 	min-height: 100upx;
@@ -3909,4 +3909,100 @@ scroll-view.cu-steps .cu-item {
 .line-white,
 .lines-white {
 	color: #ffffff;
+}
+.red-color{
+  color: red;
+}
+.cu-form-group .uni-input {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: 17px;
+    color: #555;
+    padding-right: 11px;
+}
+.ellipsis-description {
+	  font-size: 12px;
+	  line-height: $line-height-base;
+	  display: -webkit-box;/*作为弹性伸缩盒子模型显示*/
+	  -webkit-line-clamp: 1; /*显示的行数；如果要设置2行加...则设置为2*/
+	  overflow: hidden; /*超出的文本隐藏*/
+	  text-overflow: ellipsis; /* 溢出用省略号*/
+	   -webkit-box-orient: vertical;/*伸缩盒子的子元素排列：从上到下*/
+}
+.cu-form-group .title {
+	min-width: calc(4em + 15px);
+}
+.cu-form-group .lb-picker-label {
+	 line-height: 62px;
+	 font-size: 17px;
+	 text-overflow: ellipsis;
+	 white-space: nowrap;
+	 overflow: hidden;
+	 width: 100%;
+	 text-align: right;
+	 padding-right: 25px;
+	 
+}
+.cu-form-group .title .red-color{
+	color: red;
+	padding-right: 4px;
+	margin-left: -10px;
+}
+uni-button.buttonBox {
+
+	border-radius: 0 !important;
+	
+}
+uni-button.buttonBox:after {
+	border-radius: 0 !important;
+}
+
+.bottom-wrap{
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background: rgba(0,0,0,.50);
+	-webkit-box-shadow: 0 -3px 5px 0 rgba(0,0,0,.12);
+	box-shadow: 0 -3px 5px 0 rgba(0,0,0,.12);
+	z-index: 999;
+}
+.action.arrow:before {
+    top: 0;
+    right: 10px;
+	float: right;
+    bottom: 0;
+    display: block;
+    margin: auto;
+    width: 14px;
+    height: 18px;
+    color: #8799a3;
+    content: "\e6a3";
+    text-align: center;
+    font-size: 18px;
+    font-family: cuIcon;
+    line-height: 24px;
+}
+
+/*  #ifdef  APP-PLUS || H5  */
+.upicker {
+    font-size: 14px !important;
+	color: #666666 !important;
+}
+/*  #endif  */
+.text-primary{
+	color: #409EFF;
+}
+.text-info{
+	color: #909399;
+}
+.text-warning{
+	color: #E6A23C;
+}
+.text-danger{
+	color: #F56C6C;
+}
+.text-success{
+	color: #67C23A;
 }

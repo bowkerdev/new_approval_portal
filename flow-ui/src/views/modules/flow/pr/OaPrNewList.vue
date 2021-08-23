@@ -423,6 +423,8 @@
           procInsId: row.procInsId,
           procDefId: row.flow.procDefId,
         }}).then(({data}) => {
+          debugger 
+          data.flow.taskDefKey ='ITChecker' // 指定这个流程 保证有导出按钮
           if (data.success) {
             this.$router.push({
               path: '/flowable/task/TaskFormDetail',

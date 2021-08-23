@@ -153,7 +153,7 @@
         })
       },
       exportData(){
-        this.$utils.syncDownloadPost("approve_"+this.procDefKey,{id:this.businessId},this.$refs.form)
+        this.$utils.syncDownloadPost("approve_"+this.procDefKey,{id:this.businessId,procInsId:this.procInsId},this.$refs.form)
       }
     },
     data () {

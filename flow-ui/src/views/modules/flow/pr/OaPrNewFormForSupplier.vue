@@ -453,7 +453,7 @@
               if(!this.$common.isEmpty(this.inputForm.supplierInfo)){
                 this.supplierInfo = JSON.parse(this.inputForm.supplierInfo)
                 for(var i=0;i<this.supplierInfo.length;i++){
-                  for(var j=0;j<this.supplierInfo[i].docList.length;j++){
+                  for(var j=0;this.supplierInfo[i].docList!=null&&j<this.supplierInfo[i].docList.length;j++){
                     if(this.supplierInfo[i].docList[j].attachment!=null){
                       if(this.supplierInfo[i].id ==null){
                         this.supplierInfo[i].id = this.$common.uuid();

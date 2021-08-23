@@ -229,6 +229,9 @@ function fnAddDynamicMenuRoutes (menuList = [], routes = []) {
           iframeUrl: ''
         }
       }
+      if(menuList[i].href.indexOf("8081")>0){
+        debugger
+      }
       // url以http[s]://开头, 通过iframe展示
       if (isURL(menuList[i].href)) {
         route.path = '/' + route.path

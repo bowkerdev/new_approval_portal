@@ -53,7 +53,7 @@
         loading: false,
         inputForm: {
           username: 'admin',
-          password: 'admin',
+          password: '123456',
           uuid: '',
           captcha: ''
         },

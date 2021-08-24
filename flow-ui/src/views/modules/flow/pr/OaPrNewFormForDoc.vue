@@ -9,9 +9,10 @@
           </p>
         </el-col>
         <el-col :span="12">
-            <el-form-item  label-width="220px" :label="$i18nMy.t('申请人')" prop="createBy.id" :rules="[]">
-              <user-select :limit='1' :value="inputForm.createBy.id" :disabled='true' @getValue='(value) => {inputForm.createBy.id=value}'>
-              </user-select>
+            <el-form-item  label-width="220px" :label="$i18nMy.t('申请人')" prop="createBy.name" :rules="[]">
+              <!-- <user-select :limit='1' :value="inputForm.createBy.id" :disabled='true' @getValue='(value) => {inputForm.createBy.id=value}'>
+              </user-select> -->
+              <el-input v-model="inputForm.createBy.name" :disabled='true' ></el-input>
             </el-form-item>
           </el-col>
           <el-col  :span="12">
@@ -191,8 +192,8 @@
         attachmentsArra:{},
         inputForm: {
           id: '',
-          createBy:{id:this.$store.state.user.id},
-          createDate:this.$common.formatTime(new Date()),
+          createBy:{id:"", name:""},
+          createDate:"",
           createByOffice: {
             id: '',
             name: ''

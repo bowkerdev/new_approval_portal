@@ -13,8 +13,7 @@
                   <div class="actCard" @click="start(data)">
                     <!-- <img src='@/assets/img/Scheme.png'/> -->
                     <div class="yuan1" :class="getRandomColor()">{{data.name.substring(0,1)}}</div>
-                    <el-button class="task-name"
-                    type="text">{{data.name+' '+data.version}}</el-button>
+                    <el-button class="task-name" type="text" :title="data.name+' '+data.version">{{data.name+' '+data.version}}</el-button>
                   </div>
                 </el-card>
             </el-col>
@@ -667,7 +666,7 @@ export default Vue.extend({
 .task-name {
   color:#010407;
   margin-left:5px;
-  width:90px;
+  width: calc(100% - 45px);
   text-overflow:ellipsis;
   overflow:hidden;
   white-space:nowrap;

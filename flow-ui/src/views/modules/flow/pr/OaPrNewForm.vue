@@ -313,7 +313,7 @@
 
               <el-table-column prop="vat" v-if="index == 2" align="left" :label="$i18nMy.t('VAT')">
                 <template slot-scope="{row}">
-                  <span >{{ inputForm.vat*100 }} %</span>
+                  <span  v-if="inputForm.vat !=null"> {{ inputForm.vat*100 }} %</span>
                 </template>
               </el-table-column>
 
@@ -485,7 +485,7 @@
         this.inputForm.createDate=this.$common.formatTime(new Date())
         this.inputForm.createByOffice.id = this.$store.state.user.office.id
         this.inputForm.baseCurrency= 'HKD'//this.$dictUtils.getDictList('pr_currency')[0].value
-        this.inputForm.vat = parseFloat(this.$dictUtils.getDictLabel("vat","pr_config" , "1.1") )
+        this.inputForm.vat = null
       },
       init(query) {
         if (query&&query.businessId) {
@@ -563,6 +563,7 @@
         this.detailInfo=this.detailInfo.slice()
       },
       addTabListGroup(){
+        debugger
         this.detailInfo.push({edit:true,serialNumber:this.detailInfo.length+1})
         this.detailInfo=this.detailInfo.slice()
       },

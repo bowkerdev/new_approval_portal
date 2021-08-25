@@ -50,6 +50,9 @@
             prop="vars.title"
             show-overflow-tooltip
             :label="$i18nMy.t('实例标题')">
+            <template slot-scope="scope">
+              <el-link  type="primary" :underline="false" @click="detail(scope.row)">{{scope.row.vars.title}}</el-link>
+            </template>
           </el-table-column>
           <el-table-column
             prop="processDefinitionName"
@@ -98,17 +101,17 @@
             width="150"
             :label="$i18nMy.t('操作')">
             <template slot-scope="scope">
-               <el-button  type="text" size="small" @click="detail(scope.row)">历史</el-button>
-                <el-dropdown  size="small" style=" margin-left: 10px;">
+               <el-button  type="text" size="small" @click="detail(scope.row)">{{$i18nMy.t('查看')}}</el-button>
+                <!-- <el-dropdown  size="small" style=" margin-left: 10px;">
                     <el-button type="text" size="small">
-                          更多<i class="el-icon-arrow-down el-icon--right"></i>
+                          {{$i18nMy.t('更多')}}<i class="el-icon-arrow-down el-icon--right"></i>
                     </el-button>
                     <el-dropdown-menu slot="dropdown" >
                       <el-dropdown-item v-if="scope.row.code === 1" ><el-button type="text"  size="small" @click="urge(scope.row)">催办</el-button></el-dropdown-item>
-                      <el-dropdown-item v-if="scope.row.code === 1"><el-button type="text"  size="small" @click="revoke(scope.row)">撤销</el-button></el-dropdown-item>
-                      <el-dropdown-item v-if="scope.row.code === 3 || scope.row.code === 4"><el-button  type="text" color="red"  size="small" @click="restart(scope.row)">编辑</el-button></el-dropdown-item>
+                      <el-dropdown-item v-if="scope.row.code === 1"><el-button type="text"  size="small" @click="revoke(scope.row)">{{$i18nMy.t('撤销')}}</el-button></el-dropdown-item>
+                      <el-dropdown-item v-if="scope.row.code === 3 || scope.row.code === 4"><el-button  type="text" color="red"  size="small" @click="restart(scope.row)">{{$i18nMy.t('编辑')}}</el-button></el-dropdown-item>
                     </el-dropdown-menu>
-                </el-dropdown>
+                </el-dropdown> -->
             </template>
           </el-table-column>
         </el-table>

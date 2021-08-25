@@ -149,6 +149,17 @@
   & .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
     border-color: rgb(153, 153, 153);
   }
+
+  &.el-table--border {
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+  }
+
+  &.el-table th .cell {
+    white-space: initial;
+  }
 }
 
 </style>

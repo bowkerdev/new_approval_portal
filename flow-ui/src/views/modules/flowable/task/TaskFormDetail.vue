@@ -12,9 +12,9 @@
       <component :formReadOnly="formReadOnly" v-if="formType === '2'"  :class="formReadOnly?'readonly':''" ref="form" :businessId="businessId" :is="form"></component>
       <PreviewForm   v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="false" :taskFormData="taskFormData" ref="form"/>
     </el-tab-pane>
-    <el-tab-pane :label="$i18nMy.t('流程信息')" v-if="procInsId"  name="form-second">
+    <!-- <el-tab-pane :label="$i18nMy.t('流程信息')" v-if="procInsId"  name="form-second">
        <flow-time-line :historicTaskList="historicTaskList"/>
-    </el-tab-pane>
+    </el-tab-pane> -->
     <el-tab-pane :label="$i18nMy.t('流程图')"  name="form-third">
        <el-card class="box-card"  shadow="hover">
           <div slot="header" class="clearfix">

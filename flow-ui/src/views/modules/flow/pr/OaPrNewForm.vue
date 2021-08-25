@@ -14,16 +14,13 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('申请人')" prop="createBy.id" :rules="[]">
-            <user-select :limit='1' :value="inputForm.createBy.id" :disabled='true' @getValue='(value) => {inputForm.createBy.id=value}'>
-            </user-select>
+          <el-form-item label-width="220px" :label="$i18nMy.t('申请人')" prop="createBy.name" :rules="[]">
+            <el-input v-model="inputForm.createBy.name" :disabled='true' :placeholder="$i18nMy.t('申请人')"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('申请时间')" prop="createDate" :rules="[]">
-            <el-date-picker v-model="inputForm.createDate" type="datetime"  :disabled='true' style="width: 100%;"
-              value-format="yyyy-MM-dd HH:mm:ss" :placeholder="$i18nMy.t('选择日期时间')">
-            </el-date-picker>
+            <el-input v-model="inputForm.createDate" :disabled='true' :placeholder="$i18nMy.t('申请时间')"></el-input>
           </el-form-item>
         </el-col>
 	      <el-col  :span="12">
@@ -416,7 +413,7 @@
         tabs:[$i18nMy.t('基础信息'),$i18nMy.t('技术信息'),$i18nMy.t('财务信息')],
         inputForm: {
           id: '',
-          createBy:{id:this.$store.state.user.id},
+          createBy:{id:this.$store.state.user.id, name: this.$store.state.user.name},
           createDate:this.$common.formatTime(new Date()),
           createByOffice: {
             id: this.$store.state.user.office.id,
@@ -482,6 +479,7 @@
           return
         }
         this.inputForm.createBy.id=this.$store.state.user.id
+        this.inputForm.createBy.name=this.$store.state.user.name
         this.inputForm.createDate=this.$common.formatTime(new Date())
         this.inputForm.createByOffice.id = this.$store.state.user.office.id
         this.inputForm.baseCurrency= 'HKD'//this.$dictUtils.getDictList('pr_currency')[0].value

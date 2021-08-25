@@ -8,9 +8,9 @@
 
       <PreviewForm  id="printForm"   v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="true" :taskFormData="taskFormData" ref="form"/>
     </el-tab-pane>
-    <el-tab-pane label="流程信息" v-if="procInsId"  name="form-second">
+    <!-- <el-tab-pane label="流程信息" v-if="procInsId"  name="form-second">
        <flow-time-line :historicTaskList="historicTaskList"/>
-    </el-tab-pane>
+    </el-tab-pane> -->
     <el-tab-pane label="流程图"  name="form-third">
        <el-card class="box-card"  shadow="hover">
           <div slot="header" class="clearfix">

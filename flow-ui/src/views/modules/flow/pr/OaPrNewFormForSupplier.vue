@@ -9,9 +9,8 @@
           </p>
         </el-col>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('申请人')" prop="createBy.id" :rules="[]">
-            <user-select :limit='1' :value="inputForm.createBy.id" :disabled='true' @getValue='(value) => {inputForm.createBy.id=value}'>
-            </user-select>
+          <el-form-item label-width="220px" :label="$i18nMy.t('申请人')" prop="createBy.name" :rules="[]">
+            <el-input v-model="inputForm.createBy.name" :disabled='true' ></el-input>
           </el-form-item>
         </el-col>
 	      <el-col  :span="12">
@@ -381,7 +380,7 @@
         attachmentsArra:{},
         inputForm: {
           id: '',
-          createBy:{id:""},
+          createBy:{id:"", name:""},
           createDate:"",
           createByOffice: {
             id: '',
@@ -493,7 +492,7 @@
 
           var dict= this.$common.find(this.$dictUtils.getDictList('pr_currency_vat'),
             function(e){return e.label == _pThis.inputForm.contractCurrency})
-          this.inputForm.vat= dict==null?1:dict.value
+          this.inputForm.vat= dict==null?0:dict.value
 
           this.inputForm.vat = parseFloat(this.inputForm.vat)
 

@@ -156,6 +156,10 @@
     border-bottom-style: solid;
     border-bottom-width: 1px;
   }
+
+  &.el-table th .cell {
+    white-space: initial;
+  }
 }
 
 </style>

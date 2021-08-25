@@ -262,7 +262,8 @@
               if (data.success) {
                 this.$message.success(data.msg)
                 this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
-                this.$router.push('/flowable/task/TodoList')
+                //this.$router.push('/flowable/task/TodoList')
+                this.$router.push('/sys/index')
                 this.cc(data)
               }
             })
@@ -276,7 +277,8 @@
           }, (data) => {
             if (data.success) {
               this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
-              this.$router.push('/flowable/task/TodoList')
+              //this.$router.push('/flowable/task/TodoList')
+              this.$router.push('/sys/index')
               this.cc(data)
             }
           })
@@ -454,7 +456,7 @@
           })
         }
       },
-      exportData(){ 
+      exportData(){
         this.$utils.syncDownloadPost("approve_"+this.procDefKey,{id:this.businessId,procInsId:this.procInsId},this.$refs.form)
       },
       submit (currentBtn, buttons) {

@@ -37,7 +37,7 @@
               class="table my-table-margin">
               <el-table-column
                 prop="vars.title"
-                min-width="120px"
+                width="180px"
                show-overflow-tooltip
                 :label="$i18nMy.t('实例标题')">
                     <template slot-scope="scope">
@@ -125,7 +125,7 @@
                 class="table my-table-margin">
                 <el-table-column
                   prop="vars.title"
-                  min-width="120px"
+                  width="180px"
                  show-overflow-tooltip
                   :label="$i18nMy.t('实例标题')">
                       <template slot-scope="scope">
@@ -214,7 +214,7 @@
               <el-table-column
                 prop="vars.title"
                 show-overflow-tooltip
-                min-width="120px"
+                width="180px"
                 :label="$i18nMy.t('实例标题')">
                 <template slot-scope="scope">
                   <el-link  type="primary" :underline="false" @click="detail(scope.row)">{{scope.row.vars.title}}</el-link>
@@ -305,7 +305,7 @@
               <el-table-column
                 prop="vars.title"
                 show-overflow-tooltip
-                min-width="120px"
+                width="180px"
                 :label="$i18nMy.t('实例标题')">
                 <template slot-scope="scope">
                   <el-link  type="primary" :underline="false" @click="detail(scope.row)">{{scope.row.vars.title}}</el-link>

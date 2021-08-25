@@ -74,8 +74,8 @@
 <div class="FlowFormFooter">
   <template v-for="(button, index) in buttons">
       <template  v-show="button.isHide === '0'">
-        <el-button type="primary"  v-if="button.code !== '_flow_print'"  :key="index" @click="submit(button, buttons)"  v-noMoreClick plain>{{button.name}}</el-button>
-        <el-button type="primary" v-if="button.code === '_flow_print'" v-print="printObj" :key="index" @click="submit(button, buttons)"  v-noMoreClick plain>{{button.name}}</el-button>
+        <el-button type="primary"  v-if="button.code !== '_flow_print'"  :key="index" @click="submit(button, buttons)"  v-noMoreClick plain>{{$i18nMy.t(button.name)}}</el-button>
+        <el-button type="primary" v-if="button.code === '_flow_print'" v-print="printObj" :key="index" @click="submit(button, buttons)"  v-noMoreClick plain>{{$i18nMy.t(button.name)}}</el-button>
       </template>
   </template>
 </div>
@@ -144,9 +144,9 @@
        // 读取按钮配置
       if (this.status === 'start') {
         if (this.formUrl.indexOf("flow/pr/")>0) { // 目前只有PR能保存草稿 Jack
-          this.buttons = [{code: '_flow_start', name: $i18nMy.t('启动'), isHide: '0'}, {code: '_flow_save', name: $i18nMy.t('保存为草稿'), isHide: '0'}]
+          this.buttons = [{code: '_flow_start', name: '启动', isHide: '0'}, {code: '_flow_save', name: '保存为草稿', isHide: '0'}]
         } else {
-          this.buttons = [{code: '_flow_start', name: $i18nMy.t('启动'), isHide: '0'}]
+          this.buttons = [{code: '_flow_start', name: '启动', isHide: '0'}]
         }
       } else if (this.procDefKey && this.taskDefKey) {
         // 读取按钮
@@ -158,7 +158,7 @@
             this.buttons = data.taskDefExtension.flowButtonList
             //this.buttons.push({"id":"69bfd7c0d32c4dbea8f222403f03de44","name":"导出","code":"_flow_export","isHide":"0","sort":2,"taskDef":{"id":"1718327c4c424c96b9a3cbfe04a1e973","flowAssigneeList":[],"flowButtonList":[],"flowConditionList":[]}})
             for(var i=0;i<this.buttons.length;i++){
-              this.buttons[i].name = $i18nMy.t(this.buttons[i].name)
+              this.buttons[i].name = this.buttons[i].name
             }
           }
         })

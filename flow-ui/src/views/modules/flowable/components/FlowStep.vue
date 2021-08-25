@@ -44,6 +44,9 @@
         prop="comment.status"
         :label="$i18nMy.t('办理状态')"
         width="150">
+        <template slot-scope="scope">
+          {{$i18nMy.t(scope.row.comment.status)}}
+        </template>
       </el-table-column>
        <el-table-column
         prop="comment.message"
@@ -54,7 +57,7 @@
         :label="$i18nMy.t('任务历时')"
         width="150">
         <template slot-scope="scope">
-          {{scope.row.durationTime || '0秒'}}
+          {{scope.row.durationTime || '0s'}}
         </template>
       </el-table-column>
     </el-table>

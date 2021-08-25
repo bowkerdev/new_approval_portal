@@ -60,8 +60,8 @@
           cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff" >
             <thead>
               <tr class="head-background-color head1-height">
-              <th>{{$i18nMy.t('供应商名称')}}</th><th>{{$i18nMy.t('付款条件')}}</th><th>{{$i18nMy.t('币种')}}</th><th>{{$i18nMy.t('原价')}}</th><th>{{$i18nMy.t('折扣价')}}</th><th>{{$i18nMy.t('最终报价')}}</th><th>{{$i18nMy.t('预计到货日期')}}</th>
-              <th>{{$i18nMy.t('预计最晚到货日期')}}</th><th>{{$i18nMy.t('备注')}}</th><th>{{$i18nMy.t('文件类型')}}</th><th >{{$i18nMy.t('附件')}}</th><th>{{$i18nMy.t('关联项目')}}</th><th>{{$i18nMy.t('上传者')}}</th><th>{{$i18nMy.t('上传日期')}}</th>
+              <th><font color="red">*</font>{{$i18nMy.t('供应商名称')}}</th><th>{{$i18nMy.t('付款条件')}}</th><th><font color="red">*</font>{{$i18nMy.t('币种')}}</th><th>{{$i18nMy.t('原价')}}</th><th>{{$i18nMy.t('折扣价')}}</th><th>{{$i18nMy.t('最终报价')}}</th><th>{{$i18nMy.t('预计到货日期')}}</th>
+              <th>{{$i18nMy.t('预计最晚到货日期')}}</th><th>{{$i18nMy.t('备注')}}</th><th><font color="red">*</font>{{$i18nMy.t('文件类型')}}</th><th><font color="red">*</font>{{$i18nMy.t('附件')}}</th><th><font color="red">*</font>{{$i18nMy.t('关联项目')}}</th><th>{{$i18nMy.t('上传者')}}</th><th>{{$i18nMy.t('上传日期')}}</th>
               <th colspan="2">{{$i18nMy.t('操作')}}</th>
               </tr>
             </thead>
@@ -181,7 +181,7 @@
                       {{$dictUtils.getDictLabel("pr_document_type",item2.documentType, '-')}}
                     </span>
                 </td>
-                <td colspan="3" style="max-width: 100px;" >
+                <td style="max-width: 120px; min-width: 110px;" >
                   <el-upload :class="item2.attachment==''?'':'hide'"
                     :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
                         :headers="{token: $cookie.get('token')}"
@@ -223,15 +223,15 @@
                   <el-button v-if="item.edit" type="danger" size="small" icon="el-icon-delete" @click="delDoc(index,index2+1)" class="operationButton"></el-button>
                 </td>
               </tr>
-              <tr style="background-color: #fff3cf;">
+              <tr style="background-color: #fff3cf; border-bottom: 1px solid #EBEEF5;">
                 <td colspan="8">
                  <el-button size="small" :disabled="!item.edit"  @click="addDocList(index)" type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px;padding: 5px 30px;" ></el-button>
                 </td>
               </tr>
               <tr class="head-background-color head2-height">
                 <td style="background-color: #FFFFFF;border:none"></td>
-                <td class="first-td">{{$i18nMy.t('序号')}}</td><td>{{$i18nMy.t('物品')}}</td><td>{{$i18nMy.t('品牌名称')}}</td><td>{{$i18nMy.t('型号')}}</td><td>{{$i18nMy.t('提供单价')}}</td><td>{{$i18nMy.t('折扣单价')}}</td>
-                <td>MOQ</td><td>{{$i18nMy.t('预计到货日期')}}</td><td>{{$i18nMy.t('预计最晚到货日期')}}</td><td>{{$i18nMy.t('原因')}}</td><td>{{$i18nMy.t('采纳')}}</td>
+                <td class="first-td">{{$i18nMy.t('序号')}}</td><td>{{$i18nMy.t('物品')}}</td><td>{{$i18nMy.t('品牌名称')}}</td><td>{{$i18nMy.t('型号')}}</td><td><font color="red">*</font>{{$i18nMy.t('提供单价')}}</td><td>{{$i18nMy.t('折扣单价')}}</td>
+                <td><font color="red">*</font>MOQ</td><td>{{$i18nMy.t('预计到货日期')}}</td><td>{{$i18nMy.t('预计最晚到货日期')}}</td><td>{{$i18nMy.t('原因')}}</td><td>{{$i18nMy.t('采纳')}}</td>
               </tr>
               <tr class="data-content" v-for="(item3, index3) in item.detailInfo" :key="'index3_'+index3">
                 <td  style="background-color: #FFFFFF;border:none"></td>

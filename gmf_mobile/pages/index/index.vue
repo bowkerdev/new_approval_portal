@@ -5,7 +5,7 @@
 		<workbench v-if="PageCur=='workbench'"></workbench>
 		<apps v-if="PageCur=='apps'"></apps>
 		<person v-if="PageCur=='my'"></person>
-		<view class="cu-bar tabbar bg-white shadow foot">
+		<view class="cu-bar tabbar bg-white shadow foot" style="display: none;">
 			<view class="action" @click="NavChange" data-cur="addressbook">
 				<view :class="PageCur=='addressbook'?'text-blue':'text-gray'">
 					<!-- <text class="lg" :class="PageCur=='addressbook'?'cuIcon-addressbook':'cuIcon-addressbook'"></text> -->
@@ -55,7 +55,7 @@
 	import addressbook from '@/pages/addressbook/addressbook.vue'
 	import person from '@/pages/user/person/person.vue'
 	import message from '@/pages/message/message.vue'
-	import workbench from '@/pages/workbench/workbench.vue'
+	import workbench from '@/pages/workbench/workbenchWeCare.vue'
 	import apps from '@/pages/apps/apps.vue'
 	export default {
 		onShow(option) {

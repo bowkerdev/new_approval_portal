@@ -19,7 +19,7 @@
 		</view>
 		<view v-show="0 === tabIndex">
 			<scroll-view scroll-y class="page">
-			<view class=" bg-white margin-top">
+			<view class="margin-top" :class="notBackgroundColor?'':' bg-white '">
 				  <component :formReadOnly="formReadOnly" :class="formReadOnly?'readonly':''"  ref="form" :businessId="businessId" :is="form"></component>
 				  <PreviewForm :formData="formData"  v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="false" ref="form"></PreviewForm>
 			</view>
@@ -93,6 +93,7 @@
 		},
 		async mounted () {
 			  if (this.formType === '2') { //外置表单
+			    var formName =  (this.formUrl || '').substring((this.formUrl || '').lastIndexOf('/') + 1);
 				if (this.formUrl === '/404') {
 				  this.form = null
 				  uni.showToast({ title: '没有关联流程表单!', icon: "none" });
@@ -100,7 +101,7 @@
 					// uniapp 不支持动态组件，所以通过名称匹配决定调用的表单组件
 				  if(this.formUrl.endsWith('TestActivitiLeaveForm')){ 
 					  this.form = TestActivitiLeaveForm
-				  } else if(this.formUrl.endsWith('OaPrNewFormAllEdit')){
+				  } else if(formName.indexOf("OaPrNewFormAll") > -1){
 					  this.notBackgroundColor = true;
 					  // this.businessId ='6d515ebc91fe4f498e7e23d05e9c10cf'
 					  this.form = WinHanverkyGroupPurchaseRequisitionForm
@@ -141,6 +142,7 @@
 		components:{
 		  userSelect,
 		  TestActivitiLeaveForm,
+		  WinHanverkyGroupPurchaseRequisitionForm,
 		  PreviewForm
 		},
 		data() {

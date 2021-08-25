@@ -308,7 +308,7 @@
                 </template>
               </el-table-column>
 
-              <el-table-column prop="vat" v-if="index == 2" align="left" :label="$i18nMy.t('VAT')">
+              <el-table-column prop="vat" v-if="index == 2" align="right" :label="$i18nMy.t('VAT')">
                 <template slot-scope="{row}">
                   <span  v-if="inputForm.vat !=null"> {{ inputForm.vat*100 }} %</span>
                 </template>

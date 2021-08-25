@@ -314,19 +314,19 @@
               <td>{{item.item}}</td>
               <td>{{item.brandName}}</td>
               <td>{{item.modelNo}}</td>
-              <td>{{item.unitPrice}}</td>
-              <td>{{item.docUnitPrice}}</td>
-              <td>{{item.quantity}}</td>
+              <td class="my-right">{{item.unitPrice}}</td>
+              <td class="my-right">{{item.docUnitPrice}}</td>
+              <td class="my-right">{{item.quantity}}</td>
               <td>{{item.uom}}</td>
-              <td>{{inputForm.vat *100}}%</td>
-              <td>{{item.docAmount}}</td>
-              <td>{{item.docVatAmount}}</td>
-              <td>
+              <td class="my-right">{{inputForm.vat *100}}%</td>
+              <td class="my-right">{{item.docAmount}}</td>
+              <td class="my-right">{{item.docVatAmount}}</td>
+              <td class="my-right">
                 <span v-if="!isNaN(item.docAmount*inputForm.exRate)">
                   {{(item.docAmount*inputForm.exRate).toFixed(2)}}
                 </span>
               </td>
-              <td>
+              <td class="my-right">
                 <span v-if="!isNaN(item.docVatAmount*inputForm.exRate)">
                   {{(item.docVatAmount*inputForm.exRate).toFixed(2)}}
                 </span>
@@ -342,15 +342,15 @@
               <td class="first-td">{{item.supplierName}}</td>
               <td >{{item.paymentTerms}}</td>
               <td >{{item.currency}}</td>
-              <td >{{item.finallyUnitPrice}}</td>
-              <td >
+              <td class="my-right">{{item.finallyUnitPrice}}</td>
+              <td class="my-right">
                   <span v-if="!isNaN(item.finallyUnitPrice*inputForm.exRate)">
                     {{(item.finallyUnitPrice*inputForm.exRate).toFixed(2)}}
                   </span>
               </td>
-              <td >{{item.moq}}</td>
-              <td >{{item.expectArrivalDate}}</td>
-              <td >{{item.expectLastArrivalDate}}</td>
+              <td class="my-right">{{item.moq}}</td>
+              <td class="my-right">{{item.expectArrivalDate}}</td>
+              <td class="my-right">{{item.expectLastArrivalDate}}</td>
               <td colspan="2">{{item.relatedQuotation}}</td>
               <td ><el-checkbox :disabled="true" v-model="item.awarded" ></el-checkbox></td>
               <td >{{item.reason}}</td>

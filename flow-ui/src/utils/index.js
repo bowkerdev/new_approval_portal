@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import router from '@/router'
 import store from '@/store'
+import dictUtils from '@/utils/dictUtils'
 import $http from './httpRequest'
 import { isPlainObject } from 'lodash'
 import { snakeCase } from "lodash"
@@ -269,8 +270,12 @@ export function syncDownloadPost (url, params,pThis) {
   else{
     var tokenType=process.env.VUE_APP_SSO_TYPE
   }
-  ssoToken ="eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJqd3QiLCJpYXQiOjE2MjkwNzE1MjksInN1YiI6IntcInJvbGVpZFwiOlwiLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLFwiLFwidXNlcmlkXCI6MixcInBsYXRmb3JtXCI6XCIxLDIsMyw0LDUsNixTMiw3LFMxLDE1LDgsOSwxMCwxMSwxMiwxMywxNCxtcCx3ZCxocCxhcFwiLFwidXNlcm5hbWVcIjpcImFkbWluXCJ9IiwiZXhwIjoxNjI5OTM1NTI5fQ.n73LTkRgXoWzoQnUU0fNNJXFdAXqIM6hRiUhP1Hc36U"
-  tokenType="bowker_baseportal"
+  debugger
+  var tmp=dictUtils.getDictLabel("test","testToken","")
+  if(tmp !=""){
+    ssoToken = tmp
+    tokenType="bowker_baseportal"
+  }
   var param ={"exportConfig":{"configKey":url},param:JSON.stringify(params)}
   pThis.loading=true
   $http({

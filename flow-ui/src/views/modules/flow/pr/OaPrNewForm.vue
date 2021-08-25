@@ -169,12 +169,12 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('合同总价')" prop="totalContractAmount" :rules="[]">
-            <div class="myformText1"> {{inputForm.totalContractAmount}}</div>
+            <div class="myformText1" v-if="(inputForm.totalContractAmount||'')!=''"> {{inputForm.totalContractAmount.toFixed(2)}}</div>
           </el-form-item>
         </el-col>
         <el-col :span="3">
           <el-form-item label-width="10px" label=""  :rules="[]">
-            <div class="myformText2">{{inputForm.totalVatContractAmount}}(VAT)</div>
+            <div class="myformText2" v-if="(inputForm.totalVatContractAmount||'')!=''">{{inputForm.totalVatContractAmount.toFixed(2)}}(VAT)</div>
           </el-form-item>
         </el-col>
         <el-col :span="3">
@@ -322,7 +322,11 @@
                         <el-input  size="small" v-only-num.float="row"
                         :disabled="flowStage=='start'?true:false"   v-model="row.docAmount" placeholder="" ></el-input>
                       </template>
-                      <span v-else>{{ row.docAmount }}</span>
+                      <span v-else>
+                        <span v-if="(row.docAmount||'')!=''">
+                          {{ row.docAmount.toFixed(2) }}
+                        </span>
+                      </span>
                     </template>
                   </el-table-column>
 
@@ -332,7 +336,11 @@
                         <el-input  size="small" v-only-num.float="row"
                         :disabled="flowStage=='start'?true:false"   v-model="row.docVatAmount" placeholder="" ></el-input>
                       </template>
-                      <span v-else>{{ row.docVatAmount }}</span>
+                      <span v-else>
+                        <span v-if="(row.docVatAmount||'')!=''">
+                          {{ row.docVatAmount.toFixed(2) }}
+                        </span>
+                      </span>
                     </template>
                   </el-table-column>
                 </template>
@@ -515,6 +523,8 @@
       },
       // 表单提交
       saveForm(callBack) {
+        this.inputForm.totalBaseAmount=this.inputForm.exRate*this.inputForm.totalContractAmount
+        this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
         if(this.detailInfo.length ==0){
            this.$message.warning($i18nMy.t('物品列表不能为空'))
            return ;
@@ -530,8 +540,6 @@
            return ;
         }
 
-        this.inputForm.totalBaseAmount=this.inputForm.exRate*this.inputForm.totalContractAmount
-        this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
         this.$refs['inputForm'].validate((valid) => {
           if (valid) {
             this.loading = true

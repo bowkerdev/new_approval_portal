@@ -509,6 +509,18 @@
             return false;
           }
         }
+        var awardedSize=0
+        for(var i=0;i<this.supplierInfo.length;i++){
+          for(var j=0;j<this.supplierInfo[i].detailInfo.length;j++){
+            if(this.supplierInfo[i].detailInfo[j].awarded){
+              awardedSize++
+            }
+          }
+        }
+        if(awardedSize != this.detailInfo.length){
+          this.$message.warning($i18nMy.t('请选择供应商'))
+          return false;
+        }
         return true
       },
       // 表单提交
@@ -606,7 +618,7 @@
         this.detailInfo.splice(this.detailInfo.length)
       },
       _setDetailInfoAmount(obj){
-        obj.docAmount = obj.docUnitPrice*obj.realQuantity
+        obj.docAmount = parseFloat((obj.docUnitPrice*obj.realQuantity).toFixed(2))
         obj.docVatAmount =parseFloat(((this.inputForm.vat +1)*obj.docAmount).toFixed(2))
       },
       _updateDetailInfoDocUnitPrice(){
@@ -639,10 +651,10 @@
                 this.inputForm.contractCurrency = this.supplierInfo[i].currency
               }
             }
-            this.inputForm.totalVatContractAmount = parseFloat(this.inputForm.totalVatContractAmount.toFixed(2))
-            this.inputForm.totalContractAmount = parseFloat(this.inputForm.totalContractAmount.toFixed(2))
           }
         }
+        this.inputForm.totalVatContractAmount = parseFloat(this.inputForm.totalVatContractAmount.toFixed(2))
+        this.inputForm.totalContractAmount = parseFloat(this.inputForm.totalContractAmount.toFixed(2))
       },
       awardedChange(supplierInfo,itemSerialNumber){
         for(var i=0;i<this.supplierInfo.length;i++){
@@ -661,16 +673,17 @@
       calculationPrice(index){
         var totalOfferedPrice =0
         for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
-          totalOfferedPrice+=parseInt(this.supplierInfo[index].detailInfo[i].offeredUnitPrice||"0")*
+          totalOfferedPrice+=parseFloat(this.supplierInfo[index].detailInfo[i].offeredUnitPrice||"0")*
             parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
         }
+        totalOfferedPrice = parseFloat(totalOfferedPrice.toFixed(2))
         this.supplierInfo[index].originalPrice=totalOfferedPrice
         var discountedAmount =0
         for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
           var discountedUnitPrice=
-            parseInt(this.supplierInfo[index].detailInfo[i].discountedUnitPrice||"0")
+            parseFloat(this.supplierInfo[index].detailInfo[i].discountedUnitPrice||"0")
           if(discountedUnitPrice == 0){
-            discountedAmount+=parseInt(this.supplierInfo[index].detailInfo[i].offeredUnitPrice||"0")*
+            discountedAmount+=parseFloat(this.supplierInfo[index].detailInfo[i].offeredUnitPrice||"0")*
               parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
           }
           else{
@@ -678,6 +691,7 @@
               parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
           }
         }
+        discountedAmount = parseFloat(discountedAmount.toFixed(2))
         this.supplierInfo[index].discountedAmount=discountedAmount
         this.supplierInfo[index].totalOfferedPrice =discountedAmount
 
@@ -718,6 +732,10 @@
         }
         this.supplierInfo[index].currency = this.supplierInfo[0].currency
         for(var i=0;i<this.supplierInfo[index].docList.length;i++){
+          if(this.$common.isEmpty(this.supplierInfo[index].docList[i].documentType)){
+             this.$message.warning($i18nMy.t('文档类型不能为空'))
+             return
+          }
           if(this.$common.isEmpty(this.supplierInfo[index].docList[i].attachment)){
              this.$message.warning($i18nMy.t('附件不能为空'))
              return

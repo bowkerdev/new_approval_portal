@@ -61,7 +61,7 @@
             <thead>
               <tr class="head-background-color head1-height">
               <th>{{$i18nMy.t('供应商名称')}}</th><th>{{$i18nMy.t('付款条件')}}</th><th>{{$i18nMy.t('币种')}}</th><th>{{$i18nMy.t('原价')}}</th><th>{{$i18nMy.t('折扣价')}}</th><th>{{$i18nMy.t('最终报价')}}</th><th>{{$i18nMy.t('预计到货日期')}}</th>
-              <th>{{$i18nMy.t('预计最晚到货日期')}}</th><th>{{$i18nMy.t('备注')}}</th><th>{{$i18nMy.t('文件类型')}}</th><th colspan="3">{{$i18nMy.t('附件')}}</th><th>{{$i18nMy.t('关联项目')}}</th><th>{{$i18nMy.t('上传者')}}</th><th>{{$i18nMy.t('上传日期')}}</th>
+              <th>{{$i18nMy.t('预计最晚到货日期')}}</th><th>{{$i18nMy.t('备注')}}</th><th>{{$i18nMy.t('文件类型')}}</th><th >{{$i18nMy.t('附件')}}</th><th>{{$i18nMy.t('关联项目')}}</th><th>{{$i18nMy.t('上传者')}}</th><th>{{$i18nMy.t('上传日期')}}</th>
               <th colspan="2">{{$i18nMy.t('操作')}}</th>
               </tr>
             </thead>
@@ -112,7 +112,7 @@
                 </span>
               </td>
 
-              <td >
+              <td  style="width: 110px;">
                 <el-select  size="small" v-model="item.docList[0].documentType" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in $dictUtils.getDictList('pr_document_type')" :key="item.value" :label="item.label"
                     :value="item.value">
@@ -122,7 +122,7 @@
                   {{$dictUtils.getDictLabel("pr_document_type",item.docList[0].documentType, '-')}}
                 </span>
               </td>
-              <td colspan="3" >
+              <td  style="max-width: 120px; min-width: 110px;">
                 <el-upload :class="item.docList[0].attachment==''?'':'hide'"
                   :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
                       :headers="{token: $cookie.get('token')}"
@@ -144,7 +144,7 @@
                       <el-button :disabled="!item.edit" style="padding: 5px 30px;" size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
                     </el-upload>
               </td>
-              <td style="min-width: 70px;">
+              <td style="width: 70px;">
                 <el-select  size="small" multiple v-model="item.docList[0].linkToItems" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in detailInfo" :key="item.serialNumber" :label="item.serialNumber"
                     :value="item.serialNumber">
@@ -157,7 +157,7 @@
               <td >
                   {{item.docList[0].uploadedBy}}
               </td>
-              <td class="my-right">
+              <td class="my-right" style="width: 70px;">
                   {{item.docList[0].uploadedDate}}
               </td>
               <td  width="30px">
@@ -181,7 +181,7 @@
                       {{$dictUtils.getDictLabel("pr_document_type",item2.documentType, '-')}}
                     </span>
                 </td>
-                <td colspan="3" >
+                <td colspan="3" style="max-width: 100px;" >
                   <el-upload :class="item2.attachment==''?'':'hide'"
                     :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
                         :headers="{token: $cookie.get('token')}"
@@ -873,5 +873,4 @@
   .hide ::v-deep .is-success{
     margin-top: 0px;
   }
-
 </style>

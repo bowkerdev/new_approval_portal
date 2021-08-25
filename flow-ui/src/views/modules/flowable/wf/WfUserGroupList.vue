@@ -114,10 +114,10 @@
         sortable="custom"
         label="公司">
             <template slot-scope="scope">
-              <el-link  type="primary" :underline="false" v-if="hasPermission('flowable:wf:wfUserGroup:edit')" @click="edit(scope.row.id)">{{scope.row.company.name||"ALL"}}</el-link>
-              <el-link  type="primary" :underline="false" v-else-if="hasPermission('flowable:wf:wfUserGroup:view')"  @click="view(scope.row.id)">{{scope.row.company.name||"ALL"}}</el-link>
+              <el-link  type="primary" :underline="false" v-if="hasPermission('flowable:wf:wfUserGroup:edit')" @click="edit(scope.row.id)">{{scope.row.company.name||scope.row.company.id||"ALL"}}</el-link>
+              <el-link  type="primary" :underline="false" v-else-if="hasPermission('flowable:wf:wfUserGroup:view')"  @click="view(scope.row.id)">{{scope.row.company.name||scope.row.company.id||"ALL"}}</el-link>
               <span v-else>
-                {{scope.row.company.name||"ALL"}}
+                {{scope.row.company.name||scope.row.company.id||"ALL"}}212121
               </span>
             </template>
       </el-table-column>

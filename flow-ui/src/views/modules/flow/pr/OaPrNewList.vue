@@ -240,7 +240,7 @@
         sortable="custom"
         :label="$i18nMy.t('合同总价')">
       </el-table-column>
-      <!-- <el-table-column
+      <el-table-column
         header-align="center"
         align="center"
         fixed="right"
@@ -249,8 +249,9 @@
         :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <el-button v-if="hasPermission('flow:pr:oaPrNew:view')" type="text" icon="el-icon-view" size="small" @click="flowDetail(scope.row)">{{$i18nMy.t('查看')}}</el-button>
-          <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
-          <el-button v-if="hasPermission('flow:pr:oaPrNew:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
+          <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="text" icon="el-icon-edit" size="small" @click="copyToStart(scope.row)">{{$i18nMy.t('复制申请单')}}</el-button>
+          <!-- <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('flow:pr:oaPrNew:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button> -->
         </template>
       </el-table-column> -->
     </el-table>
@@ -394,7 +395,24 @@
           }
         })
       },
+      copyToStart (param) {
+        let row = {id: param.flow.procDefId, name: "PRPO", key: "prpo"}
+        // 读取流程表单
+        let tabTitle = $i18nMy.t('发起流程') + '：' + $i18nMy.t(`${row.name}`)
+        let processTitle = `Start Process : ${row.name}  ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} `
 
+        this.$http.get('/flowable/task/getTaskDef', {params: {
+          procDefId: row.id,
+          status: 'start'
+        }}).then(({data}) => {
+          if (data.success) {
+            this.$router.push({
+              path: '/flowable/task/TaskForm',
+              query: {procDefId: row.id, procDefKey: row.key, status: 'start', title: tabTitle, formType: data.flow.formType, formUrl: data.flow.formUrl, formTitle: processTitle, businessId: param.id+"__copy"}
+            })
+          }
+        })
+      },
       // 新增
       add () {
         //this.$refs.oaPrNewForm.init('add', '')
@@ -423,7 +441,6 @@
           procInsId: row.procInsId,
           procDefId: row.flow.procDefId,
         }}).then(({data}) => {
-          debugger 
           data.flow.taskDefKey ='ITChecker' // 指定这个流程 保证有导出按钮
           if (data.success) {
             this.$router.push({
@@ -459,7 +476,6 @@
       },
      // 查看详情
       detail (row) {
-        debugger
         if(!this.$common.isEmpty(row.detailInfo)){
           row.detailInfoList=JSON.parse(row.detailInfo)
         }

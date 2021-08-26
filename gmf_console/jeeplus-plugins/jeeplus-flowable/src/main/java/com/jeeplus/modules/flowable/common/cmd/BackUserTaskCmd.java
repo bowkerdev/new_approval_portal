@@ -1,17 +1,21 @@
 package com.jeeplus.modules.flowable.common.cmd;
 
-import com.google.common.collect.Sets;
-import com.jeeplus.modules.flowable.constant.FlowableConstant;
-import com.jeeplus.modules.flowable.utils.FlowableUtils;
-import com.jeeplus.modules.sys.utils.UserUtils;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import org.flowable.bpmn.model.*;
+import org.flowable.bpmn.model.FlowNode;
 import org.flowable.bpmn.model.Process;
+import org.flowable.bpmn.model.UserTask;
 import org.flowable.common.engine.api.FlowableException;
 import org.flowable.common.engine.api.FlowableObjectNotFoundException;
 import org.flowable.common.engine.impl.interceptor.Command;
 import org.flowable.common.engine.impl.interceptor.CommandContext;
 import org.flowable.engine.RuntimeService;
+import org.flowable.engine.TaskService;
 import org.flowable.engine.impl.delegate.ActivityBehavior;
 import org.flowable.engine.impl.persistence.entity.ExecutionEntity;
 import org.flowable.engine.impl.persistence.entity.ExecutionEntityManager;
@@ -20,10 +24,11 @@ import org.flowable.engine.impl.util.ProcessDefinitionUtil;
 import org.flowable.task.api.Task;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
-import java.io.Serializable;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import com.google.common.collect.Sets;
+import com.jeeplus.common.utils.SpringContextHolder;
+import com.jeeplus.modules.flowable.constant.FlowableConstant;
+import com.jeeplus.modules.flowable.utils.FlowableUtils;
+import com.jeeplus.modules.sys.utils.UserUtils;
 
 /**
  *  驳回任务
@@ -33,6 +38,7 @@ public class BackUserTaskCmd implements Command<String>, Serializable {
     public static final long serialVersionUID = 1L;
 
     protected RuntimeService runtimeService;
+    private TaskService taskService;
     protected String taskId;
     protected String targetActivityId;
 
@@ -137,15 +143,22 @@ public class BackUserTaskCmd implements Command<String>, Serializable {
         // 筛选需要处理的execution
         List<ExecutionEntity> realExecutions = this.getRealExecutions(commandContext, processInstanceId,
                 task.getExecutionId(), sourceRealActivityId, sourceRealAcitivtyIds);
+        
+        if (!UserUtils.getUser().getId().equals(task.getAssignee())) { //my delegate 
+        	if(taskService==null){
+        		taskService= SpringContextHolder.getBean(TaskService.class);
+    		}
+        	taskService.setAssignee(task.getId(), UserUtils.getUser().getId());
+        	taskService.setVariableLocal(task.getId(), "owner", task.getAssignee());
+        }
+        
         // 执行退回，直接跳转到实际的 targetRealActivityId
         List<String> realExecutionIds =
                 realExecutions.stream().map(ExecutionEntity::getId).collect(Collectors.toList());
         runtimeService.createChangeActivityStateBuilder().processInstanceId(processInstanceId).moveExecutionsToSingleActivityId(realExecutionIds, targetRealActivityId).changeState();
         runtimeService.setVariable(task.getExecutionId(), "lastTaskDefKey", task.getTaskDefinitionKey());
         runtimeService.setVariable(task.getExecutionId(), "lastAssignee", task.getAssignee());
-        if (!UserUtils.getUser().getId().equals(task.getAssignee())) { //my delegate
-        	runtimeService.setVariable(task.getExecutionId(), "delegate", UserUtils.getUser().getId());
-        }
+        
         
         // 目标节点相对当前节点处于并行网关内，需要特殊处理，需要手动生成并行网关汇聚节点(_end)的execution数据
         if (targetRealSpecialGateway != null) {

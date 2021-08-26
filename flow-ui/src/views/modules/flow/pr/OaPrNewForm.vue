@@ -413,6 +413,7 @@
       return {
         activeName:'0',
         ifSiteChange: true,
+        isCopy: false,
         title: '',
         method: '',
         loading: false,
@@ -494,9 +495,13 @@
         this.inputForm.vat = null
       },
       init(query) {
+        debugger
         if (query&&query.businessId) {
           this.loading = true
-          this.inputForm.id = query.businessId
+          this.inputForm.id = (query.businessId).replace("__copy","")
+          if (this.inputForm.id != query.businessId){ // copy
+            this.isCopy = true
+          }
           this.$nextTick(() => {
             this.$http({
               url: `/flow/pr/oaPrNew/queryById?id=${this.inputForm.id}`,
@@ -505,6 +510,10 @@
               data
             }) => {
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
+              if (this.isCopy) {
+                this.inputForm.id = ''
+                this.inputForm.applicationNo = ''                
+              }
               if (!this.$common.isEmpty(this.inputForm.detailInfo)){
                 this.detailInfo = JSON.parse(this.inputForm.detailInfo)
                 this.inputForm.totalVatContractAmount=0

@@ -320,9 +320,9 @@ public class FlowTaskService extends BaseService {
                 
                 if (histIns.getTaskId ()!=null) {
                     HistoricTaskInstance hisTaskIns = historyService.createHistoricTaskInstanceQuery ().taskId (histIns.getTaskId ()).includeTaskLocalVariables().singleResult();
-                    if (hisTaskIns.getTaskLocalVariables()!=null && hisTaskIns.getTaskLocalVariables().get("delegate")!=null) {
-                    	User delegateUser = UserUtils.get((String)hisTaskIns.getTaskLocalVariables().get("delegate"));
-                    	e.setAssigneeName(delegateUser.getLoginName() + " : " + delegateUser.getName()+ " [Delegate by " +e.getAssigneeName() +"]" ); 
+                    if (hisTaskIns.getTaskLocalVariables()!=null && hisTaskIns.getTaskLocalVariables().get("owner")!=null) {
+                    	User ownerUser = UserUtils.get((String)hisTaskIns.getTaskLocalVariables().get("owner"));
+                    	e.setAssigneeName(e.getAssigneeName() + " [Delegated by owner " + ownerUser.getLoginName() + " : " + ownerUser.getName() +"]" ); 
                     }
                 }
 
@@ -559,8 +559,9 @@ public class FlowTaskService extends BaseService {
         }
 
         Task task = taskService.createTaskQuery ().taskId (flow.getTaskId ()).singleResult ();
-        if (!UserUtils.getUser().getId().equals(task.getAssignee())) { //my delegate
-        	taskService.setVariableLocal(flow.getTaskId (), "delegate", UserUtils.getUser().getId());
+        if (!UserUtils.getUser().getId().equals(task.getAssignee())) { //my delegate 
+        	taskService.setVariableLocal(flow.getTaskId (), "owner", task.getAssignee());
+        	taskService.setAssignee(flow.getTaskId(), UserUtils.getUser().getId());
         }
         // owner不为空说明可能存在委托任务
         if (StringUtils.isNotBlank (task.getOwner ())) {

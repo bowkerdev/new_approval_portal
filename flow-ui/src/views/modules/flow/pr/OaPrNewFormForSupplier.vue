@@ -379,6 +379,7 @@
         title: '',
         method: '',
         loading: false,
+        isCopy: false,
         flowStage:'start',
         detailInfo:[],
         supplierInfo:[],
@@ -444,7 +445,10 @@
         if (query&&query.businessId) {
           Object.assign(this.$data, this.$options.data.call(this))
           this.loading = true
-          this.inputForm.id = query.businessId
+          this.inputForm.id = (query.businessId).replace("__copy","")
+          if (this.inputForm.id != query.businessId){ // copy
+            this.isCopy = true
+          }
           this.$nextTick(() => {
             debugger
             this.$http({
@@ -454,6 +458,10 @@
               data
             }) => {
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
+              if (this.isCopy) {
+                this.inputForm.id = ''
+                this.inputForm.applicationNo = ''
+              }
               this.detailInfo = JSON.parse(this.inputForm.detailInfo)
               if(!this.$common.isEmpty(this.inputForm.supplierInfo)){
                 this.supplierInfo = JSON.parse(this.inputForm.supplierInfo)

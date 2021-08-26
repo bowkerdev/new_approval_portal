@@ -186,6 +186,7 @@
         title: '',
         method: '',
         loading: false,
+        isCopy: false,
         flowStage:'start',
         detailInfo:[],
         supplementaryDoc:[],
@@ -250,7 +251,10 @@
         //query = {"businessId":"b3a13937894c4eb5abc842386b24933c"}
         if (query&&query.businessId) {
           this.loading = true
-          this.inputForm.id = query.businessId
+          this.inputForm.id = (query.businessId).replace("__copy","")
+          if (this.inputForm.id != query.businessId){ // copy
+            this.isCopy = true
+          }
           this.$nextTick(() => {
             this.$http({
               url: `/flow/pr/oaPrNew/queryById?id=${this.inputForm.id}`,
@@ -259,6 +263,10 @@
               data
             }) => {
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
+              if (this.isCopy) {
+                this.inputForm.id = ''
+                this.inputForm.applicationNo = ''
+              }
               this.detailInfo = JSON.parse(this.inputForm.detailInfo)
               if(!this.$common.isEmpty(this.inputForm.supplementaryDoc)){
                 this.supplementaryDoc = JSON.parse(this.inputForm.supplementaryDoc)

@@ -351,7 +351,13 @@
               <td class="my-right">{{item.moq}}</td>
               <td class="my-right">{{item.expectArrivalDate}}</td>
               <td class="my-right">{{item.expectLastArrivalDate}}</td>
-              <td colspan="2">{{item.relatedQuotation}}</td>
+              <td colspan="2" >
+                <a v-for="(file, index2) in item.relatedQuotation"
+                  @click="$window.open(item.fileUrlList[index2])"
+                  class="el-upload-list__item-name my_a" style="width: 100%;">
+                  {{file}}
+                </a>
+              </td>
               <td ><el-checkbox :disabled="true" v-model="item.awarded" ></el-checkbox></td>
               <td >{{item.reason}}</td>
             </tr>
@@ -598,14 +604,17 @@
           obj.awarded =supplierInfo.detailInfo[i].awarded
           obj.reason =supplierInfo.detailInfo[i].reason
           var fileList=[]
+          var fileUrlList=[]
           for(var j=0;j<supplierInfo.docList.length;j++){
             if(supplierInfo.docList[j].linkToItems.indexOf(supplierInfo.detailInfo[i].serialNumber)>=0){
               var pathIndex=supplierInfo.docList[j].attachment.lastIndexOf("/")+1
               var fileName=supplierInfo.docList[j].attachment.substr(pathIndex)
               fileList.push(fileName)
+              fileUrlList.push(supplierInfo.docList[j].attachment)
             }
           }
-          obj.relatedQuotation =fileList.join()
+          obj.relatedQuotation =fileList
+          obj.fileUrlList=fileUrlList
         }
       },
       _getSupplierInfoByDetailInfoList(){
@@ -872,5 +881,8 @@
   }
   .hide ::v-deep .is-success{
     margin-top: 0px;
+  }
+  .my_a:focus,.my_a:hover {
+      cursor: pointer;
   }
 </style>

@@ -270,8 +270,7 @@ export function syncDownloadPost (url, params,pThis) {
   else{
     var tokenType=process.env.VUE_APP_SSO_TYPE
   }
-  debugger
-  var tmp=dictUtils.getDictValue("test","testToken","")
+  var tmp=dictUtils.getDictValue("sit_test","testToken","")
   if(tmp !=""){
     ssoToken = tmp
     tokenType="bowker_baseportal"

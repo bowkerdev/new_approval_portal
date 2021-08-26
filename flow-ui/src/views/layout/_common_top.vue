@@ -97,7 +97,7 @@
               <i class="el-icon-user-solid"></i>{{ userName }}
             </span>
             <el-dropdown-menu slot="dropdown" style="margin-top: -10px;">
-              <el-dropdown-item @click.native="updatePasswordHandle()">{{$i18nMy.t('修改密码')}}</el-dropdown-item>
+              <!-- <el-dropdown-item @click.native="updatePasswordHandle()">{{$i18nMy.t('修改密码')}}</el-dropdown-item> -->
               <el-dropdown-item @click.native="logoutHandle()">{{$i18nMy.t('退出')}}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>

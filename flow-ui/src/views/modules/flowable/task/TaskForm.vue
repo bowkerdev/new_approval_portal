@@ -359,17 +359,20 @@
       },
       // 回退到上一审批环节，用于资料补充
       backToLastApprover () {
-        this.$http.post('/flowable/task/back', {
-          taskId: this.taskId,
-          backTaskDefKey: this.lastTaskDefKey,
-          ...this.auditForm
-        }).then(({data}) => {
-          if (data.success) {
-            this.$message.success(data.msg)
-            this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
-            this.$router.push('/flowable/task/TodoList')
-            this.cc(data)
-          }
+        debugger
+        this.$refs.form.saveForm((businessTable, businessId) => {
+          this.$http.post('/flowable/task/back', {
+            taskId: this.taskId,
+            backTaskDefKey: this.lastTaskDefKey,
+            ...this.auditForm
+          }).then(({data}) => {
+            if (data.success) {
+              this.$message.success(data.msg)
+              this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
+              this.$router.push('/flowable/task/TodoList')
+              this.cc(data)
+            }
+          })
         })
       },
       // 加签

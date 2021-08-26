@@ -126,7 +126,7 @@
                 <el-upload :class="item.docList[0].attachment==''?'':'hide'"
                   :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
                       :headers="{token: $cookie.get('token')}"
-                      :on-preview="(file, fileList) => {$window.location.href = (file.response && file.response.url) || file.url}"
+                      :on-preview="(file, fileList) => {$window.open((file.response && file.response.url) || file.url)}"
                       :on-success="(response, file, fileList) => {
                          item.docList[0].attachment = fileList.map(item => (item.response && item.response.url) || item.url).join('|')
                       }"
@@ -185,7 +185,7 @@
                   <el-upload :class="item2.attachment==''?'':'hide'"
                     :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
                         :headers="{token: $cookie.get('token')}"
-                        :on-preview="(file, fileList) => {$window.location.href = (file.response && file.response.url) || file.url}"
+                        :on-preview="(file, fileList) => {$window.open((file.response && file.response.url) || file.url)}"
                         :on-success="(response, file, fileList) => {
                            item2.attachment = fileList.map(item => (item.response && item.response.url) || item.url).join('|')
                         }"

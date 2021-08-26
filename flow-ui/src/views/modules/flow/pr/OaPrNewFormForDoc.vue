@@ -135,7 +135,7 @@
                 <el-upload :class="row.attachment==''?'':'hide'"
                   :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
                       :headers="{token: $cookie.get('token')}"
-                      :on-preview="(file, fileList) => {$window.location.href = (file.response && file.response.url) || file.url}"
+                      :on-preview="(file, fileList) => {$window.open((file.response && file.response.url) || file.url)}"
                       :on-success="(response, file, fileList) => {
                          row.attachment = fileList.map(item => (item.response && item.response.url) || item.url).join('|')
                       }"

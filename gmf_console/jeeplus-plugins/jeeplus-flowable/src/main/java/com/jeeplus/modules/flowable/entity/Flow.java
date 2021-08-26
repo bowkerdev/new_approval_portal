@@ -200,7 +200,7 @@ public class Flow extends DataEntity<Flow> {
 	 */
 	public String getDurationTime() {
 		if (histIns != null && histIns.getDurationInMillis() != null) {
-			return TimeUtils.toTimeString(histIns.getDurationInMillis()).replace("分", "min ").replace("秒", "s");
+			return TimeUtils.toTimeString(histIns.getDurationInMillis()).replace("天", "days ").replace("时", "hrs ").replace("分", "min ").replace("秒", "s");
 		}
 		return "";
 	}

@@ -236,7 +236,7 @@
               if (data.success) {
                 this.$message.success(data.msg)
                 this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
-                this.$router.push('/flowable/task/TodoList')
+                this.$router.push('/sys/index')
                 this.cc(data)
               }
             })
@@ -250,7 +250,7 @@
           }, (data) => {
             if (data.success) {
               this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
-              this.$router.push('/flowable/task/TodoList')
+              this.$router.push('/sys/index')
               this.cc(data)
             }
           })
@@ -292,7 +292,7 @@
           if (data.success) {
             this.$message.success(data.msg)
             this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
-            this.$router.push('/flowable/task/TodoList')
+            this.$router.push('/sys/index')
             this.cc(data)
           }
         })
@@ -312,7 +312,7 @@
       selectUsersToTransferTask (user) {
         this.$http.post('/flowable/task/transfer', {taskId: this.taskId, userId: user[0].id}).then(({data}) => {
           this.$message.success(data.msg)
-          this.$router.push('/flowable/task/TodoList')
+          this.$router.push('/sys/index')
         })
       },
       // 委托
@@ -322,7 +322,7 @@
       selectUsersToDelateTask (user) {
         this.$http.post('/flowable/task/delegate', {taskId: this.taskId, userId: user[0].id}).then(({data}) => {
           this.$message.success(data.msg)
-          this.$router.push('/flowable/task/TodoList')
+          this.$router.push('/sys/index')
         })
       },
       // 终止
@@ -334,7 +334,7 @@
         }).then(() => {
           this.$http.post('/flowable/process/stop', {id: this.procInsId, ...this.auditForm}).then(({data}) => {
             this.$message.success(data.msg)
-            this.$router.push('/flowable/task/TodoList')
+            this.$router.push('/sys/index')
           })
         })
       },
@@ -358,7 +358,7 @@
               if (data.success) {
                 this.$message.success(data.msg)
                 this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
-                this.$router.push('/flowable/task/TodoList')
+                this.$router.push('/sys/index')
                 this.cc(data)
               }
             })
@@ -367,7 +367,7 @@
           this.$refs.form.submitTaskFormData(vars, this.procInsId, this.taskId, this.auditForm.assignee, this.auditForm, (data) => {
             if (data.success) {
               this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
-              this.$router.push('/flowable/task/TodoList')
+              this.$router.push('/sys/index')
               this.cc(data)
             }
           })

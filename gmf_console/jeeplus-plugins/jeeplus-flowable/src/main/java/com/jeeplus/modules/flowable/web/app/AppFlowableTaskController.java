@@ -157,7 +157,7 @@ public class AppFlowableTaskController extends BaseController {
                 taskService.setAssignee(task.getId(), flow.getAssignee ());
             }
         }
-        return AjaxJson.success(DictUtils.getLanguageLabel("启动成功","")+"!").put("procInsId", procInsId);
+        return AjaxJson.success(DictUtils.getLanguageLabel("启动成功","")).put("procInsId", procInsId);
     }
 
     /**
@@ -167,7 +167,7 @@ public class AppFlowableTaskController extends BaseController {
     public AjaxJson claim(Flow flow) {
         String userId = UserUtils.getUser().getId();//ObjectUtils.toString(UserUtils.getUser().getId());
         flowTaskService.claim(flow.getTaskId(), userId);
-        return AjaxJson.success(DictUtils.getLanguageLabel("签收成功","")+"!");
+        return AjaxJson.success(DictUtils.getLanguageLabel("签收成功",""));
     }
 
     /**
@@ -196,10 +196,10 @@ public class AppFlowableTaskController extends BaseController {
     @DeleteMapping("deleteTask")
     public AjaxJson deleteTask(String taskId, String reason) {
         if (StringUtils.isBlank(reason)) {
-            return AjaxJson.error("请填写删除原因");
+            return AjaxJson.error(DictUtils.getLanguageLabel("请填写删除原因", ""));
         } else {
             flowTaskService.deleteTask(taskId, reason);
-            return AjaxJson.success("删除任务成功，任务ID=" + taskId);
+            return AjaxJson.success(DictUtils.getLanguageLabel("删除任务成功", "") + ", taskId=" + taskId);
         }
     }
 
@@ -268,7 +268,7 @@ public class AppFlowableTaskController extends BaseController {
             return AjaxJson.success(DictUtils.getLanguageLabel("取回成功", ""));
         } catch (Exception e) {
             e.printStackTrace();
-            return AjaxJson.error("流程取回失败，未知错误.");
+            return AjaxJson.error(DictUtils.getLanguageLabel("流程取回失败，未知错误.", ""));
         }
     }
 
@@ -309,13 +309,13 @@ public class AppFlowableTaskController extends BaseController {
     @PostMapping("transfer")
     public AjaxJson transferTask(String taskId, String userId) {
         if (StringUtils.isBlank(userId) || StringUtils.isBlank(taskId)) {
-            return AjaxJson.error("转派失败, 参数异常");
+            return AjaxJson.error(DictUtils.getLanguageLabel("转派失败, 参数异常",""));
         }
         // 设置当前流程任务办理人
         Authentication.setAuthenticatedUserId(UserUtils.getUser().getId());
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         taskService.setAssignee(taskId, userId);
-        return AjaxJson.success("转派成功!");
+        return AjaxJson.success(DictUtils.getLanguageLabel("转派成功",""));
     }
 
     /**
@@ -335,7 +335,7 @@ public class AppFlowableTaskController extends BaseController {
     @PostMapping(value = "/back")
     public AjaxJson back(String backTaskDefKey, String taskId, TaskComment comment) {
         flowTaskService.backTask(backTaskDefKey, taskId, comment);
-        return AjaxJson.success ("操作成功!");
+        return AjaxJson.success (DictUtils.getLanguageLabel("操作成功",""));
     }
 
 

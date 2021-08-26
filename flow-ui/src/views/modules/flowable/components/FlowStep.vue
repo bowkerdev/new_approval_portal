@@ -77,12 +77,17 @@ export default {
       this.historicTaskMap.forEach((arra) => {
         let obj = {activityName: '', assigneeName: '', time: ''}
         arra.forEach((node) => {
+          debugger
           obj.activityName = node.histIns.activityName
+          if (node.histIns.activityType == "endEvent") {
+            obj.activityName = 'End'
+          }
           obj.assigneeName += (node.assigneeName || '') + ','
           obj.time = (!node.histIns.startTime ? '--' : this.moment(node.histIns.startTime).format('YYYY-MM-DD HH:mm:ss'))
         })
         nodeArra.push(obj)
       })
+
       return nodeArra
     },
     historicTaskMap () {

@@ -50,7 +50,7 @@
        <el-table-column
         prop="comment.status"
         :label="$i18nMy.t('办理状态')"
-        width="150">
+        width="200">
         <template slot-scope="scope">
           {{$i18nMy.t(scope.row.comment.status)}}
         </template>

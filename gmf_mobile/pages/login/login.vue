@@ -1,19 +1,19 @@
 <template>
 	<view class="zai-box">
 		<image src="../../static/img/login.png" mode='aspectFit' class="zai-logo"></image>
-		<view class="zai-title">Jeeplus</view>
-			<form>
+		<view  class="zai-title">Jeeplus</view>
+			<form v-if="!isLogin">
 				<view class="cu-form-group">
-					<view class="title">用户名</view>
-					<input placeholder="请输入账号" v-model="account" name="input"></input>
+					<view class="title">{{$i18nMy.t('用户名')}}</view>
+					<input :placeholder="$i18nMy.t('请输入账号')" v-model="account" name="input"></input>
 				</view>
 				<view class="cu-form-group">
-					<view class="title">密码</view>
-					<input placeholder="请输入密码" type="password" displayable  v-model="password" name="input"></input>
+					<view class="title">{{$i18nMy.t('密码')}}</view>
+					<input :placeholder="$i18nMy.t('请输入密码')" type="password" displayable  v-model="password" name="input"></input>
 				</view>
 			</form>
-			<view class="zai-label">忘记密码？</view>
-			<button class="bg-gradual-blue round" @click="bindLogin">立即登录</button>
+			<view v-if="!isLogin" class="zai-label">{{$i18nMy.t('忘记密码？')}}</view>
+			<button v-if="!isLogin" class="bg-gradual-blue round"  @click="bindLogin">{{$i18nMy.t('立即登录')}}</button>
 	</view>
 </template>
 
@@ -24,9 +24,37 @@
 	export default {
 		data() {
 			return {
-				account: 'admin',
-				password: 'admin'
+				isLogin:false,
+				account: '',
+				password: ''
 			}
+		},
+		onLoad(e) {
+			debugger
+			this.isLogin=true
+			if(e.ssoToken!=null){
+				this.isLogin=true
+				this.$http.get('/app/sys/logout?t=' + (new Date()).getTime().toString()).then(({data})=>{
+					this.$store.commit('logout');
+					uni.clearStorage();
+					this.$http.get(`/sys/tokenLogin?ssoToken=${e.ssoToken}&ssoTokenType=${e.ssoTokenType}`)
+					.then(({data})=>{
+						this.isLogin=false
+						if(data.success){
+							this.$store.commit('SET_TOKEN',data.token);
+							this.refreshUserInfo();
+							uni.reLaunch({
+								url: '../index/index',
+							});
+						}else{
+							uni.showToast({
+								icon:"none",
+								title:"登录失败："+data.msg
+							})
+						}
+					})
+				})
+			} 
 		},
 		methods: {
 			...mapActions(['refreshUserInfo']),

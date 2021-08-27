@@ -1,14 +1,14 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-blue" backUrl="/pages/index/index" :isBack="true">
-			<block slot="backText">返回</block>
-			<block slot="content"> 已办事项</block>
+			<block slot="backText">{{$i18nMy.t('返回')}}</block>
+			<block slot="content">{{$i18nMy.t('已办事项')}}  </block>
 		</cu-custom>
 		<view  :style="[{top:CustomBar + 'px'}]">
 		<view class="cu-bar search">
 			<view class="search-form bg-white round">
 				<text class="cuIcon-search"></text>
-				<input type="text"  placeholder="搜索" v-model="curWord" confirm-type="search" @input="inputWord"></input>
+				<input type="text"  :placeholder="$i18nMy.t('搜索')" v-model="curWord" confirm-type="search" @input="inputWord"></input>
 			</view>
 		</view>
 		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" :up="upOption" @up="upCallback">
@@ -22,7 +22,7 @@
 									</view>
 								</view>
 								<view class="text-sm text-grey ellipsis-description">
-									任务：{{row.name}}
+									{{$i18nMy.t('任务')}}：{{row.name}}
 								</view>
 						</view>
 						<view @tap="toDetail(row)" class="action">
@@ -40,8 +40,8 @@
 						</view>
 				
 					<view class="move" >
-						<view v-if="row.isBack" class="bg-orange" @tap="callback(row)">撤回</view>
-						<view class="bg-blue" @tap="toDetail(row)">历史</view>
+						<view v-if="row.isBack" class="bg-orange" @tap="callback(row)">{{$i18nMy.t('撤回')}}</view>
+						<view class="bg-blue" @tap="toDetail(row)">{{$i18nMy.t('历史')}}</view>
 					</view>
 				</view>
 			</view>

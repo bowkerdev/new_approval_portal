@@ -1,14 +1,14 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-gradual-blue" :isBack="true">
-			<block slot="backText">返回</block>
-			<block slot="content">图表示例</block>
+			<block slot="backText">{{$i18nMy.t('返回')}}</block>
+			<block slot="content">{{$i18nMy.t('图表示例')}}</block>
 		</cu-custom>
 		<!-- Number柱状图Compent1 -->
 		<view class="cu-bar bg-white solid-bottom margin-top">
 			<histogram-chart ref="histogramData0" :dataAs="histogramData" canvasId="ht0" />
 			<view style="text-align: center;line-height: 40px;">柱状图histogram Number</view>
-			<button @click="changeHistogramData">改变柱状图数据</button>
+			<button @click="changeHistogramData">{{$i18nMy.t('改变柱状图数据')}}</button>
 		</view>
 
 		<!-- 百分比柱状图Compent2 -->
@@ -77,7 +77,7 @@
 				}"
 			/>
 			<view style="text-align: center;line-height: 40px;">折线LineChart percent</view>
-			<button @click="changeLineData">改变折线图数据</button>
+			<button @click="changeLineData">{{$i18nMy.t('改变折线图数据')}}</button>
 		</view>
 
 		<!-- 折线Line纯数字-->
@@ -90,7 +90,7 @@
 		<view <view class="cu-bar bg-white solid-bottom margin-top pie_chart">
 			<pie-chart ref="pieChart0" :dataAs="pieData" canvasId="index_pie_1" />
 			<view style="text-align: center;line-height: 40px;">饼状图PieChart</view>
-			<button @click="changePieData">改变饼状图数据</button>
+			<button @click="changePieData">{{$i18nMy.t('改变饼状图数据')}}</button>
 		</view>
 
 		<!-- 环状图 -->
@@ -109,7 +109,7 @@
 				}"
 			/>
 			<view style="text-align: center;line-height: 40px;">环状图 RingChart</view>
-			<button @click="changeRingData">改变环状图数据</button>
+			<button @click="changeRingData">{{$i18nMy.t('改变环状图数据')}}</button>
 		</view>
 	</view>
 </template>

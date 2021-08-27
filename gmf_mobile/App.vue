@@ -1,7 +1,7 @@
 <script>
 	import Vue from 'vue'
 	export default {
-		onLaunch: function() {
+		onLaunch: function(e) {
 			uni.getSystemInfo({
 				success: function(e) {
 					// #ifndef MP

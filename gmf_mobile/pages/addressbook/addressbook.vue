@@ -1,15 +1,15 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-blue">
-			<block slot="content">通讯录</block>
+			<block slot="content">{{$i18nMy.t('通讯录')}}</block>
 		</cu-custom>
 		<view class="cu-bar bg-white search fixed" :style="[{top:CustomBar + 'px'}]">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
-				<input type="text" v-model="searchUserName" placeholder="输入搜索的关键词" confirm-type="search"></input>
+				<input type="text" v-model="searchUserName" :placeholder="$i18nMy.t('输入搜索的关键词')" confirm-type="search"></input>
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-blue shadow-blur round">搜索</button>
+				<button class="cu-btn bg-blue shadow-blur round">{{$i18nMy.t('搜索')}}</button>
 			</view>
 		</view>
 		<scroll-view scroll-y class="indexes x-page" :scroll-into-view="'indexes-'+ listCurID" :style="[{height:'calc(100vh - '+ CustomBar + 'px - 50px)'}]"

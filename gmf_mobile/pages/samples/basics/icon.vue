@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">返回</block><block slot="content">图标</block></cu-custom>
+		<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">{{$i18nMy.t('返回')}}</block><block slot="content">{{$i18nMy.t('图标')}}</block></cu-custom>
 		<view class="cu-bar bg-white search fixed" :style="[{top:CustomBar + 'px'}]">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>

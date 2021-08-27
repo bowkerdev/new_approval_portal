@@ -1,12 +1,12 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">返回</block><block slot="content">步骤条</block></cu-custom>
+		<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">{{$i18nMy.t('返回')}}</block><block slot="content">{{$i18nMy.t('步骤条')}}</block></cu-custom>
 		<view class="cu-bar bg-white solid-bottom">
 			<view class="action">
 				<text class="cuIcon-title text-orange"></text> 基本用法
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-green shadow" @tap="BasicsSteps">下一步</button>
+				<button class="cu-btn bg-green shadow" @tap="BasicsSteps">{{$i18nMy.t('下一步')}}</button>
 			</view>
 		</view>
 		<view class="bg-white padding">
@@ -37,7 +37,7 @@
 				<text class="cuIcon-title text-orange"></text> 数字完成
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-green shadow" @tap="NumSteps">下一步</button>
+				<button class="cu-btn bg-green shadow" @tap="NumSteps">{{$i18nMy.t('下一步')}}</button>
 			</view>
 		</view>
 		<view class="bg-white padding">
@@ -52,7 +52,7 @@
 				<text class="cuIcon-title text-orange"></text> 多级显示
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-green shadow" @tap="ScrollSteps">下一步</button>
+				<button class="cu-btn bg-green shadow" @tap="ScrollSteps">{{$i18nMy.t('下一步')}}</button>
 			</view>
 		</view>
 		<scroll-view scroll-x class="bg-white padding response cu-steps steps-bottom" :scroll-into-view="'scroll-' + scroll"

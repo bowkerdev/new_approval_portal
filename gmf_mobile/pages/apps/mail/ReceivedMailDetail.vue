@@ -1,19 +1,19 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-blue" backUrl="/pages/apps/mail/inbox" :isBack="true">
-			<block slot="backText">返回</block>
+			<block slot="backText">{{$i18nMy.t('返回')}}</block>
 			<block slot="content"> {{mailBox.mail.title}}</block>
 		</cu-custom>
 		<view class="cu-bar bg-white solid-bottom">
 			<view class="mail grid col-1  margin-top-sm action " >
 				<view class=" text-gray text-sm">
-					<text class="title padding-right-xs" >发件人：</text>{{mailBox.sender.name}}
+					<text class="title padding-right-xs" >{{$i18nMy.t('发件人：')}}</text>{{mailBox.sender.name}}
 				</view>
 				<view class=" text-gray text-sm">
-					<text class="title  padding-right-xs" >收件人：</text>{{mailBox.receiverNames}}
+					<text class="title  padding-right-xs" >{{$i18nMy.t('收件人：')}}</text>{{mailBox.receiverNames}}
 				</view>
 				<view class=" text-gray text-sm">
-					<text class="title  padding-right-xs" >时间：</text>{{mailBox.sendtime}}
+					<text class="title  padding-right-xs" >{{$i18nMy.t('时间：')}}</text>{{mailBox.sendtime}}
 				</view>			
 			</view>
 		</view>

@@ -1,24 +1,24 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-gradual-blue" :isBack="true">
-			<block slot="backText">返回</block>
-			<block slot="content">修改密码</block>
+			<block slot="backText">{{$i18nMy.t('返回')}}</block>
+			<block slot="content">{{$i18nMy.t('修改密码')}}</block>
 		</cu-custom>
 		<form @submit="formSubmit">
 			<view class="cu-form-group margin-top">
 				<view class="title"> <text class="red-color">*</text> 旧密码</view>
-				<input placeholder="请输入原密码" type="password" v-model="inputForm.oldPassword" name="oldPassword"></input>
+				<input :placeholder="$i18nMy.t('请输入原密码')" type="password" v-model="inputForm.oldPassword" name="oldPassword"></input>
 			</view>
 			<view class="cu-form-group">
-				<view class="title"><text class="red-color">*</text>新密码</view>
-				<input placeholder="请输入新密码" type="password" v-model="inputForm.newPassword" name="newPassword"></input>
+				<view class="title"><text class="red-color">*</text>{{$i18nMy.t('新密码')}}</view>
+				<input :placeholder="$i18nMy.t('请输入新密码')" type="password" v-model="inputForm.newPassword" name="newPassword"></input>
 			</view>
 			<view class="cu-form-group">
-				<view class="title"><text class="red-color">*</text>确认新密码</view>
-				<input placeholder="请确认新密码" type="password" v-model="inputForm.confirmNewPassword" name="confirmNewPassword"></input>
+				<view class="title"><text class="red-color">*</text>{{$i18nMy.t('确认新密码')}}</view>
+				<input :placeholder="$i18nMy.t('请确认新密码')" type="password" v-model="inputForm.confirmNewPassword" name="confirmNewPassword"></input>
 			</view>
 			<view class="padding-xl">
-				<button form-type="submit" class="cu-btn block bg-blue margin-tb-sm lg" >提交</button>
+				<button form-type="submit" class="cu-btn block bg-blue margin-tb-sm lg" >{{$i18nMy.t('提交')}}</button>
 			</view>
 		</form>
 	</view>

@@ -1,7 +1,7 @@
 <template name="basics">
 	<view>
 		<cu-custom bgColor="bg-cyan" :isBack="true">
-			<block slot="backText">返回</block>
+			<block slot="backText">{{$i18nMy.t('返回')}}</block>
 			<block slot="content"> 元素</block>
 		</cu-custom>
 		<scroll-view scroll-y class="page">

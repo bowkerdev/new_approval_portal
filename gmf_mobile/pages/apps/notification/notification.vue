@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-blue" backUrl="/pages/index/index?id=apps" :isBack="true">
-			<block slot="backText">返回</block>
+			<block slot="backText">{{$i18nMy.t('返回')}}</block>
 			<block slot="content"> 通知公告</block>
 		</cu-custom>
 		<!-- 菜单 -->

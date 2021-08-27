@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-blue" :isBack="true">
-			<block slot="backText">返回</block>
+			<block slot="backText">{{$i18nMy.t('返回')}}</block>
 			<block slot="content">{{titile}}</block>
 		</cu-custom>
 		<form @submit="formSubmit" class="cu-list menu">
@@ -19,13 +19,13 @@
 				<view class="title">
 					<text class="red-color ">* </text> 标题
 				</view>
-				<input placeholder="请输入标题" maxlength="200" v-model="inputForm.title" name="title"></input>
+				<input :placeholder="$i18nMy.t('请输入标题')" maxlength="200" v-model="inputForm.title" name="title"></input>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">
 					<text class="red-color ">* </text> 内容
 				</view>
-				<textarea maxlength="2000" v-model="inputForm.content" name="content" placeholder="请填写内容"></textarea>
+				<textarea maxlength="2000" v-model="inputForm.content" name="content" :placeholder="$i18nMy.t('请填写内容')"></textarea>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">
@@ -43,7 +43,7 @@
 			</view>
 			
 			<view class="padding-xl">
-				<button form-type="submit" class="cu-btn block bg-blue margin-tb-sm lg" >提交</button>
+				<button form-type="submit" class="cu-btn block bg-blue margin-tb-sm lg" >{{$i18nMy.t('提交')}}</button>
 			</view>
 		</form>
 	</view>

@@ -9,7 +9,7 @@
 					<navigator hover-class="none" url="/pages/apps/notification/notification" >
 						<view class="padding radius text-center shadow-blur bg-blue">
 							<view class="cuIcon-notice text-white circle-button font-size-35"></view>
-							<view class="margin-top-sm text-Abc">通告</view>
+							<view class="margin-top-sm text-Abc">{{$i18nMy.t('通告')}}</view>
 						</view>
 					</navigator>
 				</view>
@@ -17,7 +17,7 @@
 					<navigator hover-class="none" url="/pages/apps/mail/mail" >
 						<view class="padding radius text-center shadow-blur bg-blue">
 							<view class="cuIcon-mail text-white circle-button font-size-35"></view>
-							<view class="margin-top-sm text-Abc">站内信</view>
+							<view class="margin-top-sm text-Abc">{{$i18nMy.t('站内信')}}</view>
 						</view>
 					</navigator>
 				</view>
@@ -27,7 +27,7 @@
 					<navigator hover-class="none" url="/pages/samples/basics/home" >
 						<view class="padding radius text-center shadow-blur bg-white">
 							<text class="lg font-size-35 text-blue cuIcon-form"></text>
-							<view class="margin-top-sm text-Abc">元素</view>
+							<view class="margin-top-sm text-Abc">{{$i18nMy.t('元素')}}</view>
 						</view>
 					</navigator>
 				</view>
@@ -35,7 +35,7 @@
 					<navigator hover-class="none" url="/pages/samples/component/home" >
 						<view class="padding radius text-center shadow-blur bg-white">
 							<text class="lg font-size-35 text-blue cuIcon-list"></text>
-							<view class="margin-top-sm text-Abc">组件</view>
+							<view class="margin-top-sm text-Abc">{{$i18nMy.t('组件')}}</view>
 						</view>
 					</navigator>
 				</view>
@@ -43,7 +43,7 @@
 					<navigator hover-class="none" url="/pages/samples/plugin/home" >
 						<view class="padding radius text-center shadow-blur bg-white">
 							<text class="lg font-size-35 text-blue cuIcon-similar"></text>
-							<view class="margin-top-sm text-Abc">扩展</view>
+							<view class="margin-top-sm text-Abc">{{$i18nMy.t('扩展')}}</view>
 						</view>
 					</navigator>
 				</view>
@@ -51,38 +51,38 @@
 					<navigator hover-class="none" url="/pages/samples/ucharts/ucharts" >
 						<view class="padding radius text-center shadow-blur bg-white">
 							<text class="lg font-size-35 text-blue cuIcon-rank"></text>
-							<view class="margin-top-sm text-Abc">图表</view>
+							<view class="margin-top-sm text-Abc">{{$i18nMy.t('图表')}}</view>
 						</view>
 					</navigator>
 				</view>
 				<view class="padding-sm">
 					<view class="padding radius text-center shadow-blur bg-white">
 						<text class="lg font-size-35 text-blue cuIcon-calendar"></text>
-						<view class="margin-top-sm text-Abc">日历</view>
+						<view class="margin-top-sm text-Abc">{{$i18nMy.t('日历')}}</view>
 					</view>
 				</view>
 				<view class="padding-sm">
 					<view class="padding radius text-center shadow-blur bg-white">
 						<text class="lg font-size-35 text-blue cuIcon-phone"></text>
-						<view class="margin-top-sm text-Abc">电话</view>
+						<view class="margin-top-sm text-Abc">{{$i18nMy.t('电话')}}</view>
 					</view>
 				</view>
 				<view class="padding-sm">
 					<view class="padding radius text-center shadow-blur bg-white">
 						<text class="lg font-size-35 text-blue cuIcon-activity"></text>
-						<view class="margin-top-sm text-Abc">工作</view>
+						<view class="margin-top-sm text-Abc">{{$i18nMy.t('工作')}}</view>
 					</view>
 				</view>
 				<view class="padding-sm">
 					<view class="padding radius text-center shadow-blur bg-white">
 						<text class="lg font-size-35 text-blue cuIcon-hot"></text>
-						<view class="margin-top-sm text-Abc">热点</view>
+						<view class="margin-top-sm text-Abc">{{$i18nMy.t('热点')}}</view>
 					</view>
 				</view>
 				<view class="padding-sm">
 					<view class="padding radius text-center shadow-blur bg-white">
 						<text class="lg font-size-35 text-blue cuIcon-safe"></text>
-						<view class="margin-top-sm text-Abc">安全</view>
+						<view class="margin-top-sm text-Abc">{{$i18nMy.t('安全')}}</view>
 					</view>
 				</view>
 

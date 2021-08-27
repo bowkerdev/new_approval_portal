@@ -1,40 +1,37 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">返回</block><block slot="content">按钮</block></cu-custom>
+		<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">{{$i18nMy.t('返回')}}</block><block slot="content">{{$i18nMy.t('按钮')}}</block></cu-custom>
 		<view class="cu-bar bg-white solid-bottom">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>按钮形状
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('按钮形状')}}</view>
 			<view class="action">
 				<navigator class="action" url="design" hover-class="none">
 					<text class="cuIcon-skinfill"></text>
-					<text class="text-df">设计</text>
+					<text class="text-df">{{$i18nMy.t('设计')}}</text>
 				</navigator>
 			</view>
 		</view>
 		<view class="padding flex flex-wrap justify-between align-center bg-white">
-			<button class="cu-btn">默认</button>
-			<button class="cu-btn round">圆角</button>
+			<button class="cu-btn">{{$i18nMy.t('默认')}}</button>
+			<button class="cu-btn round">{{$i18nMy.t('圆角')}}</button>
 			<button class="cu-btn cuIcon">
 				<text class="cuIcon-emojifill"></text>
 			</button>
 		</view>
 		<view class="cu-bar margin-top bg-white solid-bottom">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>按钮尺寸
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('按钮尺寸')}}</view>
 		</view>
 		<view class="padding flex flex-wrap justify-between align-center bg-white">
-			<button class="cu-btn round sm">小尺寸</button>
-			<button class="cu-btn round">默认</button>
-			<button class="cu-btn round lg">大尺寸</button>
+			<button class="cu-btn round sm">{{$i18nMy.t('小尺寸')}}</button>
+			<button class="cu-btn round">{{$i18nMy.t('默认')}}</button>
+			<button class="cu-btn round lg">{{$i18nMy.t('大尺寸')}}</button>
 		</view>
 		<view class="cu-bar margin-top bg-white">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>按钮颜色
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('按钮颜色')}}</view>
 			<view class="action">
-				<text class="text-df margin-right-sm">阴影</text>
+				<text class="text-df margin-right-sm">{{$i18nMy.t('阴影')}}</text>
 				<switch @change="SetShadow" :class="shadow?'checked':''" color="#39B54A"></switch>
 			</view>
 		</view>
@@ -45,17 +42,16 @@
 		</view>
 		<view class="cu-bar margin-top bg-white">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>镂空按钮
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('镂空按钮')}}</view>
 			<view class="action">
 				<radio-group @change="SetBorderSize">
 					<label class="margin-left-sm">
 						<radio class="blue radio" value="" checked></radio>
-						<text class="margin-left-sm">小</text>
+						<text class="margin-left-sm">{{$i18nMy.t('小')}}</text>
 					</label>
 					<label class="margin-left-sm">
 						<radio class="blue radio" value="s"></radio>
-						<text class="margin-left-sm">大</text>
+						<text class="margin-left-sm">{{$i18nMy.t('大')}}</text>
 					</label>
 				</radio-group>
 			</view>
@@ -67,26 +63,23 @@
 		</view>
 		<view class="cu-bar margin-top bg-white">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>块状按钮
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('块状按钮')}}</view>
 		</view>
 		<view class="padding flex flex-direction">
-			<button class="cu-btn bg-grey lg">玄灰</button>
-			<button class="cu-btn bg-red margin-tb-sm lg">嫣红</button>
+			<button class="cu-btn bg-grey lg">{{$i18nMy.t('玄灰')}}</button>
+			<button class="cu-btn bg-red margin-tb-sm lg">{{$i18nMy.t('嫣红')}}</button>
 		</view>
 		<view class="cu-bar margin-top bg-white">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>无效状态
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('无效状态')}}</view>
 		</view>
 		<view class="padding">
-			<button class="cu-btn block bg-blue margin-tb-sm lg" disabled type="">无效状态</button>
-			<button class="cu-btn block line-blue margin-tb-sm lg" disabled>无效状态</button>
+			<button class="cu-btn block bg-blue margin-tb-sm lg" disabled type="">{{$i18nMy.t('无效状态')}}</button>
+			<button class="cu-btn block line-blue margin-tb-sm lg" disabled>{{$i18nMy.t('无效状态')}}</button>
 		</view>
 		<view class="cu-bar margin-top bg-white">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>按钮加图标
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('按钮加图标')}}</view>
 		</view>
 		<view class="padding-xl">
 			<button class="cu-btn block line-orange lg">

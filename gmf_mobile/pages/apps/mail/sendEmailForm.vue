@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-blue"  :isBack="true">
-			<block slot="backText">返回</block>
+			<block slot="backText">{{$i18nMy.t('返回')}}</block>
 			<block slot="content">{{title}}</block>
 		</cu-custom>
 		<form @submit="formSubmit" class="cu-list menu">
@@ -15,20 +15,20 @@
 				<view class="title">
 					<text class="red-color">* </text> 标题
 				</view>
-				<input placeholder="请输入标题" maxlength="200" v-model="inputForm.mail.title" name="title"></input>
+				<input :placeholder="$i18nMy.t('请输入标题')" maxlength="200" v-model="inputForm.mail.title" name="title"></input>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">
 					<text class="red-color">* </text> 内容
 				</view>
-				<textarea maxlength="2000"  v-model="inputForm.mail.content" name="content" placeholder="请填写内容"></textarea>
+				<textarea maxlength="2000"  v-model="inputForm.mail.content" name="content" :placeholder="$i18nMy.t('请填写内容')"></textarea>
 			</view>
 			<view class="bottom-wrap  flex">
 				<view class="flex-sub">
 					<button class="buttonBox  bg-gray" @click="saveDraft"> 存为草稿</button>
 				</view>
 				<view class="flex-sub">
-					<button class="buttonBox block bg-blue " @click="sendEmail">发送邮件</button>
+					<button class="buttonBox block bg-blue " @click="sendEmail">{{$i18nMy.t('发送邮件')}}</button>
 				</view>
 				
 			</view>

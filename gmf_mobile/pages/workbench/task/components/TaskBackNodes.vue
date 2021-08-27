@@ -3,8 +3,8 @@
 		<view class="cu-modal bottom-modal" style="min-height: 200upx;" :class="modalName=='bottomModal'?'show':''">
 			<view class="cu-dialog">
 				<view class="cu-bar bg-white">
-					<view class="action text-blue" @tap="hideModal">取消</view>
-					<view class="action text-green" @tap="doConfirm">确定</view>
+					<view class="action text-blue" @tap="hideModal">{{$i18nMy.t('取消')}}</view>
+					<view class="action text-green" @tap="doConfirm">{{$i18nMy.t('确定')}}</view>
 				</view>
 				<view>
 					  <ly-tree :tree-data="backNodes"

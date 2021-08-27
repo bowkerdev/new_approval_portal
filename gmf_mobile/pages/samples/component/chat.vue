@@ -1,11 +1,11 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">返回</block><block slot="content">聊天</block></cu-custom>
+		<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">{{$i18nMy.t('返回')}}</block><block slot="content">{{$i18nMy.t('聊天')}}</block></cu-custom>
 		<view class="cu-chat">
 			<view class="cu-item self">
 				<view class="main">
 					<view class="content bg-green shadow">
-						<text>喵喵喵！喵喵喵！喵喵喵！喵喵！喵喵！！喵！喵喵喵！</text>
+						<text>{{$i18nMy.t('喵喵喵！喵喵喵！喵喵喵！喵喵！喵喵！！喵！喵喵喵！')}}</text>
 					</view>
 				</view>
 				<view class="cu-avatar radius" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big107000.jpg);"></view>
@@ -16,7 +16,7 @@
 				<view class="cu-avatar radius" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big143004.jpg);"></view>
 				<view class="main">
 					<view class="content shadow">
-						<text>喵喵喵！喵喵喵！</text>
+						<text>{{$i18nMy.t('喵喵喵！喵喵喵！')}}</text>
 					</view>
 				</view>
 				<view class="date "> 13:23</view>
@@ -26,7 +26,7 @@
 			</view>
 			<view class="cu-info">
 				对方开启了好友验证，你还不是他(她)的好友。请先发送好友验证请求，对方验证通过后，才能聊天。
-				<text class="text-blue">发送好友验证</text>
+				<text class="text-blue">{{$i18nMy.t('发送好友验证')}}</text>
 			</view>
 			<view class="cu-item self">
 				<view class="main">
@@ -66,7 +66,7 @@
 						@#$^&**
 					</view>
 					<view class="action text-grey">
-						<text class="cuIcon-warnfill text-red text-xxl"></text> <text class="text-sm margin-left-sm">翻译错误</text>
+						<text class="cuIcon-warnfill text-red text-xxl"></text> <text class="text-sm margin-left-sm">{{$i18nMy.t('翻译错误')}}</text>
 					</view>
 				</view>
 				<view class="date">13:23</view>
@@ -82,7 +82,7 @@
 			<view class="action">
 				<text class="cuIcon-emojifill text-grey"></text>
 			</view>
-			<button class="cu-btn bg-green shadow">发送</button>
+			<button class="cu-btn bg-green shadow">{{$i18nMy.t('发送')}}</button>
 		</view>
 
 	</view>

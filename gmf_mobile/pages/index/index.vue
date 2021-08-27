@@ -10,7 +10,7 @@
 				<view :class="PageCur=='addressbook'?'text-blue':'text-gray'">
 					<!-- <text class="lg" :class="PageCur=='addressbook'?'cuIcon-addressbook':'cuIcon-addressbook'"></text> -->
 					<Am-FontAwesome  :class="PageCur=='addressbook'?'fas fa-address-book':'far fa-address-book'"  class="cuIcon-calendar"  ></Am-FontAwesome>
-					<text>通讯录</text>
+					<text>{{$i18nMy.t('通讯录')}}</text>
 				</view>
 			</view>
 			<view class="action" @click="NavChange" data-cur="message">
@@ -18,32 +18,32 @@
 					<text class="lg" :class="PageCur=='message'?'cuIcon-messagefill':'cuIcon-message'">
 						<text class='cu-tag badge'>0</text>
 					</text>
-					<text>消息</text>
+					<text>{{$i18nMy.t('消息')}}</text>
 				</view>
 			</view>
 			
 <!-- 			<view class="action" @click="NavChange" data-cur="workbench">
 				<view :class="PageCur=='workbench'?'text-green':'text-gray'">
 					<text class="lg" :class="PageCur=='workbench'?'cuIcon-choicenessfill':'cuIcon-choiceness'"></text>
-					<text>工作区</text>
+					<text>{{$i18nMy.t('工作区')}}</text>
 				</view>
 			</view> -->
 			<view class="action text-gray add-action"  @click="NavChange" data-cur="workbench">
 				<button class="cu-btn  shadow" :class="PageCur=='workbench'?'cuIcon-homefill bg-blue':'cuIcon-home bg-grey'"></button>
-				工作台
+				{{$i18nMy.t('工作台')}}
 			</view>
 			
 			<view class="action" @click="NavChange" data-cur="apps">
 				<view :class="PageCur=='apps'?'text-blue':'text-gray'">
 					<text class="lg" :class="PageCur=='apps'?'cuIcon-circlefill':'cuIcon-circle'"></text>
-					<text>应用</text>
+					<text>{{$i18nMy.t('应用')}}</text>
 				</view>
 			</view>
 			
 			<view class="action" @click="NavChange" data-cur="my">
 				<view :class="PageCur=='my'?'text-blue':'text-gray'">
 					<text class="lg" :class="PageCur=='my'?'cuIcon-profilefill':'cuIcon-profile'"></text>
-					<text>我的</text>
+					<text>{{$i18nMy.t('我的')}}</text>
 				</view>
 			</view>
 	

@@ -17,133 +17,133 @@
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">申请单号</text>
+						<text class="float-left">{{$i18nMy.t('申请单号')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.applicationNo}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入申请单号" v-model="inputForm.applicationNo" ></input>
+							<input :placeholder="$i18nMy.t('请输入申请单号')" v-model="inputForm.applicationNo" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">申请人</text>
+						<text class="float-left">{{$i18nMy.t('申请人')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.createBy.name}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入申请人" v-model="inputForm.createBy.id" ></input>
+							<input :placeholder="$i18nMy.t('请输入申请人')" v-model="inputForm.createBy.id" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">申请时间</text>
+						<text class="float-left">{{$i18nMy.t('申请时间')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.createDate}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入申请时间" v-model="inputForm.createDate" ></input>
+							<input :placeholder="$i18nMy.t('请输入申请时间')" v-model="inputForm.createDate" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">申请人部门</text>
+						<text class="float-left">{{$i18nMy.t('申请人部门')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.createByOffice.name}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入申请人部门" v-model="inputForm.createByOffice.id" ></input>
+							<input :placeholder="$i18nMy.t('请输入申请人部门')" v-model="inputForm.createByOffice.id" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">项目名称</text>
+						<text class="float-left">{{$i18nMy.t('项目名称')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.projectName}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入项目名称" v-model="inputForm.projectName" ></input>
+							<input :placeholder="$i18nMy.t('请输入项目名称')" v-model="inputForm.projectName" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">采购地区</text>
+						<text class="float-left">{{$i18nMy.t('采购地区')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.applySiteCode}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入采购地区" v-model="inputForm.applySiteCode" ></input>
+							<input :placeholder="$i18nMy.t('请输入采购地区')" v-model="inputForm.applySiteCode" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">用户部门</text>
+						<text class="float-left">{{$i18nMy.t('用户部门')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.requesterDepartment.name}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入用户部门" v-model="inputForm.requesterDepartment.id" ></input>
+							<input :placeholder="$i18nMy.t('请输入用户部门')" v-model="inputForm.requesterDepartment.id" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">用户姓名</text>
+						<text class="float-left">{{$i18nMy.t('用户姓名')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.requester}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入用户姓名" v-model="inputForm.requester" ></input>
+							<input :placeholder="$i18nMy.t('请输入用户姓名')" v-model="inputForm.requester" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">费用类型</text>
+						<text class="float-left">{{$i18nMy.t('费用类型')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.expenseType}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入费用类型" v-model="inputForm.expenseType" ></input>
+							<input :placeholder="$i18nMy.t('请输入费用类型')" v-model="inputForm.expenseType" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">要求到货时间</text>
+						<text class="float-left">{{$i18nMy.t('要求到货时间')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.expectArrivalDate}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入要求到货时间" v-model="inputForm.expectArrivalDate" ></input>
+							<input :placeholder="$i18nMy.t('请输入要求到货时间')" v-model="inputForm.expectArrivalDate" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">签约方公司</text>
+						<text class="float-left">{{$i18nMy.t('签约方公司')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.legalEntityLabel}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入签约方公司" v-model="inputForm.legalEntity" ></input>
+							<input :placeholder="$i18nMy.t('请输入签约方公司')" v-model="inputForm.legalEntity" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">成本中心</text>
+						<text class="float-left">{{$i18nMy.t('成本中心')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.costCenterLabel}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入成本中心" v-model="inputForm.costCenter" ></input>
+							<input :placeholder="$i18nMy.t('请输入成本中心')" v-model="inputForm.costCenter" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">固定资产类型</text>
+						<text class="float-left">{{$i18nMy.t('固定资产类型')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.assetGroupLabel}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入固定资产类型" v-model="inputForm.assetGroup" ></input>
+							<input :placeholder="$i18nMy.t('请输入固定资产类型')" v-model="inputForm.assetGroup" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">技术支持部门</text>
+						<text class="float-left">{{$i18nMy.t('技术支持部门')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.technicalAdvisorLabel}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入技术支持部门" v-model="inputForm.technicalAdvisor" ></input>
+							<input :placeholder="$i18nMy.t('请输入技术支持部门')" v-model="inputForm.technicalAdvisor" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left" style="height: 40px;line-height: 40px;">是否预算内</text>
+						<text class="float-left" style="height: 40px;line-height: 40px;">{{$i18nMy.t('是否预算内')}}</text>
 						<text class="float-right">
 							<radio-group>
 								<label class="radio">
@@ -172,34 +172,34 @@
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">申购优先级</text>
+						<text class="float-left">{{$i18nMy.t('申购优先级')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.requestRiorityLabel}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入申购优先级" v-model="inputForm.requestRiority" ></input>
+							<input :placeholder="$i18nMy.t('请输入申购优先级')" v-model="inputForm.requestRiority" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">汇率</text>
+						<text class="float-left">{{$i18nMy.t('汇率')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{parseFloat(inputForm.exRate || 0).toFixed(2)}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入汇率" v-model="inputForm.exRate" ></input>
+							<input :placeholder="$i18nMy.t('请输入汇率')" v-model="inputForm.exRate" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">合同币种</text>
+						<text class="float-left">{{$i18nMy.t('合同币种')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.contractCurrency}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入合同币种" v-model="inputForm.contractCurrency" ></input>
+							<input :placeholder="$i18nMy.t('请输入合同币种')" v-model="inputForm.contractCurrency" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">合同总价</text>
+						<text class="float-left">{{$i18nMy.t('合同总价')}}</text>
 						<text class="float-right">
 							<text style="width: 38%;float: left; text-align: right;">{{parseFloat(inputForm.totalContractAmount || 0).toFixed(2)}}</text>
 							<text style="width: 38%;float: left; text-align: right;">{{parseFloat(inputForm.totalContractAmount*inputForm.vat).toFixed(2)}}</text>
@@ -209,16 +209,16 @@
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">基础币种</text>
+						<text class="float-left">{{$i18nMy.t('基础币种')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.baseCurrency}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入基础币种" v-model="inputForm.baseCurrency" ></input>
+							<input :placeholder="$i18nMy.t('请输入基础币种')" v-model="inputForm.baseCurrency" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">基础币种总价</text>
+						<text class="float-left">{{$i18nMy.t('基础币种总价')}}</text>
 						<text class="float-right">
 							<text style="width: 38%;float: left; text-align: right;">{{parseFloat(inputForm.exRate*inputForm.totalContractAmount).toFixed(2)}}</text>
 							<text style="width: 38%;float: left; text-align: right;">{{parseFloat(inputForm.exRate*inputForm.vat*inputForm.totalContractAmount).toFixed(2)}}</text>
@@ -229,7 +229,7 @@
 			</view>
 			<view class="cu-bar bg-white solid-bottom mg-t-10" >
 				<view class="action">
-					<text class="cuIcon-titles text-orange"></text>  <text style="font-size: 20px;font-weight: bold;">设备采购清单</text>
+					<text class="cuIcon-titles text-orange"></text>  <text style="font-size: 20px;font-weight: bold;">{{$i18nMy.t('设备采购清单')}}</text>
 				</view>
 			</view>
 			<view class="cu-card" v-if="null == detailInfo || 0 == detailInfo.length">
@@ -243,23 +243,23 @@
 				<view class="cu-form-group supplementary-document"  v-for="(item,index) in detailInfo" :key="index" style="padding-top: 10px;padding-bottom: 10px;">
 					<view style="width: 100%;height: 100%;">
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">序号</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('序号')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.serialNumber}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">物品</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('物品')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.item}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">品牌</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('品牌')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.brandName}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">型号</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('型号')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.modelNo}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">供应商名称</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('供应商名称')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.supplierName}}</view>
 						</view>
 						<view class="detail-info-row">
@@ -267,23 +267,23 @@
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.includedVat}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">市场价格</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('市场价格')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.unitPrice || 0).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">报价单单价</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('报价单单价')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docUnitPrice || 0).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">数量</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('数量')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.quantity}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">单位</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('单位')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.uom}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">报价单币种总数</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('报价单币种总数')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docAmount || 0).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
@@ -291,7 +291,7 @@
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docVatAmount || 0).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">基础报价总数</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('基础报价总数')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docAmount*inputForm.exRate).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
@@ -304,21 +304,21 @@
 			</view>
 			<view class="cu-bar bg-white solid-bottom mg-t-10" >
 				<view class="action">
-					<text class="cuIcon-titles text-orange"></text> <text style="font-size: 20px;font-weight: bold;">申请理由</text>
+					<text class="cuIcon-titles text-orange"></text> <text style="font-size: 20px;font-weight: bold;">{{$i18nMy.t('申请理由')}}</text>
 				</view>
 			</view>
 			<view class="cu-card">
 				<view class="cu-form-group">
 					<view style="width: 100%;height: 100%;">
-						<view style="width: 100%;height: 40px;line-height: 40px;font-weight: bold;">申购目的</view>
+						<view style="width: 100%;height: 40px;line-height: 40px;font-weight: bold;">{{$i18nMy.t('申购目的')}}</view>
 						<view class="detail-info-row">
-							<textarea v-model="inputForm.purchasePurpose" placeholder="请填写申购目的" style="margin-top: 0px;" :disabled="formReadOnly"></textarea>
+							<textarea v-model="inputForm.purchasePurpose" :placeholder="$i18nMy.t('请填写申购目的')" style="margin-top: 0px;" :disabled="formReadOnly"></textarea>
 						</view>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view style="width: 100%;height: 100%;">
-						<view style="width: 100%;height: 40px;line-height: 40px;font-weight: bold;">投资回报分析</view>
+						<view style="width: 100%;height: 40px;line-height: 40px;font-weight: bold;">{{$i18nMy.t('投资回报分析')}}</view>
 						<view class="detail-info-row">
 							<textarea v-model="inputForm.roi" placeholder="请填写ROI" style="margin-top: 0px;" :disabled="formReadOnly"></textarea>
 						</view>
@@ -326,17 +326,17 @@
 				</view>
 				<view class="cu-form-group">
 					<view style="width: 100%;height: 100%;">
-						<view style="width: 100%;height: 40px;line-height: 40px;font-weight: bold;">预算外说明</view>
+						<view style="width: 100%;height: 40px;line-height: 40px;font-weight: bold;">{{$i18nMy.t('预算外说明')}}</view>
 						<view class="detail-info-row">
-							<textarea v-model="inputForm.noBudgetExplain" placeholder="请填写预算外说明" style="margin-top: 0px;" :disabled="formReadOnly"></textarea>
+							<textarea v-model="inputForm.noBudgetExplain" :placeholder="$i18nMy.t('请填写预算外说明')" style="margin-top: 0px;" :disabled="formReadOnly"></textarea>
 						</view>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view style="width: 100%;height: 100%;">
-						<view style="width: 100%;height: 40px;line-height: 40px;font-weight: bold;">支付说明</view>
+						<view style="width: 100%;height: 40px;line-height: 40px;font-weight: bold;">{{$i18nMy.t('支付说明')}}</view>
 						<view class="detail-info-row">
-							<textarea v-model="inputForm.paymentSpecial" placeholder="请填写支付说明" style="margin-top: 0px;" :disabled="formReadOnly"></textarea>
+							<textarea v-model="inputForm.paymentSpecial" :placeholder="$i18nMy.t('请填写支付说明')" style="margin-top: 0px;" :disabled="formReadOnly"></textarea>
 						</view>
 					</view>
 				</view>
@@ -351,62 +351,62 @@
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">申请人</text>
+						<text class="float-left">{{$i18nMy.t('申请人')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.createBy.name}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入申请人" v-model="inputForm.createBy.id" ></input>
+							<input :placeholder="$i18nMy.t('请输入申请人')" v-model="inputForm.createBy.id" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">申请人部门</text>
+						<text class="float-left">{{$i18nMy.t('申请人部门')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.createByOffice.name}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入申请人部门" v-model="inputForm.createByOffice.id" ></input>
+							<input :placeholder="$i18nMy.t('请输入申请人部门')" v-model="inputForm.createByOffice.id" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">用户姓名</text>
+						<text class="float-left">{{$i18nMy.t('用户姓名')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.requester}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入用户姓名" v-model="inputForm.requester" ></input>
+							<input :placeholder="$i18nMy.t('请输入用户姓名')" v-model="inputForm.requester" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">用户部门</text>
+						<text class="float-left">{{$i18nMy.t('用户部门')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.requesterDepartment.name}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入用户部门" v-model="inputForm.requesterDepartment.id" ></input>
+							<input :placeholder="$i18nMy.t('请输入用户部门')" v-model="inputForm.requesterDepartment.id" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">固定资产类型</text>
+						<text class="float-left">{{$i18nMy.t('固定资产类型')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.assetGroupLabel}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入固定资产类型" v-model="inputForm.assetGroup" ></input>
+							<input :placeholder="$i18nMy.t('请输入固定资产类型')" v-model="inputForm.assetGroup" ></input>
 						</text>
 					</view>
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100">
-						<text class="float-left">成本中心</text>
+						<text class="float-left">{{$i18nMy.t('成本中心')}}</text>
 						<text class="float-right" v-if="formReadOnly">{{inputForm.costCenterLabel}}</text>
 						<text class="float-right" v-if="!formReadOnly">
-							<input placeholder="请输入成本中心" v-model="inputForm.costCenter" ></input>
+							<input :placeholder="$i18nMy.t('请输入成本中心')" v-model="inputForm.costCenter" ></input>
 						</text>
 					</view>
 				</view>
 			</view>
 			<view class="cu-bar bg-white solid-bottom mg-t-10" >
 				<view class="action">
-					<text class="cuIcon-titles text-orange"></text>  <text style="font-size: 20px;font-weight: bold;">采购清单</text>
+					<text class="cuIcon-titles text-orange"></text>  <text style="font-size: 20px;font-weight: bold;">{{$i18nMy.t('采购清单')}}</text>
 				</view>
 			</view>
 			<view class="cu-card" v-if="null == detailInfo || 0 == detailInfo.length">
@@ -420,35 +420,35 @@
 				<view class="cu-form-group supplementary-document"  v-for="(item,index) in detailInfo" :key="index" style="padding-top: 10px;padding-bottom: 10px;">
 					<view style="width: 100%;height: 100%;">
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">序号</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('序号')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.serialNumber}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">物品</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('物品')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.item}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">品牌</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('品牌')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.brandName}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">单价</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('单价')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.unitPrice || 0).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">文件单价</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('文件单价')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docUnitPrice || 0).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">数量</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('数量')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.quantity}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">单位</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('单位')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.uom}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">文档报价总数</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('文档报价总数')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docAmount || 0).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
@@ -456,7 +456,7 @@
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docVatAmount || 0).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">基础报价总数</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('基础报价总数')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right"> {{parseFloat(item.docAmount*inputForm.exRate).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
@@ -468,7 +468,7 @@
 			</view>
 			<view class="cu-bar bg-white solid-bottom mg-t-10" >
 				<view class="action">
-					<text class="cuIcon-titles text-orange"></text>  <text style="font-size: 20px;font-weight: bold;">补充文件</text>
+					<text class="cuIcon-titles text-orange"></text>  <text style="font-size: 20px;font-weight: bold;">{{$i18nMy.t('补充文件')}}</text>
 				</view>
 			</view>
 			<view class="cu-card" v-if="null == supplierInfo || 0 == supplierInfo.length">
@@ -482,33 +482,33 @@
 				<view class="cu-form-group supplementary-document"  v-for="(item,index) in supplierInfo" :key="index" style="padding-top: 10px;padding-bottom: 10px;">
 					<view style="width: 100%;height: 100%;">
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">序号</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('序号')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.serialNumber}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">描述</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('描述')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.description}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">文件类型</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('文件类型')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.documentType}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">附件</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('附件')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">
 								<a :href="item.attachment" download="">{{item.attachmentFile}}</a>
 							</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">上传者部门</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('上传者部门')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.uploaderDepartment}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">上传者</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('上传者')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.uploadedBy}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">上传日期</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('上传日期')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.uploadedDate}}</view>
 						</view>
 					</view>

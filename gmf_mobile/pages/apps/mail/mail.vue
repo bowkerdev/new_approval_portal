@@ -1,23 +1,23 @@
 <template>
 	<view class="view">
 		<cu-custom bgColor="bg-blue" backUrl="/pages/index/index" :isBack="true">
-			<block slot="backText">返回</block>
+			<block slot="backText">{{$i18nMy.t('返回')}}</block>
 			<block slot="content"> 站内信</block>
 		</cu-custom>
 		<view class="cu-bar search bg-white">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
-				<input :adjust-position="false" v-model="curWord" type="text" @input="inputWord" placeholder="搜索" confirm-type="search"></input>
+				<input :adjust-position="false" v-model="curWord" type="text" @input="inputWord" :placeholder="$i18nMy.t('搜索')" confirm-type="search"></input>
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-blue shadow-blur round"  @tap="searchSubmit">搜索</button>
+				<button class="cu-btn bg-blue shadow-blur round"  @tap="searchSubmit">{{$i18nMy.t('搜索')}}</button>
 			</view>
 		</view>
 		<view class="cu-list menu sm-border menuCard card-menu margin-top">
 			<view class="cu-item arrow" @tap="toInbox">
 				<view class="content">
 					<text class="cuIcon-mail text-yellow"></text>
-					<text class="text-grey">收件箱</text>
+					<text class="text-grey">{{$i18nMy.t('收件箱')}}</text>
 				</view>
 				<view class="action">
 					<view class="text-grey ">{{noReadCount}}/{{mailBoxCount}}</view>
@@ -27,7 +27,7 @@
 			<view class="cu-item arrow" @tap="toOutbox">
 				<view class="content">
 					<text class="cuIcon-forward text-green"></text>
-					<text class="text-grey">已发送</text>
+					<text class="text-grey">{{$i18nMy.t('已发送')}}</text>
 				</view>
 				<view class="action">
 					<view class="text-grey ">{{mailComposeCount}}</view>
@@ -36,7 +36,7 @@
 			<view class="cu-item arrow" @tap="toDraft">
 				<button class="cu-btn content" open-type="contact">
 					<text class="cuIcon-post text-grey"></text>
-					<text class="text-grey">草稿箱</text>
+					<text class="text-grey">{{$i18nMy.t('草稿箱')}}</text>
 				</button>
 				<view class="action">
 					<view class="text-grey ">{{mailDraftCount}}</view>
@@ -45,7 +45,7 @@
 			<view class="cu-item arrow" @tap="toTrash">
 				<button class="cu-btn content" open-type="contact">
 					<text class="cuIcon-delete text-red"></text>
-					<text class="text-grey">已删除</text>
+					<text class="text-grey">{{$i18nMy.t('已删除')}}</text>
 				</button>
 				<view class="action">
 					<view class="text-grey ">{{mailTrashCount}}</view>

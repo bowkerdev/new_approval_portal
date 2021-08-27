@@ -2,8 +2,8 @@
 	<view>
 		<!---消息系统暂未实现-->
 			<cu-custom bgColor="bg-blue" :isBack="true">
-				<block slot="backText">返回</block>
-				<block slot="content">消息中心</block>
+				<block slot="backText">{{$i18nMy.t('返回')}}</block>
+				<block slot="content">{{$i18nMy.t('消息中心')}}</block>
 			</cu-custom>
 			<scroll-view class="VerticalMain" scroll-y scroll-with-animation>
 					<view class="cu-bar bg-white solid-bottom margin-top">
@@ -28,8 +28,8 @@
 								<!-- <view class="cu-tag round bg-grey sm">5</view> -->
 							</view>
 							<view class="move">
-								<view class="bg-grey">置顶</view>
-								<view class="bg-red">删除</view>
+								<view class="bg-grey">{{$i18nMy.t('置顶')}}</view>
+								<view class="bg-red">{{$i18nMy.t('删除')}}</view>
 							</view>
 						</view>
 						<view v-if="messageList.length === 0">

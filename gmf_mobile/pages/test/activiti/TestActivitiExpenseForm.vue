@@ -10,11 +10,11 @@
 				<view class="title">
 					<text class="red-color">* </text> 报销金额
 				</view>
-				<input placeholder="请输入报销金额" maxlength="200" v-model="inputForm.cost" name="cost"></input>
+				<input :placeholder="$i18nMy.t('请输入报销金额')" maxlength="200" v-model="inputForm.cost" name="cost"></input>
 			</view>
 
 			<view class="cu-form-group">
-				<view class="title">报销日期</view>
+				<view class="title">{{$i18nMy.t('报销日期')}}</view>
 				<picker mode="date" :value="inputForm.d" :disabled="formReadOnly" @change="EndTimeChange">
 					<view class="picker">
 						{{inputForm.endTime}}
@@ -25,7 +25,7 @@
 				<view class="title">
 					<text class="red-color">* </text> 报销金额
 				</view>
-				<input placeholder="请输入报销金额" maxlength="200" v-model="inputForm.cost" name="cost"></input>
+				<input :placeholder="$i18nMy.t('请输入报销金额')" maxlength="200" v-model="inputForm.cost" name="cost"></input>
 			</view>
 			
 		</form>

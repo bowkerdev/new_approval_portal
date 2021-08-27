@@ -3,6 +3,8 @@ import App from './App'
 
 import store from './store'
 import request from './common/request.js'
+import i18nMy from './common/i18n2.js'
+import i18n from   './common/i18n.js'
 import dictUtils from '@/common/dictUtils.js'
 import * as auth from "@/common/auth.js"
 import * as utils from "@/common/util.js"
@@ -13,6 +15,10 @@ Vue.component('cu-custom',cuCustom)
 Vue.config.productionTip = false
 Vue.prototype.$store = store
 Vue.prototype.$http = request
+
+Vue.prototype.$i18nMy  = i18nMy
+window.$i18nMy = i18nMy
+
 Vue.prototype.$auth = auth
 Vue.prototype.$dictUtils = dictUtils
 Vue.prototype.recover = utils.recover

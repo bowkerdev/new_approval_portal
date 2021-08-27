@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">返回</block>
-			<block slot="content">轮播图</block>
+		<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">{{$i18nMy.t('返回')}}</block>
+			<block slot="content">{{$i18nMy.t('轮播图')}}</block>
 		</cu-custom>
 		<view class="cu-bar bg-white">
 			<view class="action">

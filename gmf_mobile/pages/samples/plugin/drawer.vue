@@ -1,8 +1,8 @@
 <template>
 	<view class="bg-gradual-blue">
 		<scroll-view scroll-y class="DrawerPage" :class="modalName=='viewModal'?'show':''">
-			<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">返回</block>
-				<block slot="content">全屏抽屉</block>
+			<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">{{$i18nMy.t('返回')}}</block>
+				<block slot="content">{{$i18nMy.t('全屏抽屉')}}</block>
 			</cu-custom>			
 			<view class='padding margin text-center'>
 				<view class='cu-btn bg-green lg block shadow radius margin-xl' @tap="showModal" data-target="viewModal">

@@ -1,10 +1,9 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">返回</block><block slot="content">头像</block></cu-custom>
+		<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">{{$i18nMy.t('返回')}}</block><block slot="content">{{$i18nMy.t('头像')}}</block></cu-custom>
 		<view class="cu-bar bg-white">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>头像形状
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('头像形状')}}</view>
 		</view>
 		<view class="padding">
 			<view class="cu-avatar round" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg)"></view>
@@ -12,8 +11,7 @@
 		</view>
 		<view class="cu-bar bg-white margin-top">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>头像尺寸
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('头像尺寸')}}</view>
 		</view>
 		<view class="padding">
 			<view class="cu-avatar sm round margin-left" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg)"></view>
@@ -29,12 +27,12 @@
 		</view>
 		<view class="padding">
 			<view class="cu-avatar sm round margin-left bg-red"> 蔚</view>
-			<view class="cu-avatar round margin-left bg-red">蓝</view>
+			<view class="cu-avatar round margin-left bg-red">{{$i18nMy.t('蓝')}}</view>
 			<view class="cu-avatar lg round margin-left bg-red">
 				<text>wl</text>
 			</view>
 			<view class="cu-avatar xl round margin-left bg-red">
-				<text class="avatar-text">网络</text>
+				<text class="avatar-text">{{$i18nMy.t('网络')}}</text>
 			</view>
 		</view>
 		<view class="cu-bar bg-white margin-top">
@@ -47,14 +45,13 @@
 				<text class="cuIcon-people"></text>
 			</view>
 			<view class="cu-avatar radius margin-left">
-				<text>港</text>
+				<text>{{$i18nMy.t('港')}}</text>
 			</view>
 		</view>
 
 		<view class="cu-bar bg-white margin-top">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>头像颜色
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('头像颜色')}}</view>
 		</view>
 		<view class="padding-sm">
 			<view class="cu-avatar round lg margin-xs" :class="'bg-' + item.name" v-for="(item,index) in ColorList" :key="index">
@@ -63,8 +60,7 @@
 		</view>
 		<view class="cu-bar bg-white margin-top">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>头像组
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('头像组')}}</view>
 		</view>
 		<view class="padding">
 			<view class="cu-avatar-group">
@@ -74,8 +70,7 @@
 
 		<view class="cu-bar bg-white margin-top">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>头像标签
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('头像标签')}}</view>
 		</view>
 		<view class="padding">
 			<view class="cu-avatar round lg margin-left"  v-for="(item,index) in avatar" :key="index" :style="[{ backgroundImage:'url(' + avatar[index] + ')' }]">

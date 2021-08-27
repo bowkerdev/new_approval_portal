@@ -12,7 +12,7 @@
 		<view class="cu-item">
 			<view class="content">
 				<Am-FontAwesome type=" fas fa-building"  class="text-blue"  ></Am-FontAwesome>
-				<text class="text-grey">公司</text>
+				<text class="text-grey">{{$i18nMy.t('公司')}}</text>
 			</view>
 			<view class="action">
 				<text class="text-grey">{{userInfo.company && userInfo.company.name || ''}}</text>
@@ -21,7 +21,7 @@
 		<view class="cu-item">
 			<view class="content">
 				<Am-FontAwesome type="fas fa-sitemap"  class="text-blue"  ></Am-FontAwesome>
-				<text class="text-grey">部门</text>
+				<text class="text-grey">{{$i18nMy.t('部门')}}</text>
 			</view>
 			<view class="action">
 				<text class="text-grey">{{userInfo.office && userInfo.office.name || ''}}</text>
@@ -30,7 +30,7 @@
 		<view class="cu-item">
 			<view class="content">
 				<Am-FontAwesome type="far fa-address-book"  class="text-blue"  ></Am-FontAwesome>
-				<text class="text-grey">岗位</text>
+				<text class="text-grey">{{$i18nMy.t('岗位')}}</text>
 			</view>
 			<view class="action">
 				<text class="text-grey">{{userInfo.post && userInfo.post.name || ''}}</text>
@@ -39,7 +39,7 @@
 		<view class="cu-item">
 			<view class="content">
 				<Am-FontAwesome type="far fa-user"  class="text-blue"  ></Am-FontAwesome>
-				<text class="text-grey">角色</text>
+				<text class="text-grey">{{$i18nMy.t('角色')}}</text>
 			</view>
 			<view class="action">
 				<text class="text-grey">{{userInfo.roleNames || ''}}</text>
@@ -50,7 +50,7 @@
 		<view class="cu-item">
 			<view class="content">
 				<Am-FontAwesome type="fas fa-phone-square-alt" class="text-blue"></Am-FontAwesome>
-				<text class="text-grey">联系电话</text>
+				<text class="text-grey">{{$i18nMy.t('联系电话')}}</text>
 			</view>
 			<view class="action">
 				<text class="text-grey">{{userInfo.phone || ''}}</text>
@@ -59,7 +59,7 @@
 		<view class="cu-item">
 			<view class="content">
 				<Am-FontAwesome type="fas fa-envelope" class="text-blue"></Am-FontAwesome>
-				<text class="text-grey">邮箱</text>
+				<text class="text-grey">{{$i18nMy.t('邮箱')}}</text>
 			</view>
 			<view class="action">
 				<text class="text-grey">{{userInfo.email || ''}}</text>
@@ -68,7 +68,7 @@
 		<view class="cu-item arrow" @click="toPassword">
 			<view class="content">
 				<Am-FontAwesome type="fas fa-edit" class="text-red"></Am-FontAwesome>
-				<text class="text-grey">修改密码</text>
+				<text class="text-grey">{{$i18nMy.t('修改密码')}}</text>
 			</view>
 			<view class="action">
 				<text class="text-grey">{{userInfo.office.name || ''}}</text>
@@ -76,7 +76,7 @@
 		</view>
 	</view>
 	<view class="padding-xl">
-		<button class="cu-btn block bg-blue margin-tb-sm lg"  @click="outlogin">退出登录</button>
+		<button class="cu-btn block bg-blue margin-tb-sm lg"  @click="outlogin">{{$i18nMy.t('退出登录')}}</button>
 		<view class="cu-tabbar-height"></view>
 	</view>
 

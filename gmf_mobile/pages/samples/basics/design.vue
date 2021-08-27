@@ -1,24 +1,24 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">返回</block><block slot="content"> 按钮 / 设计</block></cu-custom>
+		<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">{{$i18nMy.t('返回')}}</block><block slot="content"> 按钮 / 设计</block></cu-custom>
 		<view class="padding-xl">
 			<view class="box bg-white text-center radius">
-				<button class="cu-btn" :class="[border?bordersize?'lines-' + color:'line-' + color:'bg-'+ color,round?'round':'',size,shadow?'shadow':'']">我是一个按钮</button>
+				<button class="cu-btn" :class="[border?bordersize?'lines-' + color:'line-' + color:'bg-'+ color,round?'round':'',size,shadow?'shadow':'']">{{$i18nMy.t('我是一个按钮')}}</button>
 			</view>
 			<view class="padding text-center">
 				class="cu-btn <text v-if="color">{{' '}} {{border?bordersize?'lines-' + color:'line-' + color:'bg-'+ color}} {{round?'round':''}} {{size}} {{shadow?'shadow':''}}</text>"
 			</view>
 		</view>
 		<view class="cu-form-group margin-top" @tap="showModal" data-target="ColorModal">
-			<view class="title">选择颜色</view>
+			<view class="title">{{$i18nMy.t('选择颜色')}}</view>
 			<view class="padding solid radius shadow-blur" :class="'bg-'+color"></view>
 		</view>
 		<view class="cu-form-group">
-			<view class="title">是否圆角</view>
+			<view class="title">{{$i18nMy.t('是否圆角')}}</view>
 			<switch @change="SetRound" class="blue" :class="round?'checked':''"></switch>
 		</view>
 		<view class="cu-form-group">
-			<view class="title">选择尺寸</view>
+			<view class="title">{{$i18nMy.t('选择尺寸')}}</view>
 			<radio-group @change="SetSize">
 				<label class="margin-left-sm">
 					<radio class="blue radio" value="sm"></radio>
@@ -35,15 +35,15 @@
 			</radio-group>
 		</view>
 		<view class="cu-form-group">
-			<view class="title">是否添加阴影</view>
+			<view class="title">{{$i18nMy.t('是否添加阴影')}}</view>
 			<switch @change="SetShadow" :class="shadow?'checked':''"></switch>
 		</view>
 		<view class="cu-form-group">
-			<view class="title">是否镂空</view>
+			<view class="title">{{$i18nMy.t('是否镂空')}}</view>
 			<switch @change="SetBorder" :class="border?'checked':''"></switch>
 		</view>
 		<view class="cu-form-group" v-if="border">
-			<view class="title">边框大小</view>
+			<view class="title">{{$i18nMy.t('边框大小')}}</view>
 			<radio-group @change="SetBorderSize">
 				<label class="margin-left-sm">
 					<radio class="blue radio" value="" checked></radio>
@@ -58,7 +58,7 @@
 		<view class="cu-modal" :class="modalName=='ColorModal'?'show':''">
 			<view class="cu-dialog">
 				<view class="cu-bar justify-end solid-bottom">
-					<view class="content">选择颜色</view>
+					<view class="content">{{$i18nMy.t('选择颜色')}}</view>
 					<view class="action" @tap="hideModal">
 						<text class="cuIcon-close text-red"></text>
 					</view>

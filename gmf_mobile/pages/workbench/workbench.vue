@@ -14,19 +14,19 @@
 		<view class="cu-list grid col-4 no-border fixed">
 			<view @tap="toTodoList" class="circle-button-box">
 				<view class="cuIcon-time text-blue circle-button font-size-35"></view>
-				<text>待办事项</text>
+				<text>{{$i18nMy.t('待办事项')}}</text>
 			</view>
 			<view @tap="toHistoryList" class="circle-button-box">
 				<view class="cuIcon-roundcheck  text-blue circle-button font-size-35"></view>
-				<text>已办事项</text>
+				<text>{{$i18nMy.t('已办事项')}}</text>
 			</view>
 			<view @tap="toApplyList" class="circle-button-box">
 				<view   class="cuIcon-peoplelist text-blue circle-button font-size-35"></view>
-				<text>我发起的</text>
+				<text>{{$i18nMy.t('我发起的')}}</text>
 			</view>
 			<view @tap="toFlowCopyList" class="circle-button-box">
 				<view class="cuIcon-copy  text-blue circle-button font-size-35"></view>
-				<text>抄送给我</text>
+				<text>{{$i18nMy.t('抄送给我')}}</text>
 			</view>
 			
 			

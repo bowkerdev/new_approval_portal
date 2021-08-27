@@ -16,7 +16,7 @@
 					<view class="padding  cu-avatar radius text-center shadow-blur bg-white" style="width: 100%;height: 100%;">
 						<view>
 							<text class="lg font-size-35 text-blue cuIcon-form"></text>
-							<view class="margin-top-sm text-Abc" style="font-size: 15px;">待办事项</view>
+							<view class="margin-top-sm text-Abc" style="font-size: 15px;">{{$i18nMy.t('待办事项')}}</view>
 						</view>
 						<view class="cu-tag badge">{{todoTag}}</view>
 					</view>
@@ -28,7 +28,7 @@
 					<view class="padding cu-avatar radius text-center shadow-blur bg-white" style="width: 100%;height: 100%;">
 						<view>
 							<text class="lg font-size-35 text-blue cuIcon-form"></text>
-							<view class="margin-top-sm text-Abc" style="font-size: 15px;">已办事项</view>
+							<view class="margin-top-sm text-Abc" style="font-size: 15px;">{{$i18nMy.t('已办事项')}}</view>
 						</view>
 						<view class="cu-tag badge">{{historicTag}}</view>
 					</view>

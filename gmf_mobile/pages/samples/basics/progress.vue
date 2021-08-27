@@ -1,10 +1,9 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">返回</block><block slot="content">进度条</block></cu-custom>
+		<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">{{$i18nMy.t('返回')}}</block><block slot="content">{{$i18nMy.t('进度条')}}</block></cu-custom>
 		<view class="cu-bar bg-white solid-bottom">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>进度条形状
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('进度条形状')}}</view>
 		</view>
 		<view class="padding bg-white">
 			<view class="cu-progress">
@@ -19,8 +18,7 @@
 		</view>
 		<view class="cu-bar bg-white solid-bottom margin-top">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>进度条尺寸
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('进度条尺寸')}}</view>
 		</view>
 		<view class="padding bg-white">
 			<view class="cu-progress round">
@@ -36,8 +34,7 @@
 
 		<view class="cu-bar bg-white solid-bottom margin-top" @tap="showModal" data-target="ColorModal">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>进度条颜色
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('进度条颜色')}}</view>
 			<view class="action">
 				<view class="padding solid radius shadow-blur" :class="'bg-' + color"></view>
 			</view>
@@ -51,8 +48,7 @@
 
 		<view class="cu-bar bg-white solid-bottom margin-top">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>进度条条纹
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('进度条条纹')}}</view>
 			<switch class="margin-right-sm" :class="active?'checked':''" @change="SetActive"></switch>
 		</view>
 		<view class="padding bg-white">
@@ -65,8 +61,7 @@
 		</view>
 		<view class="cu-bar bg-white solid-bottom margin-top">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>进度条比例
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('进度条比例')}}</view>
 		</view>
 		<view class="padding bg-white">
 			<view class="cu-progress radius striped active">
@@ -77,8 +72,7 @@
 		</view>
 		<view class="cu-bar bg-white solid-bottom margin-top">
 			<view class="action">
-				<text class="cuIcon-title text-blue"></text>进度条布局
-			</view>
+				<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('进度条布局')}}</view>
 		</view>
 		<view class="padding bg-white ">
 			<view class="flex">
@@ -98,7 +92,7 @@
 		<view class="cu-modal" :class="modalName=='ColorModal'?'show':''">
 			<view class="cu-dialog">
 				<view class="cu-bar justify-end solid-bottom">
-					<view class="content">选择颜色</view>
+					<view class="content">{{$i18nMy.t('选择颜色')}}</view>
 					<view class="action" @tap="hideModal">
 						<text class="cuIcon-close text-red"></text>
 					</view>

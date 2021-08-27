@@ -4,7 +4,7 @@
 		<view class="cu-bar search">
 			<view class="search-form bg-white round">
 				<text class="cuIcon-search"></text>
-				<input type="text"  placeholder="搜索" v-model="curWord" confirm-type="search" @input="inputWord"></input>
+				<input type="text"  :placeholder="$i18nMy.t('搜索')" v-model="curWord" confirm-type="search" @input="inputWord"></input>
 			</view>
 		</view>
 		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" :up="upOption" @up="upCallback">

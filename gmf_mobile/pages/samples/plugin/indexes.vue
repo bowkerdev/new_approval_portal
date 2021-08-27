@@ -1,15 +1,15 @@
 <template>
 	<view>
-		<cu-custom bgImage="https://image.weilanwl.com/color2.0/plugin/sylb2244.jpg" :isBack="true"><block slot="backText">返回</block>
-			<block slot="content">索引</block>
+		<cu-custom bgImage="https://image.weilanwl.com/color2.0/plugin/sylb2244.jpg" :isBack="true"><block slot="backText">{{$i18nMy.t('返回')}}</block>
+			<block slot="content">{{$i18nMy.t('索引')}}</block>
 		</cu-custom>
 		<view class="cu-bar bg-white search fixed" :style="[{top:CustomBar + 'px'}]">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
-				<input type="text" placeholder="输入搜索的关键词" confirm-type="search"></input>
+				<input type="text" :placeholder="$i18nMy.t('输入搜索的关键词')" confirm-type="search"></input>
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-gradual-green shadow-blur round">搜索</button>
+				<button class="cu-btn bg-gradual-green shadow-blur round">{{$i18nMy.t('搜索')}}</button>
 			</view>
 		</view>
 		<scroll-view scroll-y class="indexes" :scroll-into-view="'indexes-'+ listCurID" :style="[{height:'calc(100vh - '+ CustomBar + 'px - 50px)'}]"
@@ -21,7 +21,7 @@
 						<view class="cu-item" v-for="(items,sub) in 2" :key="sub">
 							<view class="cu-avatar round lg">{{item.name}}</view>
 							<view class="content">
-								<view class="text-grey">{{item.name}}<text class="text-abc">{{list[sub].name}}</text>君</view>
+								<view class="text-grey">{{item.name}}<text class="text-abc">{{list[sub].name}}</text>{{$i18nMy.t('君')}}</view>
 								<view class="text-gray text-sm">
 									有{{sub+2}}个主子需要伺候
 								</view>

@@ -1,19 +1,19 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-blue" :isBack="true">
-			<block slot="backText">返回</block>
+			<block slot="backText">{{$i18nMy.t('返回')}}</block>
 			<block slot="content">{{title}}</block>
 		</cu-custom>
 		<!-- 菜单 -->
 		<view class="bg-white nav fixed flex text-center" :style="[{top:CustomBar + 'px'}]">
 			<view class="cu-item flex-sub" :class="0==tabIndex?'text-blue cur':''" @tap="tabSelect" data-id="0">
-				表单信息
+				{{$i18nMy.t('表单信息')}}
 			</view>
 			<view class="cu-item flex-sub"  v-if="procInsId" :class="2==tabIndex?'text-blue cur':''" @tap="tabSelect" data-id="2">
-				流转记录
+				{{$i18nMy.t('流转记录')}}
 			</view>
 			<view class="cu-item flex-sub" :class="1==tabIndex?'text-blue cur':''" @tap="tabSelect" data-id="1">
-				流程图
+				{{$i18nMy.t('流程图')}}
 			</view>
 		
 		</view>
@@ -46,22 +46,22 @@
 							</view>
 							
 							<view class="margin-top">
-								审批人 ： {{act.assigneeName}}
+								{{$i18nMy.t('审批人')}} ： {{act.assigneeName}}
 							</view>
 							<view class="margin-top">
-								办理状态 ：<view class="cu-tag bg-blue">{{act.comment.status}}</view>  
+								{{$i18nMy.t('办理状态')}} ：<view class="cu-tag bg-blue">{{act.comment.status}}</view>  
 							</view>
 							<view class="margin-top">
-								审批意见 ： {{act.comment.message}}
+								{{$i18nMy.t('审批意见')}} ： {{act.comment.message}}
 							</view>
 							<view class="margin-top">
-								开始时间 : {{act.histIns.startTime |formatDate}}
+								{{$i18nMy.t('开始时间')}} : {{act.histIns.startTime |formatDate}}
 							</view>
 							<view class="margin-top">
-								结束时间 : {{act.histIns.endTime |formatDate}}
+								{{$i18nMy.t('结束时间')}} : {{act.histIns.endTime |formatDate}}
 							</view>
 							<view class="margin-top">
-								用时 : {{act.durationTime || '0秒'}}
+								{{$i18nMy.t('用时')}} : {{act.durationTime || '0秒'}}
 							</view>
 						</view>
 					</view>

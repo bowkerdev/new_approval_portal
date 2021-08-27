@@ -1,6 +1,6 @@
 <template>
 	<view class=" bg-white">
-		 <cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">返回</block><block slot="content">上传头像</block></cu-custom>
+		 <cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">{{$i18nMy.t('返回')}}</block><block slot="content">{{$i18nMy.t('上传头像')}}</block></cu-custom>
 
 		<view class="cu-form-group">
 			
@@ -14,7 +14,7 @@
 			</view>
 		</view>
 		<view class="cu-bar btn-group " style="margin-top: 100upx;">
-			<button class=" btn-logout cu-btn  shadow-blur round lg" @click="upload">退出登录</button>
+			<button class=" btn-logout cu-btn  shadow-blur round lg" @click="upload">{{$i18nMy.t('退出登录')}}</button>
 		</view>
 	</view>
 </template>

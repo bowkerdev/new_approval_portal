@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-blue" :isBack="true">
-			<block slot="backText">返回</block>
+			<block slot="backText">{{$i18nMy.t('返回')}}</block>
 			<block slot="content">{{title}}</block>
 		</cu-custom>
 		<!-- 菜单 -->
@@ -30,28 +30,28 @@
 						<view class="title">
 							<text class="red-color">* </text> 标题
 						</view>
-						<input placeholder="请输入流程标题" maxlength="200" v-model="title" name="title"></input>
+						<input :placeholder="$i18nMy.t('请输入流程标题')" maxlength="200" v-model="title" name="title"></input>
 					</view>
 					<view class="cu-form-group"  v-if="taskId">
 						<view class="title">
 							<text class="red-color">* </text> 内容
 						</view>
-						<textarea maxlength="2000"  v-model="auditForm.message" name="message" placeholder="请输入审批意见"></textarea>
+						<textarea maxlength="2000"  v-model="auditForm.message" name="message" :placeholder="$i18nMy.t('请输入审批意见')"></textarea>
 					</view>
 					<view class="cu-form-group">
-						<view class="title">是否抄送</view>
+						<view class="title">{{$i18nMy.t('是否抄送')}}</view>
 						<jp-switch v-model="isCC" ></jp-switch>
 					</view>
 					<view class="cu-form-group"  v-if="isCC">
-						<view class="title">抄送给</view>
+						<view class="title">{{$i18nMy.t('抄送给')}}</view>
 						<user-select  v-model="auditForm.userIds" ></user-select>
 					</view>
 					<view class="cu-form-group">
-						<view class="title">指定下一步处理者</view>
+						<view class="title">{{$i18nMy.t('指定下一步处理者')}}</view>
 						<jp-switch v-model="isAssign"></jp-switch>
 					</view>
 					<view class="cu-form-group"  v-if="isAssign">
-						<view class="title">指定</view>
+						<view class="title">{{$i18nMy.t('指定')}}</view>
 						<user-select v-model="auditForm.assignee"  ></user-select>
 					</view>
 						<user-select-dialog title="选择转办用户" ref="transferUserSelectDialog" :showRadio="true" :showCheckBox="false" @doSubmit="selectUsersToTransferTask"></user-select-dialog>

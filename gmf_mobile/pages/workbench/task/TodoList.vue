@@ -1,14 +1,14 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-blue" backUrl="/pages/index/index" :isBack="true">
-			<block slot="backText">返回</block>
-			<block slot="content"> 待办事项</block>
+			<block slot="backText">{{$i18nMy.t('返回')}}</block>
+			<block slot="content"> {{$i18nMy.t('待办事项')}}</block>
 		</cu-custom>
 		<view  :style="[{top:CustomBar + 'px'}]">
 		<view class="cu-bar search">
 			<view class="search-form bg-white round">
 				<text class="cuIcon-search"></text>
-				<input type="text"  placeholder="搜索" v-model="curWord" confirm-type="search" @input="inputWord"></input>
+				<input type="text"  :placeholder="$i18nMy.t('搜索')" v-model="curWord" confirm-type="search" @input="inputWord"></input>
 			</view>
 		</view>
 		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" :up="upOption" @up="upCallback">
@@ -26,7 +26,7 @@
 									</view>
 								</view>
 								<view class="text-sm text-grey ellipsis-description">
-									当前环节：{{row.task&&row.task.name}}
+									{{$i18nMy.t('当前环节')}}：{{row.task&&row.task.name}}
 								</view>
 						<!-- 		<view class="  text-sm">
 									<view class="ellipsis-description">
@@ -39,12 +39,12 @@
 						<view @tap="todo(row, index)" class="action">
 							<view class="text-grey text-xs" > {{row.task.createTime | formatDate}}</view>
 							<view class="  text-orange text-xs">
-								 等待审核
+								{{$i18nMy.t('等待审核')}} 
 							</view>
 						</view>
 				
 					<view class="move" >
-						<view class="bg-blue" @tap="todo(row)">办理</view>
+						<view class="bg-blue" @tap="todo(row)">{{$i18nMy.t('办理')}}</view>
 					</view>
 				</view>
 			</view>
@@ -54,7 +54,7 @@
 		<view class="cu-modal" :class="showSelectUserDialog==true?'show':''">
 				<view class="cu-dialog">
 					<view class="cu-bar bg-white justify-end">
-						<view class="content">选择委派用户</view>
+						<view class="content">{{$i18nMy.t('选择委派用户')}}</view>
 						<view class="action" @tap="hideSelectUserDialog">
 							<text class="cuIcon-close text-red"></text>
 						</view>
@@ -64,8 +64,8 @@
 					</view>
 					<view class="cu-bar bg-white justify-end">
 						<view class="action">
-							<button class="cu-btn line-green text-green" @tap="hideSelectUserDialog">取消</button>
-							<button class="cu-btn bg-green margin-left" @tap="selectUsersToTransferTask">确定</button>
+							<button class="cu-btn line-green text-green" @tap="hideSelectUserDialog">{{$i18nMy.t('取消')}}</button>
+							<button class="cu-btn bg-green margin-left" @tap="selectUsersToTransferTask">{{$i18nMy.t('确定')}}</button>
 
 						</view>
 					</view>

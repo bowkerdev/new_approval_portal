@@ -13,7 +13,7 @@
 			</view>
 			
 			<view class="cu-form-group">
-				<view class="title">请假开始时间</view>
+				<view class="title">{{$i18nMy.t('请假开始时间')}}</view>
 				<picker mode="date" :value="inputForm.startTime"  :disabled="formReadOnly" @change="StartTimeChange" >
 					<view class="picker">
 						{{inputForm.startTime}}
@@ -21,7 +21,7 @@
 				</picker>
 			</view>
 			<view class="cu-form-group">
-				<view class="title">请假结束时间</view>
+				<view class="title">{{$i18nMy.t('请假结束时间')}}</view>
 				<picker mode="date" :value="inputForm.endTime" :disabled="formReadOnly" @change="EndTimeChange">
 					<view class="picker">
 						{{inputForm.endTime}}
@@ -32,7 +32,7 @@
 				<view class="title">
 					<text class="red-color">* </text> 请假事由
 				</view>
-				<textarea maxlength="2000" v-model="inputForm.reason" :disabled="formReadOnly" name="reason" placeholder="请填写内容"></textarea>
+				<textarea maxlength="2000" v-model="inputForm.reason" :disabled="formReadOnly" name="reason" :placeholder="$i18nMy.t('请填写内容')"></textarea>
 			</view>
 			
 		</form>

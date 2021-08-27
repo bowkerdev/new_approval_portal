@@ -1,8 +1,8 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-gradual-blue" :isBack="true">
-			<block slot="backText">返回</block>
-			<block slot="content">布局</block>
+			<block slot="backText">{{$i18nMy.t('返回')}}</block>
+			<block slot="content">{{$i18nMy.t('布局')}}</block>
 		</cu-custom>
 		<scroll-view scroll-x class="bg-white nav text-center fixed" :style="[{top:CustomBar + 'px'}]">
 			<view class="cu-item" :class="index==TabCur?'text-blue cur':''" v-for="(item,index) in tabNav" :key="index" @tap="tabSelect"
@@ -13,8 +13,7 @@
 		<block v-if="TabCur==0">
 			<view class="cu-bar bg-white solid-bottom margin-top">
 				<view class="action">
-					<text class="cuIcon-title text-blue"></text>固定尺寸
-				</view>
+					<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('固定尺寸')}}</view>
 			</view>
 			<view class="padding bg-white">
 				<view class="flex flex-wrap">
@@ -29,8 +28,7 @@
 			</view>
 			<view class="cu-bar bg-white  margin-top solid-bottom">
 				<view class="action">
-					<text class="cuIcon-title text-blue"></text>比例布局
-				</view>
+					<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('比例布局')}}</view>
 			</view>
 			<view class="padding bg-white">
 				<view class="flex">
@@ -97,8 +95,7 @@
 		<block v-if="TabCur==1">
 			<view class="cu-bar bg-white  margin-top solid-bottom">
 				<view class="action">
-					<text class="cuIcon-title text-blue"></text>等分列
-				</view>
+					<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('等分列')}}</view>
 				<view class="action"></view>
 			</view>
 			<view class="bg-white padding">
@@ -108,8 +105,7 @@
 			</view>
 			<view class="cu-bar bg-white  margin-top solid-bottom">
 				<view class="action">
-					<text class="cuIcon-title text-blue"></text>等高
-				</view>
+					<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('等高')}}</view>
 				<view class="action"></view>
 			</view>
 			<view class="bg-white padding">
@@ -121,8 +117,7 @@
 		<block v-if="TabCur==2">
 			<view class="cu-bar bg-white margin-top solid-bottom">
 				<view class="action">
-					<text class="cuIcon-title text-blue"></text>浮动
-				</view>
+					<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('浮动')}}</view>
 			</view>
 			<view class="bg-white padding">
 				<view class=" cf padding-sm">
@@ -132,50 +127,49 @@
 			</view>
 			<view class="cu-bar bg-white  solid-bottom margin-top solid-bottom">
 				<view class="action">
-					<text class="cuIcon-title text-blue"></text>内外边距
-				</view>
+					<text class="cuIcon-title text-blue"></text>{{$i18nMy.t('内外边距')}}</view>
 			</view>
 			<view class="bg-white">
 				<view class="padding bg-gray">{size}的尺寸有xs/sm/df/lg/xl</view>
 				<view class="flex flex-wrap padding solid-top">
-					<view class="basis-df padding-bottom-xs">外边距</view>
-					<view class="basis-df padding-bottom-xs">内边距</view>
+					<view class="basis-df padding-bottom-xs">{{$i18nMy.t('外边距')}}</view>
+					<view class="basis-df padding-bottom-xs">{{$i18nMy.t('内边距')}}</view>
 					<view class="basis-df">.margin-{size}</view>
 					<view class="basis-df">.padding-{size}</view>
 				</view>
 				<view class="flex flex-wrap padding solid-top">
-					<view class="basis-df padding-bottom-xs">水平方向外边距</view>
-					<view class="basis-df padding-bottom-xs">水平方向内边距</view>
+					<view class="basis-df padding-bottom-xs">{{$i18nMy.t('水平方向外边距')}}</view>
+					<view class="basis-df padding-bottom-xs">{{$i18nMy.t('水平方向内边距')}}</view>
 					<view class="basis-df">.margin-lr-{size}</view>
 					<view class="basis-df">.padding-lr-{size}</view>
 				</view>
 				<view class="flex flex-wrap padding solid-top">
-					<view class="basis-df padding-bottom-xs">垂直方向外边距</view>
-					<view class="basis-df padding-bottom-xs">垂直方向内边距</view>
+					<view class="basis-df padding-bottom-xs">{{$i18nMy.t('垂直方向外边距')}}</view>
+					<view class="basis-df padding-bottom-xs">{{$i18nMy.t('垂直方向内边距')}}</view>
 					<view class="basis-df">.margin-tb-{size}</view>
 					<view class="basis-df">.padding-tb-{size}</view>
 				</view>
 				<view class="flex flex-wrap padding solid-top">
-					<view class="basis-df padding-bottom-xs">上外边距</view>
-					<view class="basis-df padding-bottom-xs">上内边距</view>
+					<view class="basis-df padding-bottom-xs">{{$i18nMy.t('上外边距')}}</view>
+					<view class="basis-df padding-bottom-xs">{{$i18nMy.t('上内边距')}}</view>
 					<view class="basis-df">.margin-top-{size}</view>
 					<view class="basis-df">.padding-top-{size}</view>
 				</view>
 				<view class="flex flex-wrap padding solid-top">
-					<view class="basis-df padding-bottom-xs">右外边距</view>
-					<view class="basis-df padding-bottom-xs">右内边距</view>
+					<view class="basis-df padding-bottom-xs">{{$i18nMy.t('右外边距')}}</view>
+					<view class="basis-df padding-bottom-xs">{{$i18nMy.t('右内边距')}}</view>
 					<view class="basis-df">.margin-right-{size}</view>
 					<view class="basis-df">.padding-right-{size}</view>
 				</view>
 				<view class="flex flex-wrap padding solid-top">
-					<view class="basis-df padding-bottom-xs">下外边距</view>
-					<view class="basis-df padding-bottom-xs">下内边距</view>
+					<view class="basis-df padding-bottom-xs">{{$i18nMy.t('下外边距')}}</view>
+					<view class="basis-df padding-bottom-xs">{{$i18nMy.t('下内边距')}}</view>
 					<view class="basis-df">margin-bottom-{size}</view>
 					<view class="basis-df">.padding-bottom-{size}</view>
 				</view>
 				<view class="flex flex-wrap padding solid-top">
-					<view class="basis-df padding-bottom-xs">左外边距</view>
-					<view class="basis-df padding-bottom-xs">左内边距</view>
+					<view class="basis-df padding-bottom-xs">{{$i18nMy.t('左外边距')}}</view>
+					<view class="basis-df padding-bottom-xs">{{$i18nMy.t('左内边距')}}</view>
 					<view class="basis-df">.margin-left-{size}</view>
 					<view class="basis-df">.padding-left-{size}</view>
 				</view>

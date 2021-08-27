@@ -1,30 +1,27 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">返回</block><block slot="content">标签</block></cu-custom>
+		<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">{{$i18nMy.t('返回')}}</block><block slot="content">{{$i18nMy.t('标签')}}</block></cu-custom>
 		<view class="cu-bar bg-white solid-bottom">
 			<view class='action'>
-				<text class='cuIcon-title text-blue'></text>标签形状
-			</view>
+				<text class='cuIcon-title text-blue'></text>{{$i18nMy.t('标签形状')}}</view>
 		</view>
 		<view class="padding bg-white solid-bottom">
-			<view class='cu-tag'>默认</view>
-			<view class='cu-tag round'>椭圆</view>
-			<view class='cu-tag radius'>圆角</view>
+			<view class='cu-tag'>{{$i18nMy.t('默认')}}</view>
+			<view class='cu-tag round'>{{$i18nMy.t('椭圆')}}</view>
+			<view class='cu-tag radius'>{{$i18nMy.t('圆角')}}</view>
 		</view>
 
 		<view class="cu-bar bg-white margin-top">
 			<view class='action'>
-				<text class='cuIcon-title text-blue'></text>标签尺寸
-			</view>
+				<text class='cuIcon-title text-blue'></text>{{$i18nMy.t('标签尺寸')}}</view>
 		</view>
 		<view class="padding bg-white">
-			<view class='cu-tag radius sm'>小尺寸</view>
-			<view class='cu-tag radius'>普通尺寸</view>
+			<view class='cu-tag radius sm'>{{$i18nMy.t('小尺寸')}}</view>
+			<view class='cu-tag radius'>{{$i18nMy.t('普通尺寸')}}</view>
 		</view>
 		<view class="cu-bar bg-white margin-top">
 			<view class='action'>
-				<text class='cuIcon-title text-blue'></text>标签颜色
-			</view>
+				<text class='cuIcon-title text-blue'></text>{{$i18nMy.t('标签颜色')}}</view>
 		</view>
 		<view class='padding-sm flex flex-wrap'>
 			<view class="padding-xs" v-for="(item,index) in ColorList" :key="index" v-if="item.name!='gray'">
@@ -36,8 +33,7 @@
 		</view>
 		<view class="cu-bar bg-white margin-top">
 			<view class='action'>
-				<text class='cuIcon-title text-blue'></text>镂空标签
-			</view>
+				<text class='cuIcon-title text-blue'></text>{{$i18nMy.t('镂空标签')}}</view>
 		</view>
 		<view class='padding-sm flex flex-wrap'>
 			<view class="padding-xs" v-for="(item,index) in ColorList" :key="index" v-if="item.name!='white'">
@@ -46,8 +42,7 @@
 		</view>
 		<view class="cu-bar bg-white margin-top">
 			<view class='action'>
-				<text class='cuIcon-title text-blue'></text>胶囊样式
-			</view>
+				<text class='cuIcon-title text-blue'></text>{{$i18nMy.t('胶囊样式')}}</view>
 		</view>
 		<view class="padding">
 			<view class="cu-capsule">
@@ -93,8 +88,7 @@
 		</view>
 		<view class="cu-bar bg-white margin-top">
 			<view class='action'>
-				<text class='cuIcon-title text-blue'></text>数字标签
-			</view>
+				<text class='cuIcon-title text-blue'></text>{{$i18nMy.t('数字标签')}}</view>
 		</view>
 		<view class="padding flex justify-between align-center">
 			<view class='cu-avatar xl radius'>

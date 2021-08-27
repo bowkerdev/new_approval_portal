@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<cu-custom bgImage="https://image.weilanwl.com/color2.0/plugin/wdh2236.jpg" :isBack="true"><block slot="backText">返回</block>
-			<block slot="content">微动画</block>
+		<cu-custom bgImage="https://image.weilanwl.com/color2.0/plugin/wdh2236.jpg" :isBack="true"><block slot="backText">{{$i18nMy.t('返回')}}</block>
+			<block slot="content">{{$i18nMy.t('微动画')}}</block>
 		</cu-custom>
 		<view class="cu-bar bg-white">
 			<view class="action">
@@ -31,7 +31,7 @@
 				<text class="cuIcon-title text-orange"></text> 延迟执行
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-cyan shadow" @tap="ToggleDelay">开始执行</button>
+				<button class="cu-btn bg-cyan shadow" @tap="ToggleDelay">{{$i18nMy.t('开始执行')}}</button>
 			</view>
 		</view>
 

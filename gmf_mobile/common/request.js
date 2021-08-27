@@ -62,7 +62,12 @@ function httpService(url,method,data,header){
 		header.token = token;			// 获取token值
 	}
 	if(method === 'POST'){
-		data = qs.stringify(data,  { allowDots: true, arrayFormat: 'indices' })
+		if(header["Content-Type"] !=null && header["Content-Type"].indexOf("application/json")>=0){
+			// 暂时不用特殊处理
+		}
+		else{
+			data = qs.stringify(data,  { allowDots: true, arrayFormat: 'indices' })
+		}
 	}else if(method === 'GET' || method === 'DELETE'){
 		 data = qs.stringify(data, { allowDots: true, arrayFormat: 'indices' })
 		 data = qs.parse(data)

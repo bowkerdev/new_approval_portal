@@ -1,8 +1,8 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">返回</block><block slot="content">时间轴</block></cu-custom>
+		<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">{{$i18nMy.t('返回')}}</block><block slot="content">{{$i18nMy.t('时间轴')}}</block></cu-custom>
 		<view class="cu-timeline">
-			<view class="cu-time">昨天</view>
+			<view class="cu-time">{{$i18nMy.t('昨天')}}</view>
 			<view class="cu-item cur cuIcon-noticefill">
 				<view class="content bg-green shadow-blur">
 					<text>22:22</text> 【广州市】快件已到达地球
@@ -42,7 +42,7 @@
 			<view class="cu-item">
 				<view class="content">
 					<view class="cu-capsule radius">
-						<view class="cu-tag bg-cyan">上午</view>
+						<view class="cu-tag bg-cyan">{{$i18nMy.t('上午')}}</view>
 						<view class="cu-tag line-cyan">10:00</view>
 					</view>
 					<view class="margin-top">这是第一次，我家的铲屎官走了这么久。久到足足有三天！！ 在听到他的脚步声响在楼梯间的那一刻，我简直想要破门而出，对着他狠狠地吼上10分钟，然后再看心情要不要他进门。</view>
@@ -54,7 +54,7 @@
 						<view class="cu-item">
 							<view class="cu-avatar round lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
 							<view class="content">
-								<view class="text-grey">文晓港</view>
+								<view class="text-grey">{{$i18nMy.t('文晓港')}}</view>
 								<view class="text-gray text-sm">
 									<text class="cuIcon-infofill text-red"></text> 消息未送达</view>
 							</view>
@@ -68,8 +68,7 @@
 								<view class="cu-tag badge">99+</view>
 							</view>
 							<view class="content">
-								<view class="text-grey">文晓港
-									<view class="cu-tag round orange sm">SVIP</view>
+								<view class="text-grey">{{$i18nMy.t('文晓港')}}<view class="cu-tag round orange sm">SVIP</view>
 								</view>
 								<view class="text-gray text-sm">
 									<text class="cuIcon-redpacket_fill text-red"></text> 收到红包</view>

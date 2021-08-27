@@ -2,7 +2,7 @@
 	<view>
 		<scroll-view scroll-y class="page">
 			<cu-custom bgImage="https://image.weilanwl.com/color2.0/plugin/cjkz2329.jpg" :isBack="true">
-				<block slot="backText">返回</block>
+				<block slot="backText">{{$i18nMy.t('返回')}}</block>
 				<block slot="content">
 					<image src="/static/cjkz.png" mode="aspectFill" style="width: 240upx;height: 60upx;"></image>
 				</block>

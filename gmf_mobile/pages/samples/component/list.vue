@@ -2,15 +2,15 @@
 	<view>
 		<scroll-view :scroll-y="modalName==null" class="page" :class="modalName!=null?'show':''">
 			<cu-custom bgColor="bg-gradual-pink" :isBack="true">
-				<block slot="backText">返回</block>
-				<block slot="content">列表</block>
+				<block slot="backText">{{$i18nMy.t('返回')}}</block>
+				<block slot="content">{{$i18nMy.t('列表')}}</block>
 			</cu-custom>
 			<view class="cu-bar bg-white solid-bottom margin-top">
 				<view class="action">
 					<text class="cuIcon-title text-orange "></text> 宫格列表
 				</view>
 				<view class="action">
-					<button class="cu-btn bg-green shadow" @tap="showModal" data-target="gridModal">设置</button>
+					<button class="cu-btn bg-green shadow" @tap="showModal" data-target="gridModal">{{$i18nMy.t('设置')}}</button>
 				</view>
 			</view>
 			<view class="cu-modal" :class="modalName=='gridModal'?'show':''" @tap="hideModal">
@@ -28,7 +28,7 @@
 					<view class="cu-list menu text-left solid-top">
 						<view class="cu-item">
 							<view class="content">
-								<text class="text-grey">边框</text>
+								<text class="text-grey">{{$i18nMy.t('边框')}}</text>
 							</view>
 							<view class="action">
 								<switch @change="Gridswitch" :class="gridBorder?'checked':''" :checked="gridBorder?true:false"></switch>
@@ -54,7 +54,7 @@
 					<text class="cuIcon-title text-orange"></text> 菜单列表
 				</view>
 				<view class="action">
-					<button class="cu-btn bg-green shadow" @tap="showModal" data-target="menuModal">设置</button>
+					<button class="cu-btn bg-green shadow" @tap="showModal" data-target="menuModal">{{$i18nMy.t('设置')}}</button>
 				</view>
 			</view>
 			<view class="cu-modal" :class="modalName=='menuModal'?'show':''" @tap="hideModal">
@@ -62,7 +62,7 @@
 					<view class="cu-list menu text-left solid-top">
 						<view class="cu-item">
 							<view class="content">
-								<text class="text-grey">短边框</text>
+								<text class="text-grey">{{$i18nMy.t('短边框')}}</text>
 							</view>
 							<view class="action">
 								<switch @change="MenuBorder" :class="menuBorder?'checked':''" :checked="menuBorder?true:false"></switch>
@@ -70,7 +70,7 @@
 						</view>
 						<view class="cu-item">
 							<view class="content">
-								<text class="text-grey">箭头</text>
+								<text class="text-grey">{{$i18nMy.t('箭头')}}</text>
 							</view>
 							<view class="action">
 								<switch @change="MenuArrow" :class="menuArrow?'checked':''" :checked="menuArrow?true:false"></switch>
@@ -78,7 +78,7 @@
 						</view>
 						<view class="cu-item">
 							<view class="content">
-								<text class="text-grey">卡片</text>
+								<text class="text-grey">{{$i18nMy.t('卡片')}}</text>
 							</view>
 							<view class="action">
 								<switch @change="MenuCard" :class="menuCard?'checked':''" :checked="menuCard?true:false"></switch>
@@ -115,7 +115,7 @@
 				<view class="cu-item" :class="menuArrow?'arrow':''">
 					<view class="content">
 						<text class="cuIcon-emojiflashfill text-pink"></text>
-						<text class="text-grey">头像组</text>
+						<text class="text-grey">{{$i18nMy.t('头像组')}}</text>
 					</view>
 					<view class="action">
 						<view class="cu-avatar-group">
@@ -130,7 +130,7 @@
 				<view class="cu-item" :class="menuArrow?'arrow':''">
 					<view class="content">
 						<text class="cuIcon-btn text-green"></text>
-						<text class="text-grey">按钮</text>
+						<text class="text-grey">{{$i18nMy.t('按钮')}}</text>
 					</view>
 					<view class="action">
 						<button class="cu-btn round bg-green shadow">
@@ -140,21 +140,21 @@
 				<view class="cu-item" :class="menuArrow?'arrow':''">
 					<view class="content">
 						<text class="cuIcon-tagfill text-red  margin-right-xs"></text>
-						<text class="text-grey">标签</text>
+						<text class="text-grey">{{$i18nMy.t('标签')}}</text>
 					</view>
 					<view class="action">
-						<view class="cu-tag round bg-orange light">音乐</view>
-						<view class="cu-tag round bg-olive light">电影</view>
-						<view class="cu-tag round bg-blue light">旅行</view>
+						<view class="cu-tag round bg-orange light">{{$i18nMy.t('音乐')}}</view>
+						<view class="cu-tag round bg-olive light">{{$i18nMy.t('电影')}}</view>
+						<view class="cu-tag round bg-blue light">{{$i18nMy.t('旅行')}}</view>
 					</view>
 				</view>
 				<view class="cu-item" :class="menuArrow?'arrow':''">
 					<view class="content">
 						<text class="cuIcon-warn text-green"></text>
-						<text class="text-grey">文本</text>
+						<text class="text-grey">{{$i18nMy.t('文本')}}</text>
 					</view>
 					<view class="action">
-						<text class="text-grey text-sm">小目标还没有实现！</text>
+						<text class="text-grey text-sm">{{$i18nMy.t('小目标还没有实现！')}}</text>
 					</view>
 				</view>
 				<view class="cu-item">
@@ -179,7 +179,7 @@
 				<view class="cu-item">
 					<view class="cu-avatar round lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg);"></view>
 					<view class="content">
-						<view class="text-grey">凯尔</view>
+						<view class="text-grey">{{$i18nMy.t('凯尔')}}</view>
 						<view class="text-gray text-sm flex">
 							<view class="text-cut">
 								<text class="cuIcon-infofill text-red  margin-right-xs"></text>
@@ -198,7 +198,7 @@
 					<view class="content">
 						<view class="text-grey">
 							<view class="text-cut">瓦洛兰之盾-塔里克</view>
-							<view class="cu-tag round bg-orange sm">战士</view>
+							<view class="cu-tag round bg-orange sm">{{$i18nMy.t('战士')}}</view>
 						</view>
 						<view class="text-gray text-sm flex">
 							<view class="text-cut">
@@ -214,8 +214,8 @@
 				<view class="cu-item ">
 					<view class="cu-avatar radius lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png);"></view>
 					<view class="content">
-						<view class="text-pink"><view class="text-cut">莫甘娜</view></view>
-						<view class="text-gray text-sm flex"> <view class="text-cut">凯尔，你被自己的光芒变的盲目！</view></view>
+						<view class="text-pink"><view class="text-cut">{{$i18nMy.t('莫甘娜')}}</view></view>
+						<view class="text-gray text-sm flex"> <view class="text-cut">{{$i18nMy.t('凯尔，你被自己的光芒变的盲目！')}}</view></view>
 					</view>
 					<view class="action">
 						<view class="text-grey text-xs">22:20</view>
@@ -225,7 +225,7 @@
 				<view class="cu-item grayscale">
 					<view class="cu-avatar radius lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big81007.jpg);"></view>
 					<view class="content">
-						<view><view class="text-cut">伊泽瑞尔</view>
+						<view><view class="text-cut">{{$i18nMy.t('伊泽瑞尔')}}</view>
 							<view class="cu-tag round bg-orange sm">断开连接...</view>
 						</view>
 						<view class="text-gray text-sm flex"> <view class="text-cut"> 等我回来一个打十个</view></view>
@@ -263,7 +263,7 @@
 				 @touchstart="ListTouchStart" @touchmove="ListTouchMove" @touchend="ListTouchEnd" :data-target="'move-box-' + index">
 					<view class="cu-avatar round lg" :style="[{backgroundImage:'url(https://ossweb-img.qq.com/images/lol/web201310/skin/big2100'+ (index+2) +'.jpg)'}]"></view>
 					<view class="content">
-						<view class="text-grey">文晓港</view>
+						<view class="text-grey">{{$i18nMy.t('文晓港')}}</view>
 						<view class="text-gray text-sm">
 							<text class="cuIcon-infofill text-red  margin-right-xs"></text> 消息未送达</view>
 					</view>
@@ -272,8 +272,8 @@
 						<view class="cu-tag round bg-grey sm">5</view>
 					</view>
 					<view class="move">
-						<view class="bg-grey">置顶</view>
-						<view class="bg-red">删除</view>
+						<view class="bg-grey">{{$i18nMy.t('置顶')}}</view>
+						<view class="bg-red">{{$i18nMy.t('删除')}}</view>
 					</view>
 				</view>
 			</view>

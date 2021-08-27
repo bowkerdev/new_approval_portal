@@ -1,7 +1,7 @@
 {
-    "name" : "jeeplus",
+    "name" : "approval-app",
     "appid" : "__UNI__8E0DC6F",
-    "description" : "jeeplus移动审批平台",
+    "description" : "移动审批平台",
     "versionName" : "jeeplus mobile 1.0",
     "versionCode" : 1,
     "transformPx" : false,
@@ -57,22 +57,22 @@
         }
     },
     "h5" : {
-        "title" : "jeeplus",
-        "domain" : "demo1.jeeplus.org",
+        "title" : "Approval",
+        "domain" : "approval-app",
         "devServer" : {
             "port" : 8000,
             "disableHostCheck" : true,
             "proxy" : {
-                "/api" : {
-                    "target" : "http://localhost:8082", // 需要跨域的域名
+                "/approval" : {
+                    "target" : "http://47.242.28.61:8082", // 需要跨域的域名
                     "changeOrigin" : true,
                     "secure" : false,
                     "pathRewrite" : {
-                        "^/api" : ""
+                        "^/approval" : "/approval"
                     }
                 },
                 "/userfiles" : {
-                    "target" : "http://localhost:8082", // 需要跨域的域名
+                    "target" : "http://47.242.28.61:8082", // 需要跨域的域名
                     "changeOrigin" : true,
                     "secure" : false,
                     "pathRewrite" : {

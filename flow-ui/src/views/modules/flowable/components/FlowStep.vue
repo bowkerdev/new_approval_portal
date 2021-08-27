@@ -3,15 +3,22 @@
       <div slot="header" class="clearfix">
         <span>{{$i18nMy.t('流转记录')}}</span>
       </div>
-      <el-steps :active="historicTaskStepNodeList.length">
+      <!-- <el-steps :active="historicTaskStepNodeList.length">
         <el-step :key="index" v-for="(node, index) in historicTaskStepNodeList"
         :title="node.activityName" finish-status="success"
          :description="node.assigneeName + node.time"></el-step>
-      </el-steps>
+      </el-steps> -->
       <el-table
       size="small"
       :data="historicTaskList"
       style="width: 100%">
+      <el-table-column
+        type="index"
+        label="#"
+        header-align="center"
+        align="center"
+        width="50">
+      </el-table-column>
       <el-table-column
         prop="histIns.activityName"
         :label="$i18nMy.t('任务')"

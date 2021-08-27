@@ -2,6 +2,9 @@
 	import Vue from 'vue'
 	export default {
 		onLaunch: function(e) {
+			if(e.query.language !=null){
+				window.$setI18n(e.query.language)
+			}
 			uni.getSystemInfo({
 				success: function(e) {
 					// #ifndef MP

@@ -31,7 +31,6 @@
 		},
 		onLoad(e) {
 			debugger
-			this.isLogin=true
 			if(e.ssoToken!=null){
 				this.isLogin=true
 				this.$http.get('/app/sys/logout?t=' + (new Date()).getTime().toString()).then(({data})=>{

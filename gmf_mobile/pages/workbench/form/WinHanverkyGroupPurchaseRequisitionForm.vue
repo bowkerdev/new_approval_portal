@@ -11,7 +11,7 @@
 		<view v-show="0 === tabIndex">
 			<view class="cu-card information">
 				<view class="cu-form-group" style="padding: 0px;">
-					<view class="title wd-100 ellipsis-description" style="text-align: center;font-weight: bold;font-size: 25px;padding-top: 20px;padding-bottom: 20px;">
+					<view class="title wd-100" style="text-align: center;font-weight: bold;font-size: 25px;padding-top: 20px;padding-bottom: 20px;">
 						{{$i18nMy.t('Win Hanverky Group Purchase Requisition Form')}}
 					</view>
 				</view>

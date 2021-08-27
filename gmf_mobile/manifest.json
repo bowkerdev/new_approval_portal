@@ -60,7 +60,7 @@
         "title" : "Approval",
         "domain" : "approval-app",
         "devServer" : {
-            "port" : 8000,
+            "port" : 8082,
             "disableHostCheck" : true,
             "proxy" : {
                 "/approval" : {
@@ -82,7 +82,8 @@
             }
         },
         "router" : {
-            "base" : "/"
+            "base" : "/approval-app/",
+            "mode" : "hash"
         },
         "optimization" : {
             "treeShaking" : {

@@ -90,22 +90,22 @@
 							</view>
 							
 							<view class="margin-top">
-								审批人 ： {{act.assigneeName}}
+								{{$i18nMy.t('审批人')}} ： {{act.assigneeName}}
 							</view>
 							<view class="margin-top">
-								办理状态 ：<view class="cu-tag bg-blue">{{act.comment.status}}</view> 
+								{{$i18nMy.t('办理状态')}} ：<view class="cu-tag bg-blue">{{act.comment.status}}</view> 
 							</view>
 							<view class="margin-top">
-								审批意见 ： {{act.comment.message}}
+								{{$i18nMy.t('审批意见')}} ： {{act.comment.message}}
 							</view>
 							<view class="margin-top">
-								开始时间 : {{act.histIns.startTime |formatDate}}
+								{{$i18nMy.t('开始时间')}} : {{act.histIns.startTime |formatDate}}
 							</view>
 							<view class="margin-top">
-								结束时间 : {{act.histIns.endTime |formatDate}}
+								{{$i18nMy.t('结束时间')}} : {{act.histIns.endTime |formatDate}}
 							</view>
 							<view class="margin-top">
-								用时 : {{act.durationTime || '0秒'}}
+								{{$i18nMy.t('用时')}} : {{act.durationTime || '0秒'}}
 							</view>
 						</view>
 					</view>
@@ -194,7 +194,7 @@
 			  }
 			   // 读取按钮配置
 			  if (this.status === 'start') {
-				this.buttons = [{code: '_flow_start', name: '启动', isHide: '0'}]
+				this.buttons = [{code: '_flow_start', name: $i18nMy.t('启动'), isHide: '0'}]
 			  } else if (this.procDefKey && this.taskDefKey) {
 				// 读取按钮
 				this.$http.get('/app/extension/taskDefExtension/queryByDefIdAndTaskId',  {
@@ -203,6 +203,9 @@
 				}).then(({data}) => {
 				  if (data.success) {
 					this.buttons = data.taskDefExtension.flowButtonList
+					for(var i=0;i<this.buttons.length;i++){
+						this.buttons[i].name= $i18nMy.t(this.buttons[i].name)
+					}
 				  }
 				})
 			  }
@@ -412,6 +415,14 @@
 				    }
 				});
 			},
+			// 回退到发起人
+			backToModify () {
+			  
+			},
+			// 补充资料
+			backToDocAdd () {
+			  
+			},
 			// 驳回到任意节点
 			turnBack () {
 			  this.$refs.taskBackNodes.init(this.taskId)
@@ -537,19 +548,19 @@
 					}
 				  })
 				})
-			 } else { // 动态表单启动
-				this.$refs.form.submitTaskFormData(vars, this.procInsId, this.taskId, this.auditForm.assignee, this.auditForm, (data) => {
-				  if (data.success) {
-					uni.showToast({ title: data.msg, icon: "success" });
-					uni.navigateTo({
-						url: '/pages/workbench/task/TodoList'
+				} else { // 动态表单启动
+					this.$refs.form.submitTaskFormData(vars, this.procInsId, this.taskId, this.auditForm.assignee, this.auditForm, (data) => {
+					  if (data.success) {
+						uni.showToast({ title: data.msg, icon: "success" });
+						uni.navigateTo({
+							url: '/pages/workbench/task/TodoList'
+						})
+						//抄送
+						this.cc(data)
+					  }
 					})
-					//抄送
-					this.cc(data)
-				  }
-				})
-			 }
-		},
+				}
+			},
 			submit (currentBtn, buttons) {
 			  let vars = {} // 存储流程变量
 	  
@@ -582,6 +593,12 @@
 				  break
 				case '_flow_back': // 驳回到任意步骤
 				  this.turnBack()
+				  break
+				case '_flow_back_modify': // 驳回到申请人
+				  this.backToModify()
+				  break
+				case '_flow_back_doc_add': // 资料补充
+				  this.backToDocAdd()
 				  break
 				case '_flow_add_multi_instance': // 加签
 				  this.addMultiInstance()

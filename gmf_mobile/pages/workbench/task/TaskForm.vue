@@ -158,7 +158,8 @@
 				  } else if(formName.indexOf("OaPrNewFormAll") > -1){
 					  this.notBackgroundColor = true;
 					  // this.businessId ='6d515ebc91fe4f498e7e23d05e9c10cf'
-					  this.form = PrAppForm
+					  this.formReadOnly = true;
+					  this.form = PrAppForm;
 				  }else{
 					  uni.showToast({ title: '没有关联流程表单!', icon: "none" });
 				  }

@@ -91,10 +91,10 @@
 							</view>
 							
 							<view class="margin-top">
-								{{$i18nMy.t('审批人')}} ： {{act.assigneeName}}
+								{{$i18nMy.t('审批人')}} ：{{act.assigneeName}}
 							</view>
 							<view class="margin-top">
-								{{$i18nMy.t('办理状态')}} ：<view class="cu-tag bg-blue">{{$i18nMy.t(act.comment.status)}}</view> 
+								{{$i18nMy.t('办理状态')}} ：<font style="font-weight: bold; color: #0081FF;">{{$i18nMy.t(act.comment.status)}}</font> 
 							</view>
 							<view class="margin-top">
 								{{$i18nMy.t('审批意见')}} ： {{act.comment.message}}
@@ -650,6 +650,9 @@
 <style scoped > 
 	page {
 		padding-top: 45px;
+	}
+	.content {
+		font-size: 12px;
 	}
 	.cu-form-group .title {
 		min-width: calc(4em + 40px);

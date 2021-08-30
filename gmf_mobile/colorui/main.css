@@ -1593,7 +1593,7 @@ button.cuIcon.lg {
 	top: 0;
 	margin: auto;
 	height: 60upx;
-	font-size: 32upx;
+	font-size: 28upx;
 	line-height: 60upx;
 	cursor: none;
 	pointer-events: none;
@@ -1861,7 +1861,7 @@ button.cuIcon.lg {
 }
 
 .cu-custom .cu-bar .content {
-	width: calc(100% - 440upx);
+	width: calc(100% - 360upx);
 }
 
 /* #ifdef MP-ALIPAY */
@@ -2339,9 +2339,9 @@ button.cuIcon.lg {
 
 .cu-form-group input {
 	flex: 1;
-	font-size: 30upx;
+	font-size: 12px;
 	color: #555;
-	padding-right: 20upx;
+	padding-right: 5px;
 }
 
 .cu-form-group>text[class*="cuIcon-"] {
@@ -3917,7 +3917,7 @@ scroll-view.cu-steps .cu-item {
     -webkit-box-flex: 1;
     -webkit-flex: 1;
     flex: 1;
-    font-size: 17px;
+    font-size: 12px;
     color: #555;
     padding-right: 11px;
 }
@@ -3987,7 +3987,7 @@ uni-button.buttonBox:after {
 
 /*  #ifdef  APP-PLUS || H5  */
 .upicker {
-    font-size: 14px !important;
+    font-size: 12px !important;
 	color: #666666 !important;
 }
 /*  #endif  */
@@ -4005,4 +4005,13 @@ uni-button.buttonBox:after {
 }
 .text-success{
 	color: #67C23A;
+}
+.flex_vlign_certer {
+	display: flex;
+	align-items: center;
+}
+
+.flex_align_certer {
+	display: flex;
+	justify-content: center;
 }

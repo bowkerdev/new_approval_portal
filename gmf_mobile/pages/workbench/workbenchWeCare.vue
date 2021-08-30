@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-blue">
-			<block slot="content"> 工作台</block>
+			<block slot="content">{{$i18nMy.t('工作台')}}</block>
 		</cu-custom>
 		<swiper class="screen-swiper square-dot bg-blue"  :indicator-dots="true" :circular="true"
 		 :autoplay="true" interval="2000" duration="500">

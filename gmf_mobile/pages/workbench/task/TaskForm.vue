@@ -7,15 +7,14 @@
 		<!-- 菜单 -->
 		<view class="bg-white nav fixed flex text-center" :style="[{top:CustomBar + 'px'}]">
 			<view class="cu-item flex-sub" :class="0==tabIndex?'text-blue cur':''" @tap="tabSelect" data-id="0">
-				表单信息
+				{{$i18nMy.t('表单信息')}}
 			</view>
 			<view class="cu-item flex-sub"  v-if="procInsId" :class="2==tabIndex?'text-blue cur':''" @tap="tabSelect" data-id="2">
-				流转记录
+				{{$i18nMy.t('流转记录')}}
 			</view>
 			<view class="cu-item flex-sub" :class="1==tabIndex?'text-blue cur':''" @tap="tabSelect" data-id="1">
-				流程图
+				{{$i18nMy.t('流程图')}}
 			</view>
-		
 		</view>
 		<view v-show="0 === tabIndex">
 			<scroll-view scroll-y class="page">
@@ -26,19 +25,21 @@
 			<view class=" bg-white margin-top" v-if="!procInsId || taskId">
 				<form @submit="formSubmit">
 				<view class="cu-list menu">
-					<view class="cu-form-group" v-if="!procInsId" >
+					<!-- <view class="cu-form-group" v-if="!procInsId" >
 						<view class="title">
-							<text class="red-color">* </text> 标题
+							<text class="red-color">* </text> {{$i18nMy.t('标题')}}
 						</view>
 						<input :placeholder="$i18nMy.t('请输入流程标题')" maxlength="200" v-model="title" name="title"></input>
-					</view>
-					<view class="cu-form-group"  v-if="taskId">
-						<view class="title">
-							<text class="red-color">* </text> 内容
+					</view> -->
+					<view class="cu-form-group"  v-if="taskId"> 
+						<view style="width: 100%;height: 100%;">
+							<view class="form-textarea-title wd-100">{{$i18nMy.t('审批意见')}}</view>
+							<view>
+								<textarea style="font-size: 12px; background-color: #fff4f4;" maxlength="1000"  v-model="auditForm.message" name="message" :placeholder="$i18nMy.t('请输入审批意见')"></textarea>
+							</view>
 						</view>
-						<textarea maxlength="2000"  v-model="auditForm.message" name="message" :placeholder="$i18nMy.t('请输入审批意见')"></textarea>
 					</view>
-					<view class="cu-form-group">
+					<!-- <view class="cu-form-group">
 						<view class="title">{{$i18nMy.t('是否抄送')}}</view>
 						<jp-switch v-model="isCC" ></jp-switch>
 					</view>
@@ -53,17 +54,18 @@
 					<view class="cu-form-group"  v-if="isAssign">
 						<view class="title">{{$i18nMy.t('指定')}}</view>
 						<user-select v-model="auditForm.assignee"  ></user-select>
-					</view>
+					</view> -->
 						<user-select-dialog title="选择转办用户" ref="transferUserSelectDialog" :showRadio="true" :showCheckBox="false" @doSubmit="selectUsersToTransferTask"></user-select-dialog>
 						<user-select-dialog title="选择委派用户" ref="delegateUserSelectDialog" :showRadio="true" :showCheckBox="false" @doSubmit="selectUsersToDelateTask"></user-select-dialog>
 						<user-select-dialog title="选择加签用户" ref="addSignTaskUserSelectDialog"  @doSubmit="selectUsersToAddSignTask"></user-select-dialog>
 						<task-back-nodes ref="taskBackNodes" @getBackTaskDefKey="back"></task-back-nodes>
 					</view>
 					
-					<view class="bottom-wrap  flex">
+					<view class="bottom-wrap flex">
 						<view class="flex-sub"  v-show="button.isHide === '0'"
 						 v-for="(button, index) in buttons" :key="index" >
-							<button class=" block buttonBox" @click="submit(button, buttons)"> {{button.name}}</button>
+							<button style="height: 50px; line-height: 1.2; font-size:14px;"
+							class="block buttonBox flex_align_certer flex_vlign_certer" @click="submit(button, buttons)">{{button.name}}</button>
 						</view>						
 					</view>
 				</form>
@@ -79,7 +81,6 @@
 		</view>
 		<view v-show="2 === tabIndex">
 			<view class="padding bg-white margin-top">
-	
 				<view class="cu-timeline" :key="index" v-for="(act, index) in historicTaskList">
 					<view class="cu-time">{{act.histIns.startTime |formatDate('MM-DD')}}</view>
 					<view class="cu-item text-blue">
@@ -93,7 +94,7 @@
 								{{$i18nMy.t('审批人')}} ： {{act.assigneeName}}
 							</view>
 							<view class="margin-top">
-								{{$i18nMy.t('办理状态')}} ：<view class="cu-tag bg-blue">{{act.comment.status}}</view> 
+								{{$i18nMy.t('办理状态')}} ：<view class="cu-tag bg-blue">{{$i18nMy.t(act.comment.status)}}</view> 
 							</view>
 							<view class="margin-top">
 								{{$i18nMy.t('审批意见')}} ： {{act.comment.message}}
@@ -105,7 +106,7 @@
 								{{$i18nMy.t('结束时间')}} : {{act.histIns.endTime |formatDate}}
 							</view>
 							<view class="margin-top">
-								{{$i18nMy.t('用时')}} : {{act.durationTime || '0秒'}}
+								{{$i18nMy.t('任务历时')}} : {{act.durationTime || '0 s'}}
 							</view>
 						</view>
 					</view>
@@ -121,7 +122,7 @@
 	import PreviewForm from '../form/GenerateFlowableForm'
 	import TaskBackNodes from './components/TaskBackNodes.vue'
 	import TestActivitiLeaveForm from '@/pages/test/activiti/TestActivitiLeaveForm.vue'
-	import WinHanverkyGroupPurchaseRequisitionForm from '@/pages/workbench/form/WinHanverkyGroupPurchaseRequisitionForm'
+	import PrAppForm from '@/pages/workbench/form/PrAppForm'
 	import moment from 'moment'
 	var  graceChecker = require("@/common/graceChecker.js");
 	export default {
@@ -157,7 +158,7 @@
 				  } else if(formName.indexOf("OaPrNewFormAll") > -1){
 					  this.notBackgroundColor = true;
 					  // this.businessId ='6d515ebc91fe4f498e7e23d05e9c10cf'
-					  this.form = WinHanverkyGroupPurchaseRequisitionForm
+					  this.form = PrAppForm
 				  }else{
 					  uni.showToast({ title: '没有关联流程表单!', icon: "none" });
 				  }
@@ -202,9 +203,17 @@
 				  taskDefId: this.taskDefKey
 				}).then(({data}) => {
 				  if (data.success) {
-					this.buttons = data.taskDefExtension.flowButtonList
+					this.buttons = data.taskDefExtension.flowButtonList 
+					var deleteIdx = -1
 					for(var i=0;i<this.buttons.length;i++){
-						this.buttons[i].name= $i18nMy.t(this.buttons[i].name)
+						if (this.buttons[i].code=="_flow_export") { //app暂不支持导出
+							deleteIdx = i
+						}else{
+							this.buttons[i].name= $i18nMy.t(this.buttons[i].name)
+						}
+					}
+					if (deleteIdx >= 0) {
+						this.buttons.splice(deleteIdx,1)
 					}
 				  }
 				})
@@ -218,7 +227,7 @@
 		  userSelect,
 		  userSelectDialog,
 		  TestActivitiLeaveForm,
-		  WinHanverkyGroupPurchaseRequisitionForm,
+		  PrAppForm,
 		  TaskBackNodes,
 		  PreviewForm
 		},
@@ -536,7 +545,7 @@
 						procInsId: this.procInsId,
 						procDefId: this.procDefId,
 						vars: vars,
-						message: this.auditForm.message,
+						comment: this.auditForm,
 						assignee: this.auditForm.assignee
 				  }).then(({data}) => {
 					if (data.success) {
@@ -626,17 +635,13 @@
 	}
 </script>
 
-<style>
+<style scoped > 
 	page {
 		padding-top: 45px;
 	}
 	.cu-form-group .title {
 		min-width: calc(4em + 40px);
 	}
-
-	
-
-
 	uni-view:nth-child(1n+1)>uni-button.buttonBox{
 		background:#0081ff;
 		color: #FFFFFF;
@@ -656,5 +661,13 @@
 	uni-button:nth-child(1n+5).buttonBox{
 		background:#a5673f;
 		color: #FFFFFF;
+	}
+	.margin-top {
+	    margin-top: 10px;
+	} 
+	.form-textarea-title {
+		font-size: 12px;
+		margin-top: 15px;
+		margin-bottom: -10px;
 	}
 </style>

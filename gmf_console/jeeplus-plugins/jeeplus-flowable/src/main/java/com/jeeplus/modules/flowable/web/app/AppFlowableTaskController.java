@@ -65,6 +65,7 @@ public class AppFlowableTaskController extends BaseController {
 
     @GetMapping("todo")
     public AjaxJson todoListData(Flow flow, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	flow.setProcDefKey("prpo");
         Page<ProcessVo> page = flowTaskService.todoList(new Page<ProcessVo>(request, response), flow);
         return AjaxJson.success().put("page", page);
     }

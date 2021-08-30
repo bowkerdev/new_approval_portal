@@ -11,7 +11,7 @@
 		<view v-show="0 === tabIndex">
 			<view class="cu-card information">
 				<view class="cu-form-group" style="padding: 0px;">
-					<view class="title wd-100" style="text-align: center;font-weight: bold;font-size: 25px;padding-top: 20px;padding-bottom: 20px;">
+					<view class="title wd-100" style="text-align: center;font-weight: bold;font-size: 20px;padding: 15px; ">
 						{{$i18nMy.t('Win Hanverky Group Purchase Requisition Form')}}
 					</view>
 				</view>
@@ -235,7 +235,7 @@
 			<view class="cu-card" v-if="null == detailInfo || 0 == detailInfo.length">
 				<view class="cu-form-group supplementary-document" style="padding-top: 10px;padding-bottom: 10px;">
 					<view style="width: 100%;height: 100%;text-align: center;">
-						{{$i18nMy.t('没有设备采购清单')}}
+						No data
 					</view>
 				</view>
 			</view>
@@ -262,10 +262,7 @@
 							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('供应商名称')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.supplierName}}</view>
 						</view>
-						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('包含VAT')}}</view>
-							<view class="title detail-info-title detail-info-title-right text-right">{{item.includedVat}}</view>
-						</view>
+						
 						<view class="detail-info-row">
 							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('市场价格')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.unitPrice || 0).toFixed(2)}}</view>
@@ -283,19 +280,23 @@
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.uom}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('报价单币种总数')}}</view>
+							<view class="title detail-info-title detail-info-title-left">VAT</view>
+							<view class="title detail-info-title detail-info-title-right text-right"> </view>
+						</view>
+						<view class="detail-info-row">
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('报价单币种')}} {{$i18nMy.t('总数')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docAmount || 0).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('报价单币种总数(VAT)')}}</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('报价单币种')}} {{$i18nMy.t('总数')}}(VAT)</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docVatAmount || 0).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('基础报价总数')}}</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('基础报价')}} {{$i18nMy.t('总数')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docAmount*inputForm.exRate).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('基础报价总数(VAT)')}}</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('基础报价')}} {{$i18nMy.t('总数')}}(VAT)</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docVatAmount*inputForm.exRate).toFixed(2)}}</view>
 						</view>
 					</view>
@@ -320,7 +321,7 @@
 					<view style="width: 100%;height: 100%;">
 						<view class="form-textarea-title wd-100">{{$i18nMy.t('投资回报分析')}}</view>
 						<view>
-							<textarea v-model="inputForm.roi" placeholder="请填写ROI"  :disabled="formReadOnly"></textarea>
+							<textarea v-model="inputForm.roi" placeholder="请填写ROI" :disabled="formReadOnly"></textarea>
 						</view>
 					</view>
 				</view>
@@ -343,7 +344,7 @@
 			</view>
 		</view>
 		<view v-show="1 === tabIndex">
-			<view class="cu-card information">
+			<!-- <view class="cu-card information">
 				<view class="cu-form-group" style="padding: 0px;">
 					<view class="title wd-100" style="text-align: center;font-weight: bold;font-size: 25px;padding-top: 20px;padding-bottom: 20px;">
 						{{$i18nMy.t('Win Hanverky Group Purchase Requisition Form')}}
@@ -465,7 +466,7 @@
 						</view>
 					</view>
 				</view>
-			</view>
+			</view> -->
 			<view class="cu-bar bg-white solid-bottom mg-t-10" >
 				<view class="action">
 					<text class="cuIcon-titles text-orange"></text>  <text style="font-size: 20px;font-weight: bold;">{{$i18nMy.t('补充文件')}}</text>
@@ -482,34 +483,34 @@
 				<view class="cu-form-group supplementary-document"  v-for="(item,index) in supplierInfo" :key="index" style="padding-top: 10px;padding-bottom: 10px;">
 					<view style="width: 100%;height: 100%;">
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('序号')}}</view>
-							<view class="title detail-info-title detail-info-title-right text-right">{{item.serialNumber}}</view>
+							<view class="title detail-info-title detail-info-title-left-1">{{$i18nMy.t('序号')}}</view>
+							<view class="title detail-info-title detail-info-title-right-1 text-right">{{item.serialNumber}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('描述')}}</view>
-							<view class="title detail-info-title detail-info-title-right text-right">{{item.description}}</view>
+							<view class="title detail-info-title detail-info-title-left-1">{{$i18nMy.t('描述')}}</view>
+							<view class="title detail-info-title detail-info-title-right-1 text-right">{{item.description}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('文件类型')}}</view>
-							<view class="title detail-info-title detail-info-title-right text-right">{{item.documentType}}</view>
+							<view class="title detail-info-title detail-info-title-left-1">{{$i18nMy.t('文件类型')}}</view>
+							<view class="title detail-info-title detail-info-title-right-1 text-right">{{item.documentType}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('附件')}}</view>
-							<view class="title detail-info-title detail-info-title-right text-right">
+							<view class="title detail-info-title detail-info-title-left-1">{{$i18nMy.t('附件')}}</view>
+							<view class="title detail-info-title detail-info-title-right-1 text-right">
 								<a :href="item.attachment" download="">{{item.attachmentFile}}</a>
 							</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('上传者部门')}}</view>
-							<view class="title detail-info-title detail-info-title-right text-right">{{item.uploaderDepartment}}</view>
+							<view class="title detail-info-title detail-info-title-left-1">{{$i18nMy.t('上传者部门')}}</view>
+							<view class="title detail-info-title detail-info-title-right-1 text-right">{{item.uploaderDepartment}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('上传者')}}</view>
-							<view class="title detail-info-title detail-info-title-right text-right">{{item.uploadedBy}}</view>
+							<view class="title detail-info-title detail-info-title-left-1">{{$i18nMy.t('上传者')}}</view>
+							<view class="title detail-info-title detail-info-title-right-1 text-right">{{item.uploadedBy}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('上传日期')}}</view>
-							<view class="title detail-info-title detail-info-title-right text-right">{{item.uploadedDate}}</view>
+							<view class="title detail-info-title detail-info-title-left-1">{{$i18nMy.t('上传日期')}}</view>
+							<view class="title detail-info-title detail-info-title-right-1 text-right">{{item.uploadedDate}}</view>
 						</view>
 					</view>
 				</view>
@@ -584,7 +585,7 @@
 		  },
 		  formReadOnly: {
 		    type: Boolean,
-		    default: false
+		    default: true
 		  }
 		},
 		components: {
@@ -665,7 +666,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .information .cu-form-group .title{
 	height: 100%;
 	line-height: 1;
@@ -704,11 +705,21 @@
 	justify-content: flex-start;
 }
 .detail-info-title-left{
-	width: 40%;
+	width: 70%;
 	word-break: break-word;
 	text-align: left;
 }
 .detail-info-title-right{
+	width: 30%;
+	word-break: break-word;
+	text-align: right;
+}
+.detail-info-title-left-1{
+	width: 40%;
+	word-break: break-word;
+	text-align: left;
+}
+.detail-info-title-right-1{
 	width: 60%;
 	word-break: break-word;
 	text-align: right;
@@ -732,15 +743,26 @@
 .cu-form-group .form-textarea{
 	margin-top: 0px;
 }
-.detail-info-title-left,
+.form-textarea-title {
+	margin-top: 10px;
+	margin-bottom: -10px;
+}
+.detail-info-title-left,.detail-info-title-left-1,
 .information .cu-form-group .title .detail-info-row-float-left,
 .cu-form-group .form-textarea-title{
-	color: #aaa;
+	font-size: 12px;
+	color: #a8a8a8;
 }
-.detail-info-title-right,
+.detail-info-title-right,.detail-info-title-right-1,
 .information .cu-form-group .title .detail-info-row-float-right,
-.cu-form-group .form-textarea{
+.cu-form-group .form-textarea,
+.uni-textarea-placeholder
+{
+	font-size: 12px;
 	color: #4a4a4a;
+}
+.cu-form-group uni-textarea {
+	font-size: 12px;
 }
 .cu-form-group{
 	title{

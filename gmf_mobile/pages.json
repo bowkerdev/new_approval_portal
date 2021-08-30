@@ -248,7 +248,7 @@
             "style" : {}
         }
         ,{
-            "path" : "pages/workbench/form/WinHanverkyGroupPurchaseRequisitionForm",
+            "path" : "pages/workbench/form/PrAppForm",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",

@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-blue" :isBack="true">
-			<block slot="backText">{{$i18nMy.t('返回')}}</block>
+		<cu-custom bgColor="bg-blue" :isBack="true" >
+			<block slot="backText" @click="returnPrev()">{{$i18nMy.t('返回')}}</block>
 			<block slot="content">{{title}}</block>
 		</cu-custom>
 		<!-- 菜单 -->
@@ -232,6 +232,11 @@
 		  TaskBackNodes,
 		  PreviewForm
 		},
+		onBackPress(options) {
+			console.log("onBackPress:"+options.from)			
+		    this.returnPrev();
+		    return true;
+		  },
 		data() {
 			return {
 				notBackgroundColor:false,
@@ -265,6 +270,12 @@
 			}
 		},
 		methods:{
+			returnPrev(){
+				console.log("returnPrev");
+				uni.redirectTo({
+				    url: '/pages/workbench/task/TodoList'
+				});
+			},
 			tabSelect (e) {
 				  if (this.procInsId) {
 					this.$refs.chart1.init()

@@ -281,7 +281,7 @@
 						</view>
 						<view class="detail-info-row">
 							<view class="title detail-info-title detail-info-title-left">VAT</view>
-							<view class="title detail-info-title detail-info-title-right text-right"> </view>
+							<view class="title detail-info-title detail-info-title-right text-right">{{inputForm.vat*100}}%</view>
 						</view>
 						<view class="detail-info-row">
 							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('报价单币种')}} {{$i18nMy.t('总数')}}</view>

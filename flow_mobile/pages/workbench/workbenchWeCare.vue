@@ -110,6 +110,9 @@
 			    console.log(key,value);
 			}
 		},
+		activated() {
+			this.getTag();
+		},
 		methods: {
 			getTag(){
 				let _that = this;

@@ -2,7 +2,7 @@
 	<view>
 		<cu-custom bgColor="bg-blue" backUrl="/pages/index/index" :isBack="true">
 			<block slot="backText">{{$i18nMy.t('返回')}}</block>
-			<block slot="content"> {{$i18nMy.t('待办事项')}}</block>
+			<block slot="content"> {{$i18nMy.t('待办任务')}}</block>
 		</cu-custom>
 		<view  :style="[{top:CustomBar + 'px'}]">
 		<view class="cu-bar search">

@@ -1,22 +1,22 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-blue">
-			<block slot="content">{{$i18nMy.t('工作台')}}</block>
+			<block slot="content">{{$i18nMy.t('工作中心')}}</block>
 		</cu-custom>
-		<swiper class="screen-swiper square-dot bg-blue"  :indicator-dots="true" :circular="true"
+		<!-- <swiper class="screen-swiper square-dot bg-blue"  :indicator-dots="true" :circular="true"
 		 :autoplay="true" interval="2000" duration="500">
 			<swiper-item v-for="(item,index) in swiperList"  :key="index">
 				<image :src="item.url" mode="aspectFill" v-if="item.type=='image'"></image>
 				<video :src="item.url" autoplay loop muted :show-play-btn="false" :controls="false" objectFit="cover" v-if="item.type=='video'"></video>
 			</swiper-item>
-		</swiper>
+		</swiper> -->
 		<view class="grid col-3 padding-sm" style="margin-top: -7px;padding-left: 0px;padding-right: 0px;">
-			<view  @tap="toTodoList"  class="padding-sm" style="padding-left: 0px;">
+			<view  @tap="toTodoList"  class="padding-sm" style="padding-left: 10px;">
 				<navigator hover-class="none" url="/pages/samples/basics/home">
-					<view class="padding  cu-avatar radius text-center shadow-blur bg-white" style="width: 100%;height: 100%;">
+					<view class="padding cu-avatar radius text-center shadow-blur bg-white" style="width: 100%;height: 100%;">
 						<view>
 							<text class="lg font-size-35 text-blue cuIcon-form"></text>
-							<view class="margin-top-sm text-Abc" style="font-size: 15px;">{{$i18nMy.t('待办事项')}}</view>
+							<view class="margin-top-sm text-Abc" style="font-size: 15px;">{{$i18nMy.t('待办任务')}}</view>
 						</view>
 						<view class="cu-tag badge">{{todoTag}}</view>
 					</view>
@@ -28,7 +28,7 @@
 					<view class="padding cu-avatar radius text-center shadow-blur bg-white" style="width: 100%;height: 100%;">
 						<view>
 							<text class="lg font-size-35 text-blue cuIcon-form"></text>
-							<view class="margin-top-sm text-Abc" style="font-size: 15px;">{{$i18nMy.t('已办事项')}}</view>
+							<view class="margin-top-sm text-Abc" style="font-size: 15px;">{{$i18nMy.t('已办任务')}}</view>
 						</view>
 						<view class="cu-tag badge">{{historicTag}}</view>
 					</view>
@@ -84,7 +84,7 @@
 				towerStart: 0,
 				direction: ''
 			};
-		},
+		}, 
 		computed: mapState({
 			 username: (state) => state.user.username
 		}),

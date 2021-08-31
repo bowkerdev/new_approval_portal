@@ -49,7 +49,7 @@
 								{{$i18nMy.t('审批人')}} ： {{act.assigneeName}}
 							</view>
 							<view class="margin-top">
-								{{$i18nMy.t('办理状态')}} ：<view class="cu-tag bg-blue">{{act.comment.status}}</view>  
+								{{$i18nMy.t('办理状态')}} ：<font style="font-weight: bold; color: #0081FF;">{{$i18nMy.t(act.comment.status)}}</font> 
 							</view>
 							<view class="margin-top">
 								{{$i18nMy.t('审批意见')}} ： {{act.comment.message}}
@@ -61,7 +61,7 @@
 								{{$i18nMy.t('结束时间')}} : {{act.histIns.endTime |formatDate}}
 							</view>
 							<view class="margin-top">
-								{{$i18nMy.t('用时')}} : {{act.durationTime || '0秒'}}
+								{{$i18nMy.t('任务历时')}} : {{act.durationTime || '0秒'}}
 							</view>
 						</view>
 					</view>
@@ -234,6 +234,12 @@
 	page {
 		padding-top: 45px;
 	}
+	.content {
+		font-size: 12px;
+	}
+	.margin-top {
+	    margin-top: 10px;
+	} 
 	.cu-form-group .title {
 		min-width: calc(4em + 40px);
 	}

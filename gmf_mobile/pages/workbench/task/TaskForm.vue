@@ -540,7 +540,7 @@
 			commit (vars) {
 				//定义表单规则
 				 var rule = [
-					{name:"message", checkType : "notnull", checkRule:"",  errorMsg:"审批意见不能为空!"}
+					/* {name:"message", checkType : "notnull", checkRule:"",  errorMsg:"审批意见不能为空!"} */
 				 ];
 				 //进行表单检查
 				 var formData = this.auditForm;

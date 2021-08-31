@@ -260,6 +260,32 @@ export function download (url, params) {
   })
 }
 
+export function downloadWithLoading (_this, url, params) {
+  _this.loading = true
+  $http({
+    method: 'GET',
+    url: url,
+    params: params,
+    responseType: 'blob'
+  }).then(response => {
+    if (!response) {
+      return
+    }
+    let link = document.createElement('a')
+    link.href = window.URL.createObjectURL(new Blob([response.data]))
+    link.target = '_blank'
+    let filename = response.headers['content-disposition']
+    link.download = decodeURI(filename)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    // eslint-disable-next-line handle-callback-err
+    _this.loading = false
+  }).catch((error) => {
+    _this.loading = false
+  }) 
+}
+
 
 export function asyncDownloadPost (url, params) {
   var ssoToken=Vue.cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')
@@ -463,4 +489,4 @@ function hashCode (str) {
   }
   return hash
 }
-export default {asyncDownloadPost, getParamString4Exp, escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}
+export default {asyncDownloadPost, getParamString4Exp, escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadWithLoading, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}

@@ -117,7 +117,7 @@
 </template>
 
 <script>
-	import userSelect from '@/components/user-select/user-select.vue'
+	/* import userSelect from '@/components/user-select/user-select.vue' */
 	import userSelectDialog from '@/components/user-select/user-select-dialog.vue'
 	import PreviewForm from '../form/GenerateFlowableForm'
 	import TaskBackNodes from './components/TaskBackNodes.vue'
@@ -225,7 +225,7 @@
 			  })
 		},
 		components:{
-		  userSelect,
+		  //userSelect,
 		  userSelectDialog,
 		  TestActivitiLeaveForm,
 		  PrAppForm,

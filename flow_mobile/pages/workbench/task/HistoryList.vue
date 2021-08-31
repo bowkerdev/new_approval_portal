@@ -108,6 +108,7 @@
 					pageNo: page.num,
 					pageSize: page.size,
 					status: '1',
+					procDefKey: 'prpo,pr',
 					title: this.curWord
 					
 				}).then(({data})=>{

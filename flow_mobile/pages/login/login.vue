@@ -1,7 +1,7 @@
 <template>
 	<view class="zai-box">
 		<image src="../../static/img/login.png" mode='aspectFit' class="zai-logo"></image>
-		<view  class="zai-title">Jeeplus</view>
+		<view  class="zai-title">Approval App</view>
 			<form v-if="!isLogin">
 				<view class="cu-form-group">
 					<view class="title">{{$i18nMy.t('用户名')}}</view>
@@ -12,8 +12,8 @@
 					<input :placeholder="$i18nMy.t('请输入密码')" type="password" displayable  v-model="password" name="input"></input>
 				</view>
 			</form>
-			<view v-if="!isLogin" class="zai-label">{{$i18nMy.t('忘记密码？')}}</view>
-			<button v-if="!isLogin" class="bg-gradual-blue round"  @click="bindLogin">{{$i18nMy.t('立即登录')}}</button>
+			<!-- <view v-if="!isLogin" class="zai-label">{{$i18nMy.t('忘记密码？')}}</view> -->
+			<button v-if="!isLogin" class="bg-gradual-blue round" style="margin-top: 40px;" @click="bindLogin">{{$i18nMy.t('登录')}}</button>
 	</view>
 </template>
 
@@ -30,7 +30,6 @@
 			}
 		},
 		onLoad(e) {
-			debugger
 			if(e.ssoToken!=null){
 				this.isLogin=true
 				this.$http.get('/app/sys/logout?t=' + (new Date()).getTime().toString()).then(({data})=>{
@@ -127,7 +126,7 @@
 		margin-top: 100upx;
 		margin-bottom: 100upx;
 		line-height: 340upx;
-		font-size: 68upx;
+		font-size: 56upx;
 		color: #fff;
 		text-align: center;
 		width: 100%;
@@ -167,6 +166,6 @@
 		transform: translate(1upx, 1upx);
 	}
 	.cu-form-group .title {
-		min-width: calc(4em + 15px);
+		min-width: calc(4em + 36px);
 	}
 </style>

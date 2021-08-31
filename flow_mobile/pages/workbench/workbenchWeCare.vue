@@ -1,7 +1,8 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-blue">
-			<block slot="content">{{$i18nMy.t('工作中心')}}</block>
+		<cu-custom bgColor="bg-blue" backUrl="/pages/login/login" isBack="true">
+			<block slot="backText">{{$i18nMy.t('返回')}}</block> 
+			<block slot="content" >{{$i18nMy.t('工作中心')}}</block>
 		</cu-custom>
 		<!-- <swiper class="screen-swiper square-dot bg-blue"  :indicator-dots="true" :circular="true"
 		 :autoplay="true" interval="2000" duration="500">
@@ -12,7 +13,7 @@
 		</swiper> -->
 		<view class="grid col-3 padding-sm" style="margin-top: -7px;padding-left: 0px;padding-right: 0px;">
 			<view  @tap="toTodoList"  class="padding-sm" style="padding-left: 10px;">
-				<navigator hover-class="none" url="/pages/samples/basics/home">
+				<navigator hover-class="none" url="/pages/workbench/workbenchWeCare">
 					<view class="padding cu-avatar radius text-center shadow-blur bg-white" style="width: 100%;height: 100%;">
 						<view>
 							<text class="lg font-size-35 text-blue cuIcon-form"></text>
@@ -24,7 +25,7 @@
 				
 			</view>
 			<view  @tap="toHistoryList"  class="padding-sm" style="padding-left: 0px;">
-				<navigator hover-class="none" url="/pages/samples/basics/home" >
+				<navigator hover-class="none" url="/pages/workbench/workbenchWeCare" >
 					<view class="padding cu-avatar radius text-center shadow-blur bg-white" style="width: 100%;height: 100%;">
 						<view>
 							<text class="lg font-size-35 text-blue cuIcon-form"></text>
@@ -120,6 +121,7 @@
 					pageNo: 10,
 					pageSize: 1,
 					status: '1',
+					procDefKey: 'prpo,pr',
 					title: ''
 					
 				}).then(({data})=>{
@@ -128,29 +130,30 @@
 				_that.$http.get('/app/flowable/task/historic', {
 					pageNo: 10,
 					pageSize: 1,
-					status: '1',
+					status: '1',					
+					procDefKey: 'prpo,pr',
 					title: ''
 					
 				}).then(({data})=>{
 					_that.historicTag = data.page.count || 0
 				})
-			},
-			toApplyList (mail) {
+			}, 
+			toApplyList () {
 				uni.navigateTo({
 				   url: '/pages/workbench/task/ApplyList'
 				})
 			},
-			toTodoList (mail) {
+			toTodoList () {
 				uni.navigateTo({
 				    url: '/pages/workbench/task/TodoList'
 				})
 			},
-			toHistoryList (mail) {
+			toHistoryList () {
 				uni.navigateTo({
 				    url: '/pages/workbench/task/HistoryList'
 				})
 			},
-			toFlowCopyList (mail) {
+			toFlowCopyList () {
 				uni.navigateTo({
 				    url: '/pages/workbench/task/FlowCopyList'
 				})

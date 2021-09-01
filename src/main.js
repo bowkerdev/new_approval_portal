@@ -87,7 +87,7 @@ VXETable.setup({
 })
 
       // 表格功能
-Vue.use(Header)
+Vue.use(Header) 
       .use(Footer)
       .use(Icon)
       .use(Filter)

@@ -495,7 +495,6 @@
         this.inputForm.vat = null
       },
       init(query) {
-        debugger
         if (query&&query.businessId) {
           this.loading = true
           this.inputForm.id = (query.businessId).replace("__copy","")
@@ -512,7 +511,7 @@
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
               if (this.isCopy) {
                 this.inputForm.id = ''
-                this.inputForm.applicationNo = ''                
+                this.inputForm.applicationNo = ''
               }
               if (!this.$common.isEmpty(this.inputForm.detailInfo)){
                 this.detailInfo = JSON.parse(this.inputForm.detailInfo)
@@ -579,7 +578,6 @@
         this.detailInfo=this.detailInfo.slice()
       },
       addTabListGroup(){
-        debugger
         this.detailInfo.push({edit:true,serialNumber:this.detailInfo.length+1})
         this.detailInfo=this.detailInfo.slice()
       },

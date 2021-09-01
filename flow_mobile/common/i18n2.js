@@ -28,6 +28,7 @@ i18nMy.t = function t(key) {
   if(res !=null){
     return res;
   }
+  var lang= Vue.config.lang ||localStorage.getItem('lang')||"en-US"
   var values = [],
     len = arguments.length - 1;
   while (len-- > 0) values[len] = arguments[len + 1];

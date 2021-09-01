@@ -6,13 +6,13 @@
 			if(shortLang !=null){
 				switch(shortLang) {
 				     case 'zh':
-				      shortLang = 'zh_CN';
+				      shortLang = 'zh-CN';
 				      break;
-				     case :'hk' :
-				      shortLang = 'zh_TW';
+				     case 'hk':
+				      shortLang = 'zh-TW';
 				      break;
 				     case 'en':
-				      shortLang = 'en_US';
+				      shortLang = 'en-US';
 				      break;
 				     default:
 				      break;

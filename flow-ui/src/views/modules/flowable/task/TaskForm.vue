@@ -344,7 +344,7 @@
       },
       // 补充资料
       backToDocAdd () {
-        this.$refs.form.saveForm((businessTable, businessId) => {
+        //this.$refs.form.saveForm((businessTable, businessId) => {
           this.$http.post('/flowable/task/back', {
             taskId: this.taskId,
             backTaskDefKey: 'DocAdd',
@@ -358,11 +358,11 @@
               this.cc(data)
             }
           })
-        })
+        //})
       },
       // 回退到上一审批环节，用于资料补充
       backToLastApprover () {
-        this.$refs.form.saveForm((businessTable, businessId) => {
+        //this.$refs.form.saveForm((businessTable, businessId) => {
           this.$http.post('/flowable/task/back', {
             taskId: this.taskId,
             backTaskDefKey: this.lastTaskDefKey,
@@ -376,7 +376,7 @@
               this.cc(data)
             }
           })
-        })
+        //})
       },
       // 加签
       addMultiInstance () {

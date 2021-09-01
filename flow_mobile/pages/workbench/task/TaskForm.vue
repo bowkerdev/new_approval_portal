@@ -438,11 +438,35 @@
 			},
 			// 回退到发起人
 			backToModify () {
-			  
+			  this.$http.post('/flowable/task/back', {
+			    taskId: this.taskId,
+			    backTaskDefKey: 'FormModify',
+			    ...this.auditForm
+			  }).then(({data}) => {
+			    if (data.success) {
+			      uni.showToast({ title: data.msg, icon: "success" });
+			      uni.navigateTo({
+			      	url: '/pages/workbench/task/TodoList'
+			      })
+			      this.cc(data)
+			    }
+			  })
 			},
 			// 补充资料
 			backToDocAdd () {
-			  
+			    this.$http.post('/flowable/task/back', {
+			      taskId: this.taskId,
+			      backTaskDefKey: 'DocAdd',
+			      ...this.auditForm
+			    }).then(({data}) => {
+			      if (data.success) {
+			        uni.showToast({ title: data.msg, icon: "success" });
+			        uni.navigateTo({
+			        	url: '/pages/workbench/task/TodoList'
+			        })
+			        this.cc(data)
+			      }
+			    })
 			},
 			// 驳回到任意节点
 			turnBack () {
@@ -550,7 +574,7 @@
 				  return;
 				}
 				 if (this.formType === '2') { //外置表单审批
-					this.$refs.form.saveForm((businessTable, businessId) => {
+				  //this.$refs.form.saveForm((businessTable, businessId) => {
 					  this.$http.post('/app/flowable/task/audit', {
 						taskId: this.taskId,
 						taskDefKey: this.taskDefKey,
@@ -559,16 +583,16 @@
 						vars: vars,
 						comment: this.auditForm,
 						assignee: this.auditForm.assignee
-				  }).then(({data}) => {
-					if (data.success) {
-						uni.showToast({ title: data.msg, icon: "success" });
-						uni.navigateTo({
-							url: '/pages/workbench/task/TodoList'
-						})
-					  this.cc(data)
-					}
-				  })
-				})
+					  }).then(({data}) => {
+						if (data.success) {
+							uni.showToast({ title: data.msg, icon: "success" });
+							uni.navigateTo({
+								url: '/pages/workbench/task/TodoList'
+							})
+						  this.cc(data)
+						}
+					  })
+				//})
 				} else { // 动态表单启动
 					this.$refs.form.submitTaskFormData(vars, this.procInsId, this.taskId, this.auditForm.assignee, this.auditForm, (data) => {
 					  if (data.success) {

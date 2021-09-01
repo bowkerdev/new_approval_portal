@@ -1,8 +1,8 @@
 <template>
-	<view class="zai-box">
+	<view v-if="!isLogin" class="zai-box">
 		<image src="../../static/img/login.png" mode='aspectFit' class="zai-logo"></image>
 		<view  class="zai-title">Jeeplus</view>
-			<form v-if="!isLogin">
+			<form >
 				<view class="cu-form-group">
 					<view class="title">{{$i18nMy.t('用户名')}}</view>
 					<input :placeholder="$i18nMy.t('请输入账号')" v-model="account" name="input"></input>
@@ -12,9 +12,9 @@
 					<input :placeholder="$i18nMy.t('请输入密码')" type="password" displayable  v-model="password" name="input"></input>
 				</view>
 			</form>
-			<view v-if="!isLogin" class="zai-label">{{$i18nMy.t('忘记密码？')}}</view>
-			<button v-if="!isLogin" class="bg-gradual-blue round"  @click="bindLogin">{{$i18nMy.t('立即登录')}}</button>
-	</view>
+			<view  class="zai-label">{{$i18nMy.t('忘记密码？')}}</view>
+			<button class="bg-gradual-blue round"  @click="bindLogin">{{$i18nMy.t('立即登录')}}</button>
+	    </view>
 </template>
 
 <script>

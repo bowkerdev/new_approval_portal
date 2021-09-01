@@ -2,8 +2,22 @@
 	import Vue from 'vue'
 	export default {
 		onLaunch: function(e) {
-			if(e.query.language !=null){
-				window.$setI18n(e.query.language)
+			var shortLang=e.query.language||e.query.lan
+			if(shortLang !=null){
+				switch(shortLang) {
+				     case 'zh':
+				      shortLang = 'zh_CN';
+				      break;
+				     case :'hk' :
+				      shortLang = 'zh_TW';
+				      break;
+				     case 'en':
+				      shortLang = 'en_US';
+				      break;
+				     default:
+				      break;
+				}
+				window.$setI18n(shortLang)
 			}
 			uni.getSystemInfo({
 				success: function(e) {

@@ -13,7 +13,7 @@
 				</view>
 			</form>
 			<!-- <view  class="zai-label">{{$i18nMy.t('忘记密码？')}}</view> -->
-			<button class="bg-gradual-blue round"  @click="bindLogin">{{$i18nMy.t('登录')}}</button>
+			<button class="bg-gradual-blue round" style="margin-top: 40px;" @click="bindLogin">{{$i18nMy.t('登录')}}</button>
 	    </view>
 </template>
 

@@ -45,7 +45,7 @@ i18nMy.t = function t(key) {
 	saveLang(key,languageData)
   }
   if(languageData[key] !=null){
-    switch (Vue.config.lang){
+    switch (lang){
       case 'en-US':window.$i18nMy.langData[key]=languageData[key].en; break;
       case 'zh-CN':window.$i18nMy.langData[key]=languageData[key].cn; break;
       case 'zh-TW':window.$i18nMy.langData[key]=languageData[key].hk; break;

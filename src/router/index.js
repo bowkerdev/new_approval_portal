@@ -55,6 +55,10 @@ const router = new Router({
   // 添加动态(菜单)路由
 router.beforeEach((to, from, next) => {
   var tmp=common.getUrlParam("token");
+  if(process.env.VUE_APP_SSO_LOGIN != 'true'&&tmp!=null){
+    tmp=null
+    window.location.href = window.location.origin+window.location.pathname
+  }
   if(tmp!=null&&router.options.isAddDynamicMenuRoutes==false){
     Vue.cookie.set('token', tmp);
     var tmp2=common.getUrlParam("refreshToken");
@@ -216,6 +220,7 @@ function fnAddDynamicMenuRoutes (menuList = [], routes = []) {
       menuList[i].href = menuList[i].href.replace(/[/]$/, '')
       const route = {
         path: menuList[i].href.split('?')[0],
+        fullPath : menuList[i].href,
         component: null,
         name: menuList[i].href.replace(/^\//g, '').replace(/[/]/g, '-').replace(/[?]/g, '-').replace(/&/g, '-').replace(/=/g, '-'),
         meta: {

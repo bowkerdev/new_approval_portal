@@ -10,7 +10,7 @@
                       label: 'name',         // 显示名称
                       children: 'children'    // 子级字段名
                     }"
-                  placeholder="请选择大屏分类"
+                  :placeholder="$i18nMy.t('请选择大屏分类')"
                   size="small"
                   url="/datav/dataScreenCategory/treeData"
                   :value="searchForm.category.id"
@@ -19,7 +19,7 @@
                   @getValue="(value) => {searchForm.category.id=value}"/>
          </el-form-item>
          <el-form-item prop="name">
-                <el-input size="small" v-model="searchForm.name" placeholder="大屏名称" clearable></el-input>
+                <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('大屏名称')" clearable></el-input>
          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small" icon="el-icon-search">查询</el-button>

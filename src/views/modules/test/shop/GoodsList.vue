@@ -3,7 +3,7 @@
       <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="name">
-                <el-input size="small" v-model="searchForm.name" placeholder="商品名称" clearable></el-input>
+                <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('商品名称')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="category.id">
             <SelectTree
@@ -13,7 +13,7 @@
                       label: 'name',         // 显示名称
                       children: 'children'    // 子级字段名
                     }"
-                  placeholder="请选择所属类型"
+                  :placeholder="$i18nMy.t('请选择所属类型')"
                   size="small"
                   url="/test/shop/category/treeData"
                   :value="searchForm.category.id"
@@ -27,7 +27,7 @@
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
-      <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
+      <el-dialog  :title="$i18nMy.t('导入Excel')" :visible.sync="isImportCollapse">
           <el-form size="small" :inline="true" v-show="isImportCollapse"  ref="importForm">
              <el-form-item>
               <el-button type="default" @click="downloadTpl()" size="small">下载模板</el-button>
@@ -233,7 +233,7 @@
         let ids = id || this.dataListSelections.map(item => {
           return item.id
         }).join(',')
-        this.$confirm(`确定删除所选项吗?`, '提示', {
+        this.$confirm($i18nMy.t('确定删除所选项吗') + '?', $i18nMy.t('提示'), {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

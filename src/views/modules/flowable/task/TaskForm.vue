@@ -101,31 +101,37 @@
   const _import = require('@/router/import-' + process.env.NODE_ENV)
   export default {
     activated () {
-      if(this.$route.query.taskId != this.taskId ){
-        Object.assign(this.$data, this.$options.data.call(this))
+      this.taskSelectedTab = 'form-first'
+      if(this.initOk){
+        return
       }
+      Object.assign(this.$data, this.$options.data.call(this))
       this.init()
+      this.initOk = true
       if (this.formType === '2') { // 读取外置表单
         if (this.formUrl === '/404') {
           this.form = null
-          this.$message.info('没有关联流程表单!')
+          this.$message.info($i18nMy.t('没有关联流程表单!'))
         } else {
           this.form = _import(`modules${this.formUrl}`)
         }
       } else { // 读取动态表单
-        this.$nextTick(() => {
-          if (this.formUrl === '/404') {
-            this.$refs.form.createForm('')
-          } else {
-            this.$refs.form.createForm(this.formUrl)
-          }
-        })
+        function _createForm(pThis){
+          pThis.$nextTick(() => {
+            if (pThis.formUrl === '/404') {
+              pThis.$refs.form.createForm('')
+            } else {
+              pThis.$refs.form.createForm(pThis.formUrl)
+            }
+          })
+        }
         if (this.status === 'start') {
           // 读取启动表单配置
           this.$http.get('/flowable/form/getStartFormData',
               {params: {processDefinitionId: this.procDefId}}
               ).then(({data}) => {
                 this.taskFormData = data.startFormData
+                _createForm(this)
               })
         } else {
           // 读取任务表单配置
@@ -133,6 +139,7 @@
               {params: {taskId: this.taskId}}
               ).then(({data}) => {
                 this.taskFormData = data.taskFormData
+                _createForm(this)
               })
         }
       }
@@ -147,6 +154,9 @@
         }}).then(({data}) => {
           if (data.success) {
             this.buttons = data.taskDefExtension.flowButtonList
+            for(var i=0;i<this.buttons.length;i++){
+              this.buttons[i].name = this.buttons[i].name
+            }
           }
         })
       }
@@ -467,6 +477,7 @@
     },
     data () {
       return {
+        initOk:false,
         form: null,
         formType: '',
         formUrl: '',

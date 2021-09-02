@@ -13,14 +13,14 @@
                 :rules="[
                   {required: true, message:'姓名不能为空', trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.name" placeholder="请填写姓名"     ></el-input>
+              <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写姓名')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item label="备注信息" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" placeholder="请填写备注信息"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写备注信息')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

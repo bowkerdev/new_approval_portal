@@ -66,10 +66,19 @@
             })
           } else {
             // 处理老版本没有dataBind值的情况，默认绑定数据
-            if (genList[i].options.dataBind) {
-              this.dataBindMap.set(genList[i].model, genList[i].type)
+            if (genList[i].options.dataBind) {//
+              this.dataBindMap.set(genList[i].model,
+                {type:genList[i].type,defaultType:genList[i].options.defaultType})
             }
           }
+        }
+      },
+      createCustomForm(showArra,disabledArra){
+        if(this.$refs.generateForm==null||this.$refs.generateForm.createForm ==null){
+          setTimeout(() => { this.createCustomForm(showArra,disabledArra)},1000)
+        }
+        else{
+          this.$refs.generateForm.createForm(this.options, this.formData, showArra, disabledArra, this.edit)
         }
       },
       createForm (id) {
@@ -91,7 +100,7 @@
               this.options = this.DynamicFormLanguage.simpleLanguageFrom(JSON.parse(json))
               this.dataBindMap.clear()
               this.generateModel(this.options.list)
-              setTimeout(() => {
+              this.$nextTick(() => {
                 this.loading = false
                 this.visible = true
                 this.$nextTick(() => {
@@ -108,39 +117,43 @@
                       disabledArra.push(`${item.id}`)
                     }
                   })
-                  let hideArra = this.$refs.generateForm.getDataBindFields().filter((field) => {
-                    if (!showArra.includes(field)) {
-                      return true
-                    }
-                  })
                   for (let key in this.formData) {
                     let dataField = this.dataBindMap.get(key)
-                    if (dataField && (dataField['type'] === 'checkbox' ||
-                        dataField['type'] === 'imgupload' ||
-                        dataField['type'] === 'table' ||
-                        (dataField['type'] === 'select' && dataField.options.multiple) ||
-                        dataField['type'] === 'fileupload')) {
+                    let dataFieldType = dataField.type
+                    if (dataFieldType && (dataFieldType === 'checkbox' ||
+                        dataFieldType === 'imgupload' ||
+                        dataFieldType === 'table' ||
+                        (dataFieldType === 'blank' && dataField.defaultType !='String' ) ||
+                        dataFieldType === 'select' ||
+                        dataFieldType === 'fileupload')) {
                       if (this.formData[key] && typeof this.formData[key] === 'string') {
                         this.formData[key] = JSON.parse(this.formData[key])
                       } else if (!this.formData[key]) {
                         this.formData[key] = []
                       }
                     }
-                    if (dataField && (dataField['type'] === 'number' || (dataField['options'] && dataField['options'].dataType === 'number'))) {
+                    if (dataFieldType && (dataFieldType === 'number' ||
+                          (dataFieldType &&
+                           dataFieldType.dataType === 'number'))) {
                       if (this.formData[key] !== undefined && this.formData[key] !== '' && typeof this.formData[key] === 'string') {
                         this.formData[key] = JSON.parse(this.formData[key])
                       }
                     }
                   }
                   if (!this.isCustom) {
+                    let hideArra = this.$refs.generateForm.getDataBindFields().filter((field) => {
+                      if (!showArra.includes(field)) {
+                        return true
+                      }
+                    })
                     this.$refs.generateForm.hide(hideArra)
                     this.$refs.generateForm.disabled(disabledArra, true)
                     this.$refs.generateForm.setData(this.formData)
                   } else {
-                    this.$refs.generateForm.createForm(this.options, this.formData, showArra, disabledArra, this.edit)
+                    this.createCustomForm(showArra,disabledArra)
                   }
                 })
-              }, 500)
+              })
             } else {
               this.loading = false
               this.visible = true
@@ -154,12 +167,12 @@
       submitStartFormData(vars, callback) {
         this.$refs.generateForm.getData().then(data => {
           this.submitStartFormDataToBackend(data, vars, callback)
-        }).catch(e => {})
+        }).catch(e => {this.visible = true;this.loading = false})
       },
       submitTaskFormData(vars, procInsId, taskId, assign, comment, callback) {
         this.$refs.generateForm.getData().then(data => {
           this.submitTaskFormDataToBackend(data, vars, procInsId, taskId, assign, comment, callback)
-        }).catch(e => {})
+        }).catch(e => {this.visible = true;this.loading = false})
       },
       submitStartFormDataToBackend(data, vars, callback) {
         this.loading = true

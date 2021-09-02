@@ -12,7 +12,7 @@
             <el-form-item label="品牌" prop="name"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.name" placeholder="请填写品牌"     ></el-input>
+              <el-input v-model="inputForm.name" :placeholder="$i18nMy.t('请填写品牌')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -38,7 +38,7 @@
             <el-form-item label="简介" prop="remarks"
                 :rules="[
                  ]">
-          <el-input type="textarea" v-model="inputForm.remarks" placeholder="请填写简介"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.remarks" :placeholder="$i18nMy.t('请填写简介')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

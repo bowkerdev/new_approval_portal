@@ -17,7 +17,7 @@
                   {required: true, message:'报销费用不能为空', trigger:'blur'},
                   {validator: validator.isFloatGtZero, trigger:'blur'}
                  ]">
-              <el-input v-model="inputForm.cost" placeholder="请填写报销费用"     ></el-input>
+              <el-input v-model="inputForm.cost" :placeholder="$i18nMy.t('请填写报销费用')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -45,7 +45,7 @@
                 :rules="[
                   {required: true, message:'报销事由不能为空', trigger:'blur'}
                  ]">
-          <el-input type="textarea" v-model="inputForm.reason" placeholder="请填写报销事由"     ></el-input>
+          <el-input type="textarea" v-model="inputForm.reason" :placeholder="$i18nMy.t('请填写报销事由')"     ></el-input>
            </el-form-item>
         </el-col>
         </el-row>

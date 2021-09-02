@@ -3,10 +3,10 @@
       <el-form :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="url">
-                <el-input size="small" v-model="searchForm.url" placeholder="接口名称" clearable></el-input>
+                <el-input size="small" v-model="searchForm.url" :placeholder="$i18nMy.t('接口名称')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="isSuccee">
-                <el-input size="small" v-model="searchForm.isSuccee" placeholder="是否正确执行" clearable></el-input>
+                <el-input size="small" v-model="searchForm.isSuccee" :placeholder="$i18nMy.t('是否正确执行')" clearable></el-input>
          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询'})}</el-button>

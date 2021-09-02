@@ -5,7 +5,7 @@
          <el-form-item prop="student.id">
             <GridSelect
                     title="选择学生"
-                    placeholder="请选择学生"
+                    :placeholder="$i18nMy.t('请选择学生')"
                     labelName = 'name'
                     labelValue = 'id'
                     :value = "searchForm.student.id"
@@ -32,7 +32,7 @@
          <el-form-item prop="course.id">
             <GridSelect
                     title="选择课程"
-                    placeholder="请选择课程"
+                    :placeholder="$i18nMy.t('请选择课程')"
                     labelName = 'name'
                     labelValue = 'id'
                     :value = "searchForm.course.id"
@@ -62,7 +62,7 @@
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
-      <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
+      <el-dialog  :title="$i18nMy.t('导入Excel')" :visible.sync="isImportCollapse">
           <el-form size="small" :inline="true" v-show="isImportCollapse"  ref="importForm">
              <el-form-item>
               <el-button type="default" @click="downloadTpl()" size="small">下载模板</el-button>
@@ -270,7 +270,7 @@
         let ids = id || this.dataListSelections.map(item => {
           return item.id
         }).join(',')
-        this.$confirm(`确定删除所选项吗?`, '提示', {
+        this.$confirm($i18nMy.t('确定删除所选项吗') + '?', $i18nMy.t('提示'), {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

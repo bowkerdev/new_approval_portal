@@ -1,103 +1,57 @@
 import _i18nMy from '@/utils/i18n2'
 export default {
-  isValueNull(value) {
-    if (value == null) {
-      return true
+  dealHtml(html){
+    html=html.replace(/\n/g,"").replace(/\t/g,"").replace(/ /g,"");
+    var array = html.match(/>[^\x00-\xff]+</g);
+    for(var i=0;i<array.length;i++){
+      html=html.replaceAll(array[i],">"+_i18nMy.t(array[i].replace("<","").replace(">",""))+"<")
     }
-    if (value == undefined) {
-      return true
+    return html
+  },
+  dealGeneralCtl(obj){
+    if(obj.name!=null){
+      obj.name=_i18nMy.t(obj.name)
     }
-    return false
   },
-  isNotNullArray(arr) {
-    if (!this.isValueNull(arr)) {
-      if (Array.isArray(arr)) {
-        return true
-      }
-    }
-    return false
-  },
-  getLanguage(value) {
-    return _i18nMy.t(value)
-  },
-  /**
-   * @param columns 格式要求：[{list:[{name:''}]}]
-   * */
-  simpleLanguageGridFrom(columns) {
-    if (this.isNotNullArray(columns)) {
-      for (let j = 0; j < columns.length; j++) {
-        var columnList = columns[j].list
-        if (this.isNotNullArray(columnList)) {
-          for (let k = 0; k < columnList.length; k++) {
-            var obj = columnList[k]
-            if (!this.isValueNull(obj.name)) {
-              // eslint-disable-next-line no-undef
-              obj.name = this.getLanguage(obj.name)
-            }
-          }
-        }
+  dealObj(obj){
+    if(obj.options!=null&&!obj.options.hidden){
+      switch(obj.type){
+        case 'html':obj.options.defaultValue = this.dealHtml(obj.options.defaultValue); break ;
+        case 'radio':
+        case 'date':
+        case 'textarea':
+        case 'input':this.dealGeneralCtl(obj); break ;
+        case 'td':break ;
+        default :
+          debugger;
+          break ;
       }
     }
   },
   /**
-   * @param tableColumns 格式要求：[{name:''}]
-   * */
-  simpleLanguageTableFrom(tableColumns) {
-    if (this.isNotNullArray(tableColumns)) {
-      for (let j = 0; j < tableColumns.length; j++) {
-        var obj = tableColumns[j]
-        if (!this.isValueNull(obj.name)) {
-          // eslint-disable-next-line no-undef
-          obj.name = this.getLanguage(obj.name)
-        }
-      }
-    }
-  },
-  /**
-   * @param options 格式要求：{options:[{value:''}]}
-   * */
-  simpleLanguageRadioFrom(options) {
-    if (!this.isValueNull(options)) {
-      var optionList = options.options
-      if (this.isNotNullArray(optionList)) {
-        for (let i = 0; i < optionList.length; i++) {
-          var obj = optionList[i]
-          if (!this.isValueNull(obj.value)) {
-            // eslint-disable-next-line no-undef
-            obj.value = this.getLanguage(obj.value)
-          }
-        }
-      }
-    }
-  },
-  /**
-   * @param obj 格式要求：{name:''}
-   * */
-  simpleLanguageNameFrom(obj) {
-    if (!this.isValueNull(obj.name)) {
-      // eslint-disable-next-line no-undef
-      obj.name = this.getLanguage(obj.name)
-    }
-  },
-  /**
-   * @param json 格式要求：{list:[{type:''}]}
+   * @param
    * */
   simpleLanguageFrom(json) {
-    if (Object.prototype.toString.call(json) === '[object Object]') {
-      var list = json.list
-      if (this.isNotNullArray(list)) {
-        for (let i = 0; i < list.length; i++) {
-          var type = list[i].type
-          switch (type) {
-            case 'grid' :this.simpleLanguageGridFrom(list[i].columns); break
-            case 'table' :this.simpleLanguageTableFrom(list[i].tableColumns); break
-            case 'radio' :this.simpleLanguageRadioFrom(list[i].options); break
-            case 'divider' :
-            case 'fileupload':
-            case 'textarea' : this.simpleLanguageNameFrom(list[i]); break
-            default: break
-          }
+    if(json instanceof Array){
+      for(var i=0;i<json.length;i++){
+        if(json[i].columns !=null && json[i].columns instanceof Array ){
+          this.simpleLanguageFrom(json[i].columns)
         }
+        else{
+          this.simpleLanguageFrom(json[i])
+        }
+      }
+    }
+    else{
+      this.dealObj(json)
+      if(json.rows !=null){
+        this.simpleLanguageFrom(json.rows)
+      }
+      else if(json.list !=null){
+        this.simpleLanguageFrom(json.list)
+      }
+      else if(json.tableColumns !=null){
+        this.simpleLanguageFrom(json.tableColumns)
       }
     }
     return json

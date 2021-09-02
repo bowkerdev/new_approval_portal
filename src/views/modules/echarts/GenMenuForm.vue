@@ -23,10 +23,10 @@
         </el-form-item>
         <el-form-item label="名称" prop="name" :rules="[{required: true, message: '名称不能为空', trigger: 'blur'}]">
             <el-input maxlength="200" v-model="inputForm.name" 
-                  placeholder="菜单名称"></el-input>
+                  :placeholder="$i18nMy.t('菜单名称')"></el-input>
         </el-form-item>
         <el-form-item v-if="inputForm.type !== '2'" label="菜单图标" prop="icon">
-            <el-input v-model="inputForm.icon" @focus="selectIcon" clearable :readonly="true" style="width:100%" placeholder="菜单图标名称"></el-input>
+            <el-input v-model="inputForm.icon" @focus="selectIcon" clearable :readonly="true" style="width:100%" :placeholder="$i18nMy.t('菜单图标名称')"></el-input>
         </el-form-item>
     
     </el-form>

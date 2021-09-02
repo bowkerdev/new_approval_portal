@@ -3,7 +3,7 @@
       <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="user.id">
-            <user-select :limit='1' size="small" placeholder="请选择员工姓名" :value="searchForm.user.id" @getValue='(value) => {searchForm.user.id=value}'></user-select>
+            <user-select :limit='1' size="small" :placeholder="$i18nMy.t('请选择员工姓名')" :value="searchForm.user.id" @getValue='(value) => {searchForm.user.id=value}'></user-select>
          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small" icon="el-icon-search">查询</el-button>
@@ -11,7 +11,7 @@
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
-        <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
+        <el-dialog  :title="$i18nMy.t('导入Excel')" :visible.sync="isImportCollapse">
           <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
              <el-form-item>
               <el-button type="default" @click="downloadTpl()" size="small">下载模板</el-button>
@@ -215,7 +215,7 @@
         let ids = id || this.dataListSelections.map(item => {
           return item.id
         }).join(',')
-        this.$confirm(`确定删除所选项吗?`, '提示', {
+        this.$confirm($i18nMy.t('确定删除所选项吗') + '?', $i18nMy.t('提示'), {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

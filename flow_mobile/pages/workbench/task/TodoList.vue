@@ -2,7 +2,7 @@
 	<view>
 		<cu-custom bgColor="bg-blue" backUrl="/pages/index/index" :isBack="true">
 			<block slot="backText">{{$i18nMy.t('返回')}}</block>
-			<block slot="content"> {{$i18nMy.t('待办事项')}}</block>
+			<block slot="content"> {{$i18nMy.t('待办任务')}}</block>
 		</cu-custom>
 		<view  :style="[{top:CustomBar + 'px'}]">
 		<view class="cu-bar search">
@@ -51,7 +51,7 @@
 		</mescroll-body>
 		</view>
 		<!-- 对话框 -->
-		<view class="cu-modal" :class="showSelectUserDialog==true?'show':''">
+		<!-- <view class="cu-modal" :class="showSelectUserDialog==true?'show':''">
 				<view class="cu-dialog">
 					<view class="cu-bar bg-white justify-end">
 						<view class="content">{{$i18nMy.t('选择委派用户')}}</view>
@@ -70,7 +70,7 @@
 						</view>
 					</view>
 				</view>
-			</view>
+			</view> -->
 
 	</view>
 </template>
@@ -79,7 +79,7 @@
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	import MescrollMoreItemMixin from "@/components/mescroll-uni/mixins/mescroll-more-item.js";
 	import pick from 'lodash.pick'
-	import userSelect from '@/components/user-select/user-select.vue'
+	// import userSelect from '@/components/user-select/user-select.vue'
 	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
 	import uniPopupShare from '@/components/uni-popup/uni-popup-share.vue'
@@ -101,7 +101,7 @@
 			}
 		},
 		components:{
-			userSelect,
+			//userSelect,
 			uniPopupMessage,
 			uniPopupShare
 		},
@@ -183,8 +183,8 @@
 					pageNo: page.num,
 					pageSize: page.size,
 					status: '1',
+					procDefKey: 'prpo,pr',  //目前只支持PR流程先
 					title: this.curWord
-					
 				}).then(({data})=>{
 					let curPageData = data.page.list
 					this.mescroll.endBySize(curPageData.length,  data.page.count);

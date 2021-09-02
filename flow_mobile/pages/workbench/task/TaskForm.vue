@@ -91,10 +91,10 @@
 							</view>
 							
 							<view class="margin-top">
-								{{$i18nMy.t('审批人')}} ： {{act.assigneeName}}
+								{{$i18nMy.t('审批人')}} ：{{act.assigneeName}}
 							</view>
 							<view class="margin-top">
-								{{$i18nMy.t('办理状态')}} ：<view class="cu-tag bg-blue">{{$i18nMy.t(act.comment.status)}}</view> 
+								{{$i18nMy.t('办理状态')}} ：<font style="font-weight: bold; color: #0081FF;">{{$i18nMy.t(act.comment.status)}}</font> 
 							</view>
 							<view class="margin-top">
 								{{$i18nMy.t('审批意见')}} ： {{act.comment.message}}
@@ -117,7 +117,7 @@
 </template>
 
 <script>
-	import userSelect from '@/components/user-select/user-select.vue'
+	/* import userSelect from '@/components/user-select/user-select.vue' */
 	import userSelectDialog from '@/components/user-select/user-select-dialog.vue'
 	import PreviewForm from '../form/GenerateFlowableForm'
 	import TaskBackNodes from './components/TaskBackNodes.vue'
@@ -225,7 +225,7 @@
 			  })
 		},
 		components:{
-		  userSelect,
+		  //userSelect,
 		  userSelectDialog,
 		  TestActivitiLeaveForm,
 		  PrAppForm,
@@ -438,11 +438,35 @@
 			},
 			// 回退到发起人
 			backToModify () {
-			  
+			  this.$http.post('/flowable/task/back', {
+			    taskId: this.taskId,
+			    backTaskDefKey: 'FormModify',
+			    ...this.auditForm
+			  }).then(({data}) => {
+			    if (data.success) {
+			      uni.showToast({ title: data.msg, icon: "success" });
+			      uni.navigateTo({
+			      	url: '/pages/workbench/task/TodoList'
+			      })
+			      this.cc(data)
+			    }
+			  })
 			},
 			// 补充资料
 			backToDocAdd () {
-			  
+			    this.$http.post('/flowable/task/back', {
+			      taskId: this.taskId,
+			      backTaskDefKey: 'DocAdd',
+			      ...this.auditForm
+			    }).then(({data}) => {
+			      if (data.success) {
+			        uni.showToast({ title: data.msg, icon: "success" });
+			        uni.navigateTo({
+			        	url: '/pages/workbench/task/TodoList'
+			        })
+			        this.cc(data)
+			      }
+			    })
 			},
 			// 驳回到任意节点
 			turnBack () {
@@ -540,7 +564,7 @@
 			commit (vars) {
 				//定义表单规则
 				 var rule = [
-					{name:"message", checkType : "notnull", checkRule:"",  errorMsg:"审批意见不能为空!"}
+					/* {name:"message", checkType : "notnull", checkRule:"",  errorMsg:"审批意见不能为空!"} */
 				 ];
 				 //进行表单检查
 				 var formData = this.auditForm;
@@ -550,7 +574,7 @@
 				  return;
 				}
 				 if (this.formType === '2') { //外置表单审批
-					this.$refs.form.saveForm((businessTable, businessId) => {
+				  //this.$refs.form.saveForm((businessTable, businessId) => {
 					  this.$http.post('/app/flowable/task/audit', {
 						taskId: this.taskId,
 						taskDefKey: this.taskDefKey,
@@ -559,16 +583,16 @@
 						vars: vars,
 						comment: this.auditForm,
 						assignee: this.auditForm.assignee
-				  }).then(({data}) => {
-					if (data.success) {
-						uni.showToast({ title: data.msg, icon: "success" });
-						uni.navigateTo({
-							url: '/pages/workbench/task/TodoList'
-						})
-					  this.cc(data)
-					}
-				  })
-				})
+					  }).then(({data}) => {
+						if (data.success) {
+							uni.showToast({ title: data.msg, icon: "success" });
+							uni.navigateTo({
+								url: '/pages/workbench/task/TodoList'
+							})
+						  this.cc(data)
+						}
+					  })
+				//})
 				} else { // 动态表单启动
 					this.$refs.form.submitTaskFormData(vars, this.procInsId, this.taskId, this.auditForm.assignee, this.auditForm, (data) => {
 					  if (data.success) {
@@ -650,6 +674,9 @@
 <style scoped > 
 	page {
 		padding-top: 45px;
+	}
+	.content {
+		font-size: 12px;
 	}
 	.cu-form-group .title {
 		min-width: calc(4em + 40px);

@@ -267,7 +267,7 @@
 				"ly-tree-node": "/components/ly-tree/ly-tree-node"
 			},
 		"navigationBarBackgroundColor": "#0081ff",
-		"navigationBarTitleText": "Jeeplus 移动审批",
+		"navigationBarTitleText": "Approval Portal",
 		"navigationStyle": "custom",
 		"navigationBarTextStyle": "white"
 	},

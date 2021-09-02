@@ -6,6 +6,7 @@ package com.jeeplus.modules.flowable.service;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -167,7 +168,7 @@ public class FlowTaskService extends BaseService {
 
         // 设置查询条件
         if (StringUtils.isNotBlank (flow.getProcDefKey ())) {
-            todoTaskQuery.processDefinitionKey (flow.getProcDefKey ());
+            todoTaskQuery.processDefinitionKeyIn (Arrays.asList(flow.getProcDefKey ().split(",")));
         }
         if (flow.getBeginDate () != null) {
             todoTaskQuery.taskCreatedAfter (flow.getBeginDate ());
@@ -226,7 +227,7 @@ public class FlowTaskService extends BaseService {
 
         // 设置查询条件
         if (StringUtils.isNotBlank (act.getProcDefKey ())) {
-            histTaskQuery.processDefinitionKey (act.getProcDefKey ());
+            histTaskQuery.processDefinitionKeyIn (Arrays.asList(act.getProcDefKey ().split(",")));
         }
         if (act.getBeginDate () != null) {
             histTaskQuery.taskCompletedAfter (act.getBeginDate ());

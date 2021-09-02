@@ -28,6 +28,7 @@ i18nMy.t = function t(key) {
   if(res !=null){
     return res;
   }
+  var lang= Vue.config.lang ||localStorage.getItem('lang')||"en-US"
   var values = [],
     len = arguments.length - 1;
   while (len-- > 0) values[len] = arguments[len + 1];
@@ -44,7 +45,7 @@ i18nMy.t = function t(key) {
 	saveLang(key,languageData)
   }
   if(languageData[key] !=null){
-    switch (Vue.config.lang){
+    switch (lang){
       case 'en-US':window.$i18nMy.langData[key]=languageData[key].en; break;
       case 'zh-CN':window.$i18nMy.langData[key]=languageData[key].cn; break;
       case 'zh-TW':window.$i18nMy.langData[key]=languageData[key].hk; break;

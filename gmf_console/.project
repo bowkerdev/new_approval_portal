@@ -16,9 +16,14 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>flow_mobile</name>
+			<type>2</type>
+			<location>E:/myWork/ljwork3/new_approval_portal/flow_mobile</location>
+		</link>
+		<link>
 			<name>flow_ui</name>
 			<type>2</type>
-			<location>E:/myWork/ljwork3/gmf-flow/flow_ui</location>
+			<location>E:/myWork/ljwork3/new_approval_portal/flow-ui</location>
 		</link>
 	</linkedResources>
 </projectDescription>

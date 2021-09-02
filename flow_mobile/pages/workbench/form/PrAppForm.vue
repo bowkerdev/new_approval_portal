@@ -11,7 +11,7 @@
 		<view v-show="0 === tabIndex">
 			<view class="cu-card information">
 				<view class="cu-form-group" style="padding: 0px;">
-					<view class="title wd-100" style="text-align: center;font-weight: bold;font-size: 20px;padding: 15px; ">
+					<view class="title wd-100" style="text-align: center;font-weight: bold;font-size: 20px;padding: 25px; ">
 						{{$i18nMy.t('Win Hanverky Group Purchase Requisition Form')}}
 					</view>
 				</view>
@@ -281,7 +281,7 @@
 						</view>
 						<view class="detail-info-row">
 							<view class="title detail-info-title detail-info-title-left">VAT</view>
-							<view class="title detail-info-title detail-info-title-right text-right"> </view>
+							<view class="title detail-info-title detail-info-title-right text-right">{{inputForm.vat*100}}%</view>
 						</view>
 						<view class="detail-info-row">
 							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('报价单币种')}} {{$i18nMy.t('总数')}}</view>
@@ -313,7 +313,7 @@
 					<view style="width: 100%;height: 100%;">
 						<view class="form-textarea-title wd-100">{{$i18nMy.t('申购目的')}}</view>
 						<view>
-							<textarea v-model="inputForm.purchasePurpose" :placeholder="$i18nMy.t('请填写申购目的')"  :disabled="formReadOnly"></textarea>
+							<textarea style="background-color: #f3f3f3;" v-model="inputForm.purchasePurpose" :placeholder="$i18nMy.t('请填写申购目的')"  :disabled="formReadOnly"></textarea>
 						</view>
 					</view>
 				</view>
@@ -321,7 +321,7 @@
 					<view style="width: 100%;height: 100%;">
 						<view class="form-textarea-title wd-100">{{$i18nMy.t('投资回报分析')}}</view>
 						<view>
-							<textarea v-model="inputForm.roi" placeholder="请填写ROI" :disabled="formReadOnly"></textarea>
+							<textarea style="background-color: #f3f3f3;" v-model="inputForm.roi" placeholder="请填写ROI" :disabled="formReadOnly"></textarea>
 						</view>
 					</view>
 				</view>
@@ -329,7 +329,7 @@
 					<view style="width: 100%;height: 100%;">
 						<view class="form-textarea-title wd-100">{{$i18nMy.t('预算外说明')}}</view>
 						<view>
-							<textarea v-model="inputForm.noBudgetExplain" :placeholder="$i18nMy.t('请填写预算外说明')"  :disabled="formReadOnly"></textarea>
+							<textarea style="background-color: #f3f3f3;" v-model="inputForm.noBudgetExplain" :placeholder="$i18nMy.t('请填写预算外说明')"  :disabled="formReadOnly"></textarea>
 						</view>
 					</view>
 				</view>
@@ -337,7 +337,7 @@
 					<view style="width: 100%;height: 100%;">
 						<view class="form-textarea-title wd-100">{{$i18nMy.t('支付说明')}}</view>
 						<view>
-							<textarea v-model="inputForm.paymentSpecial" :placeholder="$i18nMy.t('请填写支付说明')"  :disabled="formReadOnly"></textarea>
+							<textarea style="background-color: #f3f3f3;" v-model="inputForm.paymentSpecial" :placeholder="$i18nMy.t('请填写支付说明')"  :disabled="formReadOnly"></textarea>
 						</view>
 					</view>
 				</view>
@@ -475,7 +475,7 @@
 			<view class="cu-card" v-if="null == supplementaryDoc || 0 == supplementaryDoc.length">
 				<view class="cu-form-group supplementary-document" style="padding-top: 10px;padding-bottom: 10px;">
 					<view style="width: 100%;height: 100%;text-align: center;">
-						{{$i18nMy.t('没有补充文件')}}
+						No data 
 					</view>
 				</view>
 			</view>
@@ -650,6 +650,7 @@
 				})
 			},
 			saveForm : function(callback) {
+				debugger
 				var _that = this;
 				_that.inputForm.detailInfo = JSON.stringify(_that.detailInfo);
 				_that.inputForm.supplementaryDoc = JSON.stringify(_that.supplementaryDoc);

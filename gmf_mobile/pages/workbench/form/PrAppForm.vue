@@ -472,7 +472,7 @@
 					<text class="cuIcon-titles text-orange"></text>  <text style="font-size: 20px;font-weight: bold;">{{$i18nMy.t('补充文件')}}</text>
 				</view>
 			</view>
-			<view class="cu-card" v-if="null == supplierInfo || 0 == supplierInfo.length">
+			<view class="cu-card" v-if="null == supplementaryDoc || 0 == supplementaryDoc.length">
 				<view class="cu-form-group supplementary-document" style="padding-top: 10px;padding-bottom: 10px;">
 					<view style="width: 100%;height: 100%;text-align: center;">
 						{{$i18nMy.t('没有补充文件')}}
@@ -480,7 +480,7 @@
 				</view>
 			</view>
 			<view class="cu-card">
-				<view class="cu-form-group supplementary-document"  v-for="(item,index) in supplierInfo" :key="index" style="padding-top: 10px;padding-bottom: 10px;">
+				<view class="cu-form-group supplementary-document"  v-for="(item,index) in supplementaryDoc" :key="index" style="padding-top: 10px;padding-bottom: 10px;">
 					<view style="width: 100%;height: 100%;">
 						<view class="detail-info-row">
 							<view class="title detail-info-title detail-info-title-left-1">{{$i18nMy.t('序号')}}</view>
@@ -531,7 +531,7 @@
 					technicalAdvisor:this.$dictUtils.getDictList('technical_advisor'),
 					requestRiority:this.$dictUtils.getDictList('request_priority'),
 				},
-				supplierInfo:[],
+				supplementaryDoc:[],
 				detailInfo:[],
 				inputForm: {
 				  id: 'b24b20ab898544d19d1da4cc428a3e3d',
@@ -635,8 +635,8 @@
 			},
 			formatAttachmentURL : function(){
 				var _that = this;
-				for(var i=0;i<_that.supplierInfo.length;i++){
-					_that.supplierInfo[i].attachmentFile =  (_that.supplierInfo[i].attachment || '').substring((_that.supplierInfo[i].attachment || '').lastIndexOf('/') + 1)
+				for(var i=0;i<_that.supplementaryDoc.length;i++){
+					_that.supplementaryDoc[i].attachmentFile =  (_that.supplementaryDoc[i].attachment || '').substring((_that.supplementaryDoc[i].attachment || '').lastIndexOf('/') + 1)
 				}
 			},
 			init : function(id){
@@ -644,7 +644,7 @@
 				this.$http.get(`/flow/pr/oaPrNew/queryById?id=`+id).then(({data}) => {
 				  _that.inputForm = _that.recover(_that.inputForm, data.oaPrNew);
 				  _that.detailInfo = JSON.parse(_that.inputForm.detailInfo);
-				  _that.supplierInfo = JSON.parse(_that.inputForm.supplementaryDoc);
+				  _that.supplementaryDoc = JSON.parse(_that.inputForm.supplementaryDoc);
 				  _that.formatAttachmentURL();
 				  _that.formatSelectLabel();
 				})
@@ -652,7 +652,7 @@
 			saveForm : function(callback) {
 				var _that = this;
 				_that.inputForm.detailInfo = JSON.stringify(_that.detailInfo);
-				_that.inputForm.supplierInfo = JSON.stringify(_that.supplierInfo);
+				_that.inputForm.supplementaryDoc = JSON.stringify(_that.supplementaryDoc);
 				_that.inputForm.totalBaseAmount = _that.inputForm.exRate*_that.inputForm.totalContractAmount;
 				_that.$http.post(`/flow/pr/oaPrNew/save`,_that.inputForm).then(({data}) => {
 					if (data && data.success) {

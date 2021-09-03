@@ -169,7 +169,6 @@ router.beforeEach((to, from, next) => {
     }
     var ssoToken=common.getUrlParam("token")
     if (process.env.VUE_APP_SSO_LOGIN === 'true' && process.env.VUE_APP_SSO_TYPE!="cas"&&ssoToken!=null&&ssoToken!='') {
-      debugger
       if(Vue.cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')!=ssoToken){
         http({
           url: '/sys/logout',
@@ -235,6 +234,16 @@ function fnAddDynamicMenuRoutes (menuList = [], routes = []) {
       }
       // url以http[s]://开头, 通过iframe展示
       if (isURL(menuList[i].href)) {
+        if(menuList[i].href.indexOf("#{token}")){
+          var ssoToken = Vue.cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')||""
+
+          menuList[i].href= menuList[i].href.replace("#{ssoToken}",ssoToken)
+          menuList[i].href= menuList[i].href.replace("#{ssoTokenType}",process.env.VUE_APP_SSO_TYPE)
+          if(menuList[i].href.indexOf("language") == -1){
+            menuList[i].href += (menuList[i].href.indexOf("?") == -1 ?"?" : "&")
+            menuList[i].href+="language="+Vue.config.lang
+          }
+        }
         route.path = '/' + route.path
         route.meta.iframeUrl = menuList[i].href
         route['meta']['type'] = 'iframe'

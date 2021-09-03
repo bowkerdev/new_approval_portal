@@ -44,7 +44,7 @@ aside {
     white-space: normal;
   }
 
-  .el-submenu__title,
+  .el-submenu__title, 
   li.el-menu-item,
   .el-submenu {
     height: auto !important;

@@ -1,12 +1,18 @@
 import _i18nMy from '@/utils/i18n2'
 export default {
   dealHtml(html){
+    var copy=html
     html=html.replace(/\n/g,"").replace(/\t/g,"").replace(/ /g,"");
     var array = html.match(/>[^\x00-\xff]+</g);
-    for(var i=0;i<array.length;i++){
-      html=html.replaceAll(array[i],">"+_i18nMy.t(array[i].replace("<","").replace(">",""))+"<")
+    if(array!=null){
+      for(var i=0;i<array.length;i++){
+        html=html.replaceAll(array[i],">"+_i18nMy.t(array[i].replace("<","").replace(">",""))+"<")
+      }
+      return html
     }
-    return html
+    else{
+     return copy
+    }
   },
   dealGeneralCtl(obj){
     if(obj.name!=null){

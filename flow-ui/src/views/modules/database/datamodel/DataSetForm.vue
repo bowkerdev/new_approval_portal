@@ -131,7 +131,7 @@
 
 
     <el-dialog title="数据预览" :visible.sync="previewVisible"  v-dialogDrag>
-     <el-tabs type="border-card">
+     <el-tabs v-if="previewVisible" type="border-card">
         <el-tab-pane label="HTML">
               <el-table
                 :data="previewData.json"

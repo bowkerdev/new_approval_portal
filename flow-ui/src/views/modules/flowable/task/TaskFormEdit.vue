@@ -6,7 +6,7 @@
     <el-tab-pane label="表单信息" name="form-first">
       <component id="printForm" :formReadOnly="formReadOnly" v-if="formType === '2'" :class="formReadOnly?'readonly':''"  ref="form" :businessId="businessId" :is="form"></component>
 
-      <PreviewForm  id="printForm"   v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="true" :taskFormData="taskFormData" ref="form"/>
+      <PreviewForm class="zm-preview-form-wrapper" id="printForm"   v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="true" :taskFormData="taskFormData" ref="form"/>
     </el-tab-pane>
     <!-- <el-tab-pane label="流程信息" v-if="procInsId"  name="form-second">
        <flow-time-line :historicTaskList="historicTaskList"/>

@@ -23,8 +23,8 @@
         </el-table-column>
         <el-table-column align="center" :label="$i18nMy.t('对比结果（成本报表）')" >
           <template>
-            <el-table-column prop="numberMpoHigherCostSheet"  show-overflow-tooltip :label="$i18nMy.t('价格高于成本报表的采购单数量')"></el-table-column>
-            <el-table-column prop="numberOfMpoWithoutUnitPrice"  show-overflow-tooltip :label="$i18nMy.t('缺少单价的采购单数量')"></el-table-column>
+            <el-table-column prop="numberMpoHigherCostSheet" min-width="200"  header-align="center" align="right" show-overflow-tooltip :label="$i18nMy.t('价格高于成本报表的采购单数量')"></el-table-column>
+            <el-table-column prop="numberOfMpoWithoutUnitPrice" min-width="160"  header-align="center" align="right" show-overflow-tooltip :label="$i18nMy.t('缺少单价的采购单数量')"></el-table-column>
           </template>
         </el-table-column>
       </el-table>
@@ -34,7 +34,7 @@
       <el-table :data="scope.model.detailsPurchases" size="small" height="auto"
       class="table mpo-approval-self-table" :header-cell-style="rowClass2" >
         <el-table-column prop="detailsType"  show-overflow-tooltip  label="类型"></el-table-column>
-        <el-table-column prop="requestDate"  show-overflow-tooltip  label="提出日期"></el-table-column>
+        <el-table-column prop="requestDate" min-width="100" show-overflow-tooltip  label="提出日期"></el-table-column>
         <el-table-column prop="reason"  show-overflow-tooltip  label="原因"></el-table-column>
         <el-table-column prop="orderCategory"  show-overflow-tooltip  label="订单种类"></el-table-column>
         <el-table-column prop="factory"  show-overflow-tooltip  label="工厂"></el-table-column>
@@ -56,8 +56,8 @@
         </el-table-column>
         <el-table-column align="center" :label="$i18nMy.t('对比结果（成本报表）')" >
           <template>
-            <el-table-column prop="numberMpoHigherCostSheet"  header-align="center" align="right" show-overflow-tooltip :label="$i18nMy.t('价格高于成本报表的采购单数量')"></el-table-column>
-            <el-table-column prop="numberOfMpoWithoutUnitPrice"  header-align="center" align="right" show-overflow-tooltip :label="$i18nMy.t('缺少单价的采购单数量')"></el-table-column>
+            <el-table-column prop="numberMpoHigherCostSheet" min-width="200"  header-align="center" align="right" show-overflow-tooltip :label="$i18nMy.t('价格高于成本报表的采购单数量')"></el-table-column>
+            <el-table-column prop="numberOfMpoWithoutUnitPrice" min-width="160"  header-align="center" align="right" show-overflow-tooltip :label="$i18nMy.t('缺少单价的采购单数量')"></el-table-column>
           </template>
         </el-table-column>
       </el-table>
@@ -159,6 +159,7 @@
 
   &.el-table th .cell {
     white-space: initial;
+    word-break: break-word;
   }
 }
 

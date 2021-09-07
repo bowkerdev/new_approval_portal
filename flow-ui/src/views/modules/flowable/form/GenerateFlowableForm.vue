@@ -81,6 +81,40 @@
           this.$refs.generateForm.createForm(this.options, this.formData, showArra, disabledArra, this.edit)
         }
       },
+      setHtmlParam(json){
+        if(json instanceof Array){
+          for(var i=0;i<json.length;i++){
+            if(json[i].columns !=null && json[i].columns instanceof Array ){
+              this.setHtmlParam(json[i].columns)
+            }
+            else{
+              this.setHtmlParam(json[i])
+            }
+          }
+        }
+        else{
+          if(json.type == 'html'){
+            var html=json.options.defaultValue
+            var ssoToken = this.$cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')||""
+            html=html.replaceAll("#{"+"ossType"+"}",ssoToken)
+            for (let i=0; this.taskFormData.length > i;i++) {
+              html=html.replaceAll("#{"+this.taskFormData[i].id+"}",this.taskFormData[i].value)
+            }
+            var obj=this.taskFormData.find(function(e){return e.id==json.model})
+            obj.value = html
+          }
+          if(json.rows !=null){
+            this.setHtmlParam(json.rows)
+          }
+          else if(json.list !=null){
+            this.setHtmlParam(json.list)
+          }
+          else if(json.tableColumns !=null){
+            this.setHtmlParam(json.tableColumns)
+          }
+        }
+        return json
+      },
       createForm (id) {
         if (id) {
           this.loading = true
@@ -98,6 +132,7 @@
               }
               // eslint-disable-next-line no-undef
               this.options = this.DynamicFormLanguage.simpleLanguageFrom(JSON.parse(json))
+              this.setHtmlParam(this.options)
               this.dataBindMap.clear()
               this.generateModel(this.options.list)
               this.$nextTick(() => {

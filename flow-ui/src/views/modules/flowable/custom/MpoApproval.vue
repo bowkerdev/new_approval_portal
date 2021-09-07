@@ -33,11 +33,11 @@
     <template slot="detailsPurchases" slot-scope="scope" >
       <el-table :data="scope.model.detailsPurchases" size="small" height="auto"
       class="table mpo-approval-self-table" :header-cell-style="rowClass2" >
-        <el-table-column prop="detailsType"  show-overflow-tooltip  label="类型"></el-table-column>
-        <el-table-column prop="requestDate"  show-overflow-tooltip  label="提出日期"></el-table-column>
-        <el-table-column prop="reason"  show-overflow-tooltip  label="原因"></el-table-column>
-        <el-table-column prop="orderCategory"  show-overflow-tooltip  label="订单种类"></el-table-column>
-        <el-table-column prop="factory"  show-overflow-tooltip  label="工厂"></el-table-column>
+        <el-table-column prop="detailsType"  show-overflow-tooltip :label="$i18nMy.t('类型')" ></el-table-column>
+        <el-table-column prop="requestDate"  show-overflow-tooltip :label="$i18nMy.t('类型')" ></el-table-column>
+        <el-table-column prop="reason"  show-overflow-tooltip :label="$i18nMy.t('类型')" ></el-table-column>
+        <el-table-column prop="orderCategory"  show-overflow-tooltip :label="$i18nMy.t('类型')" ></el-table-column>
+        <el-table-column prop="factory"  show-overflow-tooltip :label="$i18nMy.t('工厂')" ></el-table-column>
         <el-table-column  align="center" :label="$i18nMy.t('扣存')" >
           <template>
             <el-table-column prop="deductionQty"  header-align="center" align="right" show-overflow-tooltip :label="$i18nMy.t('数量')"></el-table-column>
@@ -112,7 +112,6 @@
       },
       // 固定代码，不可以改 start
       createForm(options, formData, showArra, disabledArra, edit) {
-        debugger
         this.options = options
         this.formData = formData
         this.visible = true
@@ -140,11 +139,11 @@
 
 <style lang="scss">
 .mpo-approval-self-table {
-  &.el-table td, 
+  &.el-table td,
   &.el-table th.is-leaf,
-  &.el-table--border td, 
-  &.el-table--border th, 
-  &.el-table--border, 
+  &.el-table--border td,
+  &.el-table--border th,
+  &.el-table--border,
   .el-table--group,
   & .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
     border-color: rgb(153, 153, 153);

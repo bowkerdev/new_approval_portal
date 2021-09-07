@@ -29,7 +29,6 @@ export default {
         case 'input':this.dealGeneralCtl(obj); break ;
         case 'td':break ;
         default :
-          debugger;
           break ;
       }
     }

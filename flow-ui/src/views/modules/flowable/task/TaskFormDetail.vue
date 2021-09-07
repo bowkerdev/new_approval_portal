@@ -10,7 +10,7 @@
   <el-tabs type="border-card" v-model="selectedTab">
     <el-tab-pane :label="$i18nMy.t('表单信息')" name="form-first">
       <component :formReadOnly="formReadOnly" v-if="formType === '2'"  :class="formReadOnly?'readonly':''" ref="form" :businessId="businessId" :is="form"></component>
-      <PreviewForm   v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="false" :taskFormData="taskFormData" ref="form"/>
+      <PreviewForm  class="zm-preview-form-wrapper"  v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="false" :taskFormData="taskFormData" ref="form"/>
     </el-tab-pane>
     <!-- <el-tab-pane :label="$i18nMy.t('流程信息')" v-if="procInsId"  name="form-second">
        <flow-time-line :historicTaskList="historicTaskList"/>

@@ -74,7 +74,7 @@
 <div class="FlowFormFooter">
   <template v-for="(button, index) in buttons">
       <template  v-show="button.isHide === '0'">
-        <el-button type="primary"  v-if="button.code !== '_flow_print'"  :key="index" @click="submit(button, buttons)"  v-noMoreClick plain>{{$i18nMy.t(button.name)}}</el-button>
+        <el-button :type="buttonType(button.code)"  v-if="button.code !== '_flow_print'"  :key="index" @click="submit(button, buttons)"  v-noMoreClick plain>{{$i18nMy.t(button.name)}}</el-button>
         <el-button type="primary" v-if="button.code === '_flow_print'" v-print="printObj" :key="index" @click="submit(button, buttons)"  v-noMoreClick plain>{{$i18nMy.t(button.name)}}</el-button>
       </template>
   </template>
@@ -195,6 +195,13 @@
       }
     },
     methods: {
+      buttonType(code) {
+        var red = ['disagree']
+        if (red.indexOf(code) > -1) { return 'danger' }
+        var green = ['_flow_agree']
+        if (green.indexOf(code) > -1) { return 'success' }
+        return 'primary'
+      },
       initChildFrom(query){
         if(this.form !=null &&this.$refs.form.init !=null){
           this.$refs.form.init(query)

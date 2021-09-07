@@ -150,6 +150,10 @@
     border-color: rgb(153, 153, 153);
   }
 
+  & th{
+    color: #606266;
+  }
+
   &.el-table--border {
     border-right-style: solid;
     border-right-width: 1px;

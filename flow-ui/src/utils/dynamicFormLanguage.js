@@ -14,19 +14,33 @@ export default {
      return copy
     }
   },
-  dealGeneralCtl(obj){
-    if(obj.name!=null){
-      obj.name=_i18nMy.t(obj.name)
-    }
+  setValue(taskFormData,obj ){
+    var obj2=taskFormData.find(function(e){return e.id==obj.model})
+    obj2.value = obj.options.defaultValue
   },
-  dealObj(obj){
+  dealObj(obj,taskFormData){
     if(obj.options!=null&&!obj.options.hidden){
       switch(obj.type){
-        case 'html':obj.options.defaultValue = this.dealHtml(obj.options.defaultValue); break ;
+        case 'html':{
+          obj.options.defaultValue = this.dealHtml(obj.options.defaultValue);
+          this.setValue(taskFormData,obj )
+          break ;
+        }
+        case 'text':{
+          obj.options.defaultValue = _i18nMy.t(obj.options.defaultValue);
+          this.setValue(taskFormData,obj )
+          break ;
+        }
         case 'radio':
         case 'date':
         case 'textarea':
-        case 'input':this.dealGeneralCtl(obj); break ;
+        case 'input':
+        case 'fileupload':{
+          if(obj.name!=null&&obj.name!=''){
+            obj.name = _i18nMy.t(obj.name);
+          }
+          break ;
+        }
         case 'td':break ;
         default :
           break ;
@@ -36,27 +50,27 @@ export default {
   /**
    * @param
    * */
-  simpleLanguageFrom(json) {
+  simpleLanguageFrom(json,taskFormData) {
     if(json instanceof Array){
       for(var i=0;i<json.length;i++){
         if(json[i].columns !=null && json[i].columns instanceof Array ){
-          this.simpleLanguageFrom(json[i].columns)
+          this.simpleLanguageFrom(json[i].columns,taskFormData)
         }
         else{
-          this.simpleLanguageFrom(json[i])
+          this.simpleLanguageFrom(json[i],taskFormData)
         }
       }
     }
     else{
-      this.dealObj(json)
+      this.dealObj(json,taskFormData)
       if(json.rows !=null){
-        this.simpleLanguageFrom(json.rows)
+        this.simpleLanguageFrom(json.rows,taskFormData)
       }
       else if(json.list !=null){
-        this.simpleLanguageFrom(json.list)
+        this.simpleLanguageFrom(json.list,taskFormData)
       }
       else if(json.tableColumns !=null){
-        this.simpleLanguageFrom(json.tableColumns)
+        this.simpleLanguageFrom(json.tableColumns,taskFormData)
       }
     }
     return json

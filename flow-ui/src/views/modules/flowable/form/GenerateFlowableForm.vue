@@ -96,7 +96,7 @@
           if(json.type == 'html'){
             var html=json.options.defaultValue
             var ssoToken = this.$cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')||""
-            html=html.replaceAll("#{"+"ossType"+"}",ssoToken)
+            html=html.replaceAll("#{"+"ssoType"+"}",ssoToken)
             for (let i=0; this.taskFormData.length > i;i++) {
               html=html.replaceAll("#{"+this.taskFormData[i].id+"}",this.taskFormData[i].value)
             }
@@ -131,7 +131,7 @@
                 this.form = _import(`modules/flowable/custom/${data.formDefinition.name}`)
               }
               // eslint-disable-next-line no-undef
-              this.options = this.DynamicFormLanguage.simpleLanguageFrom(JSON.parse(json))
+              this.options = this.DynamicFormLanguage.simpleLanguageFrom(JSON.parse(json),this.taskFormData)
               this.setHtmlParam(this.options)
               this.dataBindMap.clear()
               this.generateModel(this.options.list)

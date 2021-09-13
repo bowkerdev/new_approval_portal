@@ -13,7 +13,7 @@
                   <div class="actCard" @click="start(data)">
                     <!-- <img src='@/assets/img/Scheme.png'/> -->
                     <div class="yuan1" :class="getRandomColor()">{{data.name.substring(0,1)}}</div>
-                    <el-button class="task-name" type="text" :title="data.name+' '+data.version">{{$i18nMy.t(data.name)}}</el-button>
+                    <el-button class="task-name" type="text" :title="data.name+' '+data.version">{{$i18nMy.t('新建')}} {{$i18nMy.t(data.name)}}</el-button>
                   </div>
                 </el-card>
             </el-col>

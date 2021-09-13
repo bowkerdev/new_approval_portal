@@ -236,7 +236,14 @@ public class FlowTaskService extends BaseService {
             processVo.setVars (taskInst.getProcessVariables ());
             if (processVo.getVars()!=null && processVo.getVars().get("applyUserId")!=null) {
             	User applyUser = UserUtils.get((String)processVo.getVars().get("applyUserId"));
-            	processVo.setApplyUserName(applyUser.getLoginName() + " : " + applyUser.getName());
+            	if (applyUser==null) {
+            		UserUtils.getByLoginName((String)processVo.getVars().get("applyUserId"));
+            	}
+            	if (applyUser!=null) {
+            		processVo.setApplyUserName(applyUser.getLoginName() + " : " + applyUser.getName());
+            	} else {
+            		processVo.setApplyUserName((String)processVo.getVars().get("applyUserId"));
+            	}
             }            
             processVo.setProcessDefinitionName ( ProcessDefCache.get (processVo.getTask().getProcessDefinitionId ()).getName ());
             processVo.setVersion (ProcessDefCache.get (processVo.getTask().getProcessDefinitionId ()).getVersion ());

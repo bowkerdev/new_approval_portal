@@ -60,7 +60,7 @@
             prop="vars.title"
             show-overflow-tooltip
             min-width="180px"
-            :label="$i18nMy.t('实例标题')">
+            :label="$i18nMy.t('申请单号')">
           </el-table-column>
           <el-table-column
             prop="processDefinitionName"

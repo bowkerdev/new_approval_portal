@@ -30,12 +30,12 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('项目名称')" prop="projectName" :rules="[]">
-            <el-input v-model="inputForm.projectName" :placeholder="$i18nMy.t('请填写项目名称')" maxlength="100"></el-input>
+          <el-form-item label-width="220px" :label="$i18nMy.t('项目描述')" prop="projectName" :rules="[{required: true, message:$i18nMy.t('项目描述不能为空'), trigger:'blur'}]">
+            <el-input v-model="inputForm.projectName" :placeholder="$i18nMy.t('请填写项目描述')" maxlength="100"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('采购地区')" prop="applySiteCode" :rules="[{required: true, message:'采购地区不能为空', trigger:'blur'}]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('采购地区')" prop="applySiteCode" :rules="[{required: true, message:$i18nMy.t('采购地区不能为空'), trigger:'blur'}]">
             <el-select v-model="inputForm.applySiteCode" :placeholder="$i18nMy.t('请选择')" style="width: 100%;" @change="siteChange">
               <el-option v-for="item in $dictUtils.getDictList('apply_site_code')" :key="item.value" :label="item.label"
                 :value="item.value">
@@ -44,7 +44,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment.id" :rules="[{required: true, message:'用户部门不能为空', trigger:'blur'}]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment.id" :rules="[{required: true, message:$i18nMy.t('用户部门不能为空'), trigger:'blur'}]">
             <SelectTree ref="requesterDepartment" v-if="ifSiteChange" :props="{
                     value: 'id',             // ID字段名
                     label: 'name',         // 显示名称
@@ -543,7 +543,6 @@
             return ;
           }
         }
-        debugger
         if(this.inputForm.expenseType=='OPEX'&&this.inputForm.totalBaseAmount>2000){
            this.$message.warning("OPEX "+$i18nMy.t('金额必须小于')+" 2,000HKD")
            return ;

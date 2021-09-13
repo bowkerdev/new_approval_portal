@@ -49,7 +49,7 @@
           <el-table-column
             prop="vars.title"
             show-overflow-tooltip
-            :label="$i18nMy.t('实例标题')">
+            :label="$i18nMy.t('申请单号')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" @click="detail(scope.row)">{{scope.row.vars.title}}</el-link>
             </template>

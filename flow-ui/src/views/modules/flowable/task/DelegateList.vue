@@ -49,7 +49,7 @@
           <el-table-column
             prop="vars.title"
            show-overflow-tooltip
-            :label="$i18nMy.t('实例标题')">
+            :label="$i18nMy.t('申请单号')">
                 <template slot-scope="scope">
                   <el-link  type="primary" :underline="false" v-if="scope.row.status === 'todo'"  @click="todo(scope.row)">{{scope.row.vars.title}}</el-link>
                   <span v-else>{{scope.row.vars.title}}</span>

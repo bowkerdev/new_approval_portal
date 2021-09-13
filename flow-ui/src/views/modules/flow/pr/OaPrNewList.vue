@@ -160,7 +160,7 @@
         prop="projectName"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18nMy.t('项目名称')">
+        :label="$i18nMy.t('项目描述')">
       </el-table-column>
     <el-table-column
         prop="applySiteCode"

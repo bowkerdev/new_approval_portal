@@ -96,6 +96,12 @@
           if(json.type == 'html'){
             var html=json.options.defaultValue
             var ssoToken = this.$cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')||""
+
+            var tmp=this.$dictUtils.getDictValue("sit_test","testToken","")
+            if(tmp !=""){
+              ssoToken = tmp
+            }
+
             html=html.replaceAll("#{"+"ssoType"+"}",ssoToken)
             for (let i=0; this.taskFormData.length > i;i++) {
               html=html.replaceAll("#{"+this.taskFormData[i].id+"}",this.taskFormData[i].value)

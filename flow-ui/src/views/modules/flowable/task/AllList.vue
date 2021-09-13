@@ -1,6 +1,9 @@
 <template>
   <div class="page">
       <el-form size="small" :inline="true"  class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+        <el-form-item :label="$i18nMy.t('申请单号')" prop="title">
+           <el-input size="small" v-model="searchForm.title" :placeholder="$i18nMy.t('申请单号')" clearable></el-input>
+        </el-form-item>
         <el-form-item :label="$i18nMy.t('创建时间')" prop="searchDates">
           <el-date-picker
             v-model="searchDates"
@@ -9,7 +12,7 @@
             align="right"
             value-format="yyyy-MM-dd hh:mm:ss"
             unlink-panels
-            range-separator="至"
+            range-separator="-"
             start-:placeholder="$i18nMy.t('开始日期')"
             end-:placeholder="$i18nMy.t('结束日期')"
             :picker-options="pickerOptions">
@@ -40,21 +43,16 @@
           v-loading="loading"
           @selection-change="selectionChangeHandle"
           class="table">
-          <el-table-column
-            type="selection"
-            header-align="center"
-            align="center"
-            width="50">
-          </el-table-column>
+
           <el-table-column
             prop="vars.title"
            show-overflow-tooltip
             :label="$i18nMy.t('实例标题')">
                 <template slot-scope="scope">
-                  <el-link  type="primary" :underline="false" @click="todo(scope.row)">{{scope.row.vars.title}}</el-link>
-                  <!-- <span v-else>{{scope.row.vars.title}}</span> -->
+                  <el-link  type="primary" :underline="false"   @click="todo(scope.row)">{{scope.row.vars.title}}</el-link>
                 </template>
           </el-table-column>
+
           <el-table-column
             prop="processDefinitionName"
             :label="$i18nMy.t('流程名称')">
@@ -76,9 +74,20 @@
             :label="$i18nMy.t('流程发起人')">
           </el-table-column>
           <el-table-column
+            prop="task.name"
+            :label="$i18nMy.t('当前环节')">
+          </el-table-column>
+          <el-table-column
             prop="task.assigneeName"
             show-overflow-tooltip
             :label="$i18nMy.t('当前处理人')">
+          </el-table-column>
+          <el-table-column
+            prop="status"
+            :label="$i18nMy.t('流程状态')">
+            <template slot-scope="scope">
+             {{$i18nMy.t(scope.row.status)}}
+            </template>
           </el-table-column>
           <el-table-column
             prop="task.createTime"
@@ -87,21 +96,6 @@
              <template slot-scope="scope">
               {{scope.row.task.createTime | formatDate}}
              </template>
-          </el-table-column>
-          <el-table-column
-            fixed="right"
-            :key="Math.random()"
-            header-align="center"
-            align="center"
-            width="200"
-            :label="$i18nMy.t('操作')">
-            <template slot-scope="scope">
-              <!-- <el-button v-if="scope.row.status === 'claim'" type="text" size="small" @click="claim(scope.row)">{{$i18nMy.t('签收任务')}}</el-button> -->
-              <el-button type="text" size="small" @click="todo(scope.row)">{{$i18nMy.t('办理')}}</el-button>
-              <!--  <el-button v-if="scope.row.status === 'todo'" type="text" size="small" @click="transferTask(scope.row)">{{$i18nMy.t('委派')}}</el-button> -->
-              <!--  <el-button v-if="scope.row.claimTime" type="text" size="small" @click="unclaim(scope.row)">{{$i18nMy.t('取消签收')}}</el-button> -->
-              <el-button  type="text" size="small" @click="trace(scope.row)">{{$i18nMy.t('进度')}}</el-button>
-            </template>
           </el-table-column>
         </el-table>
        <el-pagination
@@ -122,11 +116,9 @@
          v-dialogDrag
         width="70%"
         height="600px">
-
           <flow-chart ref="preview" :processInstanceId="processInstanceId"></flow-chart>
         </el-dialog>
         <user-select ref="userSelect" :limit="1" @doSubmit="selectUsersToTransferTask"></user-select>
-
   </div>
 </template>
 
@@ -138,6 +130,7 @@
     data () {
       return {
         searchForm: {
+          title: '',
           beginDate: '',
           endDate: ''
         },
@@ -203,7 +196,7 @@
       refreshList () {
         this.loading = true
         this.$http({
-          url: '/flowable/task/todo',
+          url: '/flowable/task/allList',
           method: 'get',
           params: {
             'pageNo': this.pageNo,

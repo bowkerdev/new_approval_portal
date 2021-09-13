@@ -4,7 +4,7 @@
     <el-row :gutter="10" style="margin-bottom: 10px">
       <el-col :lg="24" :md="24" :sm="24" :xs="24">
         <el-card
-          :header="$i18nMy.t('流程申请')"
+          :header="$i18nMy.t('工作台')"
           class="pie-card"
         >
           <el-row>
@@ -13,7 +13,15 @@
                   <div class="actCard" @click="start(data)">
                     <!-- <img src='@/assets/img/Scheme.png'/> -->
                     <div class="yuan1" :class="getRandomColor()">{{data.name.substring(0,1)}}</div>
-                    <el-button class="task-name" type="text" :title="data.name+' '+data.version">{{data.name+' '+data.version}}</el-button>
+                    <el-button class="task-name" type="text" :title="data.name+' '+data.version">{{$i18nMy.t(data.name)}}</el-button>
+                  </div>
+                </el-card>
+            </el-col>
+            <el-col :span="4" v-for="data in menuList" :key="data.id">
+              <el-card class="box-card" style="margin:5px">
+                  <div class="actCard" @click="toTargetPage(data.url)">
+                    <div class="yuan1" :class="getRandomColor()">{{data.name.substring(0,1)}}</div>
+                    <el-button class="task-name" type="text" :title="data.name">{{$i18nMy.t(data.name)}}</el-button>
                   </div>
                 </el-card>
             </el-col>
@@ -24,7 +32,7 @@
     </el-row>
     <el-row :gutter="10" style="margin-bottom: 10px">
       <el-col
-        :lg="12" :md="12" :sm="12" :xs="12"
+        :lg="24" :md="24" :sm="24" :xs="24"
       >
         <el-card
           :header="$i18nMy.t('我的待办')"
@@ -37,15 +45,15 @@
               class="table my-table-margin">
               <el-table-column
                 prop="vars.title"
-                width="180px"
+                width="200px"
                show-overflow-tooltip
                 :label="$i18nMy.t('实例标题')">
                     <template slot-scope="scope">
-                      <el-link  type="primary" :underline="false" v-if="scope.row.status === 'todo'"  @click="todo(scope.row)">{{scope.row.vars.title}}</el-link>
-                      <span v-else>{{scope.row.vars.title}}</span>
+                      <el-link  type="primary" :underline="false" @click="todo(scope.row)">{{scope.row.vars.title}}</el-link>
                     </template>
               </el-table-column>
               <el-table-column
+                width="150px"
                 prop="processDefinitionName"
                 show-overflow-tooltip
                 :label="$i18nMy.t('流程名称')">
@@ -55,20 +63,43 @@
                 show-overflow-tooltip
                 :label="$i18nMy.t('流程信息')">
               </el-table-column>
-               <el-table-column
+               <!-- <el-table-column
                 prop="task.name"
                 show-overflow-tooltip
                 :label="$i18nMy.t('当前环节')">
-                 <!-- <template slot-scope="scope">
-                    <el-tag>{{scope.row.task.name}}</el-tag>
-                 </template> -->
+              </el-table-column> -->
+              <el-table-column
+                prop="var.total_contract_amount"
+                show-overflow-tooltip
+                align="right"
+                width="100px"
+                :label="$i18nMy.t('总金额')">
+                <template slot-scope="scope">
+                    {{(scope.row.vars.total_contract_amount * (1+scope.row.vars.vat)).toFixed(2)}}
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="var.contract_currency"
+                show-overflow-tooltip
+                width="100px"
+                :label="$i18nMy.t('币种')">
+                <template slot-scope="scope">
+                    {{scope.row.vars.contract_currency}}
+                </template>
               </el-table-column>
                <el-table-column
+                width="180px"
                 prop="vars.userName"
                 show-overflow-tooltip
                 :label="$i18nMy.t('流程发起人')">
               </el-table-column>
               <el-table-column
+                prop="task.assigneeName"
+                show-overflow-tooltip
+                :label="$i18nMy.t('当前处理人')">
+              </el-table-column>
+              <el-table-column
+                width="150px"
                 prop="task.createTime"
                 show-overflow-tooltip
                 :label="$i18nMy.t('创建时间')">
@@ -114,7 +145,7 @@
         <el-col
           :lg="12" :md="12" :sm="12" :xs="12"
         >
-          <el-card
+          <el-card v-show="false"
             :header="$i18nMy.t('委托待办')"
           >
             <el-table
@@ -399,6 +430,19 @@ export default Vue.extend({
       },
       searchDates: '',
 
+      menuList: [
+        {
+      		id: "PR_enquiry",
+      		"url": "/flow/pr/OaPrNewList",
+      		"name": "PR Enquiry"
+      	},
+        {
+        	id: "Application_enquiry",
+        	"url": "/flowable/task/AllList",
+        	"name": "Application Enquiry"
+        }
+      ],
+
       delegateList: [],
       pageNo3: 1,
       pageSize3: 5,
@@ -543,6 +587,9 @@ export default Vue.extend({
           this.loading3 = false
         }
       })
+    },
+    toTargetPage (targetUrl) {
+      this.$router.push(targetUrl)
     },
     toTodoList () {
       this.$router.push(`/flowable/task/TodoList`)

@@ -25,7 +25,6 @@ public class TaskVo {
     private String processInstanceId;
     private String processDefKey;
 
-
     public TaskVo(TaskInfo task){
         this.id = task.getId ();
         this.name = task.getName ();
@@ -45,5 +44,8 @@ public class TaskVo {
         this.name = task.getName ();
         this.assignee = task.getAssignee ();
         this.assigneeName = task.getAssigneeName();
+    }
+    
+    public TaskVo(){ 
     }
 }

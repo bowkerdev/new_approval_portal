@@ -157,7 +157,7 @@ public class FlowTaskService extends BaseService {
      * @return
      */
     public Page<ProcessVo> todoList(Page<ProcessVo> page, Flow flow) {
-        return this.todoList(page, flow, UserUtils.getUser ().getId(), false);
+        return this.todoListBySQL(page, flow, UserUtils.getUser (), false);
     }
     
     private Page<ProcessVo> todoList(Page<ProcessVo> page, Flow flow, String userId, boolean delegateFlag) {
@@ -204,7 +204,7 @@ public class FlowTaskService extends BaseService {
             processVo.setVars (task.getProcessVariables ());
             processVo.setProcessDefinitionName ( ProcessDefCache.get (task.getProcessDefinitionId ()).getName ());
             processVo.setVersion (ProcessDefCache.get (task.getProcessDefinitionId ()).getVersion ());
-            processVo.setStatus ("todo");
+            processVo.setStatus ("处理中");
             processVo.setRemarks(flowMapper.getRemarks(task.getProcessInstanceId(), StringUtils.split(task.getProcessDefinitionId(),":")[0])); 
             page.getList ().add (processVo);
         }
@@ -212,7 +212,76 @@ public class FlowTaskService extends BaseService {
         return page;
 
     }
+    
+    private Page<ProcessVo> todoListBySQL(Page<ProcessVo> page, Flow flow, User user, boolean delegateFlag) { 
+        // =============== 已经签收或者等待签收的任务  ===============
+         
+    	ProcessVo pvo = new ProcessVo();
+    	pvo.setProcessInstanceId(flow.getProcInsId());
+    	pvo.getTask().setAssignee(user.getId());
+    	pvo.setStartTime(flow.getBeginDate());
+    	pvo.setEndTime(flow.getEndDate());
+    	pvo.setTitle(flow.getTitle());
+    	pvo.setProcessDefinitionKey(flow.getProcDefKey());
+    	 
+    	pvo.setPage(page); 
+    	  
+        List<ProcessVo> todoList = flowMapper.findAllTodoList(pvo);
 
+        for (ProcessVo processVo : todoList) {
+        	Task taskInst = taskService.createTaskQuery ().taskId(processVo.getTask().getId()).includeProcessVariables().singleResult();
+        	if (!processVo.getTask().getAssignee().equals(user.getId())) {
+        		processVo.getTask().setAssigneeName(processVo.getTask().getAssigneeName()+"(Delegate to "+user.getLoginName()+" : "+user.getName()+")");
+        	}
+            processVo.setVars (taskInst.getProcessVariables ());
+            processVo.setProcessDefinitionName ( ProcessDefCache.get (processVo.getTask().getProcessDefinitionId ()).getName ());
+            processVo.setVersion (ProcessDefCache.get (processVo.getTask().getProcessDefinitionId ()).getVersion ());
+            processVo.setStatus ("处理中");
+            processVo.setRemarks(flowMapper.getRemarks(processVo.getTask().getProcessInstanceId(), StringUtils.split(processVo.getTask().getProcessDefinitionId(),":")[0])); 
+            page.getList ().add (processVo);
+        }
+
+        return page;
+    }
+
+    public Page<ProcessVo> allList(Page<ProcessVo> page, Flow flow) {
+    	ProcessVo pvo = new ProcessVo();
+    	pvo.setProcessInstanceId(flow.getProcInsId());
+    	pvo.setStartTime(flow.getBeginDate());
+    	pvo.setEndTime(flow.getEndDate());
+    	pvo.setTitle(flow.getTitle());
+    	pvo.setProcessDefinitionKey(flow.getProcDefKey());
+    	
+    	pvo.setPage(page); 
+    	  
+        List<ProcessVo> todoList = flowMapper.findAllList(pvo);
+
+        for (ProcessVo processVo : todoList) {
+        	HistoricProcessInstance pi = historyService.createHistoricProcessInstanceQuery()
+                    .processInstanceId (processVo.getTask().getProcessInstanceId()).includeProcessVariables().singleResult ();        	 
+        	
+        	if (pi!=null)
+        		processVo.setVars (pi.getProcessVariables ());
+        	else{
+        		processVo.setVars (new HashMap<String, Object>());
+        	}
+            processVo.setProcessDefinitionName ( ProcessDefCache.get (processVo.getTask().getProcessDefinitionId ()).getName ());
+            processVo.setVersion (ProcessDefCache.get (processVo.getTask().getProcessDefinitionId ()).getVersion ());
+            processVo.setStatus (getProcessStatus(processVo.getTask().getTaskDefinitionKey()));
+            processVo.setRemarks(flowMapper.getRemarks(processVo.getTask().getProcessInstanceId(), StringUtils.split(processVo.getTask().getProcessDefinitionId(),":")[0])); 
+            page.getList ().add (processVo);
+        }
+
+        return page;
+    }
+    
+    private String getProcessStatus(String currentStep) {
+    	if ("结束".equals(currentStep) || "end".equals(currentStep.toLowerCase())) {
+    		return "结束";
+    	}
+    	return "处理中";
+    }
+    
     /**
      * 获取已办任务列表
      *

@@ -26,6 +26,99 @@
 	    ${sql}
 	</select>
 	
+	<select id="findAllList" resultType="com.jeeplus.modules.flowable.vo.ProcessVo" >
+		SELECT
+			b.id_ AS "task.id",
+			b.act_name_ AS "task.name",
+			b.ASSIGNEE_ AS "task.assignee",
+			( SELECT concat( login_name, ' : ', NAME ) FROM sys_user WHERE id = b.ASSIGNEE_ ) AS "task.assigneeName",
+			b.EXECUTION_ID_ AS "task.executionId",
+			b.act_id_ AS "task.taskDefinitionKey",
+			b.START_TIME_ AS "task.createTime",
+			b.PROC_DEF_ID_ AS "task.processDefinitionId",
+			b.PROC_INST_ID_ AS "task.processInstanceId",
+			SUBSTRING_INDEX( b.PROC_DEF_ID_, ':', 1 ) AS "task.processDefKey" 
+		FROM
+			act_hi_procinst a 
+			left join (select * from act_hi_actinst where act_type_ in ('userTask','endEvent') and (END_TIME_ is null or act_type_ = 'endEvent')) b on a.PROC_INST_ID_ = b.PROC_INST_ID_
+		WHERE 1=1 
+			<if test="processDefinitionKey != null and processDefinitionKey != ''">
+				and SUBSTRING_INDEX( a.PROC_DEF_ID_, ':', 1 ) in
+				<foreach item="processDefinitionKey" index="index" collection="list" open="(" separator="," close=")">
+			        #{processDefinitionKey} 
+			    </foreach>
+		    </if>
+		    
+		    <if test="startTime != null"> 
+				AND b.START_TIME_ &gt; #{startTime} 
+			</if>
+			
+			<if test="endTime != null"> 
+			    AND b.START_TIME_ &lt; #{endTime} 
+			</if>
+			
+			<if test="title != null and title != ''"> 
+			    AND exists(select 1 from act_hi_varinst v where v.PROC_INST_ID_ = a.PROC_INST_ID_ and v.name_='title' and v.TEXT_ like 
+			    	<if test="_databaseId == 'postgre'">'%'||#{title}||'%'</if>
+					<if test="_databaseId == 'oracle'">'%'||#{title}||'%'</if>
+					<if test="_databaseId == 'mssql'">'%'+#{title}+'%'</if>
+					<if test="_databaseId == 'mysql'">concat('%',#{title},'%')</if> 
+					)
+			</if>
+			order by b.START_TIME_ desc 
+	</select>
+	
+	
+	<select id="findAllTodoList" resultType="com.jeeplus.modules.flowable.vo.ProcessVo" >
+		SELECT
+			id_ AS "task.id",
+			name_ AS "task.name",
+			ASSIGNEE_ AS "task.assignee",
+			( SELECT concat( login_name, ' : ', NAME ) FROM sys_user WHERE id = ASSIGNEE_ ) AS "task.assigneeName",
+			EXECUTION_ID_ AS "task.executionId",
+			TASK_DEF_KEY_ AS "task.taskDefinitionKey",
+			CREATE_TIME_ AS "task.createTime",
+			PROC_DEF_ID_ AS "task.processDefinitionId",
+			PROC_INST_ID_ AS "task.processInstanceId",
+			SUBSTRING_INDEX( PROC_DEF_ID_, ':', 1 ) AS "task.processDefKey" 
+		FROM
+			act_ru_task 
+		WHERE
+			(assignee_ = #{task.assignee}
+			OR assignee_ IN (
+			SELECT OWNER 
+			FROM
+				wf_delegate 
+			WHERE
+				delegate = #{task.assignee}
+			AND now() BETWEEN start_time 
+			AND end_time))
+			
+			<if test="processDefinitionKey != null and processDefinitionKey != ''">
+				and SUBSTRING_INDEX( PROC_DEF_ID_, ':', 1 ) in
+				<foreach item="processDefinitionKey" index="index" collection="list" open="(" separator="," close=")">
+			        #{processDefinitionKey} 
+			    </foreach>
+		    </if>
+		    
+		    <if test="startTime != null"> 
+				AND CREATE_TIME_ &gt; #{startTime} 
+			</if>
+			
+			<if test="endTime != null"> 
+			    AND CREATE_TIME_ &lt; #{endTime} 
+			</if>
+			
+			<if test="title != null and title != ''"> 
+			    AND getProcessVar(PROC_INST_ID_, 'title') like 
+			    	<if test="_databaseId == 'postgre'">'%'||#{title}||'%'</if>
+					<if test="_databaseId == 'oracle'">'%'||#{title}||'%'</if>
+					<if test="_databaseId == 'mssql'">'%'+#{title}+'%'</if>
+					<if test="_databaseId == 'mysql'">concat('%',#{title},'%')</if>
+			</if>
+			order by CREATE_TIME_ desc 
+	</select>
+	
 	<select id="findHistoryList" resultType="com.jeeplus.modules.flowable.vo.ProcessVo" >
 		select 
 			`PROC_INST_ID_` as processInstanceId,
@@ -58,5 +151,7 @@
 	<select id="getRemarks" resultType="java.lang.String">
 	    select getRemarks(#{procInsId}, #{procDefKey}) as remarks
 	</select>
-
+	<select id="getProcessVar" resultType="java.lang.String">
+	    select getProcessVar(#{procInsId}, #{varName}) as value
+	</select>
 </mapper>

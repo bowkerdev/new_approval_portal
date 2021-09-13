@@ -12,6 +12,7 @@ import com.jeeplus.modules.flowable.wf.entity.WfDelegate;
 public class ProcessVo extends DataEntity<ProcessVo>{
     private String processInstanceId; // 流程实例ID
     private String processDefinitionId; // 流程定义ID
+    private String processDefinitionKey; // 流程定义ID
     private String processDefinitionName; // 流程名称
     private String title; // 流程标题
     private String activityId;
@@ -22,7 +23,7 @@ public class ProcessVo extends DataEntity<ProcessVo>{
     private String taskName; //流程当前节点名称
     private String deleteReason; //流程作废原因
     private HisTaskVo hisTask; // 历史流程节点
-    private TaskVo task; //流程当前节点
+    private TaskVo task = new TaskVo(); //流程当前节点
     private ActVo act; //流程当前节点
 
     private int code; // 流程状态码

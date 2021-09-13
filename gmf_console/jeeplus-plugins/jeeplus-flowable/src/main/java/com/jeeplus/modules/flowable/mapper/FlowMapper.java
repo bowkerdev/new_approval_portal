@@ -29,7 +29,13 @@ public interface FlowMapper extends BaseMapper<Flow> {
     String getSequence(@Param("seqName") String seqName, @Param("bizCode") String bizCode);
     
     String getRemarks(@Param("procInsId") String procInsId, @Param("procDefKey") String procDefKey);
+    
+    String getProcessVar(@Param("procInsId") String procInsId, @Param("varName") String varName);
 
+    List<ProcessVo> findAllTodoList(ProcessVo processVo);
+    
+    List<ProcessVo> findAllList(ProcessVo processVo);
+    
     String getLatestProcessDefinitionId(@Param("procDefKey") String procDefKey);
  
     List<ProcessVo> findHistoryList(ProcessVo entity);

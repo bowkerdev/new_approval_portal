@@ -18,6 +18,7 @@ public class ProcessVo extends DataEntity<ProcessVo>{
     private String activityId;
     private int version; // 流程版本
     private Map vars; // 流程变量
+    private String applyUserName;
     private Date startTime; // 流程开始时间
     private Date endTime; //流程结束时间
     private String taskName; //流程当前节点名称

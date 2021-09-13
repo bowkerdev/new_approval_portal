@@ -72,16 +72,16 @@
                 prop="var.total_contract_amount"
                 show-overflow-tooltip
                 align="right"
-                width="100px"
+                width="120px"
                 :label="$i18nMy.t('总金额')">
                 <template slot-scope="scope">
-                    {{(scope.row.vars.total_contract_amount * (1+scope.row.vars.vat)).toFixed(2)}}
+                    {{scope.row.vars.total_contract_amount}}
                 </template>
               </el-table-column>
               <el-table-column
                 prop="var.contract_currency"
                 show-overflow-tooltip
-                width="100px"
+                width="120px"
                 :label="$i18nMy.t('币种')">
                 <template slot-scope="scope">
                     {{scope.row.vars.contract_currency}}
@@ -89,11 +89,12 @@
               </el-table-column>
                <el-table-column
                 width="180px"
-                prop="vars.userName"
+                prop="applyUserName"
                 show-overflow-tooltip
                 :label="$i18nMy.t('流程发起人')">
               </el-table-column>
               <el-table-column
+                width="180px"
                 prop="task.assigneeName"
                 show-overflow-tooltip
                 :label="$i18nMy.t('当前处理人')">

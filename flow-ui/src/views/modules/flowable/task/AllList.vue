@@ -1,6 +1,9 @@
 <template>
   <div class="page">
       <el-form size="small" :inline="true"  class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+        <el-form-item :label="$i18nMy.t('流程名称')" prop="procDefKey">
+           <el-input size="small" v-model="searchForm.procDefKey" :placeholder="$i18nMy.t('流程名称')" clearable></el-input>
+        </el-form-item>
         <el-form-item :label="$i18nMy.t('申请单号')" prop="title">
            <el-input size="small" v-model="searchForm.title" :placeholder="$i18nMy.t('申请单号')" clearable></el-input>
         </el-form-item>
@@ -131,6 +134,7 @@
       return {
         searchForm: {
           title: '',
+          procDefKey: '',
           beginDate: '',
           endDate: ''
         },

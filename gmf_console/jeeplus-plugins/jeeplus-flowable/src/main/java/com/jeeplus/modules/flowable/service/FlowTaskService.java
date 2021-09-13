@@ -230,10 +230,14 @@ public class FlowTaskService extends BaseService {
 
         for (ProcessVo processVo : todoList) {
         	Task taskInst = taskService.createTaskQuery ().taskId(processVo.getTask().getId()).includeProcessVariables().singleResult();
-        	if (!processVo.getTask().getAssignee().equals(user.getId())) {
+        	if (processVo.getTask().getAssignee()!=null && !processVo.getTask().getAssignee().equals(user.getId())) {
         		processVo.getTask().setAssigneeName(processVo.getTask().getAssigneeName()+"(Delegate to "+user.getLoginName()+" : "+user.getName()+")");
         	}
             processVo.setVars (taskInst.getProcessVariables ());
+            if (processVo.getVars()!=null && processVo.getVars().get("applyUserId")!=null) {
+            	User applyUser = UserUtils.get((String)processVo.getVars().get("applyUserId"));
+            	processVo.setApplyUserName(applyUser.getLoginName() + " : " + applyUser.getName());
+            }            
             processVo.setProcessDefinitionName ( ProcessDefCache.get (processVo.getTask().getProcessDefinitionId ()).getName ());
             processVo.setVersion (ProcessDefCache.get (processVo.getTask().getProcessDefinitionId ()).getVersion ());
             processVo.setStatus ("处理中");

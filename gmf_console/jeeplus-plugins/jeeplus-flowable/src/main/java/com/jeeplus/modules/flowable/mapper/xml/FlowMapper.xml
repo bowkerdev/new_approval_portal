@@ -43,10 +43,7 @@
 			left join (select * from act_hi_actinst where act_type_ in ('userTask','endEvent') and (END_TIME_ is null or act_type_ = 'endEvent')) b on a.PROC_INST_ID_ = b.PROC_INST_ID_
 		WHERE 1=1 
 			<if test="processDefinitionKey != null and processDefinitionKey != ''">
-				and SUBSTRING_INDEX( a.PROC_DEF_ID_, ':', 1 ) in
-				<foreach item="processDefinitionKey" index="index" collection="list" open="(" separator="," close=")">
-			        #{processDefinitionKey} 
-			    </foreach>
+				and LOWER(SUBSTRING_INDEX(a.PROC_DEF_ID_, ':', 1 )) = LOWER (#{processDefinitionKey})
 		    </if>
 		    
 		    <if test="startTime != null"> 
@@ -82,23 +79,22 @@
 			PROC_INST_ID_ AS "task.processInstanceId",
 			SUBSTRING_INDEX( PROC_DEF_ID_, ':', 1 ) AS "task.processDefKey" 
 		FROM
-			act_ru_task 
+			act_ru_task t
 		WHERE
-			(assignee_ = #{task.assignee}
-			OR assignee_ IN (
-			SELECT OWNER 
-			FROM
-				wf_delegate 
-			WHERE
-				delegate = #{task.assignee}
-			AND now() BETWEEN start_time 
-			AND end_time))
-			
-			<if test="processDefinitionKey != null and processDefinitionKey != ''">
-				and SUBSTRING_INDEX( PROC_DEF_ID_, ':', 1 ) in
-				<foreach item="processDefinitionKey" index="index" collection="list" open="(" separator="," close=")">
-			        #{processDefinitionKey} 
-			    </foreach>
+			(
+				assignee_ = #{task.assignee}
+				OR assignee_ IN (
+					SELECT OWNER 
+					FROM
+						wf_delegate 
+					WHERE
+						delegate = #{task.assignee}
+					AND now() BETWEEN start_time 
+					AND end_time)
+				OR (assignee_ is null and exists(select 1 from act_ru_identitylink where task_id_= t.id_ and user_id_ = #{task.assignee}))
+			)			
+			<if test="processDefinitionKey != null and processDefinitionKey != ''"> 
+				and LOWER(SUBSTRING_INDEX( PROC_DEF_ID_, ':', 1 )) = LOWER (#{processDefinitionKey})
 		    </if>
 		    
 		    <if test="startTime != null"> 

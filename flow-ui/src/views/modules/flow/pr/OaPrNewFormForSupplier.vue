@@ -415,8 +415,10 @@
           exRate: '',
           vat:null,
           totalContractAmount: '',
+          totalVatContractAmount:'',
           baseCurrency: '',
           totalBaseAmount: '',
+          totalVatBaseAmount:'',
           purchasePurpose: '',
           roi: '',
           noBudgetExplain: '',
@@ -647,6 +649,7 @@
         }
         this.inputForm.totalVatContractAmount = 0
         this.inputForm.totalContractAmount = 0
+
         for(var i=0;i<this.supplierInfo.length;i++){
           if(!this.supplierInfo[i].edit){
             for(var j=0;j<this.supplierInfo[i].detailInfo.length;j++){
@@ -672,6 +675,12 @@
         }
         this.inputForm.totalVatContractAmount = parseFloat(this.inputForm.totalVatContractAmount.toFixed(2))
         this.inputForm.totalContractAmount = parseFloat(this.inputForm.totalContractAmount.toFixed(2))
+
+        this.inputForm.totalVatBaseAmount = 
+          parseFloat((this.inputForm.exRate*this.inputForm.totalVatContractAmount).toFixed(2))
+        this.inputForm.totalBaseAmount = 
+          parseFloat((this.inputForm.exRate*this.inputForm.totalContractAmount).toFixed(2))
+
       },
       awardedChange(supplierInfo,itemSerialNumber){
         for(var i=0;i<this.supplierInfo.length;i++){

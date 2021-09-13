@@ -184,21 +184,20 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('基础币种')" prop="baseCurrency" :rules="[ ]">
-            {{inputForm.baseCurrency}}
+            {{ $dictUtils.getDictLabel("pr_currency", inputForm.baseCurrency, '-') }}
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('基础币种总价')" prop="totalBaseAmount" :rules="[]">
-            <div class="myformText1" v-if="!isNaN(inputForm.exRate*inputForm.totalContractAmount)&&this.inputForm.totalContractAmount !=''">
-              {{(inputForm.exRate*inputForm.totalContractAmount).toFixed(2)}}
+            <div class="myformText1" v-if="inputForm.totalBaseAmount !=null&&inputForm.totalVatBaseAmount !=''" >
+              {{inputForm.totalBaseAmount.toFixed(2)}}
             </div>
           </el-form-item>
         </el-col>
         <el-col :span="3">
-          <el-form-item label-width="10px" label="" :rules="[]">
-            <div class="myformText2"
-              v-if="!isNaN(inputForm.exRate*inputForm.totalVatContractAmount)&&this.inputForm.totalVatContractAmount !=''">
-              {{(inputForm.exRate*inputForm.totalVatContractAmount).toFixed(2)}}(VAT)
+          <el-form-item label-width="10px" label=""  prop="totalVatBaseAmount" :rules="[]">
+            <div class="myformText2" v-if="inputForm.totalVatBaseAmount !=null&&inputForm.totalVatBaseAmount !=''"  >
+              {{inputForm.totalVatBaseAmount.toFixed(2)}}(VAT)
             </div>
           </el-form-item>
 
@@ -446,12 +445,14 @@
           approvedDate: '',
           isBudget: '',
           requestRiority: '',
-          contractCurrency: '',
           exRate: '',
           vat:null,
+          contractCurrency: '',
           totalContractAmount: '',
+          totalVatContractAmount:'',
           baseCurrency: '',
           totalBaseAmount: '',
+          totalVatBaseAmount:'',
           purchasePurpose: '',
           roi: '',
           noBudgetExplain: '',
@@ -531,7 +532,6 @@
       },
       // 表单提交
       saveForm(callBack) {
-        this.inputForm.totalBaseAmount=this.inputForm.exRate*this.inputForm.totalContractAmount
         this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
         if(this.detailInfo.length ==0){
            this.$message.warning($i18nMy.t('物品列表不能为空'))

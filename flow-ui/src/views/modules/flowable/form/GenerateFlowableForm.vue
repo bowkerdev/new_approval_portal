@@ -147,6 +147,18 @@
                 this.$nextTick(() => {
                   let disabledArra = []
                   let showArra = []
+                  setTimeout(()=>{
+                    // 国际化序号 ,临时办法
+                    var tables= document.getElementsByClassName("el-table__fixed-header-wrapper")
+                    for(var i=0;i<tables.length;i++){
+                      var th= tables[i].getElementsByTagName("th")
+                      for(var j=0;j<th.length;j++){
+                        if("序号"==th[j].textContent){
+                          th[j].innerHTML ='<div class="cell">'+this.$i18nMy.t('序号')+'</div>'
+                        }
+                      }
+                    }
+                  },2000)
                   this.taskFormData.forEach((item) => {
                     if (item.value != null) {
                       this.formData[`${item.id}`] = item.value

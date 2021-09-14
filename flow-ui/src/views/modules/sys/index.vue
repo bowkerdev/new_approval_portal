@@ -103,7 +103,7 @@
                 width="150px"
                 prop="task.createTime"
                 show-overflow-tooltip
-                :label="$i18nMy.t('创建时间')">
+                :label="$i18nMy.t('申请时间')">
                  <template slot-scope="scope">
                   {{scope.row.task.createTime | formatDate}}
                  </template>
@@ -188,7 +188,7 @@
                 <el-table-column
                   prop="task.createTime"
                   show-overflow-tooltip
-                  :label="$i18nMy.t('创建时间')">
+                  :label="$i18nMy.t('申请时间')">
                    <template slot-scope="scope">
                     {{scope.row.task.createTime | formatDate}}
                    </template>
@@ -234,7 +234,7 @@
             :lg="12" :md="12" :sm="12" :xs="12"
           >
         <el-card
-          :header="$i18nMy.t('我的经办')"
+          :header="$i18nMy.t('已办任务')"
         >
             <el-table
               :data="dataList1"
@@ -290,10 +290,18 @@
                   {{scope.row.endTime | formatDate}}
                  </template>
               </el-table-column>
-              <el-table-column
+              <!-- <el-table-column
                 prop="currentTask.name"
                 show-overflow-tooltip
                 :label="$i18nMy.t('当前环节')">
+              </el-table-column> -->
+              <el-table-column
+                prop="status"
+                show-overflow-tooltip
+                :label="$i18nMy.t('流程状态')">
+                <template slot-scope="scope">
+                 {{$i18nMy.t(scope.row.status)}}
+                </template>
               </el-table-column>
               <el-table-column
                 prop="currentTask.assigneeName"
@@ -353,10 +361,18 @@
                 show-overflow-tooltip
                 :label="$i18nMy.t('流程信息')">
               </el-table-column>
-               <el-table-column
+               <!-- <el-table-column
                 prop="act.name"
                 show-overflow-tooltip
                 :label="$i18nMy.t('当前环节')">
+              </el-table-column> -->
+              <el-table-column
+                prop="status"
+                show-overflow-tooltip
+                :label="$i18nMy.t('流程状态')">
+                <template slot-scope="scope">
+                 {{$i18nMy.t(scope.row.status)}}
+                </template>
               </el-table-column>
               <el-table-column
                 prop="act.assigneeName"
@@ -371,7 +387,7 @@
               <el-table-column
                 prop="startTime"
                 show-overflow-tooltip
-                :label="$i18nMy.t('创建时间')">
+                :label="$i18nMy.t('申请时间')">
                  <template slot-scope="scope">
                   {{scope.row.startTime | formatDate}}
                  <!-- <p class="text-grey">{{scope.row.endTime | formatDate}}</p> -->
@@ -440,7 +456,7 @@ export default Vue.extend({
         {
         	id: "Application_enquiry",
         	"url": "/flowable/task/AllList",
-        	"name": "Application Enquiry"
+        	"name": "Enquiry"
         }
       ],
 

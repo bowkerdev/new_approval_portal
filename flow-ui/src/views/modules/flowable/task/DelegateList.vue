@@ -1,7 +1,7 @@
 <template>
   <div class="page">
       <el-form size="small" :inline="true"  class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-        <el-form-item :label="$i18nMy.t('创建时间')" prop="searchDates">
+        <el-form-item :label="$i18nMy.t('申请时间')" prop="searchDates">
           <el-date-picker
             v-model="searchDates"
             type="daterange"
@@ -83,7 +83,7 @@
           <el-table-column
             prop="task.createTime"
             show-overflow-tooltip
-            :label="$i18nMy.t('创建时间')">
+            :label="$i18nMy.t('申请时间')">
              <template slot-scope="scope">
               {{scope.row.task.createTime | formatDate}}
              </template>
@@ -153,7 +153,7 @@
         processInstanceId: '',
         pickerOptions: {
           shortcuts: [{
-            text: '最近一周',
+            text: this.$i18nMy.t('最近一周'),
             onClick (picker) {
               const end = new Date()
               const start = new Date()
@@ -161,7 +161,7 @@
               picker.$emit('pick', [start, end])
             }
           }, {
-            text: '最近一个月',
+            text: this.$i18nMy.t('最近一个月'),
             onClick (picker) {
               const end = new Date()
               const start = new Date()
@@ -169,7 +169,7 @@
               picker.$emit('pick', [start, end])
             }
           }, {
-            text: '最近三个月',
+            text: this.$i18nMy.t('最近三个月'),
             onClick (picker) {
               const end = new Date()
               const start = new Date()

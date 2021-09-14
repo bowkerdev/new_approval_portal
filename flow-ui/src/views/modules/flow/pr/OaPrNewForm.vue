@@ -4,8 +4,11 @@
       label-width="140px" style="width: calc(100% - 25px);">
       <el-row :gutter="15">
         <el-col :span="24">
-          <p style="text-align: center;margin: 20px;font-size: 20px;font-weight: 800;">
-            Win Hanverky Group Purchase Requisition Form
+          <p style="text-align: center;margin-top: 20px;font-size: 26px;font-weight: bold;">
+            Win Hanverky Group
+          </p>
+          <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;">
+            {{$i18nMy.t('采购设备申请表（IT 设备）')}}<!-- Purchase Requisition Form -->
           </p>
         </el-col>
         <el-col :span="12">

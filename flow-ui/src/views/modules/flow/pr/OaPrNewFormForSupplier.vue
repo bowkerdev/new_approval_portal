@@ -54,7 +54,7 @@
       <el-row :gutter="0">
         <p style="float: left;" class="sub-title">
           {{$i18nMy.t('供应商报价和合同上传')}}
-        </p><div style="float: left;"><el-button size="small" :disabled="detailInfo.length==0" @click="addTabListGroup()" type="primary" icon="el-icon-plus" style="float: left;margin-top: 7px;margin-left: 10px;padding: 5px 30px;" ></el-button></div>
+        </p><div style="float: left;"><el-button size="small" :disabled="detailInfo.length==0" @click="addTabListGroup()" round  type="primary" icon="el-icon-plus" style="float: left;margin-top: 7px;margin-left: 10px;padding: 5px 5px;" ></el-button></div>
         <div style="width: 100%;overflow: auto; border:1px solid #EBEEF5">
           <table style="min-width: 100%;border-collapse: collapse; border:1px solid #EBEEF5" class="supplierTable"
           cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff" >
@@ -141,7 +141,7 @@
                         $message.warning($common.stringFormat('当前限制选择 1 个文件，本次选择了 {0} 个文件，共选择了 {1} 个文件',files.length,files.length + fileList.length))
                       }"
                       :file-list="attachmentsArra[item.id][item.docList[0].id]">
-                      <el-button :disabled="!item.edit" style="padding: 5px 30px;" size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
+                      <el-button :disabled="!item.edit" style="padding: 5px 30px;" round size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
                     </el-upload>
               </td>
               <td style="width: 70px;">
@@ -200,7 +200,7 @@
                           $message.warning($common.stringFormat('当前限制选择 1 个文件，本次选择了 {0} 个文件，共选择了 {1} 个文件',files.length,files.length + fileList.length))
                         }"
                         :file-list="attachmentsArra[item.id][item2.id]">
-                        <el-button :disabled="!item.edit" style="padding: 5px 30px;"  size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
+                        <el-button :disabled="!item.edit" style="padding: 5px 30px;" round size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
                       </el-upload>
                 </td>
                 <td >
@@ -224,14 +224,14 @@
                 </td>
               </tr>
               <tr style="background-color: #fff3cf; border-bottom: 1px solid #EBEEF5;">
-                <td colspan="8">
-                 <el-button size="small" :disabled="!item.edit"  @click="addDocList(index)" type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px;padding: 5px 30px;" ></el-button>
+                <td colspan="8" style="padding: 5px 0px 5px 30px;">
+                 <el-button size="small" :disabled="!item.edit" round @click="addDocList(index)" type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px;padding: 5px 5px;" ></el-button>
                 </td>
               </tr>
               <tr class="head-background-color head2-height">
                 <td style="background-color: #FFFFFF;border:none"></td>
                 <td class="first-td">{{$i18nMy.t('序号')}}</td><td>{{$i18nMy.t('物品')}}</td><td>{{$i18nMy.t('品牌名称')}}</td><td>{{$i18nMy.t('型号')}}</td><td><font color="red">*</font>{{$i18nMy.t('提供单价')}}</td><td>{{$i18nMy.t('折扣单价')}}</td>
-                <td><font color="red">*</font>MOQ</td><td>{{$i18nMy.t('预计到货日期')}}</td><td>{{$i18nMy.t('预计最晚到货日期')}}</td><td>{{$i18nMy.t('原因')}}</td><td>{{$i18nMy.t('采纳')}}</td>
+                <td><font color="red">*</font>MOQ</td><td>{{$i18nMy.t('预计到货日期')}}</td><td>{{$i18nMy.t('预计最晚到货日期')}}</td><td>{{$i18nMy.t('原因')}}</td><td><font style="font-weight: bold;">{{$i18nMy.t('采纳')}}</font></td>
               </tr>
               <tr class="data-content" v-for="(item3, index3) in item.detailInfo" :key="'index3_'+index3">
                 <td  style="background-color: #FFFFFF;border:none"></td>
@@ -569,13 +569,17 @@
         })
       },
       addTabListGroup(){
-        var obj={attachment:'',uploadedBy:this.$store.state.user.loginName,uploadedDate:this.$common.formatDate(new Date())}
+        var obj={attachment:'',documentType:"Quotation",uploadedBy:this.$store.state.user.loginName,uploadedDate:this.$common.formatDate(new Date())}
         var uuid=this.$common.uuid();
         this.attachmentsArra[uuid]={}
-        this.supplierInfo.push({id: uuid, edit:true,docListSize:2,docList:[obj],detailInfo:JSON.parse(JSON.stringify(this.detailInfo))})
+        var tmpObj = {id: uuid, edit:true,docListSize:2,docList:[obj],detailInfo:JSON.parse(JSON.stringify(this.detailInfo))}
+        for(var i=0;i<tmpObj.detailInfo.length;i++){
+          tmpObj.detailInfo[i].moq=1
+        }
+        this.supplierInfo.push(tmpObj)
       },
       addDocList(index){
-        var obj={attachment:'',uploadedBy:this.$store.state.user.loginName,uploadedDate:this.$common.formatDate(new Date())}
+        var obj={attachment:'',documentType:"Quotation",uploadedBy:this.$store.state.user.loginName,uploadedDate:this.$common.formatDate(new Date())}
         var id=this.supplierInfo[index].id
         var uuid=this.$common.uuid();
         obj.id=uuid
@@ -676,9 +680,9 @@
         this.inputForm.totalVatContractAmount = parseFloat(this.inputForm.totalVatContractAmount.toFixed(2))
         this.inputForm.totalContractAmount = parseFloat(this.inputForm.totalContractAmount.toFixed(2))
 
-        this.inputForm.totalVatBaseAmount = 
+        this.inputForm.totalVatBaseAmount =
           parseFloat((this.inputForm.exRate*this.inputForm.totalVatContractAmount).toFixed(2))
-        this.inputForm.totalBaseAmount = 
+        this.inputForm.totalBaseAmount =
           parseFloat((this.inputForm.exRate*this.inputForm.totalContractAmount).toFixed(2))
 
       },

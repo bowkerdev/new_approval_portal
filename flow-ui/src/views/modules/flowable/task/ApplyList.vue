@@ -1,7 +1,7 @@
 <template>
   <div class="page">
       <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-        <el-form-item prop="searchDates" :label="$i18nMy.t('创建时间')">
+        <el-form-item prop="searchDates">
           <el-date-picker
             v-model="searchDates"
             type="daterange"
@@ -9,9 +9,9 @@
             align="right"
             value-format="yyyy-MM-dd hh:mm:ss"
             unlink-panels
-            range-separator="至"
-            start-:placeholder="$i18nMy.t('开始日期')"
-            end-:placeholder="$i18nMy.t('结束日期')"
+            range-separator="-"
+            :start-placeholder="$i18nMy.t('开始时间')"
+            :end-placeholder="$i18nMy.t('结束时间')"
             :picker-options="pickerOptions">
           </el-date-picker>
         </el-form-item>
@@ -21,7 +21,7 @@
         </el-form-item>
       </el-form>
       <div class="bg-white top">
-      <el-row>
+     <!-- <el-row>
            <el-button-group class="pull-right">
           <el-tooltip class="item" effect="dark" content="刷新" placement="top">
             <el-button
@@ -32,12 +32,12 @@
             </el-button>
           </el-tooltip>
         </el-button-group>
-      </el-row>
+      </el-row> -->
         <el-table
           :data="dataList"
           size = "small"
           v-loading="loading"
-          height="calc(100% - 80px)"
+          height="calc(100% - 100px)"
           @selection-change="selectionChangeHandle"
           class="table">
           <el-table-column
@@ -67,15 +67,15 @@
            <el-table-column
             prop="taskName"
             show-overflow-tooltip
-            label="当前节点">
+            :label="$i18nMy.t('当前环节')">
           </el-table-column>
            <el-table-column
             prop="status"
             show-overflow-tooltip
-            label="流程状态">
+            :label="$i18nMy.t('流程状态')">
             <template slot-scope="scope">
-                  <el-tag  :type="scope.row.level"   effect="dark" size="small">{{scope.row.status}} </el-tag>
-             </template>
+               {{$i18nMy.t(scope.row.status)}}
+            </template>
           </el-table-column>
           <el-table-column
             prop="act.name"
@@ -90,7 +90,7 @@
           <el-table-column
             prop="startTime"
             show-overflow-tooltip
-            label="发起时间 / 结束时间">
+            :label="$i18nMy.t('开始时间')+' / '+$i18nMy.t('结束时间')">
              <template slot-scope="scope">
               <p>{{scope.row.startTime | formatDate}}</p>
               <p class="text-grey">{{scope.row.endTime | formatDate}}</p>
@@ -160,7 +160,7 @@
         processPhotoUrl: '',
         pickerOptions: {
           shortcuts: [{
-            text: '最近一周',
+            text: this.$i18nMy.t('最近一周'),
             onClick (picker) {
               const end = new Date()
               const start = new Date()
@@ -168,7 +168,7 @@
               picker.$emit('pick', [start, end])
             }
           }, {
-            text: '最近一个月',
+            text: this.$i18nMy.t('最近一个月'),
             onClick (picker) {
               const end = new Date()
               const start = new Date()
@@ -176,7 +176,7 @@
               picker.$emit('pick', [start, end])
             }
           }, {
-            text: '最近三个月',
+            text: this.$i18nMy.t('最近三个月'),
             onClick (picker) {
               const end = new Date()
               const start = new Date()

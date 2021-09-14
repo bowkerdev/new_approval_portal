@@ -4,8 +4,11 @@
       label-width="140px" style="width: calc(100% - 25px);">
       <el-row :gutter="15">
         <el-col :span="24">
-          <p style="text-align: center;margin: 20px;font-size: 20px;font-weight: 800;">
-            Win Hanverky Group Purchase Requisition Form
+          <p style="text-align: center;margin-top: 20px;font-size: 26px;font-weight: bold;">
+            Win Hanverky Group
+          </p>
+          <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;">
+            {{$i18nMy.t('采购设备申请表（IT 设备）')}}<!-- Purchase Requisition Form -->
           </p>
         </el-col>
         <el-col :span="12">
@@ -98,13 +101,11 @@
          </el-table>
       </el-row>
       <el-row :gutter="0">
-        <p style="text-align: left;margin: 10px 0px 10px 0px;font-size: 20px;font-weight: 500;">
+        <p style="float: left;text-align: left;margin: 20px 0px 5px 0px;font-size: 20px;font-weight: 500;">
           {{$i18nMy.t('补充文件')}}
-        </p>
-      </el-row>
-      <el-row :gutter="15">
-        <el-button size="small" @click="addTabListGroup()" type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px" >
-        </el-button>
+        </p> <div style="float: left;">
+        <el-button size="small" @click="addTabListGroup()" round type="primary" icon="el-icon-plus" style="float: left;margin-top: 20px;margin-left: 10px;padding: 5px 5px;" >
+        </el-button></div>
       </el-row>
       <el-row :gutter="15" style="margin-right: 10px">
           <el-table :data="supplementaryDoc" height="300px" class="table" style="border: 1px solid #EBEEF5 !important ; margin-left: 10px">
@@ -150,7 +151,7 @@
                         $message.warning($common.stringFormat('当前限制选择 1 个文件，本次选择了 {0} 个文件，共选择了 {1} 个文件',files.length,files.length + fileList.length) )
                       }"
                       :file-list="attachmentsArra[row.id]">
-                      <el-button :disabled="!row.edit" style="padding: 5px 30px;"  size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
+                      <el-button :disabled="!row.edit" style="padding: 5px 30px;" round size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
                     </el-upload>
               </template>
             </el-table-column>
@@ -166,9 +167,9 @@
 
             <el-table-column width="120" align="left" :label="$i18nMy.t('操作')" class-name="td-operate">
               <template slot-scope="{row}">
+                <el-button  type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
                 <el-button v-if="row.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
                 <el-button v-if="!row.edit" type="primary" size="small" icon="el-icon-edit" @click="changeTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
-                <el-button  type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
               </template>
             </el-table-column>
           </el-table>

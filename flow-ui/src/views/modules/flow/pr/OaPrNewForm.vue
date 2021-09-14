@@ -216,7 +216,7 @@
         <el-tabs type="border-card" v-model="activeName">
           <el-tab-pane v-for="(item, index) in tabs" :label="item" :key ="index" style="overflow-x:auto;overflow-y:hidden ;">
            <el-row v-if="index==0">
-             <el-button size="small" @click="addTabListGroup()" type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px" >
+             <el-button size="small" @click="addTabListGroup()" round type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px;padding: 5px 5px;" >
              </el-button>
            </el-row>
            <el-table :data="detailInfo" height="300px" class="table" size="small" border  >

@@ -4,8 +4,11 @@
       label-width="140px" style="width: calc(100% - 25px);">
       <el-row :gutter="15">
         <el-col :span="24">
-          <p style="text-align: center;margin: 20px;font-size: 20px;font-weight: 800;">
-            Win Hanverky Group Purchase Requisition Form
+          <p style="text-align: center;margin-top: 20px;font-size: 26px;font-weight: bold;">
+            Win Hanverky Group
+          </p>
+          <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;">
+            {{$i18nMy.t('采购设备申请表（IT 设备）')}}<!-- Purchase Requisition Form -->
           </p>
         </el-col>
         <el-col :span="12">
@@ -105,14 +108,14 @@
               <td :rowspan="item.docListSize" class="my-right">
                   {{item.expectLastArrivalDate}}
               </td>
-              <td :rowspan="item.docListSize" >
+              <td :rowspan="item.docListSize" style="width: 132px;">
                 <el-input  size="small" v-if="item.edit" v-model="item.remarks"  ></el-input>
                 <span v-else>
                   {{item.remarks}}
                 </span>
               </td>
 
-              <td  style="width: 110px;">
+              <td  style="width: 132px;">
                 <el-select  size="small" v-model="item.docList[0].documentType" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in $dictUtils.getDictList('pr_document_type')" :key="item.value" :label="item.label"
                     :value="item.value">
@@ -144,7 +147,7 @@
                       <el-button :disabled="!item.edit" style="padding: 5px 30px;" round size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
                     </el-upload>
               </td>
-              <td style="width: 70px;">
+              <td style="width: 80px;">
                 <el-select  size="small" multiple v-model="item.docList[0].linkToItems" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in detailInfo" :key="item.serialNumber" :label="item.serialNumber"
                     :value="item.serialNumber">
@@ -157,7 +160,7 @@
               <td >
                   {{item.docList[0].uploadedBy}}
               </td>
-              <td class="my-right" style="width: 70px;">
+              <td class="my-right" style="width: 80px;">
                   {{item.docList[0].uploadedDate}}
               </td>
               <td  width="30px">
@@ -224,14 +227,15 @@
                 </td>
               </tr>
               <tr style="background-color: #fff3cf; border-bottom: 1px solid #EBEEF5;">
-                <td colspan="8" style="padding: 5px 0px 5px 30px;">
+                <td colspan="8" style="padding: 5px 0px 5px 5px;">
                  <el-button size="small" :disabled="!item.edit" round @click="addDocList(index)" type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px;padding: 5px 5px;" ></el-button>
                 </td>
               </tr>
               <tr class="head-background-color head2-height">
                 <td style="background-color: #FFFFFF;border:none"></td>
                 <td class="first-td">{{$i18nMy.t('序号')}}</td><td>{{$i18nMy.t('物品')}}</td><td>{{$i18nMy.t('品牌名称')}}</td><td>{{$i18nMy.t('型号')}}</td><td><font color="red">*</font>{{$i18nMy.t('提供单价')}}</td><td>{{$i18nMy.t('折扣单价')}}</td>
-                <td><font color="red">*</font>MOQ</td><td>{{$i18nMy.t('预计到货日期')}}</td><td>{{$i18nMy.t('预计最晚到货日期')}}</td><td>{{$i18nMy.t('原因')}}</td><td><font style="font-weight: bold;">{{$i18nMy.t('采纳')}}</font></td>
+                <td><font color="red">*</font>MOQ</td><td>{{$i18nMy.t('预计到货日期')}}</td><td>{{$i18nMy.t('预计最晚到货日期')}}</td><td>{{$i18nMy.t('原因')}}</td>
+                <td><el-button type="success" round size="small" icon="el-icon-check" class="operationButton"></el-button><font style="padding-left: 5px;">{{$i18nMy.t('采纳')}}</font></td>
               </tr>
               <tr class="data-content" v-for="(item3, index3) in item.detailInfo" :key="'index3_'+index3">
                 <td  style="background-color: #FFFFFF;border:none"></td>

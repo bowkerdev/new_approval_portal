@@ -1,14 +1,16 @@
 <template>
   <div style="height: 100%">
         <el-tabs  type="border-card" v-model="activeName">
-          <el-tab-pane :label="$i18nMy.t('主要信息')" >
+          <el-tab-pane>
+            <span slot="label"><i class="el-icon-star-on"></i>{{$i18nMy.t('主要信息')}}</span>
             <OaPrNewForm :formReadOnly="isReadOnly" ref="oaPrNewForm" ></OaPrNewForm>
+          </el-tab-pane>
+          <el-tab-pane>
+            <span slot="label"><i class="el-icon-star-on"></i>{{$i18nMy.t('供应商报价和合同')}}</span>
+            <OaPrNewFormForSupplier :formReadOnly="isReadOnly"  ref="oaPrNewFormForSupplier" ></OaPrNewFormForSupplier>
           </el-tab-pane>
           <el-tab-pane :label="$i18nMy.t('补充文件')" >
             <OaPrNewFormForDoc :formReadOnly="isReadOnly" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
-          </el-tab-pane>
-          <el-tab-pane :label="$i18nMy.t('供应商报价和合同')" >
-            <OaPrNewFormForSupplier :formReadOnly="isReadOnly"  ref="oaPrNewFormForSupplier" ></OaPrNewFormForSupplier>
           </el-tab-pane>
         </el-tabs>
   </div>

@@ -55,12 +55,12 @@
             <user-select :value="auditForm.userIds"  @getValue='(value) => {auditForm.userIds=value}'>></user-select>
       </el-form-item>
     </el-col>
-    <el-col :span="16">
+    <el-col :span="16" v-if="false">
       <el-form-item label-width="155px" style="margin-top: 10px;">
         <el-checkbox v-model="isAssign">{{$i18nMy.t('指定下一步处理者(不设置就使用默认处理人)')}}</el-checkbox>
       </el-form-item>
     </el-col>
-    <el-col :span="16">
+    <el-col :span="16" v-if="false">
       <el-form-item label-width="180px" v-if="isAssign"  :rules="[
               {required: true, message: $i18nMy.t('用户不能为空'), trigger: 'blur'}
             ]"  prop="assignee" :label="$i18nMy.t('指定')">

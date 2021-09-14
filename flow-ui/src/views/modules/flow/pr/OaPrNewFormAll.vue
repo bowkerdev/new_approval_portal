@@ -4,11 +4,11 @@
           <el-tab-pane :label="$i18nMy.t('主要信息')" >
             <OaPrNewForm :formReadOnly="true"  ref="oaPrNewForm" ></OaPrNewForm>
           </el-tab-pane>
-          <el-tab-pane :label="$i18nMy.t('补充文件')" >
-            <OaPrNewFormForDoc :formReadOnly="true" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
-          </el-tab-pane>
           <el-tab-pane :label="$i18nMy.t('供应商报价和合同')" >
             <OaPrNewFormForSupplier :formReadOnly="true" ref="oaPrNewFormForSupplier" ></OaPrNewFormForSupplier>
+          </el-tab-pane>
+          <el-tab-pane :label="$i18nMy.t('补充文件')" >
+            <OaPrNewFormForDoc :formReadOnly="true" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
           </el-tab-pane>
         </el-tabs>
   </div>

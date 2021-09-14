@@ -121,7 +121,7 @@
               <template slot-scope="{row}">
                 <template v-if="row.edit">
                   <el-select  size="small" v-model="row.documentType"  :placeholder="$i18nMy.t('请选择')">
-                    <el-option v-for="item in $dictUtils.getDictList('pr_document_type')" :key="item.value" :label="item.label"
+                    <el-option v-for="item in $dictUtils.getDictList('pr_additional_document_type')" :key="item.value" :label="item.label"
                       :value="item.value">
                     </el-option>
                   </el-select>
@@ -130,7 +130,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column prop="attachment" width="250" align="left" :label="$i18nMy.t('附件')"   >
+            <el-table-column prop="attachment" align="left" :label="$i18nMy.t('附件')"   >
               <template slot-scope="{row}">
                 <el-upload :class="row.attachment==''?'':'hide'"
                   :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
@@ -155,16 +155,16 @@
               </template>
             </el-table-column>
 
-            <el-table-column prop="uploaderDepartment"  align="left" :label="$i18nMy.t('上传者部门')"   >
+            <el-table-column prop="uploaderDepartment" width="180" align="left" :label="$i18nMy.t('上传者部门')"   >
             </el-table-column>
 
-            <el-table-column width="120" prop="uploadedBy"  align="left" :label="$i18nMy.t('上传者')"   >
+            <el-table-column width="150" prop="uploadedBy"  align="left" :label="$i18nMy.t('上传者')"   >
             </el-table-column>
 
-            <el-table-column prop="uploadedDate"  align="left" :label="$i18nMy.t('上传日期')"   >
+            <el-table-column prop="uploadedDate" width="180"  align="left" :label="$i18nMy.t('上传日期')"   >
             </el-table-column>
 
-            <el-table-column width="150" align="left" :label="$i18nMy.t('操作')" class-name="td-operate">
+            <el-table-column width="120" align="left" :label="$i18nMy.t('操作')" class-name="td-operate">
               <template slot-scope="{row}">
                 <el-button v-if="row.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
                 <el-button v-if="!row.edit" type="primary" size="small" icon="el-icon-edit" @click="changeTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>

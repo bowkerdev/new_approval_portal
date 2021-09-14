@@ -287,7 +287,7 @@ public class FlowTaskService extends BaseService {
     }
     
     private String getProcessStatus(String currentStep) {
-    	if ("结束".equals(currentStep) || "end".equals(currentStep.toLowerCase())) {
+    	if ("结束".equals(currentStep) || "end".equals(currentStep.toLowerCase())) { // 兼容老数据
     		return "结束";
     	}
     	return "处理中";
@@ -356,6 +356,10 @@ public class FlowTaskService extends BaseService {
                 hisTaskVo.setLevel (comment.getLevel ());
                 hisTaskVo.setType (comment.getType ());
                 hisTaskVo.setStatus (comment.getStatus ());
+            }
+            
+            if (hisTaskVo.getCurrentTask()!=null){ // update by jack 20210914
+            	hisTaskVo.setStatus (getProcessStatus(hisTaskVo.getCurrentTask().getName()));
             }
             
             hisTaskVo.setRemarks(flowMapper.getRemarks(histTask.getProcessInstanceId(), StringUtils.split(histTask.getProcessDefinitionId(),":")[0])); 
@@ -496,6 +500,7 @@ public class FlowTaskService extends BaseService {
             processVo.setProcessDefinitionId (historicProcessInstance.getProcessDefinitionId ());
             processVo.setProcessInstanceId (historicProcessInstance.getId ());
             processVo.setVars (historicProcessInstance.getProcessVariables ());
+            processVo.setStatus (getProcessStatus(processVo.getAct().getName()));
             processVo.setProcessDefinitionName (historicProcessInstance.getProcessDefinitionName ());
             processVo.setVersion ( historicProcessInstance.getProcessDefinitionVersion ());
             page.getList ().add (processVo);

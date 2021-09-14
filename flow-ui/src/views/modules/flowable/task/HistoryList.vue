@@ -1,6 +1,9 @@
 <template>
   <div class="page">
       <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+        <el-form-item prop="title">
+           <el-input size="small" v-model="searchForm.title" :placeholder="$i18nMy.t('申请单号')" clearable></el-input>
+        </el-form-item>
         <el-form-item prop="searchDates">
           <el-date-picker
             v-model="searchDates"
@@ -47,20 +50,23 @@
             width="50">
           </el-table-column>
           <el-table-column
-            prop="name"
-            show-overflow-tooltip=""
-            :label="$i18nMy.t('任务')">
+            prop="vars.title"
+            show-overflow-tooltip
+            width="220px"
+            :label="$i18nMy.t('申请单号')">
             <template slot-scope="scope">
-              {{scope.row.name}}
-                 <el-button v-if="scope.row.back" type="warning" size="mini"
-                        @click="callback(scope.row)">{{$i18nMy.t('撤销')}}</el-button>
+              <el-link  type="primary" :underline="false" @click="detail(scope.row)">{{scope.row.vars.title}}</el-link>
             </template>
           </el-table-column>
           <el-table-column
-            prop="vars.title"
-            show-overflow-tooltip
-            min-width="180px"
-            :label="$i18nMy.t('申请单号')">
+            prop="name"
+            show-overflow-tooltip=""
+            :label="$i18nMy.t('我的经办')">
+            <template slot-scope="scope">
+              {{scope.row.name}}
+                 <!-- <el-button v-if="scope.row.back" type="warning" size="mini"
+                        @click="callback(scope.row)">{{$i18nMy.t('撤销')}}</el-button> -->
+            </template>
           </el-table-column>
           <el-table-column
             prop="processDefinitionName"
@@ -96,7 +102,7 @@
               {{scope.row.endTime | formatDate}}
              </template>
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             fixed="right"
             :key="Math.random()"
             header-align="center"
@@ -107,7 +113,7 @@
               <el-button  type="text" size="small"
                         @click="detail(scope.row)">{{$i18nMy.t('历史')}}</el-button>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
        <el-pagination
         @size-change="sizeChangeHandle"
@@ -129,6 +135,7 @@
     data () {
       return {
         searchForm: {
+          title: '',
           beginDate: '',
           endDate: ''
         },

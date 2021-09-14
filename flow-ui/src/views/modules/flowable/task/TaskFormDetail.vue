@@ -15,6 +15,9 @@
     <!-- <el-tab-pane :label="$i18nMy.t('流程信息')" v-if="procInsId"  name="form-second">
        <flow-time-line :historicTaskList="historicTaskList"/>
     </el-tab-pane> -->
+    <el-tab-pane :label="$i18nMy.t('流转记录')" v-if="procInsId" name="form-forth">
+          <flow-step :historicTaskList="historicTaskList"/>
+    </el-tab-pane>
     <el-tab-pane :label="$i18nMy.t('流程图')"  name="form-third">
        <el-card class="box-card"  shadow="hover">
           <div slot="header" class="clearfix">
@@ -24,9 +27,6 @@
           <flow-chart ref="chart2" v-if="!procInsId" :processDefId="procDefId" />
         </el-card>
     </el-tab-pane>
-    <el-tab-pane :label="$i18nMy.t('流转记录')" v-if="procInsId" name="form-forth">
-          <flow-step :historicTaskList="historicTaskList"/>
-     </el-tab-pane>
   </el-tabs>
   <div  style="height:66px ;">-</div>
   <div  class="FlowFormFooter">

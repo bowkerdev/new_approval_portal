@@ -1,6 +1,9 @@
 <template>
   <div class="page">
       <el-form size="small" :inline="true"  class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
+        <el-form-item prop="title">
+           <el-input size="small" v-model="searchForm.title" :placeholder="$i18nMy.t('申请单号')" clearable></el-input>
+        </el-form-item>
         <el-form-item prop="searchDates">
           <el-date-picker
             v-model="searchDates"
@@ -138,6 +141,7 @@
     data () {
       return {
         searchForm: {
+          title: '',
           beginDate: '',
           endDate: ''
         },

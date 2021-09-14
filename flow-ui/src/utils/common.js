@@ -676,6 +676,13 @@ export default {
 
     }
     return tags;
+  },
+  closeTap(pageObj,fullPath){
+    var visitedViews = pageObj.$store.state.tagsView.visitedViews
+    var view = visitedViews.find(function(e){return e.fullPath == fullPath})
+    pageObj.$store.dispatch('tagsView/delView', view).then(({ visitedViews }) => {
+      const latestView = visitedViews.slice(-1)[0]
+      pageObj.$router.push(latestView.fullPath)
+    })
   }
-
 }

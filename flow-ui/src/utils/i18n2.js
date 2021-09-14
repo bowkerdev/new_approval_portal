@@ -10,9 +10,7 @@ if(window.$i18nMy == null){
 i18nMy.initFlag == ""
 i18nMy.langData = {}
 i18nMy.t = function t(key) {
-
   var res=$i18nMy.langData[key]
-  console.log(key+" 1: "+res)
   if(res !=null){
     return res;
   }
@@ -51,7 +49,6 @@ i18nMy.t = function t(key) {
       default: break;
     }
   }
-  console.log(key+" 2: "+window.$i18nMy.langData[key]+" : "+Vue.config.lang)
   return window.$i18nMy.langData[key]||key
 
 };

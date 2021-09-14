@@ -74,8 +74,8 @@
 
   <template v-for="(button, index) in buttons">
       <template  v-show="button.isHide === '0'">
-        <el-button type="primary"  v-if="button.code !== '_flow_print'"  :key="index" @click="submit(button, buttons)"  v-noMoreClick plain>{{button.name}}</el-button>
-        <el-button type="primary" v-if="button.code === '_flow_print'" v-print="printObj" :key="index" @click="submit(button, buttons)"  v-noMoreClick plain>{{button.name}}</el-button>
+        <el-button type="primary"  v-if="button.code !== '_flow_print'"  :key="index" @click="submit(button, buttons)"  v-noMoreClick plain>{{$i18nMy.t(button.name)}}</el-button>
+        <el-button type="primary" v-if="button.code === '_flow_print'" v-print="printObj" :key="index" @click="submit(button, buttons)"  v-noMoreClick plain>{{$i18nMy.t(button.name)}}</el-button>
       </template>
   </template>
 
@@ -136,9 +136,7 @@
         }}).then(({data}) => {
           if (data.success) {
             this.buttons = data.taskDefExtension.flowButtonList
-            for(var i=0;i<this.buttons.length;i++){
-              this.buttons[i].name = $i18nMy.t(this.buttons[i].name)
-            }
+            this.buttons.push({"name":"关闭","code":"_flow_close","isHide":"0"})
           }
         })
       }
@@ -342,6 +340,9 @@
       print () {
 
       },
+      close () {
+        this.$common.closeTap(this,this.$route.fullPath);
+      },
       // 自定义按钮提交
       commit (vars) {
         if (this.formType === '2') { // 外置表单
@@ -424,6 +425,9 @@
           case '_flow_print':// 打印
             this.print()
             break
+          case '_flow_close':// 关闭
+              this.close()
+              break
           default:
             this.commit(vars) // 自定义按钮提交
         }

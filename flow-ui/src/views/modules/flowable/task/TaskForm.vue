@@ -148,6 +148,7 @@
         } else {
           this.buttons = [{code: '_flow_start', name: '启动', isHide: '0'}]
         }
+        this.buttons.push({"name":"关闭","code":"_flow_close","isHide":"0"})
       } else if (this.procDefKey && this.taskDefKey) {
         // 读取按钮
         this.$http.get('/extension/taskDefExtension/queryByDefIdAndTaskId', {params: {
@@ -156,10 +157,7 @@
         }}).then(({data}) => {
           if (data.success) {
             this.buttons = data.taskDefExtension.flowButtonList
-            //this.buttons.push({"id":"69bfd7c0d32c4dbea8f222403f03de44","name":"导出","code":"_flow_export","isHide":"0","sort":2,"taskDef":{"id":"1718327c4c424c96b9a3cbfe04a1e973","flowAssigneeList":[],"flowButtonList":[],"flowConditionList":[]}})
-            for(var i=0;i<this.buttons.length;i++){
-              this.buttons[i].name = this.buttons[i].name
-            }
+            this.buttons.push({"name":"关闭","code":"_flow_close","isHide":"0"})
           }
         })
       }
@@ -441,6 +439,9 @@
       print () {
 
       },
+      close () {
+        this.$common.closeTap(this,this.$route.fullPath);
+      },
       // 自定义按钮提交
       commit (vars) {
         if (this.formType === '2') { // 外置表单
@@ -536,8 +537,11 @@
           case '_flow_print':// 打印
             this.print()
             break
-          case '_flow_export':// 打印
+          case '_flow_export':// 导出
               this.exportData()
+              break
+          case '_flow_close':// 关闭
+              this.close()
               break
           default:
             this.commit(vars) // 自定义按钮提交

@@ -28,9 +28,10 @@
           <flow-step :historicTaskList="historicTaskList"/>
      </el-tab-pane>
   </el-tabs>
-  <div v-if="button !=null " style="height:66px ;">-</div>
-  <div v-if="button !=null " class="FlowFormFooter">
-    <el-button type="primary"    @click="exportData()"  v-noMoreClick plain>{{$i18nMy.t(button.name)}}</el-button>
+  <div  style="height:66px ;">-</div>
+  <div  class="FlowFormFooter">
+    <el-button type="primary" v-if="button !=null "   @click="exportData()"  v-noMoreClick plain>{{$i18nMy.t(button.name)}}</el-button>
+    <el-button type="primary"  @click="close()"  v-noMoreClick plain>{{$i18nMy.t('关闭')}}</el-button>
   </div>
 </div>
 </template>
@@ -143,7 +144,6 @@
         }}).then(({data}) => {
           if (data.success&&data.taskDefExtension!=null&&data.taskDefExtension.flowButtonList.length>0) {
             this.buttons = data.taskDefExtension.flowButtonList
-            //this.buttons.push({"id":"69bfd7c0d32c4dbea8f222403f03de44","name":"导出","code":"_flow_export","isHide":"0","sort":2,"taskDef":{"id":"1718327c4c424c96b9a3cbfe04a1e973","flowAssigneeList":[],"flowButtonList":[],"flowConditionList":[]}})
             this.buttons.forEach((btn) => {
               if (btn.code && btn.code=='_flow_export') {
                 this.button=btn
@@ -154,6 +154,9 @@
       },
       exportData(){
         this.$utils.syncDownloadPost("approve_"+this.procDefKey,{id:this.businessId,procInsId:this.procInsId},this.$refs.form)
+      },
+      close () {
+        this.$common.closeTap(this,this.$route.fullPath);
       }
     },
     data () {

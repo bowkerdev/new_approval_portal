@@ -6,7 +6,7 @@
                 <el-input size="small" v-model="searchForm.applicationNo" :placeholder="$i18nMy.t('申请单号')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="projectName">
-                <el-input size="small" v-model="searchForm.projectName" :placeholder="$i18nMy.t('项目名称')" clearable></el-input>
+                <el-input size="small" v-model="searchForm.projectName" :placeholder="$i18nMy.t('项目描述')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="applySiteCode">
                   <el-select size="small" v-model="searchForm.applySiteCode" :placeholder="$i18nMy.t('采购地区')" @change="siteChange" style="width: 100%;">
@@ -160,7 +160,7 @@
         prop="projectName"
         show-overflow-tooltip
         sortable="custom"
-        :label="$i18nMy.t('项目名称')">
+        :label="$i18nMy.t('项目描述')">
       </el-table-column>
     <el-table-column
         prop="applySiteCode"

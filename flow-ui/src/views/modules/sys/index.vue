@@ -13,7 +13,7 @@
                   <div class="actCard" @click="start(data)">
                     <!-- <img src='@/assets/img/Scheme.png'/> -->
                     <div class="yuan1" :class="getRandomColor()">{{data.name.substring(0,1)}}</div>
-                    <el-button class="task-name" type="text" :title="data.name+' '+data.version">{{$i18nMy.t(data.name)}}</el-button>
+                    <el-button class="task-name" type="text" :title="data.name+' '+data.version">{{$i18nMy.t('新建')}} {{$i18nMy.t(data.name)}}</el-button>
                   </div>
                 </el-card>
             </el-col>
@@ -47,7 +47,7 @@
                 prop="vars.title"
                 width="200px"
                show-overflow-tooltip
-                :label="$i18nMy.t('实例标题')">
+                :label="$i18nMy.t('申请单号')">
                     <template slot-scope="scope">
                       <el-link  type="primary" :underline="false" @click="todo(scope.row)">{{scope.row.vars.title}}</el-link>
                     </template>
@@ -75,7 +75,7 @@
                 width="120px"
                 :label="$i18nMy.t('总金额')">
                 <template slot-scope="scope">
-                    {{scope.row.vars.total_contract_amount}}
+                    {{scope.row.vars.total_vat_contract_amount || scope.row.vars.total_contract_amount}}
                 </template>
               </el-table-column>
               <el-table-column
@@ -159,7 +159,7 @@
                   prop="vars.title"
                   width="180px"
                  show-overflow-tooltip
-                  :label="$i18nMy.t('实例标题')">
+                  :label="$i18nMy.t('申请单号')">
                       <template slot-scope="scope">
                         <el-link  type="primary" :underline="false" v-if="scope.row.status === 'todo'"  @click="todo(scope.row)">{{scope.row.vars.title}}</el-link>
                         <span v-else>{{scope.row.vars.title}}</span>
@@ -247,7 +247,7 @@
                 prop="vars.title"
                 show-overflow-tooltip
                 width="180px"
-                :label="$i18nMy.t('实例标题')">
+                :label="$i18nMy.t('申请单号')">
                 <template slot-scope="scope">
                   <el-link  type="primary" :underline="false" @click="detail(scope.row)">{{scope.row.vars.title}}</el-link>
                 </template>
@@ -338,7 +338,7 @@
                 prop="vars.title"
                 show-overflow-tooltip
                 width="180px"
-                :label="$i18nMy.t('实例标题')">
+                :label="$i18nMy.t('申请单号')">
                 <template slot-scope="scope">
                   <el-link  type="primary" :underline="false" @click="detail(scope.row)">{{scope.row.vars.title}}</el-link>
                 </template>

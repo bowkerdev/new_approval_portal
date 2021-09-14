@@ -30,7 +30,7 @@
   </el-tabs>
   <div v-if="button !=null " style="height:66px ;">-</div>
   <div v-if="button !=null " class="FlowFormFooter">
-    <el-button type="primary"    @click="exportData()"  v-noMoreClick plain>{{button.name}}</el-button>
+    <el-button type="primary"    @click="exportData()"  v-noMoreClick plain>{{$i18nMy.t(button.name)}}</el-button>
   </div>
 </div>
 </template>

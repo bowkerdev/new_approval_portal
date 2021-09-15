@@ -10,6 +10,7 @@ import httpRequest from '@/utils/httpRequest'
 import dictUtils from '@/utils/dictUtils'
 import utils from '@/utils'
 import customInstruction from '@/utils/customInstruction'
+import thousands from '@/utils/thousands'
 import common from '@/utils/common'
 import dynamicFormLanguage from '@/utils/dynamicFormLanguage'
 

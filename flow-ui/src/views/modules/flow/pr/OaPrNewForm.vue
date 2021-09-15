@@ -265,7 +265,9 @@
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-only-num.float="row"
-                      v-model="row.unitPrice" placeholder="" ></el-input>
+                      v-thousands.unitPrice="row"
+                      v-model.trim="row.unitPrice"
+                      placeholder="" ></el-input>
                   </template>
                   <span v-else>{{ row.unitPrice }}</span>
                 </template>

@@ -63,9 +63,21 @@
           cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff" >
             <thead>
               <tr class="head-background-color head1-height">
-              <th><font color="red">*</font>{{$i18nMy.t('供应商名称')}}</th><th>{{$i18nMy.t('付款条件')}}</th><th><font color="red">*</font>{{$i18nMy.t('币种')}}</th><th>{{$i18nMy.t('原价')}}</th><th>{{$i18nMy.t('折扣价')}}</th><th>{{$i18nMy.t('最终报价')}}</th><th>{{$i18nMy.t('预计到货日期')}}</th>
-              <th>{{$i18nMy.t('预计最晚到货日期')}}</th><th>{{$i18nMy.t('备注')}}</th><th><font color="red">*</font>{{$i18nMy.t('文件类型')}}</th><th><font color="red">*</font>{{$i18nMy.t('附件')}}</th><th><font color="red">*</font>{{$i18nMy.t('关联项目')}}</th><th>{{$i18nMy.t('上传者')}}</th><th>{{$i18nMy.t('上传日期')}}</th>
-              <th colspan="2">{{$i18nMy.t('操作')}}</th>
+                <th><font color="red">*</font>{{$i18nMy.t('供应商名称')}}</th>
+                <th>{{$i18nMy.t('付款条件')}}</th>
+                <th><font color="red">*</font>{{$i18nMy.t('币种')}}</th>
+                <th>{{$i18nMy.t('原价')}}</th>
+                <th>{{$i18nMy.t('折扣价')}}</th>
+                <th>{{$i18nMy.t('最终报价')}}</th>
+                <th>{{$i18nMy.t('预计到货日期')}}</th>
+                <th>{{$i18nMy.t('预计最晚到货日期')}}</th>
+                <th>{{$i18nMy.t('备注')}}</th>
+                <th><font color="red">*</font>{{$i18nMy.t('文件类型')}}</th>
+                <th><font color="red">*</font>{{$i18nMy.t('附件')}}</th>
+                <th><font color="red">*</font>{{$i18nMy.t('关联项目')}}</th>
+                <th>{{$i18nMy.t('上传者')}}</th>
+                <th>{{$i18nMy.t('上传日期')}}</th>
+                <th colspan="2">{{$i18nMy.t('操作')}}</th>
               </tr>
             </thead>
             <tbody v-for="(item, index) in supplierInfo" :key="'index_'+index">
@@ -94,13 +106,13 @@
                 </span>
               </td>
               <td :rowspan="item.docListSize" class="my-right">
-                  {{item.originalPrice}}
+                  {{$common.toThousands(item.originalPrice)}}
               </td>
               <td :rowspan="item.docListSize" class="my-right">
-                  {{item.discountedAmount}}
+                  {{$common.toThousands(item.discountedAmount)}}
               </td>
               <td :rowspan="item.docListSize" class="my-right">
-                  {{item.totalOfferedPrice}}
+                  {{$common.toThousands(item.totalOfferedPrice)}}
               </td>
               <td :rowspan="item.docListSize" class="my-right">
                   {{item.expectArrivalDate}}
@@ -233,8 +245,16 @@
               </tr>
               <tr class="head-background-color head2-height">
                 <td style="background-color: #FFFFFF;border:none"></td>
-                <td class="first-td">{{$i18nMy.t('序号')}}</td><td>{{$i18nMy.t('物品')}}</td><td>{{$i18nMy.t('品牌名称')}}</td><td>{{$i18nMy.t('型号')}}</td><td><font color="red">*</font>{{$i18nMy.t('提供单价')}}</td><td>{{$i18nMy.t('折扣单价')}}</td>
-                <td><font color="red">*</font>MOQ</td><td>{{$i18nMy.t('预计到货日期')}}</td><td>{{$i18nMy.t('预计最晚到货日期')}}</td><td>{{$i18nMy.t('原因')}}</td>
+                <td class="first-td">{{$i18nMy.t('序号')}}</td>
+                <td>{{$i18nMy.t('物品')}}</td>
+                <td>{{$i18nMy.t('品牌名称')}}</td>
+                <td>{{$i18nMy.t('型号')}}</td>
+                <td><font color="red">*</font>{{$i18nMy.t('提供单价')}}</td>
+                <td>{{$i18nMy.t('折扣单价')}}</td>
+                <td><font color="red">*</font>MOQ</td>
+                <td>{{$i18nMy.t('预计到货日期')}}</td>
+                <td>{{$i18nMy.t('预计最晚到货日期')}}</td>
+                <td>{{$i18nMy.t('原因')}}</td>
                 <td><el-button type="success" round size="small" icon="el-icon-check" class="operationButton"></el-button><font style="padding-left: 5px;">{{$i18nMy.t('采纳')}}</font></td>
               </tr>
               <tr class="data-content" v-for="(item3, index3) in item.detailInfo" :key="'index3_'+index3">
@@ -246,19 +266,19 @@
                 <td class="my-right">
                   <el-input  v-on:input="calculationPrice(index)" v-only-num.float="item3"  size="small" v-if="item.edit" v-model="item3.offeredUnitPrice"  ></el-input>
                   <span v-else>
-                    {{item3.offeredUnitPrice}}
+                    {{$common.toThousands(item3.offeredUnitPrice)}}
                   </span>
                 </td>
                 <td class="my-right">
                   <el-input  v-on:input="calculationPrice(index)" v-only-num.float="item3"  size="small" v-if="item.edit" v-model="item3.discountedUnitPrice"  ></el-input>
                   <span v-else>
-                    {{item3.discountedUnitPrice}}
+                    {{$common.toThousands(item3.discountedUnitPrice)}}
                   </span>
                 </td>
                 <td class="my-right">
                   <el-input v-on:input="calculationPrice(index)"  v-only-num="item3"  size="small" v-if="item.edit" v-model="item3.moq" ></el-input>
                   <span v-else>
-                    {{item3.moq}}
+                    {{$common.toThousands(item3.moq)}}
                   </span>
                 </td>
                 <td class="my-right">
@@ -304,12 +324,23 @@
          cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff">
           <thead>
             <tr class="head-background-color">
-              <th rowspan="2">{{$i18nMy.t('序号')}}</th><th rowspan="2">{{$i18nMy.t('物品')}}</th><th rowspan="2">{{$i18nMy.t('品牌名称')}}</th><th rowspan="2">{{$i18nMy.t('型号')}}</th>
-              <th rowspan="2">{{$i18nMy.t('市场价格')}}</th><th rowspan="2">{{$i18nMy.t('更新单价')}}</th><th rowspan="2">{{$i18nMy.t('请求数量')}}</th><th rowspan="2">UOM</th>
-              <th rowspan="2">VAT</th><th colspan="2">{{$i18nMy.t('文档报价')}}</th><th  colspan="2">{{$i18nMy.t('基础报价')}}</th>
+              <th rowspan="2">{{$i18nMy.t('序号')}}</th>
+              <th rowspan="2">{{$i18nMy.t('物品')}}</th>
+              <th rowspan="2">{{$i18nMy.t('品牌名称')}}</th>
+              <th rowspan="2">{{$i18nMy.t('型号')}}</th>
+              <th rowspan="2">{{$i18nMy.t('市场价格')}}</th>
+              <th rowspan="2">{{$i18nMy.t('更新单价')}}</th>
+              <th rowspan="2">{{$i18nMy.t('请求数量')}}</th>
+              <th rowspan="2">UOM</th>
+              <th rowspan="2">VAT</th>
+              <th colspan="2">{{$i18nMy.t('文档报价')}}</th>
+              <th  colspan="2">{{$i18nMy.t('基础报价')}}</th>
             </tr>
             <tr class="head-background-color">
-              <th>{{$i18nMy.t('金额')}}</th><th>{{$i18nMy.t('金额(增值税)')}}</th><th>{{$i18nMy.t('金额')}}</th><th>{{$i18nMy.t('金额(增值税)')}}</th>
+              <th>{{$i18nMy.t('金额')}}</th>
+              <th>{{$i18nMy.t('金额(增值税)')}}</th>
+              <th>{{$i18nMy.t('金额')}}</th>
+              <th>{{$i18nMy.t('金额(增值税)')}}</th>
             </tr>
           </thead>
           <tbody v-for="(item, index) in detailInfo">
@@ -318,38 +349,47 @@
               <td>{{item.item}}</td>
               <td>{{item.brandName}}</td>
               <td>{{item.modelNo}}</td>
-              <td class="my-right">{{item.unitPrice}}</td>
-              <td class="my-right">{{item.docUnitPrice}}</td>
-              <td class="my-right">{{item.quantity}}</td>
+              <td class="my-right">{{$common.toThousands(item.unitPrice)}}</td>
+              <td class="my-right">{{$common.toThousands(item.docUnitPrice)}}</td>
+              <td class="my-right">{{$common.toThousands(item.quantity)}}</td>
               <td>{{item.uom}}</td>
               <td class="my-right">{{inputForm.vat *100}}%</td>
-              <td class="my-right">{{item.docAmount}}</td>
-              <td class="my-right">{{item.docVatAmount}}</td>
+              <td class="my-right">{{$common.toThousands(item.docAmount)}}</td>
+              <td class="my-right">{{$common.toThousands(item.docVatAmount)}}</td>
               <td class="my-right">
                 <span v-if="!isNaN(item.docAmount*inputForm.exRate)">
-                  {{(item.docAmount*inputForm.exRate).toFixed(2)}}
+                  {{$common.toThousands((item.docAmount*inputForm.exRate).toFixed(2))}}
                 </span>
               </td>
               <td class="my-right">
                 <span v-if="!isNaN(item.docVatAmount*inputForm.exRate)">
-                  {{(item.docVatAmount*inputForm.exRate).toFixed(2)}}
+                  {{$common.toThousands((item.docVatAmount*inputForm.exRate).toFixed(2))}}
                 </span>
               </td>
             </tr>
             <tr class="head-background-color head2-height">
               <td style="background-color: #FFFFFF;border:none"></td>
-              <td class="first-td">{{$i18nMy.t('供应商名称')}}</td><td>{{$i18nMy.t('付款条件')}}</td><td>{{$i18nMy.t('币种')}}</td><td>{{$i18nMy.t('提供单价')}}</td><td>{{$i18nMy.t('提供的单价（基础货币）')}}</td>
-              <td>MOQ</td><td>{{$i18nMy.t('预计到货日期')}}</td><td>{{$i18nMy.t('预计最晚到货日期')}}</td><td colspan="2">{{$i18nMy.t('相关文档')}}</td><td>{{$i18nMy.t('采纳')}}</td><td>{{$i18nMy.t('原因')}}</td>
+              <td class="first-td">{{$i18nMy.t('供应商名称')}}</td>
+              <td>{{$i18nMy.t('付款条件')}}</td>
+              <td>{{$i18nMy.t('币种')}}</td>
+              <td>{{$i18nMy.t('提供单价')}}</td>
+              <td>{{$i18nMy.t('提供的单价（基础货币）')}}</td>
+              <td>MOQ</td>
+              <td>{{$i18nMy.t('预计到货日期')}}</td>
+              <td>{{$i18nMy.t('预计最晚到货日期')}}</td>
+              <td colspan="2">{{$i18nMy.t('相关文档')}}</td>
+              <td>{{$i18nMy.t('采纳')}}</td>
+              <td>{{$i18nMy.t('原因')}}</td>
             </tr>
             <tr class="data-content" v-for="(item, index) in supplierInfoByDetailInfo[item.item]" >
               <td style="background-color: #FFFFFF;border:none"></td>
               <td class="first-td">{{item.supplierName}}</td>
               <td >{{item.paymentTerms}}</td>
               <td >{{item.currency}}</td>
-              <td class="my-right">{{item.finallyUnitPrice}}</td>
+              <td class="my-right">{{$common.toThousands(item.finallyUnitPrice)}}</td>
               <td class="my-right">
                   <span v-if="!isNaN(item.finallyUnitPrice*inputForm.exRate)">
-                    {{(item.finallyUnitPrice*inputForm.exRate).toFixed(2)}}
+                    {{$common.toThousands((item.finallyUnitPrice*inputForm.exRate).toFixed(2))}}
                   </span>
               </td>
               <td class="my-right">{{item.moq}}</td>

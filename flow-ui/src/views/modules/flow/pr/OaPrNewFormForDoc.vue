@@ -65,18 +65,33 @@
            <el-table-column prop="modelNo" align="left" :label="$i18nMy.t('型号')">
            </el-table-column>
            <el-table-column prop="unitPrice" width="100" align="right" :label="$i18nMy.t('单价')">
+             <template slot-scope="{row}">
+               {{$common.toThousands(row.unitPrice)}}
+             </template>
            </el-table-column>
            <el-table-column prop="docUnitPrice" width="150" align="right" :label="$i18nMy.t('文件单价')">
+             <template slot-scope="{row}">
+               {{$common.toThousands(row.docUnitPrice)}}
+             </template>
            </el-table-column>
            <el-table-column prop="quantity" width="100" align="left" :label="$i18nMy.t('数量')">
+             <template slot-scope="{row}">
+               {{$common.toThousands(row.quantity)}}
+             </template>
            </el-table-column>
            <el-table-column prop="uom" width="100"  align="left" :label="$i18nMy.t('单位')">
            </el-table-column>
            <el-table-column  align="left" :label="$i18nMy.t('文档报价')">
              <template>
                <el-table-column prop="docAmount" width="100"  align="left" :label="$i18nMy.t('总数')">
+                 <template slot-scope="{row}">
+                   {{$common.toThousands(row.docAmount)}}
+                 </template>
                </el-table-column>
                <el-table-column prop="docVatAmount" width="100" align="left" :label="$i18nMy.t('总数')+'VAT'">
+                 <template slot-scope="{row}">
+                   {{$common.toThousands(row.docVatAmount)}}
+                 </template>
                </el-table-column>
              </template>
            </el-table-column>
@@ -85,14 +100,14 @@
                <el-table-column prop="baseQuantity" width="100" align="left" :label="$i18nMy.t('总数')"   >
                 <template slot-scope="{row}">
                   <span v-if="!isNaN(row.docAmount*inputForm.exRate)">
-                    {{(row.docAmount*inputForm.exRate).toFixed(2)}}
+                    {{$common.toThousands((row.docAmount*inputForm.exRate).toFixed(2))}}
                   </span>
                 </template>
                </el-table-column>
                <el-table-column width="100" prop="baseVatQuantity" align="left" :label="$i18nMy.t('总数')+'VAT'">
                   <template slot-scope="{row}">
                     <span  v-if="!isNaN(row.docVatAmount*inputForm.exRate)">
-                      {{(row.docVatAmount*inputForm.exRate).toFixed(2)}}
+                      {{$common.toThousands((row.docVatAmount*inputForm.exRate).toFixed(2))}}
                     </span>
                   </template>
                </el-table-column>

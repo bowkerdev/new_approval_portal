@@ -150,6 +150,7 @@ Vue.prototype.treeDataTranslate = utils.treeDataTranslate // 树形数据转换
 Vue.prototype.treeDataTranslateWithLevel = utils.treeDataTranslateWithLevel // 树形数据转换 -自定义展开级别【占锐修改】
 Vue.prototype.$utils = utils
 Vue.prototype.$common = common
+window.$common = common
 Vue.prototype.DynamicFormLanguage = dynamicFormLanguage
 Vue.prototype.$window = window
 

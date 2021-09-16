@@ -457,6 +457,7 @@
           requestRiority: '',
           contractCurrency: '',
           exRate: '',
+          exRateT2List: [],
           vat:null,
           totalContractAmount: '',
           totalVatContractAmount:'',
@@ -495,48 +496,51 @@
           if (this.inputForm.id != query.businessId){ // copy
             this.isCopy = true
           }
-          this.$nextTick(() => {
-            debugger
-            this.$http({
-              url: `/flow/pr/oaPrNew/queryById?id=${this.inputForm.id}`,
-              method: 'get'
-            }).then(({
-              data
-            }) => {
-              this.inputForm = this.recover(this.inputForm, data.oaPrNew)
-              if (this.isCopy) {
-                this.inputForm.id = ''
-                this.inputForm.applicationNo = ''
-              }
-              this.detailInfo = JSON.parse(this.inputForm.detailInfo)
-              if(!this.$common.isEmpty(this.inputForm.supplierInfo)){
-                this.supplierInfo = JSON.parse(this.inputForm.supplierInfo)
-                for(var i=0;i<this.supplierInfo.length;i++){
-                  for(var j=0;this.supplierInfo[i].docList!=null&&j<this.supplierInfo[i].docList.length;j++){
-                    if(this.supplierInfo[i].docList[j].attachment!=null){
-                      if(this.supplierInfo[i].id ==null){
-                        this.supplierInfo[i].id = this.$common.uuid();
-                      }
-                      if(this.supplierInfo[i].docList[j].id ==null){
-                        this.supplierInfo[i].docList[j].id = this.$common.uuid();
-                      }
-                      var item=this.supplierInfo[i].docList[j].attachment
-                      if(this.attachmentsArra[this.supplierInfo[i].id]==null){
-                        this.attachmentsArra[this.supplierInfo[i].id]={}
-                      }
-                      if(this.attachmentsArra[this.supplierInfo[i].id][this.supplierInfo[i].docList[j].id]==null){
-                        this.attachmentsArra[this.supplierInfo[i].id][this.supplierInfo[i].docList[j].id]=
-                          [{name: decodeURIComponent(item.substring(item.lastIndexOf('/') + 1)), url: item}]
+
+          this.$dictUtils.getSqlDictList('GET_T2_EXCHANGE_RATE',{},(data1) => {
+            this.exRateT2List = data1
+            //this.$nextTick(() => {
+              this.$http({
+                url: `/flow/pr/oaPrNew/queryById?id=${this.inputForm.id}`,
+                method: 'get'
+              }).then(({
+                data
+              }) => {
+                this.inputForm = this.recover(this.inputForm, data.oaPrNew)
+                if (this.isCopy) {
+                  this.inputForm.id = ''
+                  this.inputForm.applicationNo = ''
+                }
+                this.detailInfo = JSON.parse(this.inputForm.detailInfo)
+                if(!this.$common.isEmpty(this.inputForm.supplierInfo)){
+                  this.supplierInfo = JSON.parse(this.inputForm.supplierInfo)
+                  for(var i=0;i<this.supplierInfo.length;i++){
+                    for(var j=0;this.supplierInfo[i].docList!=null&&j<this.supplierInfo[i].docList.length;j++){
+                      if(this.supplierInfo[i].docList[j].attachment!=null){
+                        if(this.supplierInfo[i].id ==null){
+                          this.supplierInfo[i].id = this.$common.uuid();
+                        }
+                        if(this.supplierInfo[i].docList[j].id ==null){
+                          this.supplierInfo[i].docList[j].id = this.$common.uuid();
+                        }
+                        var item=this.supplierInfo[i].docList[j].attachment
+                        if(this.attachmentsArra[this.supplierInfo[i].id]==null){
+                          this.attachmentsArra[this.supplierInfo[i].id]={}
+                        }
+                        if(this.attachmentsArra[this.supplierInfo[i].id][this.supplierInfo[i].docList[j].id]==null){
+                          this.attachmentsArra[this.supplierInfo[i].id][this.supplierInfo[i].docList[j].id]=
+                            [{name: decodeURIComponent(item.substring(item.lastIndexOf('/') + 1)), url: item}]
+                        }
                       }
                     }
                   }
                 }
-              }
-              this._getSupplierInfoByDetailInfoList()
-              this._getSupplierArrivalDate()
-              this._updateDetailInfoDocUnitPrice()
-              this.loading = false
-            })
+                this._getSupplierInfoByDetailInfoList()
+                this._getSupplierArrivalDate()
+                this._updateDetailInfoDocUnitPrice()
+                this.loading = false
+              })
+            //})
           })
         }
       },
@@ -545,8 +549,9 @@
           !this.$common.isEmpty(this.supplierInfo[0].currency)){
           this.inputForm.contractCurrency = this.supplierInfo[0].currency
           var _pThis=this
-          var dict= this.$common.find(this.$dictUtils.getDictList('pr_currency_rate'),
+          var dict= this.$common.find(_pThis.exRateT2List/* this.$dictUtils.getDictList('pr_currency_rate') */,
             function(e){return e.label == _pThis.inputForm.contractCurrency})
+
           this.inputForm.exRate= dict==null?1:dict.value
           this.inputForm.exRate = parseFloat(this.inputForm.exRate)
 

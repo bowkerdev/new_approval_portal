@@ -278,7 +278,7 @@ public class FlowTaskService extends BaseService {
         	}
             processVo.setProcessDefinitionName ( ProcessDefCache.get (processVo.getTask().getProcessDefinitionId ()).getName ());
             processVo.setVersion (ProcessDefCache.get (processVo.getTask().getProcessDefinitionId ()).getVersion ());
-            processVo.setStatus (getProcessStatus(processVo.getTask().getTaskDefinitionKey()));
+            processVo.setStatus (getProcessStatus(processVo.getTask().getName()));
             processVo.setRemarks(flowMapper.getRemarks(processVo.getTask().getProcessInstanceId(), StringUtils.split(processVo.getTask().getProcessDefinitionId(),":")[0])); 
             page.getList ().add (processVo);
         }

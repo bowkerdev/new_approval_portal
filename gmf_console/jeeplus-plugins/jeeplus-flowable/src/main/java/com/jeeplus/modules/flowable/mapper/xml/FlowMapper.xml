@@ -29,7 +29,7 @@
 	<select id="findAllList" resultType="com.jeeplus.modules.flowable.vo.ProcessVo" >
 		SELECT
 			b.id_ AS "task.id",
-			b.act_name_ AS "task.name",
+			if(b.ACT_TYPE_='endEvent', 'End', b.ACT_NAME_) AS "task.name",
 			b.ASSIGNEE_ AS "task.assignee",
 			( SELECT concat( login_name, ' : ', NAME ) FROM sys_user WHERE id = b.ASSIGNEE_ ) AS "task.assigneeName",
 			b.EXECUTION_ID_ AS "task.executionId",

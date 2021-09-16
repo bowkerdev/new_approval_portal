@@ -52,7 +52,7 @@
            show-overflow-tooltip
             :label="$i18nMy.t('申请单号')">
                 <template slot-scope="scope">
-                  <el-link  type="primary" :underline="false"   @click="todo(scope.row)">{{scope.row.vars.title}}</el-link>
+                  <el-link  type="primary" :underline="false"   @click="detail(scope.row)">{{scope.row.vars.title}}</el-link>
                 </template>
           </el-table-column>
 
@@ -246,7 +246,7 @@
           }
         })
       },
-      todo (row) {
+      detail (row) {
         this.$http.get('/flowable/task/getTaskDef', {params: {
           taskId: row.task.id,
           taskName: row.task.name,
@@ -258,8 +258,8 @@
         }}).then(({data}) => {
           if (data.success) {
             this.$router.push({
-              path: '/flowable/task/TaskForm',
-              query: {formTitle: `${row.vars.title}`, title: `审批【${row.task.name || ''}】`, ...pick(data.flow, 'formType', 'formReadOnly', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId', 'lastTaskDefKey')}
+              path: '/flowable/task/TaskFormDetail',
+              query: {formTitle: `${row.vars.title}`, title: `${row.vars.title}`, ...pick(data.flow, 'formType', 'formReadOnly', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId', 'lastTaskDefKey')}
             })
           }
         })

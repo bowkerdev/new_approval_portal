@@ -33,7 +33,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('项目描述')" prop="projectName" :rules="[{required: true, message:$i18nMy.t('项目描述不能为空'), trigger:'blur'}]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('项目描述')" prop="projectName" :rules="[{required: true, message:$i18nMy.t('请填写项目描述'), trigger:'blur'}]">
             <el-input v-model="inputForm.projectName" :placeholder="$i18nMy.t('请填写项目描述')" maxlength="100"></el-input>
           </el-form-item>
         </el-col>
@@ -84,7 +84,7 @@
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: true, message:'签约方公司不能为空', trigger:'blur'}
                  ]">
-            <el-select v-model="inputForm.legalEntity" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
+            <el-select v-model="inputForm.legalEntity" :placeholder="$i18nMy.t('请选择')" filterable="true" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictListWithKey('all_company')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
@@ -94,7 +94,7 @@
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[{required: true, message:'成本中心不能为空', trigger:'blur'}
                  ]">
-            <el-select v-model="inputForm.costCenter" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
+            <el-select v-model="inputForm.costCenter" :placeholder="$i18nMy.t('请选择')" filterable="true" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictListWithKey('cost_center')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
@@ -104,19 +104,29 @@
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[{required: true, message:'固定资产类别不能为空', trigger:'blur'}
                  ]">
-            <el-select v-model="inputForm.assetGroup" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
+            <el-select v-model="inputForm.assetGroup" :placeholder="$i18nMy.t('请选择')" filterable="true" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictListWithKey('asset_group')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <!-- <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('技术支持部门')" prop="technicalAdvisor" :rules="[ ]">
             <el-select v-model="inputForm.technicalAdvisor" :placeholder="$i18nMy.t('请选择')" style="width: 100%;" clearable>
              <el-option v-for="item in $dictUtils.getDictList('technical_advisor')" :key="item.value" :label="item.label"
                :value="item.value">
              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col> -->
+        <el-col :span="12">
+          <el-form-item label-width="220px" :label="$i18nMy.t('申购优先级')" prop="requestRiority" :rules="[{required: true, message:'申购优先级不能为空', trigger:'blur'}
+                 ]">
+            <el-select v-model="inputForm.requestRiority" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
+              <el-option v-for="item in $dictUtils.getDictList('request_priority')" :key="item.value" :label="item.label"
+                :value="item.value">
+              </el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -127,16 +137,6 @@
               <el-radio v-for="item in $dictUtils.getDictList('yes_no')" :label="item.value" :key="item.value">
                 {{item.label}}</el-radio>
             </el-radio-group>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('申购优先级')" prop="requestRiority" :rules="[{required: true, message:'申购优先级不能为空', trigger:'blur'}
-                 ]">
-            <el-select v-model="inputForm.requestRiority" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
-              <el-option v-for="item in $dictUtils.getDictList('request_priority')" :key="item.value" :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
           </el-form-item>
         </el-col>
         <!-- <el-col :span="12">
@@ -263,11 +263,13 @@
               </el-table-column>
               <el-table-column prop="unitPrice" width="120" align="right" :label="'* '+$i18nMy.t('市场价格')">
                 <template slot-scope="{row}">
+                  <el-tooltip class="item" effect="dark" :content="$i18nMy.t('源自确认后的供应商报价')" placement="top-start">
                   <template v-if="row.edit">
-                    <el-input  size="small" v-only-num.float="row"
-                      v-model="row.unitPrice" placeholder="" ></el-input>
+                      <el-input  size="small" v-only-num.float="row"
+                        v-model="row.unitPrice" placeholder="" ></el-input>
                   </template>
                   <span v-else>{{ row.unitPrice }}</span>
+                  </el-tooltip>
                 </template>
               </el-table-column>
               <el-table-column prop="docUnitPrice" v-if="index == 2" align="right" :label="$i18nMy.t('报价单单价')">
@@ -580,7 +582,7 @@
         this.detailInfo=this.detailInfo.slice()
       },
       addTabListGroup(){
-        this.detailInfo.push({edit:true,serialNumber:this.detailInfo.length+1})
+        this.detailInfo.push({edit:true,serialNumber:this.detailInfo.length+1,expectArrivalDate:this.inputForm.expectArrivalDate})
         this.detailInfo=this.detailInfo.slice()
       },
       confirmTabListGroup(row){

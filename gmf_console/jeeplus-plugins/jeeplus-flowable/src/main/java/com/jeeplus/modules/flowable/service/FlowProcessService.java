@@ -134,7 +134,7 @@ public class FlowProcessService extends BaseService {
      */
     public Page<Map> processList(Page<Map> page, String category) {
         ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery();
-        ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery().processDefinitionCategory("办公类").active ()
+        ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery().active ()
                 .latestVersion().orderByProcessDefinitionKey().asc();
         if (StringUtils.isNotEmpty(category)) {
             processDefinitionQuery.processDefinitionCategory(category);

@@ -541,6 +541,7 @@ export default Vue.extend({
         params: {
           'pageNo': 1,
           'pageSize': 1000,
+          'category': '办公类',
           ...this.searchForm
         }
       }).then(({data}) => {

@@ -22,8 +22,7 @@ export default {
        templateArra:[],
        tokenType:"",
        language:localStorage.getItem('lang'),
-       commonToolsApi :"https://commontools.bowkerasia.com/zhimitool/ie/taskQueue/push" ,
-       commonToolsProcessUrl :"https://commontools.bowkerasia.com/commontools-ui-bowker/#/ie/UploadDownloadContent"
+       commonToolsApi :"https://commontools.bowkerasia.com/zhimitool/ie/taskQueue/push"
     }
   },
   props: {
@@ -37,7 +36,6 @@ export default {
 
   },
   created () {
-    debugger
     this.token = this.$cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')
     this.tokenType = process.env.VUE_APP_SSO_TYPE;
   },
@@ -49,9 +47,11 @@ export default {
       this.templateArra=[]
       if (res.success) {
         this.$message.success({dangerouslyUseHTMLString: true, message: res.msg})
-        debugger
-        window.open(this.commonToolsProcessUrl+"?token="+
-          this.token+"&tokenType="+this.tokenType+"&isIframe=true" ,"通用平台",null,true)
+        var dynamicMenuRoutes = JSON.parse(sessionStorage.getItem('dynamicMenuRoutes') || '[]')
+        const route =dynamicMenuRoutes.filter(item => item.path === '/https://commontools.bowkerasia.com/commontoolsH5/')
+        if (route.length >= 1) {
+          this.$router.push({path:"/"+route[0].fullPath})
+        }
       } else {
         this.$message.error(res.msg)
       }

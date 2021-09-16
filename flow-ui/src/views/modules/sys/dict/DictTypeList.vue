@@ -18,7 +18,7 @@
 
       </el-form>
       <div class="bg-white">
-      <el-row v-if="paramType!='reason'">
+      <el-row>
         <el-button v-if="hasPermission('sys:dict:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('sys:dict:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
         :disabled="dataListSelections.length !== 1" plain>{{$i18nMy.t('修改')}}</el-button>
@@ -73,10 +73,10 @@
              <el-button v-if="hasPermission('sys:dict:view')" type="text" size="small"
                       @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
             <el-divider direction="vertical"></el-divider>
-            <el-button v-if="hasPermission('sys:dict:edit') && paramType!='reason'" type="text" size="small"
+            <el-button v-if="hasPermission('sys:dict:edit')" type="text" size="small"
                       @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
             <el-divider direction="vertical"></el-divider>
-            <el-button v-if="hasPermission('sys:dict:del') && paramType!='reason'" type="text" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
+            <el-button v-if="hasPermission('sys:dict:del')" type="text" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
             <el-divider direction="vertical"></el-divider>
             <el-button v-if="hasPermission('sys:dict:edit')" type="text" size="small" @click="showRight(scope.row)">{{$i18nMy.t('管理键值')}}</el-button>
           </template>
@@ -124,7 +124,6 @@ export default {
         orderBy: '',
         dataListSelections: [],
         dictTypeTitle: '',
-        paramType: '',
         rightVisible: false,
         loading: false
       }
@@ -134,8 +133,6 @@ export default {
       DictValueList
     },
     activated () {
-      this.paramType=this.$route.query.type;
-      this.searchForm.type=this.$route.query.type;
       this.refreshList()
     },
     methods: {
@@ -226,7 +223,6 @@ export default {
       },
       resetSearch () {
         this.$refs.searchForm.resetFields()
-        this.searchForm.type=this.$route.query.type;
         this.refreshList()
       },
       showRight (row) {

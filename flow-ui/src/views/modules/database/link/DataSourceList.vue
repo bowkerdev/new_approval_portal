@@ -78,10 +78,6 @@
         :label="$i18nMy.t('数据库用户名')">
       </el-table-column>
       <el-table-column
-        prop="password"
-        :label="$i18nMy.t('数据库密码')">
-      </el-table-column>
-      <el-table-column
         fixed="right"
         :key="Math.random()"
         header-align="center"

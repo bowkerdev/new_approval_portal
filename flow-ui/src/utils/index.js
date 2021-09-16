@@ -163,7 +163,7 @@ export function getParamString4Exp (searchForm) {
 			sql = sql + field + " "
 			sql = sql + op + " "
 			if (op == 'like' || op == 'not like'){
-				sql = sql + "%" + value + "%"
+				sql = sql + "'%" + value + "%'"
 			} else if (op == 'in' || op == 'not in'){
 				sql = sql + "('" + value.replace(",","','") + "')"
 			} else {
@@ -261,6 +261,32 @@ export function download (url, params) {
   })
 }
 
+export function downloadWithLoading (_this, url, params) {
+  _this.loading = true
+  $http({
+    method: 'GET',
+    url: url,
+    params: params,
+    responseType: 'blob'
+  }).then(response => {
+    if (!response) {
+      return
+    }
+    let link = document.createElement('a')
+    link.href = window.URL.createObjectURL(new Blob([response.data]))
+    link.target = '_blank'
+    let filename = response.headers['content-disposition']
+    link.download = decodeURI(filename)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    // eslint-disable-next-line handle-callback-err
+    _this.loading = false
+  }).catch((error) => {
+    _this.loading = false
+  })
+}
+
 export function syncDownloadPost (url, params,pThis) {
   var ssoToken=Vue.cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')
   if(ssoToken ==null){
@@ -280,7 +306,6 @@ export function syncDownloadPost (url, params,pThis) {
   $http({
     method: 'POST',
     url:"https://commontools.bowkerasia.com/zhimitool/ie/exportConfig/syncExport",
-    //url:"http://127.0.0.1:8082/zhimitool/ie/exportConfig/syncExport",
     withCredentials:false,
     headers:{'Content-Type': 'application/json; charset=utf-8',
     "token":ssoToken,
@@ -311,7 +336,6 @@ export function asyncDownloadPost (url, params) {
     var tokenType=process.env.VUE_APP_SSO_TYPE
   }
   var commonToolsApi ="https://commontools.bowkerasia.com/zhimitool/ie/taskQueue/push"
-  var commonToolsProcessUrl ="https://commontools.bowkerasia.com/commontools-ui-bowker/#/ie/UploadDownloadContent"
   $http({
     method: 'POST',
     url:commonToolsApi+'/export',
@@ -326,8 +350,11 @@ export function asyncDownloadPost (url, params) {
       debugger
     }
     else{
-      window.open(commonToolsProcessUrl+"?token="+
-        ssoToken+"&tokenType="+tokenType+"&isIframe=true" ,"通用平台",null,true)
+      var dynamicMenuRoutes = JSON.parse(sessionStorage.getItem('dynamicMenuRoutes') || '[]')
+      const route =dynamicMenuRoutes.filter(item => item.path === '/https://commontools.bowkerasia.com/commontoolsH5/')
+      if (route.length >= 1) {
+        router.push({path: "/"+route[0].fullPath})
+      }
     }
 
   }).catch((error) => {
@@ -503,4 +530,4 @@ function hashCode (str) {
   }
   return hash
 }
-export default {asyncDownloadPost,syncDownloadPost, getParamString4Exp, escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}
+export default {asyncDownloadPost, syncDownloadPost, getParamString4Exp, escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadWithLoading, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}

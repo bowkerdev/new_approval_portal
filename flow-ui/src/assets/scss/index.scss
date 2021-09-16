@@ -901,7 +901,7 @@ span{
     background-color: #f5f7fa8a;
     border-color: #E4E7ED;
     color: #606266;
-    cursor: not-allowed;
+    cursor: initial;
 }
 .el-dialog__header {
   border-bottom: 1px solid #e8e8e8;
@@ -1903,3 +1903,9 @@ span{
 .fm-generate-preview-container .el-dialog {
   width: 96% !important;
 }
+
+// 右侧固定列，最后一行有横线
+.el-table__fixed-right {
+  height: 100% !important;
+}
+

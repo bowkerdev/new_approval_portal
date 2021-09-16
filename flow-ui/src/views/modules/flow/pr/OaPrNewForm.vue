@@ -172,12 +172,16 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('合同总价')" prop="totalContractAmount" :rules="[]">
-            <div class="myformText1" v-if="(inputForm.totalContractAmount||'')!=''"> {{inputForm.totalContractAmount.toFixed(2)}}</div>
+            <div class="myformText1" v-if="(inputForm.totalContractAmount||'')!=''">
+              {{$common.toThousands(inputForm.totalContractAmount.toFixed(2))}}
+            </div>
           </el-form-item>
         </el-col>
         <el-col :span="3">
           <el-form-item label-width="10px" label=""  :rules="[]">
-            <div class="myformText2" v-if="(inputForm.totalVatContractAmount||'')!=''">{{inputForm.totalVatContractAmount.toFixed(2)}}(VAT)</div>
+            <div class="myformText2" v-if="(inputForm.totalVatContractAmount||'')!=''">
+              {{$common.toThousands(inputForm.totalVatContractAmount.toFixed(2))}}(VAT)
+            </div>
           </el-form-item>
         </el-col>
         <el-col :span="3">
@@ -193,14 +197,14 @@
         <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('基础币种总价')" prop="totalBaseAmount" :rules="[]">
             <div class="myformText1" v-if="inputForm.totalBaseAmount !=null&&inputForm.totalVatBaseAmount !=''" >
-              {{inputForm.totalBaseAmount.toFixed(2)}}
+              {{$common.toThousands(inputForm.totalBaseAmount.toFixed(2))}}
             </div>
           </el-form-item>
         </el-col>
         <el-col :span="3">
           <el-form-item label-width="10px" label=""  prop="totalVatBaseAmount" :rules="[]">
             <div class="myformText2" v-if="inputForm.totalVatBaseAmount !=null&&inputForm.totalVatBaseAmount !=''"  >
-              {{inputForm.totalVatBaseAmount.toFixed(2)}}(VAT)
+              {{$common.toThousands(inputForm.totalVatBaseAmount.toFixed(2))}}(VAT)
             </div>
           </el-form-item>
 
@@ -264,11 +268,12 @@
               <el-table-column prop="unitPrice" width="120" align="right" :label="'* '+$i18nMy.t('市场价格')">
                 <template slot-scope="{row}">
                   <el-tooltip class="item" effect="dark" :content="$i18nMy.t('源自确认后的供应商报价')" placement="top-start">
-                  <template v-if="row.edit">
+                    <template v-if="row.edit">
                       <el-input  size="small" v-only-num.float="row"
-                        v-model="row.unitPrice" placeholder="" ></el-input>
-                  </template>
-                  <span v-else>{{ row.unitPrice }}</span>
+                        v-model="row.unitPrice"
+                        placeholder="" ></el-input>
+                    </template>
+                    <span v-else>{{ $common.toThousands(row.unitPrice) }}</span>
                   </el-tooltip>
                 </template>
               </el-table-column>
@@ -278,7 +283,7 @@
                     <el-input  size="small" v-only-num.float="row"
                     :disabled="flowStage=='start'?true:false"   v-model="row.docUnitPrice" placeholder="" ></el-input>
                   </template>
-                  <span v-else>{{ row.docUnitPrice }}</span>
+                  <span v-else>{{ $common.toThousands(row.docUnitPrice)}}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="quantity" width="155" align="right" :label="'* '+$i18nMy.t('数量')">
@@ -286,7 +291,7 @@
                   <template v-if="row.edit">
                     <el-input-number  size="small" v-model="row.quantity" :step="1"  :min="1" :max="100" :label="$i18nMy.t('数量')"></el-input-number>
                   </template>
-                  <span v-else>{{ row.quantity }}</span>
+                  <span v-else>{{ $common.toThousands(row.quantity) }}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="uom" width="100" align="left" :label="'* '+$i18nMy.t('单位')">
@@ -298,7 +303,7 @@
                       </el-option>
                     </el-select>
                   </template>
-                  <span v-else>{{ row.uom }}</span>
+                  <span v-else>{{ $common.toThousands(row.uom) }}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="expectArrivalDate" width="150" v-if="index == 0" align="right" :label="'* '+$i18nMy.t('预计到达时间')"    >
@@ -328,7 +333,7 @@
                       </template>
                       <span v-else>
                         <span v-if="(row.docAmount||'')!=''">
-                          {{ row.docAmount.toFixed(2) }}
+                          {{ $common.toThousands(row.docAmount.toFixed(2)) }}
                         </span>
                       </span>
                     </template>
@@ -342,7 +347,7 @@
                       </template>
                       <span v-else>
                         <span v-if="(row.docVatAmount||'')!=''">
-                          {{ row.docVatAmount.toFixed(2) }}
+                          {{ $common.toThousands(row.docVatAmount.toFixed(2)) }}
                         </span>
                       </span>
                     </template>
@@ -355,7 +360,7 @@
                   <el-table-column prop="baseQuantity" align="right" :label="$i18nMy.t('总数')">
                     <template slot-scope="{row}">
                       <span v-if="!isNaN(row.docAmount*inputForm.exRate)">
-                        {{(row.docAmount*inputForm.exRate).toFixed(2)}}
+                        {{$common.toThousands((row.docAmount*inputForm.exRate).toFixed(2))}}
                       </span>
                     </template>
                   </el-table-column>
@@ -363,7 +368,7 @@
                   <el-table-column v-if="index == 2" prop="baseVatQuantity" align="right" :label="$i18nMy.t('总数')+'(VAT)'"   >
                     <template slot-scope="{row}">
                       <span  v-if="!isNaN(row.docVatAmount*inputForm.exRate)">
-                        {{(row.docVatAmount*inputForm.exRate).toFixed(2)}}
+                        {{$common.toThousands((row.docVatAmount*inputForm.exRate).toFixed(2))}}
                       </span>
                     </template>
                   </el-table-column>

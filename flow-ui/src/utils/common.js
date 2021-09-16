@@ -443,6 +443,37 @@ export default {
     }
     return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
   },
+  toThousands(num) {
+    if(num==null||num==""||num==0) return 0;
+    var result = [ ], counter = 0;
+    var tmp=(num || 0).toString().split('.');
+    var integer=tmp[0];
+    var float=tmp[1];
+    var minus = integer.substring(0,1);
+    integer = integer.toString().split('');
+    if(minus == "-"){
+      integer = integer.slice(1);
+    }
+    for (var i = integer.length - 1; i >= 0; i--) {
+      counter++;
+      result.unshift(integer[i]);
+      if (!(counter % 3) && i != 0) { result.unshift(','); }
+    }
+    if(float==null){
+      if(minus != "-"){
+        return result.join('');
+      }else{
+        return minus+result.join('');
+      }
+    }
+    else{
+      if(minus != "-"){
+        return result.join('')+"."+float.toString();
+      }else{
+        return minus+result.join('')+"."+float.toString();
+      }
+    }
+  },
   /**
    * @param {string} value
    */

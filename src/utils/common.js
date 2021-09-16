@@ -24,7 +24,7 @@ export default {
       s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
       s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
       s[8] = s[13] = s[18] = s[23] = "-";
-  
+
       var uuid = s.join("");
       return uuid;
   },
@@ -443,6 +443,37 @@ export default {
     }
     return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
   },
+  toThousands(num) {
+    if(num==null||num==""||num==0) return 0;
+    var result = [ ], counter = 0;
+    var tmp=(num || 0).toString().split('.');
+    var integer=tmp[0];
+    var float=tmp[1];
+    var minus = integer.substring(0,1);
+    integer = integer.toString().split('');
+    if(minus == "-"){
+      integer = integer.slice(1);
+    }
+    for (var i = integer.length - 1; i >= 0; i--) {
+      counter++;
+      result.unshift(integer[i]);
+      if (!(counter % 3) && i != 0) { result.unshift(','); }
+    }
+    if(float==null){
+      if(minus != "-"){
+        return result.join('');
+      }else{
+        return minus+result.join('');
+      }
+    }
+    else{
+      if(minus != "-"){
+        return result.join('')+"."+float.toString();
+      }else{
+        return minus+result.join('')+"."+float.toString();
+      }
+    }
+  },
   /**
    * @param {string} value
    */
@@ -484,7 +515,29 @@ export default {
     let D = date.getDate() < 10 ? '0' + date.getDate() + ' ' : date.getDate() + ' ';
     return Y + M + D;
   },
-
+  stringFormat(args) {
+	  if (arguments.length > 0) {
+		var result = this;
+		if (arguments.length == 1 && typeof(args) == "object") {
+		  for (var key in args) {
+			var reg = new RegExp("({" + key + "})", "g");
+			result = result.replace(reg, args[key]);
+		  }
+		} else {
+		  for (var i = 0; i < arguments.length; i++) {
+			if (arguments[i] == undefined) {
+			  return "";
+			} else {
+			  var reg = new RegExp("({[" + i + "]})", "g");
+			  result = result.replace(reg, arguments[i]);
+			}
+		  }
+		}
+		return result;
+	  } else {
+		return this;
+	  }
+  },
   /**
     * 字符串转数组
     * @param {*} value
@@ -654,6 +707,13 @@ export default {
 
     }
     return tags;
+  },
+  closeTap(pageObj,fullPath){
+    var visitedViews = pageObj.$store.state.tagsView.visitedViews
+    var view = visitedViews.find(function(e){return e.fullPath == fullPath})
+    pageObj.$store.dispatch('tagsView/delView', view).then(({ visitedViews }) => {
+      const latestView = visitedViews.slice(-1)[0]
+      pageObj.$router.push(latestView.fullPath)
+    })
   }
-
 }

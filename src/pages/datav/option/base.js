@@ -432,7 +432,7 @@ export default [{
         height: 600,
         titleShow: true,
         title: '各部门开销',
-        subtext: '最近一个月',
+        subtext: this.$i18nMy.t('最近一个月'),
         titleColor: '#666',
         tipBackgroundColor: 'rgba(50,50,50,0.7)',
         tipColor: "#fff",

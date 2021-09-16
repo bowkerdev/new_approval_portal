@@ -1,29 +1,48 @@
 import _i18nMy from '@/utils/i18n2'
 export default {
   dealHtml(html){
+    var copy=html
     html=html.replace(/\n/g,"").replace(/\t/g,"").replace(/ /g,"");
     var array = html.match(/>[^\x00-\xff]+</g);
-    for(var i=0;i<array.length;i++){
-      html=html.replaceAll(array[i],">"+_i18nMy.t(array[i].replace("<","").replace(">",""))+"<")
+    if(array!=null){
+      for(var i=0;i<array.length;i++){
+        html=html.replaceAll(array[i],">"+_i18nMy.t(array[i].replace("<","").replace(">",""))+"<")
+      }
+      return html
     }
-    return html
-  },
-  dealGeneralCtl(obj){
-    if(obj.name!=null){
-      obj.name=_i18nMy.t(obj.name)
+    else{
+     return copy
     }
   },
-  dealObj(obj){
+  setValue(taskFormData,obj ){
+    var obj2=taskFormData.find(function(e){return e.id==obj.model})
+    obj2.value = obj.options.defaultValue
+  },
+  dealObj(obj,taskFormData){
     if(obj.options!=null&&!obj.options.hidden){
       switch(obj.type){
-        case 'html':obj.options.defaultValue = this.dealHtml(obj.options.defaultValue); break ;
+        case 'html':{
+          obj.options.defaultValue = this.dealHtml(obj.options.defaultValue);
+          this.setValue(taskFormData,obj )
+          break ;
+        }
+        case 'text':{
+          obj.options.defaultValue = _i18nMy.t(obj.options.defaultValue);
+          this.setValue(taskFormData,obj )
+          break ;
+        }
         case 'radio':
         case 'date':
         case 'textarea':
-        case 'input':this.dealGeneralCtl(obj); break ;
+        case 'input':
+        case 'fileupload':{
+          if(obj.name!=null&&obj.name!=''){
+            obj.name = _i18nMy.t(obj.name);
+          }
+          break ;
+        }
         case 'td':break ;
         default :
-          debugger;
           break ;
       }
     }
@@ -31,27 +50,27 @@ export default {
   /**
    * @param
    * */
-  simpleLanguageFrom(json) {
+  simpleLanguageFrom(json,taskFormData) {
     if(json instanceof Array){
       for(var i=0;i<json.length;i++){
         if(json[i].columns !=null && json[i].columns instanceof Array ){
-          this.simpleLanguageFrom(json[i].columns)
+          this.simpleLanguageFrom(json[i].columns,taskFormData)
         }
         else{
-          this.simpleLanguageFrom(json[i])
+          this.simpleLanguageFrom(json[i],taskFormData)
         }
       }
     }
     else{
-      this.dealObj(json)
+      this.dealObj(json,taskFormData)
       if(json.rows !=null){
-        this.simpleLanguageFrom(json.rows)
+        this.simpleLanguageFrom(json.rows,taskFormData)
       }
       else if(json.list !=null){
-        this.simpleLanguageFrom(json.list)
+        this.simpleLanguageFrom(json.list,taskFormData)
       }
       else if(json.tableColumns !=null){
-        this.simpleLanguageFrom(json.tableColumns)
+        this.simpleLanguageFrom(json.tableColumns,taskFormData)
       }
     }
     return json

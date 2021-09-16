@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import router from '@/router'
 import store from '@/store'
+import dictUtils from '@/utils/dictUtils'
 import $http from './httpRequest'
 import { isPlainObject } from 'lodash'
 import { snakeCase } from "lodash"
@@ -529,4 +530,4 @@ function hashCode (str) {
   }
   return hash
 }
-export default {asyncDownloadPost, getParamString4Exp, escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadWithLoading, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}
+export default {asyncDownloadPost, syncDownloadPost, getParamString4Exp, escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadWithLoading, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}

@@ -57,6 +57,24 @@ export function getDictList (type) {
   return dicts || []
 }
 
+export function getDictListWithKey (type) {
+  let dicts = getDictList(type)
+  for (var i=0; i<dicts.length; i++) {
+    dicts[i].label = dicts[i].value + ' - ' + dicts[i].label;
+  }
+  return dicts || []
+}
+
+export function getDsDictList (sqlName,params) {
+  $http({
+    url: "/database/datamodel/dataSet/getDataByName/"+sqlName+"/json",
+    method: 'get',
+    params: params
+  }).then(({data}) => {
+    return data.result
+  })
+}
+
 export function getSqlDictList (sqlName,params,callBack) {
   $http({
     url: "/database/datamodel/dataSet/getDataByName/"+sqlName+"/json",
@@ -78,4 +96,4 @@ export function refreshDictList () {
   })
 }
 
-export default {getDictLabel, getDictValue, getDictList,getSqlDictList, refreshDictList}
+export default {getDictLabel, getDictValue, getDictList, getDictListWithKey, getDsDictList, getSqlDictList, refreshDictList}

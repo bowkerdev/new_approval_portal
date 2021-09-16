@@ -1875,7 +1875,7 @@ span{
 }
 
 .el-table__row .cell .el-button i+span{
-  display: none;
+  //display: none;
 }
 
 .el-table__row .cell .el-button:hover i+span{
@@ -1888,12 +1888,24 @@ span{
   top: 2px;
 }
 
-// table 
+// table
 .cell.el-tooltip {
   width: 100% !important;
+}
+
+.el-step__main{padding: 0px 5px;}
+.el-step__title{line-height: 1.2;padding: 10px 0px;}
+
+.el-step__description.is-finish{
+ color: #81858c !important;
+}
+// 预览
+.fm-generate-preview-container .el-dialog {
+  width: 96% !important;
 }
 
 // 右侧固定列，最后一行有横线
 .el-table__fixed-right {
   height: 100% !important;
 }
+

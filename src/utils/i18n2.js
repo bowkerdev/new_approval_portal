@@ -39,6 +39,7 @@ i18nMy.t = function t(key) {
     }) => {}).catch((e) => {})
   }
   if(languageData[key] !=null){
+    Vue.config.lang=localStorage.getItem('lang')||'en-US'
     switch (Vue.config.lang){
       case 'en-US':window.$i18nMy.langData[key]=languageData[key].en; break;
       case 'zh-CN':window.$i18nMy.langData[key]=languageData[key].cn; break;

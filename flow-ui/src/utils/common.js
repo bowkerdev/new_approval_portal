@@ -444,9 +444,6 @@ export default {
     return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
   },
   toThousands(num) {
-    if(typeof(num)=='string' ){
-      num=parseFloat(num)
-    }
     if(num==null||num==""||num==0) return "";
     var result = [ ], counter = 0;
     var tmp=(num || 0).toString().split('.');

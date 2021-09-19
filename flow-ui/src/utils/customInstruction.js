@@ -18,14 +18,13 @@ function handleInput(ele,vnode,rel){
       rule = /\D/g;
   }
   let val = ele.value.replace(rule,"");
-  let maxLen = vnode.data.attrs && vnode.data.attrs['max-len'] ? vnode.data.attrs['max-len'] :0;
-  if(maxLen>0){val = val.substr(0,maxLen)}
-  var currObj=rel.value
-  var expression= vnode.data.model.expression.substr(vnode.data.model.expression.indexOf(".")+1)
-  currObj[expression] = val
-  console.log("currObj : " + JSON.stringify(currObj) )
-  console.log("val : " + val )
-  console.log("currObj[expression] : " + currObj[expression] )
+  if(val !=  ele.value){
+    let maxLen = vnode.data.attrs && vnode.data.attrs['max-len'] ? vnode.data.attrs['max-len'] :0;
+    if(maxLen>0){val = val.substr(0,maxLen)}
+    var currObj=rel.value
+    var expression= vnode.data.model.expression.substr(vnode.data.model.expression.indexOf(".")+1)
+    currObj[expression] = val
+  }
 }
 
 Vue.directive('only-num', {

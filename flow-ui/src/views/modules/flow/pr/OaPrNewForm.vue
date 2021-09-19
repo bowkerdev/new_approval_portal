@@ -84,7 +84,7 @@
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: true, message:'签约方公司不能为空', trigger:'blur'}
                  ]">
-            <el-select v-model="inputForm.legalEntity" :placeholder="$i18nMy.t('请选择')" filterable="true" style="width: 100%;">
+            <el-select v-model="inputForm.legalEntity" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictListWithKey('all_company')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
@@ -94,7 +94,7 @@
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[{required: true, message:'成本中心不能为空', trigger:'blur'}
                  ]">
-            <el-select v-model="inputForm.costCenter" :placeholder="$i18nMy.t('请选择')" filterable="true" style="width: 100%;">
+            <el-select v-model="inputForm.costCenter" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictListWithKey('cost_center')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
@@ -104,7 +104,7 @@
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[{required: true, message:'固定资产类别不能为空', trigger:'blur'}
                  ]">
-            <el-select v-model="inputForm.assetGroup" :placeholder="$i18nMy.t('请选择')" filterable="true" style="width: 100%;">
+            <el-select v-model="inputForm.assetGroup" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictListWithKey('asset_group')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
@@ -265,27 +265,22 @@
                   <span v-else>{{ row.supplierName }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="unitPrice" width="120" align="right" :label="'* '+$i18nMy.t('市场价格')">
+              <el-table-column prop="unitPrice" width="120" align="right" :label="$i18nMy.t('市场价格')">
                 <template slot-scope="{row}">
-                  <el-tooltip class="item" effect="dark" :content="$i18nMy.t('源自确认后的供应商报价')" placement="top-start">
-                    <template v-if="row.edit">
-                      <el-input  size="small" v-only-num.float="row"
-                        v-model="row.unitPrice"
-                        placeholder="" ></el-input>
-                    </template>
-                    <span v-else>{{ $common.toThousands(row.unitPrice) }}</span>
-                  </el-tooltip>
+                    {{ $common.toThousands(row.unitPrice) }}
                 </template>
               </el-table-column>
-              <el-table-column prop="docUnitPrice" v-if="index == 2" align="right" :label="$i18nMy.t('报价单单价')">
+              <el-table-column prop="vat" v-if="index == 2" align="right" :label="$i18nMy.t('VAT')+'%'">
                 <template slot-scope="{row}">
-                  <template v-if="row.edit">
-                    <el-input  size="small" v-only-num.float="row"
-                    :disabled="flowStage=='start'?true:false"   v-model="row.docUnitPrice" placeholder="" ></el-input>
-                  </template>
-                  <span v-else>{{ $common.toThousands(row.docUnitPrice)}}</span>
+                  <span  v-if="inputForm.vat !=null"> {{ inputForm.vat }}</span>
                 </template>
               </el-table-column>
+              <el-table-column prop="vatUnitPrice" v-if="index == 2" width="120" align="right" :label="$i18nMy.t('市场价格')+'(VAT)'">
+                <template slot-scope="{row}">
+                    {{ $common.toThousands(row.vatUnitPrice) }}
+                </template>
+              </el-table-column>
+
               <el-table-column prop="quantity" width="155" align="right" :label="'* '+$i18nMy.t('数量')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
@@ -303,7 +298,7 @@
                       </el-option>
                     </el-select>
                   </template>
-                  <span v-else>{{ $common.toThousands(row.uom) }}</span>
+                  <span v-else>{{row.uom}}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="expectArrivalDate" width="150" v-if="index == 0" align="right" :label="'* '+$i18nMy.t('预计到达时间')"    >
@@ -314,12 +309,6 @@
                     </el-date-picker>
                   </template>
                   <span v-else>{{ row.expectArrivalDate }}</span>
-                </template>
-              </el-table-column>
-
-              <el-table-column prop="vat" v-if="index == 2" align="right" :label="$i18nMy.t('VAT')">
-                <template slot-scope="{row}">
-                  <span  v-if="inputForm.vat !=null"> {{ inputForm.vat*100 }} %</span>
                 </template>
               </el-table-column>
 
@@ -602,10 +591,6 @@
         }
         else if(this.$common.isEmpty(row.expectArrivalDate)){
            this.$message.warning($i18nMy.t('预计到达时间') + $i18nMy.t('不能为空'))
-        }
-        else if(this.$common.isEmpty(row.unitPrice)){
-          this.$message.warning($i18nMy.t('单价') + $i18nMy.t('不能为空'))
-          this.activeName='1'
         }
         else{
           row.edit =false

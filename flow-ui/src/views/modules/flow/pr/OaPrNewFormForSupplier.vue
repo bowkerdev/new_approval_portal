@@ -52,6 +52,11 @@
             </el-select>
           </el-form-item>
         </el-col>
+        <el-col :span="12">
+          <el-form-item label-width="220px" label="VAT" prop="vat" :rules="[ ]">
+            <el-input v-model="inputForm.vat" ></el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
       <br/>
       <el-row :gutter="0">
@@ -66,14 +71,13 @@
                 <th><font color="red">*</font>{{$i18nMy.t('供应商名称')}}</th>
                 <th>{{$i18nMy.t('付款条件')}}</th>
                 <th><font color="red">*</font>{{$i18nMy.t('币种')}}</th>
-                <th>{{$i18nMy.t('原价')}}</th>
-                <th>{{$i18nMy.t('折扣价')}}</th>
-                <th>{{$i18nMy.t('最终报价')}}</th>
+                <th>{{$i18nMy.t('总价')}}</th>
+                <th>{{$i18nMy.t('总价')}}(Vat)</th>
                 <th>{{$i18nMy.t('预计到货日期')}}</th>
                 <th>{{$i18nMy.t('预计最晚到货日期')}}</th>
                 <th>{{$i18nMy.t('备注')}}</th>
                 <th><font color="red">*</font>{{$i18nMy.t('文件类型')}}</th>
-                <th><font color="red">*</font>{{$i18nMy.t('附件')}}</th>
+                <th colspan="2"><font color="red">*</font>{{$i18nMy.t('附件')}}</th>
                 <th><font color="red">*</font>{{$i18nMy.t('关联项目')}}</th>
                 <th>{{$i18nMy.t('上传者')}}</th>
                 <th>{{$i18nMy.t('上传日期')}}</th>
@@ -109,10 +113,7 @@
                   {{$common.toThousands(item.originalPrice)}}
               </td>
               <td :rowspan="item.docListSize" class="my-right">
-                  {{$common.toThousands(item.discountedAmount)}}
-              </td>
-              <td :rowspan="item.docListSize" class="my-right">
-                  {{$common.toThousands(item.totalOfferedPrice)}}
+                  {{$common.toThousands(item.originalVatPrice)}}
               </td>
               <td :rowspan="item.docListSize" class="my-right">
                   {{item.expectArrivalDate}}
@@ -137,7 +138,7 @@
                   {{$dictUtils.getDictLabel("pr_document_type",item.docList[0].documentType, '-')}}
                 </span>
               </td>
-              <td  style="max-width: 120px; min-width: 110px;">
+              <td colspan="2"  style="max-width: 120px; min-width: 110px;">
                 <el-upload :class="item.docList[0].attachment==''?'':'hide'"
                   :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
                       :headers="{token: $cookie.get('token')}"
@@ -196,7 +197,7 @@
                       {{$dictUtils.getDictLabel("pr_document_type",item2.documentType, '-')}}
                     </span>
                 </td>
-                <td style="max-width: 120px; min-width: 110px;" >
+                <td colspan="2" style="max-width: 120px; min-width: 110px;" >
                   <el-upload :class="item2.attachment==''?'':'hide'"
                     :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
                         :headers="{token: $cookie.get('token')}"
@@ -239,7 +240,7 @@
                 </td>
               </tr>
               <tr style="background-color: #fff3cf; border-bottom: 1px solid #EBEEF5;">
-                <td colspan="8" style="padding: 5px 0px 5px 5px;">
+                <td colspan="7" style="padding: 5px 0px 5px 5px;">
                  <el-button size="small" :disabled="!item.edit" round @click="addDocList(index)" type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px;padding: 5px 5px;" ></el-button>
                 </td>
               </tr>
@@ -250,7 +251,8 @@
                 <td>{{$i18nMy.t('品牌名称')}}</td>
                 <td>{{$i18nMy.t('型号')}}</td>
                 <td><font color="red">*</font>{{$i18nMy.t('提供单价')}}</td>
-                <td>{{$i18nMy.t('折扣单价')}}</td>
+                <td>VAT(%)</td>
+                <td>{{$i18nMy.t('提供单价')}}(VAT)</td>
                 <td><font color="red">*</font>MOQ</td>
                 <td>{{$i18nMy.t('预计到货日期')}}</td>
                 <td>{{$i18nMy.t('预计最晚到货日期')}}</td>
@@ -264,15 +266,21 @@
                 <td> {{item3.brandName}} </td>
                 <td> {{item3.modelNo}} </td>
                 <td class="my-right">
-                  <el-input  v-on:input="calculationPrice(index)" v-only-num.float="item3"  size="small" v-if="item.edit" v-model="item3.offeredUnitPrice"  ></el-input>
+                  <el-input  v-on:input="calculationPrice(index)" v-only-num.float="item3"  size="small" v-if="item.edit" v-model="item3.unitPrice"  ></el-input>
                   <span v-else>
-                    {{$common.toThousands(item3.offeredUnitPrice)}}
+                    {{$common.toThousands(item3.unitPrice)}}
                   </span>
                 </td>
                 <td class="my-right">
-                  <el-input  v-on:input="calculationPrice(index)" v-only-num.float="item3"  size="small" v-if="item.edit" v-model="item3.discountedUnitPrice"  ></el-input>
+                  <el-input  v-on:input="calculationPrice(index)" v-only-num.float="item3"  size="small" v-if="item.edit" v-model="item3.vat"  ></el-input>
                   <span v-else>
-                    {{$common.toThousands(item3.discountedUnitPrice)}}
+                    {{item3.vat}}
+                  </span>
+                </td>
+                <td class="my-right">
+                  <el-input  v-on:input="calculationPrice(index)" v-only-num.float="item3"  size="small" v-if="item.edit" v-model="item3.vatUnitPrice"  ></el-input>
+                  <span v-else>
+                    {{$common.toThousands(item3.vatUnitPrice)}}
                   </span>
                 </td>
                 <td class="my-right">
@@ -329,10 +337,11 @@
               <th rowspan="2">{{$i18nMy.t('品牌名称')}}</th>
               <th rowspan="2">{{$i18nMy.t('型号')}}</th>
               <th rowspan="2">{{$i18nMy.t('市场价格')}}</th>
-              <th rowspan="2">{{$i18nMy.t('更新单价')}}</th>
+              <th rowspan="2">VAT(%)</th>
+              <th rowspan="2">{{$i18nMy.t('市场价格')}}(VAT)</th>
               <th rowspan="2">{{$i18nMy.t('请求数量')}}</th>
               <th rowspan="2">UOM</th>
-              <th rowspan="2">VAT</th>
+              <th rowspan="2"></th>
               <th colspan="2">{{$i18nMy.t('文档报价')}}</th>
               <th  colspan="2">{{$i18nMy.t('基础报价')}}</th>
             </tr>
@@ -350,10 +359,11 @@
               <td>{{item.brandName}}</td>
               <td>{{item.modelNo}}</td>
               <td class="my-right">{{$common.toThousands(item.unitPrice)}}</td>
-              <td class="my-right">{{$common.toThousands(item.docUnitPrice)}}</td>
+              <td class="my-right">{{$common.toThousands(item.vat)}}</td>
+              <td class="my-right">{{$common.toThousands(item.vatUnitPrice)}}</td>
               <td class="my-right">{{$common.toThousands(item.quantity)}}</td>
               <td>{{item.uom}}</td>
-              <td class="my-right">{{inputForm.vat *100}}%</td>
+              <td class="my-right"></td>
               <td class="my-right">{{$common.toThousands(item.docAmount)}}</td>
               <td class="my-right">{{$common.toThousands(item.docVatAmount)}}</td>
               <td class="my-right">
@@ -372,8 +382,9 @@
               <td class="first-td">{{$i18nMy.t('供应商名称')}}</td>
               <td>{{$i18nMy.t('付款条件')}}</td>
               <td>{{$i18nMy.t('币种')}}</td>
-              <td>{{$i18nMy.t('提供单价')}}</td>
-              <td>{{$i18nMy.t('提供的单价（基础货币）')}}</td>
+              <th >{{$i18nMy.t('市场价格')}}</th>
+              <th >VAT(%)</th>
+              <th >{{$i18nMy.t('市场价格')}}(VAT)</th>
               <td>MOQ</td>
               <td>{{$i18nMy.t('预计到货日期')}}</td>
               <td>{{$i18nMy.t('预计最晚到货日期')}}</td>
@@ -386,12 +397,9 @@
               <td class="first-td">{{item.supplierName}}</td>
               <td >{{item.paymentTerms}}</td>
               <td >{{item.currency}}</td>
-              <td class="my-right">{{$common.toThousands(item.finallyUnitPrice)}}</td>
-              <td class="my-right">
-                  <span v-if="!isNaN(item.finallyUnitPrice*inputForm.exRate)">
-                    {{$common.toThousands((item.finallyUnitPrice*inputForm.exRate).toFixed(2))}}
-                  </span>
-              </td>
+              <td class="my-right">{{$common.toThousands(item.unitPrice)}}</td>
+              <td class="my-right">{{$common.toThousands(item.vat)}}</td>
+              <td class="my-right">{{$common.toThousands(item.vatUnitPrice)}}</td>
               <td class="my-right">{{item.moq}}</td>
               <td class="my-right">{{item.expectArrivalDate}}</td>
               <td class="my-right">{{item.expectLastArrivalDate}}</td>
@@ -496,7 +504,6 @@
           if (this.inputForm.id != query.businessId){ // copy
             this.isCopy = true
           }
-
           this.$dictUtils.getSqlDictList('GET_T2_EXCHANGE_RATE',{},(data1) => {
             this.exRateT2List = data1
             //this.$nextTick(() => {
@@ -549,17 +556,11 @@
           !this.$common.isEmpty(this.supplierInfo[0].currency)){
           this.inputForm.contractCurrency = this.supplierInfo[0].currency
           var _pThis=this
-          var dict= this.$common.find(_pThis.exRateT2List/* this.$dictUtils.getDictList('pr_currency_rate') */,
+          var dict= this.$common.find(_pThis.exRateT2List /* this.$dictUtils.getDictList('pr_currency_rate') */ ,
             function(e){return e.label == _pThis.inputForm.contractCurrency})
 
           this.inputForm.exRate= dict==null?1:dict.value
           this.inputForm.exRate = parseFloat(this.inputForm.exRate)
-
-          var dict= this.$common.find(this.$dictUtils.getDictList('pr_currency_vat'),
-            function(e){return e.label == _pThis.inputForm.contractCurrency})
-          this.inputForm.vat= dict==null?0:dict.value
-
-          this.inputForm.vat = parseFloat(this.inputForm.vat)
 
         }
       },
@@ -624,6 +625,9 @@
         var tmpObj = {id: uuid, edit:true,docListSize:2,docList:[obj],detailInfo:JSON.parse(JSON.stringify(this.detailInfo))}
         for(var i=0;i<tmpObj.detailInfo.length;i++){
           tmpObj.detailInfo[i].moq=1
+          tmpObj.detailInfo[i].vat=parseFloat(this.inputForm.vat||0)
+          tmpObj.detailInfo[i].unitPrice = ""
+          tmpObj.detailInfo[i].vatUnitPrice = ""
         }
         this.supplierInfo.push(tmpObj)
       },
@@ -655,12 +659,9 @@
           obj.supplierName =supplierInfo.supplierName
           obj.paymentTerms =supplierInfo.paymentTerms
           obj.currency =supplierInfo.currency
-          var tmp= supplierInfo.detailInfo[i].discountedUnitPrice
-          if(this.$common.isEmpty(tmp)){
-            tmp =supplierInfo.detailInfo[i].offeredUnitPrice
-          }
-          obj.finallyUnitPrice =tmp
-          obj.offeredUnitPrice =supplierInfo.detailInfo[i].offeredUnitPrice
+          obj.unitPrice=supplierInfo.detailInfo[i].unitPrice
+          obj.vat=supplierInfo.detailInfo[i].vat
+          obj.vatUnitPrice=supplierInfo.detailInfo[i].vatUnitPrice
           obj.moq =supplierInfo.detailInfo[i].moq
           obj.expectArrivalDate =supplierInfo.detailInfo[i].expectArrivalDate
           obj.expectLastArrivalDate =supplierInfo.detailInfo[i].expectLastArrivalDate
@@ -690,8 +691,8 @@
         this.detailInfo.splice(this.detailInfo.length)
       },
       _setDetailInfoAmount(obj){
-        obj.docAmount = parseFloat((obj.docUnitPrice*obj.realQuantity).toFixed(2))
-        obj.docVatAmount =parseFloat(((this.inputForm.vat +1)*obj.docAmount).toFixed(2))
+        obj.docAmount = parseFloat((obj.unitPrice*obj.realQuantity).toFixed(2))
+        obj.docVatAmount = parseFloat((obj.vatUnitPrice*obj.realQuantity).toFixed(2))
       },
       _updateDetailInfoDocUnitPrice(){
         for(var i=0;i<this.detailInfo.length;i++){
@@ -702,7 +703,6 @@
         }
         this.inputForm.totalVatContractAmount = 0
         this.inputForm.totalContractAmount = 0
-
         for(var i=0;i<this.supplierInfo.length;i++){
           if(!this.supplierInfo[i].edit){
             for(var j=0;j<this.supplierInfo[i].detailInfo.length;j++){
@@ -711,8 +711,9 @@
                 var obj=this.$common.find(this.detailInfo,
                    function(e){return e.serialNumber== serialNumber})
                 obj.supplierName = this.supplierInfo[i].supplierName
-                obj.docUnitPrice = this.supplierInfo[i].detailInfo[j].discountedUnitPrice||
-                  (this.supplierInfo[i].detailInfo[j].offeredUnitPrice||0)
+                obj.unitPrice = this.supplierInfo[i].detailInfo[j].unitPrice
+                obj.vat = this.supplierInfo[i].detailInfo[j].vat
+                obj.vatUnitPrice = this.supplierInfo[i].detailInfo[j].vatUnitPrice
                 var size = parseInt(this.supplierInfo[i].detailInfo[j].moq||"0")
                 if(size < this.supplierInfo[i].detailInfo[j].quantity){
                   size=parseInt(this.supplierInfo[i].detailInfo[j].quantity)
@@ -750,29 +751,20 @@
         this._updateDetailInfoDocUnitPrice()
       },
       calculationPrice(index){
-        var totalOfferedPrice =0
+        var originalPrice =0
+        var originalVatPrice =0
         for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
-          totalOfferedPrice+=parseFloat(this.supplierInfo[index].detailInfo[i].offeredUnitPrice||"0")*
+          originalPrice+=parseFloat(this.supplierInfo[index].detailInfo[i].unitPrice||"0")*
             parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
+          originalVatPrice+=parseFloat(this.supplierInfo[index].detailInfo[i].vatUnitPrice||"0")*
+            parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
+          this.supplierInfo[index].detailInfo[i].vat = parseInt(this.supplierInfo[index].detailInfo[i].vat||"0")
         }
-        totalOfferedPrice = parseFloat(totalOfferedPrice.toFixed(2))
-        this.supplierInfo[index].originalPrice=totalOfferedPrice
-        var discountedAmount =0
-        for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
-          var discountedUnitPrice=
-            parseFloat(this.supplierInfo[index].detailInfo[i].discountedUnitPrice||"0")
-          if(discountedUnitPrice == 0){
-            discountedAmount+=parseFloat(this.supplierInfo[index].detailInfo[i].offeredUnitPrice||"0")*
-              parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
-          }
-          else{
-            discountedAmount+=discountedUnitPrice*
-              parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
-          }
-        }
-        discountedAmount = parseFloat(discountedAmount.toFixed(2))
-        this.supplierInfo[index].discountedAmount=discountedAmount
-        this.supplierInfo[index].totalOfferedPrice =discountedAmount
+        originalPrice = parseFloat(originalPrice.toFixed(2))
+        this.supplierInfo[index].originalPrice=originalPrice
+
+        originalVatPrice = parseFloat(originalVatPrice.toFixed(2))
+        this.supplierInfo[index].originalVatPrice=originalVatPrice
 
       },
       _getSupplierArrivalDate(){
@@ -824,17 +816,38 @@
              return
           }
         }
+        var unitPriceNull=0
+        var vatUnitPriceNull=0
         for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
-          if(this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].offeredUnitPrice)){
-             this.$message.warning($i18nMy.t('报价单价不能为空'))
+          if(this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].unitPrice)){
+             unitPriceNull++
+          }
+          if(this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vatUnitPrice)){
+             vatUnitPriceNull++
+          }
+          if(this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vat)){
+             this.$message.warning($i18nMy.t('Vat不能为空'))
              return
           }
           if(this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].moq)){
              this.$message.warning($i18nMy.t('MOQ不能为空'))
              return
           }
+          if(!this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].unitPrice)&&
+             !this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vatUnitPrice)&&
+             !this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vat)){
+                if(this.supplierInfo[index].detailInfo[i].vatUnitPrice!=
+                    (this.supplierInfo[index].detailInfo[i].unitPrice*
+                    (100+parseInt(this.supplierInfo[index].detailInfo[i].vat||0))/100)){
+                  this.$message.warning($i18nMy.t('单价值不对'))
+                  return
+                }
+             }
         }
-
+        if(!(unitPriceNull==0||vatUnitPriceNull==0)){
+          this.$message.warning($i18nMy.t('单价不能为空'))
+          return
+        }
         this.supplierInfo[index].edit =false
         this._getSupplierInfoByDetailInfoList()
         this._updateDetailInfoDocUnitPrice()

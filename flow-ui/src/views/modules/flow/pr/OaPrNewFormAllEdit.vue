@@ -1,14 +1,14 @@
 <template>
   <div style="height: 100%">
         <el-tabs  type="border-card" v-model="activeName">
-          <el-tab-pane>
+          <el-tab-pane name="oaPrNewForm" key="oaPrNewForm">
             <span slot="label"><i class="el-icon-star-on"></i>{{$i18nMy.t('主要信息')}}</span>
             <OaPrNewForm :formReadOnly="isReadOnly" ref="oaPrNewForm" ></OaPrNewForm>
           </el-tab-pane>
-          <el-tab-pane>
+          <el-tab-pane name="OaPrNewFormForSupplier" key="OaPrNewFormForSupplier">
             <span slot="label"><i class="el-icon-star-on"></i>{{$i18nMy.t('供应商报价和合同')}}</span>
             <OaPrNewFormForSupplier :formReadOnly="isReadOnly"  ref="oaPrNewFormForSupplier" ></OaPrNewFormForSupplier>
-          </el-tab-pane>
+          </el-tab-pane name="OaPrNewFormForDoc" key="OaPrNewFormForDoc">
           <el-tab-pane :label="$i18nMy.t('补充文件')" >
             <OaPrNewFormForDoc :formReadOnly="isReadOnly" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
           </el-tab-pane>
@@ -24,7 +24,7 @@
     data() {
       return {
         isReadOnly: false,
-        activeName:'0',
+        activeName:'oaPrNewForm',
         title: '',
         method: '',
         loading: false,
@@ -48,7 +48,7 @@
     },
     watch:{
       activeName(val, oldVal){//普通的watch监听
-        if(val!='0'){
+        if(val!='oaPrNewForm'){
           this.detailInfoEdit = false
           for(var i=0;i<this.$refs.oaPrNewForm.detailInfo.length;i++){
             if(this.$refs.oaPrNewForm.detailInfo[i].edit){
@@ -62,19 +62,19 @@
           }
         }
         // 非直接关联数据，保存的时候同步
-        if(val=='0'&&oldVal =='2'){// 第三个界面进入第一个界面，才需要更新第一个界面的数据
+        if(val=='oaPrNewForm'&&oldVal =='OaPrNewFormForSupplier'){// 第三个界面进入第一个界面，才需要更新第一个界面的数据
           this.setPage1Data()
         }
-        else if(val=='1'){// 点击第二个tab
-          if(oldVal =='0'){
+        else if(val=='OaPrNewFormForDoc'){// 点击第二个tab
+          if(oldVal =='oaPrNewForm'){
             this.setPage3Data()
           }
-          else if(oldVal =='2'){
+          else if(oldVal =='OaPrNewFormForSupplier'){
             this.setPage1Data()
           }
           this.setPage2Data()
         }
-        else if(val=='2'&&oldVal =='0'){
+        else if(val=='OaPrNewFormForSupplier'&&oldVal =='oaPrNewForm'){
           this.setPage3Data()
         }
       }
@@ -135,18 +135,18 @@
       // 表单提交
       saveForm(callBack) {
         debugger
-        if(this.activeName !=0){
+        if(this.activeName !='oaPrNewForm'){
           this.$refs.oaPrNewForm.detailInfo=this.$refs.oaPrNewFormForSupplier.detailInfo
         }
         if(!this.$refs.oaPrNewFormForDoc.checkForm()){
-          this.activeName= '1'
+          this.activeName= 'OaPrNewFormForDoc'
           return ;
         }
         if(!this.$refs.oaPrNewFormForSupplier.checkForm()){
-          this.activeName= '2'
+          this.activeName= 'OaPrNewFormForSupplier'
           return ;
         }
-        this.activeName= '0'
+        this.activeName= 'oaPrNewForm'
         this.$refs.oaPrNewForm.inputForm.supplierInfo=
           JSON.stringify(this.$refs.oaPrNewFormForSupplier.supplierInfo)
 

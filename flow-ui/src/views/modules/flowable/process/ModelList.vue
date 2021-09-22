@@ -239,6 +239,7 @@
         this.$refs.designForm.init(data.id)
       },
       design (row) {
+        this.$refs.designForm.translations = $i18nMy.getFlowableI18n();
         this.$refs.designForm.init(row.id, row.procDef.category)
       },
       design1 (row) {

@@ -219,7 +219,7 @@
       <el-row >
         <el-tabs type="border-card" v-model="activeName">
           <el-tab-pane v-for="(item, index) in tabs" :label="item" :key ="index" style="overflow-x:auto;overflow-y:hidden ;">
-           <el-row v-if="index==0">
+           <el-row v-if="index==2">
              <el-button size="small" @click="addTabListGroup()" round type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px;padding: 5px 5px;" >
              </el-button>
            </el-row>
@@ -257,15 +257,16 @@
                   <span v-else>{{ row.modelNo }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="supplierName"  v-if="index == 2" align="left" :label="$i18nMy.t('供应商名称')">
+              <el-table-column prop="supplierName" v-if="index == 2" align="left" :label="$i18nMy.t('供应商名称')">
                 <template slot-scope="{row}">
-                  <template v-if="row.edit">
+                  <!-- <template v-if="row.edit">
                     <el-input  size="small" :disabled="flowStage=='start'?true:false"  v-model="row.supplierName" placeholder="" ></el-input>
                   </template>
-                  <span v-else>{{ row.supplierName }}</span>
+                  <span v-else>{{ row.supplierName }}</span> -->
+                  {{ row.supplierName }}
                 </template>
               </el-table-column>
-              <el-table-column prop="unitPrice" width="120" align="right" :label="$i18nMy.t('市场价格')">
+              <el-table-column prop="unitPrice" v-if="index == 2" width="120" align="right" :label="$i18nMy.t('单价')">
                 <template slot-scope="{row}">
                     {{ $common.toThousands(row.unitPrice) }}
                 </template>
@@ -301,7 +302,7 @@
                   <span v-else>{{row.uom}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="expectArrivalDate" width="150" v-if="index == 0" align="right" :label="'* '+$i18nMy.t('预计到达时间')"    >
+              <el-table-column prop="expectArrivalDate" width="150" v-if="index == 0||index == 2" align="right" :label="'* '+$i18nMy.t('预计到达时间')"    >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-date-picker  size="small" v-model="row.expectArrivalDate" type="date"
@@ -316,7 +317,7 @@
                 <template>
                   <el-table-column prop="docAmount" align="right" :label="$i18nMy.t('总数')">
                     <template slot-scope="{row}">
-                      <template v-if="row.edit">
+                      <!-- <template v-if="row.edit">
                         <el-input  size="small" v-only-num.float="row"
                         :disabled="flowStage=='start'?true:false"   v-model="row.docAmount" placeholder="" ></el-input>
                       </template>
@@ -324,13 +325,16 @@
                         <span v-if="(row.docAmount||'')!=''">
                           {{ $common.toThousands(row.docAmount.toFixed(2)) }}
                         </span>
+                      </span> -->
+                      <span v-if="(row.docAmount||'')!=''">
+                        {{ $common.toThousands(row.docAmount.toFixed(2)) }}
                       </span>
                     </template>
                   </el-table-column>
 
                   <el-table-column prop="docVatAmount" align="right" :label="$i18nMy.t('总数')+'(VAT)'">
                     <template slot-scope="{row}">
-                      <template v-if="row.edit">
+                      <!-- <template v-if="row.edit">
                         <el-input  size="small" v-only-num.float="row"
                         :disabled="flowStage=='start'?true:false"   v-model="row.docVatAmount" placeholder="" ></el-input>
                       </template>
@@ -338,9 +342,13 @@
                         <span v-if="(row.docVatAmount||'')!=''">
                           {{ $common.toThousands(row.docVatAmount.toFixed(2)) }}
                         </span>
+                      </span> -->
+                      <span v-if="(row.docVatAmount||'')!=''">
+                        {{ $common.toThousands(row.docVatAmount.toFixed(2)) }}
                       </span>
                     </template>
                   </el-table-column>
+
                 </template>
               </el-table-column>
 
@@ -409,7 +417,7 @@
   export default {
     data() {
       return {
-        activeName:'0',
+        activeName:'2',
         ifSiteChange: true,
         isCopy: false,
         title: '',

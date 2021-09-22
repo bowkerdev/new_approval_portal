@@ -38,6 +38,7 @@ public class Flow extends DataEntity<Flow> {
 	private String procInsId;    // 流程实例ID
 	private String procDefId;    // 流程定义ID
 	private String procDefKey;    // 流程定义Key（流程定义标识）
+	private String status;
 
 	private String businessTable;    // 业务绑定Table
 	private String businessId;        // 业务绑定ID

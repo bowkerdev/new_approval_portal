@@ -255,18 +255,9 @@ public class FlowTaskService extends BaseService {
         return page;
     }
 
-    public Page<ProcessVo> allList(Page<ProcessVo> page, Flow flow) {
-    	ProcessVo pvo = new ProcessVo();
-    	pvo.setProcessInstanceId(flow.getProcInsId());
-    	pvo.setStartTime(flow.getBeginDate());
-    	pvo.setEndTime(flow.getEndDate());
-    	pvo.setTitle(flow.getTitle());
-    	pvo.setProcessDefinitionKey(flow.getProcDefKey());
-    	
-    	pvo.setPage(page); 
-    	  
+    public Page<ProcessVo> allList(Page<ProcessVo> page, ProcessVo pvo) {
+    	pvo.setPage(page);
         List<ProcessVo> todoList = flowMapper.findAllList(pvo);
-
         for (ProcessVo processVo : todoList) {
         	HistoricProcessInstance pi = historyService.createHistoricProcessInstanceQuery()
                     .processInstanceId (processVo.getTask().getProcessInstanceId()).includeProcessVariables().singleResult ();        	 

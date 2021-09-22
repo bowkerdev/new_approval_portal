@@ -1,11 +1,21 @@
 <template>
   <div class="page">
       <el-form size="small" :inline="true"  class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-        <el-form-item prop="procDefKey">
-           <el-input size="small" v-model="searchForm.procDefKey" :placeholder="$i18nMy.t('流程名称')" clearable></el-input>
-        </el-form-item>
         <el-form-item prop="title">
            <el-input size="small" v-model="searchForm.title" :placeholder="$i18nMy.t('申请单号')" clearable></el-input>
+        </el-form-item>
+        <el-form-item prop="processDefinitionKey">
+           <el-input size="small" v-model="searchForm.processDefinitionKey" :placeholder="$i18nMy.t('流程名称')" clearable></el-input>
+        </el-form-item>
+        <el-form-item prop="requestRiority">
+           <el-select size="small" v-model="searchForm.status" :placeholder="$i18nMy.t('流程状态')"  style="width: 100%;">
+             <el-option
+               v-for="item in $dictUtils.getDictList('flow_status')"
+               :key="item.value"
+               :label="item.label"
+               :value="item.value">
+             </el-option>
+           </el-select>
         </el-form-item>
         <el-form-item prop="searchDates">
           <el-date-picker
@@ -134,9 +144,10 @@
       return {
         searchForm: {
           title: '',
-          procDefKey: '',
-          beginDate: '',
-          endDate: ''
+          processDefinitionKey: '',
+          status: '',
+          startTime: '',
+          endTime: ''
         },
         searchDates: '',
         dataList: [],
@@ -187,11 +198,11 @@
     watch: {
       searchDates () {
         if (this.searchDates) {
-          this.searchForm.beginDate = this.searchDates[0]
-          this.searchForm.endDate = this.searchDates[1]
+          this.searchForm.startTime = this.searchDates[0]
+          this.searchForm.endTime = this.searchDates[1]
         } else {
-          this.searchForm.beginDate = ''
-          this.searchForm.endDate = ''
+          this.searchForm.startTime = ''
+          this.searchForm.endTime = ''
         }
       }
     },
@@ -259,7 +270,7 @@
           if (data.success) {
             this.$router.push({
               path: '/flowable/task/TaskFormDetail',
-              query: {formTitle: `${row.vars.title}`, title: `${row.vars.title}`, ...pick(data.flow, 'formType', 'formReadOnly', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId', 'lastTaskDefKey')}
+              query: {readOnly: true, formTitle: row.vars.title, title: row.vars.title, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
             })
           }
         })

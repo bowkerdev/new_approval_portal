@@ -94,6 +94,7 @@ public class OaPrNew extends DataEntity<OaPrNew> {
 	private String isDraft;		// 是否是草稿 ： 1：是
 	private Date beginCreateDate;		// 开始 创建时间
 	private Date endCreateDate;		// 结束 创建时间
+	private String status;		// 流程状态
 	
 	private Flow flow = new Flow();
 	

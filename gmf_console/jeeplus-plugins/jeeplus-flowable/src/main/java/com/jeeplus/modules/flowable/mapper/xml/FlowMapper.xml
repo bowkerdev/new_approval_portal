@@ -46,6 +46,13 @@
 				and LOWER(SUBSTRING_INDEX(a.PROC_DEF_ID_, ':', 1 )) = LOWER (#{processDefinitionKey})
 		    </if>
 		    
+		    <if test="status != null and status != '' and status == 'In progress'">
+				and b.act_type_ != 'endEvent'
+		    </if>
+		    <if test="status != null and status != '' and status == 'End'">
+				and b.act_type_ = 'endEvent'
+		    </if>
+		    
 		    <if test="startTime != null"> 
 				AND b.START_TIME_ &gt; #{startTime} 
 			</if>

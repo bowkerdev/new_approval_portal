@@ -62,8 +62,8 @@ public class FlowableTaskController extends BaseController {
     private NodeSettingService nodeSettingService;
 
     @GetMapping("allList")
-    public AjaxJson allListData(Flow flow, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Page<ProcessVo> page = flowTaskService.allList(new Page<ProcessVo>(request, response), flow);
+    public AjaxJson allListData(ProcessVo processVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Page<ProcessVo> page = flowTaskService.allList(new Page<ProcessVo>(request, response), processVo);
         return AjaxJson.success().put("page", page);
     }
     

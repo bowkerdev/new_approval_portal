@@ -476,7 +476,7 @@
         }
       },
       exportData(){
-        this.$utils.syncDownloadPost("approve_"+this.procDefKey,{id:this.businessId,procInsId:this.procInsId},this.$refs.form)
+        this.$utils.syncDownloadPost("FLOW_EXPORT_"+this.procDefKey,{id:this.businessId,procInsId:this.procInsId},this.$refs.form)
       },
       submit (currentBtn, buttons) {
         let vars = {} // 存储流程变量

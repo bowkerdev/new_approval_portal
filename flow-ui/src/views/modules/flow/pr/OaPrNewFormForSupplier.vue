@@ -71,8 +71,8 @@
                 <th><font color="red">*</font>{{$i18nMy.t('供应商名称')}}</th>
                 <th>{{$i18nMy.t('付款条件')}}</th>
                 <th><font color="red">*</font>{{$i18nMy.t('币种')}}</th>
-                <th>{{$i18nMy.t('总价')}}</th>
-                <th>{{$i18nMy.t('总价')}}(Vat)</th>
+                <th>{{$i18nMy.t('总金额')}}</th>
+                <th>{{$i18nMy.t('总金额')}}(VAT)</th>
                 <th>{{$i18nMy.t('预计到货日期')}}</th>
                 <th>{{$i18nMy.t('预计最晚到货日期')}}</th>
                 <th>{{$i18nMy.t('备注')}}</th>
@@ -250,9 +250,9 @@
                 <td>{{$i18nMy.t('物品')}}</td>
                 <td>{{$i18nMy.t('品牌名称')}}</td>
                 <td>{{$i18nMy.t('型号')}}</td>
-                <td><font color="red">*</font>{{$i18nMy.t('提供单价')}}</td>
+                <td><font color="red">*</font>{{$i18nMy.t('单价')}}</td>
                 <td>VAT(%)</td>
-                <td>{{$i18nMy.t('提供单价')}}(VAT)</td>
+                <td>{{$i18nMy.t('单价')}}(VAT)</td>
                 <td><font color="red">*</font>MOQ</td>
                 <td>{{$i18nMy.t('预计到货日期')}}</td>
                 <td>{{$i18nMy.t('预计最晚到货日期')}}</td>
@@ -497,6 +497,9 @@
     },
     methods: {
       init(query) {
+        this.$dictUtils.getSqlDictList('GET_T2_EXCHANGE_RATE',{},(data1) => {
+          this.exRateT2List = data1
+          })
         if (query&&query.businessId) {
           Object.assign(this.$data, this.$options.data.call(this))
           this.loading = true
@@ -504,9 +507,8 @@
           if (this.inputForm.id != query.businessId){ // copy
             this.isCopy = true
           }
-          this.$dictUtils.getSqlDictList('GET_T2_EXCHANGE_RATE',{},(data1) => {
-            this.exRateT2List = data1
-            //this.$nextTick(() => {
+
+            this.$nextTick(() => {
               this.$http({
                 url: `/flow/pr/oaPrNew/queryById?id=${this.inputForm.id}`,
                 method: 'get'
@@ -547,9 +549,9 @@
                 this._updateDetailInfoDocUnitPrice()
                 this.loading = false
               })
-            //})
-          })
-        }
+            })
+          }
+
       },
       currencyChange(){
         if(this.supplierInfo.length>0&&
@@ -826,7 +828,7 @@
              vatUnitPriceNull++
           }
           if(this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vat)){
-             this.$message.warning($i18nMy.t('Vat不能为空'))
+             this.$message.warning($i18nMy.t('VAT不能为空'))
              return
           }
           if(this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].moq)){
@@ -839,7 +841,7 @@
                 if(this.supplierInfo[index].detailInfo[i].vatUnitPrice!=
                     (this.supplierInfo[index].detailInfo[i].unitPrice*
                     (100+parseInt(this.supplierInfo[index].detailInfo[i].vat||0))/100)){
-                  this.$message.warning($i18nMy.t('单价值不对'))
+                  this.$message.warning($i18nMy.t('单价*(1+VAT) != 单价(VAT)'))
                   return
                 }
              }

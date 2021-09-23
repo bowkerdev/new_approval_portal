@@ -9,7 +9,7 @@
                 <el-input size="small" v-model="searchForm.projectName" :placeholder="$i18nMy.t('项目描述')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="applySiteCode">
-                  <el-select size="small" v-model="searchForm.applySiteCode" :placeholder="$i18nMy.t('采购地区')" @change="siteChange" style="width: 100%;">
+                  <el-select size="small" v-model="searchForm.applySiteCode" :placeholder="$i18nMy.t('采购地区')" @change="siteChange" clearable="true" style="width: 100%;">
                     <el-option
                       v-for="item in $dictUtils.getDictList('apply_site_code')"
                       :key="item.value"
@@ -36,7 +36,7 @@
                   @getValue="(value) => {searchForm.requesterDepartment.id=value}"/>
          </el-form-item>
          <el-form-item prop="expenseType">
-                  <el-select size="small" v-model="searchForm.expenseType" :placeholder="$i18nMy.t('费用类型')"  style="width: 100%;">
+                  <el-select size="small" v-model="searchForm.expenseType" :placeholder="$i18nMy.t('费用类型')" clearable="true" style="width: 100%;">
                     <el-option
                       v-for="item in $dictUtils.getDictList('expense_type')"
                       :key="item.value"
@@ -46,7 +46,7 @@
                   </el-select>
          </el-form-item>
          <el-form-item prop="requestRiority">
-                  <el-select size="small" v-model="searchForm.requestRiority" :placeholder="$i18nMy.t('申购优先级')"  style="width: 100%;">
+                  <el-select size="small" v-model="searchForm.requestRiority" :placeholder="$i18nMy.t('申购优先级')"  style="width: 100%;" clearable="true">
                     <el-option
                       v-for="item in $dictUtils.getDictList('request_priority')"
                       :key="item.value"
@@ -54,6 +54,16 @@
                       :value="item.value">
                     </el-option>
                   </el-select>
+         </el-form-item>
+         <el-form-item prop="requestRiority">
+            <el-select size="small" v-model="searchForm.status" :placeholder="$i18nMy.t('流程状态')"  style="width: 100%;" clearable="true">
+              <el-option
+                v-for="item in $dictUtils.getDictList('flow_status')"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
          </el-form-item>
          <el-form-item prop="createDate">
                <el-date-picker
@@ -186,7 +196,7 @@
               {{ $dictUtils.getDictLabel("expense_type", scope.row.expenseType, '-') }}
         </template>
       </el-table-column>
-    <el-table-column
+   <!-- <el-table-column
         prop="costCenter"
         show-overflow-tooltip
         sortable="custom"
@@ -203,12 +213,21 @@
         <template slot-scope="scope">
               {{ $dictUtils.getDictLabel("asset_group", scope.row.assetGroup, '-') }}
         </template>
-      </el-table-column>
+      </el-table-column> -->
     <el-table-column
         prop="flow.taskName"
         show-overflow-tooltip
         sortable="custom"
         :label="$i18nMy.t('当前环节')">
+      </el-table-column>
+    <el-table-column
+        prop="status"
+        show-overflow-tooltip
+        sortable="custom"
+        :label="$i18nMy.t('流程状态')">
+        <template slot-scope="scope">
+         {{$i18nMy.t(scope.row.status)}}
+        </template>
       </el-table-column>
     <el-table-column
         prop="createDate"
@@ -224,31 +243,26 @@
         <template slot-scope="scope">
               {{ $dictUtils.getDictLabel("request_priority", scope.row.requestRiority, '-') }}
         </template>
-      </el-table-column>
-    <el-table-column
-        prop="contractCurrency"
-        show-overflow-tooltip
-        sortable="custom"
-        :label="$i18nMy.t('合同币种')">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("pr_currency", scope.row.contractCurrency, '-') }}
-        </template>
-      </el-table-column>
+    </el-table-column>
     <el-table-column
         prop="totalContractAmount"
+        align="right"
+        width="200"
         show-overflow-tooltip
         sortable="custom"
         :label="$i18nMy.t('合同总价')">
+        <template slot-scope="scope">
+          {{$common.toThousands(scope.row.totalContractAmount)}} {{ $dictUtils.getDictLabel("pr_currency", scope.row.contractCurrency, '-') }}
+        </template>
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
-        fixed="right"
         :key="Math.random()"
-        width="200"
+        width="120"
         :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('flow:pr:oaPrNew:view')" type="text" icon="el-icon-view" size="small" @click="flowDetail(scope.row)">{{$i18nMy.t('查看')}}</el-button>
+          <!-- <el-button v-if="hasPermission('flow:pr:oaPrNew:view')" type="text" icon="el-icon-view" size="small" @click="flowDetail(scope.row)">{{$i18nMy.t('查看')}}</el-button> -->
           <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="text" icon="el-icon-edit" size="small" @click="copyToStart(scope.row)">{{$i18nMy.t('复制申请单')}}</el-button>
           <!-- <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
           <el-button v-if="hasPermission('flow:pr:oaPrNew:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button> -->
@@ -290,6 +304,7 @@
         visible:false,
         searchForm: {
           isDraft: '',
+          status: '',
           createDate: '',
           applicationNo: '',
           projectName: '',

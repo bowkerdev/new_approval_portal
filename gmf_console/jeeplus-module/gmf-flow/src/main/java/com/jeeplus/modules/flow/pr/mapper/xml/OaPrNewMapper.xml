@@ -9,9 +9,10 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate", 
-		(select START_TIME_ from act_hi_actinst where PROC_INST_ID_ = a.proc_ins_id and act_type_ in ('userTask','endEvent') order by START_TIME_ desc limit 1) as "approvedDate",
+		b.END_TIME_ as "approvedDate",
 		a.remarks AS "remarks",
-		(select ACT_NAME_ from act_hi_actinst where PROC_INST_ID_ = a.proc_ins_id and act_type_ in ('userTask','endEvent') order by START_TIME_ desc limit 1) as "flow.taskName",
+		b.ACT_NAME_ as "flow.taskName",
+		if( b.act_type_ = 'endEvent', '结束', '处理中') as "status",
 		a.del_flag AS "delFlag",
 		a.proc_ins_id AS "procInsId",
 		if(a.proc_ins_id is null, (select id_ from act_re_procdef where key_ = 'prpo' order by VERSION_ desc limit 1), (select PROC_DEF_ID_ from act_hi_procinst where PROC_INST_ID_ = a.proc_ins_id)) as "flow.procDefId",
@@ -52,10 +53,10 @@
 	</sql>
 
 	<sql id="oaPrNewJoins">
-
 		LEFT JOIN sys_user createBy ON createBy.id = a.create_by
 		LEFT JOIN sys_office createByOffice ON createByOffice.id = a.create_by_office
 		LEFT JOIN sys_office requesterDepartment ON requesterDepartment.id = a.requester_department
+		left join (select * from act_hi_actinst where act_type_ in ('userTask','endEvent') and (END_TIME_ is null or act_type_ = 'endEvent')) b on a.proc_ins_id = b.PROC_INST_ID_
 	</sql>
 
 
@@ -103,6 +104,12 @@
 			<if test="requestRiority != null and requestRiority != ''">
 				AND a.request_riority = #{requestRiority}
 			</if>
+			<if test="status != null and status != '' and status == 'In progress'">
+				and b.act_type_ != 'endEvent'
+		    </if>
+		    <if test="status != null and status != '' and status == 'End'">
+				and b.act_type_ = 'endEvent'
+		    </if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

@@ -65,7 +65,7 @@
         sortable="custom"
         :label="$i18nMy.t('监听器类型')">
         <template slot-scope="scope">
-            {{ scope.row.listenerType === '1'?'执行监听器':'任务监听器'}}
+            {{ scope.row.listenerType === '1'?$i18nMy.t('执行监听器'):$i18nMy.t('任务监听器')}}
         </template>
       </el-table-column>
 	  <el-table-column

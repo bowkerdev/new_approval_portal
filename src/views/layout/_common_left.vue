@@ -1,5 +1,5 @@
 <template>
-  <aside class="jp-sidebar" :style="sidebarLayoutSkin === '5' || sidebarLayoutSkin === '9' ?`background:${defaultTheme}`: ''" :class="'jp-sidebar--' + sidebarLayoutSkin">
+  <aside class="jp-sidebar" v-show="defaultLayout !== 'dropdown-top'" :style="sidebarLayoutSkin === '5' || sidebarLayoutSkin === '9' ?`background:${defaultTheme}`: ''" :class="'jp-sidebar--' + sidebarLayoutSkin">
     <div class="jp-sidebar__inner">
       <el-menu unique-opened
                :default-active="menuActiveName || 'home'"
@@ -44,7 +44,7 @@ aside {
     white-space: normal;
   }
 
-  .el-submenu__title, 
+  .el-submenu__title,
   li.el-menu-item,
   .el-submenu {
     height: auto !important;
@@ -141,6 +141,9 @@ aside {
       },
       defaultTheme () {
         return this.$store.state.config.defaultTheme
+      },
+      defaultLayout () {
+        return this.$store.state.config.defaultLayout
       },
       mainTabsActiveName: {
         get () {

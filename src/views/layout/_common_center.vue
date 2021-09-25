@@ -1,5 +1,5 @@
 <template>
-  <div class="jp-container">
+  <div class="jp-container" :style="defaultLayout === 'dropdown-top'?'margin-left: 0px;':''">
       <tags-view :style="{ '--defaultTheme': defaultTheme}" v-if="isTab"></tags-view>
       <div class="jp-center" :style="isTab?'top: 34px;':'top:0px'">
             <div v-if="!isTab">
@@ -39,12 +39,15 @@
     components: {
       TagsView
     },
-  
+
     computed: {
       ...mapState({
         isTab: state => state.common.isTab,
         defaultTheme: state => state.config.defaultTheme
-      })
+      }),
+      defaultLayout () {
+        return this.$store.state.config.defaultLayout
+      }
     },
     watch: {
       $route: {

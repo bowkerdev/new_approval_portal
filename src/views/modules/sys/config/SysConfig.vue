@@ -175,7 +175,8 @@
         colorList: theme_color_list,
         layouts: [
           {label: '横向菜单', value: 'top'},
-          {label: '左侧菜单', value: 'left'}
+          {label: '左侧菜单', value: 'left'},
+          {label: '横向下拉菜单', value: 'dropdown-top'}
         ]
       }
     },

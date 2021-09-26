@@ -267,6 +267,7 @@
     methods: {
       init(query) {
         //query = {"businessId":"b3a13937894c4eb5abc842386b24933c"}
+        this.supplementaryDoc=[] 
         if (query&&query.businessId) {
           this.loading = true
           this.inputForm.id = (query.businessId).replace("__copy","")

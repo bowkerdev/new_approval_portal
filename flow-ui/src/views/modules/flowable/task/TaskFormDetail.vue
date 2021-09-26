@@ -142,7 +142,6 @@
         var _pThis=this
         var exportDict=this.$common.find(this.$dictUtils.getDictList('flow_export_config') ,
             function(e){return e.label == _pThis.procDefKey})
-            debugger
         if (exportDict != null && exportDict.value=="true"){
           this.exportButton={name:'电子版'}
         }
@@ -153,7 +152,6 @@
         }}).then(({data}) => {
           if (data.success&&data.taskDefExtension!=null&&data.taskDefExtension.flowButtonList.length>0) {
             this.buttons = data.taskDefExtension.flowButtonList
-            debugger
             this.buttons.forEach((btn) => {
               if ((btn.code && btn.code=='_flow_export')) {
                 this.button=btn

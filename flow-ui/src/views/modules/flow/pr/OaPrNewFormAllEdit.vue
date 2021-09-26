@@ -142,7 +142,6 @@
       },
       // 表单提交
       saveForm(callBack) {
-        debugger
         if(this.activeName !='oaPrNewForm'){
           this.$refs.oaPrNewForm.detailInfo=this.$refs.oaPrNewFormForSupplier.detailInfo
         }

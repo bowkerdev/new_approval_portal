@@ -364,7 +364,6 @@
         attachmentsArra[uuid]=[]
       },
       confirmTabListGroup(row){
-        debugger
         if(this.$common.isEmpty(row.documentType)){
            this.$message.warning($i18nMy.t('文件类型不能为空'))
         }

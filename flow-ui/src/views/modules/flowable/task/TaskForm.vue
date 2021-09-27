@@ -100,6 +100,7 @@
   export default {
     activated () {
       this.taskSelectedTab = 'form-first'
+      debugger
       if(this.initOk){
         return
       }

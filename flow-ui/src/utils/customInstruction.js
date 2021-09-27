@@ -23,6 +23,9 @@ function handleInput(ele,vnode,rel){
     if(maxLen>0){val = val.substr(0,maxLen)}
     var currObj=rel.value
     var expression= vnode.data.model.expression.substr(vnode.data.model.expression.indexOf(".")+1)
+//    if(vnode.elm!=null&&vnode.elm.children!=null&&vnode.elm.children.length >0){
+//      vnode.elm.children[0].value=val
+//    }
     currObj[expression] = val
   }
 }

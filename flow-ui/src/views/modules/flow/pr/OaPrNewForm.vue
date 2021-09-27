@@ -273,7 +273,7 @@
               </el-table-column>
               <el-table-column prop="vat" v-if="index == 2" align="right" :label="$i18nMy.t('VAT')+'%'">
                 <template slot-scope="{row}">
-                  <span  v-if="inputForm.vat !=null"> {{ inputForm.vat }}</span>
+                  <span  v-if="row.vat !=null"> {{ row.vat }}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="vatUnitPrice" v-if="index == 2" width="120" align="right" :label="$i18nMy.t('市场价格')+'(VAT)'">

@@ -69,9 +69,14 @@
                {{$common.toThousands(row.unitPrice)}}
              </template>
            </el-table-column>
-           <el-table-column prop="docUnitPrice" width="150" align="right" :label="$i18nMy.t('文件单价')">
+              <el-table-column prop="vat"  align="right" :label="$i18nMy.t('VAT')+'%'">
+                <template slot-scope="{row}">
+                  <span  v-if="row.vat !=null"> {{ row.vat }}</span>
+                </template>
+              </el-table-column>
+           <el-table-column prop="vatUnitPrice" width="150" align="right" :label="$i18nMy.t('市场价格')">
              <template slot-scope="{row}">
-               {{$common.toThousands(row.docUnitPrice)}}
+               {{$common.toThousands(row.vatUnitPrice)}}
              </template>
            </el-table-column>
            <el-table-column prop="quantity" width="100" align="left" :label="$i18nMy.t('数量')">
@@ -267,6 +272,7 @@
     methods: {
       init(query) {
         //query = {"businessId":"b3a13937894c4eb5abc842386b24933c"}
+        this.supplementaryDoc=[]
         if (query&&query.businessId) {
           this.loading = true
           this.inputForm.id = (query.businessId).replace("__copy","")

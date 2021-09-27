@@ -43,12 +43,12 @@
           height="calc(100% - 100px)"
           @selection-change="selectionChangeHandle"
           class="table">
-          <el-table-column
+         <!-- <el-table-column
             type="selection"
             header-align="center"
             align="center"
             width="50">
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             prop="vars.title"
             show-overflow-tooltip
@@ -100,7 +100,7 @@
              </template>
           </el-table-column>
 
-          <el-table-column
+          <el-table-column v-if="false"
             width="150"
             :label="$i18nMy.t('操作')">
             <template slot-scope="scope">

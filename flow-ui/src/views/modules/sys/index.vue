@@ -18,7 +18,7 @@
                 </el-card>
             </el-col>
             <el-col :span="4" v-for="data in menuList" :key="data.id">
-              <el-card class="box-card" style="margin:5px">
+              <el-card class="box-card" v-if="hasPermission(data.permission)" style="margin:5px">
                   <div class="actCard" @click="toTargetPage(data.url)">
                     <div class="yuan1" :class="getRandomColor()">{{data.name.substring(0,1)}}</div>
                     <el-button class="task-name" type="text" :title="data.name">{{$i18nMy.t(data.name)}}</el-button>
@@ -451,12 +451,14 @@ export default Vue.extend({
         {
       		id: "PR_enquiry",
       		"url": "/flow/pr/OaPrNewList",
-      		"name": "PR Enquiry"
+      		"name": "Enquiry for PR applications",
+          "permission": "flow:pr:oaPrNew:list"
       	},
         {
         	id: "Application_enquiry",
         	"url": "/flowable/task/AllList",
-        	"name": "Enquiry"
+        	"name": "Enquiry for ALL applicatons",
+          "permission": "flow:task:allList"
         }
       ],
 

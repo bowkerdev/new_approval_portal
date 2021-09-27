@@ -43,12 +43,12 @@
           height="calc(100% - 100px)"
           @selection-change="selectionChangeHandle"
           class="table">
-          <el-table-column
+          <!-- <el-table-column
             type="selection"
             header-align="center"
             align="center"
             width="50">
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             prop="vars.title"
             show-overflow-tooltip

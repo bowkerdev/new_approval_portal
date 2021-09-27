@@ -69,11 +69,16 @@
                {{$common.toThousands(row.unitPrice)}}
              </template>
            </el-table-column>
-           <el-table-column prop="docUnitPrice" width="150" align="right" :label="$i18nMy.t('文件单价')">
-             <template slot-scope="{row}">
-               {{$common.toThousands(row.docUnitPrice)}}
-             </template>
-           </el-table-column>
+          <el-table-column prop="vat"  align="right" label="VAT%">
+            <template slot-scope="{row}">
+              <span  v-if="row.vat !=null"> {{ row.vat }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="vatUnitPrice"  width="120" align="right" :label="$i18nMy.t('市场价格')+'(VAT)'">
+            <template slot-scope="{row}">
+                {{ $common.toThousands(row.vatUnitPrice) }}
+            </template>
+          </el-table-column>
            <el-table-column prop="quantity" width="100" align="left" :label="$i18nMy.t('数量')">
              <template slot-scope="{row}">
                {{$common.toThousands(row.quantity)}}

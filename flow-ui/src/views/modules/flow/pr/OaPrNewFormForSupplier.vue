@@ -759,11 +759,25 @@
         var originalPrice =0
         var originalVatPrice =0
         for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
+          
+          if(isNaN(this.supplierInfo[index].detailInfo[i].unitPrice)){
+            this.supplierInfo[index].detailInfo[i].unitPrice = 0
+          }
+          if(isNaN(this.supplierInfo[index].detailInfo[i].vatUnitPrice)){
+            this.supplierInfo[index].detailInfo[i].vatUnitPrice = 0
+          }
+          if(isNaN(this.supplierInfo[index].detailInfo[i].moq)){
+            this.supplierInfo[index].detailInfo[i].moq = 0
+          }
           originalPrice+=parseFloat(this.supplierInfo[index].detailInfo[i].unitPrice||"0")*
             parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
           originalVatPrice+=parseFloat(this.supplierInfo[index].detailInfo[i].vatUnitPrice||"0")*
             parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
           this.supplierInfo[index].detailInfo[i].vat = parseInt(this.supplierInfo[index].detailInfo[i].vat||"0")
+          if(isNaN(this.supplierInfo[index].detailInfo[i].vat)){
+            this.supplierInfo[index].detailInfo[i].vat = 0
+          }
+          
         }
         originalPrice = parseFloat(originalPrice.toFixed(2))
         this.supplierInfo[index].originalPrice=originalPrice

@@ -6,10 +6,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import http from '@/utils/httpRequest'
 import common from '@/utils/common'
-import {isURL} from '@/utils/validate'
-import {clearLoginInfo} from '@/utils'
-import i18n from '@/utils/i18n'
-import i18nMy from '@/utils/i18n2'
+import {  isURL} from '@/utils/validate'
+import {  clearLoginInfo} from '@/utils'
 Vue.use(Router)
 
 const routerPush = Router.prototype.push
@@ -20,8 +18,7 @@ Router.prototype.push = function push (location) {
 const _import = require('./import-' + process.env.NODE_ENV)
 // 全局路由
 const globalRoutes = [
-  {path: '/login', component: _import('modules/sys/login/login'), name: 'login', meta: {title: '登录'}},
-  {path: '/casLogin', component: _import('common/CasLogin'), name: 'casLogin', meta: { title: 'CAS登录' }}
+  {path: '/login', component: _import('modules/sys/login/login'), name: 'login', meta: {title: '登录'}}
 ]
 
 // 主入口路由
@@ -51,21 +48,12 @@ const router = new Router({
   isAddDynamicMenuRoutes: false, // 是否已经添加动态(菜单)路由
   routes: globalRoutes.concat(mainRoutes)
 })
-
-  // 添加动态(菜单)路由
+// 添加动态(菜单)路由
 router.beforeEach((to, from, next) => {
-  var tmp=common.getUrlParam("token");
-  if(process.env.VUE_APP_SSO_LOGIN != 'true'&&tmp!=null){
-    tmp=null
-    window.location.href = window.location.origin+window.location.pathname
-  }
-  if(tmp!=null&&router.options.isAddDynamicMenuRoutes==false){
-    Vue.cookie.set('token', tmp);
-    var tmp2=common.getUrlParam("refreshToken");
-    if(tmp2==null){
-      tmp2=tmp;
-    }
-    Vue.cookie.set('refreshToken', tmp2);
+  var ssoToken = getParamToken()
+  if (process.env.VUE_APP_SSO_LOGIN != 'true'  && ssoToken != null) {
+    window.location.href = window.location.origin + window.location.pathname
+    return
   }
   try{
     if(sessionStorage.getItem('dictList')==null ){
@@ -83,21 +71,11 @@ router.beforeEach((to, from, next) => {
   }catch(e){
     console.log(e.message)
   }
-
-  let token = Vue.cookie.get('token')
+  let token = Vue.cookie.get('token') || ssoToken
   if (!token || !/\S/.test(token) || to.name == 'login') { // token为空，跳转到login登录
     clearLoginInfo()
     if (process.env.VUE_APP_SSO_LOGIN === 'true') { // 如果是单点登录
-      if (to.name === 'casLogin' && process.env.VUE_APP_SSO_TYPE=="cas") { // 单点登录跳转页面获取token
-        next()
-      } else {
-        if(process.env.VUE_APP_SSO_TYPE=="cas"){
-          window.location.href = `${process.env.VUE_APP_CAS_SERVER}/login?service=${process.env.VUE_APP_CLIENT_LOGIN}`
-        }
-        else{
-          window.location.href = process.env.VUE_APP_SSO_SERVER
-        }
-      }
+      window.location.href = process.env.VUE_APP_SSO_SERVER
     } else {
       if (fnCurrentRouteType(to, globalRoutes) === 'global') {
         next()
@@ -106,23 +84,22 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else if (router.options.isAddDynamicMenuRoutes) { // 如果已经包含权限
+    if (process.env.VUE_APP_SSO_LOGIN === 'true' && ssoToken != null && ssoToken != '' ) {
+      if(deleteParamToken()){
+        return
+      }
+    }
     next()
   } else { // 请求权限
-    function dealError(e){
+    function dealError(e) {
       if (process.env.VUE_APP_SSO_LOGIN === 'true') {
         if(e.response.status == 401 && e.response.data.code == 401){
           console.log(e.response.data.msg, 'color:blue')
           alert(JSON.stringify(e))
-          if(process.env.VUE_APP_SSO_TYPE=="cas"){
-            window.location.href = `${process.env.VUE_APP_CAS_SERVER}/login?service=${process.env.VUE_APP_CLIENT_LOGIN}`
-          }
-          else{
-            window.location.href = process.env.VUE_APP_SSO_SERVER
-          }
+          window.location.href = process.env.VUE_APP_SSO_SERVER
         }
-      }
-      else{
-        next({name: 'login'})
+      } else {
+        next({  name: 'login'  })
       }
       console.log(`%c${e} 请求菜单列表和权限失败，跳转至登录页！！`, 'color:blue')
     }
@@ -167,9 +144,8 @@ router.beforeEach((to, from, next) => {
         dealError(e)
       })
     }
-    var ssoToken=common.getUrlParam("token")
-    if (process.env.VUE_APP_SSO_LOGIN === 'true' && process.env.VUE_APP_SSO_TYPE!="cas"&&ssoToken!=null&&ssoToken!='') {
-      if(Vue.cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')!=ssoToken){
+    if (process.env.VUE_APP_SSO_LOGIN === 'true' && ssoToken != null && ssoToken != '') {
+      if (Vue.cookie.get(process.env.VUE_APP_SSO_TYPE + '_token') != ssoToken) {
         http({
           url: '/sys/logout',
           method: 'get'
@@ -186,6 +162,42 @@ router.beforeEach((to, from, next) => {
     }
   }
 })
+
+function getParamToken() {
+  var ssoToken = common.getUrlParam("token")
+  if (ssoToken == null) {
+    ssoToken = common.getUrlParam("access_token", window.location.href)
+  }
+  return ssoToken;
+}
+
+function deleteParamToken() {
+  debugger
+  var tmp = window.location.href.split("?")
+  var tmp2 = ["access_token", "token", "refresh_token", "token_type", "expires_in"]
+  var paramList = []
+  if (tmp.length > 1) {
+    var needRedirect = false
+    var param = tmp[1].replace("?", "").split("&")
+    for (var i = 0; i < param.length; i++) {
+      var tmp3 = param[i].split("=")
+      if (tmp3.length > 1) {
+        if (tmp2.indexOf(tmp3[0]) > -1) {
+          Vue.cookie.set(tmp3[0], tmp3[1])
+          needRedirect = true
+        } else {
+          paramList.push(param[i])
+        }
+      }
+    }
+    if (needRedirect) {
+      setTimeout(()=>{window.location.href = tmp[0]+ "?" + paramList.join("&")},50)
+      return true
+    }
+    return false
+  }
+
+}
 
 /**
  * 判断当前路由类型, global: 全局路由, main: 主入口路由

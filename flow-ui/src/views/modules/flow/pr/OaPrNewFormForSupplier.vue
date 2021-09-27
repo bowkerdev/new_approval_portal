@@ -742,6 +742,19 @@
 
       },
       awardedChange(supplierInfo,itemSerialNumber){
+        for(var j=0;j<supplierInfo.detailInfo.length;j++){
+          if(supplierInfo.detailInfo[j].serialNumber == itemSerialNumber &&
+             supplierInfo.detailInfo[j].awarded){
+              if(this.$common.isEmpty(supplierInfo.detailInfo[j].unitPrice)&&
+                 this.$common.isEmpty(supplierInfo.detailInfo[j].vatUnitPrice)) {
+                   this.$nextTick(() => {
+                     supplierInfo.detailInfo[j].awarded=false
+                     this.$message.warning($i18nMy.t('被采纳的报价价格不能为空'))
+                   })
+                   return
+              }
+          }
+        }
         for(var i=0;i<this.supplierInfo.length;i++){
           if(supplierInfo!=this.supplierInfo[i]){
             for(var j=0;j<this.supplierInfo[i].detailInfo.length;j++){
@@ -759,15 +772,14 @@
         var originalPrice =0
         var originalVatPrice =0
         for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
-          
           if(isNaN(this.supplierInfo[index].detailInfo[i].unitPrice)){
-            this.supplierInfo[index].detailInfo[i].unitPrice = 0
+            this.supplierInfo[index].detailInfo[i].unitPrice = ''
           }
           if(isNaN(this.supplierInfo[index].detailInfo[i].vatUnitPrice)){
-            this.supplierInfo[index].detailInfo[i].vatUnitPrice = 0
+            this.supplierInfo[index].detailInfo[i].vatUnitPrice = ''
           }
           if(isNaN(this.supplierInfo[index].detailInfo[i].moq)){
-            this.supplierInfo[index].detailInfo[i].moq = 0
+            this.supplierInfo[index].detailInfo[i].moq = ''
           }
           originalPrice+=parseFloat(this.supplierInfo[index].detailInfo[i].unitPrice||"0")*
             parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
@@ -775,9 +787,8 @@
             parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
           this.supplierInfo[index].detailInfo[i].vat = parseInt(this.supplierInfo[index].detailInfo[i].vat||"0")
           if(isNaN(this.supplierInfo[index].detailInfo[i].vat)){
-            this.supplierInfo[index].detailInfo[i].vat = 0
+            this.supplierInfo[index].detailInfo[i].vat = ''
           }
-          
         }
         originalPrice = parseFloat(originalPrice.toFixed(2))
         this.supplierInfo[index].originalPrice=originalPrice
@@ -835,10 +846,10 @@
              return
           }
         }
-        var unitPriceNull=0
-        var vatUnitPriceNull=0
+        /* var unitPriceNull=0
+        var vatUnitPriceNull=0 */
         for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
-          if(this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].unitPrice)){
+          /* if(this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].unitPrice)){
              unitPriceNull++
           }
           if(this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vatUnitPrice)){
@@ -851,7 +862,7 @@
           if(this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].moq)){
              this.$message.warning($i18nMy.t('MOQ不能为空'))
              return
-          }
+          } */
           if(!this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].unitPrice)&&
              !this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vatUnitPrice)&&
              !this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vat)){
@@ -863,10 +874,10 @@
                 }
              }
         }
-        if(!(unitPriceNull==0||vatUnitPriceNull==0)){
+        /* if(!(unitPriceNull==0||vatUnitPriceNull==0)){
           this.$message.warning($i18nMy.t('单价不能为空'))
           return
-        }
+        } */
         this.supplierInfo[index].edit =false
         this._getSupplierInfoByDetailInfoList()
         this._updateDetailInfoDocUnitPrice()

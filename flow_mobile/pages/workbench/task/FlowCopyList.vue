@@ -65,7 +65,7 @@
 				upOption: {
 					noMoreSize: 3, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看
 					empty: {
-						tip: '~ 搜索无结果 ~' // 提示
+						tip: '~ No data ~' // 提示
 					}
 				},
 				CustomBar: this.CustomBar,

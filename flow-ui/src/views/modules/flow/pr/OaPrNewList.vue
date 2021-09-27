@@ -129,12 +129,12 @@
       height="calc(100% - 120px)"
       @expand-change="detail"
       class="table">
-      <el-table-column
+      <!-- <el-table-column
         type="selection"
         header-align="center"
         align="center"
         width="50">
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column type="expand" >
       <template slot-scope="scope" >
         <el-table

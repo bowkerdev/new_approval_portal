@@ -8,7 +8,7 @@
           <el-tab-pane name="OaPrNewFormForSupplier" key="OaPrNewFormForSupplier">
             <span slot="label"><i class="el-icon-star-on"></i>{{$i18nMy.t('供应商报价和合同')}}</span>
             <OaPrNewFormForSupplier :formReadOnly="isReadOnly"  ref="oaPrNewFormForSupplier" ></OaPrNewFormForSupplier>
-          </el-tab-pane  >
+          </el-tab-pane>
           <el-tab-pane name="OaPrNewFormForDoc" key="OaPrNewFormForDoc" :label="$i18nMy.t('补充文件')" >
             <OaPrNewFormForDoc :formReadOnly="isReadOnly" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
           </el-tab-pane>
@@ -109,7 +109,7 @@
         }
       },
       init(query) {
-        this.activeName= 'oaPrNewForm'
+        this.activeName='oaPrNewForm'
         this.businessId=query.businessId
         this.isReadOnly=query.readOnly
         this.$refs.oaPrNewForm.init(query)
@@ -142,7 +142,6 @@
       },
       // 表单提交
       saveForm(callBack) {
-        debugger
         if(this.activeName !='oaPrNewForm'){
           this.$refs.oaPrNewForm.detailInfo=this.$refs.oaPrNewFormForSupplier.detailInfo
         }

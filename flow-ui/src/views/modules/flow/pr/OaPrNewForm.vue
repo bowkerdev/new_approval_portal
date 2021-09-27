@@ -219,7 +219,7 @@
       <el-row >
         <el-tabs type="border-card" v-model="activeName">
           <el-tab-pane v-for="(item, index) in tabs" :label="item" :key ="index" style="overflow-x:auto;overflow-y:hidden ;">
-           <el-row v-if="index==2">
+           <el-row v-if="index==0">
              <el-button size="small" @click="addTabListGroup()" round type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px;padding: 5px 5px;" >
              </el-button>
            </el-row>
@@ -271,7 +271,7 @@
                     {{ $common.toThousands(row.unitPrice) }}
                 </template>
               </el-table-column>
-              <el-table-column prop="vat" v-if="index == 2" align="right" :label="$i18nMy.t('VAT')+'%'">
+              <el-table-column prop="vat" v-if="index == 2" align="right" label="VAT%">
                 <template slot-scope="{row}">
                   <span  v-if="row.vat !=null"> {{ row.vat }}</span>
                 </template>
@@ -417,7 +417,7 @@
   export default {
     data() {
       return {
-        activeName:'2',
+        activeName:'0',
         ifSiteChange: true,
         isCopy: false,
         title: '',
@@ -527,6 +527,7 @@
                 for(var i=0;i<this.detailInfo.length;i++){
                   this.inputForm.totalVatContractAmount+=this.detailInfo[i].docVatAmount
                 }
+                this.activeName='2'
               }
               this.loading = false
             })
@@ -584,7 +585,7 @@
         this.detailInfo=this.detailInfo.slice()
       },
       addTabListGroup(){
-        this.detailInfo.push({edit:true,serialNumber:this.detailInfo.length+1,expectArrivalDate:this.inputForm.expectArrivalDate})
+        this.detailInfo.push({edit:true,serialNumber:this.detailInfo.length+1,quantity:1,uom:'QTY',expectArrivalDate:this.inputForm.expectArrivalDate})
         this.detailInfo=this.detailInfo.slice()
       },
       confirmTabListGroup(row){

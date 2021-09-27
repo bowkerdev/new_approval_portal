@@ -54,7 +54,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label-width="220px" label="VAT" prop="vat" :rules="[ ]">
-            <el-input v-model="inputForm.vat" ></el-input>
+            <el-input v-model="inputForm.vat" oninput="value=value.replace(/[^0-9.]/g,'')" style="width: 50%;text-align: right;" ></el-input>%
           </el-form-item>
         </el-col>
       </el-row>
@@ -250,7 +250,7 @@
                 <td>{{$i18nMy.t('物品')}}</td>
                 <td>{{$i18nMy.t('品牌名称')}}</td>
                 <td>{{$i18nMy.t('型号')}}</td>
-                <td><font color="red">*</font>{{$i18nMy.t('单价')}}</td>
+                <td>{{$i18nMy.t('单价')}}</td>
                 <td>VAT(%)</td>
                 <td>{{$i18nMy.t('单价')}}(VAT)</td>
                 <td><font color="red">*</font>MOQ</td>
@@ -499,7 +499,7 @@
       init(query) {
         this.$dictUtils.getSqlDictList('GET_T2_EXCHANGE_RATE',{},(data1) => {
           this.exRateT2List = data1
-          })
+        })
         if (query&&query.businessId) {
           Object.assign(this.$data, this.$options.data.call(this))
           this.loading = true
@@ -558,6 +558,9 @@
           !this.$common.isEmpty(this.supplierInfo[0].currency)){
           this.inputForm.contractCurrency = this.supplierInfo[0].currency
           var _pThis=this
+          if (_pThis.exRateT2List.length==0){ // T2 的汇率没拿过来，则从本地字典拿
+            _pThis.exRateT2List = this.$dictUtils.getDictList('pr_currency_rate')
+          }
           var dict= this.$common.find(_pThis.exRateT2List /* this.$dictUtils.getDictList('pr_currency_rate') */ ,
             function(e){return e.label == _pThis.inputForm.contractCurrency})
 

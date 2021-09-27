@@ -25,7 +25,7 @@
     </el-tab-pane>
   </el-tabs>
 
-<el-card style="margin-top:10px; margin-bottom:66px" v-if="!procInsId || taskId">
+<el-card style="margin-top:10px; margin-bottom:66px" v-if="taskId">
     <el-form size="small" :model="auditForm"   ref="auditForm" label-width="120px">
       <el-col :span="16">
         <el-form-item  v-if="!procInsId"  :label="$i18nMy.t('流程标题')" prop="title" v-show="false">
@@ -70,7 +70,7 @@
 
    </el-form>
 </el-card>
-
+<div style="height: 70px;"> </div>
 <div class="FlowFormFooter">
   <template v-for="(button, index) in buttons">
       <template  v-show="button.isHide === '0'">

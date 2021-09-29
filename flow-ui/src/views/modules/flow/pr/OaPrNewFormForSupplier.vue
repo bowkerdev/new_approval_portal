@@ -772,7 +772,6 @@
         var originalPrice =0
         var originalVatPrice =0
         for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
-
           if(isNaN(this.supplierInfo[index].detailInfo[i].unitPrice)){
             this.supplierInfo[index].detailInfo[i].unitPrice = ''
           }
@@ -788,9 +787,8 @@
             parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
           this.supplierInfo[index].detailInfo[i].vat = parseInt(this.supplierInfo[index].detailInfo[i].vat||"0")
           if(isNaN(this.supplierInfo[index].detailInfo[i].vat)){
-            this.supplierInfo[index].detailInfo[i].vat = 0
+            this.supplierInfo[index].detailInfo[i].vat = ''
           }
-
         }
         originalPrice = parseFloat(originalPrice.toFixed(2))
         this.supplierInfo[index].originalPrice=originalPrice
@@ -848,8 +846,8 @@
              return
           }
         }
-        //var unitPriceNull=0
-        //var vatUnitPriceNull=0
+        /* var unitPriceNull=0
+        var vatUnitPriceNull=0 */
         for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
           /* if(this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].unitPrice)){
              unitPriceNull++

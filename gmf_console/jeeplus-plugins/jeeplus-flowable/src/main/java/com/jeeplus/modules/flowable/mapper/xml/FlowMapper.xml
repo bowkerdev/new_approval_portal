@@ -101,7 +101,15 @@
 				OR (assignee_ is null and exists(select 1 from act_ru_identitylink where task_id_= t.id_ and user_id_ = #{task.assignee}))
 			)			
 			<if test="processDefinitionKey != null and processDefinitionKey != ''"> 
-				and LOWER(SUBSTRING_INDEX( PROC_DEF_ID_, ':', 1 )) = LOWER (#{processDefinitionKey})
+				<choose>
+                <when test="processDefinitionKey = 'prpo,pr'">
+                    and (LOWER(SUBSTRING_INDEX( PROC_DEF_ID_, ':', 1 )) = 'prpo' OR LOWER(SUBSTRING_INDEX( PROC_DEF_ID_, ':', 1 )) = 'pr')
+                </when>
+                <otherwise>
+                    and LOWER(SUBSTRING_INDEX( PROC_DEF_ID_, ':', 1 )) = LOWER (#{processDefinitionKey})
+                </otherwise>
+            </choose>
+				
 		    </if>
 		    
 		    <if test="startTime != null"> 

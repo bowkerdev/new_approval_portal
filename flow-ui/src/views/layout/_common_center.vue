@@ -39,7 +39,7 @@
     components: {
       TagsView
     },
-  
+
     computed: {
       ...mapState({
         isTab: state => state.common.isTab,

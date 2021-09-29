@@ -165,15 +165,15 @@ aside {
         if (this.isTab) {
           // tab选中, 不存在先添加
           let tab = this.mainTabs.filter(item => item.fullPath === route.fullPath)[0]
-          let tab2 =this.$store.state.tagsView.visitedViews.filter(item => item.fullPath === route.fullPath)[0]
-          if (!tab2) {
+          let tab2 =this.$store.state.tagsView.visitedViews.filter(item => item.fullPath === route.fullPath.replace("/redirect/","/"))[0]
+          if (!tab2&&tab) {
             if(route.matched.length>=2&&route.matched[1].instances!=null){
               var instances =route.matched[1].instances.$refs ==null ?route.matched[1].instances.default:route.matched[1].instances
               if(instances!=null && instances.$refs.searchForm){
                 instances.$refs.searchForm.resetFields()
               }
               if(instances!=null&& instances.initOk == true){
-                instances.initOk = false
+                sessionStorage.setItem('instances.initOk', "true")
               }
             }
           }

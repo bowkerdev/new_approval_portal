@@ -434,7 +434,6 @@
 import pick from 'lodash.pick'
 import Vue from 'vue'
 import * as numeral from 'numeral'
-
 const yuan = (val) => `&yen; ${numeral(val).format('0,0')}`
 
 export default Vue.extend({
@@ -634,9 +633,11 @@ export default Vue.extend({
         status: row.status
       }}).then(({data}) => {
         if (data.success) {
+          var param={formTitle: `${row.vars.title}`, title: `${row.vars.title}`,
+            ...pick(data.flow, 'formType', 'formReadOnly', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId', 'lastTaskDefKey')}
           this.$router.push({
             path: '/flowable/task/TaskForm',
-            query: {formTitle: `${row.vars.title}`, title: `${row.vars.title}`, ...pick(data.flow, 'formType', 'formReadOnly', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId', 'lastTaskDefKey')}
+            query: param
           })
         }
       })

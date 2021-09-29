@@ -9,7 +9,7 @@
                 <el-input size="small" v-model="searchForm.projectName" :placeholder="$i18nMy.t('项目描述')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="applySiteCode">
-                  <el-select size="small" v-model="searchForm.applySiteCode" :placeholder="$i18nMy.t('采购地区')" @change="siteChange" clearable="true" style="width: 100%;">
+                  <el-select size="small" v-model="searchForm.applySiteCode" :placeholder="$i18nMy.t('采购地区')" @change="siteChange" clearable style="width: 100%;">
                     <el-option
                       v-for="item in $dictUtils.getDictList('apply_site_code')"
                       :key="item.value"
@@ -36,7 +36,7 @@
                   @getValue="(value) => {searchForm.requesterDepartment.id=value}"/>
          </el-form-item>
          <el-form-item prop="expenseType">
-                  <el-select size="small" v-model="searchForm.expenseType" :placeholder="$i18nMy.t('费用类型')" clearable="true" style="width: 100%;">
+                  <el-select size="small" v-model="searchForm.expenseType" :placeholder="$i18nMy.t('费用类型')" clearable style="width: 100%;">
                     <el-option
                       v-for="item in $dictUtils.getDictList('expense_type')"
                       :key="item.value"
@@ -46,7 +46,7 @@
                   </el-select>
          </el-form-item>
          <el-form-item prop="requestRiority">
-                  <el-select size="small" v-model="searchForm.requestRiority" :placeholder="$i18nMy.t('申购优先级')"  style="width: 100%;" clearable="true">
+                  <el-select size="small" v-model="searchForm.requestRiority" :placeholder="$i18nMy.t('申购优先级')"  style="width: 100%;" clearable>
                     <el-option
                       v-for="item in $dictUtils.getDictList('request_priority')"
                       :key="item.value"
@@ -56,7 +56,7 @@
                   </el-select>
          </el-form-item>
          <el-form-item prop="requestRiority">
-            <el-select size="small" v-model="searchForm.status" :placeholder="$i18nMy.t('流程状态')"  style="width: 100%;" clearable="true">
+            <el-select size="small" v-model="searchForm.status" :placeholder="$i18nMy.t('流程状态')"  style="width: 100%;" clearable>
               <el-option
                 v-for="item in $dictUtils.getDictList('flow_status')"
                 :key="item.value"

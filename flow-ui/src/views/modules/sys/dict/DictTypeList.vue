@@ -117,6 +117,7 @@ export default {
           type: '',
           description: ''
         },
+        paramType:'',
         dataList: [],
         pageNo: 1,
         pageSize: 10,

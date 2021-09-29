@@ -98,8 +98,12 @@
   export default {
     activated () {
       if(this.initOk){
-        return
+        var initOk = sessionStorage.getItem('instances.initOk')
+        if(initOk==null){
+          return
+        }
       }
+      sessionStorage.removeItem('instances.initOk')
       Object.assign(this.$data, this.$options.data.call(this))
       this.init()
       this.initOk = true

@@ -68,25 +68,25 @@
           cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff" >
             <thead>
               <tr class="head-background-color head1-height">
-                <th><font color="red">*</font>{{$i18nMy.t('供应商名称')}}</th>
+                <th colspan="2"><font color="red">*</font>{{$i18nMy.t('供应商名称')}}</th>
                 <th>{{$i18nMy.t('付款条件')}}</th>
-                <th><font color="red">*</font>{{$i18nMy.t('币种')}}</th>
-                <th>{{$i18nMy.t('总金额')}}</th>
-                <th>{{$i18nMy.t('总金额')}}(VAT)</th>
-                <th>{{$i18nMy.t('预计到货日期')}}</th>
-                <th>{{$i18nMy.t('预计最晚到货日期')}}</th>
+                <th width="100px"><font color="red">*</font>{{$i18nMy.t('币种')}}</th>
+                <th width="120px">{{$i18nMy.t('预计到货日期')}}</th>
+                <th >{{$i18nMy.t('总金额')}}</th>
+                <th colspan="2">{{$i18nMy.t('总金额')}}(VAT)</th>
+                <!-- <th>{{$i18nMy.t('预计最晚到货日期')}}</th> -->
                 <th>{{$i18nMy.t('备注')}}</th>
                 <th><font color="red">*</font>{{$i18nMy.t('文件类型')}}</th>
                 <th colspan="2"><font color="red">*</font>{{$i18nMy.t('附件')}}</th>
                 <th><font color="red">*</font>{{$i18nMy.t('关联项目')}}</th>
-                <th>{{$i18nMy.t('上传者')}}</th>
-                <th>{{$i18nMy.t('上传日期')}}</th>
+                <!-- <th>{{$i18nMy.t('上传者')}}</th>
+                <th>{{$i18nMy.t('上传日期')}}</th> -->
                 <th colspan="2">{{$i18nMy.t('操作')}}</th>
               </tr>
             </thead>
             <tbody v-for="(item, index) in supplierInfo" :key="'index_'+index">
               <tr class="data-content" style="background-color: #fff3cf;">
-              <td :rowspan="item.docListSize" >
+              <td colspan="2" :rowspan="item.docListSize" >
                 <el-input  size="small" v-if="item.edit" v-model="item.supplierName"  ></el-input>
                 <span v-else>
                   {{item.supplierName}}
@@ -110,17 +110,18 @@
                 </span>
               </td>
               <td :rowspan="item.docListSize" class="my-right">
-                  {{$common.toThousands(item.originalPrice)}}
-              </td>
-              <td :rowspan="item.docListSize" class="my-right">
-                  {{$common.toThousands(item.originalVatPrice)}}
-              </td>
-              <td :rowspan="item.docListSize" class="my-right">
                   {{item.expectArrivalDate}}
               </td>
               <td :rowspan="item.docListSize" class="my-right">
-                  {{item.expectLastArrivalDate}}
+                  {{$common.toThousands(item.originalPrice)}}
               </td>
+              <td colspan="2" :rowspan="item.docListSize" class="my-right">
+                  {{$common.toThousands(item.originalVatPrice)}}
+              </td>
+
+              <!-- <td :rowspan="item.docListSize" class="my-right">
+                  {{item.expectLastArrivalDate}}
+              </td> -->
               <td :rowspan="item.docListSize" style="width: 132px;">
                 <el-input  size="small" v-if="item.edit" v-model="item.remarks"  ></el-input>
                 <span v-else>
@@ -170,12 +171,12 @@
                   {{item.docList[0].linkToItems.join(',')}}
                 </span>
               </td>
-              <td >
+              <!-- <td >
                   {{item.docList[0].uploadedBy}}
               </td>
               <td class="my-right" style="width: 80px;">
                   {{item.docList[0].uploadedDate}}
-              </td>
+              </td> -->
               <td  width="30px">
                 <el-button v-if="item.edit" :disabled="item.docList.length ==1" type="danger" size="small" icon="el-icon-delete" @click="delDoc(index,0)" class="operationButton"></el-button>
               </td>
@@ -232,9 +233,9 @@
                 <td >
                     {{item2.uploadedBy}}
                 </td>
-                <td class="my-right">
+                <!-- <td class="my-right">
                     {{item2.uploadedDate}}
-                </td>
+                </td> -->
                 <td class="width-50">
                   <el-button v-if="item.edit" type="danger" size="small" icon="el-icon-delete" @click="delDoc(index,index2+1)" class="operationButton"></el-button>
                 </td>
@@ -246,18 +247,18 @@
               </tr>
               <tr class="head-background-color head2-height">
                 <td style="background-color: #FFFFFF;border:none"></td>
-                <td class="first-td">{{$i18nMy.t('序号')}}</td>
+                <td width="35px" class="first-td">{{$i18nMy.t('序号')}}</td>
                 <td>{{$i18nMy.t('物品')}}</td>
                 <td>{{$i18nMy.t('品牌名称')}}</td>
                 <td>{{$i18nMy.t('型号')}}</td>
-                <td>{{$i18nMy.t('单价')}}</td>
-                <td>VAT(%)</td>
-                <td>{{$i18nMy.t('单价')}}(VAT)</td>
+                <td width="105px">{{$i18nMy.t('单价')}}</td>
+                <td width="55px">VAT(%)</td>
+                <td width="105px">{{$i18nMy.t('单价')}}(VAT)</td>
                 <td><font color="red">*</font>MOQ</td>
                 <td>{{$i18nMy.t('预计到货日期')}}</td>
-                <td>{{$i18nMy.t('预计最晚到货日期')}}</td>
-                <td>{{$i18nMy.t('原因')}}</td>
-                <td><el-button type="success" round size="small" icon="el-icon-check" class="operationButton"></el-button><font style="padding-left: 5px;">{{$i18nMy.t('采纳')}}</font></td>
+                <!-- <td>{{$i18nMy.t('预计最晚到货日期')}}</td> -->
+                <td colspan="2">{{$i18nMy.t('原因')}}</td>
+                <td><font style="padding-left: 5px; font-weight: bold; color: #000000;">{{$i18nMy.t('采纳')}}</font></td>
               </tr>
               <tr class="data-content" v-for="(item3, index3) in item.detailInfo" :key="'index3_'+index3">
                 <td  style="background-color: #FFFFFF;border:none"></td>
@@ -297,15 +298,15 @@
                     {{item3.expectArrivalDate}}
                   </span>
                 </td>
-                <td class="my-right">
+                <!-- <td class="my-right">
                   <el-date-picker  size="small"  v-if="item.edit"  v-model="item3.expectLastArrivalDate" type="date"
                     value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('选择日期时间')">
                   </el-date-picker>
                   <span v-else>
                     {{item3.expectLastArrivalDate}}
                   </span>
-                </td>
-                <td>
+                </td> -->
+                <td colspan="2">
                   <el-input  size="small" v-if="item.edit" v-model="item3.reason"  ></el-input>
                   <span v-else>
                     {{item3.reason}}
@@ -336,20 +337,20 @@
               <th rowspan="2">{{$i18nMy.t('物品')}}</th>
               <th rowspan="2">{{$i18nMy.t('品牌名称')}}</th>
               <th rowspan="2">{{$i18nMy.t('型号')}}</th>
-              <th rowspan="2">{{$i18nMy.t('市场价格')}}</th>
+              <th rowspan="2">{{$i18nMy.t('单价')}}</th>
               <th rowspan="2">VAT(%)</th>
-              <th rowspan="2">{{$i18nMy.t('市场价格')}}(VAT)</th>
+              <th rowspan="2">{{$i18nMy.t('单价')}}(VAT)</th>
               <th rowspan="2">{{$i18nMy.t('请求数量')}}</th>
-              <th rowspan="2">UOM</th>
-              <th rowspan="2"></th>
+              <!-- <th rowspan="2">UOM</th>
+              <th rowspan="2"></th> -->
               <th colspan="2">{{$i18nMy.t('文档报价')}}</th>
-              <th  colspan="2">{{$i18nMy.t('基础报价')}}</th>
+              <th colspan="3">{{$i18nMy.t('基础报价')}}</th>
             </tr>
             <tr class="head-background-color">
               <th>{{$i18nMy.t('金额')}}</th>
               <th>{{$i18nMy.t('金额(增值税)')}}</th>
               <th>{{$i18nMy.t('金额')}}</th>
-              <th>{{$i18nMy.t('金额(增值税)')}}</th>
+              <th colspan="2">{{$i18nMy.t('金额(增值税)')}}</th>
             </tr>
           </thead>
           <tbody v-for="(item, index) in detailInfo">
@@ -362,8 +363,8 @@
               <td class="my-right">{{$common.toThousands(item.vat)}}</td>
               <td class="my-right">{{$common.toThousands(item.vatUnitPrice)}}</td>
               <td class="my-right">{{$common.toThousands(item.quantity)}}</td>
-              <td>{{item.uom}}</td>
-              <td class="my-right"></td>
+              <!-- <td>{{item.uom}}</td>
+              <td class="my-right"></td> -->
               <td class="my-right">{{$common.toThousands(item.docAmount)}}</td>
               <td class="my-right">{{$common.toThousands(item.docVatAmount)}}</td>
               <td class="my-right">
@@ -371,7 +372,7 @@
                   {{$common.toThousands((item.docAmount*inputForm.exRate).toFixed(2))}}
                 </span>
               </td>
-              <td class="my-right">
+              <td colspan="2" class="my-right">
                 <span v-if="!isNaN(item.docVatAmount*inputForm.exRate)">
                   {{$common.toThousands((item.docVatAmount*inputForm.exRate).toFixed(2))}}
                 </span>
@@ -382,12 +383,12 @@
               <td class="first-td">{{$i18nMy.t('供应商名称')}}</td>
               <td>{{$i18nMy.t('付款条件')}}</td>
               <td>{{$i18nMy.t('币种')}}</td>
-              <th >{{$i18nMy.t('市场价格')}}</th>
-              <th >VAT(%)</th>
-              <th >{{$i18nMy.t('市场价格')}}(VAT)</th>
+              <td>{{$i18nMy.t('单价')}}</td>
+              <td>VAT(%)</td>
+              <td>{{$i18nMy.t('单价')}}(VAT)</td>
               <td>MOQ</td>
               <td>{{$i18nMy.t('预计到货日期')}}</td>
-              <td>{{$i18nMy.t('预计最晚到货日期')}}</td>
+              <!-- <td>{{$i18nMy.t('预计最晚到货日期')}}</td> -->
               <td colspan="2">{{$i18nMy.t('相关文档')}}</td>
               <td>{{$i18nMy.t('采纳')}}</td>
               <td>{{$i18nMy.t('原因')}}</td>
@@ -402,7 +403,7 @@
               <td class="my-right">{{$common.toThousands(item.vatUnitPrice)}}</td>
               <td class="my-right">{{item.moq}}</td>
               <td class="my-right">{{item.expectArrivalDate}}</td>
-              <td class="my-right">{{item.expectLastArrivalDate}}</td>
+              <!-- <td class="my-right">{{item.expectLastArrivalDate}}</td> -->
               <td colspan="2" >
                 <a v-for="(file, index2) in item.relatedQuotation"
                   @click="$window.open(item.fileUrlList[index2])"

@@ -84,8 +84,8 @@
                {{$common.toThousands(row.quantity)}}
              </template>
            </el-table-column>
-           <el-table-column prop="uom" width="100"  align="left" :label="$i18nMy.t('单位')">
-           </el-table-column>
+           <!-- <el-table-column prop="uom" width="100"  align="left" :label="$i18nMy.t('单位')">
+           </el-table-column> -->
            <el-table-column  align="left" :label="$i18nMy.t('文档报价')">
              <template>
                <el-table-column prop="docAmount" width="100"  align="left" :label="$i18nMy.t('总数')">

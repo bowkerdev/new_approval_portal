@@ -387,6 +387,44 @@ export function downloadPost (url, params) {
   })
 }
 
+
+export function sendEmail (procInstId, pThis) {
+  var ssoToken=Vue.cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')
+  if(ssoToken ==null){
+    ssoToken=Vue.cookie.get("token")
+    var tokenType=""
+  }
+  else{
+    var tokenType=process.env.VUE_APP_SSO_TYPE
+  }
+  var tmp=dictUtils.getDictValue("sit_test","testToken","")
+  if(tmp !=""){
+    ssoToken = tmp
+    tokenType="bowker_baseportal"
+  }
+  var param ={"exportConfig":{"configKey":url},param:JSON.stringify(params)}
+  pThis.loading=true
+
+  $http({
+    method: 'POST',
+    url:"https://commontools.bowkerasia.com/zhimitool/msg/msgPushConfig/sendImmediately?tokenType=bowker_baseportal&token="+token,
+    withCredentials:false,
+    headers:{'Content-Type': 'application/json; charset=utf-8',
+    "token":ssoToken,
+    "tokenType":tokenType
+    },
+    data:param
+  }).then(response => {
+    pThis.loading=false
+    if (response.status != 200 && !response.data.success) {
+      debugger
+    }
+  }).catch((error) => {
+    pThis.loading=false
+    console.log("网络异常："+error)
+  })
+}
+
 // 占锐 新增根据链接地址下载文件
 export function downloadZhanrui (url, fileName) {
   let link = document.createElement('a')

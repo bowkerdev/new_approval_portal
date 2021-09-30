@@ -2,7 +2,7 @@
 <div>
   <el-dialog
   fullscreen
-    title="设计流程表单"
+    :title="$i18nMy.t('设计流程表单')"
     center
     :close-on-click-modal="false"
      v-dialogDrag
@@ -19,7 +19,7 @@
     <span slot="footer" class="dialog-footer">
       <el-button type="primary" v-if="method != 'view'" @click="doSubmit(0)" v-noMoreClick>{{$i18nMy.t('保存草稿')}}</el-button>
       <el-button type="primary" v-if="method != 'view'" @click="doSubmit(1)" v-noMoreClick>{{$i18nMy.t('保存并发布')}}</el-button>
-      <el-button @click="visible = false">{{$i18nMy.t('放弃')}}</el-button>
+      <el-button @click="visible = false">{{$i18nMy.t('取消')}}</el-button>
     </span>
   </el-dialog>
 </div>

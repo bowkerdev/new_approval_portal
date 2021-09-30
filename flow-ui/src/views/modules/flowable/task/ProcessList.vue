@@ -164,8 +164,8 @@
       },
       start (row) {
               // 读取流程表单
-        let tabTitle = `发起流程【${row.name}】`
-        let processTitle = `${this.userName} 在 ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} 发起了 [${row.name}]`
+        let tabTitle = $i18nMy.t('发起流程') + '：' + $i18nMy.t(`${row.name}`)
+        let processTitle = '' //`${this.userName} 在 ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} 发起了 [${row.name}]`
         this.$http.get('/flowable/task/getTaskDef', {params: {
           procDefId: row.id,
           status: 'start'

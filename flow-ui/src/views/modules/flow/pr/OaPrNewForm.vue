@@ -77,7 +77,7 @@
           <el-form-item label-width="220px" :label="$i18nMy.t('要求到货时间')" prop="expectArrivalDate" :rules="[
                  ]">
             <el-date-picker v-model="inputForm.expectArrivalDate" type="date" style="width: 100%;"
-              value-format="yyyy-MM-dd HH:mm:ss" :placeholder="$i18nMy.t('选择日期时间')">
+              value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('选择日期时间')">
             </el-date-picker>
           </el-form-item>
         </el-col>
@@ -294,7 +294,7 @@
                   <span v-else>{{ $common.toThousands(row.quantity) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="uom" width="100" align="left" :label="'* '+$i18nMy.t('单位')">
+              <!-- <el-table-column prop="uom" width="100" align="left" :label="'* '+$i18nMy.t('单位')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-select  size="small" v-model="row.uom" placeholder="" style="width: 100%;">
@@ -305,7 +305,7 @@
                   </template>
                   <span v-else>{{row.uom}}</span>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column prop="expectArrivalDate" width="150" v-if="index == 0||index == 2" align="right" :label="'* '+$i18nMy.t('预计到达时间')"    >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
@@ -599,9 +599,9 @@
         else if(this.$common.isEmpty(row.quantity)){
            this.$message.warning($i18nMy.t('数量') + $i18nMy.t('不能为空'))
         }
-        else if(this.$common.isEmpty(row.uom)){
+        /* else if(this.$common.isEmpty(row.uom)){
            this.$message.warning($i18nMy.t('单位') + $i18nMy.t('不能为空'))
-        }
+        } */
         else if(this.$common.isEmpty(row.expectArrivalDate)){
            this.$message.warning($i18nMy.t('预计到达时间') + $i18nMy.t('不能为空'))
         }
@@ -624,7 +624,7 @@
 </script>
 <style scoped lang = "less">
   .el-form-item {
-      margin-bottom: 10px;
+      margin-bottom: 12px;
   }
   .el-form-item__label {
     line-height: 25px;
@@ -641,7 +641,7 @@
     text-align: right;
     width: 110px;
   }
-
+  
   .updown ::v-deep label{float:none !important;}
 
   .updown ::v-deep label+div{float:none !important;margin-left:0px !important;}

@@ -705,6 +705,8 @@
         }
         this.inputForm.totalVatContractAmount = 0
         this.inputForm.totalContractAmount = 0
+        this.inputForm.totalVatBaseAmount =0
+        this.inputForm.totalBaseAmount =0
         for(var i=0;i<this.supplierInfo.length;i++){
           if(!this.supplierInfo[i].edit){
             for(var j=0;j<this.supplierInfo[i].detailInfo.length;j++){

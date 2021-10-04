@@ -104,15 +104,15 @@
              <template>
                <el-table-column prop="baseQuantity" width="100" align="left" :label="$i18nMy.t('总数')"   >
                 <template slot-scope="{row}">
-                  <span v-if="!isNaN(row.docAmount*inputForm.exRate)">
-                    {{$common.toThousands((row.docAmount*inputForm.exRate).toFixed(2))}}
+                  <span v-if="!isNaN(row.docAmount*row.exRate)">
+                    {{$common.toThousands((row.docAmount*row.exRate).toFixed(2))}}
                   </span>
                 </template>
                </el-table-column>
                <el-table-column width="100" prop="baseVatQuantity" align="left" :label="$i18nMy.t('总数')+'VAT'">
                   <template slot-scope="{row}">
-                    <span  v-if="!isNaN(row.docVatAmount*inputForm.exRate)">
-                      {{$common.toThousands((row.docVatAmount*inputForm.exRate).toFixed(2))}}
+                    <span  v-if="!isNaN(row.docVatAmount*row.exRate)">
+                      {{$common.toThousands((row.docVatAmount*row.exRate).toFixed(2))}}
                     </span>
                   </template>
                </el-table-column>

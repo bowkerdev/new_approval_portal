@@ -99,14 +99,14 @@
                 </span>
               </td>
               <td :rowspan="item.docListSize" >
-                <el-select @change="currencyChange"  size="small" v-model="item.currency"
-                  v-if="item.edit&&index==0" :placeholder="$i18nMy.t('请选择')">
+                <el-select @change="currencyChange(item)"  size="small" v-model="item.currency"
+                  v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in $dictUtils.getDictList('pr_currency')" on :key="item.value" :label="item.label"
                     :value="item.value">
                   </el-option>
                 </el-select>
                 <span v-else>
-                  {{$dictUtils.getDictLabel("pr_currency",supplierInfo[0].currency, '-')}}
+                  {{$dictUtils.getDictLabel("pr_currency",item.currency, '-')}}
                 </span>
               </td>
               <td :rowspan="item.docListSize" class="my-right">
@@ -367,13 +367,13 @@
               <td class="my-right">{{$common.toThousands(item.docAmount)}}</td>
               <td class="my-right">{{$common.toThousands(item.docVatAmount)}}</td>
               <td class="my-right">
-                <span v-if="!isNaN(item.docAmount*inputForm.exRate)">
-                  {{$common.toThousands((item.docAmount*inputForm.exRate).toFixed(2))}}
+                <span v-if="!isNaN(item.docAmount*item.exRate)">
+                  {{$common.toThousands((item.docAmount*item.exRate).toFixed(2))}}
                 </span>
               </td>
               <td class="my-right">
-                <span v-if="!isNaN(item.docVatAmount*inputForm.exRate)">
-                  {{$common.toThousands((item.docVatAmount*inputForm.exRate).toFixed(2))}}
+                <span v-if="!isNaN(item.docVatAmount*item.exRate)">
+                  {{$common.toThousands((item.docVatAmount*item.exRate).toFixed(2))}}
                 </span>
               </td>
             </tr>
@@ -507,66 +507,60 @@
           if (this.inputForm.id != query.businessId){ // copy
             this.isCopy = true
           }
-
-            this.$nextTick(() => {
-              this.$http({
-                url: `/flow/pr/oaPrNew/queryById?id=${this.inputForm.id}`,
-                method: 'get'
-              }).then(({
-                data
-              }) => {
-                this.inputForm = this.recover(this.inputForm, data.oaPrNew)
-                if (this.isCopy) {
-                  this.inputForm.id = ''
-                  this.inputForm.applicationNo = ''
-                }
-                this.detailInfo = JSON.parse(this.inputForm.detailInfo)
-                if(!this.$common.isEmpty(this.inputForm.supplierInfo)){
-                  this.supplierInfo = JSON.parse(this.inputForm.supplierInfo)
-                  for(var i=0;i<this.supplierInfo.length;i++){
-                    for(var j=0;this.supplierInfo[i].docList!=null&&j<this.supplierInfo[i].docList.length;j++){
-                      if(this.supplierInfo[i].docList[j].attachment!=null){
-                        if(this.supplierInfo[i].id ==null){
-                          this.supplierInfo[i].id = this.$common.uuid();
-                        }
-                        if(this.supplierInfo[i].docList[j].id ==null){
-                          this.supplierInfo[i].docList[j].id = this.$common.uuid();
-                        }
-                        var item=this.supplierInfo[i].docList[j].attachment
-                        if(this.attachmentsArra[this.supplierInfo[i].id]==null){
-                          this.attachmentsArra[this.supplierInfo[i].id]={}
-                        }
-                        if(this.attachmentsArra[this.supplierInfo[i].id][this.supplierInfo[i].docList[j].id]==null){
-                          this.attachmentsArra[this.supplierInfo[i].id][this.supplierInfo[i].docList[j].id]=
-                            [{name: decodeURIComponent(item.substring(item.lastIndexOf('/') + 1)), url: item}]
-                        }
+          this.$nextTick(() => {
+            this.$http({
+              url: `/flow/pr/oaPrNew/queryById?id=${this.inputForm.id}`,
+              method: 'get'
+            }).then(({
+              data
+            }) => {
+              this.inputForm = this.recover(this.inputForm, data.oaPrNew)
+              if (this.isCopy) {
+                this.inputForm.id = ''
+                this.inputForm.applicationNo = ''
+              }
+              this.detailInfo = JSON.parse(this.inputForm.detailInfo)
+              if(!this.$common.isEmpty(this.inputForm.supplierInfo)){
+                this.supplierInfo = JSON.parse(this.inputForm.supplierInfo)
+                for(var i=0;i<this.supplierInfo.length;i++){
+                  for(var j=0;this.supplierInfo[i].docList!=null&&j<this.supplierInfo[i].docList.length;j++){
+                    if(this.supplierInfo[i].docList[j].attachment!=null){
+                      if(this.supplierInfo[i].id ==null){
+                        this.supplierInfo[i].id = this.$common.uuid();
+                      }
+                      if(this.supplierInfo[i].docList[j].id ==null){
+                        this.supplierInfo[i].docList[j].id = this.$common.uuid();
+                      }
+                      var item=this.supplierInfo[i].docList[j].attachment
+                      if(this.attachmentsArra[this.supplierInfo[i].id]==null){
+                        this.attachmentsArra[this.supplierInfo[i].id]={}
+                      }
+                      if(this.attachmentsArra[this.supplierInfo[i].id][this.supplierInfo[i].docList[j].id]==null){
+                        this.attachmentsArra[this.supplierInfo[i].id][this.supplierInfo[i].docList[j].id]=
+                          [{name: decodeURIComponent(item.substring(item.lastIndexOf('/') + 1)), url: item}]
                       }
                     }
                   }
                 }
-                this._getSupplierInfoByDetailInfoList()
-                this._getSupplierArrivalDate()
-                this._updateDetailInfoDocUnitPrice()
-                this.loading = false
-              })
+              }
+              this._getSupplierInfoByDetailInfoList()
+              this._getSupplierArrivalDate()
+              this._updateDetailInfoDocUnitPrice()
+              this.loading = false
             })
-          }
+          })
+        }
 
       },
-      currencyChange(){
+      currencyChange(obj){
         if(this.supplierInfo.length>0&&
-          !this.$common.isEmpty(this.supplierInfo[0].currency)){
-          this.inputForm.contractCurrency = this.supplierInfo[0].currency
+          !this.$common.isEmpty(obj.currency)){
           var _pThis=this
           if (_pThis.exRateT2List.length==0){ // T2 的汇率没拿过来，则从本地字典拿
             _pThis.exRateT2List = this.$dictUtils.getDictList('pr_currency_rate')
           }
-          var dict= this.$common.find(_pThis.exRateT2List /* this.$dictUtils.getDictList('pr_currency_rate') */ ,
-            function(e){return e.label == _pThis.inputForm.contractCurrency})
-
-          this.inputForm.exRate= dict==null?1:dict.value
-          this.inputForm.exRate = parseFloat(this.inputForm.exRate)
-
+          var dict= this.$common.find(_pThis.exRateT2List ,function(e){return e.label == obj.currency})
+          obj.exRate= parseFloat(dict==null?1:dict.value)
         }
       },
       checkForm(){
@@ -705,6 +699,8 @@
           obj.docUnitPrice = 0
           obj.docAmount  =0
           obj.docVatAmount = 0
+          obj.exRate =null
+          obj.currency =null
         }
         this.inputForm.totalVatContractAmount = 0
         this.inputForm.totalContractAmount = 0
@@ -718,6 +714,8 @@
                 obj.supplierName = this.supplierInfo[i].supplierName
                 obj.unitPrice = this.supplierInfo[i].detailInfo[j].unitPrice
                 obj.vat = this.supplierInfo[i].detailInfo[j].vat
+                obj.exRate = this.supplierInfo[i].exRate
+                obj.currency = this.supplierInfo[i].currency
                 obj.vatUnitPrice = this.supplierInfo[i].detailInfo[j].vatUnitPrice
                 var size = parseInt(this.supplierInfo[i].detailInfo[j].moq||"0")
                 if(size < this.supplierInfo[i].detailInfo[j].quantity){
@@ -727,7 +725,11 @@
                 this._setDetailInfoAmount(obj)
                 this.inputForm.totalContractAmount += (obj.docAmount||0)
                 this.inputForm.totalVatContractAmount += (obj.docVatAmount||0)
-                this.inputForm.contractCurrency = this.supplierInfo[i].currency
+
+                this.inputForm.totalVatBaseAmount +=
+                  parseFloat((obj.exRate*(obj.docVatAmount||0)).toFixed(2))
+                this.inputForm.totalBaseAmount +=
+                  parseFloat((obj.exRate*(obj.docAmount||0)).toFixed(2))
               }
             }
           }
@@ -735,11 +737,19 @@
         this.inputForm.totalVatContractAmount = parseFloat(this.inputForm.totalVatContractAmount.toFixed(2))
         this.inputForm.totalContractAmount = parseFloat(this.inputForm.totalContractAmount.toFixed(2))
 
-        this.inputForm.totalVatBaseAmount =
-          parseFloat((this.inputForm.exRate*this.inputForm.totalVatContractAmount).toFixed(2))
-        this.inputForm.totalBaseAmount =
-          parseFloat((this.inputForm.exRate*this.inputForm.totalContractAmount).toFixed(2))
-
+        this.inputForm.totalVatBaseAmount = parseFloat(this.inputForm.totalVatBaseAmount.toFixed(2))
+        this.inputForm.totalBaseAmount = parseFloat(this.inputForm.totalBaseAmount.toFixed(2))
+        this.inputForm.contractCurrency =  this.detailInfo[0].currency
+        this.inputForm.exRate = this.detailInfo[0].exRate
+        for(var i=0;i< this.detailInfo.length;i++){
+          if(this.detailInfo[i].currency !=null &&
+             this.detailInfo[i].currency != this.inputForm.contractCurrency){
+            this.inputForm.contractCurrency="other"
+            this.inputForm.exRate=null
+            this.inputForm.totalVatContractAmount = ""
+            this.inputForm.totalContractAmount = ""
+          }
+        }
       },
       awardedChange(supplierInfo,itemSerialNumber){
         for(var j=0;j<supplierInfo.detailInfo.length;j++){
@@ -827,12 +837,11 @@
            this.$message.warning($i18nMy.t('供应商不能为空'))
            return
         }
-        if(this.$common.isEmpty(this.supplierInfo[0].currency)){
-           this.$message.warning($i18nMy.t('币种不能为空'))
-           return
-        }
-        this.supplierInfo[index].currency = this.supplierInfo[0].currency
         for(var i=0;i<this.supplierInfo[index].docList.length;i++){
+          if(this.$common.isEmpty(this.supplierInfo[index].currency)){
+             this.$message.warning($i18nMy.t('币种不能为空'))
+             return
+          }
           if(this.$common.isEmpty(this.supplierInfo[index].docList[i].documentType)){
              this.$message.warning($i18nMy.t('文档类型不能为空'))
              return

@@ -162,7 +162,9 @@
         <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('合同币种')" prop="contractCurrency" :rules="[
                  ]">
-             {{ $dictUtils.getDictLabel("pr_currency", inputForm.contractCurrency, '-') }}
+              <div v-if="inputForm.contractCurrency !=null && inputForm.contractCurrency !=''">
+                {{ $dictUtils.getDictLabel("pr_currency", inputForm.contractCurrency, $i18nMy.t('多种币种')) }}
+              </div>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -186,7 +188,9 @@
         </el-col>
         <el-col :span="3">
           <el-form-item label-width="10px" label=""  :rules="[]">
-            {{ $dictUtils.getDictLabel("pr_currency", inputForm.contractCurrency, '-') }}
+            <div v-if="inputForm.contractCurrency !=null && inputForm.contractCurrency !=''">
+              {{ $dictUtils.getDictLabel("pr_currency", inputForm.contractCurrency, $i18nMy.t('多种币种')) }}
+            </div>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -356,16 +360,16 @@
                 <template>
                   <el-table-column prop="baseQuantity" align="right" :label="$i18nMy.t('总数')">
                     <template slot-scope="{row}">
-                      <span v-if="!isNaN(row.docAmount*inputForm.exRate)">
-                        {{$common.toThousands((row.docAmount*inputForm.exRate).toFixed(2))}}
+                      <span v-if="!isNaN(row.docAmount*row.exRate)">
+                        {{$common.toThousands((row.docAmount*row.exRate).toFixed(2))}}
                       </span>
                     </template>
                   </el-table-column>
 
                   <el-table-column v-if="index == 2" prop="baseVatQuantity" align="right" :label="$i18nMy.t('总数')+'(VAT)'"   >
                     <template slot-scope="{row}">
-                      <span  v-if="!isNaN(row.docVatAmount*inputForm.exRate)">
-                        {{$common.toThousands((row.docVatAmount*inputForm.exRate).toFixed(2))}}
+                      <span  v-if="!isNaN(row.docVatAmount*row.exRate)">
+                        {{$common.toThousands((row.docVatAmount*row.exRate).toFixed(2))}}
                       </span>
                     </template>
                   </el-table-column>

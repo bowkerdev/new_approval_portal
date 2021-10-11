@@ -99,6 +99,7 @@ export default {
       } else {
         this.$message.error(res.msg);
       }
+      this.visible = false;
     },
     handleError(err, file, fileList) {
       this.$message.error("文件上传失败");

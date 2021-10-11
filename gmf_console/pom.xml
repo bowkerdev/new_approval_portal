@@ -497,65 +497,7 @@
             <artifactId>jaxb-impl</artifactId>
             <version>2.3.0.1</version>
         </dependency>
-
     </dependencies>
-
-
-    <!-- 设定仓库 -->
-
-    <repositories>
-    	<repository>
-			<id>nexus-public</id> 
-			<name>maven-public</name>
-			<url>http://13.75.41.135:8081/repository/maven-public/</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>interval:10</updatePolicy>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>nexus</id>
-			<name>maven-releases</name>
-			<url>http://13.75.41.135:8081/repository/maven-releases/</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>interval:10</updatePolicy>
-			</snapshots>
-		</repository>
-		 <repository>
-            <id>aliyun-repos</id>
-            <url>https://maven.aliyun.com/repository/public</url>
-            <releases><enabled>true</enabled></releases>
-            <snapshots><enabled>false</enabled></snapshots>
-        </repository>
-        <repository>
-            <id>sonatype-repos-s</id>
-            <name>Sonatype Repository</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <releases><enabled>false</enabled></releases>
-            <snapshots><enabled>true</enabled></snapshots>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>aliyun-repos</id>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </pluginRepository>
-    </pluginRepositories>
-
-	<distributionManagement>
-          <repository>
-              <id>nexus</id>
-              <name>internal releases</name>
-              <url>http://13.75.41.135:8081/repository/maven-releases/</url>
-          </repository>
-          <snapshotRepository>
-              <id>snapshot</id>
-              <name>internal snapshot</name>
-              <url>http://13.75.41.135:8081/repository/maven-snapshots/</url>
-          </snapshotRepository>
-  	</distributionManagement>
-
     <build>
 
     <plugins>

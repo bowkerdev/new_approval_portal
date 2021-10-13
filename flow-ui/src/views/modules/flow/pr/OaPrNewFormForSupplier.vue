@@ -68,8 +68,8 @@
           cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff" >
             <thead>
               <tr class="head-background-color head1-height">
-                <th colspan="2"><font color="red">*</font>{{$i18nMy.t('供应商名称')}}</th>
-                <th>{{$i18nMy.t('付款条件')}}</th>
+                <th style="min-width:100px;" colspan="2"><font color="red">*</font>{{$i18nMy.t('供应商名称')}}</th>
+                <th style="min-width:100px;" >{{$i18nMy.t('付款条件')}}</th>
                 <th width="100px"><font color="red">*</font>{{$i18nMy.t('币种')}}</th>
                 <th width="120px">{{$i18nMy.t('预计到货日期')}}</th>
                 <th >{{$i18nMy.t('总金额')}}</th>
@@ -122,7 +122,7 @@
               <!-- <td :rowspan="item.docListSize" class="my-right">
                   {{item.expectLastArrivalDate}}
               </td> -->
-              <td :rowspan="item.docListSize" style="width: 132px;">
+              <td :rowspan="item.docListSize" style="min-width:100px;" >
                 <el-input  size="small" v-if="item.edit" v-model="item.remarks"  ></el-input>
                 <span v-else>
                   {{item.remarks}}

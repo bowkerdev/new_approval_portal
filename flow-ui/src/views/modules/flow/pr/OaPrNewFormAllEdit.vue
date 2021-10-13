@@ -100,6 +100,7 @@
           for(var i=0;i<this.$refs.oaPrNewForm.detailInfo.length;i++){
             this.$refs.oaPrNewForm.detailInfo[i].supplierName =''
             this.$refs.oaPrNewForm.detailInfo[i].unitPrice =''
+            this.$refs.oaPrNewForm.detailInfo[i].vatUnitPrice =''
             this.$refs.oaPrNewForm.detailInfo[i].vat =''
             this.$refs.oaPrNewForm.detailInfo[i].docAmount =''
             this.$refs.oaPrNewForm.detailInfo[i].docVatAmount =''

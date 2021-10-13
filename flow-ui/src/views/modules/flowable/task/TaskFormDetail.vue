@@ -165,6 +165,7 @@
         }) */
       },
       exportData(){
+        debugger
         this.$utils.syncDownloadPost("FLOW_EXPORT_"+this.procDefKey,{id:this.businessId,procInsId:this.procInsId},this.$refs.form)
       },
       close () {

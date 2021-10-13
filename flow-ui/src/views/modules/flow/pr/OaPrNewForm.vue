@@ -270,7 +270,12 @@
                   {{ row.supplierName }}
                 </template>
               </el-table-column>
-              <el-table-column prop="unitPrice" v-if="index == 2" width="120" align="right" :label="$i18nMy.t('单价')">
+              <el-table-column prop="currency" v-if="index == 2" align="left" :label="$i18nMy.t('币种')">
+                <template slot-scope="{row}">
+                  {{ row.currency }}
+                </template>
+              </el-table-column>
+              <el-table-column prop="unitPrice" v-if="index == 2" align="right" :label="$i18nMy.t('单价')">
                 <template slot-scope="{row}">
                     {{ $common.toThousands(row.unitPrice) }}
                 </template>
@@ -280,16 +285,16 @@
                   <span  v-if="row.vat !=null"> {{ row.vat }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="vatUnitPrice" v-if="index == 2" width="120" align="right" :label="$i18nMy.t('市场价格')+'(VAT)'">
+              <el-table-column prop="vatUnitPrice" v-if="index == 2" align="right" :label="$i18nMy.t('市场价格')+'(VAT)'">
                 <template slot-scope="{row}">
                     {{ $common.toThousands(row.vatUnitPrice) }}
                 </template>
               </el-table-column>
 
-              <el-table-column prop="quantity" width="155" align="right" :label="'* '+$i18nMy.t('数量')">
+              <el-table-column prop="quantity" width="100" align="right" :label="'* '+$i18nMy.t('数量')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
-                    <el-input-number  size="small" v-model="row.quantity" :step="1"  :min="1" :max="100" :label="$i18nMy.t('数量')"></el-input-number>
+                    <el-input-number style="width: 75px;" size="small" :controls="false" v-model="row.quantity" :step="1"  :min="1" :max="100" :label="$i18nMy.t('数量')"></el-input-number>
                   </template>
                   <span v-else>{{ $common.toThousands(row.quantity) }}</span>
                 </template>
@@ -527,10 +532,6 @@
               }
               if (!this.$common.isEmpty(this.inputForm.detailInfo)){
                 this.detailInfo = JSON.parse(this.inputForm.detailInfo)
-                this.inputForm.totalVatContractAmount=0
-                for(var i=0;i<this.detailInfo.length;i++){
-                  this.inputForm.totalVatContractAmount+=this.detailInfo[i].docVatAmount
-                }
                 this.activeName='2'
               }
               this.loading = false
@@ -641,7 +642,7 @@
     text-align: right;
     width: 110px;
   }
-  
+
   .updown ::v-deep label{float:none !important;}
 
   .updown ::v-deep label+div{float:none !important;margin-left:0px !important;}

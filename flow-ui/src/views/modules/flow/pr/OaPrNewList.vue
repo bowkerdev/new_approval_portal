@@ -1,5 +1,5 @@
 <template>
-  <div class="page" style="height: calc(100% - 40px);">
+  <div class="page" style="height: calc(100% - 100px);">
       <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
          <el-form-item prop="applicationNo">
@@ -126,7 +126,7 @@
       @sort-change="sortChangeHandle"
       v-loading="loading"
       size="small"
-      height="calc(100% - 120px)"
+      height="calc(100% - 70px)"
       @expand-change="detail"
       class="table">
       <!-- <el-table-column

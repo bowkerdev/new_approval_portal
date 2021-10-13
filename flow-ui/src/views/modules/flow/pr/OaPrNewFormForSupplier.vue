@@ -337,6 +337,7 @@
               <th rowspan="2">{{$i18nMy.t('物品')}}</th>
               <th rowspan="2">{{$i18nMy.t('品牌名称')}}</th>
               <th rowspan="2">{{$i18nMy.t('型号')}}</th>
+              <th rowspan="2">{{$i18nMy.t('币种')}}</th>
               <th rowspan="2">{{$i18nMy.t('单价')}}</th>
               <th rowspan="2">VAT(%)</th>
               <th rowspan="2">{{$i18nMy.t('单价')}}(VAT)</th>
@@ -359,6 +360,7 @@
               <td>{{item.item}}</td>
               <td>{{item.brandName}}</td>
               <td>{{item.modelNo}}</td>
+              <td>{{item.currency}}</td>
               <td class="my-right">{{$common.toThousands(item.unitPrice)}}</td>
               <td class="my-right">{{$common.toThousands(item.vat)}}</td>
               <td class="my-right">{{$common.toThousands(item.vatUnitPrice)}}</td>
@@ -381,7 +383,7 @@
             <tr class="head-background-color head2-height">
               <td style="background-color: #FFFFFF;border:none"></td>
               <td class="first-td">{{$i18nMy.t('供应商名称')}}</td>
-              <td>{{$i18nMy.t('付款条件')}}</td>
+              <td colspan="2">{{$i18nMy.t('付款条件')}}</td>
               <td>{{$i18nMy.t('币种')}}</td>
               <td>{{$i18nMy.t('单价')}}</td>
               <td>VAT(%)</td>
@@ -396,7 +398,7 @@
             <tr class="data-content" v-for="(item, index) in supplierInfoByDetailInfo[item.item]" >
               <td style="background-color: #FFFFFF;border:none"></td>
               <td class="first-td">{{item.supplierName}}</td>
-              <td >{{item.paymentTerms}}</td>
+              <td colspan="2">{{item.paymentTerms}}</td>
               <td >{{item.currency}}</td>
               <td class="my-right">{{$common.toThousands(item.unitPrice)}}</td>
               <td class="my-right">{{$common.toThousands(item.vat)}}</td>
@@ -697,11 +699,15 @@
       _updateDetailInfoDocUnitPrice(){
         for(var i=0;i<this.detailInfo.length;i++){
           var obj=this.detailInfo[i]
+          obj.supplierName = ''
+          obj.unitPrice = null
+          obj.vat = null
+          obj.vatUnitPrice = null
           obj.docUnitPrice = 0
-          obj.docAmount  =0
+          obj.docAmount  = 0
           obj.docVatAmount = 0
-          obj.exRate =null
-          obj.currency =null
+          obj.exRate = null
+          obj.currency = null
         }
         this.inputForm.totalVatContractAmount = 0
         this.inputForm.totalContractAmount = 0

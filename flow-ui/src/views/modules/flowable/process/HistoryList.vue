@@ -85,7 +85,7 @@
         layout="total, sizes, prev, pager, next, jumper">
       </el-pagination>
         <el-dialog
-        title="查看进度"
+        :title="$i18nMy.t('查看进度')"
         :close-on-click-modal="true"
         :visible.sync="visible"
          v-dialogDrag

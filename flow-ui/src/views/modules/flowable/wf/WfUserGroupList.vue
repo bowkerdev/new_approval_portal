@@ -49,8 +49,8 @@
             <user-select :placeholder="$i18nMy.t('用户')"  :limit='1' size="small" :value="searchForm.user.id" @getValue='(value) => {searchForm.user.id=value}'></user-select>
          </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small">查询</el-button>
-            <el-button @click="resetSearch()" size="small">重置</el-button>
+            <el-button type="primary" @click="refreshList()" size="small" icon="el-icon-search">查询</el-button>
+            <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">重置</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->

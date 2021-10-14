@@ -81,7 +81,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: () => { return '请选择' }
+      default: () => { return $i18nMy.t('请选择') }
     },
     isOnlySelectLeaf: {
       type: Boolean,
@@ -131,6 +131,10 @@ export default {
           this.setTreeList(datas[i].children)
         }
       }
+    },
+    initTreeList (datas) {
+        this.treeList = [];
+        setTreeList (datas);
     },
     // 初始化值
     initHandle () {

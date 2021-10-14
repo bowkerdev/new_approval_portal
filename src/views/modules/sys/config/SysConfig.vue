@@ -191,7 +191,7 @@
     methods: {
       handleAvatarSuccess (res, file) {
         if(res.success){
-          this.themeFormSetting.logo = res.url
+          this.themeFormSetting.logo ="data:text/html;base64,"+ res.base64
         }
         else{
            this.$message.error(res.msg)

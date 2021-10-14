@@ -174,7 +174,7 @@ function getParamToken() {
 function deleteParamToken() {
   debugger
   var tmp = window.location.href.split("?")
-  var tmp2 = ["access_token", "token", "refresh_token", "token_type", "expires_in"]
+  var tmp2 = ["access_token", "refresh_token", "token_type", "expires_in"]
   var paramList = []
   if (tmp.length > 1) {
     var needRedirect = false

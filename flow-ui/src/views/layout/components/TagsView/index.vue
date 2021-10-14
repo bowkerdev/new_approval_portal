@@ -1,5 +1,5 @@
 <template>
-  <div id="tags-view-container" class="tags-view-container">
+  <div id="tags-view-container" class="tags-view-container" :style="defaultLayout === 'dropdown-top'?'width:100% !important':''">
     <scroll-pane ref="scrollPane" class="tags-view-wrapper" @scroll="handleScroll">
       <router-link
         v-for="tag in visitedViews"
@@ -13,7 +13,6 @@
         v-slot="{ navigate }"
         @contextmenu.prevent.native="openMenu(tag,$event)"
         @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''">
-
         <span @click="navigate" @keypress.enter="navigate">
           {{tag.query
           &&(hasChinese(tag.query.title)?$i18nMy.t(tag.query.title):tag.query.title)
@@ -52,6 +51,9 @@ export default {
     },
     routes () {
       return JSON.parse(sessionStorage.getItem('dynamicMenuRoutes'))
+    },
+    defaultLayout () {
+      return this.$store.state.config.defaultLayout
     }
   },
   watch: {

@@ -5,7 +5,7 @@
     <template>
       <main-navbar ref="navbar" @showRight="showRight" />
       <main-sidebar :showCompleteName="true" />
-      <div class="jp-content__wrapper">
+      <div class="jp-content__wrapper"  :style="defaultLayout === 'dropdown-top'?'margin-left: 0px;':''">
         <main-content/>
       </div>
       <main-right ref="mainRight"/>
@@ -35,6 +35,9 @@
         get () {
           return this.$store.state.common.sidebarFold
         }
+      },
+      defaultLayout () {
+        return this.$store.state.config.defaultLayout
       }
     },
     created () {
@@ -50,7 +53,7 @@
         window.onresize = () => {
           if (this.$refs.navbar) {
             let _defaultLayout = this.$refs.navbar.defaultLayout
-            if (_defaultLayout === 'top') {
+            if (_defaultLayout === 'top' || this.defaultLayout === 'dropdown-top') {
               this.$refs.navbar.fixTopMenu()
             }
           }

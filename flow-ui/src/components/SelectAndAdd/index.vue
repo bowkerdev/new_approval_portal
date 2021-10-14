@@ -1,8 +1,8 @@
 <script>
-import { debounce } from 'lodash'
+import { isFunction } from 'lodash'
 import request from '@/utils/httpRequest'
 export default {
-  name: 'InputOrSelect',
+  name: 'SelectAndAdd',
   model: {
     prop: 'value',
     event: 'update'
@@ -50,20 +50,15 @@ export default {
     },
     params: {
       type: Object,
-      default: () => null
+      default: null 
     },
-    maxlength: {
-      type: Number,
-      default: 128
-    },
-    maxInputLength: {
-      type: Number,
-      default: 128
+    openAddFormFn: {
+      type: Function,
+      default: null
     }
   },
   data() {
     return {
-      inputVal: '',
       visible: false,
       loading: true,
       searchForm: {},
@@ -71,16 +66,6 @@ export default {
       pageNo: 1,
       pageSize: 20,
       total: 0
-    }
-  },
-  watch: {
-    inputVal: debounce(function (val) {
-      (val !== this.value) && this.$emit('update', val)
-    }, 680),
-    value: {
-      handler(val) {
-        (val !== this.inputVal) && (this.inputVal = val)
-      }
     }
   },
   created() {
@@ -95,10 +80,6 @@ export default {
     }
   },
   methods: {
-    // 手输入，触发事件
-    inputEmit(val) {
-      this.$emit('inputCb', val)
-    },
     open() {
       this.visible = true
       this.$refs.searchForm? this.reset(): this.fetchList()
@@ -112,14 +93,10 @@ export default {
       this.$refs.searchForm.resetFields()
       this.fetchList()
     },
-    clear() {
-      this.inputVal = ''
-      this.$emit('clear')
-    },
     // 点击选择表格行，触发
     selectHandle(currentRow) {
       if(!currentRow) { return }
-      this.inputVal = currentRow[this.valueKey]
+      this.$emit('update', currentRow[this.valueKey])
       this.$emit('confirm', currentRow)
       this.$nextTick(() => {
         this.visible = false
@@ -161,26 +138,27 @@ export default {
     }
   },
   render() {
+    let addEntryFlag = isFunction(this.openAddFormFn)
     const loadingDirectives = [{name: 'loading', value: this.loading, modifiers: { fullscreen: false } }]
     // el-form-item 自适应
     const layout = { xs: 24, sm: 24, md: 12, lg: 8 }
     return (
-      <div class="input-select-wrap">
+      <div class="select-and-add-wrap">
         <el-input
           maxlength={this.maxlength}
-          vModel={this.inputVal}
-          disabled={this.disabled || this.onlySelect}
+          vModel={this.value}
+          readonly={true}
           vOn:input={this.inputEmit}
         />
         <el-button 
           type="primary" plain
-          icon="el-icon-edit"
+          icon="el-icon-document-add"
           class="open-dialog-btn"
           disabled={this.disabled}
           vOn:click={this.open} 
         />
         <el-dialog
-          customClass="input-select-dialog"
+          customClass="select-and-add-dialog"
           title={this.title}
           closeOnPressEscape={true}
           closeOnClickModal={false}
@@ -189,86 +167,98 @@ export default {
           on={{ "update:visible": () => (this.visible = false) }}
         >
           
-            <div class="search-body-wrap">
-              <el-form
-                ref="searchForm"
-                labelPosition="top"
-                labelWidth="120px"
-                {...{ props: { model: this.searchForm } }}
-              >
-                <el-row>
-                  {this.fields &&
-                    this.fields.map(el => {
-                      return (
-                        <el-col {...{props: {...layout}}}>
-                          <el-form-item
-                            key={el.prop}
-                            label={this.$i18nMy.t(el.label)}
-                            prop={el.prop}
-                          >
-                            <el-input
-                              maxlength={this.maxInputLength}
-                              clearable={true}
-                              vModel={this.searchForm[el.prop]}
-                            />
-                          </el-form-item>
-                        </el-col>
-                      )
-                    })
-                  }
-                  <el-col {...{props: {...layout}}}>
-                    <el-form-item
-                      label="-"
-                    >
-                      <el-button type="primary" vOn:click={this.search}>
-                        { this.$i18nMy.t("查询") }
-                      </el-button>
-                      <el-button vOn:click={this.reset}>
-                        { this.$i18nMy.t("重置") }
-                      </el-button>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-              </el-form>
-
-              <el-table
-                ref="table"
-                border={true}
-                height={300}
-                data={this.tableData}
-                highlightCurrentRow={true}
-                {...{ directives: loadingDirectives }}
-                vOn:current-change={this.selectHandle}
-              >
-                {this.columns && 
-                  this.columns.map(col => {
+          <div class="search-body-wrap">
+            <el-form
+              ref="searchForm"
+              labelPosition="top"
+              labelWidth="120px"
+              {...{ props: { model: this.searchForm } }}
+            >
+              <el-row>
+                {this.fields &&
+                  this.fields.map(el => {
                     return (
-                      <el-table-column
-                        headerAlign="center"
-                        align="center"
-                        minWidth="100px"
-                        showOverflowTooltip={true}
-                        key={col.prop}
-                        prop={col.prop}
-                        label={col.label}
-                      />
+                      <el-col {...{props: {...layout}}}>
+                        <el-form-item
+                          key={el.prop}
+                          label={this.$i18nMy.t(el.label)}
+                          prop={el.prop}
+                        >
+                          <el-input
+                            maxlength={this.maxInputLength}
+                            clearable={true}
+                            vModel={this.searchForm[el.prop]}
+                          />
+                        </el-form-item>
+                      </el-col>
                     )
                   })
                 }
-              </el-table>
-              <el-pagination
-                class="pagination"
-                background={true}
-                currentPage={this.pageNo}
-                pageSizes={[20, 50, 100]}
-                pageSize={this.pageSize}
-                pagerCount={5}
-                total={this.count}
-                layout="total, sizes, prev, pager, next"
-                vOn:size-change={this.sizeChangeHandle}
-                vOn:current-change={this.currentChangeHandle}
-              />
-            </div>
+                <el-col {...{props: {...layout}}}>
+                  <el-form-item
+                    label="-"
+                  >
+                    <el-button type="primary" vOn:click={this.search}>
+                      { this.$i18nMy.t("查询") }
+                    </el-button>
+                    <el-button vOn:click={this.reset}>
+                      { this.$i18nMy.t("重置") }
+                    </el-button>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+
+            {addEntryFlag &&
+              (
+                <div style="margin-bottom: 10px;">
+                  <el-button type="primary" 
+                    icon="el-icon-document-add"
+                    vOn:click={() => {this.openAddFormFn()}}
+                  >{this.$i18nMy.t("新增记录")}</el-button>
+                </div>
+              )
+            }
+            
+
+            <el-table
+              ref="table"
+              border={true}
+              height={300}
+              data={this.tableData}
+              highlightCurrentRow={true}
+              {...{ directives: loadingDirectives }}
+              vOn:current-change={this.selectHandle}
+            >
+              {this.columns && 
+                this.columns.map(col => {
+                  return (
+                    <el-table-column
+                      headerAlign="center"
+                      align="center"
+                      minWidth="100px"
+                      showOverflowTooltip={true}
+                      key={col.prop}
+                      prop={col.prop}
+                      label={col.label}
+                    />
+                  )
+                })
+              }
+            </el-table>
+            <el-pagination
+              class="pagination"
+              background={true}
+              currentPage={this.pageNo}
+              pageSizes={[20, 50, 100]}
+              pageSize={this.pageSize}
+              pagerCount={5}
+              total={this.count}
+              layout="total, sizes, prev, pager, next"
+              vOn:size-change={this.sizeChangeHandle}
+              vOn:current-change={this.currentChangeHandle}
+            />
+          </div>
           
           <span slot="footer" class="dialog-footer">
             <el-button vOn:click={() => {this.visible = false}}>

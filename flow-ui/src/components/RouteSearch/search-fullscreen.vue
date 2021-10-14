@@ -38,14 +38,10 @@ export default {
     return {
       visible: false,
       state: '',
+      allMenuList: [],
       searchPool: [],
       options: [],
       fuse: undefined
-    }
-  },
-  computed: {
-    routes() {
-      return this.$store.state.common.leftMenuList
     }
   },
   watch: {
@@ -61,7 +57,8 @@ export default {
     }
   },
   mounted() {
-    this.searchPool = initPinyinTitle(this.generateRoutesInfo(this.routes))
+    this.allMenuList = JSON.parse(sessionStorage.getItem('allMenuList') || '[]')
+    this.searchPool = initPinyinTitle(this.generateRoutesInfo(this.allMenuList))
   },
   methods: {
     generateRoutesInfo(routes, prefixTitle) {
@@ -76,6 +73,7 @@ export default {
       }
       this.state = ''
       this.visible = false
+      this.$store.commit('common/updateTopMenuActiveIndex', item.topCategoryId)
       this.$router.push(item.item.path)
     },
     beforeCloseFn() {

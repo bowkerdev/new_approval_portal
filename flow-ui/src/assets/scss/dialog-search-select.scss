@@ -1,0 +1,42 @@
+@import './element-variables.scss';
+.input-select-wrap,
+.select-and-add-wrap {
+  position: relative;
+
+  & > .el-input input {
+    padding-right: 45px;
+  }
+
+  .open-dialog-btn {
+    position: absolute;
+    right: 0;
+  }
+}
+.input-select-dialog,
+.select-and-add-dialog {
+
+  .el-form--label-top .el-form-item__label {
+    padding-bottom: 0;
+  }
+  .search-body-wrap {
+    padding: 0 20px;
+  }
+
+  .el-form {
+    .el-col {
+      padding: 0 7px;
+    }
+    .el-form-item__content .el-button {
+      vertical-align: bottom;
+    }
+  }
+
+  .el-table--enable-row-hover .el-table__body tr:hover>td {
+    background-color: $--color-primary-light-3;
+    color: #fff;
+  }
+
+  .pagination {
+    margin-top: 20px;
+  }
+}

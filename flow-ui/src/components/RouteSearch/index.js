@@ -2,7 +2,7 @@ import { isURL } from '@/utils/validate'
 
 const pinyin = require('pinyin')
 
-export function generateRoutesInfo(routes, prefixTitle = []) {
+export function generateRoutesInfo(routes, prefixTitle = [], topCategoryId) {
   let res = []
   if (Array.isArray(routes)) {
     for(const routeItem of routes) {
@@ -12,11 +12,14 @@ export function generateRoutesInfo(routes, prefixTitle = []) {
         path: routeItem.href,
         title: [...prefixTitle, routeItem.name || 'Unnamed Entry']
       }
+      if (topCategoryId) {
+        item['topCategoryId'] = topCategoryId
+      }
       if (routeItem.href) {
         res.push(item)
       }
       if(routeItem.children) {
-        const tempRoutes = generateRoutesInfo(routeItem.children, item.title)
+        const tempRoutes = generateRoutesInfo(routeItem.children, item.title, topCategoryId || routeItem.id)
         if (tempRoutes.length >= 1) {
           res = [...res, ...tempRoutes]
         }

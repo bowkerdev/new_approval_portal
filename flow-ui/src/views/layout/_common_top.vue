@@ -26,7 +26,7 @@
         </el-menu-item>
       </el-menu>
 
-      <el-menu class="jp-navbar__menu " :default-active="topMenuActiveIndex" ref="topMenu"  mode="horizontal">
+      <el-menu v-if="defaultLayout !== 'dropdown-top'" class="jp-navbar__menu " :default-active="topMenuActiveIndex" ref="topMenu"  mode="horizontal">
         <el-menu-item  class="el_menu_item" v-for="menu in topMenuList"
           :index="menu.id"
           :key="menu.id"
@@ -49,7 +49,22 @@
           {{menu.name}}
           </el-menu-item>
         </el-submenu>
-        </el-menu>
+      </el-menu>
+      <el-menu v-if="defaultLayout === 'dropdown-top'" class="jp-navbar__menu" style="border-right:0px">
+        <el-menu-item class="jp-navbar__avatar">
+        <el-dropdown v-for="menu in allMenuList"  @command="topGotoRouteHandle" style="color: #ffffff;font-weight: 400;    padding-right: 20px;">
+          <span >
+            <i :class="`${menu.icon} jp-sidebar__menu-icon`" style="display: inline-block!important;"></i>
+            {{menu.name}}
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item v-for="dropdownmenu in menu.children" :command="dropdownmenu">
+              {{dropdownmenu.name}}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        </el-menu-item>
+      </el-menu>
 
       <el-menu
         class="jp-navbar__menu jp-navbar__menu--right"
@@ -58,7 +73,7 @@
           <template slot="title">
                 <color-picker></color-picker>
           </template>
-        </el-menu-item> 
+        </el-menu-item>
         <el-menu-item class="hide-sm">
           <template slot="title">
                 <notice-icon
@@ -68,11 +83,11 @@
           </template>
         </el-menu-item> -->
 
-        <el-menu-item v-if="defaultLayout !== 'top'" class="jp-navbar__avatar">
+        <el-menu-item v-if="defaultLayout !== 'top' && defaultLayout !== 'dropdown-top'" class="jp-navbar__avatar">
           <route-search />
         </el-menu-item>
 
-        <el-menu-item v-else @click="openSearchMenu">
+        <el-menu-item v-if="defaultLayout === 'top' && defaultLayout !== 'dropdown-top'" @click="openSearchMenu">
           <i class="el-icon-search" />
           <full-screen-route-search ref="fullRouteSearch" />
         </el-menu-item>
@@ -135,22 +150,6 @@
         languageIcon: "/static/images/china.png",
         screenWidth: document.body.clientWidth,
         noticeTabs: [
-        /*  {
-            title: '通知',
-            count: 0,
-            list: [
-            ],
-            emptyText: '你已查看所有通知',
-            emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg'
-          },
-          {
-            title: '站内信',
-            count: 0,
-            list: [
-            ],
-            emptyText: '你已读完所有消息',
-            emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg'
-          }*/
         ]
       }
     },
@@ -214,7 +213,7 @@
     },
     created () {
       this.allMenuList = JSON.parse(sessionStorage.getItem('allMenuList') || '[]')
-      if (this.defaultLayout === 'top') {
+      if (this.defaultLayout === 'top' || this.defaultLayout === 'dropdown-top') {
         this.topMenuActiveIndex = this.allMenuList[0].id
         this.showLeftMenu(this.allMenuList[0])
       } else {
@@ -260,7 +259,7 @@
       }) */
     },
     mounted () {
-      if (this.defaultLayout === 'top') {
+      if (this.defaultLayout === 'top' || this.defaultLayout === 'dropdown-top') {
         this.fixTopMenu()
       }
     },
@@ -278,7 +277,7 @@
         })
       },
       defaultLayout (val) {
-        if (this.defaultLayout === 'top') {
+        if (this.defaultLayout === 'top' || this.defaultLayout === 'dropdown-top') {
           let needSetLeft = true
           this.allMenuList.forEach((item) => {
             if (item.id === this.topMenuActiveIndex) {
@@ -300,6 +299,15 @@
       }
     },
     methods: {
+      topTranslateRouterPath (menu) {
+        return '/' + menu.href.replace(/^\//g, '')
+      },
+      // 通过menuId与动态(菜单)路由进行匹配跳转至指定路由
+      topGotoRouteHandle (menu) {
+        console.log("跳转至指定路由")
+        let routePath = this.topTranslateRouterPath(menu)
+        this.$router.push({path: routePath})
+      },
       openSearchMenu() {
         this.$refs.fullRouteSearch.visible = true
       },

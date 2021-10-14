@@ -16,7 +16,7 @@
       <el-tab-pane :label="$i18nMy.t('月')" name="month">
         <month v-model="monthVal" lable="月"></month>
       </el-tab-pane>
-      <el-tab-pane :label="$i18nMy.t('周')" name="week">
+      <el-tab-pane :label="$i18nMy.t('周（周日为1，顺序往后）')" name="week">
         <week v-model="weekVal" lable="周"></week>
       </el-tab-pane>
       <el-tab-pane :label="$i18nMy.t('年')" name="year">

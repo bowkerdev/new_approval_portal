@@ -9,13 +9,27 @@ import Vue from 'vue'
  *      "number": 仅支持输入数字
  *      "float": 仅支持数字和小数点
  */
-function handleInput(ele,vnode,rel){
-  let rule;
-  switch(true) {
+function handleInput(ele, vnode, rel) {
+  let rule
+  switch (true) {
     case rel.modifiers.float: // 浮点型
-      rule = /[^\d\.]/g; break;
+      rule = /[^\d\.]/g
+      break
     default: //默认仅支持输入数字
-      rule = /\D/g;
+      rule = /\D/g
+  }
+  let val = ele.value.replace(rule, '')
+  if (val != ele.value) {
+    let maxLen = vnode.data.attrs && vnode.data.attrs['max-len'] ? vnode.data.attrs['max-len'] : 0
+    if (maxLen > 0) {
+      val = val.substr(0, maxLen)
+    }
+    var currObj = rel.value
+    var expression = vnode.data.model.expression.substr(vnode.data.model.expression.indexOf('.') + 1)
+    /*if (vnode.elm != null && vnode.elm.children != null && vnode.elm.children.length > 0) {
+      vnode.elm.children[0].value = val
+    }*/
+    currObj[expression] = val
   }
   let val = ele.value.replace(rule,"");
   if(val !=  ele.value){
@@ -31,16 +45,16 @@ function handleInput(ele,vnode,rel){
 }
 
 Vue.directive('only-num', {
-  inserted (el,binding,vnode) {
-      let ele = el.tagName === 'INPUT' ? el : el.querySelector('input')
-      ele.oninput = function() {
-        //获取相关的指令配置信息
-        let rel = vnode.data.directives.filter(item =>{
-          return item.name === "only-num"
-        })[0]
-        vnode.context.$nextTick(()=>{
-          handleInput(ele,vnode,rel)
-        })
-      }
+  inserted(el, binding, vnode) {
+    let ele = el.tagName === 'INPUT' ? el : el.querySelector('input')
+    ele.oninput = function() {
+      //获取相关的指令配置信息
+      let rel = vnode.data.directives.filter(item => {
+        return item.name === 'only-num'
+      })[0]
+      vnode.context.$nextTick(() => {
+        handleInput(ele, vnode, rel)
+      })
+    }
   }
-});
+})

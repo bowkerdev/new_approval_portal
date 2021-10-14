@@ -9,13 +9,21 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
+            <el-form-item :label="$i18nMy.t('识别码')" prop="code"
+                :rules="[
+                  {required: true, message:'识别码不能为空', trigger:'blur'}
+                 ]">
+              <el-input v-model="inputForm.code" :placeholder="$i18nMy.t('请填写简体中文')" disabled></el-input>
+           </el-form-item>
+        </el-col>
+        <el-col :span="12">
             <el-form-item :label="$i18nMy.t('简体中文')" prop="cn"
                 :rules="[
                  ]">
               <el-input v-model="inputForm.cn" :placeholder="$i18nMy.t('请填写简体中文')"     ></el-input>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" v-if="simple">
             <el-form-item :label="$i18nMy.t('繁体中文')" prop="hk"
                 :rules="[
                  ]">
@@ -29,26 +37,18 @@
               <el-input v-model="inputForm.en" :placeholder="$i18nMy.t('请填写英文')"     ></el-input>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" v-if="simple">
             <el-form-item :label="$i18nMy.t('越南文')" prop="vn"
                 :rules="[
                  ]">
               <el-input v-model="inputForm.vn" :placeholder="$i18nMy.t('请填写越南文')"     ></el-input>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" v-if="simple">
             <el-form-item :label="$i18nMy.t('柬埔寨')" prop="cam"
                 :rules="[
                  ]">
-              <el-input v-model="inputForm.cam" :placeholder="$i18nMy.t('请填写柬埔寨')"     ></el-input>
-           </el-form-item>
-        </el-col>
-        <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('识别码')" prop="code"
-                :rules="[
-                  {required: true, message:'识别码不能为空', trigger:'blur'}
-                 ]">
-              {{inputForm.code}}
+              <el-input v-model="inputForm.cam" :placeholder="$i18nMy.t('请填写柬埔寨文')"     ></el-input>
            </el-form-item>
         </el-col>
     <el-col :span="24">
@@ -75,6 +75,7 @@
         method: '',
         visible: false,
         loading: false,
+        simple: false,
         sysSimpleLanguageTab: '0',
         inputForm: {
           id: '',

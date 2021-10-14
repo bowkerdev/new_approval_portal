@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="权限设置"
+    :title="$i18nMy.t('权限设置')"
     :close-on-click-modal="false"
      v-dialogDrag
      width="350px"
@@ -9,7 +9,7 @@
              @submit.native.prevent>
              <el-tabs type="border-card">
               <el-tab-pane>
-                <span slot="label"><i class="fa fa-navicon"></i> 菜单权限</span>
+                <span slot="label"><i class="fa fa-navicon"></i> {{$i18nMy.t('菜单权限')}}</span>
                         <el-scrollbar style="height: 450px">
                           <el-tree
                             :data="menuList"
@@ -25,8 +25,8 @@
                           </el-tree>
                         </el-scrollbar>
               </el-tab-pane>
-              <el-tab-pane :label="$i18nMy.t('数据权限')">
-                 <span slot="label"><i class="fa fa-database"></i> 数据权限</span>
+              <el-tab-pane>
+                 <span slot="label"><i class="fa fa-database"></i> {{$i18nMy.t('数据权限')}}</span>
                     <el-scrollbar style="height: 450px">
                       <el-tree
                         :data="dataRuleList"

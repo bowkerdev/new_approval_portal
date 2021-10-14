@@ -97,7 +97,7 @@
     </el-pagination>
     <el-drawer
       size = "700px"
-      :title="`用户列表，所属角色: ${this.roleUserTitle}`"
+      :title="`${this.roleUserTitle}`"
       :visible.sync="rightVisible"
       direction="rtl">
       <role-user-list  :role-user-title="roleUserTitle" :role-id="roleId" ref="roleUserList" @closeRight="closeRight"></role-user-list>

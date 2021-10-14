@@ -9,7 +9,7 @@
             align="right"
             value-format="yyyy-MM-dd hh:mm:ss"
             unlink-panels
-            range-separator="至"
+            range-separator="~"
             start-:placeholder="$i18nMy.t('开始日期')"
             end-:placeholder="$i18nMy.t('结束日期')"
             :picker-options="pickerOptions">

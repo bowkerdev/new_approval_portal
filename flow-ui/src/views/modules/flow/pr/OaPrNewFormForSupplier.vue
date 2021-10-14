@@ -54,7 +54,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label-width="220px" label="VAT" prop="vat" :rules="[ ]">
-            <el-input v-model="inputForm.vat" oninput="value=value.replace(/[^0-9.]/g,'')" style="width: 50%;text-align: right;" ></el-input>%
+            <el-input-number :controls="false" v-model="inputForm.vat" oninput="value=value.replace(/[^0-9.]/g,'')" style="width:80px; text-align: right;" ></el-input-number>%
           </el-form-item>
         </el-col>
       </el-row>
@@ -252,7 +252,7 @@
                 <td>{{$i18nMy.t('品牌名称')}}</td>
                 <td>{{$i18nMy.t('型号')}}</td>
                 <td width="105px">{{$i18nMy.t('单价')}}</td>
-                <td width="55px">VAT(%)</td>
+                <td width="65px">VAT(%)</td>
                 <td width="105px">{{$i18nMy.t('单价')}}(VAT)</td>
                 <td><font color="red">*</font>MOQ</td>
                 <td>{{$i18nMy.t('预计到货日期')}}</td>
@@ -804,7 +804,7 @@
             parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
           originalVatPrice+=parseFloat(this.supplierInfo[index].detailInfo[i].vatUnitPrice||"0")*
             parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
-          this.supplierInfo[index].detailInfo[i].vat = parseInt(this.supplierInfo[index].detailInfo[i].vat||"0")
+          this.supplierInfo[index].detailInfo[i].vat = parseFloat(this.supplierInfo[index].detailInfo[i].vat||"0")
           if(isNaN(this.supplierInfo[index].detailInfo[i].vat)){
             this.supplierInfo[index].detailInfo[i].vat = ''
           }
@@ -886,7 +886,7 @@
              !this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vat)){
                 if(this.supplierInfo[index].detailInfo[i].vatUnitPrice!=
                     (this.supplierInfo[index].detailInfo[i].unitPrice*
-                    (100+parseInt(this.supplierInfo[index].detailInfo[i].vat||0))/100)){
+                    (100+parseFloat(this.supplierInfo[index].detailInfo[i].vat||0))/100)){
                   this.$message.warning($i18nMy.t('单价*(1+VAT) != 单价(VAT)'))
                   return
                 }

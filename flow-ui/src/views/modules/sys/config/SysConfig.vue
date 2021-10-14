@@ -34,7 +34,7 @@
           <el-form-item :label="$i18nMy.t('产品标题')">
             <el-input v-model="themeFormSetting.productName"></el-input>
           </el-form-item>
-          <el-form-item label="产品logo">
+          <el-form-item label="Logo">
             <el-upload
               class="avatar-uploader"
               :action="`${this.$http.BASE_URL}/sys/file/webupload/upload?uploadPath=logo`"
@@ -73,7 +73,7 @@
         </el-form>
       </el-card>
     </el-tab-pane>
-    <el-tab-pane :label="$i18nMy.t('短信')" name="third">
+    <el-tab-pane :label="$i18nMy.t('短信')" name="third" v-if="false">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <h3>阿里大鱼短信配置(<a href="https://dayu.aliyun.com" target="_blank">{{$i18nMy.t('官网')}}</a>)</h3>
@@ -105,7 +105,7 @@
         </el-form>
       </el-card>
     </el-tab-pane>
-    <el-tab-pane :label="$i18nMy.t('邮箱')" name="fourth">
+    <el-tab-pane :label="$i18nMy.t('邮箱')" name="fourth" v-if="false">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <h3>{{$i18nMy.t('发件人账户')}}</h3>

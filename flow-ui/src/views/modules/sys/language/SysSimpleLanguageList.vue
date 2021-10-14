@@ -2,24 +2,25 @@
   <div class="page" style="height: calc(100% - 76px);">
       <el-form size="small" :inline="true" v-show="isSearchCollapse" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
+         <el-form-item prop="code">
+               <el-input size="small" v-model="searchForm.code" :placeholder="$i18nMy.t('识别码')" clearable></el-input>
+         </el-form-item>
          <el-form-item prop="cn">
                 <el-input size="small" v-model="searchForm.cn" :placeholder="$i18nMy.t('简体中文')" clearable></el-input>
          </el-form-item>
-         <el-form-item prop="hk">
+         <el-form-item prop="hk" v-if="simple">
                 <el-input size="small" v-model="searchForm.hk" :placeholder="$i18nMy.t('繁体中文')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="en">
                 <el-input size="small" v-model="searchForm.en" :placeholder="$i18nMy.t('英文')" clearable></el-input>
          </el-form-item>
-         <el-form-item prop="vn">
+         <el-form-item prop="vn" v-if="simple">
                 <el-input size="small" v-model="searchForm.vn" :placeholder="$i18nMy.t('越南文')" clearable></el-input>
          </el-form-item>
-         <el-form-item prop="cam">
+         <el-form-item prop="cam" v-if="simple">
                 <el-input size="small" v-model="searchForm.cam" :placeholder="$i18nMy.t('柬埔寨')" clearable></el-input>
          </el-form-item>
-         <el-form-item prop="code">
-                <el-input size="small" v-model="searchForm.code" :placeholder="$i18nMy.t('识别码')" clearable></el-input>
-         </el-form-item>
+
           <el-form-item>
             <el-button type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
             <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
@@ -96,7 +97,7 @@
         sortable="custom"
         :label="$i18nMy.t('简体中文')">
       </el-table-column>
-    <el-table-column
+    <el-table-column v-if="simple"
         prop="hk"
         sortable="custom"
         :label="$i18nMy.t('繁体中文')">
@@ -106,12 +107,12 @@
         sortable="custom"
         :label="$i18nMy.t('英文')">
       </el-table-column>
-    <el-table-column
+    <el-table-column v-if="simple"
         prop="vn"
         sortable="custom"
         :label="$i18nMy.t('越南文')">
       </el-table-column>
-    <el-table-column
+    <el-table-column v-if="simple"
         prop="cam"
         sortable="custom"
         :label="$i18nMy.t('柬埔寨')">
@@ -158,6 +159,7 @@
           cam: '',
           code: ''
         },
+        simple: false,
         dataList: [],
         pageNo: 1,
         pageSize: 10,

@@ -69,6 +69,16 @@
               </el-checkbox-group> -->
           </el-form-item>
         </el-col>
+        <!-- <el-col :span="12" >
+           <el-form-item label="密码:" prop="newPassword" :rules="inputForm.id?[]:[{required: true, message:'密码不能为空', trigger:'blur'}]">
+              <el-input v-model="inputForm.newPassword" maxlength="50" :placeholder="$i18nMy.t('若不修改，请留空')" show-password></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :span="12" >
+          <el-form-item :label="$i18nMy.t('确认密码')" prop="confirmNewPassword" :rules="inputForm.id?[]:[{required: true, message:'确认密码不能为空', trigger:'blur'}]">
+            <el-input v-model="inputForm.confirmNewPassword" maxlength="50" placeholder="" show-password></el-input>
+          </el-form-item>
+        </el-col> -->
     </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">

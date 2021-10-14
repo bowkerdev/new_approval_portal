@@ -203,6 +203,14 @@
                 @click="view(scope.row.id)"
                 >{{ $i18nMy.t("查看") }}</el-button
               >
+              <el-button
+                v-if="hasPermission('sys:user:edit')"
+                type="text"
+                size="small"
+                icon="el-icon-edit"
+                @click="edit(scope.row.id)"
+                >{{ $i18nMy.t("修改") }}</el-button
+              >
             </template>
           </el-table-column>
         </el-table>

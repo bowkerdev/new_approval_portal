@@ -251,6 +251,10 @@
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.item}}</view>
 						</view>
 						<view class="detail-info-row">
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('描述')}}</view>
+							<view class="title detail-info-title detail-info-title-right text-right">{{item.itemDescription}}</view>
+						</view>
+						<view class="detail-info-row">
 							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('品牌')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.brandName}}</view>
 						</view>
@@ -262,41 +266,44 @@
 							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('供应商名称')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.supplierName}}</view>
 						</view>
-						
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('市场价格')}}</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('币种')}}</view>
+							<view class="title detail-info-title detail-info-title-right text-right">{{item.currency}}</view>
+						</view>
+						<view class="detail-info-row">
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('单价')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.unitPrice || 0).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('报价单单价')}}</view>
-							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docUnitPrice || 0).toFixed(2)}}</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('VAT%')}}</view>
+							<view class="title detail-info-title detail-info-title-right text-right">{{inputForm.vat}}%</view>
+						</view>
+						<view class="detail-info-row">
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('市场价格(VAT)')}}</view>
+							<view class="title detail-info-title detail-info-title-right text-right">{{item.vatUnitPrice}}</view>
 						</view>
 						<view class="detail-info-row">
 							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('数量')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.quantity}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('单位')}}</view>
-							<view class="title detail-info-title detail-info-title-right text-right">{{item.uom}}</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('预计到达时间')}}</view>
+							<view class="title detail-info-title detail-info-title-right text-right">{{item.expectArrivalDate}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">VAT</view>
-							<view class="title detail-info-title detail-info-title-right text-right">{{inputForm.vat*100}}%</view>
-						</view>
-						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('报价单币种')}} {{$i18nMy.t('总数')}}</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('报价单币种总数')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docAmount || 0).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('报价单币种')}} {{$i18nMy.t('总数')}}(VAT)</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('报价单币种总数(VAT)')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docVatAmount || 0).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('基础报价')}} {{$i18nMy.t('总数')}}</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('基础报价总数')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docAmount*inputForm.exRate).toFixed(2)}}</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('基础报价')}} {{$i18nMy.t('总数')}}(VAT)</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('基础报价总数(VAT)')}}</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{parseFloat(item.docVatAmount*inputForm.exRate).toFixed(2)}}</view>
 						</view>
 					</view>

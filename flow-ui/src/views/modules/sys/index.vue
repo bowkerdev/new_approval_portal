@@ -62,6 +62,9 @@
                 prop="remarks"
                 show-overflow-tooltip
                 :label="$i18nMy.t('流程信息')">
+                <template slot-scope="scope">
+                    {{scope.row.remarks || scope.row.vars.description}}
+                </template>
               </el-table-column>
                <!-- <el-table-column
                 prop="task.name"
@@ -75,7 +78,7 @@
                 width="120px"
                 :label="$i18nMy.t('总金额')">
                 <template slot-scope="scope">
-                    {{scope.row.vars.total_vat_contract_amount || scope.row.vars.total_contract_amount}}
+                    {{scope.row.vars.total_vat_contract_amount || scope.row.vars.total_contract_amount || scope.row.vars.priceAmount}}
                 </template>
               </el-table-column>
               <el-table-column
@@ -84,7 +87,7 @@
                 width="120px"
                 :label="$i18nMy.t('币种')">
                 <template slot-scope="scope">
-                    {{scope.row.vars.contract_currency}}
+                    {{scope.row.vars.contract_currency || scope.row.vars.currency}}
                 </template>
               </el-table-column>
                <el-table-column
@@ -174,6 +177,9 @@
                   prop="remarks"
                   show-overflow-tooltip
                   :label="$i18nMy.t('流程信息')">
+                  <template slot-scope="scope">
+                      {{scope.row.remarks || scope.row.vars.description}}
+                  </template>
                 </el-table-column>
                  <el-table-column
                   prop="task.name"
@@ -261,6 +267,9 @@
                 prop="remarks"
                 show-overflow-tooltip
                 :label="$i18nMy.t('流程信息')">
+                <template slot-scope="scope">
+                    {{scope.row.remarks || scope.row.vars.description}}
+                </template>
               </el-table-column>
               <el-table-column
                 prop="name"

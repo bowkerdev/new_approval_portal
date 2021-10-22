@@ -595,9 +595,12 @@ public class FlowProcessService extends BaseService {
             } else {
                 //执行实例
                 processVo.setProcessStatus (ProcessStatus.WAITING);
-                Task currentTask = taskService.createTaskQuery ().processInstanceId (processInstanceId).list ().get (0);
-                processVo.setTask (new TaskVo (currentTask));
-                processVo.setTaskName (currentTask.getName ());
+                List<Task> taskList = taskService.createTaskQuery ().processInstanceId (processInstanceId).list ();
+                if (taskList.size()>0) {
+	                Task currentTask = taskList.get (0);
+	                processVo.setTask (new TaskVo (currentTask));
+	                processVo.setTaskName (currentTask.getName ());
+                }
                 
                 return processVo;
             }

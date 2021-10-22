@@ -17,7 +17,7 @@
         <el-table
           :data="dataList"
           size = "small"
-          height="calc(100% - 80px)"
+          height="calc(100% - 180px)"
           v-loading="loading"
           @selection-change="selectionChangeHandle"
           class="table">

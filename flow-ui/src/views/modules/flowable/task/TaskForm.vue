@@ -115,6 +115,12 @@
           this.form = null
           this.$message.info($i18nMy.t('没有关联流程表单!'))
         } else {
+          if ( this.formUrl === "/oa/pr/form" ) {  // Jack：此处特殊处理，兼容老数据
+            this.formUrl = "/flow/pr/OaPrNewFormAllEdit"
+          }
+          if(this.formUrl === "/oa/borrowSampleOrderHead/form"){// 特殊处理版衣历史数据
+            this.formUrl= '/flow/compatible/bs/borrowSampleOrder'
+          }
           this.form = _import(`modules${this.formUrl}`)
         }
       } else { // 读取动态表单

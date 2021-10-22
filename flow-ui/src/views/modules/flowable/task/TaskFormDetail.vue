@@ -62,7 +62,7 @@
           this.$message.info('没有关联流程表单!')
         } else {
           if ( this.formUrl === "/oa/pr/form" ) {  // Jack：此处特殊处理，兼容老数据
-            this.formUrl = "/flow/pr/OaPrNewForm"
+            this.formUrl = "/flow/pr/OaPrNewFormAll"
           }
           if(this.formUrl === "/oa/borrowSampleOrderHead/form"){// 特殊处理版衣历史数据
             this.formUrl= '/flow/compatible/bs/borrowSampleOrder'

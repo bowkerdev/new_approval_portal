@@ -22,6 +22,10 @@
 	    SELECT id_ FROM act_re_procdef where key_ = #{procDefKey} order by version_ desc limit 1
 	</select>
 	
+	<select id="getProcessStatus" resultType="java.lang.String">
+	    SELECT if( a.end_time_ is not null, '结束', '处理中') as status FROM act_hi_procinst a where a.PROC_INST_ID_ = #{procInsId} 
+	</select>
+	
 	<select id="querySql" resultType="java.util.Map">
 	    ${sql}
 	</select>
@@ -31,26 +35,31 @@
 			b.id_ AS "task.id",
 			if(b.ACT_TYPE_='endEvent', 'End', b.ACT_NAME_) AS "task.name",
 			b.ASSIGNEE_ AS "task.assignee",
-			( SELECT concat( login_name, ' : ', NAME ) FROM sys_user WHERE id = b.ASSIGNEE_ ) AS "task.assigneeName",
+			ifnull(( SELECT concat( login_name, ' : ', NAME ) FROM sys_user WHERE id = b.ASSIGNEE_ ),b.ASSIGNEE_) AS "task.assigneeName",
 			b.EXECUTION_ID_ AS "task.executionId",
 			b.act_id_ AS "task.taskDefinitionKey",
 			b.START_TIME_ AS "task.createTime",
 			b.PROC_DEF_ID_ AS "task.processDefinitionId",
+			b.PROC_INST_ID_ AS "processInstanceId",
 			b.PROC_INST_ID_ AS "task.processInstanceId",
+			if( a.end_time_ is not null, '结束', '处理中') as "status",
 			SUBSTRING_INDEX( b.PROC_DEF_ID_, ':', 1 ) AS "task.processDefKey" 
 		FROM
 			act_hi_procinst a 
-			left join (select * from act_hi_actinst where act_type_ in ('userTask','endEvent') and (END_TIME_ is null or act_type_ = 'endEvent')) b on a.PROC_INST_ID_ = b.PROC_INST_ID_
+			join (SELECT * FROM act_hi_actinst  WHERE ID_ IN (
+							SELECT SUBSTRING_INDEX( GROUP_CONCAT( id_ ORDER BY START_TIME_ DESC, ifnull( END_TIME_, '2099-01-01' ) DESC SEPARATOR '||' ), '||', 1 ) id_ 
+							FROM act_hi_actinst WHERE act_type_ IN ( 'userTask', 'endEvent' ) GROUP BY PROC_INST_ID_)
+					  ) b on a.PROC_INST_ID_ = b.PROC_INST_ID_
 		WHERE 1=1 
 			<if test="processDefinitionKey != null and processDefinitionKey != ''">
 				and LOWER(SUBSTRING_INDEX(a.PROC_DEF_ID_, ':', 1 )) = LOWER (#{processDefinitionKey})
 		    </if>
 		    
-		    <if test="status != null and status != '' and status == 'In progress'">
-				and b.act_type_ != 'endEvent'
+		    <if test="status != null and status == 'In progress'">
+				and a.end_time_ is null
 		    </if>
-		    <if test="status != null and status != '' and status == 'End'">
-				and b.act_type_ = 'endEvent'
+		    <if test="status != null and status == 'End'">
+				and a.end_time_ is not null
 		    </if>
 		    
 		    <if test="startTime != null"> 

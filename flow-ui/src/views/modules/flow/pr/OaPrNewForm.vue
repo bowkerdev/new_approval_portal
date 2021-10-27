@@ -200,7 +200,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('基础币种总价')" prop="totalBaseAmount" :rules="[]">
-            <div class="myformText1" v-if="inputForm.totalBaseAmount !=null&&inputForm.totalVatBaseAmount !=''" >
+            <div class="myformText1" v-if="inputForm.totalBaseAmount !=null&&inputForm.totalBaseAmount !=''" >
               {{$common.toThousands(inputForm.totalBaseAmount.toFixed(2))}}
             </div>
           </el-form-item>

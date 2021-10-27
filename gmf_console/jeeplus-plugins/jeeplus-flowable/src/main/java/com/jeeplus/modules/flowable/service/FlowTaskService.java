@@ -259,29 +259,32 @@ public class FlowTaskService extends BaseService {
     	pvo.setPage(page);
         List<ProcessVo> todoList = flowMapper.findAllList(pvo);
         for (ProcessVo processVo : todoList) {
+        	System.out.println("processVo.getProcessInstanceId() = "+processVo.getProcessInstanceId());
         	HistoricProcessInstance pi = historyService.createHistoricProcessInstanceQuery()
-                    .processInstanceId (processVo.getTask().getProcessInstanceId()).includeProcessVariables().singleResult ();        	 
+                    .processInstanceId (processVo.getProcessInstanceId()).includeProcessVariables().singleResult ();        	 
         	
         	if (pi!=null)
-        		processVo.setVars (pi.getProcessVariables ());
+        		processVo.setVars (pi.getProcessVariables ()); 
+        		String applyUserId = (String)pi.getProcessVariables ().get("applyUserId");
+        		if (!StringUtils.isBlank(applyUserId)) {
+        			User user = UserUtils.get(applyUserId);
+        			if ( user != null ) {
+        				processVo.setApplyUserName(user.getLoginName() + " : " + user.getName());
+        			} else {
+        				processVo.setApplyUserName(applyUserId);
+        			}
+        		}
         	else{
         		processVo.setVars (new HashMap<String, Object>());
         	}
             processVo.setProcessDefinitionName ( ProcessDefCache.get (processVo.getTask().getProcessDefinitionId ()).getName ());
             processVo.setVersion (ProcessDefCache.get (processVo.getTask().getProcessDefinitionId ()).getVersion ());
-            processVo.setStatus (getProcessStatus(processVo.getTask().getName()));
+            //processVo.setStatus (getProcessStatus(processVo.getTask().getName()));
             processVo.setRemarks(flowMapper.getRemarks(processVo.getTask().getProcessInstanceId(), StringUtils.split(processVo.getTask().getProcessDefinitionId(),":")[0])); 
             page.getList ().add (processVo);
         }
 
         return page;
-    }
-    
-    private String getProcessStatus(String currentStep) {
-    	if ("结束".equals(currentStep) || "end".equals(currentStep.toLowerCase())) { // 兼容老数据
-    		return "结束";
-    	}
-    	return "处理中";
     }
     
     /**
@@ -349,9 +352,8 @@ public class FlowTaskService extends BaseService {
                 hisTaskVo.setStatus (comment.getStatus ());
             }
             
-            if (hisTaskVo.getCurrentTask()!=null){ // update by jack 20210914
-            	hisTaskVo.setStatus (getProcessStatus(hisTaskVo.getCurrentTask().getName()));
-            }
+            // update by jack 20210914
+            hisTaskVo.setStatus (flowMapper.getProcessStatus(histTask.getProcessInstanceId()));
             
             hisTaskVo.setRemarks(flowMapper.getRemarks(histTask.getProcessInstanceId(), StringUtils.split(histTask.getProcessDefinitionId(),":")[0])); 
             
@@ -393,15 +395,6 @@ public class FlowTaskService extends BaseService {
                     || BpmnXMLConstants.ELEMENT_EVENT_END.equals (histIns.getActivityType ())) {
                 // 获取流程发起人名称
                 Flow e = queryTaskState (histIns);
-                
-                if (histIns.getTaskId ()!=null) {
-                    HistoricTaskInstance hisTaskIns = historyService.createHistoricTaskInstanceQuery ().taskId (histIns.getTaskId ()).includeTaskLocalVariables().singleResult();
-                    if (hisTaskIns.getTaskLocalVariables()!=null && hisTaskIns.getTaskLocalVariables().get("owner")!=null) {
-                    	User ownerUser = UserUtils.get((String)hisTaskIns.getTaskLocalVariables().get("owner"));
-                    	e.setAssigneeName(e.getAssigneeName() + " [Delegated by owner " + ownerUser.getLoginName() + " : " + ownerUser.getName() +"]" ); 
-                    }
-                }
-
                 actList.add (e);
             }
         }
@@ -491,7 +484,7 @@ public class FlowTaskService extends BaseService {
             processVo.setProcessDefinitionId (historicProcessInstance.getProcessDefinitionId ());
             processVo.setProcessInstanceId (historicProcessInstance.getId ());
             processVo.setVars (historicProcessInstance.getProcessVariables ());
-            processVo.setStatus (getProcessStatus(processVo.getAct().getName()));
+            processVo.setStatus (historicProcessInstance.getEndTime()==null ? "处理中" : "结束");
             processVo.setProcessDefinitionName (historicProcessInstance.getProcessDefinitionName ());
             processVo.setVersion ( historicProcessInstance.getProcessDefinitionVersion ());
             page.getList ().add (processVo);
@@ -747,21 +740,29 @@ public class FlowTaskService extends BaseService {
         }
         // 获取任务执行人名称
         if (StringUtils.isNotEmpty (histIns.getAssignee ())) {
+        	e.setAssignee (histIns.getAssignee ());
+            e.setAssigneeName (histIns.getAssignee ());
             User user = UserUtils.get (histIns.getAssignee ());
             if (user != null) {
-                e.setAssignee (histIns.getAssignee ());
                 e.setAssigneeName (user.getLoginName() + " : " + user.getName ());
             }
         }
+        
         // 获取意见评论内容
         if (StringUtils.isNotBlank (histIns.getTaskId ())) {
+        	HistoricTaskInstance hisTaskIns = historyService.createHistoricTaskInstanceQuery ().taskId (histIns.getTaskId ()).includeTaskLocalVariables().singleResult();
+            if (hisTaskIns.getTaskLocalVariables()!=null && hisTaskIns.getTaskLocalVariables().get("owner")!=null) {
+            	User ownerUser = UserUtils.get((String)hisTaskIns.getTaskLocalVariables().get("owner"));
+            	e.setAssigneeName(e.getAssigneeName() + " [Delegated by owner " + ownerUser.getLoginName() + " : " + ownerUser.getName() +"]" ); 
+            }
+            
             List<TaskComment> commentList = this.getTaskComments (histIns.getTaskId ());
             HistoricVariableInstanceQuery action = historyService.createHistoricVariableInstanceQuery ().processInstanceId (histIns.getProcessInstanceId ()).taskId (histIns.getTaskId ()).variableName ("_flow_button_name");
             if (commentList.size () > 0) {
                 TaskComment comment = commentList.get (commentList.size ()-1);
                 e.setComment (comment);
             }else {
-                e.setComment (new TaskComment ());
+            	e.setComment (new TaskComment ());
             }
         }
         //等待执行的任务

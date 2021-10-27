@@ -12,7 +12,7 @@
 		b.END_TIME_ as "approvedDate",
 		a.remarks AS "remarks",
 		b.ACT_NAME_ as "flow.taskName",
-		if( b.act_type_ = 'endEvent', '结束', '处理中') as "status",
+		if( p.end_time_ is not null, '结束', '处理中') as "status",
 		a.del_flag AS "delFlag",
 		a.proc_ins_id AS "procInsId",
 		if(a.proc_ins_id is null, (select id_ from act_re_procdef where key_ = 'prpo' order by VERSION_ desc limit 1), (select PROC_DEF_ID_ from act_hi_procinst where PROC_INST_ID_ = a.proc_ins_id)) as "flow.procDefId",
@@ -56,7 +56,12 @@
 		LEFT JOIN sys_user createBy ON createBy.id = a.create_by
 		LEFT JOIN sys_office createByOffice ON createByOffice.id = a.create_by_office
 		LEFT JOIN sys_office requesterDepartment ON requesterDepartment.id = a.requester_department
-		left join (select * from act_hi_actinst where act_type_ in ('userTask','endEvent') and (END_TIME_ is null or act_type_ = 'endEvent')) b on a.proc_ins_id = b.PROC_INST_ID_
+		LEFT JOIN act_hi_procinst p on p.PROC_INST_ID_ = a.proc_ins_id
+		left join (SELECT * FROM act_hi_actinst  WHERE ID_ IN (
+							SELECT SUBSTRING_INDEX( GROUP_CONCAT( id_ ORDER BY START_TIME_ DESC, ifnull( END_TIME_, '2099-01-01' ) DESC SEPARATOR '||' ), '||', 1 ) id_ 
+							FROM act_hi_actinst WHERE act_type_ IN ( 'userTask', 'endEvent' ) GROUP BY PROC_INST_ID_)
+				  ) b on a.proc_ins_id = b.PROC_INST_ID_
+		
 	</sql>
 
 
@@ -112,6 +117,12 @@
 		    </if>
 		</where>
 		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy == 'flow.taskName asc'">
+				ORDER BY b.ACT_NAME_ asc
+			</when>
+			<when test="page !=null and page.orderBy != null and page.orderBy == 'flow.taskName desc'">
+				ORDER BY b.ACT_NAME_ desc
+			</when>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
 			</when>

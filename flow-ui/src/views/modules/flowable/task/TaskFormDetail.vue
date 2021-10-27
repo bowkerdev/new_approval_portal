@@ -166,7 +166,15 @@
       },
       exportData(){
         debugger
-        this.$utils.syncDownloadPost("FLOW_EXPORT_"+this.procDefKey,{id:this.businessId,procInsId:this.procInsId},this.$refs.form)
+        let sysFlag = this.$dictUtils.getDictValue("sys_config","sys_flag","");
+        if (sysFlag != "") {
+          sysFlag = "_" + sysFlag
+        }
+        let exportKey = this.procDefKey
+        if (exportKey == "pr") {
+          exportKey = "prpo"
+        }
+        this.$utils.syncDownloadPost("FLOW_EXPORT_" + exportKey + sysFlag, {id:this.businessId,procInsId:this.procInsId}, this.$refs.form)
       },
       close () {
         this.$common.closeTap(this,this.$route.fullPath);

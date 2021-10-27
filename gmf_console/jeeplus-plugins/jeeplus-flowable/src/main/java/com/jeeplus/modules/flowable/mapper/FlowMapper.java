@@ -30,6 +30,8 @@ public interface FlowMapper extends BaseMapper<Flow> {
     
     String getRemarks(@Param("procInsId") String procInsId, @Param("procDefKey") String procDefKey);
     
+    String getProcessStatus(@Param("procInsId") String procInsId);
+    
     String getProcessVar(@Param("procInsId") String procInsId, @Param("varName") String varName);
 
     List<ProcessVo> findAllTodoList(ProcessVo processVo);

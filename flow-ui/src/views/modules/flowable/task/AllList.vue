@@ -7,8 +7,8 @@
         <el-form-item prop="processDefinitionKey">
            <el-input size="small" v-model="searchForm.processDefinitionKey" :placeholder="$i18nMy.t('流程名称')" clearable></el-input>
         </el-form-item>
-        <el-form-item prop="requestRiority">
-           <el-select size="small" v-model="searchForm.status" :placeholder="$i18nMy.t('流程状态')"  style="width: 100%;">
+        <el-form-item prop="status">
+           <el-select size="small" v-model="searchForm.status" :placeholder="$i18nMy.t('流程状态')" clearable style="width: 100%;">
              <el-option
                v-for="item in $dictUtils.getDictList('flow_status')"
                :key="item.value"
@@ -59,6 +59,7 @@
 
           <el-table-column
             prop="vars.title"
+            width="200"
            show-overflow-tooltip
             :label="$i18nMy.t('申请单号')">
                 <template slot-scope="scope">
@@ -68,6 +69,7 @@
 
           <el-table-column
             prop="processDefinitionName"
+            width="150"
             :label="$i18nMy.t('流程名称')">
           </el-table-column>
           <el-table-column
@@ -83,11 +85,12 @@
              </template>
           </el-table-column> -->
            <el-table-column
-            prop="vars.userName"
+            prop="applyUserName"
             :label="$i18nMy.t('流程发起人')">
           </el-table-column>
           <el-table-column
             prop="task.name"
+            width="120"
             :label="$i18nMy.t('当前环节')">
           </el-table-column>
           <el-table-column
@@ -97,6 +100,7 @@
           </el-table-column>
           <el-table-column
             prop="status"
+            width="100"
             :label="$i18nMy.t('流程状态')">
             <template slot-scope="scope">
              {{$i18nMy.t(scope.row.status)}}
@@ -104,6 +108,7 @@
           </el-table-column>
           <el-table-column
             prop="task.createTime"
+            width="180"
             show-overflow-tooltip
             :label="$i18nMy.t('申请时间')">
              <template slot-scope="scope">
@@ -261,7 +266,7 @@
         this.$http.get('/flowable/task/getTaskDef', {params: {
           taskId: row.task.id,
           taskName: row.task.name,
-          taskDefKey: row.task.taskDefinitionKey,
+          /* taskDefKey: row.task.taskDefinitionKey, */
           procInsId: row.task.processInstanceId,
           procDefId: row.task.processDefinitionId,
           procDefKey: row.task.processDefKey,

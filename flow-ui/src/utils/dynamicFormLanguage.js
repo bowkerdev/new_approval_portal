@@ -15,8 +15,10 @@ export default {
     }
   },
   setValue(taskFormData,obj ){
-    var obj2=taskFormData.find(function(e){return e.id==obj.model})
-    obj2.value = obj.options.defaultValue
+    if(taskFormData !=null){
+      var obj2=taskFormData.find(function(e){return e.id==obj.model})
+      obj2.value = obj.options.defaultValue
+    }
   },
   dealObj(obj,taskFormData){
     if(obj.options!=null&&!obj.options.hidden){

@@ -66,7 +66,7 @@
 						 v-for="(button, index) in buttons" :key="index" >
 							<button style="height: 50px; line-height: 1.2; font-size:14px;"
 							class="block buttonBox flex_align_certer flex_vlign_certer" @click="submit(button, buttons)">{{button.name}}</button>
-						</view>						
+						</view>
 					</view>
 				</form>
 			</view>

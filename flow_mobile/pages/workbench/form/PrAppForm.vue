@@ -53,10 +53,10 @@
 				</view>
 				<view class="cu-form-group">
 					<view class="title wd-100 detail-info-row">
-						<text class="detail-info-row-float-left">{{$i18nMy.t('项目名称')}}</text>
+						<text class="detail-info-row-float-left">{{$i18nMy.t('项目描述')}}</text>
 						<text class="detail-info-row-float-right" v-if="formReadOnly">{{inputForm.projectName}}</text>
 						<text class="detail-info-row-float-right" v-if="!formReadOnly">
-							<input :placeholder="$i18nMy.t('请输入项目名称')" v-model="inputForm.projectName" ></input>
+							<input :placeholder="$i18nMy.t('请输入项目描述')" v-model="inputForm.projectName" ></input>
 						</text>
 					</view>
 				</view>
@@ -203,7 +203,7 @@
 						<text class="detail-info-row-float-right">
 							<text style="width: 38%;float: left; text-align: right;">{{parseFloat(inputForm.totalContractAmount).toFixed(2)}}</text>
 							<text style="width: 38%;float: left; text-align: right;">{{parseFloat(inputForm.totalVatContractAmount).toFixed(2)}}(VAT)</text>
-							<text style="width: 24%;float: left; text-align: right;">{{inputForm.contractCurrency=='other'?$i18nMy.t('多币种'):inputForm.contractCurrency}}</text>
+							<text style="width: 24%;float: left; text-align: right;">{{inputForm.contractCurrency=='other'?$i18nMy.t('多种币种'):inputForm.contractCurrency}}</text>
 						</text>
 					</view>
 				</view>
@@ -279,7 +279,7 @@
 							<view class="title detail-info-title detail-info-title-right text-right">{{inputForm.vat}}%</view>
 						</view>
 						<view class="detail-info-row">
-							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('市场价格(VAT)')}}</view>
+							<view class="title detail-info-title detail-info-title-left">{{$i18nMy.t('市场价格')}} (VAT)</view>
 							<view class="title detail-info-title detail-info-title-right text-right">{{item.vatUnitPrice}}</view>
 						</view>
 						<view class="detail-info-row">

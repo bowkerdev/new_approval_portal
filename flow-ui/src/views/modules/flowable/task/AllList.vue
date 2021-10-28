@@ -5,7 +5,13 @@
            <el-input size="small" v-model="searchForm.title" :placeholder="$i18nMy.t('申请单号')" clearable></el-input>
         </el-form-item>
         <el-form-item prop="processDefinitionKey">
-           <el-input size="small" v-model="searchForm.processDefinitionKey" :placeholder="$i18nMy.t('流程名称')" clearable></el-input>
+               <el-select size="small" v-model="searchForm.processDefinitionKey" :placeholder="$i18nMy.t('流程名称')" clearable>
+                <el-option v-for="item in procKeyList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value" >
+                </el-option>
+               </el-select>
         </el-form-item>
         <el-form-item prop="status">
            <el-select size="small" v-model="searchForm.status" :placeholder="$i18nMy.t('流程状态')" clearable style="width: 100%;">
@@ -155,6 +161,7 @@
           endTime: ''
         },
         searchDates: '',
+        procKeyList: [],
         dataList: [],
         pageNo: 1,
         pageSize: 10,
@@ -194,6 +201,10 @@
       }
     },
     activated () {
+      let _that=this
+      this.$dictUtils.getSqlDictList('GET_PROC_KEY',{},function(data){
+        _that.procKeyList = data
+      })
       this.refreshList()
     },
     components: {

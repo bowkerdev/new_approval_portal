@@ -28,7 +28,7 @@
         </el-card>
     </el-tab-pane>
   </el-tabs>
-  <div  style="height:66px ;">-</div>
+  <div  style="height:66px ;"></div>
   <div  class="FlowFormFooter">
     <el-button type="primary" v-if="exportButton!=null" @click="exportData()"  v-noMoreClick plain>{{$i18nMy.t(exportButton.name)}}</el-button>
     <el-button type="primary"  @click="close()"  v-noMoreClick plain>{{$i18nMy.t('关闭')}}</el-button>

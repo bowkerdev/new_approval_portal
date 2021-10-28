@@ -147,20 +147,16 @@
 		},
 		async mounted () {
 			  if (this.formType === '2') { //外置表单
-				var formName =  (this.formUrl || '').substring((this.formUrl || '').lastIndexOf('/') + 1);
 				if (this.formUrl === '/404') {
 				  this.form = null
 				  uni.showToast({ title: '没有关联流程表单!', icon: "none" });
 				} else {
 				  // uniapp 不支持动态组件，所以通过名称匹配决定调用的表单组件
-				  if(this.formUrl.endsWith('TestActivitiLeaveForm')){ 
-					  this.form = TestActivitiLeaveForm
-				  } else if(formName.indexOf("OaPrNewFormAll") > -1){
+				  if(this.formUrl.indexOf("OaPrNewForm")>-1 || this.formUrl.indexOf("/oa/pr/form")>-1){
 					  this.notBackgroundColor = true;
-					  // this.businessId ='6d515ebc91fe4f498e7e23d05e9c10cf'
 					  this.formReadOnly = true;
 					  this.form = PrAppForm;
-				  }else{
+				  } else {
 					  uni.showToast({ title: '没有关联流程表单!', icon: "none" });
 				  }
 				    

@@ -250,7 +250,7 @@ public class AppFlowableFormController extends BaseController {
                 taskService.setAssignee(task.getId(), flow.getAssignee ());
             }
         }
-        return AjaxJson.success(DictUtils.getLanguageLabel("提交成功", ""));
+        return AjaxJson.success(DictUtils.getLanguageLabel("处理成功", ""));
     }
 
 

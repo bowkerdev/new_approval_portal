@@ -232,7 +232,7 @@ public class AppFlowableTaskController extends BaseController {
                taskService.setAssignee(task.getId(), flow.getAssignee ());
            }
         }
-        return AjaxJson.success(DictUtils.getLanguageLabel("提交成功", "")).put("procInsId", flow.getProcInsId ());
+        return AjaxJson.success(DictUtils.getLanguageLabel("处理成功", "")).put("procInsId", flow.getProcInsId ());
     }
 
     /**

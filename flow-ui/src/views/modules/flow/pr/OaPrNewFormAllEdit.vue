@@ -95,6 +95,7 @@
         this.$refs.oaPrNewFormForSupplier.inputForm=this.$refs.oaPrNewForm.inputForm
         if(!this.compArray(this.$refs.oaPrNewFormForSupplier.detailInfo,this.$refs.oaPrNewForm.detailInfo)){
           console.log("清理数据")
+          debugger
           this.$refs.oaPrNewFormForSupplier.supplierInfo = []
           this.$refs.oaPrNewFormForSupplier.supplierInfoByDetailInfo = []
           for(var i=0;i<this.$refs.oaPrNewForm.detailInfo.length;i++){
@@ -121,19 +122,45 @@
         if(arr1.length != arr2.length){
           return false
         }
+
+        brandName: "thankpad"
+        currency: "RMB"
+        docAmount: 8250
+        docUnitPrice: 0
+        docVatAmount: 0
+        edit: false
+        exRate: "1.2040000000"
+        expectArrivalDate: ""
+        item: "联想笔记本电脑"
+        itemDescription: "vicky.luo 工作需要ＣＬＯ软件"
+        modelNo: ""
+        quantity: 1
+        realQuantity: 1
+        serialNumber: 1
+        supplierName: "深圳市海唯意科技有限公司"
+        unitPrice: "8250.00"
+        uom: "QTY"
+        vat: ""
+        vatUnitPrice: ""
+        __
+
         for(var i=0;arr1.length > i;i++){
           for(var key in arr1[i]){
-            if(!((arr1[i][key] ==null ||arr1[i][key].toString() =='NaN')&&
-                (arr2[i][key] ==null ||arr2[i][key].toString() =='NaN'))){
-              if(arr1[i][key] != arr2[i][key]){
+            if(!((arr1[i][key] ==null || arr1[i][key].toString() =='NaN' || arr1[i][key].toString() =='0')&&
+                (arr2[i][key] ==null || arr2[i][key].toString() =='NaN' || arr2[i][key].toString() =='0'))){
+              if ( key == "exRate" && parseFloat(arr1[i][key]) != parseFloat(arr2[i][key])) {
+                return false
+              } else if (arr1[i][key] != arr2[i][key]) {
                 return false
               }
             }
           }
           for(var key in arr2[i]){ // 如果 arr2 key 多一个值，需反过来比对
-            if(!((arr1[i][key] ==null ||arr1[i][key].toString() =='NaN')&&
-                (arr2[i][key] ==null ||arr2[i][key].toString() =='NaN'))){
-              if(arr1[i][key] != arr2[i][key]){
+            if(!((arr1[i][key] ==null ||arr1[i][key].toString() =='NaN' || arr1[i][key].toString() =='0')&&
+                (arr2[i][key] ==null ||arr2[i][key].toString() =='NaN' || arr2[i][key].toString() =='0'))){
+              if ( key == "exRate" && parseFloat(arr1[i][key]) != parseFloat(arr2[i][key])) {
+                return false
+              } else if(arr1[i][key] != arr2[i][key]){
                 return false
               }
             }

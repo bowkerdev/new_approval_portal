@@ -54,6 +54,7 @@
                     children: 'children'    // 子级字段名
                   }" :url="`/sys/office/treeData?type=2&parentCode=${inputForm.applySiteCode}`" :value="inputForm.requesterDepartment.id" :clearable="true"
               :accordion="true" @getValue="(value, name) => {inputForm.requesterDepartment.id=value; inputForm.requesterDepartment.name=name}" />
+              <el-input v-if="!ifSiteChange" :placeholder="$i18nMy.t('请选择')" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -427,7 +428,7 @@
     data() {
       return {
         activeName:'0',
-        ifSiteChange: true,
+        ifSiteChange: false,
         isCopy: false,
         title: '',
         method: '',
@@ -526,6 +527,7 @@
               data
             }) => {
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
+              this.ifSiteChange = true;
               if (this.isCopy) {
                 this.inputForm.id = ''
                 this.inputForm.applicationNo = ''

@@ -380,7 +380,7 @@
 					assignee: this.auditForm.assignee
 				  }).then(({data}) => {
 					if (data.success) {
-					  uni.showToast({ title: data.msg, icon: "success" });
+					  uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
 					  uni.navigateTo({
 						  url: '/pages/workbench/task/TodoList'
 					  })
@@ -396,7 +396,7 @@
 				  assignee: this.auditForm.assignee
 				}, (data) => {
 				  if (data.success) {
-					uni.showToast({ title: data.msg, icon: "success" });
+					uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
 					uni.navigateTo({
 						url: '/pages/workbench/task/TodoList'
 					})
@@ -440,7 +440,7 @@
 			    ...this.auditForm
 			  }).then(({data}) => {
 			    if (data.success) {
-			      uni.showToast({ title: data.msg, icon: "success" });
+			      uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
 			      uni.navigateTo({
 			      	url: '/pages/workbench/task/TodoList'
 			      })
@@ -456,7 +456,7 @@
 			      ...this.auditForm
 			    }).then(({data}) => {
 			      if (data.success) {
-			        uni.showToast({ title: data.msg, icon: "success" });
+			        uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
 			        uni.navigateTo({
 			        	url: '/pages/workbench/task/TodoList'
 			        })
@@ -476,7 +476,7 @@
 				...this.auditForm
 			  }).then(({data}) => {
 				if (data.success) {
-				  uni.showToast({ title: data.msg, icon: "success" });
+				  uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
 				  uni.navigateTo({
 				  	url: '/pages/workbench/task/TodoList'
 				  })
@@ -493,7 +493,7 @@
 				return user.id
 			  }).join(',')
 			  this.$http.post('/flowable/task/addSignTask', {taskId: this.taskId, userIds: JSON.stringify(userIds), message: '', flag: false}).then(({data}) => {
-				uni.showToast({ title: data.msg, icon: "success" });
+				uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
 			  })
 			},
 			// 减签
@@ -510,7 +510,7 @@
 				  return
 			  }
 			  this.$http.post('/flowable/task/transfer', {taskId: this.taskId, userId: userId}).then(({data}) => {
-				uni.showToast({ title: data.msg, icon: "success" });
+				uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
 				uni.navigateTo({
 					url: '/pages/workbench/task/TodoList'
 				})
@@ -526,7 +526,7 @@
 				  return
 			  }
 			  this.$http.post('/flowable/task/delegate', {taskId: this.taskId, userId: userId}).then(({data}) => {
-				uni.showToast({ title: data.msg, icon: "success" });
+				uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
 				uni.navigateTo({
 					url: '/pages/workbench/task/TodoList'
 				})
@@ -541,7 +541,7 @@
 				    success: (res) => {
 				        if (res.confirm) {
 				            this.$http.post('/flowable/process/stop', {id: this.procInsId, ...this.auditForm}).then(({data}) => {
-				              uni.showToast({ title: data.msg, icon: "success" });
+				              uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
 				              uni.navigateTo({
 				              	url: '/pages/workbench/task/TodoList'
 				              })
@@ -581,18 +581,20 @@
 						assignee: this.auditForm.assignee
 					  }).then(({data}) => {
 						if (data.success) {
-							uni.showToast({ title: data.msg, icon: "success" });
-							uni.navigateTo({
-								url: '/pages/workbench/task/TodoList'
-							})
-						  this.cc(data)
+							uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" }); 
+							setTimeout(function(){
+								uni.navigateTo({
+									url: '/pages/workbench/task/TodoList'
+								})
+							},1000)
+							this.cc(data)
 						}
 					  })
 				//})
 				} else { // 动态表单启动
 					this.$refs.form.submitTaskFormData(vars, this.procInsId, this.taskId, this.auditForm.assignee, this.auditForm, (data) => {
 					  if (data.success) {
-						uni.showToast({ title: data.msg, icon: "success" });
+						uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
 						uni.navigateTo({
 							url: '/pages/workbench/task/TodoList'
 						})
@@ -674,9 +676,9 @@
 	.content {
 		font-size: 12px;
 	}
-	.cu-form-group .title {
+	/* .cu-form-group .title {
 		min-width: calc(4em + 40px);
-	}
+	} */
 	uni-view:nth-child(1n+1)>uni-button.buttonBox{
 		background:#0081ff;
 		color: #FFFFFF;
@@ -705,4 +707,9 @@
 		margin-top: 15px;
 		margin-bottom: -10px;
 	}
+	/deep/.uni-scroll-view-content{
+	   transform:none !important;
+	   transition:none !important;
+	}
+	
 </style>

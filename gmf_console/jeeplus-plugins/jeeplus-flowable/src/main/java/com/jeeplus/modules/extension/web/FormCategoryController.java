@@ -79,7 +79,7 @@ public class FormCategoryController extends BaseController {
 		}
 		//新增或编辑表单保存
 		formCategoryService.save(formCategory);//保存
-		return AjaxJson.success(DictUtils.getLanguageLabel("保存流程分类成功", ""));
+		return AjaxJson.success(DictUtils.getLanguageLabel("保存成功", ""));
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class FormCategoryController extends BaseController {
 	@DeleteMapping("delete")
 	public AjaxJson delete(FormCategory formCategory) {
 		formCategoryService.delete(formCategory);
-		return AjaxJson.success(DictUtils.getLanguageLabel("删除流程分类成功", ""));
+		return AjaxJson.success(DictUtils.getLanguageLabel("删除成功", ""));
 	}
 
 	/**

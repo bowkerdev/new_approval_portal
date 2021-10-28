@@ -109,7 +109,7 @@ public class FlowableModelController extends BaseController {
         if(jeePlusProperites.isDemoMode()){
             return AjaxJson.error("演示模式，不允许操作!");
         }
-		return AjaxJson.success("删除成功!");
+		return AjaxJson.success("操作成功");
 	}
 	/**
 	 * 根据Model复制流程
@@ -151,7 +151,7 @@ public class FlowableModelController extends BaseController {
 
 		modelService.saveModel(modelId, newModel.getName (), newModel.getKey (), newModel.getDescription (), newModel.getModelEditorJson (), true, "", fUser);
 
-		return  AjaxJson.success("拷贝成功!");
+		return  AjaxJson.success("操作成功");
 	}
 
 	/**

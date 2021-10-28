@@ -91,7 +91,7 @@ public class WfDelegateController extends BaseController {
 		}
 		//新增或编辑表单保存
 		wfDelegateService.save(wfDelegate);//保存
-		return AjaxJson.success("保存流程委托设置成功");
+		return AjaxJson.success("保存成功");
 	}
 
 
@@ -105,7 +105,7 @@ public class WfDelegateController extends BaseController {
 		for(String id : idArray){
 			wfDelegateService.delete(new WfDelegate(id));
 		}
-		return AjaxJson.success("删除流程委托设置成功");
+		return AjaxJson.success("删除成功");
 	}
 
 	/**
@@ -148,11 +148,11 @@ public class WfDelegateController extends BaseController {
 				}
 			}
 			if (failureNum>0){
-				failureMsg.insert(0, "，失败 "+failureNum+" 条流程委托设置记录。");
+				failureMsg.insert(0, "，失败 "+failureNum+" 条记录。");
 			}
-			return AjaxJson.success( "已成功导入 "+successNum+" 条流程委托设置记录"+failureMsg);
+			return AjaxJson.success( "已成功导入 "+successNum+" 条记录"+failureMsg);
 		} catch (Exception e) {
-			return AjaxJson.error("导入流程委托设置失败！失败信息："+e.getMessage());
+			return AjaxJson.error("导入失败！失败信息："+e.getMessage());
 		}
     }
 

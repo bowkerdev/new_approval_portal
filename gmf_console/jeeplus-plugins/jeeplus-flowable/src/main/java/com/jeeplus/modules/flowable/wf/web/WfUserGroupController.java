@@ -91,7 +91,7 @@ public class WfUserGroupController extends BaseController {
 		}
 		//新增或编辑表单保存
 		wfUserGroupService.save(wfUserGroup);//保存
-		return AjaxJson.success("保存流程用户组设置成功");
+		return AjaxJson.success("保存成功");
 	}
 
 
@@ -105,7 +105,7 @@ public class WfUserGroupController extends BaseController {
 		for(String id : idArray){
 			wfUserGroupService.delete(new WfUserGroup(id));
 		}
-		return AjaxJson.success("删除流程用户组设置成功");
+		return AjaxJson.success("删除成功");
 	}
 
 	/**
@@ -148,11 +148,11 @@ public class WfUserGroupController extends BaseController {
 				}
 			}
 			if (failureNum>0){
-				failureMsg.insert(0, "，失败 "+failureNum+" 条流程用户组设置记录。");
+				failureMsg.insert(0, "，失败 "+failureNum+" 条记录。");
 			}
-			return AjaxJson.success( "已成功导入 "+successNum+" 条流程用户组设置记录"+failureMsg);
+			return AjaxJson.success( "已成功导入 "+successNum+" 条记录"+failureMsg);
 		} catch (Exception e) {
-			return AjaxJson.error("导入流程用户组设置失败！失败信息："+e.getMessage());
+			return AjaxJson.error("导入失败！失败信息："+e.getMessage());
 		}
     }
 

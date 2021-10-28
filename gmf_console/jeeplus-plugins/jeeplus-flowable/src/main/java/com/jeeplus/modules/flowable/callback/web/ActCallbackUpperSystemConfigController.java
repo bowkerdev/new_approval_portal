@@ -92,7 +92,7 @@ public class ActCallbackUpperSystemConfigController extends BaseController {
 		}
 		//新增或编辑表单保存		
 		actCallbackUpperSystemConfigService.save(actCallbackUpperSystemConfig);//保存
-		return AjaxJson.success(  DictUtils.getLanguageLabel("保存配置设置成功",null));
+		return AjaxJson.success(  DictUtils.getLanguageLabel("保存成功",null));
 	}
 
 
@@ -106,7 +106,7 @@ public class ActCallbackUpperSystemConfigController extends BaseController {
 		for(String id : idArray){
 			actCallbackUpperSystemConfigService.delete(new ActCallbackUpperSystemConfig(id));
 		}
-		return AjaxJson.success(DictUtils.getLanguageLabel("删除配置设置成功",null));
+		return AjaxJson.success(DictUtils.getLanguageLabel("删除成功",null));
 	}
 
 	/**
@@ -149,11 +149,11 @@ public class ActCallbackUpperSystemConfigController extends BaseController {
 				}
 			}
 			if (failureNum>0){
-			    failureMsg.insert(0,String.format(DictUtils.getLanguageLabel("，失败 %d 条配置设置记录。",""), failureNum));
+			    failureMsg.insert(0,String.format(DictUtils.getLanguageLabel("，失败 %d 条记录。",""), failureNum));
 			}
-			return AjaxJson.success(String.format(DictUtils.getLanguageLabel("已成功导入 %d 条配置设置记录%d",""), successNum,failureMsg));
+			return AjaxJson.success(String.format(DictUtils.getLanguageLabel("已成功导入 %d 条记录%d",""), successNum,failureMsg));
 		} catch (Exception e) {
-			return AjaxJson.error(DictUtils.getLanguageLabel("导入配置设置失败！失败信息：",null)+e.getMessage());
+			return AjaxJson.error(DictUtils.getLanguageLabel("导入失败！失败信息：",null)+e.getMessage());
 		}
     }
 

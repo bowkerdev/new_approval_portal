@@ -114,7 +114,7 @@ public class FlowableFormController extends BaseController {
                 taskService.setAssignee(task.getId(), assignee);
             }
         }
-        return AjaxJson.success(DictUtils.getLanguageLabel("启动成功", "")).put("procInsId", procInsId);
+        return AjaxJson.success(DictUtils.getLanguageLabel("操作成功", "")).put("procInsId", procInsId);
     }
 
     /**
@@ -247,7 +247,7 @@ public class FlowableFormController extends BaseController {
                 taskService.setAssignee(task.getId(), flow.getAssignee ());
             }
         }
-        return AjaxJson.success(DictUtils.getLanguageLabel("处理成功", ""));
+        return AjaxJson.success(DictUtils.getLanguageLabel("操作成功", ""));
     }
 
 

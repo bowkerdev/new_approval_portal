@@ -63,7 +63,7 @@ public class AppFlowCopyController extends BaseController {
 			flowCopy.setUserId(userId);
 			flowCopyService.save(flowCopy);//保存
 		}
-		return AjaxJson.success("保存流程抄送成功");
+		return AjaxJson.success("保存成功");
 	}
 
 
@@ -76,7 +76,7 @@ public class AppFlowCopyController extends BaseController {
 		for(String id : idArray){
 			flowCopyService.delete(flowCopyService.get(id));
 		}
-		return AjaxJson.success("删除流程抄送成功");
+		return AjaxJson.success("删除成功");
 	}
 
 }

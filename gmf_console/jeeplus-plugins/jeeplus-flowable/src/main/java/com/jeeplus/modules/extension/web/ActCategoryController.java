@@ -79,7 +79,7 @@ public class ActCategoryController extends BaseController {
 		}
 		//新增或编辑表单保存
 		actCategoryService.save(actCategory);//保存
-		return AjaxJson.success(DictUtils.getLanguageLabel("保存流程分类成功", ""));
+		return AjaxJson.success(DictUtils.getLanguageLabel("保存成功", ""));
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class ActCategoryController extends BaseController {
 		for(String id : idArray){
 			actCategoryService.delete(new ActCategory (id));
 		}
-		return AjaxJson.success(DictUtils.getLanguageLabel("删除流程分类成功", ""));
+		return AjaxJson.success(DictUtils.getLanguageLabel("删除成功", ""));
 	}
 
 	/**

@@ -86,7 +86,7 @@ public class ButtonController extends BaseController {
 		}
 		//新增或编辑表单保存
 		buttonService.save(button);//保存
-		return AjaxJson.success(DictUtils.getLanguageLabel("保存常用按钮成功", ""));
+		return AjaxJson.success(DictUtils.getLanguageLabel("保存成功", ""));
 	}
 
 
@@ -99,7 +99,7 @@ public class ButtonController extends BaseController {
 		for(String id : idArray){
 			buttonService.delete(buttonService.get(id));
 		}
-		return AjaxJson.success(DictUtils.getLanguageLabel("删除常用按钮成功", ""));
+		return AjaxJson.success(DictUtils.getLanguageLabel("删除成功", ""));
 	}
 
 

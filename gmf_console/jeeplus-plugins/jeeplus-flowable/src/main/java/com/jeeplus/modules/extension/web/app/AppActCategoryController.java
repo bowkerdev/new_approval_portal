@@ -77,7 +77,7 @@ public class AppActCategoryController extends BaseController {
 		}
 		//新增或编辑表单保存
 		actCategoryService.save(actCategory);//保存
-		return AjaxJson.success("保存流程分类成功");
+		return AjaxJson.success("保存成功");
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class AppActCategoryController extends BaseController {
 	@DeleteMapping("delete")
 	public AjaxJson delete(ActCategory actCategory) {
 		actCategoryService.delete(actCategory);
-		return AjaxJson.success("删除流程分类成功");
+		return AjaxJson.success("删除成功");
 	}
 
 	/**

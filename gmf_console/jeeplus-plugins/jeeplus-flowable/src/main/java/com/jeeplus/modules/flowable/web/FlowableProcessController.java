@@ -125,7 +125,7 @@ public class FlowableProcessController extends BaseController {
     @PostMapping("updateCategory")
     public AjaxJson updateCategory(String procDefId, String category, RedirectAttributes redirectAttributes) {
         flowProcessService.updateCategory(procDefId, category);
-        return AjaxJson.success("流程分类设置成功!");
+        return AjaxJson.success("操作成功");
     }
 
     /**
@@ -166,7 +166,7 @@ public class FlowableProcessController extends BaseController {
         for (String id : idArray) {
             flowProcessService.deleteDeployment(id);
         }
-        return AjaxJson.success("删除成功!");
+        return AjaxJson.success("操作成功");
     }
 
     /**
@@ -181,7 +181,7 @@ public class FlowableProcessController extends BaseController {
             for (String id : ids.split(",")) {
                 flowProcessService.deleteProcIns(id, reason);
             }
-            return AjaxJson.success("流程实例删除成功!");
+            return AjaxJson.success("操作成功");
         } catch (FlowableObjectNotFoundException e) {
             return AjaxJson.success("操作失败，流程已经结束!");
         }
@@ -198,7 +198,7 @@ public class FlowableProcessController extends BaseController {
         try {
             flowProcessService.callBackProcessInstanceById (id);
 
-            return AjaxJson.success("流程撤销成功!");
+            return AjaxJson.success("操作成功");
         } catch (FlowableObjectNotFoundException e) {
             return AjaxJson.success("操作失败，流程已经结束!");
         }
@@ -214,7 +214,7 @@ public class FlowableProcessController extends BaseController {
     public AjaxJson stopProcIns(String id, String message) {
         try {
             flowProcessService.stopProcessInstanceById (id, ProcessStatus.STOP, message);
-            return AjaxJson.success("终止流程成功!");
+            return AjaxJson.success("操作成功");
         } catch (FlowableObjectNotFoundException e) {
             return AjaxJson.success("操作失败，流程已经结束!");
         }

@@ -103,7 +103,7 @@ public class NodeSettingController extends BaseController {
 			nodeSettingService.save (nodeSetting);
 		}
 
-		return AjaxJson.success("保存配置成功");
+		return AjaxJson.success("保存成功");
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class NodeSettingController extends BaseController {
 		for(String id : idArray){
 			nodeSettingService.delete(new NodeSetting(id));
 		}
-		return AjaxJson.success("删除节点成功");
+		return AjaxJson.success("删除成功");
 	}
 
 

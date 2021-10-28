@@ -86,7 +86,7 @@ public class ConditionController extends BaseController {
 		}
 		//新增或编辑表单保存
 		conditionService.save(condition);//保存
-		return AjaxJson.success(DictUtils.getLanguageLabel("保存流程表达式成功", ""));
+		return AjaxJson.success(DictUtils.getLanguageLabel("保存成功", ""));
 	}
 
 
@@ -99,7 +99,7 @@ public class ConditionController extends BaseController {
 		for(String id : idArray){
 			conditionService.delete(conditionService.get(id));
 		}
-		return AjaxJson.success(DictUtils.getLanguageLabel("删除流程表达式成功", ""));
+		return AjaxJson.success(DictUtils.getLanguageLabel("删除成功", ""));
 	}
 
 

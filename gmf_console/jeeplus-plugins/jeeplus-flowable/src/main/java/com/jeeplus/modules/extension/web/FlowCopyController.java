@@ -86,7 +86,7 @@ public class FlowCopyController extends BaseController {
 			flowCopy.setUserId(userId);
 			flowCopyService.save(flowCopy);//保存
 		}
-		return AjaxJson.success(DictUtils.getLanguageLabel("保存流程抄送成功", ""));
+		return AjaxJson.success(DictUtils.getLanguageLabel("保存成功", ""));
 	}
 
 
@@ -99,7 +99,7 @@ public class FlowCopyController extends BaseController {
 		for(String id : idArray){
 			flowCopyService.delete(flowCopyService.get(id));
 		}
-		return AjaxJson.success(DictUtils.getLanguageLabel("删除流程抄送成功", ""));
+		return AjaxJson.success(DictUtils.getLanguageLabel("删除成功", ""));
 	}
 
 }

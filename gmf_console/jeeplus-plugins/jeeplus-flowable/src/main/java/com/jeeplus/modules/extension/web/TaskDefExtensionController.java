@@ -93,7 +93,7 @@ public class TaskDefExtensionController extends BaseController {
 			//新增或编辑表单保存
 			taskDefExtensionService.save(taskDefExtension);//保存
 		}
-		return AjaxJson.success(DictUtils.getLanguageLabel("保存工作流扩展成功", ""));
+		return AjaxJson.success(DictUtils.getLanguageLabel("保存成功", ""));
 	}
 
 
@@ -106,7 +106,7 @@ public class TaskDefExtensionController extends BaseController {
 		for(String id : idArray){
 			taskDefExtensionService.delete(new TaskDefExtension(id));
 		}
-		return AjaxJson.success(DictUtils.getLanguageLabel("删除工作流扩展成功", ""));
+		return AjaxJson.success(DictUtils.getLanguageLabel("删除成功", ""));
 	}
 
 }

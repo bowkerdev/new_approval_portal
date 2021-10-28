@@ -86,7 +86,7 @@ public class ListenerController extends BaseController {
 		}
 		//新增或编辑表单保存
 		listenerService.save(listener);//保存
-		return AjaxJson.success(DictUtils.getLanguageLabel("保存监听器成功", ""));
+		return AjaxJson.success(DictUtils.getLanguageLabel("保存成功", ""));
 	}
 
 
@@ -99,7 +99,7 @@ public class ListenerController extends BaseController {
 		for(String id : idArray){
 			listenerService.delete(listenerService.get(id));
 		}
-		return AjaxJson.success(DictUtils.getLanguageLabel("删除监听器成功", ""));
+		return AjaxJson.success(DictUtils.getLanguageLabel("删除成功", ""));
 	}
 
 }

@@ -24,7 +24,7 @@ public class AppInit implements CommandLineRunner {
     private String path;
     @Override
     public void run(String... args) throws Exception {
-        System.out.println(">>>>>>>>>>>>>>>jeeplus 启动成功<<<<<<<<<<<<<");
+        System.out.println(">>>>>>>>>>>>>>系统启动成功<<<<<<<<<<<<<");
         String ip = InetAddress.getLocalHost().getHostAddress();
         System.out.println("Jeeplus Application running at:\n\t" +
                 "- Local: http://localhost:" + port + path + "/\n\t" +

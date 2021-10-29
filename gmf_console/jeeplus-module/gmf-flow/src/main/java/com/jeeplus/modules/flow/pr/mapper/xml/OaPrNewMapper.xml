@@ -61,9 +61,7 @@
 							SELECT SUBSTRING_INDEX( GROUP_CONCAT( id_ ORDER BY START_TIME_ DESC, ifnull( END_TIME_, '2099-01-01' ) DESC SEPARATOR '||' ), '||', 1 ) id_ 
 							FROM act_hi_actinst WHERE act_type_ IN ( 'userTask', 'endEvent' ) GROUP BY PROC_INST_ID_)
 				  ) b on a.proc_ins_id = b.PROC_INST_ID_
-		
 	</sql>
-
 
 	<select id="get" resultType="OaPrNew" >
 		SELECT
@@ -95,8 +93,12 @@
 				AND a.application_no = #{applicationNo}
 			</if>
 			<if test="projectName != null and projectName != ''">
-				AND a.project_name = #{projectName}
-			</if>
+				AND a.project_name like 
+			    	<if test="_databaseId == 'postgre'">'%'||#{projectName}||'%'</if>
+					<if test="_databaseId == 'oracle'">'%'||#{projectName}||'%'</if>
+					<if test="_databaseId == 'mssql'">'%'+#{projectName}+'%'</if>
+					<if test="_databaseId == 'mysql'">concat('%',#{projectName},'%')</if>
+			</if> 
 			<if test="applySiteCode != null and applySiteCode != ''">
 				AND a.apply_site_code = #{applySiteCode}
 			</if>
@@ -110,10 +112,10 @@
 				AND a.request_riority = #{requestRiority}
 			</if>
 			<if test="status != null and status != '' and status == 'In progress'">
-				and b.act_type_ != 'endEvent'
+				and p.end_time_ is null
 		    </if>
 		    <if test="status != null and status != '' and status == 'End'">
-				and b.act_type_ = 'endEvent'
+				and p.end_time_ is not null
 		    </if>
 		</where>
 		<choose>

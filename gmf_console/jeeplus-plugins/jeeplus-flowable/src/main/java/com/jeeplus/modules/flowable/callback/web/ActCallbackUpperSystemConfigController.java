@@ -92,7 +92,7 @@ public class ActCallbackUpperSystemConfigController extends BaseController {
 		}
 		//新增或编辑表单保存		
 		actCallbackUpperSystemConfigService.save(actCallbackUpperSystemConfig);//保存
-		return AjaxJson.success(  DictUtils.getLanguageLabel("保存成功",null));
+		return AjaxJson.success(DictUtils.getLanguageLabel("保存成功",null));
 	}
 
 

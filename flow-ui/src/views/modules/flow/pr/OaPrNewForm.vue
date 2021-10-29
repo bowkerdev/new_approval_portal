@@ -230,7 +230,7 @@
            </el-row>
            <el-table :data="detailInfo" height="300px" class="table" size="small" border  >
               <el-table-column prop="serialNumber" width="50" align="center" :label="$i18nMy.t('序号')"> </el-table-column>
-              <el-table-column prop="item" align="left"  :label="'* '+$i18nMy.t('物品')" >
+              <el-table-column prop="item" align="left" show-overflow-tooltip :label="'* '+$i18nMy.t('物品')" >
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-model="row.item" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
@@ -262,7 +262,7 @@
                   <span v-else>{{ row.modelNo }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="supplierName" v-if="index == 2" align="left" :label="$i18nMy.t('供应商名称')">
+              <el-table-column prop="supplierName" v-if="index == 2" show-overflow-tooltip align="left" :label="$i18nMy.t('供应商名称')">
                 <template slot-scope="{row}">
                   <!-- <template v-if="row.edit">
                     <el-input  size="small" :disabled="flowStage=='start'?true:false"  v-model="row.supplierName" placeholder="" ></el-input>

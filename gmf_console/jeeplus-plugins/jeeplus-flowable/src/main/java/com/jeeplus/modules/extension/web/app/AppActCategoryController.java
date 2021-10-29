@@ -9,6 +9,8 @@ import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.extension.entity.ActCategory;
 import com.jeeplus.modules.extension.service.ActCategoryService;
+import com.jeeplus.modules.sys.utils.DictUtils;
+
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +79,7 @@ public class AppActCategoryController extends BaseController {
 		}
 		//新增或编辑表单保存
 		actCategoryService.save(actCategory);//保存
-		return AjaxJson.success("保存成功");
+		return AjaxJson.success(DictUtils.getLanguageLabel("保存成功",""));
 	}
 
 	/**
@@ -87,7 +89,7 @@ public class AppActCategoryController extends BaseController {
 	@DeleteMapping("delete")
 	public AjaxJson delete(ActCategory actCategory) {
 		actCategoryService.delete(actCategory);
-		return AjaxJson.success("删除成功");
+		return AjaxJson.success(DictUtils.getLanguageLabel("删除成功",""));
 	}
 
 	/**

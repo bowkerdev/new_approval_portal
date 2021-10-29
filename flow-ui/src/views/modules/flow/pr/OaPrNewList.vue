@@ -2,12 +2,6 @@
   <div class="page" style="height: calc(100% - 100px);">
       <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
-         <el-form-item prop="applicationNo">
-                <el-input size="small" v-model="searchForm.applicationNo" :placeholder="$i18nMy.t('申请单号')" clearable></el-input>
-         </el-form-item>
-         <el-form-item prop="projectName">
-                <el-input size="small" v-model="searchForm.projectName" :placeholder="$i18nMy.t('项目描述')" clearable></el-input>
-         </el-form-item>
          <el-form-item prop="applySiteCode">
                   <el-select size="small" v-model="searchForm.applySiteCode" :placeholder="$i18nMy.t('采购地区')" @change="siteChange" clearable style="width: 100%;">
                     <el-option
@@ -17,6 +11,22 @@
                       :value="item.value">
                     </el-option>
                   </el-select>
+         </el-form-item>
+         <el-form-item prop="applicationNo">
+                <el-input size="small" v-model="searchForm.applicationNo" :placeholder="$i18nMy.t('申请单号')" clearable></el-input>
+         </el-form-item>
+         <el-form-item prop="requestRiority">
+            <el-select size="small" v-model="searchForm.status" :placeholder="$i18nMy.t('流程状态')"  style="width: 100%;" clearable>
+              <el-option
+                v-for="item in $dictUtils.getDictList('flow_status')"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+         </el-form-item>
+         <el-form-item prop="projectName">
+                <el-input size="small" v-model="searchForm.projectName" :placeholder="$i18nMy.t('项目描述')" clearable></el-input>
          </el-form-item>
          <el-form-item prop="requesterDepartment.id">
             <SelectTree
@@ -54,16 +64,6 @@
                       :value="item.value">
                     </el-option>
                   </el-select>
-         </el-form-item>
-         <el-form-item prop="requestRiority">
-            <el-select size="small" v-model="searchForm.status" :placeholder="$i18nMy.t('流程状态')"  style="width: 100%;" clearable>
-              <el-option
-                v-for="item in $dictUtils.getDictList('flow_status')"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
          </el-form-item>
          <el-form-item prop="createDate">
                <el-date-picker

@@ -3,6 +3,21 @@
  */
 package com.jeeplus.modules.flowable.web.app;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.flowable.common.engine.api.FlowableObjectNotFoundException;
+import org.flowable.engine.runtime.ProcessInstance;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.jeeplus.common.config.FlowDataSourceProcessEngineAutoConfiguration;
 import com.jeeplus.common.json.AjaxJson;
 import com.jeeplus.core.persistence.Page;
@@ -10,15 +25,7 @@ import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.flowable.service.FlowProcessService;
 import com.jeeplus.modules.flowable.vo.ProcessStatus;
 import com.jeeplus.modules.flowable.vo.ProcessVo;
-import org.flowable.common.engine.api.FlowableObjectNotFoundException;
-import org.flowable.engine.runtime.ProcessInstance;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
+import com.jeeplus.modules.sys.utils.DictUtils;
 
 /**
  * 流程定义相关Controller
@@ -94,7 +101,7 @@ public class AppFlowableProcessController extends BaseController {
         for (String id : idArray) {
             flowProcessService.deleteDeployment(id);
         }
-        return AjaxJson.success("删除成功");
+        return AjaxJson.success(DictUtils.getLanguageLabel("操作成功", ""));
     }
 
     /**
@@ -109,7 +116,7 @@ public class AppFlowableProcessController extends BaseController {
             for (String id : ids.split(",")) {
                 flowProcessService.deleteProcIns(id, reason);
             }
-            return AjaxJson.success("删除成功");
+            return AjaxJson.success(DictUtils.getLanguageLabel("操作成功", ""));
         } catch (FlowableObjectNotFoundException e) {
             return AjaxJson.success("操作失败，流程已经结束!");
         }
@@ -126,7 +133,7 @@ public class AppFlowableProcessController extends BaseController {
         try {
             flowProcessService.callBackProcessInstanceById (id);
 
-            return AjaxJson.success("操作成功");
+            return AjaxJson.success(DictUtils.getLanguageLabel("操作成功", ""));
         } catch (FlowableObjectNotFoundException e) {
             return AjaxJson.success("操作失败，流程已经结束!");
         }
@@ -142,9 +149,9 @@ public class AppFlowableProcessController extends BaseController {
     public AjaxJson stopProcIns(String id, String message) {
         try {
             flowProcessService.stopProcessInstanceById (id, ProcessStatus.STOP, message);
-            return AjaxJson.success("操作成功");
+            return AjaxJson.success(DictUtils.getLanguageLabel("操作成功", ""));
         } catch (FlowableObjectNotFoundException e) {
-            return AjaxJson.success("操作失败，流程已经结束!");
+            return AjaxJson.success(DictUtils.getLanguageLabel("操作失败，流程已经结束!", ""));
         }
 
     }

@@ -390,28 +390,36 @@ export function downloadPost (url, params) {
 
 export function sendEmail (procInstId, pThis) {
   var ssoToken=Vue.cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')
+  var tokenType;
   if(ssoToken ==null){
     ssoToken=Vue.cookie.get("token")
-    var tokenType=""
+    tokenType="bowker_baseportal"
+  } else{
+    tokenType=process.env.VUE_APP_SSO_TYPE
   }
-  else{
-    var tokenType=process.env.VUE_APP_SSO_TYPE
-  }
+  //测试用token
   var tmp=dictUtils.getDictValue("sit_test","testToken","")
   if(tmp !=""){
     ssoToken = tmp
     tokenType="bowker_baseportal"
   }
-  var param ={"exportConfig":{"configKey":url},param:JSON.stringify(params)}
+  // var param ={"exportConfig":{"configKey":url},param:JSON.stringify(params)}
+  tokenType="bowker_baseportal"
+  var param = {
+    id:"f1bbb86b5fe341b1829b61cdf0f9c856",
+    sendTo:'zhimi-test',
+    param:JSON.stringify({"factory":"BVN","lastDate":"2021-10-29"})
+  }
   pThis.loading=true
 
   $http({
     method: 'POST',
-    url:"https://commontools.bowkerasia.com/zhimitool/msg/msgPushConfig/sendImmediately?tokenType=bowker_baseportal&token="+token,
+    url:"https://commontools.bowkerasia.com/zhimitool/msg/msgPushConfig/sendImmediately",
     withCredentials:false,
-    headers:{'Content-Type': 'application/json; charset=utf-8',
-    "token":ssoToken,
-    "tokenType":tokenType
+    headers:{
+      'Content-Type': 'application/json; charset=utf-8',
+      "token":ssoToken,
+      "tokenType":tokenType
     },
     data:param
   }).then(response => {
@@ -568,4 +576,4 @@ function hashCode (str) {
   }
   return hash
 }
-export default {asyncDownloadPost, syncDownloadPost, getParamString4Exp, escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadWithLoading, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}
+export default {sendEmail,asyncDownloadPost, syncDownloadPost, getParamString4Exp, escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadWithLoading, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}

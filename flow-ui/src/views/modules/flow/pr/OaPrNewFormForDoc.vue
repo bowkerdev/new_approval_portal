@@ -366,7 +366,7 @@
           uploadedBy:this.$store.state.user.name,
           attachment:''
         })
-        attachmentsArra[uuid]=[]
+        this.attachmentsArra[uuid]=[]
       },
       confirmTabListGroup(row){
         if(this.$common.isEmpty(row.documentType)){

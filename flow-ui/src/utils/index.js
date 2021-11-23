@@ -387,49 +387,47 @@ export function downloadPost (url, params) {
   })
 }
 
-
 export function sendEmail (procInstId, pThis) {
-  var ssoToken=Vue.cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')
+  var ssoToken = Vue.cookie.get(process.env.VUE_APP_SSO_TYPE + "_token")
   var tokenType;
-  if(ssoToken ==null){
-    ssoToken=Vue.cookie.get("token")
-    tokenType="bowker_baseportal"
-  } else{
-    tokenType=process.env.VUE_APP_SSO_TYPE
+  if(ssoToken == null){
+    ssoToken = Vue.cookie.get("token")
+    tokenType = "bowker_baseportal"
+  } else {
+    tokenType = process.env.VUE_APP_SSO_TYPE
   }
   //测试用token
   var tmp=dictUtils.getDictValue("sit_test","testToken","")
-  if(tmp !=""){
+  if(tmp != ""){
     ssoToken = tmp
-    tokenType="bowker_baseportal"
+    tokenType = "bowker_baseportal"
   }
   // var param ={"exportConfig":{"configKey":url},param:JSON.stringify(params)}
-  tokenType="bowker_baseportal"
   var param = {
-    id:"f1bbb86b5fe341b1829b61cdf0f9c856",
-    sendTo:'zhimi-test',
-    param:JSON.stringify({"factory":"BVN","lastDate":"2021-10-29"})
+    id: "386b6a0024784ba8b7d5d4dad60e9a65",
+    sendTo: '',
+    param: JSON.stringify({"procInstId":procInstId})
   }
   pThis.loading=true
-
+debugger
   $http({
-    method: 'POST',
-    url:"https://commontools.bowkerasia.com/zhimitool/msg/msgPushConfig/sendImmediately",
-    withCredentials:false,
-    headers:{
-      'Content-Type': 'application/json; charset=utf-8',
-      "token":ssoToken,
-      "tokenType":tokenType
+    method: "POST",
+    url: "https://commontools.bowkerasia.com/zhimitool/msg/msgPushConfig/sendImmediately",
+    withCredentials: false,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "token": ssoToken,
+      "tokenType": tokenType
     },
-    data:param
+    data: param
   }).then(response => {
-    pThis.loading=false
+    pThis.loading = false
     if (response.status != 200 && !response.data.success) {
       debugger
     }
   }).catch((error) => {
     pThis.loading=false
-    console.log("网络异常："+error)
+    console.log("网络异常：" + error)
   })
 }
 
@@ -461,7 +459,7 @@ export function unescapeHTML (a) {
 
 export function printLogo () {
   console.info(
-    '%c欢迎使用%cJEEPLUS',
+    '%c欢迎使用%cFlowable',
     'color: #ffffff; background: #000000; padding:5px 10px 5px 10px;font-size:40px;border-radius:12px 0 0 12px;', 'color: #000000; background: #FE9A00; padding:5px 10px;font-size:40px;border-radius:0 12px 12px 0;')
 }
 
@@ -576,4 +574,4 @@ function hashCode (str) {
   }
   return hash
 }
-export default {sendEmail,asyncDownloadPost, syncDownloadPost, getParamString4Exp, escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadWithLoading, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}
+export default {sendEmail, asyncDownloadPost, syncDownloadPost, getParamString4Exp, escapeHTML, hashCode, unescapeHTML, handleImageAdded, download, downloadWithLoading, downloadPost, downloadZhanrui, recover, recoverNotNull, hasPermission, treeDataTranslate, treeDataTranslateWithLevel, printLogo, deepClone, validatenull}

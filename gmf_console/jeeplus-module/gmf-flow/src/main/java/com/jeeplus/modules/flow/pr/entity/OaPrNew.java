@@ -58,6 +58,8 @@ public class OaPrNew extends DataEntity<OaPrNew> {
 	private Date approvedDate;		// 审批通过日期
 	@ExcelField(title="是否预算内", dictType="db_type", align=2, sort=22)
 	private String isBudget;		// 是否预算内
+	@ExcelField(title="预算备注", align=2, sort=22)
+	private String budgetRemark;		// 是否预算内
 	@ExcelField(title="申购优先级", dictType="request_priority", align=2, sort=23)
 	private String requestRiority;		// 申购优先级
 	@ExcelField(title="合同币种", dictType="db_type", align=2, sort=24)

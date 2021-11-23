@@ -140,6 +140,11 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
+        <el-col :span="12">
+          <el-form-item label-width="220px" :label="$i18nMy.t('预算备注')" prop="budgetRemark" :rules="[]">
+            <el-input v-model="inputForm.budgetRemark" :placeholder="$i18nMy.t('请填写预算备注')" maxlength="30"></el-input>
+          </el-form-item>
+        </el-col>
         <!-- <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('预算类型')" prop="budgetType" :rules="[]">
             <el-select v-model="inputForm.budgetType" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
@@ -157,7 +162,6 @@
             </el-date-picker>
           </el-form-item>
         </el-col> -->
-
       </el-row>
       <el-row :gutter="15">
         <el-col :span="6">
@@ -461,6 +465,7 @@
           budgetType: '',
           approvedDate: '',
           isBudget: '',
+          budgetRemark: '',
           requestRiority: '',
           exRate: '',
           vat:null,

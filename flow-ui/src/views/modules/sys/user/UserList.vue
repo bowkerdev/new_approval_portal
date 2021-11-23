@@ -103,82 +103,6 @@
         </el-form>
       </el-dialog>
       <div class="bg-white top flex-grow-item">
-        <el-row>
-          <el-button
-            v-if="hasPermission('sys:user:add')"
-            type="primary"
-            size="small"
-            icon="el-icon-plus"
-            @click="add()"
-            >{{ $i18nMy.t("新建") }}</el-button
-          >
-          <el-button
-            v-if="hasPermission('sys:user:edit')"
-            type="warning"
-            size="small"
-            icon="el-icon-edit-outline"
-            @click="edit()"
-            :disabled="dataListSelections.length != 1"
-            plain
-            >{{ $i18nMy.t("修改") }}</el-button
-          >
-          <el-button
-            v-if="hasPermission('sys:user:del')"
-            type="danger"
-            size="small"
-            icon="el-icon-delete"
-            @click="del()"
-            :disabled="dataListSelections.length <= 0"
-            plain
-            >{{ $i18nMy.t("删除") }}
-          </el-button>
-          <el-button-group class="pull-right">
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="导入"
-              placement="top"
-            >
-              <el-button
-                v-if="hasPermission('sys:user:import')"
-                type="default"
-                size="small"
-                icon="el-icon-upload2"
-                title="导入"
-                @click="isImportCollapse = !isImportCollapse"
-              ></el-button>
-            </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="导出"
-              placement="top"
-            >
-              <el-button
-                v-if="hasPermission('sys:user:export')"
-                type="default"
-                size="small"
-                icon="el-icon-download"
-                title="导出"
-                @click="exportExcel()"
-              ></el-button>
-            </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="刷新"
-              placement="top"
-            >
-              <el-button
-                type="default"
-                size="small"
-                icon="el-icon-refresh"
-                @click="refreshList"
-              >
-              </el-button>
-            </el-tooltip>
-          </el-button-group>
-        </el-row>
         <el-table
           :data="dataList"
           ref="userTable"
@@ -189,13 +113,13 @@
           height="calc(100% - 80px)"
           class="table"
         >
-          <el-table-column
+          <!-- <el-table-column
             type="selection"
             header-align="center"
             align="center"
             width="50"
           >
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             prop="loginName"
             sortable="custom"
@@ -245,15 +169,7 @@
             :label="$i18nMy.t('部门')"
           >
           </el-table-column>
-          <el-table-column
-            prop="post.name"
-            sortable="custom"
-            show-overflow-tooltip
-            min-width="80"
-            :label="$i18nMy.t('岗位')"
-          >
-          </el-table-column>
-          <el-table-column prop="loginFlag" :label="$i18nMy.t('状态')">
+          <!-- <el-table-column prop="loginFlag" :label="$i18nMy.t('状态')">
             <template slot-scope="scope">
               <el-tag
                 v-if="scope.row.loginFlag === '1'"
@@ -268,7 +184,7 @@
                 >{{ $i18nMy.t("禁用") }}</el-tag
               >
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             fixed="right"
             header-align="center"
@@ -292,14 +208,6 @@
                 icon="el-icon-edit"
                 @click="edit(scope.row.id)"
                 >{{ $i18nMy.t("修改") }}</el-button
-              >
-              <el-button
-                v-if="hasPermission('sys:user:del')"
-                type="text"
-                size="small"
-                icon="el-icon-delete"
-                @click="del(scope.row.id)"
-                >{{ $i18nMy.t("删除") }}</el-button
               >
             </template>
           </el-table-column>
@@ -326,7 +234,7 @@
 <script>
   import Split from 'split.js'
   import '@/assets/scss/split-pane.scss'
-  
+
   import UserForm from './UserForm'
 
   export default {

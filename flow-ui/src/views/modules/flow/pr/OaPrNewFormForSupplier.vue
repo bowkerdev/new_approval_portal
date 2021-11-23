@@ -178,7 +178,7 @@
                   {{item.docList[0].uploadedDate}}
               </td> -->
               <td  width="30px">
-                <el-button v-if="item.edit" :disabled="item.docList.length ==1" type="danger" size="small" icon="el-icon-delete" @click="delDoc(index,0)" class="operationButton"></el-button>
+                <el-button v-if="item.edit" :disabled="item.docList.length ==1" type="danger" size="small" icon="el-icon-minus" @click="delDoc(index,0)" class="operationButton"></el-button>
               </td>
               <td :rowspan="item.docListSize" width="60px">
                 <el-button v-if="item.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(index)" class="operationButton"></el-button>
@@ -230,14 +230,14 @@
                     {{item2.linkToItems.join(',')}}
                   </span>
                 </td>
-                <td >
+                <!-- <td >
                     {{item2.uploadedBy}}
                 </td>
-                <!-- <td class="my-right">
+                <td class="my-right">
                     {{item2.uploadedDate}}
                 </td> -->
                 <td class="width-50">
-                  <el-button v-if="item.edit" type="danger" size="small" icon="el-icon-delete" @click="delDoc(index,index2+1)" class="operationButton"></el-button>
+                  <el-button v-if="item.edit" type="danger" size="small" icon="el-icon-minus" @click="delDoc(index,index2+1)" class="operationButton"></el-button>
                 </td>
               </tr>
               <tr style="background-color: #fff3cf; border-bottom: 1px solid #EBEEF5;">

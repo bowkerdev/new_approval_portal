@@ -23,18 +23,18 @@
         </el-col> -->
         <el-col :span="12">
            <el-form-item :label="$i18nMy.t('登录名')" prop="loginName" >
-              <el-input v-model="inputForm.loginName" maxlength="50" placeholder="" :disabled="sso"></el-input>
+              <el-input v-model="inputForm.loginName" maxlength="50" placeholder="" :disabled="true"></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item :label="$i18nMy.t('姓名')" prop="name" >
-              <el-input v-model="inputForm.name" maxlength="50" placeholder="" :disabled="sso"></el-input>
+              <el-input v-model="inputForm.name" maxlength="50" placeholder="" :disabled="true"></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="company.id" :label="$i18nMy.t('公司')" >
             <SelectTree
-              :disabled="sso"
+              :disabled="true"
               ref="companyTree"
               :props="{
                   value: 'id',             // ID字段名
@@ -51,7 +51,7 @@
         <el-col :span="12">
            <el-form-item prop="office.id" :label="$i18nMy.t('部门')" >
             <SelectTree
-              :disabled="sso"
+              :disabled="true"
               ref="officeTree"
               :props="{
                   value: 'id',             // ID字段名
@@ -61,26 +61,9 @@
 
               :url="`/sys/office/treeData?type=2&&extId=${this.inputForm.id}`"
               :value="inputForm.office.id"
-              :clearable="true" 
+              :clearable="true"
               :accordion="true"
               @getValue="(value) => {inputForm.office.id=value}"/>
-          </el-form-item>
-        </el-col>
-        <!-- <el-col :span="12">
-            <el-form-item :label="$i18nMy.t('工号')" prop="no" :rules="[{message:'工号不能为空', trigger:'blur'}]">
-              <el-input v-model="inputForm.no" maxlength="50" placeholder=""></el-input>
-            </el-form-item>
-        </el-col> -->
-        <el-col :span="12" v-show="!sso">
-          <el-form-item :label="$i18nMy.t('岗位')" prop="post.id">
-               <el-select v-model="inputForm.post.id" style="width:100%" :placeholder="$i18nMy.t('请选择')">
-                <el-option
-                  v-for="item in postList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -93,14 +76,13 @@
                   :value="role.id">
                 </el-option>
               </el-select>
-              <!-- <el-checkbox-group 
+              <!-- <el-checkbox-group
                 v-model="inputForm.roleIdList">
                 <el-checkbox v-for="role in roleList" :label="role.id" :key="role.id">{{role.name}}</el-checkbox>
               </el-checkbox-group> -->
           </el-form-item>
         </el-col>
-
-        <el-col :span="12" v-show="!sso">
+       <!-- <el-col :span="12" v-show="!sso">
            <el-form-item label="密码:" prop="newPassword" :rules="inputForm.id?[]:[{required: true, message:'密码不能为空', trigger:'blur'}]">
               <el-input v-model="inputForm.newPassword" maxlength="50" :placeholder="$i18nMy.t('若不修改，请留空')" show-password></el-input>
             </el-form-item>
@@ -137,7 +119,7 @@
            <el-form-item :label="$i18nMy.t('备注')" prop="remarks">
             <el-input type="textarea" v-model="inputForm.remarks"  maxlength="200" placeholder=""></el-input>
            </el-form-item>
-        </el-col>
+        </el-col>-->
     </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -165,7 +147,6 @@ export default {
       title: '',
       method: '',
       roleList: [],
-      postList: [],
       inputForm: {
         id: '',
         company: { // 归属公司
@@ -173,10 +154,6 @@ export default {
           name: ''
         },
         office: {
-          id: '',
-          name: ''
-        },
-        post: {
           id: '',
           name: ''
         },
@@ -236,12 +213,12 @@ export default {
         }).then(({data}) => {
           this.roleList = data.page.list
         })
-        this.$http({
+        /* this.$http({
           url: `/sys/post/list?pageNo=1&pageSize=-1&status=1`,
           method: 'get'
         }).then(({data}) => {
           this.postList = data.page.list
-        })
+        }) */
 
         if (method === 'edit' || method === 'view') { // 修改或者查看
           this.$http({
@@ -290,7 +267,7 @@ export default {
             this.loading = false
             if (data && data.success) {
               this.visible = false
-              this.$message.success(data.msg)
+              this.$message.success($i18nMy.t('保存成功'))
               this.$emit('refreshDataList')
             }
           })

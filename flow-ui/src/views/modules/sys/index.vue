@@ -8,7 +8,7 @@
           class="pie-card"
         >
           <el-row>
-            <el-col :span="4" v-for="data in dataList2" :key="data.id">
+            <el-col :span="6" v-for="data in dataList2" :key="data.id">
               <el-card class="box-card" style="margin:5px">
                   <div class="actCard" @click="start(data)">
                     <!-- <img src='@/assets/img/Scheme.png'/> -->
@@ -17,7 +17,7 @@
                   </div>
                 </el-card>
             </el-col>
-            <el-col :span="4" v-for="data in menuList" :key="data.id">
+            <el-col :span="6" v-for="data in menuList" :key="data.id">
               <el-card class="box-card" v-if="hasPermission(data.permission)" style="margin:5px">
                   <div class="actCard" @click="toTargetPage(data.url)">
                     <div class="yuan1" :class="getRandomColor()">{{data.name.substring(0,1)}}</div>
@@ -642,7 +642,7 @@ export default Vue.extend({
         status: row.status
       }}).then(({data}) => {
         if (data.success) {
-          var param={formTitle: `${row.vars.title}`, title: `${row.vars.title}`,
+          var param={formTitle: `${row.vars.title}`, title: `${row.vars.title}`, 
             ...pick(data.flow, 'formType', 'formReadOnly', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId', 'lastTaskDefKey')}
           this.$router.push({
             path: '/flowable/task/TaskForm',

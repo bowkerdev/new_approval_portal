@@ -28,6 +28,10 @@ public class OaPrNew extends DataEntity<OaPrNew> {
 	private Office createByOffice;		// 创建者部门
 	@ExcelField(title="流程实例编号", align=2, sort=8)
 	private String procInsId;		// 流程实例编号
+	
+	@ExcelField(title="流程定义KEY", align=2, sort=8)
+	private String procDefKey;		// 流程定义KEY
+		
 	@ExcelField(title="申请单号", align=2, sort=9)
 	private String applicationNo;		// 申请单号
 	@ExcelField(title="项目名称", align=2, sort=10)

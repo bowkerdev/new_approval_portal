@@ -13,8 +13,8 @@
             value-format="yyyy-MM-dd hh:mm:ss"
             unlink-panels
             range-separator="-"
-            :start-placeholder="$i18nMy.t('开始时间')"
-            :end-placeholder="$i18nMy.t('结束时间')"
+            :start-placeholder="$i18nMy.t('开始日期')"
+            :end-placeholder="$i18nMy.t('结束日期')"
             :picker-options="pickerOptions">
           </el-date-picker>
         </el-form-item>

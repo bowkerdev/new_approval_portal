@@ -130,7 +130,7 @@
       <el-row :gutter="15" style="margin-right: 10px">
           <el-table :data="supplementaryDoc" height="300px" class="table" style="border: 1px solid #EBEEF5 !important ; margin-left: 10px">
             <el-table-column prop="serialNumber" width="50" align="right" :label="$i18nMy.t('序号')"> </el-table-column>
-            <el-table-column prop="description" width="200" align="left" :label="$i18nMy.t('描述')">
+            <el-table-column prop="description" width="200" align="left" :label="$i18nMy.t('文件描述')">
               <template slot-scope="{row}">
                 <template v-if="row.edit">
                   <el-input  size="small" v-model="row.description" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
@@ -138,7 +138,7 @@
                 <span v-else>{{ row.description }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="documentType" width="120"  align="left" :label="$i18nMy.t('文件类型')"   >
+            <!-- <el-table-column prop="documentType" width="120"  align="left" :label="$i18nMy.t('文件类型')"   >
               <template slot-scope="{row}">
                 <template v-if="row.edit">
                   <el-select  size="small" v-model="row.documentType"  :placeholder="$i18nMy.t('请选择')">
@@ -149,7 +149,7 @@
                 </template>
                 <span v-else>{{ row.documentType }}</span>
               </template>
-            </el-table-column>
+            </el-table-column> -->
 
             <el-table-column prop="attachment" align="left" :label="$i18nMy.t('附件')"   >
               <template slot-scope="{row}">
@@ -207,6 +207,7 @@
         title: '',
         method: '',
         loading: false,
+        procDefKey: 'prpo',
         isCopy: false,
         flowStage:'start',
         detailInfo:[],
@@ -271,8 +272,7 @@
     },
     methods: {
       init(query) {
-        //query = {"businessId":"b3a13937894c4eb5abc842386b24933c"}
-        this.supplementaryDoc=[] 
+        this.supplementaryDoc=[]
         if (query&&query.businessId) {
           this.loading = true
           this.inputForm.id = (query.businessId).replace("__copy","")
@@ -307,6 +307,7 @@
             })
           })
         }
+        this.procDefKey = query.procDefKey
       },
       checkForm(){
         for(var i=0;i<this.supplementaryDoc.length;i++){

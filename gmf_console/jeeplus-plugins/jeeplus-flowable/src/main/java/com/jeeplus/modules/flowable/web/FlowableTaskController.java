@@ -359,8 +359,15 @@ public class FlowableTaskController extends BaseController {
      * 驳回任务到指定节点
      */
     @PostMapping(value = "/back")
-    public AjaxJson back(String backTaskDefKey, String taskId, TaskComment comment) {
+    public AjaxJson back(String backTaskDefKey, String taskId, String procInsId, String assignee, TaskComment comment) {
         flowTaskService.backTask(backTaskDefKey, taskId, comment);
+        //指定下一步处理人
+        if(StringUtils.isNotBlank(assignee)){
+           Task task = taskService.createTaskQuery().processInstanceId(procInsId).active().singleResult();
+           if(task != null){
+               taskService.setAssignee(task.getId(), assignee);
+           }
+        }
         return AjaxJson.success (DictUtils.getLanguageLabel("操作成功",""));
     }
 

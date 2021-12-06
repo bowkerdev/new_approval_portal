@@ -44,6 +44,15 @@
               height="245px"
               class="table my-table-margin">
               <el-table-column
+                prop="vars.request_riority"
+                width="60px"
+               show-overflow-tooltip
+                :label="$i18nMy.t('优先级')">
+                    <template slot-scope="scope">
+                      <i v-if="scope.row.vars.request_riority==='high'" style="color: #ff5500;" class="el-icon-message-solid"></i><!-- {{scope.row.vars.request_riority}} -->
+                    </template>
+              </el-table-column>
+              <el-table-column
                 prop="vars.title"
                 width="200px"
                show-overflow-tooltip
@@ -642,7 +651,7 @@ export default Vue.extend({
         status: row.status
       }}).then(({data}) => {
         if (data.success) {
-          var param={formTitle: `${row.vars.title}`, title: `${row.vars.title}`, 
+          var param={formTitle: `${row.vars.title}`, title: `${row.vars.title}`,
             ...pick(data.flow, 'formType', 'formReadOnly', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId', 'lastTaskDefKey')}
           this.$router.push({
             path: '/flowable/task/TaskForm',

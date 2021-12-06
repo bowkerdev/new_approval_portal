@@ -147,7 +147,7 @@
         var exportDict=this.$common.find(this.$dictUtils.getDictList('flow_export_config') ,
             function(e){return e.label == _pThis.procDefKey})
         if (exportDict != null && exportDict.value=="true"){
-          this.exportButton={name:'电子版'}
+          this.exportButton={name:'导出'}
         }
 
         /* this.$http.get('/extension/taskDefExtension/queryByDefIdAndTaskId', {params: {

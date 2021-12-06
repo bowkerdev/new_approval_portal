@@ -114,6 +114,9 @@
         this.activeName='oaPrNewForm'
         this.businessId=query.businessId
         this.isReadOnly=query.readOnly
+        if (query.taskDefKey && query.taskDefKey.indexOf('FC')>0){
+          this.isReadOnly=true
+        }
         this.$refs.oaPrNewForm.init(query)
         this.$refs.oaPrNewFormForDoc.init(query)
         this.$refs.oaPrNewFormForSupplier.init(query)
@@ -167,6 +170,23 @@
           JSON.stringify(this.$refs.oaPrNewFormForDoc.supplementaryDoc)
 
         this.$refs.oaPrNewForm.saveForm((businessTable, businessId) => {
+           callBack(businessTable, businessId)
+        })
+      },
+
+      // 表单提交
+      saveAsDraft(callBack) {
+        if(this.activeName !='oaPrNewForm'){
+          this.$refs.oaPrNewForm.detailInfo=this.$refs.oaPrNewFormForSupplier.detailInfo
+        }
+        this.activeName= 'oaPrNewForm'
+        this.$refs.oaPrNewForm.inputForm.supplierInfo=
+          JSON.stringify(this.$refs.oaPrNewFormForSupplier.supplierInfo)
+
+        this.$refs.oaPrNewForm.inputForm.supplementaryDoc=
+          JSON.stringify(this.$refs.oaPrNewFormForDoc.supplementaryDoc)
+
+        this.$refs.oaPrNewForm.saveAsDraft((businessTable, businessId) => {
            callBack(businessTable, businessId)
         })
       }

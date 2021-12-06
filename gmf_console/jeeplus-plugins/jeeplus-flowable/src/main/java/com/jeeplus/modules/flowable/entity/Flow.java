@@ -38,6 +38,7 @@ public class Flow extends DataEntity<Flow> {
 	private String procInsId;    // 流程实例ID
 	private String procDefId;    // 流程定义ID
 	private String procDefKey;    // 流程定义Key（流程定义标识）
+	private String procDefName;
 	private String status;
 
 	private String businessTable;    // 业务绑定Table
@@ -120,6 +121,9 @@ public class Flow extends DataEntity<Flow> {
 
 
 	public String getProcDefName() {
+		if (!StringUtils.isBlank(procDefName)) {
+			return procDefName;
+		}
 		return procDef == null ? "" : procDef.getName();
 	}
 

@@ -59,14 +59,14 @@
         prop="comment.message"
         :label="$i18nMy.t('审批意见')">
       </el-table-column>
-       <el-table-column
+       <!-- <el-table-column
         prop="durationTime"
         :label="$i18nMy.t('任务历时')"
         width="150">
         <template slot-scope="scope">
           {{scope.row.durationTime || '0s'}}
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
     </el-card>
 </template>

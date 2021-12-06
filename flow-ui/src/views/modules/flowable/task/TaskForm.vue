@@ -83,6 +83,49 @@
 <user-select-dialog title="选择转办用户" ref="transferUserSelectDialog" :limit="1" @doSubmit="selectUsersToTransferTask"></user-select-dialog>
 <user-select-dialog title="选择委派用户" ref="delegateUserSelectDialog" :limit="1" @doSubmit="selectUsersToDelateTask"></user-select-dialog>
 <user-select-dialog title="选择加签用户" ref="addSignTaskUserSelectDialog" @doSubmit="selectUsersToAddSignTask"></user-select-dialog>
+<el-dialog :title="$i18nMy.t('请输入审批意见')" :visible.sync="dialogFormVisible">
+  <el-form :model="docAddForm">
+    <el-form-item :label="$i18nMy.t('审批意见')" label-width="200px">
+      <el-input v-model="docAddForm.docAddComment" auto-complete="off"></el-input>
+    </el-form-item>
+    <el-form-item :label="$i18nMy.t('资料补充人')" label-width="200px">
+      <el-input v-model="docAddForm.selectedAssigneeId" v-show="false"></el-input>
+      <el-dropdown trigger="click" ref="selectHisAssignee" placement="bottom-start">
+        <span class="el-dropdown-link">
+           <span v-html="docAddForm.selectedAssigneeLabel"></span><i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown" >
+          <el-table
+            size="mini"
+            stripe="true"
+            :data="hisAssigneeList"
+            style="width: 100%"
+            @row-click="handleRowClicked">
+            <el-table-column
+              prop="step"
+              label="Step"
+              width="250">
+            </el-table-column>
+            <el-table-column
+              prop="assignee"
+              label="Assignee"
+              width="350">
+            </el-table-column>
+            <el-table-column
+              prop="starttime"
+              label="加入时间"
+              width="200">
+            </el-table-column>
+          </el-table>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisible = false">{{$i18nMy.t('取消')}}</el-button>
+    <el-button type="primary" @click="doDocAdd">{{$i18nMy.t('确定')}}</el-button>
+  </div>
+</el-dialog>
 </div>
 </template>
 
@@ -203,8 +246,15 @@
       }
     },
     methods: {
+      handleRowClicked(row, column, event){
+        debugger
+        this.docAddForm.selectedAssigneeLabel = row.step + '&nbsp;&nbsp;|&nbsp;&nbsp;' + row.assignee;
+        this.docAddForm.selectedAssigneeId = row.userid;
+        this.$refs.selectHisAssignee.hide();
+      },
+
       buttonType(code) {
-        var red = ['disagree']
+        var red = ['disagree','_flow_reject','_flow_back_modify']
         if (red.indexOf(code) > -1) { return 'danger' }
         var green = ['_flow_agree']
         if (green.indexOf(code) > -1) { return 'success' }
@@ -219,6 +269,11 @@
         }
       },
       init () {
+        let _that=this
+        this.$dictUtils.getSqlDictList('GET_FLOW_HIS_ASSIGNEE',{},function(data){
+          _that.hisAssigneeList = data
+        })
+
         this.taskSelectedTab = 'form-first'
         this.procDefId = this.$route.query.procDefId
         this.procDefKey = this.$route.query.procDefKey
@@ -258,7 +313,7 @@
       },
       // 暂存草稿
       save () {
-        this.$refs.form.saveForm((businessTable, businessId) => {
+        this.$refs.form.saveAsDraft((businessTable, businessId) => {
 
         })
       },
@@ -276,6 +331,7 @@
             }).then(({data}) => {
               if (data.success) {
                 this.$message.success(data.msg)
+                this.$utils.sendEmail(data.procInsId,this)
                 this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
                 //this.$router.push('/flowable/task/TodoList')
                 this.$router.push('/sys/index')
@@ -305,11 +361,11 @@
       },
       // 驳回
       reject () {
-        this.$confirm($i18nMy.t(`确定驳回流程吗?`), $i18nMy.t('提示'), {
+        /* this.$confirm($i18nMy.t(`确定驳回流程吗?`), $i18nMy.t('提示'), {
           confirmButtonText: $i18nMy.t('确定'),
           cancelButtonText: $i18nMy.t('取消'),
           type: 'warning'
-        }).then(() => {
+        }).then(() => { */
           this.$http.post('/flowable/task/backNodes', {
             taskId: this.taskId,
             ...this.auditForm}).then(({data}) => {
@@ -319,7 +375,7 @@
                 this.back(backTaskDefKey)
               }
             })
-        })
+        //})
       },
       // 驳回到任意节点
       turnBack () {
@@ -359,21 +415,29 @@
       },
       // 补充资料
       backToDocAdd () {
-        //this.$refs.form.saveForm((businessTable, businessId) => {
-          this.$http.post('/flowable/task/back', {
-            taskId: this.taskId,
-            backTaskDefKey: 'DocAdd',
-            ...this.auditForm
-          }).then(({data}) => {
-            if (data.success) {
-              this.$message.success(data.msg)
-              this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
-              //this.$router.push('/flowable/task/TodoList')
-              this.$router.push('/sys/index')
-              this.cc(data)
-            }
-          })
-        //})
+        this.dialogFormVisible = true
+      },
+      doDocAdd () {
+        this.auditForm.assignee = this.docAddForm.selectedAssigneeId
+        if (this.auditForm.message == "") {
+          this.auditForm.message = this.docAddForm.docAddComment
+        } else {
+          this.auditForm.message += ", " + this.docAddForm.docAddComment
+        }
+        this.$http.post('/flowable/task/back', {
+          taskId: this.taskId,
+          backTaskDefKey: 'DocAdd',
+          procInsId: this.procInsId,
+          ...this.auditForm
+        }).then(({data}) => {
+          if (data.success) {
+            this.$message.success(data.msg)
+            this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
+            //this.$router.push('/flowable/task/TodoList')
+            this.$router.push('/sys/index')
+            this.cc(data)
+          }
+        })
       },
       // 回退到上一审批环节，用于资料补充
       backToLastApprover () {
@@ -433,17 +497,17 @@
       },
       // 终止
       stop () {
-        this.$confirm($i18nMy.t(`确定终止流程吗?`), $i18nMy.t('提示'), {
+        /* this.$confirm($i18nMy.t(`确定终止流程吗?`), $i18nMy.t('提示'), {
           confirmButtonText: $i18nMy.t('确定'),
           cancelButtonText: $i18nMy.t('取消'),
           type: 'warning'
-        }).then(() => {
+        }).then(() => { */
           this.$http.post('/flowable/process/stop', {id: this.procInsId, ...this.auditForm}).then(({data}) => {
             this.$message.success(data.msg)
             //this.$router.push('/flowable/task/TodoList')
             this.$router.push('/sys/index')
           })
-        })
+        //})
       },
       // 打印
       print () {
@@ -467,6 +531,7 @@
             }).then(({data}) => {
               if (data.success) {
                 this.$message.success(data.msg)
+                this.$utils.sendEmail(data.procInsId,this)
                 this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
                 //this.$router.push('/flowable/task/TodoList')
                 this.$router.push('/sys/index')
@@ -486,7 +551,16 @@
         }
       },
       exportData(){
-        this.$utils.syncDownloadPost("FLOW_EXPORT_"+this.procDefKey,{id:this.businessId,procInsId:this.procInsId},this.$refs.form)
+        let sysFlag = this.$dictUtils.getDictValue("sys_config","sys_flag","");
+        if (sysFlag != "") {
+          sysFlag = "_" + sysFlag
+        }
+        let exportKey = this.procDefKey
+        if (exportKey == "pr") {
+          exportKey = "prpo"
+        }
+        this.$utils.syncDownloadPost("FLOW_EXPORT_" + exportKey + sysFlag, {id:this.businessId,procInsId:this.procInsId}, this.$refs.form) 
+        // this.$utils.syncDownloadPost("FLOW_EXPORT_"+this.procDefKey, {id:this.businessId,procInsId:this.procInsId}, this.$refs.form)
       },
       submit (currentBtn, buttons) {
         let vars = {} // 存储流程变量
@@ -504,58 +578,65 @@
         vars.assignee = this.auditForm.assignee // 指定的下一步骤处理人
         this.auditForm.type = currentBtn.code // 提交类型
         this.auditForm.status = currentBtn.name // 按钮文字
-        switch (currentBtn.code) {
-          case '_flow_start': // 自动流程
-            this.start(vars)
-            break
-          case '_flow_save': // 保存草稿
-            this.save()
-            break
-          case '_flow_agree': // 同意
-            this.agree(vars)
-            break
-          case '_flow_reject': // 驳回
-            this.reject()
-            break
-          case '_flow_back': // 驳回到任意步骤
-            this.turnBack()
-            break
-          case '_flow_back_modify': // 驳回到申请人
-            this.backToModify()
-            break
-          case '_flow_back_doc_add': // 资料补充
-            this.backToDocAdd()
-            break
-          case '_flow_back_last_approver': // 回到上一审批人
-            this.backToLastApprover()
-            break
-          case '_flow_add_multi_instance': // 加签
-            this.addMultiInstance()
-            break
-          case '_flow_del_multi_instance': // 减签
-            this.delMultiInstance()
-            break
-          case '_flow_transfer': // 转办
-            this.transfer()
-            break
-          case '_flow_delegate':// 外派
-            this.delegate()
-            break
-          case '_flow_stop':// 终止
-            this.stop()
-            break
-          case '_flow_print':// 打印
-            this.print()
-            break
-          case '_flow_export':// 导出
-              this.exportData()
+
+        this.$confirm($i18nMy.t(`确定要`)+$i18nMy.t(currentBtn.name)+"?", $i18nMy.t('提示'), {
+          confirmButtonText: $i18nMy.t('确定'),
+          cancelButtonText: $i18nMy.t('取消'),
+          type: 'warning'
+        }).then(() => {
+          switch (currentBtn.code) {
+            case '_flow_start': // 自动流程
+              this.start(vars)
               break
-          case '_flow_close':// 关闭
-              this.close()
+            case '_flow_save': // 保存草稿
+              this.save()
               break
-          default:
-            this.commit(vars) // 自定义按钮提交
-        }
+            case '_flow_agree': // 同意
+              this.agree(vars)
+              break
+            case '_flow_reject': // 驳回
+              this.reject()
+              break
+            case '_flow_back': // 驳回到任意步骤
+              this.turnBack()
+              break
+            case '_flow_back_modify': // 驳回到申请人
+              this.backToModify()
+              break
+            case '_flow_back_doc_add': // 资料补充
+              this.backToDocAdd()
+              break
+            case '_flow_back_last_approver': // 回到上一审批人
+              this.backToLastApprover()
+              break
+            case '_flow_add_multi_instance': // 加签
+              this.addMultiInstance()
+              break
+            case '_flow_del_multi_instance': // 减签
+              this.delMultiInstance()
+              break
+            case '_flow_transfer': // 转办
+              this.transfer()
+              break
+            case '_flow_delegate':// 外派
+              this.delegate()
+              break
+            case '_flow_stop':// 终止
+              this.stop()
+              break
+            case '_flow_print':// 打印
+              this.print()
+              break
+            case '_flow_export':// 导出
+                this.exportData()
+                break
+            case '_flow_close':// 关闭
+                this.close()
+                break
+            default:
+              this.commit(vars) // 自定义按钮提交
+          }
+        })
       }
     },
     data () {
@@ -566,6 +647,7 @@
         formUrl: '',
         taskSelectedTab: 'frist',
         historicTaskList: [],
+        hisAssigneeList: [],
         procDefId: '',
         procInsId: '',
         lastTaskDefKey: '',
@@ -586,6 +668,12 @@
           extraCss: '',
           extraHead: '<meta http-equiv="Content-Language" content="zh-cn"/>'
         },
+        dialogFormVisible: false,
+        docAddForm: {
+          selectedAssigneeLabel: $i18nMy.t(`请选择`),
+          selectedAssigneeId: '',
+          docAddComment: ''
+        },
         auditForm: {
           message: '',
           type: '',
@@ -597,3 +685,12 @@
     }
   }
 </script>
+<style scoped lang = "less">
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
+  }
+</style>

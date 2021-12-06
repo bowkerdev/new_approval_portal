@@ -166,6 +166,12 @@
               <el-link v-if="$common.isEmpty(scope.row.procInsId)"  type="primary" :underline="false" @click="start(scope.row)">{{scope.row.applicationNo}}</el-link>
             </template>
       </el-table-column>
+      <el-table-column
+          prop="flow.procDefName"
+          show-overflow-tooltip
+          sortable="custom"
+          :label="$i18nMy.t('流程名称')">
+        </el-table-column>
     <el-table-column
         prop="projectName"
         show-overflow-tooltip
@@ -411,7 +417,7 @@
         })
       },
       copyToStart (param) {
-        let row = {id: param.flow.procDefId, name: "PRPO", key: "prpo"}
+        let row = {id: param.flow.procDefId, name: param.flow.procDefName, key: param.flow.procDefKey}
         // 读取流程表单
         let tabTitle = $i18nMy.t('发起流程') + '：' + $i18nMy.t(`${row.name}`)
         let processTitle = `Start Process : ${row.name}  ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} `

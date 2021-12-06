@@ -151,8 +151,9 @@
                         item.docList[0].attachment =''
                       }"
                       :before-remove="(file, fileList) => {
-                        return $confirm($i18nMy.t('确定移除')+` ${file.name}?`)
+                        // return $confirm($i18nMy.t('确定移除')+` ${file.name}?`)
                       }"
+                      :before-upload = "beforeAvatarUpload"
                       :limit="1"
                       :on-exceed="(files, fileList) =>{
                         $message.warning($common.stringFormat('当前限制选择 1 个文件，本次选择了 {0} 个文件，共选择了 {1} 个文件',files.length,files.length + fileList.length))
@@ -210,8 +211,9 @@
                           item2.attachment =''
                         }"
                         :before-remove="(file, fileList) => {
-                          return $confirm($i18nMy.t('确定移除')+` ${file.name}?`)
+                          // return $confirm($i18nMy.t('确定移除')+` ${file.name}?`)
                         }"
+                        :before-upload = "beforeAvatarUpload"
                         :limit="1"
                         :on-exceed="(files, fileList) =>{
                           $message.warning($common.stringFormat('当前限制选择 1 个文件，本次选择了 {0} 个文件，共选择了 {1} 个文件',files.length,files.length + fileList.length))
@@ -253,12 +255,12 @@
                 <td>{{$i18nMy.t('型号')}}</td>
                 <td width="105px">{{$i18nMy.t('单价')}}</td>
                 <td width="65px">VAT(%)</td>
-                <td width="105px">{{$i18nMy.t('单价')}}(VAT)</td>
+                <td width="105px">{{$i18nMy.t('单价')}}(incl. VAT)</td>
                 <td><font color="red">*</font>MOQ</td>
                 <td>{{$i18nMy.t('预计到货日期')}}</td>
                 <!-- <td>{{$i18nMy.t('预计最晚到货日期')}}</td> -->
                 <td colspan="2">{{$i18nMy.t('原因')}}</td>
-                <td><font style="padding-left: 5px; font-weight: bold; color: #000000;">{{$i18nMy.t('采纳')}}</font></td>
+                <td><font color="red">*</font>{{$i18nMy.t('采纳')}}</td>
               </tr>
               <tr class="data-content" v-for="(item3, index3) in item.detailInfo" :key="'index3_'+index3">
                 <td  style="background-color: #FFFFFF;border:none"></td>
@@ -340,7 +342,7 @@
               <th rowspan="2">{{$i18nMy.t('币种')}}</th>
               <th rowspan="2">{{$i18nMy.t('单价')}}</th>
               <th rowspan="2">VAT(%)</th>
-              <th rowspan="2">{{$i18nMy.t('单价')}}(VAT)</th>
+              <th rowspan="2">{{$i18nMy.t('单价')}}(incl. VAT)</th>
               <th rowspan="2">{{$i18nMy.t('请求数量')}}</th>
               <!-- <th rowspan="2">UOM</th>
               <th rowspan="2"></th> -->
@@ -387,7 +389,7 @@
               <td>{{$i18nMy.t('币种')}}</td>
               <td>{{$i18nMy.t('单价')}}</td>
               <td>VAT(%)</td>
-              <td>{{$i18nMy.t('单价')}}(VAT)</td>
+              <td>{{$i18nMy.t('单价')}}(incl. VAT)</td>
               <td>MOQ</td>
               <td>{{$i18nMy.t('预计到货日期')}}</td>
               <!-- <td>{{$i18nMy.t('预计最晚到货日期')}}</td> -->
@@ -434,6 +436,7 @@
         title: '',
         method: '',
         loading: false,
+        procDefKey: 'prpo',
         isCopy: false,
         flowStage:'start',
         detailInfo:[],
@@ -553,7 +556,7 @@
             })
           })
         }
-
+        this.procDefKey = query.procDefKey
       },
       currencyChange(obj){
         if(this.supplierInfo.length>0&&
@@ -566,6 +569,16 @@
           obj.exRate= parseFloat(dict==null?1:dict.value)
         }
       },
+
+      beforeAvatarUpload:function(file){
+          const isLt50M = file.size / 1024 / 1024 < 50;                         //限制文件大小50M
+
+          if (!isLt50M) {
+              this.$message.error('文件大小不能超过 50MB!');
+          }
+          return isLt50M
+      },
+
       checkForm(){
         if(this.supplierInfo.length ==0){
            this.$message.warning($i18nMy.t('供应商列表不能为空'))
@@ -599,6 +612,7 @@
         this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
         this.inputForm.supplierInfo=JSON.stringify(this.supplierInfo)
         this.inputForm.totalBaseAmount=this.inputForm.exRate*this.inputForm.totalContractAmount
+        debugger
         this.$refs['inputForm'].validate((valid) => {
           if (valid) {
             this.loading = true

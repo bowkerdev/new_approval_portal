@@ -130,14 +130,7 @@
       <el-row :gutter="15" style="margin-right: 10px">
           <el-table :data="supplementaryDoc" height="300px" class="table" style="border: 1px solid #EBEEF5 !important ; margin-left: 10px">
             <el-table-column prop="serialNumber" width="50" align="right" :label="$i18nMy.t('序号')"> </el-table-column>
-            <el-table-column prop="description" width="200" align="left" :label="$i18nMy.t('文件描述')">
-              <template slot-scope="{row}">
-                <template v-if="row.edit">
-                  <el-input  size="small" v-model="row.description" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
-                </template>
-                <span v-else>{{ row.description }}</span>
-              </template>
-            </el-table-column>
+
             <!-- <el-table-column prop="documentType" width="120"  align="left" :label="$i18nMy.t('文件类型')"   >
               <template slot-scope="{row}">
                 <template v-if="row.edit">
@@ -175,7 +168,14 @@
                     </el-upload>
               </template>
             </el-table-column>
-
+            <el-table-column prop="description" align="left" :label="$i18nMy.t('文件描述')">
+              <template slot-scope="{row}">
+                <template v-if="row.edit">
+                  <el-input  size="small" v-model="row.description" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                </template>
+                <span v-else>{{ row.description }}</span>
+              </template>
+            </el-table-column>
             <el-table-column prop="uploaderDepartment" width="180" align="left" :label="$i18nMy.t('上传者部门')"   >
             </el-table-column>
 
@@ -370,10 +370,10 @@
         this.attachmentsArra[uuid]=[]
       },
       confirmTabListGroup(row){
-        if(this.$common.isEmpty(row.documentType)){
+        /* if(this.$common.isEmpty(row.documentType)){
            this.$message.warning($i18nMy.t('文件类型不能为空'))
         }
-        else if(this.$common.isEmpty(row.attachment)){
+        else */if(this.$common.isEmpty(row.attachment)){
            this.$message.warning($i18nMy.t('文件不能为空'))
         }
         else{

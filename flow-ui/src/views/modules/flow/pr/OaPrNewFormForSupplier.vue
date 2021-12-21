@@ -123,7 +123,7 @@
                   {{item.expectLastArrivalDate}}
               </td> -->
               <td :rowspan="item.docListSize" style="min-width:100px;" >
-                <el-input  size="small" v-if="item.edit" v-model="item.remarks"  ></el-input>
+                <el-input type="textarea" v-if="item.edit" v-model="item.remarks" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')"></el-input>
                 <span v-else>
                   {{item.remarks}}
                 </span>
@@ -256,10 +256,11 @@
                 <td width="105px">{{$i18nMy.t('单价')}}</td>
                 <td width="65px">VAT(%)</td>
                 <td width="105px">{{$i18nMy.t('单价')}}(incl. VAT)</td>
+                <td>{{$i18nMy.t('请求数量')}}</td>
                 <td><font color="red">*</font>MOQ</td>
                 <td>{{$i18nMy.t('预计到货日期')}}</td>
-                <!-- <td>{{$i18nMy.t('预计最晚到货日期')}}</td> -->
-                <td colspan="2">{{$i18nMy.t('原因')}}</td>
+                <!-- <td>{{$i18nMy.t('预计最晚到货日期')}}</td>
+                <td colspan="2">{{$i18nMy.t('原因')}}</td> -->
                 <td><font color="red">*</font>{{$i18nMy.t('采纳')}}</td>
               </tr>
               <tr class="data-content" v-for="(item3, index3) in item.detailInfo" :key="'index3_'+index3">
@@ -286,6 +287,7 @@
                     {{$common.toThousands(item3.vatUnitPrice)}}
                   </span>
                 </td>
+                <td class="my-right"> {{item3.quantity}} </td>
                 <td class="my-right">
                   <el-input v-on:input="calculationPrice(index)"  v-only-num="item3"  size="small" v-if="item.edit" v-model="item3.moq" ></el-input>
                   <span v-else>
@@ -307,13 +309,13 @@
                   <span v-else>
                     {{item3.expectLastArrivalDate}}
                   </span>
-                </td> -->
+                </td>
                 <td colspan="2">
                   <el-input  size="small" v-if="item.edit" v-model="item3.reason"  ></el-input>
                   <span v-else>
                     {{item3.reason}}
                   </span>
-                </td>
+                </td> -->
                 <td >
                   <el-checkbox @change="awardedChange(item,item3.serialNumber)" :disabled="item.edit"  v-model="item3.awarded" ></el-checkbox>
                 </td>
@@ -335,25 +337,21 @@
          cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff">
           <thead>
             <tr class="head-background-color">
-              <th rowspan="2">{{$i18nMy.t('序号')}}</th>
-              <th rowspan="2">{{$i18nMy.t('物品')}}</th>
-              <th rowspan="2">{{$i18nMy.t('品牌名称')}}</th>
-              <th rowspan="2">{{$i18nMy.t('型号')}}</th>
-              <th rowspan="2">{{$i18nMy.t('币种')}}</th>
-              <th rowspan="2">{{$i18nMy.t('单价')}}</th>
-              <th rowspan="2">VAT(%)</th>
-              <th rowspan="2">{{$i18nMy.t('单价')}}(incl. VAT)</th>
-              <th rowspan="2">{{$i18nMy.t('请求数量')}}</th>
-              <!-- <th rowspan="2">UOM</th>
-              <th rowspan="2"></th> -->
-              <th colspan="2">{{$i18nMy.t('文档报价')}}</th>
-              <th colspan="3">{{$i18nMy.t('基础报价')}}</th>
-            </tr>
-            <tr class="head-background-color">
-              <th>{{$i18nMy.t('金额')}}</th>
-              <th>{{$i18nMy.t('金额(增值税)')}}</th>
-              <th>{{$i18nMy.t('金额')}}</th>
-              <th colspan="2">{{$i18nMy.t('金额(增值税)')}}</th>
+              <th>{{$i18nMy.t('序号')}}</th>
+              <th>{{$i18nMy.t('物品')}}</th>
+              <th>{{$i18nMy.t('品牌名称')}}</th>
+              <th>{{$i18nMy.t('型号')}}</th>
+              <th>{{$i18nMy.t('币种')}}</th>
+              <th>{{$i18nMy.t('单价')}}</th>
+              <th>VAT(%)</th>
+              <th>{{$i18nMy.t('单价')}}(incl. VAT)</th>
+              <th>{{$i18nMy.t('请求数量')}}</th>
+              <!-- <th>UOM</th>
+              <th></th> -->
+              <th>{{$i18nMy.t('报价金额')}}</th>
+              <th>{{$i18nMy.t('报价金额(增值税)')}}</th>
+              <th>{{$i18nMy.t('港币金额')}}</th>
+              <th colspan="2">{{$i18nMy.t('港币金额(增值税)')}}</th>
             </tr>
           </thead>
           <tbody v-for="(item, index) in detailInfo">
@@ -526,6 +524,7 @@
                 this.inputForm.applicationNo = ''
               }
               this.detailInfo = JSON.parse(this.inputForm.detailInfo)
+              // -------start-------
               if(!this.$common.isEmpty(this.inputForm.supplierInfo)){
                 this.supplierInfo = JSON.parse(this.inputForm.supplierInfo)
                 for(var i=0;i<this.supplierInfo.length;i++){
@@ -552,6 +551,7 @@
               this._getSupplierInfoByDetailInfoList()
               this._getSupplierArrivalDate()
               this._updateDetailInfoDocUnitPrice()
+              // -------end--------
               this.loading = false
             })
           })

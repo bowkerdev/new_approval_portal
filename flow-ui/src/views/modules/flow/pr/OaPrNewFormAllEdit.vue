@@ -96,7 +96,7 @@
         this.$refs.oaPrNewFormForSupplier.inputForm=this.$refs.oaPrNewForm.inputForm
         if(!this.compArray(this.$refs.oaPrNewFormForSupplier.detailInfo,this.$refs.oaPrNewForm.detailInfo)){
           console.log("清理数据")
-          this.$refs.oaPrNewFormForSupplier.supplierInfo = []
+/*          this.$refs.oaPrNewFormForSupplier.supplierInfo = []
           this.$refs.oaPrNewFormForSupplier.supplierInfoByDetailInfo = []
           for(var i=0;i<this.$refs.oaPrNewForm.detailInfo.length;i++){
             this.$refs.oaPrNewForm.detailInfo[i].supplierName =''
@@ -105,9 +105,10 @@
             this.$refs.oaPrNewForm.detailInfo[i].vat =''
             this.$refs.oaPrNewForm.detailInfo[i].docAmount =''
             this.$refs.oaPrNewForm.detailInfo[i].docVatAmount =''
-          }
+          } */
           this.$refs.oaPrNewFormForSupplier.detailInfo=JSON.parse(
             JSON.stringify(this.$refs.oaPrNewForm.detailInfo))
+            
         }
       },
       init(query) {
@@ -117,7 +118,7 @@
         if (query.taskDefKey && query.taskDefKey.indexOf('FC')>0){
           this.isReadOnly=true
         }
-        this.$refs.oaPrNewForm.init(query)
+        this.$refs.oaPrNewForm.init(query, this)
         this.$refs.oaPrNewFormForDoc.init(query)
         this.$refs.oaPrNewFormForSupplier.init(query)
       },

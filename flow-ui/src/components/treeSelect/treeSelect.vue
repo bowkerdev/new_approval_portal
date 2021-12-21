@@ -102,7 +102,7 @@ export default {
   },
   created () {
     if (this.url !== null) {
-      this.placeholderText = '加载数据中...'
+      this.placeholderText = $i18nMy.t('加载数据中...')
       let interval = setInterval(() => {
         this.placeholderText = this.placeholderText + '.'
       }, 500)

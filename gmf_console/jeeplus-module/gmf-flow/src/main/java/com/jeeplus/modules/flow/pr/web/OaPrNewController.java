@@ -84,7 +84,7 @@ public class OaPrNewController extends BaseController {
 		}
 		//新增或编辑保存
 		oaPrNewService.save(oaPrNew);//保存
-		return AjaxJson.success(DictUtils.getLanguageLabel("保存成功","")).put("businessTable", "oa_pr_new").put("businessId", oaPrNew.getId());
+		return AjaxJson.success(DictUtils.getLanguageLabel("表单保存成功","")).put("businessTable", "oa_pr_new").put("businessId", oaPrNew.getId());
 	}
 
 

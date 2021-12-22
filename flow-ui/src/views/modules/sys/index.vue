@@ -3,13 +3,10 @@
   <div class="el-scrollbar__view">
     <el-row :gutter="10" style="margin-bottom: 10px">
       <el-col :lg="24" :md="24" :sm="24" :xs="24">
-        <el-card
-          :header="$i18nMy.t('工作台')"
-          class="pie-card"
-        >
+
           <el-row>
             <el-col :span="6" v-for="data in dataList2" :key="data.id">
-              <el-card class="box-card" style="margin:5px">
+              <el-card class="box-card" style="margin:5px 10px 5px 0px">
                   <div class="actCard" @click="start(data)">
                     <!-- <img src='@/assets/img/Scheme.png'/> -->
                     <div class="yuan1" :class="getRandomColor()">{{data.name.substring(0,1)}}</div>
@@ -18,7 +15,7 @@
                 </el-card>
             </el-col>
             <el-col :span="6" v-for="data in menuList" :key="data.id">
-              <el-card class="box-card" v-if="hasPermission(data.permission)" style="margin:5px">
+              <el-card class="box-card" v-if="hasPermission(data.permission)" style="margin:5px 10px 5px 0px">
                   <div class="actCard" @click="toTargetPage(data.url)">
                     <div class="yuan1" :class="getRandomColor()">{{data.name.substring(0,1)}}</div>
                     <el-button class="task-name" type="text" :title="data.name">{{$i18nMy.t(data.name)}}</el-button>
@@ -26,7 +23,6 @@
                 </el-card>
             </el-col>
           </el-row>
-        </el-card>
       </el-col>
 
     </el-row>
@@ -75,11 +71,6 @@
                     {{scope.row.remarks || scope.row.vars.description}}
                 </template>
               </el-table-column>
-               <!-- <el-table-column
-                prop="task.name"
-                show-overflow-tooltip
-                :label="$i18nMy.t('当前环节')">
-              </el-table-column> -->
               <el-table-column
                 prop="var.total_contract_amount"
                 show-overflow-tooltip
@@ -104,6 +95,12 @@
                 prop="applyUserName"
                 show-overflow-tooltip
                 :label="$i18nMy.t('流程发起人')">
+              </el-table-column>
+              <el-table-column
+               width="120px"
+                prop="task.name"
+                show-overflow-tooltip
+                :label="$i18nMy.t('当前环节')">
               </el-table-column>
               <el-table-column
                 width="180px"
@@ -435,6 +432,11 @@
               </el-table-column>
             </el-table>
             <el-row>
+              <el-button-group class="pull-left" style="margin-top: 15px;">
+                <el-tooltip class="item" effect="dark" content="More" placement="top">
+                  <el-button type="text" size="small" @click="toDraftList">{{$i18nMy.t('我的草稿')}}</el-button>
+                </el-tooltip>
+              </el-button-group>
               <el-button-group class="pull-right" style="margin-top: 15px;">
                 <el-tooltip class="item" effect="dark" content="More" placement="top">
                   <el-button type="text" size="small" @click="toApplyList">{{$i18nMy.t('更多')}}</el-button>
@@ -476,6 +478,12 @@ export default Vue.extend({
         	"url": "/flowable/task/AllList",
         	"name": "Enquiry for ALL applicatons",
           "permission": "flow:task:allList"
+        },
+        {
+        	id: "PR_draft",
+        	"url": "/flow/pr/OaPrNewList?isDraft=1&title=我的草稿",
+        	"name": "My Draft",
+          "permission": "flow:pr:oaPrNew:list"
         }
       ],
 
@@ -640,6 +648,10 @@ export default Vue.extend({
     toApplyList () {
       this.$router.push(`/flowable/task/ApplyList`)
     },
+    toDraftList () {
+      this.$router.push(`/flow/pr/OaPrNewList?isDraft=1&title=我的草稿`)
+    },
+
     todo (row) {
       this.$http.get('/flowable/task/getTaskDef', {params: {
         taskId: row.task.id,

@@ -553,19 +553,28 @@ public class FlowTaskService extends BaseService {
         }
         
         // 设置外置表单数据为变量
-        Map map = new HashMap();
+        /*Map map = new HashMap();
         map.put("sql", "select * from " + businessTable + " where id = '" + businessId + "'" );
         List<Map> bizList = flowMapper.querySql(map);
         if (bizList!=null && bizList.size()>0){
         	Map bizMap = bizList.get(0);
         	vars.putAll(bizMap);
-        	if (!StringUtils.isEmpty(String.valueOf(vars.get("application_no")))) {
-        		vars.put (FlowableConstant.TITLE, vars.get("application_no"));
-        	} else {
-        		String seq = this.getSequence(StringUtils.upperCase(procDefKey), null);
-        		vars.put (FlowableConstant.TITLE, seq);
-        	}
+        }*/
+        this.setVarByTable(businessTable, businessId, vars);
+        
+        //if (task.getProcessVariables().get("total_base_amount") != null) {
+        if ( vars.get("total_base_amount") != null ) {
+        	vars.put("gm_approved_total_base_amount", 0.00d);
+        	vars.put("gm_approved_total_vat_base_amount", 0.00d);
         }
+
+
+        if (!StringUtils.isEmpty(String.valueOf(vars.get("application_no")))) {
+    		vars.put (FlowableConstant.TITLE, vars.get("application_no"));
+    	} else {
+    		String seq = this.getSequence(StringUtils.upperCase(procDefKey), null);
+    		vars.put (FlowableConstant.TITLE, seq);
+    	}
 
         // 启动流程
         ProcessInstance procIns = runtimeService.startProcessInstanceByKey (procDefKey, businessTable + ":" + businessId, vars);
@@ -578,6 +587,21 @@ public class FlowTaskService extends BaseService {
         act.setVars (vars);
         flowMapper.updateProcInsIdByBusinessId (act);
         return act.getProcInsId ();
+    }
+    
+    private void setVarByTable(String businessTable, String businessId, Map<String, Object> vars) {
+    	if (StringUtils.isBlank(businessTable) || StringUtils.isBlank(businessId) || vars == null) { //参数不对
+    		return;
+    	}
+    	
+        // 设置外置表单数据为变量
+        Map map = new HashMap();
+        map.put("sql", "select * from " + businessTable + " where id = '" + businessId + "'" );
+        List<Map> bizList = flowMapper.querySql(map);
+        if (bizList!=null && bizList.size()>0){
+        	Map bizMap = bizList.get(0);
+        	vars.putAll(bizMap);
+        }
     }
 
 
@@ -619,6 +643,9 @@ public class FlowTaskService extends BaseService {
         if (vars == null) {
             vars = Maps.newHashMap ();
         }
+        
+        //设置外置表单的流程变量
+        this.setVarByTable(flow.getBusinessTable(), flow.getBusinessId(), vars);
 
         vars.put("lastTaskDefKey", flow.getTaskDefKey());  
         vars.put("lastAssignee", UserUtils.getUser().getId()); // 设置为上一环节审批人,如果下一环节的审批人和上一环节相同,那么下一环节会自动审批通过
@@ -628,7 +655,13 @@ public class FlowTaskService extends BaseService {
             vars.put (FlowableConstant.TITLE, flow.getTitle ());
         }
 
-        Task task = taskService.createTaskQuery ().taskId (flow.getTaskId ()).singleResult ();
+        Task task = taskService.createTaskQuery ().includeProcessVariables().taskId (flow.getTaskId ()).singleResult ();
+        
+        if ("FactoryGM".equals(flow.getTaskDefKey()) && vars.get("total_base_amount") != null && vars.get("total_vat_base_amount") != null) {
+        	vars.put("gm_approved_total_base_amount", Double.valueOf(String.valueOf(task.getProcessVariables().get("total_base_amount")))); 
+        	vars.put("gm_approved_total_vat_base_amount", Double.valueOf(String.valueOf(task.getProcessVariables().get("total_vat_base_amount")))); 
+        }
+                
         if (!UserUtils.getUser().getId().equals(task.getAssignee())) { //my delegate 
         	taskService.setVariableLocal(flow.getTaskId (), "owner", task.getAssignee());
         	taskService.setAssignee(flow.getTaskId(), UserUtils.getUser().getId());
@@ -898,7 +931,7 @@ public class FlowTaskService extends BaseService {
         if(StringUtils.isBlank (task.getAssignee ())){
             taskService.claim (taskId, UserUtils.getUser ().getId ());
         }
-        if ("FormModify".equals(backTaskDefKey) || "DocAdd".equals(backTaskDefKey)) {
+        if ("FormModify".equals(backTaskDefKey) || "DocAdd".equals(backTaskDefKey) || "CeoOffice__OnHold".equals(backTaskDefKey)) {
         	taskService.addComment (taskId, task.getProcessInstanceId (), comment.getCommentType (), comment.getFullMessage ());
             managementService.executeCommand (new BackUserTaskCmd (runtimeService,
                     taskId, backTaskDefKey));

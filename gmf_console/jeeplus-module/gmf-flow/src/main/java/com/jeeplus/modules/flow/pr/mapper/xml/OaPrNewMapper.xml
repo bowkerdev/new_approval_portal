@@ -12,7 +12,7 @@
 		b.END_TIME_ as "approvedDate",
 		a.remarks AS "remarks",
 		b.ACT_NAME_ as "flow.taskName",
-		if( p.end_time_ is not null, '结束', '处理中') as "status",
+		if(a.proc_ins_id is not null, if( p.end_time_ is not null, '结束', '处理中'), '草稿')  as "status",
 		a.del_flag AS "delFlag",
 		a.proc_ins_id AS "procInsId",
 		if(a.proc_ins_id is null, (select id_ from act_re_procdef where key_ = if(ifnull(a.proc_def_key,'')='','prpo',a.proc_def_key) order by VERSION_ desc limit 1), p.PROC_DEF_ID_) as "flow.procDefId",

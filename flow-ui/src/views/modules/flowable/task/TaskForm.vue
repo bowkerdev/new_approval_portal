@@ -269,11 +269,6 @@
         }
       },
       init () {
-        let _that=this
-        this.$dictUtils.getSqlDictList('GET_FLOW_HIS_ASSIGNEE',{},function(data){
-          _that.hisAssigneeList = data
-        })
-
         this.taskSelectedTab = 'form-first'
         this.procDefId = this.$route.query.procDefId
         this.procDefKey = this.$route.query.procDefKey
@@ -293,6 +288,10 @@
         this.auditForm.assignee = null
         this.auditForm.userIds = null
         this.auditForm.message = ''
+        let _that=this
+        this.$dictUtils.getSqlDictList('GET_FLOW_HIS_ASSIGNEE',{procInsId: this.procInsId},function(data){
+          _that.hisAssigneeList = data
+        })
         this.initChildFrom(this.$route.query)
       },
       cc (data) {
@@ -439,6 +438,23 @@
           }
         })
       },
+      // On Hold
+      onHold () {
+        this.$http.post('/flowable/task/back', {
+          taskId: this.taskId,
+          backTaskDefKey: 'CeoOffice__OnHold',
+          procInsId: this.procInsId,
+          ...this.auditForm
+        }).then(({data}) => {
+          if (data.success) {
+            this.$message.success(data.msg)
+            this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
+            //this.$router.push('/flowable/task/TodoList')
+            this.$router.push('/sys/index')
+            this.cc(data)
+          }
+        })
+      },
       // 回退到上一审批环节，用于资料补充
       backToLastApprover () {
         this.$refs.form.saveForm((businessTable, businessId) => {
@@ -525,6 +541,8 @@
               taskDefKey: this.taskDefKey,
               procInsId: this.procInsId,
               procDefId: this.procDefId,
+              businessTable: businessTable,
+              businessId: businessId,
               vars: vars,
               comment: this.auditForm,
               assignee: this.auditForm.assignee
@@ -559,7 +577,7 @@
         if (exportKey == "pr") {
           exportKey = "prpo"
         }
-        this.$utils.syncDownloadPost("FLOW_EXPORT_" + exportKey + sysFlag, {id:this.businessId,procInsId:this.procInsId}, this.$refs.form) 
+        this.$utils.syncDownloadPost("FLOW_EXPORT_" + exportKey + sysFlag, {id:this.businessId,procInsId:this.procInsId}, this.$refs.form)
         // this.$utils.syncDownloadPost("FLOW_EXPORT_"+this.procDefKey, {id:this.businessId,procInsId:this.procInsId}, this.$refs.form)
       },
       submit (currentBtn, buttons) {
@@ -605,6 +623,9 @@
               break
             case '_flow_back_doc_add': // 资料补充
               this.backToDocAdd()
+              break
+            case '_flow_back_on_hold': // On Hold
+              this.onHold()
               break
             case '_flow_back_last_approver': // 回到上一审批人
               this.backToLastApprover()

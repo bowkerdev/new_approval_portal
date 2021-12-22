@@ -108,7 +108,7 @@
           } */
           this.$refs.oaPrNewFormForSupplier.detailInfo=JSON.parse(
             JSON.stringify(this.$refs.oaPrNewForm.detailInfo))
-            
+
         }
       },
       init(query) {
@@ -155,12 +155,16 @@
         if(this.activeName !='oaPrNewForm'){
           this.$refs.oaPrNewForm.detailInfo=this.$refs.oaPrNewFormForSupplier.detailInfo
         }
-        if(!this.$refs.oaPrNewFormForDoc.checkForm()){
-          this.activeName= 'OaPrNewFormForDoc'
+        if (!this.$refs.oaPrNewForm.checkForm()) {
+          this.activeName= 'oaPrNewForm'
           return ;
         }
         if(!this.$refs.oaPrNewFormForSupplier.checkForm()){
           this.activeName= 'OaPrNewFormForSupplier'
+          return ;
+        }
+        if(!this.$refs.oaPrNewFormForDoc.checkForm()){
+          this.activeName= 'OaPrNewFormForDoc'
           return ;
         }
         this.activeName= 'oaPrNewForm'

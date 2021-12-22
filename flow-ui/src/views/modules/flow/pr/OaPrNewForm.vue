@@ -40,7 +40,7 @@
             <el-input v-model="inputForm.projectName" :placeholder="$i18nMy.t('请填写项目描述 (不超过200字符)')" maxlength="200"></el-input>
           </el-form-item>
         </el-col>
-        <el-form size="small" :model="inputForm" ref="inputFormSite">
+        <el-form size="small" :model="inputForm" ref="inputFormSite" :disabled="formReadOnly">
           <el-col :span="12">
             <el-form-item label-width="220px" :label="$i18nMy.t('采购地区')" prop="applySiteCode" :rules="[{required: true, message:$i18nMy.t('采购地区不能为空'), trigger:'blur'}]">
               <el-select v-model="inputForm.applySiteCode" :placeholder="$i18nMy.t('请选择')" style="width: 100%;" @change="siteChange">
@@ -80,13 +80,13 @@
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('要求到货时间')" prop="expectArrivalDate" :rules="[{required: true, message:$i18nMy.t('请输入要求到货时间'), trigger:'blur'}
                  ]">
-            <el-date-picker v-model="inputForm.expectArrivalDate" type="date" style="width: 100%;"
+            <el-date-picker v-model="inputForm.expectArrivalDate" type="date" style="width: 100%;" @change="checkExpectArrivalDate"
               value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('选择日期时间')">
             </el-date-picker>
           </el-form-item>
         </el-col>
 
-        <el-form size="small" :model="inputForm" ref="inputFormFC" :disabled="formReadOnly&&readOnly" v-if="(formReadOnly&&readOnly) || taskDefKey.indexOf('FC')>0" label-width="140px" >
+        <el-form size="small" :model="inputForm" ref="inputFormFC" :disabled="formReadOnly&&readOnly" v-if="(formReadOnly&&readOnly) || taskDefKey.indexOf('FC')>0 || procDefKey=='prpo'" label-width="140px" >
           <el-col :span="12" >
             <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: true, message:$i18nMy.t('签约方公司不能为空'), trigger:'blur'}
                    ]">
@@ -289,34 +289,34 @@
                   {{ row.supplierName }}
                 </template>
               </el-table-column>
-              <el-table-column prop="currency" v-if="index == 2" align="left" :label="$i18nMy.t('币种')">
+              <el-table-column prop="currency" width="70" v-if="index == 2" align="left" :label="$i18nMy.t('币种')">
                 <template slot-scope="{row}">
                   {{ row.currency }}
                 </template>
               </el-table-column>
-              <el-table-column prop="unitPrice" v-if="index == 2" align="right" :label="$i18nMy.t('单价')">
+              <el-table-column prop="unitPrice" width="80" v-if="index == 2" align="right" :label="$i18nMy.t('单价')">
                 <template slot-scope="{row}">
                     {{ $common.toThousands(row.unitPrice) }}
                 </template>
               </el-table-column>
-              <el-table-column prop="vat" v-if="index == 2" align="right" label="VAT%">
+              <el-table-column prop="vat" width="60" v-if="index == 2" align="right" label="VAT%">
                 <template slot-scope="{row}">
                   <span  v-if="row.vat !=null"> {{ row.vat }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="vatUnitPrice" v-if="index == 2" align="right" :label="$i18nMy.t('市场价格')+'(VAT)'">
+              <el-table-column prop="vatUnitPrice" width="140" v-if="index == 2" align="right" :label="$i18nMy.t('单价(含VAT)')">
                 <template slot-scope="{row}">
                     {{ $common.toThousands(row.vatUnitPrice) }}
                 </template>
               </el-table-column>
 
-              <el-table-column prop="quantity" width="100" align="right" >
+              <el-table-column prop="quantity" width="90" align="right" >
                 <template slot="header">
                   <font color="red" style="font-weight: bold;">*</font>&nbsp;{{$i18nMy.t('数量')}}
                 </template>
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
-                    <el-input-number style="width: 75px;" size="small" :controls="false" v-model="row.quantity" :step="1"  :min="1" :max="100" :label="$i18nMy.t('数量')"></el-input-number>
+                    <el-input-number style="width: 75px;" size="small" :controls="false" v-model="row.quantity" :step="1"  :min="1" :max="10000" :label="$i18nMy.t('数量')"></el-input-number>
                   </template>
                   <span v-else>{{ $common.toThousands(row.quantity) }}</span>
                 </template>
@@ -339,7 +339,7 @@
                 </template>
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
-                    <el-date-picker  size="small" v-model="row.expectArrivalDate" type="date"
+                    <el-date-picker  size="small" v-model="row.expectArrivalDate" type="date" @change="checkExpectArrivalDate"
                       value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('选择日期时间')">
                     </el-date-picker>
                   </template>
@@ -431,7 +431,7 @@
         <el-col :span="24">
           <el-form-item class="updown" :label="$i18nMy.t('投资回报分析')" prop="roi" :rules="[{required: true, message:$i18nMy.t('请填写ROI'), trigger:'blur'}]">
             <el-input type="textarea" style="width: 100%;" v-model="inputForm.roi" :placeholder="$i18nMy.t('请填写ROI，如需上传附件，请在[补充文件]页中上传')"></el-input>
-            <a style="color: #005DF7; font-size: 12px; " @click="toDocPage"> → {{$i18nMy.t('前往[补充文件]页')}}</a>
+            <a style="color: #005DF7; font-size: 12px; cursor: pointer;" @click="toDocPage"> → {{$i18nMy.t('前往[补充文件]页')}}</a>
            </el-form-item>
         </el-col>
         <el-col :span="24" v-if="inputForm.isBudget!='1'" >
@@ -587,6 +587,23 @@
         }
         this.parentPage = parentPage
       },
+
+      checkForm(){
+        let rtnVal = true
+        this.$refs['inputForm'].validate((valid) => {
+          if (!valid) {
+            rtnVal = false
+          }
+       })
+       if (this.$refs['inputFormFC']) {
+         this.$refs['inputFormFC'].validate((valid) => {
+           if (!valid) {
+             rtnVal = false
+           }
+         })
+       }
+       return rtnVal
+      },
       // 表单提交
       saveForm(callBack) {
         this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
@@ -600,10 +617,17 @@
             return ;
           }
         }
-        if(this.inputForm.expenseType=='OPEX'&&this.inputForm.totalBaseAmount>2000){
+
+        if(this.inputForm.totalBaseAmount>=2000 || this.inputForm.totalVatBaseAmount>=2000){
+          this.inputForm.expenseType = 'CAPEX'
+        } else {
+          this.inputForm.expenseType = 'OPEX'
+        }
+
+        /* if(this.inputForm.expenseType=='OPEX'&&this.inputForm.totalBaseAmount>2000){
            this.$message.warning("OPEX "+$i18nMy.t('金额必须小于')+" 2,000HKD")
            return ;
-        }
+        }*/
 
         if (this.$refs['inputFormFC']) {
           this.$refs['inputFormFC'].validate((valid) => {
@@ -667,6 +691,23 @@
             })
           }
         })
+      },
+
+      selectExpectArrivalDate(row){
+        if (this.inputForm.expectArrivalDate=='' || row.expectArrivalDate < this.inputForm.expectArrivalDate) {
+          this.inputForm.expectArrivalDate = row.expectArrivalDate
+        }
+      },
+
+      checkExpectArrivalDate(){
+        for(var i=0;i<this.detailInfo.length;i++){
+          if (i==0) {
+            this.inputForm.expectArrivalDate = this.detailInfo[i].expectArrivalDate;
+          }
+          if (this.inputForm.expectArrivalDate=='' || this.detailInfo[i].expectArrivalDate < this.inputForm.expectArrivalDate) {
+            this.inputForm.expectArrivalDate = this.detailInfo[i].expectArrivalDate;
+          }
+        }
       },
 
       _sortDetailInfo(){

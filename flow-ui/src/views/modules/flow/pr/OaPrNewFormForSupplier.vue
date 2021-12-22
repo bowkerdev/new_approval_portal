@@ -73,7 +73,7 @@
                 <th width="100px"><font color="red">*</font>{{$i18nMy.t('币种')}}</th>
                 <th width="120px">{{$i18nMy.t('预计到货日期')}}</th>
                 <th >{{$i18nMy.t('总金额')}}</th>
-                <th colspan="2">{{$i18nMy.t('总金额')}}(VAT)</th>
+                <th colspan="2">{{$i18nMy.t('总金额(含VAT)')}}</th>
                 <!-- <th>{{$i18nMy.t('预计最晚到货日期')}}</th> -->
                 <th>{{$i18nMy.t('备注')}}</th>
                 <th><font color="red">*</font>{{$i18nMy.t('文件类型')}}</th>
@@ -122,9 +122,9 @@
               <!-- <td :rowspan="item.docListSize" class="my-right">
                   {{item.expectLastArrivalDate}}
               </td> -->
-              <td :rowspan="item.docListSize" style="min-width:100px;" >
+              <td :rowspan="item.docListSize" style="min-width:100px;max-width:250px;" >
                 <el-input type="textarea" v-if="item.edit" v-model="item.remarks" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')"></el-input>
-                <span v-else>
+                <span style="word-break: break-all;" v-else>
                   {{item.remarks}}
                 </span>
               </td>
@@ -255,7 +255,7 @@
                 <td>{{$i18nMy.t('型号')}}</td>
                 <td width="105px">{{$i18nMy.t('单价')}}</td>
                 <td width="65px">VAT(%)</td>
-                <td width="105px">{{$i18nMy.t('单价')}}(incl. VAT)</td>
+                <td width="105px">{{$i18nMy.t('单价(含VAT)')}}</td>
                 <td>{{$i18nMy.t('请求数量')}}</td>
                 <td><font color="red">*</font>MOQ</td>
                 <td>{{$i18nMy.t('预计到货日期')}}</td>
@@ -317,7 +317,9 @@
                   </span>
                 </td> -->
                 <td >
+                  <el-form size="small" :model="inputForm" ref="inputFormFC" :disabled="formReadOnly&&readOnly" label-width="140px" >
                   <el-checkbox @change="awardedChange(item,item3.serialNumber)" :disabled="item.edit"  v-model="item3.awarded" ></el-checkbox>
+                  </el-form>
                 </td>
               </tr>
               <tr>
@@ -344,7 +346,7 @@
               <th>{{$i18nMy.t('币种')}}</th>
               <th>{{$i18nMy.t('单价')}}</th>
               <th>VAT(%)</th>
-              <th>{{$i18nMy.t('单价')}}(incl. VAT)</th>
+              <th>{{$i18nMy.t('单价(含VAT)')}}</th>
               <th>{{$i18nMy.t('请求数量')}}</th>
               <!-- <th>UOM</th>
               <th></th> -->
@@ -387,7 +389,7 @@
               <td>{{$i18nMy.t('币种')}}</td>
               <td>{{$i18nMy.t('单价')}}</td>
               <td>VAT(%)</td>
-              <td>{{$i18nMy.t('单价')}}(incl. VAT)</td>
+              <td>{{$i18nMy.t('单价(含VAT)')}}</td>
               <td>MOQ</td>
               <td>{{$i18nMy.t('预计到货日期')}}</td>
               <!-- <td>{{$i18nMy.t('预计最晚到货日期')}}</td> -->
@@ -435,6 +437,7 @@
         method: '',
         loading: false,
         procDefKey: 'prpo',
+        readOnly: false,
         isCopy: false,
         flowStage:'start',
         detailInfo:[],
@@ -557,6 +560,9 @@
           })
         }
         this.procDefKey = query.procDefKey
+        if (query.readOnly) {
+          this.readOnly = query.readOnly
+        }
       },
       currencyChange(obj){
         if(this.supplierInfo.length>0&&
@@ -805,8 +811,11 @@
         var originalPrice =0
         var originalVatPrice =0
         for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
-          if(isNaN(this.supplierInfo[index].detailInfo[i].unitPrice)){
+          this.supplierInfo[index].detailInfo[i].vat = parseFloat(this.supplierInfo[index].detailInfo[i].vat||"0")
+          if(isNaN(this.supplierInfo[index].detailInfo[i].unitPrice) || this.supplierInfo[index].detailInfo[i].unitPrice == ''){
             this.supplierInfo[index].detailInfo[i].unitPrice = ''
+          }else{
+            this.supplierInfo[index].detailInfo[i].vatUnitPrice = this.supplierInfo[index].detailInfo[i].unitPrice * (100+this.supplierInfo[index].detailInfo[i].vat)/100
           }
           if(isNaN(this.supplierInfo[index].detailInfo[i].vatUnitPrice)){
             this.supplierInfo[index].detailInfo[i].vatUnitPrice = ''
@@ -818,10 +827,6 @@
             parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
           originalVatPrice+=parseFloat(this.supplierInfo[index].detailInfo[i].vatUnitPrice||"0")*
             parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
-          this.supplierInfo[index].detailInfo[i].vat = parseFloat(this.supplierInfo[index].detailInfo[i].vat||"0")
-          if(isNaN(this.supplierInfo[index].detailInfo[i].vat)){
-            this.supplierInfo[index].detailInfo[i].vat = ''
-          }
         }
         originalPrice = parseFloat(originalPrice.toFixed(2))
         this.supplierInfo[index].originalPrice=originalPrice

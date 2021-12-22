@@ -74,7 +74,7 @@
               <span  v-if="row.vat !=null"> {{ row.vat }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="vatUnitPrice"  width="120" align="right" :label="$i18nMy.t('市场价格')+'(VAT)'">
+          <el-table-column prop="vatUnitPrice"  width="120" align="right" :label="$i18nMy.t('单价(含VAT)')">
             <template slot-scope="{row}">
                 {{ $common.toThousands(row.vatUnitPrice) }}
             </template>
@@ -86,21 +86,21 @@
            </el-table-column>
            <!-- <el-table-column prop="uom" width="100"  align="left" :label="$i18nMy.t('单位')">
            </el-table-column> -->
-           <el-table-column  align="left" :label="$i18nMy.t('文档报价')">
+           <el-table-column  align="center" :label="$i18nMy.t('报价单币种')">
              <template>
                <el-table-column prop="docAmount" width="100"  align="left" :label="$i18nMy.t('总数')">
                  <template slot-scope="{row}">
                    {{$common.toThousands(row.docAmount)}}
                  </template>
                </el-table-column>
-               <el-table-column prop="docVatAmount" width="100" align="left" :label="$i18nMy.t('总数')+'VAT'">
+               <el-table-column prop="docVatAmount" width="120" align="left" :label="$i18nMy.t('总数(VAT)')">
                  <template slot-scope="{row}">
                    {{$common.toThousands(row.docVatAmount)}}
                  </template>
                </el-table-column>
              </template>
            </el-table-column>
-           <el-table-column align="left" :label="$i18nMy.t('基础报价')" >
+           <el-table-column align="center" :label="$i18nMy.t('HKD')" >
              <template>
                <el-table-column prop="baseQuantity" width="100" align="left" :label="$i18nMy.t('总数')"   >
                 <template slot-scope="{row}">
@@ -109,7 +109,7 @@
                   </span>
                 </template>
                </el-table-column>
-               <el-table-column width="100" prop="baseVatQuantity" align="left" :label="$i18nMy.t('总数')+'VAT'">
+               <el-table-column width="120" prop="baseVatQuantity" align="left" :label="$i18nMy.t('总数(VAT)')">
                   <template slot-scope="{row}">
                     <span  v-if="!isNaN(row.docVatAmount*row.exRate)">
                       {{$common.toThousands((row.docVatAmount*row.exRate).toFixed(2))}}
@@ -171,13 +171,13 @@
             <el-table-column prop="description" align="left" :label="$i18nMy.t('文件描述')">
               <template slot-scope="{row}">
                 <template v-if="row.edit">
-                  <el-input  size="small" v-model="row.description" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                  <el-input  size="small" v-model="row.description" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')" ></el-input>
                 </template>
                 <span v-else>{{ row.description }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="uploaderDepartment" width="180" align="left" :label="$i18nMy.t('上传者部门')"   >
-            </el-table-column>
+            <!-- <el-table-column prop="uploaderDepartment" width="180" align="left" :label="$i18nMy.t('上传者部门')"   >
+            </el-table-column> -->
 
             <el-table-column width="150" prop="uploadedBy"  align="left" :label="$i18nMy.t('上传者')"   >
             </el-table-column>

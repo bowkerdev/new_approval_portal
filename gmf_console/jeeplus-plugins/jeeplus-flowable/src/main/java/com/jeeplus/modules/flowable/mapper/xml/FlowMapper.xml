@@ -46,10 +46,7 @@
 			SUBSTRING_INDEX( b.PROC_DEF_ID_, ':', 1 ) AS "task.processDefKey" 
 		FROM
 			act_hi_procinst a 
-			join (SELECT * FROM act_hi_actinst  WHERE ID_ IN (
-							SELECT SUBSTRING_INDEX( GROUP_CONCAT( id_ ORDER BY START_TIME_ DESC, ifnull( END_TIME_, '2099-01-01' ) DESC SEPARATOR '||' ), '||', 1 ) id_ 
-							FROM act_hi_actinst WHERE act_type_ IN ( 'userTask', 'endEvent' ) GROUP BY PROC_INST_ID_)
-					  ) b on a.PROC_INST_ID_ = b.PROC_INST_ID_
+			join (SELECT * FROM act_hi_actinst  WHERE ID_ IN (select id_ from v_act_hi_current_task) ) b on a.PROC_INST_ID_ = b.PROC_INST_ID_
 		WHERE 1=1 
 			<if test="processDefinitionKey != null and processDefinitionKey != ''">
 				and LOWER(SUBSTRING_INDEX(a.PROC_DEF_ID_, ':', 1 )) = LOWER (#{processDefinitionKey})

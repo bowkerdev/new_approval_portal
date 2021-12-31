@@ -61,9 +61,10 @@
 		LEFT JOIN sys_office createByOffice ON createByOffice.id = a.create_by_office
 		LEFT JOIN sys_office requesterDepartment ON requesterDepartment.id = a.requester_department
 		LEFT JOIN act_hi_procinst p on p.PROC_INST_ID_ = a.proc_ins_id
-		left join (SELECT * FROM act_hi_actinst  WHERE ID_ IN (
-							SELECT SUBSTRING_INDEX( GROUP_CONCAT( id_ ORDER BY START_TIME_ DESC, ifnull( END_TIME_, '2099-01-01' ) DESC SEPARATOR '||' ), '||', 1 ) id_ 
-							FROM act_hi_actinst WHERE act_type_ IN ( 'userTask', 'endEvent' ) GROUP BY PROC_INST_ID_)
+		left join (select * from act_hi_actinst as a1 
+					where act_type_ IN ( 'userTask', 'endEvent' ) 
+						and not exists (select 1 from act_hi_actinst where act_type_ IN ( 'userTask', 'endEvent' ) and PROC_INST_ID_=a1.PROC_INST_ID_ 
+						and (ifnull( END_TIME_, '2099-01-01' )>ifnull( a1.END_TIME_, '2099-01-01' ) or START_TIME_>a1.START_TIME_))
 				  ) b on a.proc_ins_id = b.PROC_INST_ID_
 	</sql>
 

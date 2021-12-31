@@ -75,7 +75,7 @@
                 <th >{{$i18nMy.t('总金额')}}</th>
                 <th colspan="2">{{$i18nMy.t('总金额(含VAT)')}}</th>
                 <!-- <th>{{$i18nMy.t('预计最晚到货日期')}}</th> -->
-                <th>{{$i18nMy.t('备注')}}</th>
+                <th colspan="2">{{$i18nMy.t('备注')}}</th>
                 <th><font color="red">*</font>{{$i18nMy.t('文件类型')}}</th>
                 <th colspan="2"><font color="red">*</font>{{$i18nMy.t('附件')}}</th>
                 <th><font color="red">*</font>{{$i18nMy.t('关联项目')}}</th>
@@ -122,7 +122,7 @@
               <!-- <td :rowspan="item.docListSize" class="my-right">
                   {{item.expectLastArrivalDate}}
               </td> -->
-              <td :rowspan="item.docListSize" style="min-width:100px;max-width:250px;" >
+              <td colspan="2" :rowspan="item.docListSize" style="min-width:100px;max-width:250px;" >
                 <el-input type="textarea" v-if="item.edit" v-model="item.remarks" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')"></el-input>
                 <span style="word-break: break-all;" v-else>
                   {{item.remarks}}
@@ -258,10 +258,10 @@
                 <td width="105px">{{$i18nMy.t('单价(含VAT)')}}</td>
                 <td>{{$i18nMy.t('请求数量')}}</td>
                 <td><font color="red">*</font>MOQ</td>
-                <td>{{$i18nMy.t('预计到货日期')}}</td>
-                <!-- <td>{{$i18nMy.t('预计最晚到货日期')}}</td>
-                <td colspan="2">{{$i18nMy.t('原因')}}</td> -->
-                <td><font color="red">*</font>{{$i18nMy.t('采纳')}}</td>
+                <td width="135px" >{{$i18nMy.t('预计到货日期')}}</td>
+                <!-- <td>{{$i18nMy.t('预计最晚到货日期')}}</td> -->
+                <td colspan="3">{{$i18nMy.t('原因')}}</td>
+                <td width="45px" ><font color="red">*</font>{{$i18nMy.t('采纳')}}</td>
               </tr>
               <tr class="data-content" v-for="(item3, index3) in item.detailInfo" :key="'index3_'+index3">
                 <td  style="background-color: #FFFFFF;border:none"></td>
@@ -309,15 +309,15 @@
                   <span v-else>
                     {{item3.expectLastArrivalDate}}
                   </span>
-                </td>
-                <td colspan="2">
+                </td> -->
+                <td colspan="3">
                   <el-input  size="small" v-if="item.edit" v-model="item3.reason"  ></el-input>
                   <span v-else>
                     {{item3.reason}}
                   </span>
-                </td> -->
+                </td>
                 <td >
-                  <el-form size="small" :model="inputForm" ref="inputFormFC" :disabled="formReadOnly&&readOnly" label-width="140px" >
+                  <el-form size="small" :model="inputForm" ref="inputFormFC" :disabled="!isFC" label-width="140px" >
                   <el-checkbox @change="awardedChange(item,item3.serialNumber)" :disabled="item.edit"  v-model="item3.awarded" ></el-checkbox>
                   </el-form>
                 </td>
@@ -415,7 +415,7 @@
                   {{file}}
                 </a>
               </td>
-              <td ><el-checkbox :disabled="true" v-model="item.awarded" ></el-checkbox></td>
+              <td ><el-checkbox :disabled="true" v-model="item.awarded"></el-checkbox></td>
               <td >{{item.reason}}</td>
             </tr>
           </tbody>
@@ -437,7 +437,7 @@
         method: '',
         loading: false,
         procDefKey: 'prpo',
-        readOnly: false,
+        isFC: false,
         isCopy: false,
         flowStage:'start',
         detailInfo:[],
@@ -560,8 +560,8 @@
           })
         }
         this.procDefKey = query.procDefKey
-        if (query.readOnly) {
-          this.readOnly = query.readOnly
+        if (query.isFC) {
+          this.isFC = query.isFC
         }
       },
       currencyChange(obj){
@@ -1034,5 +1034,12 @@
   }
   .my_a:focus,.my_a:hover {
       cursor: pointer;
+  }
+  ::v-deep .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner::after {
+    border-color: white;
+  }
+
+  ::v-deep .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner {
+    background-color: #8a8a8a;
   }
 </style>

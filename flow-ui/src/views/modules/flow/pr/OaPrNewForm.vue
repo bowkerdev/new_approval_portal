@@ -86,7 +86,7 @@
           </el-form-item>
         </el-col>
 
-        <el-form size="small" :model="inputForm" ref="inputFormFC" :disabled="formReadOnly&&readOnly" v-if="(formReadOnly&&readOnly) || taskDefKey.indexOf('FC')>0 || procDefKey=='prpo'" label-width="140px" >
+        <el-form size="small" :model="inputForm" ref="inputFormFC" :disabled="!isFC&&procDefKey!='prpo'" v-if="formReadOnly || isFC || procDefKey=='prpo'" label-width="140px" >
           <el-col :span="12" >
             <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: true, message:$i18nMy.t('签约方公司不能为空'), trigger:'blur'}
                    ]">
@@ -458,7 +458,7 @@
         parentPage: null,
         activeName:'0',
         ifSiteChange: false,
-        readOnly: false,
+        isFC: false,
         isCopy: false,
         title: '',
         method: '',
@@ -582,8 +582,8 @@
         }
         this.procDefKey = query.procDefKey
         this.taskDefKey = query.taskDefKey + ''
-        if (query.readOnly) {
-          this.readOnly = query.readOnly
+        if (query.isFC) {
+          this.isFC = query.isFC
         }
         this.parentPage = parentPage
       },

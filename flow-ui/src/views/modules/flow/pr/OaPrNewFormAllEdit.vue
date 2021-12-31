@@ -112,11 +112,16 @@
         }
       },
       init(query) {
+
+        debugger
         this.activeName='oaPrNewForm'
         this.businessId=query.businessId
-        this.isReadOnly=query.readOnly
+        if(query.readOnly) {
+          this.isReadOnly=query.readOnly
+        }
         if (query.taskDefKey && query.taskDefKey.indexOf('FC')>0){
           this.isReadOnly=true
+          query.isFC = true
         }
         this.$refs.oaPrNewForm.init(query, this)
         this.$refs.oaPrNewFormForDoc.init(query)

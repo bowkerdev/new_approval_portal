@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.jeeplus</groupId>
         <artifactId>jeeplus</artifactId>
-        <version>10.6.5-RELEASE</version>
+        <version>9.0</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 

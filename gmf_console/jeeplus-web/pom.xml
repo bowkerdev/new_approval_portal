@@ -38,7 +38,7 @@
         <dependency>
             <groupId>org.jeeplus</groupId>
             <artifactId>jeeplus-core</artifactId>
-            <version>${project.parent.version}</version>
+            <version>10.6.5-RELEASE</version>
         </dependency>
 
         <dependency>

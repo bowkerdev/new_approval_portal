@@ -14,13 +14,13 @@
     <servers>
         <server>
             <id>rdc-releases</id>
-            <username>61075175cd146a5e9cdbdddd</username>
-            <password>(tIStHFXdOvh</password>
+            <username>611dcd10cd146a5e9c12c4eb</username>
+            <password>fwLekqIH3N2p</password>
         </server>
         <server>
             <id>rdc-snapshots</id>
-            <username>61075175cd146a5e9cdbdddd</username>
-            <password>(tIStHFXdOvh</password>
+            <username>611dcd10cd146a5e9c12c4eb</username>
+            <password>fwLekqIH3N2p</password>
         </server>
     </servers>
     <profiles>
@@ -42,7 +42,7 @@
                         <enabled>true</enabled>
                     </releases>
                     <snapshots>
-                        <enabled>true</enabled>
+                        <enabled>false</enabled>
                     </snapshots>
                 </repository>
                 <repository>
@@ -62,7 +62,7 @@
                         <enabled>true</enabled>
                     </releases>
                     <snapshots>
-                        <enabled>true</enabled>
+                        <enabled>false</enabled>
                     </snapshots>
                 </repository>
                 <repository>
@@ -104,7 +104,7 @@
                         <enabled>true</enabled>
                     </releases>
                     <snapshots>
-                        <enabled>true</enabled>
+                        <enabled>false</enabled>
                     </snapshots>
                 </pluginRepository>
                 <pluginRepository>

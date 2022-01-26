@@ -61,7 +61,6 @@
         <dependency>
             <groupId>org.jeeplus</groupId>
             <artifactId>jeeplus-flowable</artifactId>
-            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>

@@ -40,59 +40,38 @@
                   @getValue="(value) => {searchForm.department.id=value}"/>
          </el-form-item>
          <el-form-item prop="procDefKey">
-                <el-input size="small" v-model="searchForm.procDefKey" :placeholder="$i18nMy.t('流程标识')" clearable></el-input>
+                <!-- <el-input size="small" v-model="searchForm.procDefKey" :placeholder="$i18nMy.t('流程标识')" clearable></el-input> -->
+                <el-select size="small" v-model="searchForm.procDefKey" :placeholder="$i18nMy.t('流程标识')" clearable filterable>
+                 <el-option v-for="item in procDefKeyList" :key="item.value"
+                   :label="item.label" :value="item.value" >
+                 </el-option>
+                </el-select>
          </el-form-item>
          <el-form-item prop="userGroup">
-                <el-input size="small" v-model="searchForm.userGroup" :placeholder="$i18nMy.t('组标识')" clearable></el-input>
+                <!-- <el-input size="small" v-model="searchForm.userGroup" :placeholder="$i18nMy.t('组标识')" clearable></el-input> -->
+                <el-select size="small" v-model="searchForm.userGroup" :placeholder="$i18nMy.t('组标识')" clearable filterable>
+                 <el-option v-for="item in userGroupList" :key="item.value"
+                   :label="item.label" :value="item.value" >
+                 </el-option>
+                </el-select>
          </el-form-item>
          <el-form-item prop="user.id">
             <user-select :placeholder="$i18nMy.t('用户')"  :limit='1' size="small" :value="searchForm.user.id" @getValue='(value) => {searchForm.user.id=value}'></user-select>
          </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small" icon="el-icon-search">查询</el-button>
-            <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">重置</el-button>
+            <el-button type="primary" @click="refreshList()" size="small" icon="el-icon-search">{{$i18nMy.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
-      <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
-         <el-form-item>
-          <el-button type="default" @click="downloadTpl()" size="small">下载模板</el-button>
-         </el-form-item>
-         <el-form-item prop="loginName">
-            <el-upload
-              class="upload-demo"
-              :action="`${this.$http.BASE_URL}/flowable/wf/wfUserGroup/import`"
-              :on-success="uploadSuccess"
-               :show-file-list="true">
-              <el-button size="small" type="primary">点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
-            </el-upload>
-        </el-form-item>
-      </el-form>
+
       <div class="bg-white top">
       <el-row>
-        <el-button v-if="hasPermission('flowable:wf:wfUserGroup:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
-        <el-button v-if="hasPermission('flowable:wf:wfUserGroup:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1" plain>修改</el-button>
+        <el-button v-if="hasPermission('flowable:wf:wfUserGroup:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('flowable:wf:wfUserGroup:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>删除
+                  :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}
         </el-button>
-        <el-button-group class="pull-right">
-            <el-button
-              type="default"
-              size="small"
-              icon="el-icon-search"
-              @click="isSearchCollapse = !isSearchCollapse, isImportCollapse=false">
-            </el-button>
-            <el-button v-if="hasPermission('flowable:wf:wfUserGroup:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
-            <el-button v-if="hasPermission('flowable:wf:wfUserGroup:export')" type="default" size="small" icon="el-icon-download" title="导出" @click="exportExcel()"></el-button>
-            <el-button
-              type="default"
-              size="small"
-              icon="el-icon-refresh"
-              @click="refreshList">
-            </el-button>
-        </el-button-group>
+
       </el-row>
     <el-table
       :data="dataList"
@@ -112,7 +91,7 @@
         prop="company.name"
         show-overflow-tooltip
         sortable="custom"
-        label="公司">
+        :label="$i18nMy.t('公司')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('flowable:wf:wfUserGroup:edit')" @click="edit(scope.row.id)">{{scope.row.company.name||scope.row.company.id||"ALL"}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('flowable:wf:wfUserGroup:view')"  @click="view(scope.row.id)">{{scope.row.company.name||scope.row.company.id||"ALL"}}</el-link>
@@ -125,7 +104,7 @@
         prop="department.name"
         show-overflow-tooltip
         sortable="custom"
-        label="部门">
+        :label="$i18nMy.t('部门')">
         <template slot-scope="scope">
           {{scope.row.department.name||"ALL"}}
         </template>
@@ -134,36 +113,36 @@
         prop="procDefKey"
         show-overflow-tooltip
         sortable="custom"
-        label="流程标识">
+        :label="$i18nMy.t('流程标识')">
       </el-table-column>
     <el-table-column
         prop="userGroup"
         show-overflow-tooltip
         sortable="custom"
-        label="组标识">
+        :label="$i18nMy.t('组标识')">
       </el-table-column>
     <el-table-column
         prop="userGroupCode"
         show-overflow-tooltip
         sortable="custom"
-        label="组标识辅助码">
+        :label="$i18nMy.t('组标识辅助码')">
       </el-table-column>
       <el-table-column
         prop="user.name"
         show-overflow-tooltip
         sortable="custom"
-        label="用户">
+        :label="$i18nMy.t('用户')">
       </el-table-column>
       <el-table-column
         header-align="center"
         align="center"
         fixed="right"
         width="200"
-        label="操作">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('flowable:wf:wfUserGroup:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">查看</el-button>
-          <el-button v-if="hasPermission('flowable:wf:wfUserGroup:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">修改</el-button>
-          <el-button v-if="hasPermission('flowable:wf:wfUserGroup:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">删除</el-button>
+          <el-button v-if="hasPermission('flowable:wf:wfUserGroup:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
+          <el-button v-if="hasPermission('flowable:wf:wfUserGroup:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('flowable:wf:wfUserGroup:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -192,6 +171,8 @@
       return {
         ifSiteChange: true,
         siteList:[],
+        procDefKeyList:[],
+        userGroupList:[],
         searchForm: {
           company: {
             id: ''
@@ -225,6 +206,12 @@
       let _that=this
       this.$dictUtils.getSqlDictList('GET_APPLY_SITE',{},function(data){
         _that.siteList = data
+      })
+      this.$dictUtils.getSqlDictList('GET_procDefKey_LIST',{},function(data){
+        _that.procDefKeyList = data
+      })
+      this.$dictUtils.getSqlDictList('GET_userGroup_LIST',{},function(data){
+        _that.userGroupList = data
       })
       this.refreshList()
     },
@@ -304,8 +291,8 @@
           return item.id
         }).join(',')
         this.$confirm($i18nMy.t('确定删除所选项吗') + '?', $i18nMy.t('提示'), {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+          confirmButtonText: $i18nMy.t('确定'),
+          cancelButtonText: $i18nMy.t('取消'),
           type: 'warning'
         }).then(() => {
           this.loading = true
@@ -315,7 +302,7 @@
             params: {'ids': ids}
           }).then(({data}) => {
             if (data && data.success) {
-              this.$message.success(data.msg)
+              this.$message.success($i18nMy.t(data.msg))
               this.refreshList()
             }
             this.loading = false

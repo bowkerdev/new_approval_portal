@@ -280,6 +280,9 @@ public class FlowTaskService extends BaseService {
             processVo.setProcessDefinitionName ( ProcessDefCache.get (processVo.getTask().getProcessDefinitionId ()).getName ());
             processVo.setVersion (ProcessDefCache.get (processVo.getTask().getProcessDefinitionId ()).getVersion ());
             //processVo.setStatus (getProcessStatus(processVo.getTask().getName()));
+            if ("结束".equals(processVo.getStatus())) {
+            	processVo.setStatus (flowMapper.getProcessStatus(processVo.getProcessInstanceId()));
+			}
             processVo.setRemarks(flowMapper.getRemarks(processVo.getTask().getProcessInstanceId(), StringUtils.split(processVo.getTask().getProcessDefinitionId(),":")[0])); 
             page.getList ().add (processVo);
         }
@@ -485,6 +488,9 @@ public class FlowTaskService extends BaseService {
             processVo.setProcessInstanceId (historicProcessInstance.getId ());
             processVo.setVars (historicProcessInstance.getProcessVariables ());
             processVo.setStatus (historicProcessInstance.getEndTime()==null ? "处理中" : "结束");
+            if ("结束".equals(processVo.getStatus())) {
+            	processVo.setStatus (flowMapper.getProcessStatus(processVo.getProcessInstanceId()));
+			}
             processVo.setProcessDefinitionName (historicProcessInstance.getProcessDefinitionName ());
             processVo.setVersion ( historicProcessInstance.getProcessDefinitionVersion ());
             page.getList ().add (processVo);

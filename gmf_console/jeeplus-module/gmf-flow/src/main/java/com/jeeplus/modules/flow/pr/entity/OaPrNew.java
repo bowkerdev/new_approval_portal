@@ -52,9 +52,9 @@ public class OaPrNew extends DataEntity<OaPrNew> {
 	@ExcelField(title="成本中心", dictType="db_type", align=2, sort=17)
 	private String costCenter;		// 成本中心
 	@ExcelField(title="固定资产类型", dictType="db_type", align=2, sort=18)
-	private String assetGroup;		// 固定资产类型
-	@ExcelField(title="技术支持部门", align=2, sort=19)
-	private String technicalAdvisor;		// 技术支持部门
+	private String assetGroup;		// 固定资产类型 
+	@ExcelField(title="技术支持部门", fieldType=Office.class, value="technicalAdvisor.name", align=2, sort=19)
+	private Office technicalAdvisor;		// 技术支持部门
 	@ExcelField(title="预算类型", dictType="db_type", align=2, sort=20)
 	private String budgetType;		// 预算类型
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

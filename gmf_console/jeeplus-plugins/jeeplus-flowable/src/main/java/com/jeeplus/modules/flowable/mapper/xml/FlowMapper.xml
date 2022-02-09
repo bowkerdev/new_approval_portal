@@ -23,7 +23,7 @@
 	</select>
 	
 	<select id="getProcessStatus" resultType="java.lang.String">
-	    SELECT if( a.end_time_ is not null, '结束', '处理中') as status FROM act_hi_procinst a where a.PROC_INST_ID_ = #{procInsId} 
+	    SELECT getStatus(#{procInsId})  
 	</select>
 	
 	<select id="querySql" resultType="java.util.Map">
@@ -162,7 +162,7 @@
 		from act_hi_actinst a
 		left join sys_user u on a.ASSIGNEE_ = u.id
 		where a.PROC_INST_ID_ = #{procInsId} and a.ACT_TYPE_ in ('userTask','startEvent','endEvent')
-		order by a.START_TIME_ desc, a.ACT_TYPE_ desc limit 1
+		order by ifnull(a.END_TIME_, '2099-01-01') desc, a.START_TIME_ desc, a.ACT_TYPE_ desc limit 1
 	</select>
 	
 	<select id="getRemarks" resultType="java.lang.String">

@@ -123,6 +123,10 @@
           this.isReadOnly=true
           query.isFC = true
         }
+        if (query.taskDefKey && query.taskDefKey.indexOf('FA')>0){
+          this.isReadOnly=true
+          query.isFA = true
+        }
         this.$refs.oaPrNewForm.init(query, this)
         this.$refs.oaPrNewFormForDoc.init(query)
         this.$refs.oaPrNewFormForSupplier.init(query)

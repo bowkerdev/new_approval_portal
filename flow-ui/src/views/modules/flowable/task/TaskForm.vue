@@ -14,7 +14,7 @@
     <el-tab-pane :label="$i18nMy.t('流转记录')" v-if="procInsId" name="form-forth">
           <flow-step :historicTaskList="historicTaskList"/>
     </el-tab-pane>
-    <el-tab-pane :label="$i18nMy.t('流程图')"  v-if="procInsId" name="form-third">
+    <el-tab-pane :label="$i18nMy.t('流程图')" v-if="procInsId&&hasPermission('flow:mytask:flowview')" name="form-third">
        <el-card class="box-card"  shadow="hover">
           <div slot="header" class="clearfix">
             <span>{{$i18nMy.t('流程图')}}</span>
@@ -25,8 +25,8 @@
     </el-tab-pane>
   </el-tabs>
 
-<el-card style="margin-top:10px; margin-bottom:66px" v-if="taskId">
-    <el-form size="small" :model="auditForm"   ref="auditForm" label-width="120px">
+<el-card style="margin-top:10px; margin-bottom:66px;" v-if="taskId">
+    <el-form size="small" :model="auditForm"   ref="auditForm" label-width="120px" style="margin-left: 45px;">
       <el-col :span="16">
         <el-form-item  v-if="!procInsId"  :label="$i18nMy.t('流程标题')" prop="title" v-show="false">
           <el-input
@@ -34,8 +34,9 @@
             v-model="title">
           </el-input>
         </el-form-item>
-      <el-form-item label-width="180px"  v-if="taskId"  :label="$i18nMy.t('审批信息')" prop="comment" >
+      <el-form-item  class="updown"  v-if="taskId"  :label="$i18nMy.t('审批信息')" prop="comment" >
           <el-input
+            style="width:146%"
             type="textarea"
             :rows="3"
             :placeholder="$i18nMy.t('请输入审批意见')"
@@ -254,10 +255,12 @@
       },
 
       buttonType(code) {
-        var red = ['disagree','_flow_reject','_flow_back_modify']
+        var red = ['disagree','_flow_reject','_flow_back_modify','_flow_stop']
         if (red.indexOf(code) > -1) { return 'danger' }
-        var green = ['_flow_agree']
+        var green = ['_flow_agree','_flow_back_last_approver']
         if (green.indexOf(code) > -1) { return 'success' }
+        var yellow = ['_flow_back_on_hold']
+        if (yellow.indexOf(code) > -1) { return 'warning' }
         return 'primary'
       },
       initChildFrom(query){
@@ -714,4 +717,8 @@
   .el-icon-arrow-down {
     font-size: 12px;
   }
+  .updown ::v-deep label{float:none !important;}
+
+  .updown ::v-deep label+div{float:none !important;margin-left:0px !important;}
+
 </style>

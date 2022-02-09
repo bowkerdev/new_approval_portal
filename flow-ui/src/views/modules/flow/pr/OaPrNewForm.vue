@@ -120,16 +120,25 @@
         </el-form>
 
         <el-col :span="12" v-if="procDefKey === 'prpo_non_it'">
-          <el-form-item label-width="220px" :label="$i18nMy.t('技术支持部门')" prop="technicalAdvisor" :rules="[ ]">
+          <!-- <el-form-item label-width="220px" :label="$i18nMy.t('技术支持部门')" prop="technicalAdvisor" :rules="[ ]">
             <el-select v-model="inputForm.technicalAdvisor" :placeholder="$i18nMy.t('请选择')" style="width: 100%;" clearable>
              <el-option v-for="item in $dictUtils.getDictList('technical_advisor')" :key="item.value" :label="item.label"
                :value="item.value">
              </el-option>
             </el-select>
+          </el-form-item> -->
+          <el-form-item label-width="220px" :label="$i18nMy.t('技术支持部门')" prop="technicalAdvisor.id" :rules="[ ]">
+            <SelectTree ref="technicalAdvisor" v-if="ifSiteChange" :props="{
+                    value: 'id',             // ID字段名
+                    label: 'name',         // 显示名称
+                    children: 'children'    // 子级字段名
+                  }" :url="`/sys/office/treeData?type=2&parentCode=${inputForm.applySiteCode}`" :value="inputForm.technicalAdvisor.id" :clearable="true"
+              :accordion="true" @getValue="(value, name) => {inputForm.technicalAdvisor.id=value; inputForm.technicalAdvisor.name=name}" />
+              <el-input v-if="!ifSiteChange" :placeholder="$i18nMy.t('请选择')" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('申购优先级')" prop="requestRiority" :rules="[{required: true, message:$i18nMy.t('申购优先级不能为空'), trigger:'blur'}]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('申购优先级')" prop="requestRiority" :title="$i18nMy.t('requestRiorityDesc')" :rules="[{required: true, message:$i18nMy.t('申购优先级不能为空'), trigger:'blur'}]">
             <el-select v-model="inputForm.requestRiority" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('request_priority')" :key="item.value" :label="item.label"
                 :value="item.value">
@@ -490,7 +499,10 @@
           legalEntity: '',
           costCenter: '',
           assetGroup: '',
-          technicalAdvisor: '',
+          technicalAdvisor: {
+            id: '',
+            name: ''
+          },
           budgetType: '',
           approvedDate: '',
           isBudget: '',

@@ -7,8 +7,11 @@
           <p style="text-align: center;margin-top: 20px;font-size: 26px;font-weight: bold;">
             Win Hanverky Group
           </p>
-          <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;">
+          <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;"  v-if="procDefKey === 'prpo'">
             {{$i18nMy.t('采购设备申请表（IT 设备）')}}<!-- Purchase Requisition Form -->
+          </p>
+          <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;"  v-if="procDefKey === 'prpo_non_it'">
+            {{$i18nMy.t('采购设备申请表（非IT设备）')}}<!-- Purchase Requisition Form -->
           </p>
         </el-col>
         <el-col :span="12">
@@ -130,8 +133,7 @@
       <el-row :gutter="15" style="margin-right: 10px">
           <el-table :data="supplementaryDoc" height="300px" class="table" style="border: 1px solid #EBEEF5 !important ; margin-left: 10px">
             <el-table-column prop="serialNumber" width="50" align="right" :label="$i18nMy.t('序号')"> </el-table-column>
-
-            <!-- <el-table-column prop="documentType" width="120"  align="left" :label="$i18nMy.t('文件类型')"   >
+            <el-table-column prop="documentType" width="220"  align="left" :label="$i18nMy.t('文件类型')"   >
               <template slot-scope="{row}">
                 <template v-if="row.edit">
                   <el-select  size="small" v-model="row.documentType"  :placeholder="$i18nMy.t('请选择')">
@@ -142,8 +144,7 @@
                 </template>
                 <span v-else>{{ row.documentType }}</span>
               </template>
-            </el-table-column> -->
-
+            </el-table-column>
             <el-table-column prop="attachment" align="left" :label="$i18nMy.t('附件')"   >
               <template slot-scope="{row}">
                 <el-upload :class="row.attachment==''?'':'hide'"

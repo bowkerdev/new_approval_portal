@@ -9,7 +9,7 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-            <el-form-item label="公司" prop="company.id"
+            <el-form-item :label="$i18nMy.t('公司')" prop="company.id"
                 :rules="[
                  ]">
                <el-select size="small" v-model="inputForm.company.id" :placeholder="$i18nMy.t('ALL')" @change="siteChange" clearable>
@@ -20,7 +20,7 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="部门" prop="department.id"
+            <el-form-item :label="$i18nMy.t('部门')" prop="department.id"
                 :rules="[
                  ]">
           <SelectTree :placeholder="$i18nMy.t('ALL')"
@@ -40,28 +40,38 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="流程标识" prop="procDefKey"
+            <el-form-item :label="$i18nMy.t('流程标识')" prop="procDefKey"
                 :rules="[
                  ]">
-              <el-input size="small" v-model="inputForm.procDefKey" :placeholder="$i18nMy.t('请填写流程标识')"     ></el-input>
+              <!-- <el-input size="small" v-model="inputForm.procDefKey" :placeholder="$i18nMy.t('请填写流程标识')"     ></el-input> -->
+              <el-select size="small" v-model="inputForm.procDefKey" :placeholder="$i18nMy.t('流程标识')" clearable filterable>
+               <el-option v-for="item in procDefKeyList" :key="item.value"
+                 :label="item.label" :value="item.value" >
+               </el-option>
+              </el-select>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="组标识" prop="userGroup"
+            <el-form-item :label="$i18nMy.t('组标识')" prop="userGroup"
                 :rules="[
                  ]">
-              <el-input size="small" v-model="inputForm.userGroup" :placeholder="$i18nMy.t('请填写组标识')"     ></el-input>
+              <!-- <el-input size="small" v-model="inputForm.userGroup" :placeholder="$i18nMy.t('请填写组标识')"     ></el-input> -->
+              <el-select size="small" v-model="inputForm.userGroup" :placeholder="$i18nMy.t('组标识')" clearable filterable>
+               <el-option v-for="item in userGroupList" :key="item.value"
+                 :label="item.label" :value="item.value" >
+               </el-option>
+              </el-select>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="组标识辅助码" prop="userGroupCode"
+            <el-form-item :label="$i18nMy.t('组标识辅助码')" prop="userGroupCode"
                 :rules="[
                  ]">
               <el-input size="small" v-model="inputForm.userGroupCode" :placeholder="$i18nMy.t('请填写组标识辅助码')"     ></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="用户" prop="user.id"
+            <el-form-item :label="$i18nMy.t('用户')" prop="user.id"
                 :rules="[
                  ]">
                 <user-select :limit='1' :value="inputForm.user.id" @getValue='(value) => {inputForm.user.id=value}'></user-select>
@@ -70,8 +80,8 @@
         </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">关闭</el-button>
-      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>确定</el-button>
+      <el-button @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </div>
@@ -85,6 +95,8 @@
       return {
         ifSiteChange: true,
         siteList:[],
+        procDefKeyList:[],
+        userGroupList:[],
         title: '',
         method: '',
         visible: false,
@@ -114,6 +126,12 @@
       let _that=this
       this.$dictUtils.getSqlDictList('GET_APPLY_SITE',{},function(data){
         _that.siteList = data
+      })
+      this.$dictUtils.getSqlDictList('GET_procDefKey_LIST',{},function(data){
+        _that.procDefKeyList = data
+      })
+      this.$dictUtils.getSqlDictList('GET_userGroup_LIST',{},function(data){
+        _that.userGroupList = data
       })
     },
     methods: {
@@ -162,7 +180,7 @@
               this.loading = false
               if (data && data.success) {
                 this.visible = false
-                this.$message.success(data.msg)
+                this.$message.success($i18nMy.t(data.msg))
                 this.$emit('refreshDataList')
               }
             })

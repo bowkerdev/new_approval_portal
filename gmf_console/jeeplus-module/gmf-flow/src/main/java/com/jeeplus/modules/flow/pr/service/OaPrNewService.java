@@ -14,6 +14,7 @@ import com.jeeplus.core.service.CrudService;
 import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.modules.flow.pr.entity.OaPrNew;
 import com.jeeplus.modules.flow.pr.mapper.OaPrNewMapper;
+import com.jeeplus.modules.flowable.mapper.FlowMapper;
 
 /**
  * PR申请单Service
@@ -23,7 +24,8 @@ import com.jeeplus.modules.flow.pr.mapper.OaPrNewMapper;
 @Service
 @Transactional(readOnly = true)
 public class OaPrNewService extends CrudService<OaPrNewMapper, OaPrNew> {
-
+	@Autowired
+    private FlowMapper flowMapper;
 
 	public OaPrNew get(String id) {
 		OaPrNew oaPrNew = super.get(id);
@@ -35,7 +37,15 @@ public class OaPrNewService extends CrudService<OaPrNewMapper, OaPrNew> {
 	}
 
 	public Page<OaPrNew> findPage(Page<OaPrNew> page, OaPrNew oaPrNew) {
-		return super.findPage(page, oaPrNew);
+		Page<OaPrNew> oaPage = super.findPage(page, oaPrNew);
+		List<OaPrNew> list = oaPage.getList();
+		for (OaPrNew oa : list) {
+			if ("结束".equals(oa.getStatus())) {
+				oa.setStatus (flowMapper.getProcessStatus(oa.getProcInsId()));
+			}
+		}
+		
+		return oaPage;
 	}
 
 	@Transactional(readOnly = false)

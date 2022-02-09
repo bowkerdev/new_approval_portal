@@ -42,10 +42,12 @@
               <el-table-column
                 prop="vars.request_riority"
                 width="60px"
-               show-overflow-tooltip
+                show-overflow-tooltip
                 :label="$i18nMy.t('优先级')">
                     <template slot-scope="scope">
-                      <i v-if="scope.row.vars.request_riority==='high'" style="color: #ff5500;" class="el-icon-message-solid"></i><!-- {{scope.row.vars.request_riority}} -->
+                      <i v-if="scope.row.vars.request_riority==='high'" style="color: #ff0004;" class="el-icon-warning"></i>
+                      <i v-if="scope.row.vars.request_riority==='middle'" style="color: #ffce38;" class="el-icon-warning"></i>
+                      <i v-if="scope.row.vars.request_riority==='low'" style="color: #1eb163;" class="el-icon-warning"></i>
                     </template>
               </el-table-column>
               <el-table-column
@@ -78,7 +80,7 @@
                 width="120px"
                 :label="$i18nMy.t('总金额')">
                 <template slot-scope="scope">
-                    {{scope.row.vars.total_vat_contract_amount || scope.row.vars.total_contract_amount || scope.row.vars.priceAmount}}
+                  {{$common.toThousands(scope.row.vars.total_vat_contract_amount || scope.row.vars.total_contract_amount || scope.row.vars.priceAmount)}}
                 </template>
               </el-table-column>
               <el-table-column
@@ -663,7 +665,7 @@ export default Vue.extend({
         status: row.status
       }}).then(({data}) => {
         if (data.success) {
-          var param={formTitle: `${row.vars.title}`, title: `${row.vars.title}`,
+          var param={formTitle: `${row.vars.title}`, title: `${row.vars.title}`, parentForm: 'TaskForm',
             ...pick(data.flow, 'formType', 'formReadOnly', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId', 'lastTaskDefKey')}
           this.$router.push({
             path: '/flowable/task/TaskForm',

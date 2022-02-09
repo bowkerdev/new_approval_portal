@@ -7,8 +7,11 @@
           <p style="text-align: center;margin-top: 20px;font-size: 26px;font-weight: bold;">
             Win Hanverky Group
           </p>
-          <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;">
+          <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;"  v-if="procDefKey === 'prpo'">
             {{$i18nMy.t('采购设备申请表（IT 设备）')}}<!-- Purchase Requisition Form -->
+          </p>
+          <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;"  v-if="procDefKey === 'prpo_non_it'">
+            {{$i18nMy.t('采购设备申请表（非IT设备）')}}<!-- Purchase Requisition Form -->
           </p>
         </el-col>
         <el-col :span="12">
@@ -77,11 +80,11 @@
                 <!-- <th>{{$i18nMy.t('预计最晚到货日期')}}</th> -->
                 <th colspan="2">{{$i18nMy.t('备注')}}</th>
                 <th><font color="red">*</font>{{$i18nMy.t('文件类型')}}</th>
-                <th colspan="2"><font color="red">*</font>{{$i18nMy.t('附件')}}</th>
-                <th><font color="red">*</font>{{$i18nMy.t('关联项目')}}</th>
-                <!-- <th>{{$i18nMy.t('上传者')}}</th>
+                <th colspan="3"><font color="red">*</font>{{$i18nMy.t('附件')}}</th>
+                <!-- <th><font color="red">*</font>{{$i18nMy.t('关联项目')}}</th>
+                <th>{{$i18nMy.t('上传者')}}</th>
                 <th>{{$i18nMy.t('上传日期')}}</th> -->
-                <th colspan="2">{{$i18nMy.t('操作')}}</th>
+                <th colspan="1">{{$i18nMy.t('操作')}}</th>
               </tr>
             </thead>
             <tbody v-for="(item, index) in supplierInfo" :key="'index_'+index">
@@ -93,7 +96,13 @@
                 </span>
               </td>
               <td :rowspan="item.docListSize" >
-                <el-input  size="small" v-if="item.edit" v-model="item.paymentTerms"  ></el-input>
+                <!-- <el-input  size="small" v-if="item.edit" v-model="item.paymentTerms"  ></el-input> -->
+                <el-select size="small" v-model="item.paymentTerms"
+                  v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
+                  <el-option v-for="item in $dictUtils.getDictList('pr_payment_terms')" on :key="item.value" :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
                 <span v-else>
                   {{item.paymentTerms}}
                 </span>
@@ -162,7 +171,7 @@
                       <el-button :disabled="!item.edit" style="padding: 5px 30px;" round size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
                     </el-upload>
               </td>
-              <td style="width: 80px;">
+              <!-- <td style="width: 80px;">
                 <el-select  size="small" multiple v-model="item.docList[0].linkToItems" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in detailInfo" :key="item.serialNumber" :label="item.serialNumber"
                     :value="item.serialNumber">
@@ -172,7 +181,7 @@
                   {{item.docList[0].linkToItems.join(',')}}
                 </span>
               </td>
-              <!-- <td >
+              <td >
                   {{item.docList[0].uploadedBy}}
               </td>
               <td class="my-right" style="width: 80px;">
@@ -260,8 +269,8 @@
                 <td><font color="red">*</font>MOQ</td>
                 <td width="135px" >{{$i18nMy.t('预计到货日期')}}</td>
                 <!-- <td>{{$i18nMy.t('预计最晚到货日期')}}</td> -->
-                <td colspan="3">{{$i18nMy.t('原因')}}</td>
-                <td width="45px" ><font color="red">*</font>{{$i18nMy.t('采纳')}}</td>
+                <td width="45px" colspan="1"><font color="red">*</font>{{$i18nMy.t('采纳')}}</td>
+                <td width="" colspan="2"><font color="red">*</font>{{$i18nMy.t('原因')}}</td>
               </tr>
               <tr class="data-content" v-for="(item3, index3) in item.detailInfo" :key="'index3_'+index3">
                 <td  style="background-color: #FFFFFF;border:none"></td>
@@ -310,15 +319,15 @@
                     {{item3.expectLastArrivalDate}}
                   </span>
                 </td> -->
-                <td colspan="3">
-                  <el-input  size="small" v-if="item.edit" v-model="item3.reason"  ></el-input>
-                  <span v-else>
-                    {{item3.reason}}
-                  </span>
+
+                <td colspan="1">
+                  <el-form size="small" :model="inputForm" ref="inputFormFC" :disabled="!((status=='start'&&procDefKey=='prpo')||parentForm=='TaskForm'&&isFA)" >
+                    <el-checkbox @change="awardedChange(item,item3.serialNumber)" :disabled="item.edit"  v-model="item3.awarded" ></el-checkbox>
+                  </el-form>
                 </td>
-                <td >
-                  <el-form size="small" :model="inputForm" ref="inputFormFC" :disabled="!isFC" label-width="140px" >
-                  <el-checkbox @change="awardedChange(item,item3.serialNumber)" :disabled="item.edit"  v-model="item3.awarded" ></el-checkbox>
+                <td colspan="2">
+                  <el-form size="small" :model="inputForm" ref="inputFormFC" :disabled="!((status=='start'&&procDefKey=='prpo')||parentForm=='TaskForm'&&isFA)" >
+                      <el-input v-on:input="inputReason(index)" size="small" :placeholder="$i18nMy.t('请输入原因')" v-model="item3.reason" :disabled="item.edit||!((status=='start'&&procDefKey=='prpo')||parentForm=='TaskForm'&&isFA)" ></el-input>
                   </el-form>
                 </td>
               </tr>
@@ -392,10 +401,10 @@
               <td>{{$i18nMy.t('单价(含VAT)')}}</td>
               <td>MOQ</td>
               <td>{{$i18nMy.t('预计到货日期')}}</td>
-              <!-- <td>{{$i18nMy.t('预计最晚到货日期')}}</td> -->
-              <td colspan="2">{{$i18nMy.t('相关文档')}}</td>
+              <!-- <td>{{$i18nMy.t('预计最晚到货日期')}}</td>
+              <td colspan="2">{{$i18nMy.t('相关文档')}}</td> -->
               <td>{{$i18nMy.t('采纳')}}</td>
-              <td>{{$i18nMy.t('原因')}}</td>
+              <td colspan="2" width="150px">{{$i18nMy.t('原因')}}</td>
             </tr>
             <tr class="data-content" v-for="(item, index) in supplierInfoByDetailInfo[item.item]" >
               <td style="background-color: #FFFFFF;border:none"></td>
@@ -407,16 +416,16 @@
               <td class="my-right">{{$common.toThousands(item.vatUnitPrice)}}</td>
               <td class="my-right">{{item.moq}}</td>
               <td class="my-right">{{item.expectArrivalDate}}</td>
-              <!-- <td class="my-right">{{item.expectLastArrivalDate}}</td> -->
+              <!-- <td class="my-right">{{item.expectLastArrivalDate}}</td>
               <td colspan="2" >
                 <a v-for="(file, index2) in item.relatedQuotation"
                   @click="$window.open(item.fileUrlList[index2])"
                   class="el-upload-list__item-name my_a" style="width: 100%;">
                   {{file}}
                 </a>
-              </td>
+              </td> -->
               <td ><el-checkbox :disabled="true" v-model="item.awarded"></el-checkbox></td>
-              <td >{{item.reason}}</td>
+              <td colspan="2" width="150px">{{item.reason}}</td>
             </tr>
           </tbody>
         </table>
@@ -437,7 +446,10 @@
         method: '',
         loading: false,
         procDefKey: 'prpo',
+        parentForm: '',
         isFC: false,
+        isFA: false,
+        status: '',
         isCopy: false,
         flowStage:'start',
         detailInfo:[],
@@ -560,8 +572,17 @@
           })
         }
         this.procDefKey = query.procDefKey
+        if (query.status) {
+          this.status = query.status
+        }
         if (query.isFC) {
           this.isFC = query.isFC
+        }
+        if (query.isFA) {
+          this.isFA = query.isFA
+        }
+        if (query.parentForm) {
+          this.parentForm = query.parentForm
         }
       },
       currencyChange(obj){
@@ -604,7 +625,8 @@
             }
           }
         }
-        if(awardedSize != this.detailInfo.length){
+        debugger
+        if(awardedSize != this.detailInfo.length && this.procDefKey == 'prpo'){
           this.$message.warning($i18nMy.t('请选择供应商'))
           return false;
         }
@@ -692,7 +714,7 @@
           var fileList=[]
           var fileUrlList=[]
           for(var j=0;j<supplierInfo.docList.length;j++){
-            if(supplierInfo.docList[j].linkToItems.indexOf(supplierInfo.detailInfo[i].serialNumber)>=0){
+            if(supplierInfo.docList[j].linkToItems && supplierInfo.docList[j].linkToItems.indexOf(supplierInfo.detailInfo[i].serialNumber)>=0){
               var pathIndex=supplierInfo.docList[j].attachment.lastIndexOf("/")+1
               var fileName=supplierInfo.docList[j].attachment.substr(pathIndex)
               fileList.push(fileName)
@@ -807,6 +829,9 @@
         this._getSupplierInfoByDetailInfoList()
         this._updateDetailInfoDocUnitPrice()
       },
+      inputReason(index){
+        this._getSupplierInfoByDetailInfoList()
+      },
       calculationPrice(index){
         var originalPrice =0
         var originalVatPrice =0
@@ -878,10 +903,10 @@
              this.$message.warning($i18nMy.t('附件不能为空'))
              return
           }
-          if(this.$common.isEmpty(this.supplierInfo[index].docList[i].linkToItems)){
+          /* if(this.$common.isEmpty(this.supplierInfo[index].docList[i].linkToItems)){
              this.$message.warning($i18nMy.t('关联项目不能为空'))
              return
-          }
+          } */
         }
         /* var unitPriceNull=0
         var vatUnitPriceNull=0 */

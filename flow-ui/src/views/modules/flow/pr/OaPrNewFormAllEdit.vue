@@ -112,8 +112,6 @@
         }
       },
       init(query) {
-
-        debugger
         this.activeName='oaPrNewForm'
         this.businessId=query.businessId
         if(query.readOnly) {

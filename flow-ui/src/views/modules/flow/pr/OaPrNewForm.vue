@@ -435,6 +435,7 @@
         <el-col :span="24">
         <el-form-item class="updown" :label="$i18nMy.t('申购目的')" prop="purchasePurpose" :rules="[{required: true, message:$i18nMy.t('请填写申购目的'), trigger:'blur'}]">
           <el-input type="textarea" style="width: 100%;" v-model="inputForm.purchasePurpose" :placeholder="$i18nMy.t('请填写申购目的')"></el-input>
+          <a style="color: #005DF7; font-size: 12px; cursor: pointer;" @click="toDocPage"> → {{$i18nMy.t('前往[补充文件]页')}}</a>
          </el-form-item>
         </el-col>
         <el-col :span="24">

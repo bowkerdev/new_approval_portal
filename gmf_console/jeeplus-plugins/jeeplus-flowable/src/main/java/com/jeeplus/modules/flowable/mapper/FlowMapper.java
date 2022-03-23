@@ -24,23 +24,32 @@ import com.jeeplus.modules.flowable.vo.ProcessVo;
 @Mapper
 @Repository
 public interface FlowMapper extends BaseMapper<Flow> {
-    int updateProcInsIdByBusinessId(Flow act);
-    int updateProcStatusByProcInsId(@Param("procInsId")String procInsId,@Param("procStatus")String procStatus,@Param("businessTable")String businessTable);
-    String getSequence(@Param("seqName") String seqName, @Param("bizCode") String bizCode);
-    
-    String getRemarks(@Param("procInsId") String procInsId, @Param("procDefKey") String procDefKey);
-    
-    String getProcessStatus(@Param("procInsId") String procInsId);
-    
-    String getProcessVar(@Param("procInsId") String procInsId, @Param("varName") String varName);
+	int updateProcInsIdByBusinessId(Flow act);
 
-    List<ProcessVo> findAllTodoList(ProcessVo processVo);
-    
-    List<ProcessVo> findAllList(ProcessVo processVo);
-    
-    String getLatestProcessDefinitionId(@Param("procDefKey") String procDefKey);
- 
-    List<ProcessVo> findHistoryList(ProcessVo entity);
-    List<ActVo> findLastestHiActList(@Param("procInsId")String procInsId);
-    List<Map> querySql(Map map);
+	int updateProcStatusByProcInsId(@Param("procInsId") String procInsId, @Param("procStatus") String procStatus,
+			@Param("businessTable") String businessTable);
+
+	String getSequence(@Param("seqName") String seqName, @Param("bizCode") String bizCode);
+
+	String getRemarks(@Param("procInsId") String procInsId, @Param("procDefKey") String procDefKey);
+
+	String getProcessStatus(@Param("procInsId") String procInsId);
+	
+	String getMsgId(@Param("procInsId") String procInsId);
+
+	String getProcessVar(@Param("procInsId") String procInsId, @Param("varName") String varName);
+
+	List<ProcessVo> findAllTodoList(ProcessVo processVo);
+
+	List<ProcessVo> findAllList(ProcessVo processVo);
+
+	String getLatestProcessDefinitionId(@Param("procDefKey") String procDefKey);
+
+	List<ProcessVo> findHistoryList(ProcessVo entity);
+
+	List<ActVo> findLastestHiActList(@Param("procInsId") String procInsId);
+
+	List<Map> querySql(Map map);
+	 
+	int executeWriteSql(Map map);
 }

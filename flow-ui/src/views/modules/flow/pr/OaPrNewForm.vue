@@ -591,6 +591,7 @@
         }
         else{
           Object.assign(this.$data, this.$options.data.call(this))
+          this.inputForm.procDefKey = query.procDefKey
           this.initCreateBy()
         }
         this.procDefKey = query.procDefKey

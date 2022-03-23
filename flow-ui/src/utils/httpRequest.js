@@ -39,7 +39,10 @@ axios.interceptors.request.use(config => {
   }
   // 请求头带上token
   if(config.headers.token==null||config.headers.token==""){
+    debugger
     config.headers.token = Vue.cookie.get('token')
+    config.headers.ssoTokenType = Vue.cookie.get('ssoTokenType')
+    config.headers.ssoToken = Vue.cookie.get(config.headers.ssoTokenType+'_token')
   }
   // 请求地址处理
   if (!config.url.indexOf('http') == 0) {
@@ -93,6 +96,7 @@ axios.interceptors.response.use(response => {
     }).then(({ data }) => {
       if (data && data.success) {
         Vue.cookie.set('token', data.token)
+        // TODO ssoToken
         Vue.cookie.set('refreshToken', data.refreshToken)
       } else {
         clearLoginInfo()

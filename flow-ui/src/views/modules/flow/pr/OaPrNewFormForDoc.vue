@@ -26,13 +26,11 @@
               <el-input v-model="inputForm.createByOffice.name" :disabled='true' ></el-input>
              </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <!-- <el-col :span="12">
             <el-form-item label-width="220px" :label="$i18nMy.t('用户姓名')" prop="requester" :rules="[]">
               <el-input v-model="inputForm.requester" :disabled='true' :placeholder="$i18nMy.t('请填写用户姓名')"></el-input>
-              <!-- <user-select :limit='1' :value="inputForm.requester" @getValue='(value) => {inputForm.requester=value}'>
-              </user-select> -->
             </el-form-item>
-          </el-col>
+          </el-col> -->
 
           <el-col :span="12">
             <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment.name" :rules="[ ]">

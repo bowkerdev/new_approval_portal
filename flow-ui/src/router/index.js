@@ -133,6 +133,7 @@ router.beforeEach((to, from, next) => {
         if (data && data.success) {
           clearLoginInfo ()
           Vue.cookie.set(process.env.VUE_APP_SSO_TYPE+'_token', ssoToken)
+          Vue.cookie.set('ssoTokenType', process.env.VUE_APP_SSO_TYPE)
           Vue.cookie.set('token', data.token)
           Vue.cookie.set('refreshToken', data.refreshToken)
           getMenus()

@@ -10,6 +10,7 @@ import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.extension.entity.NodeSetting;
 import com.jeeplus.modules.extension.service.NodeSettingService;
+import com.jeeplus.modules.flowable.common.email.SendEmailThread;
 import com.jeeplus.modules.flowable.entity.Flow;
 import com.jeeplus.modules.flowable.entity.TaskComment;
 import com.jeeplus.modules.flowable.service.FlowTaskService;
@@ -157,6 +158,10 @@ public class AppFlowableTaskController extends BaseController {
                 taskService.setAssignee(task.getId(), flow.getAssignee ());
             }
         }
+        
+      // 如满足邮件规则则发邮件
+        (new Thread(new SendEmailThread(procInsId, flowTaskService.getMsgId(procInsId)))).start();
+		
         return AjaxJson.success(DictUtils.getLanguageLabel("操作成功","")).put("procInsId", procInsId);
     }
 
@@ -176,6 +181,10 @@ public class AppFlowableTaskController extends BaseController {
     @PostMapping( value = "complete")
     public AjaxJson complete(Flow flow) {
         flowTaskService.complete(flow, flow.getVars().getVariableMap());
+        
+     // 如满足邮件规则则发邮件
+        (new Thread(new SendEmailThread( flow.getProcInsId(), flowTaskService.getMsgId(flow.getProcInsId())))).start();
+		
         return AjaxJson.success("完成任务!");
     }
 
@@ -223,7 +232,7 @@ public class AppFlowableTaskController extends BaseController {
                 }
             }
         }
-
+        
         flowTaskService.auditSave(flow, vars);
         //指定下一步处理人
         if(StringUtils.isNotBlank(flow.getAssignee ())){
@@ -232,6 +241,10 @@ public class AppFlowableTaskController extends BaseController {
                taskService.setAssignee(task.getId(), flow.getAssignee ());
            }
         }
+        
+     // 如满足邮件规则则发邮件
+        (new Thread(new SendEmailThread( flow.getProcInsId(), flowTaskService.getMsgId(flow.getProcInsId())))).start();
+		
         return AjaxJson.success(DictUtils.getLanguageLabel("操作成功", "")).put("procInsId", flow.getProcInsId ());
     }
 

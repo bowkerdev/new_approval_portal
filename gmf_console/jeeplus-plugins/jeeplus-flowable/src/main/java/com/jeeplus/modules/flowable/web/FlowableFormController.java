@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import com.jeeplus.common.json.AjaxJson;
 import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.core.web.BaseController;
+import com.jeeplus.modules.flowable.common.email.SendEmailThread;
 import com.jeeplus.modules.flowable.entity.Flow;
 import com.jeeplus.modules.flowable.service.FlowTaskService;
 import com.jeeplus.modules.sys.utils.DictUtils;
@@ -29,6 +30,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 流程个人任务相关Controller
@@ -114,6 +117,10 @@ public class FlowableFormController extends BaseController {
                 taskService.setAssignee(task.getId(), assignee);
             }
         }
+        
+        // 如满足邮件规则则发邮件
+		(new Thread(new SendEmailThread(procInsId, flowTaskService.getMsgId(procInsId)))).start();
+		
         return AjaxJson.success(DictUtils.getLanguageLabel("操作成功", "")).put("procInsId", procInsId);
     }
 
@@ -236,9 +243,8 @@ public class FlowableFormController extends BaseController {
 
         }
         formValues.put("assignee", "");// 避免jackson序列化错误
+
         flowTaskService.complete(flow, formValues );  //提交用户任务表单并且完成任务。
-
-
 
         //指定下一步处理人
         if(StringUtils.isNotBlank(flow.getAssignee ())){
@@ -247,6 +253,10 @@ public class FlowableFormController extends BaseController {
                 taskService.setAssignee(task.getId(), flow.getAssignee ());
             }
         }
+        
+        // 如满足邮件规则则发邮件
+        (new Thread(new SendEmailThread( flow.getProcInsId(), flowTaskService.getMsgId(flow.getProcInsId())))).start();
+		
         return AjaxJson.success(DictUtils.getLanguageLabel("操作成功", ""));
     }
 

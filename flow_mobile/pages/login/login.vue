@@ -89,6 +89,7 @@
 				this.$http.post('/sys/login',data).then(({data})=>{
 					if(data.success){
 						this.$store.commit('SET_TOKEN',data.token);
+						this.$store.commit('SET_SSO_TOKEN',data.ssoToken);
 						this.refreshUserInfo();
 						uni.reLaunch({
 							url: '../index/index',

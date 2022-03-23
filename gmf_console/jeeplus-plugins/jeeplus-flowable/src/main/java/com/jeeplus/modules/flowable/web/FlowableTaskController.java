@@ -3,23 +3,15 @@
  */
 package com.jeeplus.modules.flowable.web;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.jeeplus.common.json.AjaxJson;
-import com.jeeplus.core.persistence.Page;
-import com.jeeplus.core.web.BaseController;
-import com.jeeplus.modules.extension.entity.NodeSetting;
-import com.jeeplus.modules.extension.service.NodeSettingService;
-import com.jeeplus.modules.flowable.entity.Flow;
-import com.jeeplus.modules.flowable.entity.TaskComment;
-import com.jeeplus.modules.flowable.service.FlowTaskService;
-import com.jeeplus.modules.flowable.vo.HisTaskVo;
-import com.jeeplus.modules.flowable.vo.ProcessVo;
-import com.jeeplus.modules.sys.utils.DictUtils;
-import com.jeeplus.modules.sys.utils.UserUtils;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.flowable.common.engine.impl.identity.Authentication;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RuntimeService;
@@ -27,13 +19,28 @@ import org.flowable.engine.TaskService;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.jeeplus.common.json.AjaxJson;
+import com.jeeplus.core.persistence.Page;
+import com.jeeplus.core.web.BaseController;
+import com.jeeplus.modules.extension.entity.NodeSetting;
+import com.jeeplus.modules.extension.service.NodeSettingService;
+import com.jeeplus.modules.flowable.common.email.SendEmailThread;
+import com.jeeplus.modules.flowable.entity.Flow;
+import com.jeeplus.modules.flowable.entity.TaskComment;
+import com.jeeplus.modules.flowable.service.FlowTaskService;
+import com.jeeplus.modules.flowable.vo.HisTaskVo;
+import com.jeeplus.modules.flowable.vo.ProcessVo;
+import com.jeeplus.modules.sys.utils.DictUtils;
+import com.jeeplus.modules.sys.utils.UserUtils;
 
 /**
  * 流程个人任务相关Controller
@@ -173,6 +180,10 @@ public class FlowableTaskController extends BaseController {
                 taskService.setAssignee(task.getId(), flow.getAssignee ());
             }
         }
+        
+        // 如满足邮件规则则发邮件
+        (new Thread(new SendEmailThread(procInsId, flowTaskService.getMsgId(procInsId)))).start();
+		
         return AjaxJson.success(DictUtils.getLanguageLabel("流程启动成功","")).put("procInsId", procInsId);
     }
 
@@ -192,6 +203,10 @@ public class FlowableTaskController extends BaseController {
     @PostMapping( value = "complete")
     public AjaxJson complete(Flow flow) {
         flowTaskService.complete(flow, flow.getVars().getVariableMap());
+        
+        // 如满足邮件规则则发邮件
+		(new Thread(new SendEmailThread( flow.getProcInsId(), flowTaskService.getMsgId(flow.getProcInsId())))).start();
+		
         return AjaxJson.success(DictUtils.getLanguageLabel("完成任务",""));
     }
 
@@ -249,15 +264,20 @@ public class FlowableTaskController extends BaseController {
                 }
             }
         }
-
+        
         flowTaskService.auditSave(flow, vars);
+        
         //指定下一步处理人
         if(StringUtils.isNotBlank(flow.getAssignee ())){
            Task task = taskService.createTaskQuery().processInstanceId(flow.getProcInsId()).active().singleResult();
            if(task != null){
                taskService.setAssignee(task.getId(), flow.getAssignee ());
            }
-        }
+        } 
+        
+        // 如满足邮件规则则发邮件
+        (new Thread(new SendEmailThread(flow.getProcInsId(), flowTaskService.getMsgId(flow.getProcInsId())))).start();
+        
         return AjaxJson.success(DictUtils.getLanguageLabel("流程处理成功", "")).put("procInsId", flow.getProcInsId ());
     }
 
@@ -370,6 +390,75 @@ public class FlowableTaskController extends BaseController {
         }
         return AjaxJson.success (DictUtils.getLanguageLabel("流程处理成功",""));
     }
+    
+    /*public class SendEmailThread implements Runnable{ 
+    	private  String procInstId = null; 
+    	private String ssoToken = null;
+    	private String ssoTokenType = null;
+		public SendEmailThread( String procInstId, String ssoTokenType, String ssoToken ) throws Exception {
+			super();
+			this.procInstId = procInstId;
+			this.ssoTokenType = ssoTokenType;
+			this.ssoToken = ssoToken;
+		}
 
+		public void run() {
+	    	String msgKeyId = flowTaskService.getMsgId(procInstId) ;//"386b6a0024784ba8b7d5d4dad60e9a65"; // ID是common tool上配置的邮件发送任务ID
+	    	
+	    	if (StringUtils.isEmpty(msgKeyId)) {
+	    		return;
+	    	}
+	    	
+	    	String url = "https://commontools.bowkerasia.com/zhimitool/msg/msgPushConfig/sendImmediately";
+	    	JSONObject commontoolsJson = new JSONObject();
+	    	JSONObject param = new JSONObject();
+	    	param.put("procInstId", procInstId); 
+	    	commontoolsJson.put("param", param.toJSONString());
+	    	commontoolsJson.put("id", msgKeyId);
+	    	commontoolsJson.put("sendTo", "");
+	    	Map<String, String> headers = new HashMap<>();
+	    	headers.put("Content-Type", "application/json");
+	    	headers.put("token",ssoToken);
+	    	headers.put("tokenType",ssoTokenType);
+	    	
+	    	String sendResult;
+			try {
+				sendResult = HttpUtil.post(url, commontoolsJson.toJSONString(), headers);
+				JSONObject sendResultJsonObject = (JSONObject)JSONObject.parse(sendResult);
+		    	if (!sendResultJsonObject.getBooleanValue("success")){
+		    		throw new RuntimeException("Some errors appeared during notify common tools, please try again!");
+		        }
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	
+        }  
+    }  */
 
+     
+/*    public void sendEmail(HttpServletRequest request, String procInstId) throws Exception {
+    	String url = "https://commontools.bowkerasia.com/zhimitool/msg/msgPushConfig/sendImmediately";
+    	String id = "386b6a0024784ba8b7d5d4dad60e9a65"; // ID是common tool上配置的邮件发送任务ID
+    	
+    	DictUtils.getDictValue("commontools_url", "sys_config", "https://commontools.bowkerasia.com/zhimitool/msg/msgPushConfig/sendImmediately");
+    	
+    	JSONObject commontoolsJson = new JSONObject();
+    	JSONObject param = new JSONObject();
+    	param.put("procInstId", procInstId); 
+    	commontoolsJson.put("param", param.toJSONString());
+    	commontoolsJson.put("id", id);
+    	commontoolsJson.put("sendTo", "");
+    	Map<String, String> headers = new HashMap<>();
+    	headers.put("Content-Type", "application/json");
+    	headers.put("token",request.getHeader("ssoToken"));
+    	headers.put("tokenType",request.getHeader("ssoTokenType"));
+    	
+    	String sendResult = HttpUtil.post(url, commontoolsJson.toJSONString(), headers);
+    	JSONObject sendResultJsonObject = (JSONObject)JSONObject.parse(sendResult);
+    	if (!sendResultJsonObject.getBooleanValue("success")){
+    		throw new RuntimeException("Some errors appeared during notify common tools, please try again!");
+        }
+    } 
+*/
 }

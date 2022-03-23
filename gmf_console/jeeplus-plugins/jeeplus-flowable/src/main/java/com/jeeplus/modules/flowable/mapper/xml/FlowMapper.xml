@@ -26,9 +26,17 @@
 	    SELECT getStatus(#{procInsId})  
 	</select>
 	
+	<select id="getMsgId" resultType="java.lang.String">
+	    select getMsgId(#{procInsId})
+	</select>
+	
 	<select id="querySql" resultType="java.util.Map">
 	    ${sql}
 	</select>
+	
+	<update id="executeWriteSql">
+	    ${sql}
+	</update>
 	
 	<select id="findAllList" resultType="com.jeeplus.modules.flowable.vo.ProcessVo" >
 		SELECT

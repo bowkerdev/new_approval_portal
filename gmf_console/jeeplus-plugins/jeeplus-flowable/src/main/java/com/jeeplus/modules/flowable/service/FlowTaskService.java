@@ -18,6 +18,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.ibatis.annotations.Param;
 import org.flowable.bpmn.constants.BpmnXMLConstants;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.bpmn.model.FlowNode;
@@ -1206,5 +1207,10 @@ public class FlowTaskService extends BaseService {
   
          return variable;
      } 
+     
+     public String getMsgId(String procInstId) {
+ 		return flowMapper.getMsgId(procInstId);
+ 	}	
+
 
 }

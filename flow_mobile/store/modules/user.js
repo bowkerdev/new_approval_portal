@@ -8,6 +8,7 @@ const user = {
 		hasLogin: false,
 		dictList: $dictUtils.getDictList(),
 		token:$auth.getUserToken() || null,
+		ssoToken:$auth.getUserSsoToken() || null,
 		username:$auth.getUsername() || null,
 		avatar: $auth.getUserInfo().photo || '/static/user/flat-avatar.png',
 		userInfo: $auth.getUserInfo() || null, // 登录成功返回的个人信息
@@ -28,6 +29,10 @@ const user = {
 		SET_TOKEN: (state,token) => {
 			state.token = token;
 			$auth.setUserToken(token);
+		},
+		SET_SSO_TOKEN: (state,ssoToken) => {
+			state.ssoToken = ssoToken;
+			$auth.setUserSsoToken(ssoToken);
 		},
 		SET_USERNAME: (state,name) => {
 			state.username = name;

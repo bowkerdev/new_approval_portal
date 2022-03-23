@@ -3,35 +3,46 @@
  */
 package com.jeeplus.modules.flowable.web.app;
 
-import com.google.common.collect.Lists;
-import com.jeeplus.common.json.AjaxJson;
-import com.jeeplus.common.utils.StringUtils;
-import com.jeeplus.core.web.BaseController;
-import com.jeeplus.modules.extension.entity.FormDefinitionJson;
-import com.jeeplus.modules.extension.service.FormDefinitionJsonService;
-import com.jeeplus.modules.flowable.entity.Flow;
-import com.jeeplus.modules.flowable.service.FlowTaskService;
-import com.jeeplus.modules.form.utils.FormJsonUtils;
-import com.jeeplus.modules.sys.utils.DictUtils;
-import com.jeeplus.modules.sys.utils.UserUtils;
-import net.sf.json.JSONObject;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+
 import org.flowable.bpmn.model.FlowElement;
 import org.flowable.bpmn.model.StartEvent;
 import org.flowable.bpmn.model.UserTask;
-import org.flowable.engine.*;
+import org.flowable.engine.FormService;
+import org.flowable.engine.HistoryService;
+import org.flowable.engine.IdentityService;
+import org.flowable.engine.RepositoryService;
+import org.flowable.engine.TaskService;
 import org.flowable.engine.form.FormProperty;
 import org.flowable.engine.form.StartFormData;
 import org.flowable.engine.form.TaskFormData;
 import org.flowable.task.api.Task;
 import org.flowable.variable.api.history.HistoricVariableInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.Lists;
+import com.jeeplus.common.json.AjaxJson;
+import com.jeeplus.common.utils.StringUtils;
+import com.jeeplus.core.web.BaseController;
+import com.jeeplus.modules.extension.entity.FormDefinitionJson;
+import com.jeeplus.modules.extension.service.FormDefinitionJsonService;
+import com.jeeplus.modules.flowable.common.email.SendEmailThread;
+import com.jeeplus.modules.flowable.entity.Flow;
+import com.jeeplus.modules.flowable.service.FlowTaskService;
+import com.jeeplus.modules.form.utils.FormJsonUtils;
+import com.jeeplus.modules.sys.utils.DictUtils;
+import com.jeeplus.modules.sys.utils.UserUtils;
+
+import net.sf.json.JSONObject;
 
 /**
  * 流程个人任务相关Controller
@@ -118,6 +129,10 @@ public class AppFlowableFormController extends BaseController {
                 taskService.setAssignee(task.getId(), assignee);
             }
         }
+        
+     // 如满足邮件规则则发邮件
+        (new Thread(new SendEmailThread(procInsId, flowTaskService.getMsgId(procInsId)))).start();
+        
         return AjaxJson.success(DictUtils.getLanguageLabel("操作成功", "")).put("procInsId", procInsId);
     }
 
@@ -239,9 +254,8 @@ public class AppFlowableFormController extends BaseController {
 
         }
         formValues.put("assignee", "");// 避免jackson序列化错误
+        
         flowTaskService.complete(flow, formValues );  //提交用户任务表单并且完成任务。
-
-
 
         //指定下一步处理人
         if(StringUtils.isNotBlank(flow.getAssignee ())){
@@ -250,6 +264,10 @@ public class AppFlowableFormController extends BaseController {
                 taskService.setAssignee(task.getId(), flow.getAssignee ());
             }
         }
+        
+     // 如满足邮件规则则发邮件
+        (new Thread(new SendEmailThread( flow.getProcInsId(), flowTaskService.getMsgId(flow.getProcInsId())))).start();
+		
         return AjaxJson.success(DictUtils.getLanguageLabel("操作成功", ""));
     }
 

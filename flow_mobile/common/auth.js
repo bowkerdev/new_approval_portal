@@ -1,5 +1,6 @@
 
 const tokenKey = 'token'
+const ssoTokenKey = 'ssoToken'
 const refreshTokenKey = 'refreshToken'
 const usernameKey = 'WMS-username'
 const userInfoKey = 'WMS-userinfo'
@@ -13,6 +14,18 @@ function getUserToken(){
 
 function setUserToken(token){
 	uni.setStorageSync(tokenKey,token);
+}
+
+function getUserSsoToken(){
+	return uni.getStorageSync(ssoTokenKey);
+}
+
+function getUserSsoTokenType(){// TODO 先写死，后期需改成配置
+	return "bowker_baseportal";
+}
+
+function setUserSsoToken(ssoToken){
+	uni.setStorageSync(ssoTokenKey,ssoToken);
 }
 
 function removeUserToken(){

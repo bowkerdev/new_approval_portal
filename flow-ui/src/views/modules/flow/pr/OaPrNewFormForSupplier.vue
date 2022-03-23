@@ -24,13 +24,11 @@
             <el-input v-model="inputForm.createByOffice.name" :disabled='true' ></el-input>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <!-- <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('用户姓名')" prop="requester" :rules="[]">
             <el-input v-model="inputForm.requester" :disabled='true' :placeholder="$i18nMy.t('请填写用户姓名')"></el-input>
-            <!-- <user-select :limit='1' :value="inputForm.requester" :disabled='true'  @getValue='(value) => {inputForm.requester=value}'>
-            </user-select> -->
           </el-form-item>
-        </el-col>
+        </el-col> -->
 
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment.name" :rules="[ ]">
@@ -55,7 +53,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" v-show="false">
           <el-form-item label-width="220px" label="VAT" prop="vat" :rules="[ ]">
             <el-input-number :controls="false" v-model="inputForm.vat" oninput="value=value.replace(/[^0-9.]/g,'')" style="width:80px; text-align: right;" ></el-input-number>%
           </el-form-item>
@@ -96,13 +94,13 @@
                 </span>
               </td>
               <td :rowspan="item.docListSize" >
-                <!-- <el-input  size="small" v-if="item.edit" v-model="item.paymentTerms"  ></el-input> -->
-                <el-select size="small" v-model="item.paymentTerms"
+                <el-input  size="small" v-if="item.edit" v-model="item.paymentTerms"  ></el-input>
+                <!-- <el-select size="small" v-model="item.paymentTerms"
                   v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in $dictUtils.getDictList('pr_payment_terms')" on :key="item.value" :label="item.label"
                     :value="item.value">
                   </el-option>
-                </el-select>
+                </el-select> -->
                 <span v-else>
                   {{item.paymentTerms}}
                 </span>
@@ -570,6 +568,8 @@
               this.loading = false
             })
           })
+        }else{
+          Object.assign(this.$data, this.$options.data.call(this))
         }
         this.procDefKey = query.procDefKey
         if (query.status) {
@@ -925,6 +925,11 @@
              this.$message.warning($i18nMy.t('MOQ不能为空'))
              return
           } */
+          if(!this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vatUnitPrice)&&this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].unitPrice)){
+             this.$message.warning($i18nMy.t('物品')+this.supplierInfo[index].detailInfo[i].item+$i18nMy.t('单价不能为空'))
+             return
+          }
+
           if(!this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].unitPrice)&&
              !this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vatUnitPrice)&&
              !this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vat)){

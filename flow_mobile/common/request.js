@@ -13,6 +13,7 @@ function error(res){
 		  	success: res => {
 		  		if(res.data && res.data.success){
 		  			$auth.setUserToken(res.data.token)
+					// TODO ssoToken 
 		  		    $auth.setRefreshToken('token', res.data.refreshToken)
 		  		} else {
 		  		 $auth.removeUserToken();
@@ -60,6 +61,14 @@ function httpService(url,method,data,header){
 	let token = $auth.getUserToken();
 	if(token){
 		header.token = token;			// 获取token值
+	}
+	let ssoToken = $auth.getUserSsoToken();
+	if(ssoToken){
+		header.ssoToken = ssoToken;			
+	}
+	let ssoTokenType = $auth.getUserSsoTokenType();
+	if(ssoTokenType){
+		header.ssoTokenType = ssoTokenType;		
 	}
 	if(method === 'POST'){
 		if(header["Content-Type"] !=null && header["Content-Type"].indexOf("application/json")>=0){

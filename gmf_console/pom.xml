@@ -189,10 +189,10 @@
         <!-- SECURITY end -->
 
         <!-- quartz -->
-        <dependency>
+         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-quartz</artifactId>
-        </dependency>
+        </dependency> 
 
         <!-- GENERAL UTILS begin -->
         <dependency>

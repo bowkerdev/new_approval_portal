@@ -17,7 +17,10 @@ Vue.prototype.$store = store
 Vue.prototype.$http = request
 
 Vue.prototype.$i18nMy  = i18nMy
+// #ifndef APP-PLUS
 window.$i18nMy = i18nMy
+// #endif
+
 
 Vue.prototype.$auth = auth
 Vue.prototype.$dictUtils = dictUtils

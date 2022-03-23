@@ -121,6 +121,7 @@
     },
     methods: {
       initChildFrom(query){
+        query.parentForm = "TaskFormDetail"
         if(this.form !=null &&this.$refs.form.init !=null){
           this.$refs.form.init(query)
         }

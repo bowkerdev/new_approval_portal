@@ -264,6 +264,7 @@
         return 'primary'
       },
       initChildFrom(query){
+        query.parentForm = "TaskForm"
         if(this.form !=null &&this.$refs.form.init !=null){
           this.$refs.form.init(query)
         }

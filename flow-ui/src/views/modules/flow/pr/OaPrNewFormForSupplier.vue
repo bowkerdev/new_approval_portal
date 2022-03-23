@@ -62,7 +62,7 @@
         </el-col>
       </el-row>
       <br/>
-      <el-row :gutter="0">
+      <el-row :gutter="0" v-if="procDefKey=='prpo'||status=='start'||parentForm=='TaskFormDetail'||isFA">
         <p style="float: left;" class="sub-title">
           {{$i18nMy.t('供应商报价和合同上传')}}
         </p><div style="float: left;"><el-button size="small" :disabled="detailInfo.length==0" @click="addTabListGroup()" round  type="primary" icon="el-icon-plus" style="float: left;margin-top: 7px;margin-left: 10px;padding: 5px 5px;" ></el-button></div>

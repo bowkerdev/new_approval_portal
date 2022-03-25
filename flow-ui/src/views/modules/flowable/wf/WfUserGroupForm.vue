@@ -44,7 +44,7 @@
                 :rules="[
                  ]">
               <!-- <el-input size="small" v-model="inputForm.procDefKey" :placeholder="$i18nMy.t('请填写流程标识')"     ></el-input> -->
-              <el-select size="small" v-model="inputForm.procDefKey" :placeholder="$i18nMy.t('流程标识')" clearable filterable>
+              <el-select size="small" v-model="inputForm.procDefKey" :placeholder="$i18nMy.t('流程标识')" clearable allow-create filterable>
                <el-option v-for="item in procDefKeyList" :key="item.value"
                  :label="item.label" :value="item.value" >
                </el-option>
@@ -56,7 +56,7 @@
                 :rules="[
                  ]">
               <!-- <el-input size="small" v-model="inputForm.userGroup" :placeholder="$i18nMy.t('请填写组标识')"     ></el-input> -->
-              <el-select size="small" v-model="inputForm.userGroup" :placeholder="$i18nMy.t('组标识')" clearable filterable>
+              <el-select size="small" v-model="inputForm.userGroup" :placeholder="$i18nMy.t('组标识')" clearable allow-create filterable>
                <el-option v-for="item in userGroupList" :key="item.value"
                  :label="item.label" :value="item.value" >
                </el-option>

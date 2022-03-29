@@ -66,7 +66,6 @@
       <el-table-column
           prop="group"
           show-overflow-tooltip
-          sortable="custom"
           label="组别">
           <template slot-scope="scope">
                 {{ $dictUtils.getDictLabel("DATASOURCE_GROUP", scope.row.group, '-') }}

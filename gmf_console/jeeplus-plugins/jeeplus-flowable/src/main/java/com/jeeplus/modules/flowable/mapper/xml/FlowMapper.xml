@@ -116,8 +116,8 @@
 			)			
 			<if test="processDefinitionKey != null and processDefinitionKey != ''"> 
 				<choose>
-                <when test="processDefinitionKey = 'prpo,pr'">
-                    and (LOWER(SUBSTRING_INDEX( PROC_DEF_ID_, ':', 1 )) = 'prpo' OR LOWER(SUBSTRING_INDEX( PROC_DEF_ID_, ':', 1 )) = 'pr')
+                <when test="processDefinitionKey = 'app_flow_list'">
+                   and LOWER(SUBSTRING_INDEX( PROC_DEF_ID_, ':', 1 )) in (select value from sys_dict_value a, sys_dict_type b where a.dict_type_id = b.id and b.type = 'app_flow_list')
                 </when>
                 <otherwise>
                     and LOWER(SUBSTRING_INDEX( PROC_DEF_ID_, ':', 1 )) = LOWER (#{processDefinitionKey})

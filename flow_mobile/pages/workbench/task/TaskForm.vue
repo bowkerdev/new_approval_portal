@@ -345,7 +345,8 @@
 				   input.type === 'rate' ||
 				   input.type === 'imgupload' ||
 				   input.type === 'select' && input.options.multiple ||
-				   input.type === 'fileupload'){
+				   input.type === 'fileupload' ||
+				   input.type === 'table'){
 					   return true
 				  }
 				  return false

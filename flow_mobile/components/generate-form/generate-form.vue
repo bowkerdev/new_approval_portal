@@ -1,7 +1,9 @@
 <template>
 	<view>
 		<form>
-			<view class="cu-form-group" v-if="item.readable" :class="index===0?'margin-top':''" v-for="(item,index) in formData" :key="index">
+			<view class="cu-form-group"  :class="{'margin-top': index===0, 'flex-col': ['table'].indexOf(item.type) > -1 }" 
+				v-if="item.readable" v-for="(item,index) in formData" :key="index"
+			>
 				<view class="title">
 					<text class="red-color " v-if="item.options.required">* </text> {{item.name}}
 				</view>
@@ -133,15 +135,37 @@
 					<!-- 字典 -->
 					<jp-picker :disabled="!item.writable"  v-model="item.value" :range="$dictUtils.getDictList(item.options.dictType)"></jp-picker>
 				</template>	
+				<template v-if="item.type=='table'">
+					<!-- 字典 -->
+					<uni-table class="gen-form-table" stripe emptyText="No record">
+						<uni-tr>
+							<template v-for="th in item.tableColumns">
+								<uni-th align="center">{{ th.name }}</uni-th>
+							</template>
+						</uni-tr>
+						<template v-for="row in item.value">
+							<uni-tr>
+								<uni-td v-for="col in item.tableColumns">
+									{{ col['model']? row[col['model']]: '' }}
+								</uni-td>
+							</uni-tr>
+						</template>
+					</uni-table>
+				</template>	
 			</view>								
 		</form>
 	</view>
 </template>
 
 <script>
+	import UniTable from '@/components/uni-table/uni-table.vue';
+	import UniTr from '@/components/uni-tr/uni-tr.vue';
+	import UniTh from '@/components/uni-th/uni-th.vue';
+	import UniTd from '@/components/uni-td/uni-td.vue';
+	
 	export default {
 		name: 'activeForm',
-		
+		components: { UniTable,UniTr,UniTh,UniTd },
 		watch:{
 			formData:{
 				handler (val) {
@@ -171,7 +195,7 @@
 }
 .cu-form-group{
 
-    uni-checkbox-group{
+  uni-checkbox-group{
 		text-align: right;
 	}
 	uni-radio-group {
@@ -182,6 +206,17 @@
 	    margin-top: 7px;
 		margin-left:7px;
 		margin-bottom: 7px;
+	}
+	
+	&.flex-col {
+		flex-direction: column;
+		align-items: flex-start;
+		width: 100%;
+	}
+	
+	.gen-form-table .uni-table-th,
+	.gen-form-table .uni-table-td {
+		color: #464646;
 	}
 }
 </style>

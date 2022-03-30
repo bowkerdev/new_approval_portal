@@ -66,7 +66,7 @@
 			}
 		  },
 		mounted() {
-			this.$http.get('/app/sys/user/treeData').then(({data})=>{
+			/* this.$http.get('/app/sys/user/treeData').then(({data})=>{
 				this.data = data.treeData
 				this.setTreeList(this.data)
 				let labelArra = []
@@ -82,7 +82,7 @@
 					this.labels = labelArra.join(',')
 					this.$refs.userTree.setCheckedKeys(keys);
 				}
-			})
+			}) */
 		},
 		methods:{
 			setTreeList (datas) { // 遍历树  获取id数组

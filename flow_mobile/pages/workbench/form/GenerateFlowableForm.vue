@@ -34,7 +34,9 @@
 			getFormData (option){
 				var submitData={};
 				for(var i=0;i<option.length;i++){
-					submitData[option[i].model]=option[i].value;
+					submitData[option[i].model]=['table'].indexOf(option[i].type) > -1? 
+																			JSON.stringify(option[i].value): 
+																			option[i].value;
 				}
 				return submitData;
 			},

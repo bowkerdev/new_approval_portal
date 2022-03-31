@@ -177,6 +177,15 @@
 						  item.value = ''
 					  }
 					  let input = JSON.parse(JSON.stringify(item))
+						// 表格查看的时候，以卡片的形式展示时，字段显示国际化
+						if(['table'].indexOf(input.type) > -1) {
+							input['_i18nDict'] = {}
+							if (input['tableColumns'] && input['tableColumns'].length) {
+								input['tableColumns'].forEach(colCon => {
+									input['_i18nDict'][colCon.model] = colCon.name
+								})
+							}
+						}
 					  this.formData.push(input)
 				  })
 				  if (this.status === 'start') {

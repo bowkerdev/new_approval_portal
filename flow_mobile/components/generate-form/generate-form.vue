@@ -136,36 +136,42 @@
 					<jp-picker :disabled="!item.writable"  v-model="item.value" :range="$dictUtils.getDictList(item.options.dictType)"></jp-picker>
 				</template>	
 				<template v-if="item.type=='table'">
-					<!-- 字典 -->
-					<uni-table class="gen-form-table" stripe emptyText="No record">
-						<uni-tr>
-							<template v-for="th in item.tableColumns">
-								<uni-th align="center">{{ th.name }}</uni-th>
-							</template>
-						</uni-tr>
-						<template v-for="row in item.value">
-							<uni-tr>
-								<uni-td v-for="col in item.tableColumns">
-									{{ col['model']? row[col['model']]: '' }}
-								</uni-td>
-							</uni-tr>
-						</template>
-					</uni-table>
+					<!-- 表格数据以对象形式展示 -->
+					<view class="table-row-card-list">
+						<view v-for="(tableRow, tableRowIndex) in item.value" :key="tableRowIndex" class="table-row-card-show">
+							<view class="table-row-card-body">
+								<view v-for="(rowVal, rowKey) in tableRow" :key="rowKey" class="table-row-info-item">
+									<view class="table-row-info-key">{{ item['_i18nDict'][rowKey] || rowKey }}</view>
+									<view class="table-row-info-value">{{ rowVal || '-' }}</view>
+								</view>
+							</view>
+							<view class="table-row-card-btns" v-show="item.writable">
+								<view class="card-btn del-btn" 
+									@click="removeTableRow(item.value, tableRowIndex)"
+								>{{$i18nMy.t('删除')}}</view>
+								<view class="card-btn modify-btn" @click="modifyTableRow(tableRow, item)">
+									{{$i18nMy.t('修改')}}
+								</view>
+							</view>
+						</view>
+					</view>
+					
+					<view class="add-table-row-btn" @click="addTableRow(item.tableColumns, item)">
+						{{$i18nMy.t('新增')}}
+					</view>
+					
 				</template>	
-			</view>								
+			</view>
 		</form>
+		<table-row-edit-form ref="tableRowEditForm" />
 	</view>
 </template>
 
 <script>
-	import UniTable from '@/components/uni-table/uni-table.vue';
-	import UniTr from '@/components/uni-tr/uni-tr.vue';
-	import UniTh from '@/components/uni-th/uni-th.vue';
-	import UniTd from '@/components/uni-td/uni-td.vue';
-	
+	import TableRowEditForm from './components/table-row-edit.vue'
 	export default {
 		name: 'activeForm',
-		components: { UniTable,UniTr,UniTh,UniTd },
+		components: { TableRowEditForm },
 		watch:{
 			formData:{
 				handler (val) {
@@ -183,8 +189,22 @@
 				}
 			}
 		},
-		methods: {	
-
+		methods: {
+			// table删除行
+			removeTableRow(tableRowArr, tableRowIndex) {
+				tableRowArr.splice(tableRowIndex, 1)
+			},
+			// 编辑表格行
+			modifyTableRow(tableRow, item, mode) {
+				this.$refs.tableRowEditForm.init('modify', tableRow, item)
+			},
+			addTableRow(config, item) {
+				var tableRow = {}
+				config.forEach(item => {
+					tableRow[item['model']] = ''
+				})
+				this.$refs.tableRowEditForm.init('add', tableRow, item)
+			}
 		}
 	}
 </script>
@@ -214,9 +234,57 @@
 		width: 100%;
 	}
 	
-	.gen-form-table .uni-table-th,
-	.gen-form-table .uni-table-td {
-		color: #464646;
+	.table-row-card-list {
+		width: 100%;
+	}
+	.table-row-card-show {
+		margin-bottom: 10px;
+		padding: 10px 0;
+		box-shadow: #ebebeb 0px 0px 3px 1px;
+		border-radius: 4px;
+	}
+	.table-row-card-body {
+		padding-bottom: 10px;
+		display: flex;
+		flex-wrap: wrap;
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+	.table-row-info-item {
+		padding: 2px 10px;
+	}
+	.table-row-info-value {
+		margin-top: 2px;
+		font-weight: bold;
+	}
+	.table-row-card-btns {
+		display: flex;
+		justify-content: center;
+		border-top: 1px solid #eee;
+		
+		.card-btn {
+			margin-top: 10px;
+			flex-grow: 1;
+			text-align: center;
+			
+			&.modify-btn {
+				color: #E6A23C;
+			}
+			&.del-btn {
+				color: #e6122e;
+			}
+		}
+			
+		.card-btn + .card-btn {
+			border-left: 1px solid #eee;
+		}
+	}
+	.add-table-row-btn {
+		padding: 10px;
+		width: 100%;
+		color: #0081FF;
+		text-align: center;
+		
 	}
 }
 </style>

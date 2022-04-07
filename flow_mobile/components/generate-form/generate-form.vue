@@ -1,10 +1,14 @@
 <template>
 	<view>
 		<form>
-			<view class="cu-form-group"  :class="{'margin-top': index===0, 'flex-col': ['table'].indexOf(item.type) > -1 }" 
+			<view class="cu-form-group"  :class="{'margin-top': index===0, 'flex-col': ['table'].indexOf(item.type) > -1,
+				'html-group': item.type == 'html' }" 
 				v-if="item.readable" v-for="(item,index) in formData" :key="index"
 			>
-				<view class="title">
+				<view class="" v-if="item.type == 'html'" >
+					{{ getHtmlText(item.options.defaultValue) }}
+				</view>
+				<view class="title" v-if="('hideLabel' in item.options) && !item.options.hideLabel">
 					<text class="red-color " v-if="item.options.required">* </text> {{item.name}}
 				</view>
 				<template v-if="item.type=='input'">				
@@ -156,7 +160,9 @@
 						</view>
 					</view>
 					
-					<view class="add-table-row-btn" @click="addTableRow(item.tableColumns, item)">
+					<view class="add-table-row-btn" @click="addTableRow(item.tableColumns, item)"
+						 v-show="item.writable"
+					>
 						{{$i18nMy.t('新增')}}
 					</view>
 					
@@ -204,6 +210,13 @@
 					tableRow[item['model']] = ''
 				})
 				this.$refs.tableRowEditForm.init('add', tableRow, item)
+			},
+			// 获取html
+			getHtmlText(str) {
+				str = str || ''
+				return str.replace(/\<[^>]*\>(([^<])*)/g, function(reg, name) {
+					return name;
+				}).replace(/\r|\n/g, '').replace(/\s+/g, ' ')
 			}
 		}
 	}
@@ -214,6 +227,18 @@
     justify-content: flex-start
 }
 .cu-form-group{
+	&.html-group + & {
+		border: none;
+	}
+	&.html-group.margin-top {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	&.html-group {
+		font-size: 16px;
+		font-weight: bold;
+	}
 
   uni-checkbox-group{
 		text-align: right;

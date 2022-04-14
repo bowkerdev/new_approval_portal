@@ -149,7 +149,7 @@
 									<view class="table-row-info-value">{{ rowVal || '-' }}</view>
 								</view>
 							</view>
-							<view class="table-row-card-btns" v-show="item.writable">
+							<view class="table-row-card-btns" v-if="item.writable">
 								<view class="card-btn del-btn" 
 									@click="removeTableRow(item.value, tableRowIndex)"
 								>{{$i18nMy.t('删除')}}</view>
@@ -161,7 +161,7 @@
 					</view>
 					
 					<view class="add-table-row-btn" @click="addTableRow(item.tableColumns, item)"
-						 v-show="item.writable"
+						 v-if="item.writable"
 					>
 						{{$i18nMy.t('新增')}}
 					</view>

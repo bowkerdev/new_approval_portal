@@ -9,7 +9,7 @@
 					{{ getHtmlText(item.options.defaultValue) }}
 				</view>
 				<view class="title" v-if="('hideLabel' in item.options) && !item.options.hideLabel">
-					<text class="red-color " v-if="item.options.required">* </text> {{ $i18nMy.t('item.name')}}
+					<text class="red-color " v-if="item.options.required">* </text> {{ $i18nMy.t(item.name)}}
 				</view>
 				<template v-if="item.type=='input'">				
 					<!-- 普通输入框 -->

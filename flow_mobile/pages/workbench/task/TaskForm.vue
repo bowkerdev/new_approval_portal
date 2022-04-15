@@ -630,7 +630,7 @@
 			  vars.assignee = this.auditForm.assignee // 指定的下一步骤处理人
 			  this.auditForm.type = currentBtn.code // 提交类型
 			  this.auditForm.status = currentBtn.name // 按钮文字
-			  
+				var thisVue = this;
 			  switch (currentBtn.code) {
 				case '_flow_start': // 自动流程
 				  this.start(vars)
@@ -639,7 +639,16 @@
 				  this.save()
 				  break
 				case '_flow_agree': // 同意
-				  this.agree(vars)
+					uni.showModal({
+						title: $i18nMy.t('确认同意？'),
+						content: '',
+						success: function (res) {
+							if (res.confirm) {
+								thisVue.agree(vars)
+							} else if (res.cancel) {
+							}
+						}
+					});
 				  break
 				case '_flow_reject': // 驳回
 				  this.reject()
@@ -672,7 +681,22 @@
 				  this.print()
 				  break
 				default:
-				  this.commit(vars) // 自定义按钮提交
+					if (currentBtn.code == 'disagree') {
+						uni.showModal({
+							title: $i18nMy.t('确认不同意？'),
+							content: '',
+							success: function (res) {
+								if (res.confirm) {
+									thisVue.commit(vars)
+								} else if (res.cancel) {
+								}
+							}
+						});
+					} else {
+						this.commit(vars) // 自定义按钮提交
+					}
+					
+				  
 			  }
 			}
 		}

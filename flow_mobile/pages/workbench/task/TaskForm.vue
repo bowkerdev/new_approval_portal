@@ -182,7 +182,7 @@
 							input['_i18nDict'] = {}
 							if (input['tableColumns'] && input['tableColumns'].length) {
 								input['tableColumns'].forEach(colCon => {
-									input['_i18nDict'][colCon.model] = colCon.name
+									input['_i18nDict'][colCon.model] = this.$i18nMy.t(colCon.name)
 								})
 							}
 						}

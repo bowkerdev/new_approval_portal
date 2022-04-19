@@ -2338,10 +2338,10 @@ button.cuIcon.lg {
 }
 
 .cu-form-group input {
+	flex: 1;
 	font-size: 12px;
 	color: #555;
 	padding-right: 5px;
-	text-align: right;
 }
 
 .cu-form-group>text[class*="cuIcon-"] {

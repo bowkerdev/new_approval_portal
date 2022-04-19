@@ -222,7 +222,14 @@
 	}
 </script>
 
-<style lang="scss">
+<style scoped>
+	.cu-form-group input {
+		flex: none;
+		text-align: right;
+	}
+</style>
+
+<style lang="scss" >
 .uni-list-cell {
     justify-content: flex-start
 }

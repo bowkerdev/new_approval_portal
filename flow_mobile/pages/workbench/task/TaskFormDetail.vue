@@ -21,7 +21,7 @@
 			<scroll-view scroll-y class="page">
 			<view class="margin-top" :class="notBackgroundColor?'':' bg-white '">
 				  <component :formReadOnly="formReadOnly" :class="formReadOnly?'readonly':''"  ref="form" :businessId="businessId" :is="form"></component>
-				  <PreviewForm :formData="formData"  v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="false" ref="form"></PreviewForm>
+				  <PreviewForm :formData="formData"  v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="true" ref="form"></PreviewForm>
 			</view>
 
 			<view class="cu-tabbar-height"></view>

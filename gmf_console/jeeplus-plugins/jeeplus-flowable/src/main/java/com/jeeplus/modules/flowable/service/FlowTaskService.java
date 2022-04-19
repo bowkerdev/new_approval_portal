@@ -18,7 +18,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.ibatis.annotations.Param;
 import org.flowable.bpmn.constants.BpmnXMLConstants;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.bpmn.model.FlowNode;
@@ -74,6 +73,7 @@ import com.jeeplus.modules.flowable.vo.ProcessVo;
 import com.jeeplus.modules.flowable.vo.TaskVo;
 import com.jeeplus.modules.flowable.wf.entity.WfDelegate;
 import com.jeeplus.modules.flowable.wf.mapper.WfDelegateMapper;
+import com.jeeplus.modules.sys.entity.DictValue;
 import com.jeeplus.modules.sys.entity.User;
 import com.jeeplus.modules.sys.utils.DictUtils;
 import com.jeeplus.modules.sys.utils.UserUtils;
@@ -304,9 +304,21 @@ public class FlowTaskService extends BaseService {
                 .includeProcessVariables ().orderByHistoricTaskInstanceEndTime ().desc ();
 
         // 设置查询条件
-        if (StringUtils.isNotBlank (act.getProcDefKey ())) {
+        
+        
+        if ("app_flow_list".equals(act.getProcDefKey ())) {
+        	List<DictValue> dictList = DictUtils.getDictList("app_flow_list");
+            List<String> distStrList = new ArrayList<String>();
+            for (DictValue dictValue : dictList) {
+            	distStrList.add(dictValue.getValue());
+            }
+        	if (distStrList.size()>0) {
+                histTaskQuery.processDefinitionKeyIn (distStrList);
+            }
+        } else if (StringUtils.isNotBlank (act.getProcDefKey ())) {
             histTaskQuery.processDefinitionKeyIn (Arrays.asList(act.getProcDefKey ().split(",")));
         }
+        
         if (act.getBeginDate () != null) {
             histTaskQuery.taskCompletedAfter (act.getBeginDate ());
         }

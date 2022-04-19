@@ -227,6 +227,12 @@
 		flex: none;
 		text-align: right;
 	}
+	.cu-form-group .title {
+		height: auto;
+		line-height: 1.2;
+		padding-top: 6px;
+		padding-bottom: 6px;
+	}
 </style>
 
 <style lang="scss" >

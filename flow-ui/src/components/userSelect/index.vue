@@ -72,7 +72,7 @@ export default {
       this.selectData = users
       this.labelValue = users.map(user => { return user.id }).join(',')
       this.name = users.map(user => { return user.name }).join(',')
-      this.$emit('getValue', this.labelValue, this.name)
+      this.$emit('getValue', this.labelValue, this.name,this.selectData)
     },
     showUserSelect () {
       this.$refs.userSelect.init()

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.modules.flow.oa.mispolicy.mapper.OaMisPolicyConfigMapper">
+
+	<sql id="oaMisPolicyConfigColumns">
+		a.id AS "id",
+		a.department AS "department",
+		a.hardware AS "hardware",
+		a.lan_connection AS "lanConnection",
+		a.wifi_office AS "wifiOffice",
+		a.wifi_guest AS "wifiGuest",
+		a.wifi_others AS "wifiOthers",
+		a.vpn AS "vpn",
+		a.usb_drive AS "usbDrive",
+		a.share_drive AS "shareDrive",
+		a.ms_team_drive AS "msTeamDrive",
+		a.threerd_party_cloud_drive AS "threerdPartyCloudDrive",
+		a.internet AS "internet",
+		a.instant_massager AS "instantMassager",
+		a.cloud_transfer AS "cloudTransfer",
+		a.one_drive_personal AS "oneDrivePersonal",
+		a.ms_team_message AS "msTeamMessage",
+		a.software_installation AS "softwareInstallation",
+		a.ms_email_to_external_address AS "msEmailToExternalAddress",
+		a.mfa AS "mfa",
+		a.mobile_email AS "mobileEmail",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<sql id="oaMisPolicyConfigJoins">
+
+	</sql>
+
+
+	<select id="get" resultType="OaMisPolicyConfig" >
+		SELECT
+			<include refid="oaMisPolicyConfigColumns"/>
+		FROM oa_mis_policy_config a
+		<include refid="oaMisPolicyConfigJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="OaMisPolicyConfig" >
+		SELECT
+			<include refid="oaMisPolicyConfigColumns"/>
+		FROM oa_mis_policy_config a
+		<include refid="oaMisPolicyConfigJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			${dataScope}
+			<if test="department != null and department != ''">
+				AND a.department = #{department}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="OaMisPolicyConfig" >
+		SELECT
+			<include refid="oaMisPolicyConfigColumns"/>
+		FROM oa_mis_policy_config a
+		<include refid="oaMisPolicyConfigJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			${dataScope}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert">
+		INSERT INTO oa_mis_policy_config(
+			id,
+			department,
+			hardware,
+			lan_connection,
+			wifi_office,
+			wifi_guest,
+			wifi_others,
+			vpn,
+			usb_drive,
+			share_drive,
+			ms_team_drive,
+			threerd_party_cloud_drive,
+			internet,
+			instant_massager,
+			cloud_transfer,
+			one_drive_personal,
+			ms_team_message,
+			software_installation,
+			ms_email_to_external_address,
+			mfa,
+			mobile_email,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{department},
+			#{hardware},
+			#{lanConnection},
+			#{wifiOffice},
+			#{wifiGuest},
+			#{wifiOthers},
+			#{vpn},
+			#{usbDrive},
+			#{shareDrive},
+			#{msTeamDrive},
+			#{threerdPartyCloudDrive},
+			#{internet},
+			#{instantMassager},
+			#{cloudTransfer},
+			#{oneDrivePersonal},
+			#{msTeamMessage},
+			#{softwareInstallation},
+			#{msEmailToExternalAddress},
+			#{mfa},
+			#{mobileEmail},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE oa_mis_policy_config SET
+			department = #{department},
+			hardware = #{hardware},
+			lan_connection = #{lanConnection},
+			wifi_office = #{wifiOffice},
+			wifi_guest = #{wifiGuest},
+			wifi_others = #{wifiOthers},
+			vpn = #{vpn},
+			usb_drive = #{usbDrive},
+			share_drive = #{shareDrive},
+			ms_team_drive = #{msTeamDrive},
+			threerd_party_cloud_drive = #{threerdPartyCloudDrive},
+			internet = #{internet},
+			instant_massager = #{instantMassager},
+			cloud_transfer = #{cloudTransfer},
+			one_drive_personal = #{oneDrivePersonal},
+			ms_team_message = #{msTeamMessage},
+			software_installation = #{softwareInstallation},
+			ms_email_to_external_address = #{msEmailToExternalAddress},
+			mfa = #{mfa},
+			mobile_email = #{mobileEmail},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+
+
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM oa_mis_policy_config
+		WHERE id = #{id}
+	</update>
+
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE oa_mis_policy_config SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="OaMisPolicyConfig">
+		select * FROM oa_mis_policy_config  where ${propertyName} = #{value}
+	</select>
+
+</mapper>

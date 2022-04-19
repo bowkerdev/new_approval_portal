@@ -106,6 +106,14 @@
             :label="$i18nMy.t('用户名')">
           </el-table-column>
           <el-table-column
+            prop="email"
+            header-align="center"
+            align="center"
+            sortable="custom"
+            min-width="110"
+            :label="$i18nMy.t('邮箱')">
+          </el-table-column>
+          <el-table-column
             prop="company.name"
             header-align="center"
             align="center"

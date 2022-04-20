@@ -183,7 +183,7 @@
 					pageNo: page.num,
 					pageSize: page.size,
 					status: '1',
-					procDefKey: 'prpo,pr',  //目前只支持PR流程先
+					procDefKey: 'app_flow_list',  //目前只支持PR流程先
 					title: this.curWord
 				}).then(({data})=>{
 					let curPageData = data.page.list

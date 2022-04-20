@@ -6,7 +6,7 @@
 				v-if="item.readable" v-for="(item,index) in formData" :key="index"
 			>
 				<view class="" v-if="item.type == 'html'" >
-					{{ getHtmlText(item.options.defaultValue) }}
+					{{ $i18nMy.t(getHtmlText(item.options.defaultValue)) }}
 				</view>
 				<view class="title" v-if="('hideLabel' in item.options) && !item.options.hideLabel">
 					<text class="red-color " v-if="item.options.required">* </text> {{ $i18nMy.t(item.name)}}
@@ -222,7 +222,22 @@
 	}
 </script>
 
-<style lang="scss">
+<style scoped>
+	.cu-form-group input {
+		flex: none;
+		text-align: right;
+	}
+	.cu-form-group .title {
+		height: auto;
+		line-height: 1.2;
+		padding-top: 6px;
+		padding-bottom: 6px; 
+		font-size: 14px;
+		color: #a8a8a8; 
+	}
+</style>
+
+<style lang="scss" >
 .uni-list-cell {
     justify-content: flex-start
 }

@@ -21,7 +21,7 @@
 			<scroll-view scroll-y class="page">
 			<view class="margin-top" :class="notBackgroundColor?'':' bg-white '">
 				  <component :formReadOnly="formReadOnly" :class="formReadOnly?'readonly':''"  ref="form" :businessId="businessId" :is="form"></component>
-				  <PreviewForm :formData="formData"  v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="false" ref="form"></PreviewForm>
+				  <PreviewForm :formData="formData"  v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="true" ref="form"></PreviewForm>
 			</view>
 
 			<view class="cu-tabbar-height"></view>
@@ -121,6 +121,14 @@
 						  item.value =  ''
 					  }
 					  let input = JSON.parse(JSON.stringify(item))
+						if(['table'].indexOf(input.type) > -1) {
+							input['_i18nDict'] = {}
+							if (input['tableColumns'] && input['tableColumns'].length) {
+								input['tableColumns'].forEach(colCon => {
+									input['_i18nDict'][colCon.model] = this.$i18nMy.t(colCon.name)
+								})
+							}
+						}
 					  this.formData.push(input)
 				  })
 			
@@ -218,7 +226,8 @@
 				   input.type === 'rate' ||
 				   input.type === 'imgupload' ||
 				   input.type === 'select' && input.options.multiple ||
-				   input.type === 'fileupload'){
+				   input.type === 'fileupload' ||
+				   input.type === 'table'){
 					   return true
 				  }
 				  return false

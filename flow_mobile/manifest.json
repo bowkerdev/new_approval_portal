@@ -65,6 +65,8 @@
             "proxy" : {
                 "/approval" : {
                     "target" : "http://47.242.28.61:8082", // 需要跨域的域名
+
+                    //"target" : "http://localhost:8082", 
                     "changeOrigin" : true,
                     "secure" : false,
                     "pathRewrite" : {

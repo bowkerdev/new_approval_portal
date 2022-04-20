@@ -108,7 +108,7 @@
 					pageNo: page.num,
 					pageSize: page.size,
 					status: '1',
-					procDefKey: 'prpo,pr',
+					procDefKey: 'app_flow_list',
 					title: this.curWord
 					
 				}).then(({data})=>{

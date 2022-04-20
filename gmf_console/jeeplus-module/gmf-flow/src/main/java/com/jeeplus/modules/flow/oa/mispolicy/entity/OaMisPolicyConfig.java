@@ -19,43 +19,43 @@ public class OaMisPolicyConfig extends DataEntity<OaMisPolicyConfig> {
 	private static final long serialVersionUID = 1L;
 	@ExcelField(title="department", align=2, sort=1)
 	private String department;		// department
-	@ExcelField(title="hardware", dictType="yes_no", align=2, sort=2)
+	@ExcelField(title="hardware",  align=2, sort=2)
 	private String hardware;		// hardware
-	@ExcelField(title="lan_connection", dictType="yes_no", align=2, sort=3)
+	@ExcelField(title="lan_connection",  align=2, sort=3)
 	private String lanConnection;		// lan_connection
-	@ExcelField(title="wifi_office", dictType="yes_no", align=2, sort=4)
+	@ExcelField(title="wifi_office",  align=2, sort=4)
 	private String wifiOffice;		// wifi_office
-	@ExcelField(title="wifi_guest", dictType="yes_no", align=2, sort=5)
+	@ExcelField(title="wifi_guest",  align=2, sort=5)
 	private String wifiGuest;		// wifi_guest
-	@ExcelField(title="wifi_others", dictType="yes_no", align=2, sort=6)
+	@ExcelField(title="wifi_others",  align=2, sort=6)
 	private String wifiOthers;		// wifi_others
-	@ExcelField(title="vpn", dictType="yes_no", align=2, sort=7)
+	@ExcelField(title="vpn",  align=2, sort=7)
 	private String vpn;		// vpn
-	@ExcelField(title="usb_drive", dictType="yes_no", align=2, sort=8)
+	@ExcelField(title="usb_drive",  align=2, sort=8)
 	private String usbDrive;		// usb_drive
-	@ExcelField(title="share_drive", dictType="yes_no", align=2, sort=9)
+	@ExcelField(title="share_drive",  align=2, sort=9)
 	private String shareDrive;		// share_drive
-	@ExcelField(title="ms_team_drive", dictType="yes_no", align=2, sort=10)
+	@ExcelField(title="ms_team_drive",  align=2, sort=10)
 	private String msTeamDrive;		// ms_team_drive
-	@ExcelField(title="threerd_party_cloud_drive", dictType="yes_no", align=2, sort=11)
+	@ExcelField(title="threerd_party_cloud_drive",  align=2, sort=11)
 	private String threerdPartyCloudDrive;		// threerd_party_cloud_drive
-	@ExcelField(title="internet", dictType="yes_no", align=2, sort=12)
+	@ExcelField(title="internet",  align=2, sort=12)
 	private String internet;		// internet
-	@ExcelField(title="instant_massager", dictType="yes_no", align=2, sort=13)
+	@ExcelField(title="instant_massager",  align=2, sort=13)
 	private String instantMassager;		// instant_massager
-	@ExcelField(title="cloud_transfer", dictType="yes_no", align=2, sort=14)
+	@ExcelField(title="cloud_transfer",  align=2, sort=14)
 	private String cloudTransfer;		// cloud_transfer
-	@ExcelField(title="one_drive_personal", dictType="yes_no", align=2, sort=15)
+	@ExcelField(title="one_drive_personal",  align=2, sort=15)
 	private String oneDrivePersonal;		// one_drive_personal
-	@ExcelField(title="ms_team_message", dictType="yes_no", align=2, sort=16)
+	@ExcelField(title="ms_team_message",  align=2, sort=16)
 	private String msTeamMessage;		// ms_team_message
-	@ExcelField(title="software_installation", dictType="yes_no", align=2, sort=17)
+	@ExcelField(title="software_installation",  align=2, sort=17)
 	private String softwareInstallation;		// software_installation
-	@ExcelField(title="ms_email_to_external_address", dictType="yes_no", align=2, sort=18)
+	@ExcelField(title="ms_email_to_external_address",  align=2, sort=18)
 	private String msEmailToExternalAddress;		// ms_email_to_external_address
-	@ExcelField(title="mfa", dictType="yes_no", align=2, sort=19)
+	@ExcelField(title="mfa",  align=2, sort=19)
 	private String mfa;		// mfa
-	@ExcelField(title="mobile_email", dictType="yes_no", align=2, sort=20)
+	@ExcelField(title="mobile_email",  align=2, sort=20)
 	private String mobileEmail;		// mobile_email
 	
 	public OaMisPolicyConfig() {

@@ -77,171 +77,114 @@
         show-overflow-tooltip
         sortable="custom"
         label="hardware">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.hardware, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="lanConnection"
         show-overflow-tooltip
         sortable="custom"
         label="lan_connection">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.lanConnection, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="wifiOffice"
         show-overflow-tooltip
         sortable="custom"
         label="wifi_office">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.wifiOffice, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="wifiGuest"
         show-overflow-tooltip
         sortable="custom"
         label="wifi_guest">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.wifiGuest, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="wifiOthers"
         show-overflow-tooltip
         sortable="custom"
         label="wifi_others">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.wifiOthers, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="vpn"
         show-overflow-tooltip
         sortable="custom"
         label="vpn">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.vpn, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="usbDrive"
         show-overflow-tooltip
         sortable="custom"
         label="usb_drive">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.usbDrive, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="shareDrive"
         show-overflow-tooltip
         sortable="custom"
         label="share_drive">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.shareDrive, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="msTeamDrive"
         show-overflow-tooltip
         sortable="custom"
         label="ms_team_drive">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.msTeamDrive, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="threerdPartyCloudDrive"
         show-overflow-tooltip
         sortable="custom"
         label="threerd_party_cloud_drive">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.threerdPartyCloudDrive, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="internet"
         show-overflow-tooltip
         sortable="custom"
         label="internet">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.internet, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="instantMassager"
         show-overflow-tooltip
         sortable="custom"
         label="instant_massager">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.instantMassager, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="cloudTransfer"
         show-overflow-tooltip
         sortable="custom"
         label="cloud_transfer">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.cloudTransfer, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="oneDrivePersonal"
         show-overflow-tooltip
         sortable="custom"
         label="one_drive_personal">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.oneDrivePersonal, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="msTeamMessage"
         show-overflow-tooltip
         sortable="custom"
         label="ms_team_message">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.msTeamMessage, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="softwareInstallation"
         show-overflow-tooltip
         sortable="custom"
         label="software_installation">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.softwareInstallation, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="msEmailToExternalAddress"
         show-overflow-tooltip
         sortable="custom"
         label="ms_email_to_external_address">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.msEmailToExternalAddress, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="mfa"
         show-overflow-tooltip
         sortable="custom"
         label="mfa">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.mfa, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="mobileEmail"
         show-overflow-tooltip
         sortable="custom"
         label="mobile_email">
-        <template slot-scope="scope">
-              {{ $dictUtils.getDictLabel("yes_no", scope.row.mobileEmail, '-') }}
-        </template>
       </el-table-column>
     <el-table-column
         prop="updateDate"

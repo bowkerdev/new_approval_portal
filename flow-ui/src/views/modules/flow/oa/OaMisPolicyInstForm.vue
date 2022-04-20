@@ -1,20 +1,10 @@
 <template>
 <div>
-  <el-dialog
-    :title="title"
-    :close-on-click-modal="false"
-     v-dialogDrag
-    :visible.sync="visible">
-    <el-form :model="inputForm" size="small" ref="inputForm" v-loading="loading" :class="method==='view'?'readonly':''"  :disabled="method==='view'"
+    <el-form size="small" :model="inputForm" ref="inputForm" v-loading="loading" :disabled="formReadOnly"
              label-width="120px">
       <el-row  :gutter="15">
         </el-row>
     </el-form>
-    <span slot="footer" class="dialog-footer">
-      <el-button size="small" @click="visible = false">关闭</el-button>
-      <el-button size="small" type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>确定</el-button>
-    </span>
-  </el-dialog>
 </div>
 </template>
 
@@ -24,32 +14,46 @@
       return {
         title: '',
         method: '',
-        visible: false,
         loading: false,
         inputForm: {
           id: ''
         }
       }
     },
+    props: {
+      businessId: {
+        type: String,
+        default: ''
+      },
+      formReadOnly: {
+        type: Boolean,
+        default: false
+      }
+    },
     components: {
     },
+    watch: {
+      'businessId': {
+        handler (newVal) {
+          if (this.businessId) {
+            this.init(this.businessId)
+          } else {
+            this.$nextTick(() => {
+              this.$refs.inputForm.resetFields()
+            })
+          }
+        },
+        immediate: true,
+        deep: false
+      }
+    },
     methods: {
-      init (method, id) {
-        this.method = method
-        this.inputForm.id = id
-        if (method === 'add') {
-          this.title = `新建MIS Policy`
-        } else if (method === 'edit') {
-          this.title = '修改MIS Policy'
-        } else if (method === 'view') {
-          this.title = '查看MIS Policy'
-        }
-        this.visible = true
-        this.loading = false
-        this.$nextTick(() => {
-          this.$refs.inputForm.resetFields()
-          if (method === 'edit' || method === 'view') { // 修改或者查看
-            this.loading = true
+      init (id) {
+        if (id) {
+          this.loading = true
+          this.inputForm.id = id
+          this.$nextTick(() => {
+            this.$refs.inputForm.resetFields()
             this.$http({
               url: `/flow/oa/mispolicy/oaMisPolicyInst/queryById?id=${this.inputForm.id}`,
               method: 'get'
@@ -57,11 +61,11 @@
               this.inputForm = this.recover(this.inputForm, data.oaMisPolicyInst)
               this.loading = false
             })
-          }
-        })
+          })
+        }
       },
       // 表单提交
-      doSubmit () {
+      saveForm (callback) {
         this.$refs['inputForm'].validate((valid) => {
           if (valid) {
             this.loading = true
@@ -70,11 +74,8 @@
               method: 'post',
               data: this.inputForm
             }).then(({data}) => {
-              this.loading = false
               if (data && data.success) {
-                this.visible = false
-                this.$message.success(data.msg)
-                this.$emit('refreshDataList')
+                callback(data.businessTable, data.businessId)
               }
             })
           }

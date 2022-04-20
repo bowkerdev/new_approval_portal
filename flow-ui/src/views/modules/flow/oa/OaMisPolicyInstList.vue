@@ -1,5 +1,5 @@
 <template>
-    <div class="page">
+  <div class="page">
       <el-form size="small" :inline="true" class="query-form" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
             <!-- 搜索框-->
           <el-form-item>
@@ -8,8 +8,8 @@
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
-      <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
-          <el-form size="small" :inline="true" v-show="isImportCollapse"  ref="importForm">
+        <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
+          <el-form :inline="true" v-show="isImportCollapse"  class="query-form" ref="importForm">
              <el-form-item>
               <el-button type="default" @click="downloadTpl()" size="small">下载模板</el-button>
              </el-form-item>
@@ -34,7 +34,7 @@
                   :disabled="dataListSelections.length <= 0" plain>删除
         </el-button>
         <el-button-group class="pull-right">
-            <el-button v-if="hasPermission('oa:mispolicy:oaMisPolicyInst:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse"></el-button>
+            <el-button v-if="hasPermission('oa:mispolicy:oaMisPolicyInst:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse, isSearchCollapse=false"></el-button>
             <el-button v-if="hasPermission('oa:mispolicy:oaMisPolicyInst:export')" type="default" size="small" icon="el-icon-download" title="导出" @click="exportExcel()"></el-button>
             <el-button
               type="default"
@@ -46,17 +46,24 @@
       </el-row>
     <el-table
       :data="dataList"
-       size="small"
-       height="calc(100% - 80px)"
       @selection-change="selectionChangeHandle"
       @sort-change="sortChangeHandle"
       v-loading="loading"
+      size="small"
+      height="calc(100% - 80px)"
+      @expand-change="detail"
       class="table">
       <el-table-column
         type="selection"
         header-align="center"
         align="center"
         width="50">
+      </el-table-column>
+      <el-table-column type="expand">
+      <template slot-scope="scope">
+      <el-tabs>
+            </el-tabs>
+      </template>
       </el-table-column>
     <el-table-column
         prop="updateDate"
@@ -212,6 +219,15 @@
               this.refreshList()
             }
             this.loading = false
+          })
+        })
+      },
+     // 查看详情
+      detail (row) {
+        this.$http.get(`/flow/oa/mispolicy/oaMisPolicyInst/queryById?id=${row.id}`).then(({data}) => {
+          this.dataList.forEach((item, index) => {
+            if (item.id === row.id) {
+            }
           })
         })
       },

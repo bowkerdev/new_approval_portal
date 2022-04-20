@@ -11,10 +11,10 @@ import com.jeeplus.modules.flow.oa.mispolicy.entity.OaMisPolicyInst;
 /**
  * MIS PolicyMAPPER接口
  * @author zhimi
- * @version 2022-04-19
+ * @version 2022-04-20
  */
 @Mapper
 @Repository
 public interface OaMisPolicyInstMapper extends BaseMapper<OaMisPolicyInst> {
-
+	
 }

@@ -231,7 +231,9 @@
 		height: auto;
 		line-height: 1.2;
 		padding-top: 6px;
-		padding-bottom: 6px;
+		padding-bottom: 6px; 
+		font-size: 14px;
+		color: #a8a8a8; 
 	}
 </style>
 

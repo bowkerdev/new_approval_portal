@@ -107,10 +107,14 @@
 	}
 	.label-key {
 		padding-right: 10px;
-		font-weight: bold;
+		color: #a8a8a8;
+		font-size: 13px;
 	}
 	.input-wrap {
 		flex-grow: 1;
+		text-align: right;
+		font-size: 12px;
+		color: #000;
 	}
 	.popup-btn {
 		font-weight: bold;

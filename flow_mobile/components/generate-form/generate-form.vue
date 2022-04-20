@@ -2,7 +2,7 @@
 	<view>
 		<form>
 			<view class="cu-form-group"  :class="{'margin-top': index===0, 'flex-col': ['table'].indexOf(item.type) > -1,
-				'html-group': item.type == 'html' }" 
+				'html-group': item.type == 'html', 'table-type': item.type == 'table' }" 
 				v-if="item.readable" v-for="(item,index) in formData" :key="index"
 			>
 				<view class="" v-if="item.type == 'html'" >
@@ -114,11 +114,7 @@
 				<template v-if="item.type=='text'">
 					<!-- 普通输入框 -->
 					<text>{{item.value}}</text>
-				</template>	
-				<template v-if="item.type=='html'">
-					<!-- 普通输入框 -->
-					<view v-html="item.value"></view>
-				</template>	
+				</template>
 				<template v-if="item.type=='imgupload' || item.type=='fileupload'">
 					<!-- 图片上传 -->
 					<jp-image-upload :disabled="!item.writable"   v-model="item.value"></jp-image-upload>
@@ -226,33 +222,49 @@
 	.cu-form-group input {
 		flex: none;
 		text-align: right;
+		color: #000;
 	}
 	.cu-form-group .title {
 		height: auto;
 		line-height: 1.2;
-		padding-top: 6px;
-		padding-bottom: 6px; 
-		font-size: 14px;
+		padding-top: 12px;
+		padding-bottom: 12px; 
+		font-size: 13px;
 		color: #a8a8a8; 
 	}
 </style>
 
-<style lang="scss" >
+<style lang="scss" scoped>
 .uni-list-cell {
     justify-content: flex-start
 }
 .cu-form-group{
+	min-height: auto;
+	padding-left: 10px;
+	padding-right: 10px;
+	
 	&.html-group + & {
 		border: none;
 	}
 	&.html-group.margin-top {
+		padding-top: 20px;
+		padding-bottom: 20px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		font-size: 16px;
 	}
 	&.html-group {
-		font-size: 16px;
+		padding-top: 16px;
+		padding-bottom: 16px;
+		font-size: 15px;
 		font-weight: bold;
+	}
+	
+	&.table-type {
+		padding-left: 0;
+		padding-right: 0;
+		background-color: transparent;
 	}
 
   uni-checkbox-group{
@@ -262,10 +274,13 @@
 		text-align: right;
 	}
 	uni-checkbox, uni-radio {
-	    position: relative;
-	    margin-top: 7px;
+		position: relative;
+		margin-top: 7px;
 		margin-left:7px;
 		margin-bottom: 7px;
+	}
+	.uni-textarea-textarea {
+		text-align: right;
 	}
 	
 	&.flex-col {
@@ -276,31 +291,33 @@
 	
 	.table-row-card-list {
 		width: 100%;
+		border-top: 1px dashed #c4c4c4;
 	}
 	.table-row-card-show {
 		margin-bottom: 10px;
 		padding: 10px 0;
-		box-shadow: #ebebeb 0px 0px 3px 1px;
-		border-radius: 4px;
+		border-bottom: 1px dashed #c4c4c4;
 	}
 	.table-row-card-body {
 		padding-bottom: 10px;
-		display: flex;
-		flex-wrap: wrap;
-		flex-wrap: wrap;
-		justify-content: space-between;
 	}
 	.table-row-info-item {
 		padding: 2px 10px;
+		display: flex;
+		justify-content: space-between;
+	}
+	.table-row-info-key {
+		color: #a8a8a8;
+		font-size: 13px;
 	}
 	.table-row-info-value {
 		margin-top: 2px;
-		font-weight: bold;
+		color: #000;
+		font-size: 12px;
 	}
 	.table-row-card-btns {
 		display: flex;
 		justify-content: center;
-		border-top: 1px solid #eee;
 		
 		.card-btn {
 			margin-top: 10px;
@@ -316,7 +333,7 @@
 		}
 			
 		.card-btn + .card-btn {
-			border-left: 1px solid #eee;
+			border-left: 1px dashed #c4c4c4;
 		}
 	}
 	.add-table-row-btn {

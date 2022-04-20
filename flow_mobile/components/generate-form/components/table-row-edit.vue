@@ -8,7 +8,7 @@
 			</view>
 			<view class="edit-form">
 				<view class="form-item" v-for="fieldItem in item.tableColumns" :key="fieldItem.model">
-					<view class="label-key">{{ fieldItem.name }}</view>
+					<view class="label-key">{{ $i18nMy.t(fieldItem.name) }}</view>
 					<template v-if="fieldItem.type=='input'">
 						<input class="input-wrap" v-model="editObj[fieldItem.model]" :placeholder="$i18nMy.t('请输入')"/>
 					</template>

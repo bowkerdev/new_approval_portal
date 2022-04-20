@@ -14,9 +14,9 @@
 		<view class="grid col-3 padding-sm" style="margin-top: -7px;padding-left: 0px;padding-right: 0px;">
 			<view  @tap="toTodoList"  class="padding-sm" style="padding-left: 10px;">
 				<navigator hover-class="none" url="/pages/workbench/workbenchWeCare">
-					<view class="padding cu-avatar radius text-center shadow-blur bg-white" style="width: 100%;height: 100%;">
+					<view class="padding radius text-center shadow-blur bg-white" style="width: 100%;height: 100%;">
 						<view>
-							<text class="lg font-size-35 text-blue cuIcon-form"></text>
+							<text class="lg font-size-35 text-blue cuIcon-list"></text>
 							<view class="margin-top-sm text-Abc" style="font-size: 15px;">{{$i18nMy.t('待办任务')}}</view>
 						</view>
 						<view class="cu-tag badge">{{todoTag}}</view>
@@ -26,9 +26,9 @@
 			</view>
 			<view  @tap="toHistoryList"  class="padding-sm" style="padding-left: 0px;">
 				<navigator hover-class="none" url="/pages/workbench/workbenchWeCare" >
-					<view class="padding cu-avatar radius text-center shadow-blur bg-white" style="width: 100%;height: 100%;">
+					<view class="padding radius text-center shadow-blur bg-white" style="width: 100%;height: 100%;">
 						<view>
-							<text class="lg font-size-35 text-blue cuIcon-form"></text>
+							<text class="lg font-size-35 text-blue cuIcon-time"></text>
 							<view class="margin-top-sm text-Abc" style="font-size: 15px;">{{$i18nMy.t('已办任务')}}</view>
 						</view>
 						<view class="cu-tag badge">{{historicTag}}</view>
@@ -91,7 +91,7 @@
 		}),
 	    async mounted() {
 			this.getTag();
-			let res = await this.$http.get('/app/extension/actCategory/treeData')
+			/* let res = await this.$http.get('/app/extension/actCategory/treeData')
 			let {data} = await this.$http.get('/app/flowable/process/list')
 			this.processMap = new Map()
 			res.data.treeData.forEach((item)=>{
@@ -109,7 +109,7 @@
 			
 			for(let [key,value] of this.processMap){
 			    console.log(key,value);
-			}
+			} */
 		},
 		activated() {
 			this.getTag();

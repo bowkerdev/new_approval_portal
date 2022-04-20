@@ -83,10 +83,10 @@
 			<view class="padding bg-white margin-top">
 				<view class="cu-timeline" :key="index" v-for="(act, index) in historicTaskList">
 					<view class="cu-time">{{act.histIns.startTime |formatDate('MM-DD')}}</view>
-					<view class="cu-item text-blue">
+					<view class="cu-item text-gray">
 						<view class="content">
 							<view class="cu-capsule radius">
-								<view class="cu-tag bg-cyan">{{act.histIns.activityName}}</view>
+								<view class="cu-tag bg-grey">{{act.histIns.activityName}}</view>
 								<!-- <view class="cu-tag line-cyan">{{act.histIns.activityName}}</view> -->
 							</view>
 							

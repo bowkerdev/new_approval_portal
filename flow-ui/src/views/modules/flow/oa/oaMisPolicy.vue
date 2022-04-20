@@ -4,8 +4,19 @@
              label-width="140px" style="width: calc(100% - 25px);">
       <el-row :gutter="15">
         <el-col :span="12">
+          <el-form-item :label="$i18nMy.t('区域')" prop="site" :rules="[]">
+            <el-select v-model="inputForm.site" :placeholder="$i18nMy.t('请选择区域')" style="width: 100%;">
+              <el-option v-for="item in $dictUtils.getDictList('apply_site_code')" :key="item.value" :label="item.label" :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item :label="$i18nMy.t('部门')" prop="department" :rules="[]">
-            <el-input v-model="inputForm.department" placeholder=""></el-input>
+            <el-select @change="selectDepartment" v-model="inputForm.department" :placeholder="$i18nMy.t('请选择部门')" style="width: 100%;">
+              <el-option v-for="item in departmentDataList" :key="item.department" :label="item.department" :value="item">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -41,7 +52,11 @@
               <el-radio v-model="scope.row.states" label="">NO</el-radio>
             </template>
           </el-table-column>
-          <el-table-column prop="requirements"  show-overflow-tooltip  label="需求描述"></el-table-column>
+          <el-table-column show-overflow-tooltip  label="需求描述">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.requirements" :placeholder="$i18nMy.t('请填写需求描述')"></el-input>
+            </template>
+          </el-table-column>
         </el-table>
       </el-row>
     </el-form>
@@ -55,8 +70,10 @@
       return {
         loading:false,
         inputForm:{
+          site:'',
           department:''
         },
+        departmentDataList:[],
         userDataList:[],
         itemsPolicyDataList:[],
 
@@ -72,21 +89,112 @@
     components: {
       UserSelect
     },
+    activated () {
+
+    },
     methods: {
-      test(e){
+      init(query) {
+        console.log(query)
+        this.misPolicyConfigList()
+      },
+      selectDepartment(e){
         console.log(e)
+        var filterArr = ['id','createBy','createDate','department','updateBy','updateDate']
+        var data = []
+        for(var key in e){
+          if(filterArr.indexOf(key) == -1){
+            var obj  = {department:JSON.parse(JSON.stringify(e)),key:key,items:this.$i18nMy.t(key),policy:e[key],states:'',requirements:''}
+            data.push(obj)
+          }
+        }
+        this.itemsPolicyDataList = data
+      },
+      misPolicyConfigList () {
+        this.loading = true
+        this.$http({
+          url: '/flow/oa/mispolicy/oaMisPolicyConfig/list',
+          method: 'get',
+          params: {
+            'pageNo': 1,
+            'pageSize': -1,
+            'orderBy': 'department'
+          }
+        }).then(({data}) => {
+          this.loading = false
+          if (data && data.success) {
+            this.departmentDataList = data.page.list
+          }
+        })
       },
       addUser(){
         var obj = {userId:'',name:'',email:''}
         this.userDataList.push(obj)
       },
       deleteUser(index,row){
-
+        this.userDataList.splice(index,1)
+      },
+      setSaveData(){
+        var obj = JSON.parse(JSON.stringify(this.inputForm));
+        obj.userids = this.userDataList.map(o => {return o.userid}).join(',')
+        for(var i in this.itemsPolicyDataList){
+          obj[this.itemsPolicyDataList[i].key] = this.itemsPolicyDataList[i].requirements
+        }
+        return obj;
+      },
+      validInputForm(){
+        if('' == (this.inputForm.site)){
+          return false;
+        }
+        if('' == (this.inputForm.department)){
+          return false;
+        }
+        if(this.userDataList != null && this.userDataList.length == 0){
+          return false;
+        }
+        return true;
       },
       //表单提交
-      saveForm(callBack) {},
+      saveForm(callBack) {
+        if(!this.validInputForm()){
+          this.$message.warning($i18nMy.t('信息录入不完整'))
+        }
+        this.loading = true
+        this.$http({
+          url: `/flow/oa/mispolicy/oaMisPolicyInst/save`,
+          method: 'post',
+          data: this.setSaveData()
+        }).then(({data}) => {
+          this.loading = false
+          if (data && data.success) {
+            this.$message.success(data.msg)
+            callBack(data.businessTable, data.businessId)
+          }
+          else{
+            this.$message.error(data.msg)
+          }
+        })
+      },
       // 表单草稿提交
-      saveAsDraft(callBack) {}
+      saveAsDraft(callBack) {
+        if(!this.validInputForm()){
+          this.$message.warning($i18nMy.t('信息录入不完整'))
+        }
+        this.loading = true
+        this.$http({
+          url: `/flow/oa/mispolicy/oaMisPolicyInst/save`,
+          method: 'post',
+          data: this.setSaveData()
+        }).then(({data}) => {
+          this.loading = false
+          if (data && data.success) {
+            this.$message.success(data.msg)
+            callBack(data.businessTable, data.businessId)
+          }
+          else{
+            this.$message.error(data.msg)
+          }
+        })
+      }
     }
   }
 </script>

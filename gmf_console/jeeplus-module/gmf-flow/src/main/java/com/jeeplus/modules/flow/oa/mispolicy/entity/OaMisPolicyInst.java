@@ -11,7 +11,7 @@ import lombok.Data;
 /**
  * MIS PolicyEntity
  * @author zhimi
- * @version 2022-04-19
+ * @version 2022-04-20
  */
 @Data
 public class OaMisPolicyInst extends DataEntity<OaMisPolicyInst> {
@@ -50,7 +50,7 @@ public class OaMisPolicyInst extends DataEntity<OaMisPolicyInst> {
 	@ExcelField(title="cloud_transfer", align=2, sort=16)
 	private String cloudTransfer;		// cloud_transfer
 	@ExcelField(title="one_drive_personal", align=2, sort=17)
-	private String oneDrivePersonal;		// one_drive_personal
+	private String oneDrivePersonal;		// one_drive_personal 
 	@ExcelField(title="ms_team_message", align=2, sort=18)
 	private String msTeamMessage;		// ms_team_message
 	@ExcelField(title="software_installation", align=2, sort=19)
@@ -67,7 +67,7 @@ public class OaMisPolicyInst extends DataEntity<OaMisPolicyInst> {
 	public OaMisPolicyInst() {
 		super();
 	}
-	
+
 	public OaMisPolicyInst(String id){
 		super(id);
 	}

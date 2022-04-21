@@ -6,7 +6,7 @@
         <el-col :span="12">
           <el-form-item :label="$i18nMy.t('区域')" prop="site" :rules="[]">
             <el-select v-model="inputForm.site" :placeholder="$i18nMy.t('请选择区域')" style="width: 100%;">
-              <el-option v-for="item in $dictUtils.getDictList('apply_site_code')" :key="item.value" :label="item.label" :value="item.value">
+              <el-option v-for="item in $dictUtils.getDictList('apply_site_code')" :key="item.value" :label="item.value" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
@@ -14,7 +14,7 @@
         <el-col :span="12">
           <el-form-item :label="$i18nMy.t('部门')" prop="department" :rules="[]">
             <el-select @change="selectDepartment" v-model="inputForm.department" :placeholder="$i18nMy.t('请选择部门')" style="width: 100%;">
-              <el-option v-for="item in departmentDataList" :key="item.department" :label="item.department" :value="item">
+              <el-option v-for="item in departmentDataList" :key="item.department" :label="item.department" :value="item.department">
               </el-option>
             </el-select>
           </el-form-item>
@@ -25,7 +25,7 @@
         <el-table :data="userDataList" size="small" :border="true" style="margin-top: 5px">
           <el-table-column show-overflow-tooltip  label="工号">
             <template  slot-scope="scope">
-              <user-select :limit='1' :value="scope.row.userId" @getValue='(value,name,data) => {scope.row.userId=value;scope.row.name = data[0].name;scope.row.email = data[0].email;}'>
+              <user-select :limit='1' :value="scope.row.userid" @getValue='(value,name,data) => {scope.row.userid=value;scope.row.name = data[0].name;scope.row.email = data[0].email;}'>
               </user-select>
             </template>
           </el-table-column>
@@ -43,18 +43,23 @@
         </el-table>
       </el-row>
       <el-row :gutter="0">
-        <el-table :data="itemsPolicyDataList" size="small" :border="true"  style="margin-top: 20px">
+        <el-table ref="itemsPolicyTable" :data="itemsPolicyDataList" size="small" :border="true"  style="margin-top: 20px">
           <el-table-column prop="items"  show-overflow-tooltip  label="项目"></el-table-column>
           <el-table-column prop="policy"  show-overflow-tooltip  label="政策"></el-table-column>
           <el-table-column prop="states"  show-overflow-tooltip  label="是否开通">
             <template slot-scope="scope">
-              <el-radio v-model="scope.row.states" label="1">YES</el-radio>
-              <el-radio v-model="scope.row.states" label="">NO</el-radio>
+              <el-radio v-model="scope.row.states" @change="(e) => {if(scope.row.states == '1'){scope.row.requirements=''}}" label="1">YES</el-radio>
+              <el-radio v-model="scope.row.states" label="0">NO</el-radio>
             </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip  label="需求描述">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.requirements" :placeholder="$i18nMy.t('请填写需求描述')"></el-input>
+              <el-input v-model="scope.row.requirements"
+                        :class="(scope.row.states == '1'&& (scope.row.requirements || '') == ''?'border-red':'')"
+                        :disabled="scope.row.states == '0'"
+                        :placeholder="$i18nMy.t('请填写需求描述')"></el-input>
+              <br>
+              <span v-if="scope.row.states == '1'&& (scope.row.requirements || '') == ''" style="color: red;">需求描述不能为空</span>
             </template>
           </el-table-column>
         </el-table>
@@ -97,14 +102,15 @@
         console.log(query)
         this.misPolicyConfigList()
       },
-      selectDepartment(e){
-        console.log(e)
+      selectDepartment(value){
+        console.log(value)
         var filterArr = ['id','createBy','createDate','department','updateBy','updateDate']
         var data = []
-        for(var key in e){
+        var obj = this.$common.find(this.departmentDataList,function (e){return e.department == value})
+        for(var key in obj){
           if(filterArr.indexOf(key) == -1){
-            var obj  = {department:JSON.parse(JSON.stringify(e)),key:key,items:this.$i18nMy.t(key),policy:e[key],states:'',requirements:''}
-            data.push(obj)
+            var tmp  = {department:JSON.parse(JSON.stringify(obj)),key:key,items:this.$i18nMy.t(key),policy:obj[key],states:'0',requirements:''}
+            data.push(tmp)
           }
         }
         this.itemsPolicyDataList = data
@@ -127,7 +133,7 @@
         })
       },
       addUser(){
-        var obj = {userId:'',name:'',email:''}
+        var obj = {userid:'',name:'',email:''}
         this.userDataList.push(obj)
       },
       deleteUser(index,row){
@@ -151,12 +157,19 @@
         if(this.userDataList != null && this.userDataList.length == 0){
           return false;
         }
+        for(var i in this.itemsPolicyDataList){
+          this.itemsPolicyDataList[i].error = ''
+          if(this.itemsPolicyDataList[i].states == '1' && (this.itemsPolicyDataList[i].requirements || '') == ''){
+            return false;
+          }
+        }
         return true;
       },
       //表单提交
       saveForm(callBack) {
         if(!this.validInputForm()){
           this.$message.warning($i18nMy.t('信息录入不完整'))
+          return ;
         }
         this.loading = true
         this.$http({
@@ -178,6 +191,7 @@
       saveAsDraft(callBack) {
         if(!this.validInputForm()){
           this.$message.warning($i18nMy.t('信息录入不完整'))
+          return ;
         }
         this.loading = true
         this.$http({
@@ -198,3 +212,8 @@
     }
   }
 </script>
+<style lang="scss">
+.border-red .el-input__inner{
+  border: 2px red solid;
+}
+</style>

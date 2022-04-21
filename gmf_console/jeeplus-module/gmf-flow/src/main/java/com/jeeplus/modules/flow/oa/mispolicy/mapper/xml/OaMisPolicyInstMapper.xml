@@ -4,6 +4,8 @@
 
 	<sql id="oaMisPolicyInstColumns">
 		a.id AS "id",
+		a.proc_def_key AS "procDefKey",
+		a.proc_ins_id AS "procInsId",
 		a.site AS "site",
 		a.department AS "department",
 		a.userids AS "userids",
@@ -89,6 +91,8 @@
 	<insert id="insert">
 		INSERT INTO oa_mis_policy_inst(
 			id,
+			proc_def_key,
+			proc_ins_id,
 			site,
 			department,
 			userids,
@@ -120,6 +124,8 @@
 			del_flag
 		) VALUES (
 			#{id},
+			#{procDefKey},
+			#{procInsId},
 			#{site},
 			#{department},
 			#{userids},
@@ -154,6 +160,8 @@
 
 	<update id="update">
 		UPDATE oa_mis_policy_inst SET
+			proc_def_key = #{procDefKey},
+			proc_ins_id = #{procInsId},
 			site = #{site},
 			department = #{department},
 			userids = #{userids},

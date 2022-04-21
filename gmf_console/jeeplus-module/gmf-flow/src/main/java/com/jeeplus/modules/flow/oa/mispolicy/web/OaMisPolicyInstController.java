@@ -7,7 +7,8 @@ package com.jeeplus.modules.flow.oa.mispolicy.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jeeplus.modules.flow.oa.mispolicy.service.OaMisPolicyInstService;
+import com.jeeplus.modules.sys.entity.User;
+import com.jeeplus.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,11 +24,15 @@ import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.modules.flow.oa.mispolicy.entity.OaMisPolicyInst;
+import com.jeeplus.modules.flow.oa.mispolicy.service.OaMisPolicyInstService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * MIS PolicyController
  * @author zhimi
- * @version 2022-04-20
+ * @version 2022-04-21
  */
 @RestController
 @RequestMapping(value = "/flow/oa/mispolicy/oaMisPolicyInst")
@@ -62,7 +67,17 @@ public class OaMisPolicyInstController extends BaseController {
 	 */
 	@GetMapping("queryById")
 	public AjaxJson queryById(OaMisPolicyInst oaMisPolicyInst) {
-		return AjaxJson.success().put("oaMisPolicyInst", oaMisPolicyInst);
+		String userids = oaMisPolicyInst.getUserids();
+		List<User> userList = new ArrayList<>();
+		if(StringUtils.isNotBlank(userids)){
+			String[] userIdArr = userids.split(",");
+			for(int i=0;i<userIdArr.length;i++){
+				if(StringUtils.isNotBlank(userIdArr[i])) {
+					userList.add(UserUtils.get(userIdArr[i]));
+				}
+			}
+		}
+		return AjaxJson.success().put("oaMisPolicyInst", oaMisPolicyInst).put("oaMisPolicyInstUserids",userList);
 	}
 
 	/**

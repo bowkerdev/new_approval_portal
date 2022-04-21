@@ -46,7 +46,7 @@ import com.jeeplus.modules.flowable.service.FlowTaskService;
 	    	commontoolsJson.put("sendTo", "");
 	    	Map<String, String> headers = new HashMap<>();
 	    	headers.put("Content-Type", "application/json");
-	    	headers.put("token",GetBpToken.getToken());
+	    	headers.put("token",new GetBpToken().getToken());
 	    	headers.put("tokenType","bowker_baseportal");
 	    	
 	    	String sendResult; 

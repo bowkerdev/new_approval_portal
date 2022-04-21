@@ -11,57 +11,61 @@ import lombok.Data;
 /**
  * MIS PolicyEntity
  * @author zhimi
- * @version 2022-04-20
+ * @version 2022-04-21
  */
 @Data
 public class OaMisPolicyInst extends DataEntity<OaMisPolicyInst> {
 	
 	private static final long serialVersionUID = 1L;
-	@ExcelField(title="site", align=2, sort=1)
+	@ExcelField(title="proc_def_key", align=2, sort=1)
+	private String procDefKey;		// proc_def_key
+	@ExcelField(title="proc_ins_id", align=2, sort=2)
+	private String procInsId;		// proc_ins_id
+	@ExcelField(title="site", align=2, sort=3)
 	private String site;		// site
-	@ExcelField(title="department", align=2, sort=2)
+	@ExcelField(title="department", align=2, sort=4)
 	private String department;		// department
-	@ExcelField(title="userids", align=2, sort=3)
+	@ExcelField(title="userids", align=2, sort=5)
 	private String userids;		// userids
-	@ExcelField(title="hardware", align=2, sort=4)
+	@ExcelField(title="hardware", align=2, sort=6)
 	private String hardware;		// hardware
-	@ExcelField(title="lan_connection", align=2, sort=5)
+	@ExcelField(title="lan_connection", align=2, sort=7)
 	private String lanConnection;		// lan_connection
-	@ExcelField(title="wifi_office", align=2, sort=6)
+	@ExcelField(title="wifi_office", align=2, sort=8)
 	private String wifiOffice;		// wifi_office
-	@ExcelField(title="wifi_guest", align=2, sort=7)
+	@ExcelField(title="wifi_guest", align=2, sort=9)
 	private String wifiGuest;		// wifi_guest
-	@ExcelField(title="wifi_others", align=2, sort=8)
+	@ExcelField(title="wifi_others", align=2, sort=10)
 	private String wifiOthers;		// wifi_others
-	@ExcelField(title="vpn", align=2, sort=9)
+	@ExcelField(title="vpn", align=2, sort=11)
 	private String vpn;		// vpn
-	@ExcelField(title="usb_drive", align=2, sort=10)
+	@ExcelField(title="usb_drive", align=2, sort=12)
 	private String usbDrive;		// usb_drive
-	@ExcelField(title="share_drive", align=2, sort=11)
+	@ExcelField(title="share_drive", align=2, sort=13)
 	private String shareDrive;		// share_drive
-	@ExcelField(title="ms_team_drive", align=2, sort=12)
+	@ExcelField(title="ms_team_drive", align=2, sort=14)
 	private String msTeamDrive;		// ms_team_drive
-	@ExcelField(title="threerd_party_cloud_drive", align=2, sort=13)
+	@ExcelField(title="threerd_party_cloud_drive", align=2, sort=15)
 	private String threerdPartyCloudDrive;		// threerd_party_cloud_drive
-	@ExcelField(title="internet", align=2, sort=14)
+	@ExcelField(title="internet", align=2, sort=16)
 	private String internet;		// internet
-	@ExcelField(title="instant_massager", align=2, sort=15)
+	@ExcelField(title="instant_massager", align=2, sort=17)
 	private String instantMassager;		// instant_massager
-	@ExcelField(title="cloud_transfer", align=2, sort=16)
+	@ExcelField(title="cloud_transfer", align=2, sort=18)
 	private String cloudTransfer;		// cloud_transfer
-	@ExcelField(title="one_drive_personal", align=2, sort=17)
-	private String oneDrivePersonal;		// one_drive_personal 
-	@ExcelField(title="ms_team_message", align=2, sort=18)
+	@ExcelField(title="one_drive_personal", align=2, sort=19)
+	private String oneDrivePersonal;		// one_drive_personal
+	@ExcelField(title="ms_team_message", align=2, sort=20)
 	private String msTeamMessage;		// ms_team_message
-	@ExcelField(title="software_installation", align=2, sort=19)
+	@ExcelField(title="software_installation", align=2, sort=21)
 	private String softwareInstallation;		// software_installation
-	@ExcelField(title="ms_email_to_external_address", align=2, sort=20)
+	@ExcelField(title="ms_email_to_external_address", align=2, sort=22)
 	private String msEmailToExternalAddress;		// ms_email_to_external_address
-	@ExcelField(title="mfa", align=2, sort=21)
+	@ExcelField(title="mfa", align=2, sort=23)
 	private String mfa;		// mfa
-	@ExcelField(title="mobile_email", align=2, sort=22)
+	@ExcelField(title="mobile_email", align=2, sort=24)
 	private String mobileEmail;		// mobile_email
-	@ExcelField(title="requirements", align=2, sort=23)
+	@ExcelField(title="requirements", align=2, sort=25)
 	private String requirements;		// requirements
 	
 	public OaMisPolicyInst() {

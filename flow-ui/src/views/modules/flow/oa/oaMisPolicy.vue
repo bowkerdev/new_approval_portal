@@ -75,6 +75,7 @@
       return {
         loading:false,
         inputForm:{
+          id:'',
           site:'',
           department:''
         },
@@ -85,6 +86,10 @@
       }
     },
     props: {
+      businessId: {
+        type: String,
+        default: ''
+      },
       formReadOnly: {
         type: Boolean,
         default: false
@@ -94,13 +99,12 @@
     components: {
       UserSelect
     },
-    activated () {
+    watch: {
 
     },
     methods: {
-      init(query) {
-        console.log(query)
-        this.misPolicyConfigList()
+      init (query) {
+        this.misPolicyConfigList(query)
       },
       selectDepartment(value){
         console.log(value)
@@ -115,9 +119,10 @@
         }
         this.itemsPolicyDataList = data
       },
-      misPolicyConfigList () {
-        this.loading = true
-        this.$http({
+      misPolicyConfigList (query) {
+        var _that = this
+        _that.loading = true
+        _that.$http({
           url: '/flow/oa/mispolicy/oaMisPolicyConfig/list',
           method: 'get',
           params: {
@@ -126,9 +131,30 @@
             'orderBy': 'department'
           }
         }).then(({data}) => {
-          this.loading = false
+          _that.loading = false
           if (data && data.success) {
-            this.departmentDataList = data.page.list
+            _that.departmentDataList = data.page.list
+          }
+          if (query&&query.businessId) {
+            _that.loading = true
+            _that.inputForm.id = query.businessId
+            _that.$nextTick(() => {
+              _that.$refs.inputForm.resetFields()
+              _that.$http({
+                url: `/flow/oa/mispolicy/oaMisPolicyInst/queryById?id=${_that.inputForm.id}`,
+                method: 'get'
+              }).then(({data}) => {
+                _that.inputForm = _that.recover(_that.inputForm, data.oaMisPolicyInst)
+                _that.selectDepartment(_that.inputForm.department)
+                if(null != data.oaMisPolicyInstUserids){
+                  for(var i=0;i<data.oaMisPolicyInstUserids.length;i++){
+                    data.oaMisPolicyInstUserids[i].userid = data.oaMisPolicyInstUserids[i].id
+                  }
+                  _that.userDataList = data.oaMisPolicyInstUserids
+                }
+                _that.loading = false
+              })
+            })
           }
         })
       },

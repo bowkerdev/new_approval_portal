@@ -9,7 +9,7 @@
              label-width="120px">
       <el-row  :gutter="15">
         <el-col :span="12">
-        <el-form-item label-width="220px" :label="$i18nMy.t('department')" prop="department" :rules="[]">
+        <el-form-item label-width="220px" :label="$i18nMy.t('department')" prop="department" :rules="[{required: true, message:$i18nMy.t('请填写部门'), trigger:'blur'}]">
           <el-input v-model="inputForm.department"  :placeholder="$i18nMy.t('department')"></el-input>
         </el-form-item>
         </el-col>

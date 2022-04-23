@@ -6,15 +6,15 @@
                 <el-input size="small" v-model="searchForm.department" placeholder="department" clearable></el-input>
          </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="refreshList()" size="small" icon="el-icon-search">查询</el-button>
-            <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">重置</el-button>
+            <el-button type="primary" @click="refreshList()" size="small" icon="el-icon-search">{{$i18nMy.t('查询')}}</el-button>
+            <el-button @click="resetSearch()" size="small" icon="el-icon-refresh-right">{{$i18nMy.t('重置')}}</el-button>
           </el-form-item>
       </el-form>
         <!-- 导入导出-->
       <el-dialog  title="导入Excel" :visible.sync="isImportCollapse">
           <el-form size="small" :inline="true" v-show="isImportCollapse"  ref="importForm">
              <el-form-item>
-              <el-button type="default" @click="downloadTpl()" size="small">下载模板</el-button>
+              <el-button type="default" @click="downloadTpl()" size="small">{{$i18nMy.t('下载模板')}}</el-button>
              </el-form-item>
              <el-form-item prop="loginName">
                 <el-upload
@@ -22,19 +22,19 @@
                   :action="`${this.$http.BASE_URL}/flow/oa/mispolicy/oaMisPolicyConfig/import`"
                   :on-success="uploadSuccess"
                    :show-file-list="true">
-                  <el-button size="small" type="primary">点击上传</el-button>
-                  <div slot="tip" class="el-upload__tip">只允许导入“xls”或“xlsx”格式文件！</div>
+                  <el-button size="small" type="primary">{{$i18nMy.t('点击上传')}}</el-button>
+                  <div slot="tip" class="el-upload__tip">{{$i18nMy.t('只允许导入“xls”或“xlsx”格式文件！')}}</div>
                 </el-upload>
             </el-form-item>
           </el-form>
       </el-dialog>
       <div class="bg-white top">
       <el-row>
-        <el-button v-if="hasPermission('oa:mispolicy:oaMisPolicyConfig:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">新建</el-button>
+        <el-button v-if="hasPermission('oa:mispolicy:oaMisPolicyConfig:add')" type="primary" size="small" icon="el-icon-plus" @click="add()">{{$i18nMy.t('新建')}}</el-button>
         <el-button v-if="hasPermission('oa:mispolicy:oaMisPolicyConfig:edit')" type="warning" size="small" icon="el-icon-edit-outline" @click="edit()"
-         :disabled="dataListSelections.length != 1" plain>修改</el-button>
+         :disabled="dataListSelections.length != 1" plain>{{$i18nMy.t('修改')}}</el-button>
         <el-button v-if="hasPermission('oa:mispolicy:oaMisPolicyConfig:del')" type="danger"   size="small" icon="el-icon-delete" @click="del()"
-                  :disabled="dataListSelections.length <= 0" plain>删除
+                  :disabled="dataListSelections.length <= 0" plain>{{$i18nMy.t('删除')}}
         </el-button>
         <el-button-group class="pull-right">
             <el-button v-if="hasPermission('oa:mispolicy:oaMisPolicyConfig:import')" type="default" size="small" icon="el-icon-upload2" title="导入" @click="isImportCollapse = !isImportCollapse"></el-button>
@@ -65,7 +65,7 @@
         prop="department"
         show-overflow-tooltip
         sortable="custom"
-        label="department">
+        :label="$i18nMy.t('department')">
             <template slot-scope="scope">
               <el-link  type="primary" :underline="false" v-if="hasPermission('oa:mispolicy:oaMisPolicyConfig:edit')" @click="edit(scope.row.id)">{{scope.row.department}}</el-link>
               <el-link  type="primary" :underline="false" v-else-if="hasPermission('oa:mispolicy:oaMisPolicyConfig:view')"  @click="view(scope.row.id)">{{scope.row.department}}</el-link>
@@ -76,127 +76,127 @@
         prop="hardware"
         show-overflow-tooltip
         sortable="custom"
-        label="hardware">
+        :label="$i18nMy.t('hardware')">
       </el-table-column>
     <el-table-column
         prop="lanConnection"
         show-overflow-tooltip
         sortable="custom"
-        label="lan_connection">
+        :label="$i18nMy.t('lanConnection')">
       </el-table-column>
     <el-table-column
         prop="wifiOffice"
         show-overflow-tooltip
         sortable="custom"
-        label="wifi_office">
+        :label="$i18nMy.t('wifiOffice')">
       </el-table-column>
     <el-table-column
         prop="wifiGuest"
         show-overflow-tooltip
         sortable="custom"
-        label="wifi_guest">
+        :label="$i18nMy.t('wifiGuest')">
       </el-table-column>
     <el-table-column
         prop="wifiOthers"
         show-overflow-tooltip
         sortable="custom"
-        label="wifi_others">
+        :label="$i18nMy.t('wifiOthers')">
       </el-table-column>
     <el-table-column
         prop="vpn"
         show-overflow-tooltip
         sortable="custom"
-        label="vpn">
+        :label="$i18nMy.t('vpn')">
       </el-table-column>
     <el-table-column
         prop="usbDrive"
         show-overflow-tooltip
         sortable="custom"
-        label="usb_drive">
+        :label="$i18nMy.t('usbDrive')">
       </el-table-column>
     <el-table-column
         prop="shareDrive"
         show-overflow-tooltip
         sortable="custom"
-        label="share_drive">
+        :label="$i18nMy.t('shareDrive')">
       </el-table-column>
     <el-table-column
         prop="msTeamDrive"
         show-overflow-tooltip
         sortable="custom"
-        label="ms_team_drive">
+        :label="$i18nMy.t('msTeamDrive')">
       </el-table-column>
     <el-table-column
         prop="threerdPartyCloudDrive"
         show-overflow-tooltip
         sortable="custom"
-        label="threerd_party_cloud_drive">
+        :label="$i18nMy.t('threerdPartyCloudDrive')">
       </el-table-column>
     <el-table-column
         prop="internet"
         show-overflow-tooltip
         sortable="custom"
-        label="internet">
+        :label="$i18nMy.t('internet')">
       </el-table-column>
     <el-table-column
         prop="instantMassager"
         show-overflow-tooltip
         sortable="custom"
-        label="instant_massager">
+        :label="$i18nMy.t('instantMassager')">
       </el-table-column>
     <el-table-column
         prop="cloudTransfer"
         show-overflow-tooltip
         sortable="custom"
-        label="cloud_transfer">
+        :label="$i18nMy.t('cloudTransfer')">
       </el-table-column>
     <el-table-column
         prop="oneDrivePersonal"
         show-overflow-tooltip
         sortable="custom"
-        label="one_drive_personal">
+        :label="$i18nMy.t('oneDrivePersonal')">
       </el-table-column>
     <el-table-column
         prop="msTeamMessage"
         show-overflow-tooltip
         sortable="custom"
-        label="ms_team_message">
+        :label="$i18nMy.t('msTeamMessage')">
       </el-table-column>
     <el-table-column
         prop="softwareInstallation"
         show-overflow-tooltip
         sortable="custom"
-        label="software_installation">
+        :label="$i18nMy.t('softwareInstallation')">
       </el-table-column>
     <el-table-column
         prop="msEmailToExternalAddress"
         show-overflow-tooltip
         sortable="custom"
-        label="ms_email_to_external_address">
+        :label="$i18nMy.t('msEmailToExternalAddress')">
       </el-table-column>
     <el-table-column
         prop="mfa"
         show-overflow-tooltip
         sortable="custom"
-        label="mfa">
+        :label="$i18nMy.t('mfa')">
       </el-table-column>
     <el-table-column
         prop="mobileEmail"
         show-overflow-tooltip
         sortable="custom"
-        label="mobile_email">
+        :label="$i18nMy.t('mobileEmail')">
       </el-table-column>
     <el-table-column
         prop="updateDate"
         show-overflow-tooltip
         sortable="custom"
-        label="更新时间">
+        :label="$i18nMy.t('更新时间')">
       </el-table-column>
     <el-table-column
         prop="remarks"
         show-overflow-tooltip
         sortable="custom"
-        label="备注信息">
+        :label="$i18nMy.t('备注信息')">
       </el-table-column>
       <el-table-column
         header-align="center"
@@ -204,11 +204,11 @@
         fixed="right"
         :key="Math.random()"
         width="200"
-        label="操作">
+        :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
-          <el-button v-if="hasPermission('oa:mispolicy:oaMisPolicyConfig:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">查看</el-button>
-          <el-button v-if="hasPermission('oa:mispolicy:oaMisPolicyConfig:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">修改</el-button>
-          <el-button v-if="hasPermission('oa:mispolicy:oaMisPolicyConfig:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">删除</el-button>
+          <el-button v-if="hasPermission('oa:mispolicy:oaMisPolicyConfig:view')" type="text" icon="el-icon-view" size="small" @click="view(scope.row.id)">{{$i18nMy.t('查看')}}</el-button>
+          <el-button v-if="hasPermission('oa:mispolicy:oaMisPolicyConfig:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
+          <el-button v-if="hasPermission('oa:mispolicy:oaMisPolicyConfig:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -320,9 +320,9 @@
         let ids = id || this.dataListSelections.map(item => {
           return item.id
         }).join(',')
-        this.$confirm(`确定删除所选项吗?`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm($i18nMy.t('确定删除所选项吗?'), $i18nMy.t('提示'), {
+          confirmButtonText: $i18nMy.t('确定'),
+          cancelButtonText: $i18nMy.t('取消'),
           type: 'warning'
         }).then(() => {
           this.loading = true

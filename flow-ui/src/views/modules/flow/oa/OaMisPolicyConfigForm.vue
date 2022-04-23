@@ -8,11 +8,111 @@
     <el-form :model="inputForm" size="small" ref="inputForm" v-loading="loading" :class="method==='view'?'readonly':''"  :disabled="method==='view'"
              label-width="120px">
       <el-row  :gutter="15">
-        </el-row>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('department')" prop="department" :rules="[]">
+          <el-input v-model="inputForm.department"  :placeholder="$i18nMy.t('department')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('hardware')" prop="hardware" :rules="[]">
+          <el-input v-model="inputForm.hardware"  :placeholder="$i18nMy.t('hardware')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('lanConnection')" prop="lanConnection" :rules="[]">
+          <el-input v-model="inputForm.lanConnection"  :placeholder="$i18nMy.t('lanConnection')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('wifiOffice')" prop="wifiOffice" :rules="[]">
+          <el-input v-model="inputForm.wifiOffice"  :placeholder="$i18nMy.t('wifiOffice')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('wifiGuest')" prop="wifiGuest" :rules="[]">
+          <el-input v-model="inputForm.wifiGuest"  :placeholder="$i18nMy.t('wifiGuest')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('wifiOthers')" prop="wifiOthers" :rules="[]">
+          <el-input v-model="inputForm.wifiOthers"  :placeholder="$i18nMy.t('wifiOthers')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('vpn')" prop="vpn" :rules="[]">
+          <el-input v-model="inputForm.vpn"  :placeholder="$i18nMy.t('vpn')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('usbDrive')" prop="usbDrive" :rules="[]">
+          <el-input v-model="inputForm.usbDrive"  :placeholder="$i18nMy.t('usbDrive')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('shareDrive')" prop="shareDrive" :rules="[]">
+          <el-input v-model="inputForm.shareDrive"  :placeholder="$i18nMy.t('shareDrive')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('msTeamDrive')" prop="msTeamDrive" :rules="[]">
+          <el-input v-model="inputForm.msTeamDrive"  :placeholder="$i18nMy.t('msTeamDrive')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('threerdPartyCloudDrive')" prop="threerdPartyCloudDrive" :rules="[]">
+          <el-input v-model="inputForm.threerdPartyCloudDrive"  :placeholder="$i18nMy.t('threerdPartyCloudDrive')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('internet')" prop="internet" :rules="[]">
+          <el-input v-model="inputForm.internet"  :placeholder="$i18nMy.t('internet')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('instantMassager')" prop="instantMassager" :rules="[]">
+          <el-input v-model="inputForm.instantMassager"  :placeholder="$i18nMy.t('instantMassager')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('cloudTransfer')" prop="cloudTransfer" :rules="[]">
+          <el-input v-model="inputForm.cloudTransfer"  :placeholder="$i18nMy.t('cloudTransfer')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('oneDrivePersonal')" prop="oneDrivePersonal" :rules="[]">
+          <el-input v-model="inputForm.oneDrivePersonal"  :placeholder="$i18nMy.t('oneDrivePersonal')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('msTeamMessage')" prop="msTeamMessage" :rules="[]">
+          <el-input v-model="inputForm.msTeamMessage"  :placeholder="$i18nMy.t('msTeamMessage')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('softwareInstallation')" prop="softwareInstallation" :rules="[]">
+          <el-input v-model="inputForm.softwareInstallation"  :placeholder="$i18nMy.t('softwareInstallation')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('msEmailToExternalAddress')" prop="msEmailToExternalAddress" :rules="[]">
+          <el-input v-model="inputForm.msEmailToExternalAddress"  :placeholder="$i18nMy.t('msEmailToExternalAddress')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('mfa')" prop="mfa" :rules="[]">
+          <el-input v-model="inputForm.mfa"  :placeholder="$i18nMy.t('mfa')"></el-input>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label-width="220px" :label="$i18nMy.t('mobileEmail')" prop="mobileEmail" :rules="[]">
+          <el-input v-model="inputForm.mobileEmail"  :placeholder="$i18nMy.t('mobileEmail')"></el-input>
+        </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button size="small" @click="visible = false">关闭</el-button>
-      <el-button size="small" type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>确定</el-button>
+      <el-button size="small" @click="visible = false">{{$i18nMy.t('关闭')}}</el-button>
+      <el-button size="small" type="primary" v-if="method != 'view'" @click="doSubmit()" v-noMoreClick>{{$i18nMy.t('确定')}}</el-button>
     </span>
   </el-dialog>
 </div>
@@ -27,7 +127,30 @@
         visible: false,
         loading: false,
         inputForm: {
-          id: ''
+          id: '',
+          procDefKey: '',
+          createBy:{id:'', name: ''},
+          createDate:'',
+          department:'',
+          hardware:'',
+          lanConnection:'',
+          wifiOffice:'',
+          wifiGuest:'',
+          wifiOthers:'',
+          vpn:'',
+          usbDrive:'',
+          shareDrive:'',
+          msTeamDrive:'',
+          threerdPartyCloudDrive:'',
+          internet:'',
+          instantMassager:'',
+          cloudTransfer:'',
+          oneDrivePersonal:'',
+          msTeamMessage:'',
+          softwareInstallation:'',
+          msEmailToExternalAddress:'',
+          mfa:'',
+          mobileEmail:'',
         }
       }
     },
@@ -38,11 +161,11 @@
         this.method = method
         this.inputForm.id = id
         if (method === 'add') {
-          this.title = `新建MIS Policy`
+          this.title = $i18nMy.t('新建')
         } else if (method === 'edit') {
-          this.title = '修改MIS Policy'
+          this.title = $i18nMy.t('修改')
         } else if (method === 'view') {
-          this.title = '查看MIS Policy'
+          this.title = $i18nMy.t('查看')
         }
         this.visible = true
         this.loading = false

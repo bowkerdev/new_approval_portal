@@ -4,8 +4,29 @@
              label-width="140px" style="width: calc(100% - 25px);">
       <el-row :gutter="15">
         <el-col :span="12">
+          <el-form-item :label="$i18nMy.t('申请单号')" prop="applicationNo" :rules="[]">
+            <el-input v-model="inputForm.applicationNo" :disabled='true' :placeholder="$i18nMy.t('系统自动生成')"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="$i18nMy.t('申请人')" prop="createBy.name" :rules="[]">
+            <el-input v-model="inputForm.createBy.name" :disabled='true' :placeholder="$i18nMy.t('申请人')"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="$i18nMy.t('申请时间')" prop="createDate" :rules="[]">
+            <el-input v-model="inputForm.createDate" :disabled='true' :placeholder="$i18nMy.t('申请时间')"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col  :span="12">
+          <el-form-item :label="$i18nMy.t('申请人部门')" prop="createByOffice.name"
+                        :rules="[  ]">
+            <el-input v-model="inputForm.createByOffice.name" :disabled='true' :placeholder="$i18nMy.t('申请人部门')"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item :label="$i18nMy.t('区域')" prop="site" :rules="[]">
-            <el-select v-model="inputForm.site" :placeholder="$i18nMy.t('请选择区域')" style="width: 100%;">
+            <el-select :disabled="(businessId || '') != ''" v-model="inputForm.site" :placeholder="$i18nMy.t('请选择区域')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('apply_site_code')" :key="item.value" :label="item.value" :value="item.value">
               </el-option>
             </el-select>
@@ -13,7 +34,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="$i18nMy.t('部门')" prop="department" :rules="[]">
-            <el-select @change="selectDepartment" v-model="inputForm.department" :placeholder="$i18nMy.t('请选择部门')" style="width: 100%;">
+            <el-select :disabled="(businessId || '') != ''" @change="selectDepartment" v-model="inputForm.department" :placeholder="$i18nMy.t('请选择部门')" style="width: 100%;">
               <el-option v-for="item in departmentDataList" :key="item.department" :label="item.department" :value="item.department">
               </el-option>
             </el-select>
@@ -21,12 +42,12 @@
         </el-col>
       </el-row>
       <el-row :gutter="0">
-        <el-button size="mini" icon="el-icon-circle-plus" @click="addUser()">Add</el-button>
+        <el-button :disabled="(businessId || '') != ''" size="mini" icon="el-icon-circle-plus" @click="addUser()">Add</el-button>
         <el-table :data="userDataList" size="small" :border="true" style="margin-top: 5px">
           <el-table-column show-overflow-tooltip  label="工号">
             <template  slot-scope="scope">
-              <user-select :limit='1' :value="scope.row.userid" @getValue='(value,name,data) => {scope.row.userid=value;scope.row.name = data[0].name;scope.row.email = data[0].email;}'>
-              </user-select>
+              <user-select v-if="scope.row.userid == ''" :disabled="(businessId || '') != ''" :value="scope.row.userid" @getValue='(value,name,data) => { selectUser(scope.$index,scope.row,data)}'></user-select>
+              <user-select v-else :limit="1" :disabled="(businessId || '') != ''" :value="scope.row.userid" @getValue='(value,name,data) => { selectUser(scope.$index,scope.row,data)}'></user-select>
             </template>
           </el-table-column>
           <el-table-column prop="name"  show-overflow-tooltip  label="名字"></el-table-column>
@@ -34,6 +55,7 @@
           <el-table-column align="center" label="操作">
             <template slot-scope="scope">
               <el-button
+                :disabled="(businessId || '') != ''"
                 size="mini"
                 type="danger"
                 icon="el-icon-delete-solid"
@@ -48,15 +70,15 @@
           <el-table-column prop="policy"  show-overflow-tooltip  label="政策"></el-table-column>
           <el-table-column prop="states"  show-overflow-tooltip  label="是否开通">
             <template slot-scope="scope">
-              <el-radio v-model="scope.row.states" @change="(e) => {if(scope.row.states == '1'){scope.row.requirements=''}}" label="1">YES</el-radio>
-              <el-radio v-model="scope.row.states" label="0">NO</el-radio>
+              <el-radio  :disabled="(businessId || '') != ''" v-model="scope.row.states" @change="(e) => {if(scope.row.states == '1'){scope.row.requirements=''}}" label="1">YES</el-radio>
+              <el-radio :disabled="(businessId || '') != ''" v-model="scope.row.states" @change="(e) => {scope.row.requirements=''}" label="0">NO</el-radio>
             </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip  label="需求描述">
             <template slot-scope="scope">
               <el-input v-model="scope.row.requirements"
                         :class="(scope.row.states == '1'&& (scope.row.requirements || '') == ''?'border-red':'')"
-                        :disabled="scope.row.states == '0'"
+                        :disabled="!(scope.row.states == '1' && (businessId || '') == '')"
                         :placeholder="$i18nMy.t('请填写需求描述')"></el-input>
               <br>
               <span v-if="scope.row.states == '1'&& (scope.row.requirements || '') == ''" style="color: red;">需求描述不能为空</span>
@@ -75,6 +97,13 @@
       return {
         loading:false,
         inputForm:{
+          applicationNo:'',
+          createBy:{id:this.$store.state.user.id, name: this.$store.state.user.name},
+          createDate:this.$common.formatTime(new Date()),
+          createByOffice: {
+            id: this.$store.state.user.office.id,
+            name: this.$store.state.user.office.name
+          },
           id:'',
           site:'',
           department:''
@@ -106,6 +135,24 @@
       init (query) {
         this.misPolicyConfigList(query)
       },
+      selectUser(index,row,data){
+        console.log(data)
+        console.log("序号"+index)
+        console.log(row)
+        var _that = this
+        var userDataList = JSON.parse(JSON.stringify(_that.userDataList))
+        _that.userDataList.length = 0
+        userDataList.splice(index,1)
+        for(var i=0;i<data.length;i++){
+          var tmp = {userid:'',name:'',email:''}
+          tmp.userid=data[i].id;
+          tmp.name = data[i].name;
+          tmp.email = data[i].email;
+          userDataList.push(tmp)
+        }
+        _that.userDataList = userDataList
+        console.log(_that.userDataList)
+      },
       selectDepartment(value){
         console.log(value)
         var filterArr = ['id','createBy','createDate','department','updateBy','updateDate']
@@ -136,6 +183,7 @@
             _that.departmentDataList = data.page.list
           }
           if (query&&query.businessId) {
+            _that.businessId = query.businessId
             _that.loading = true
             _that.inputForm.id = query.businessId
             _that.$nextTick(() => {

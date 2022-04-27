@@ -17,7 +17,12 @@ export default {
   setValue(taskFormData,obj ){
     if(taskFormData !=null){
       var obj2=taskFormData.find(function(e){return e.id==obj.model})
-      obj2.value = obj.options.defaultValue
+      if(obj2!=null){
+        obj2.value = obj.options.defaultValue
+      }
+      else{
+        debugger
+      }
     }
   },
   dealObj(obj,taskFormData){

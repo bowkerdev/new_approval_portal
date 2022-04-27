@@ -39,7 +39,6 @@ axios.interceptors.request.use(config => {
   }
   // 请求头带上token
   if(config.headers.token==null||config.headers.token==""){
-    debugger
     config.headers.token = Vue.cookie.get('token')
     config.headers.ssoTokenType = Vue.cookie.get('ssoTokenType')
     config.headers.ssoToken = Vue.cookie.get(config.headers.ssoTokenType+'_token')

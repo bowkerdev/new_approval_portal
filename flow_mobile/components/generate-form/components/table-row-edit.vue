@@ -12,7 +12,9 @@
 					<template v-if="fieldItem.type=='input'">
 						<input class="input-wrap" v-model="editObj[fieldItem.model]" :placeholder="$i18nMy.t('请输入')"/>
 					</template>
-					
+					<template v-if="fieldItem.type=='text'">
+						<input class="input-wrap" disabled :placeholder="$i18nMy.t('文本，不可编辑')"/>
+					</template>
 				</view>
 			</view>
 		</view>

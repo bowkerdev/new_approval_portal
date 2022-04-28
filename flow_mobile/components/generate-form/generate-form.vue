@@ -140,9 +140,9 @@
 					<view class="table-row-card-list">
 						<view v-for="(tableRow, tableRowIndex) in item.value" :key="tableRowIndex" class="table-row-card-show">
 							<view class="table-row-card-body">
-								<view v-for="(rowVal, rowKey) in tableRow" :key="rowKey" class="table-row-info-item">
-									<view class="table-row-info-key">{{ item['_i18nDict'][rowKey] || rowKey }}</view>
-									<view class="table-row-info-value">{{ rowVal || '-' }}</view>
+								<view v-for="col in item.tableColumns" :key="col['model']" class="table-row-info-item">
+									<view class="table-row-info-key">{{ $i18nMy.t(col['name']) }}</view>
+									<view class="table-row-info-value">{{ tableRow[col['model']] || '-' }}</view>
 								</view>
 							</view>
 							<view class="table-row-card-btns" v-if="item.writable">
@@ -304,6 +304,7 @@
 	.table-row-info-item {
 		padding: 2px 10px;
 		display: flex;
+		align-items: center;
 		justify-content: space-between;
 	}
 	.table-row-info-key {
@@ -312,8 +313,11 @@
 	}
 	.table-row-info-value {
 		margin-top: 2px;
+		max-width: 60%;
+		text-align: right;
 		color: #000;
 		font-size: 12px;
+		flex-shrink: 0;
 	}
 	.table-row-card-btns {
 		display: flex;

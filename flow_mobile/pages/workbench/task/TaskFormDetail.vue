@@ -121,14 +121,6 @@
 						  item.value =  ''
 					  }
 					  let input = JSON.parse(JSON.stringify(item))
-						if(['table'].indexOf(input.type) > -1) {
-							input['_i18nDict'] = {}
-							if (input['tableColumns'] && input['tableColumns'].length) {
-								input['tableColumns'].forEach(colCon => {
-									input['_i18nDict'][colCon.model] = this.$i18nMy.t(colCon.name)
-								})
-							}
-						}
 					  this.formData.push(input)
 				  })
 			

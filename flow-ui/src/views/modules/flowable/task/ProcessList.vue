@@ -173,7 +173,7 @@
           if (data.success) {
             this.$router.push({
               path: '/flowable/task/TaskForm',
-              query: {procDefId: row.id, procDefKey: row.key, status: 'start', title: tabTitle, formType: data.flow.formType, formUrl: data.flow.formUrl, formTitle: processTitle}
+              query: {parentForm: "TaskForm",procDefId: row.id, procDefKey: row.key, status: 'start', title: tabTitle, formType: data.flow.formType, formUrl: data.flow.formUrl, formTitle: processTitle}
             })
           }
         })

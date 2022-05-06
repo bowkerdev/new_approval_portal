@@ -60,7 +60,7 @@ public class OaMisPolicyConfigController extends BaseController {
 	/**
 	 * MIS Policy列表数据
 	 */
-	@RequiresPermissions("oa:mispolicy:oaMisPolicyConfig:list")
+	/*@RequiresPermissions("oa:mispolicy:oaMisPolicyConfig:list")*/
 	@GetMapping("list")
 	public AjaxJson list(OaMisPolicyConfig oaMisPolicyConfig, HttpServletRequest request, HttpServletResponse response) {
 		Page<OaMisPolicyConfig> page = oaMisPolicyConfigService.findPage(new Page<OaMisPolicyConfig>(request, response), oaMisPolicyConfig);
@@ -70,7 +70,7 @@ public class OaMisPolicyConfigController extends BaseController {
 	/**
 	 * 根据Id获取MIS Policy数据
 	 */
-	@RequiresPermissions(value={"oa:mispolicy:oaMisPolicyConfig:view","oa:mispolicy:oaMisPolicyConfig:add","oa:mispolicy:oaMisPolicyConfig:edit"},logical=Logical.OR)
+	/*@RequiresPermissions(value={"oa:mispolicy:oaMisPolicyConfig:view","oa:mispolicy:oaMisPolicyConfig:add","oa:mispolicy:oaMisPolicyConfig:edit"},logical=Logical.OR)*/
 	@GetMapping("queryById")
 	public AjaxJson queryById(OaMisPolicyConfig oaMisPolicyConfig) {
 		return AjaxJson.success().put("oaMisPolicyConfig", oaMisPolicyConfig);
@@ -79,7 +79,7 @@ public class OaMisPolicyConfigController extends BaseController {
 	/**
 	 * 保存MIS Policy
 	 */
-	@RequiresPermissions(value={"oa:mispolicy:oaMisPolicyConfig:add","oa:mispolicy:oaMisPolicyConfig:edit"},logical=Logical.OR)
+	/*@RequiresPermissions(value={"oa:mispolicy:oaMisPolicyConfig:add","oa:mispolicy:oaMisPolicyConfig:edit"},logical=Logical.OR)*/
 	@PostMapping("save")
 	public AjaxJson save(OaMisPolicyConfig oaMisPolicyConfig, Model model) throws Exception{
 		/**
@@ -98,7 +98,7 @@ public class OaMisPolicyConfigController extends BaseController {
 	/**
 	 * 批量删除MIS Policy
 	 */
-	@RequiresPermissions("oa:mispolicy:oaMisPolicyConfig:del")
+	/*@RequiresPermissions("oa:mispolicy:oaMisPolicyConfig:del")*/
 	@DeleteMapping("delete")
 	public AjaxJson delete(String ids) {
 		String idArray[] =ids.split(",");
@@ -111,7 +111,7 @@ public class OaMisPolicyConfigController extends BaseController {
 	/**
 	 * 导出excel文件
 	 */
-	@RequiresPermissions("oa:mispolicy:oaMisPolicyConfig:export")
+	/*@RequiresPermissions("oa:mispolicy:oaMisPolicyConfig:export")*/
     @GetMapping("export")
     public AjaxJson exportFile(OaMisPolicyConfig oaMisPolicyConfig, HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -128,7 +128,7 @@ public class OaMisPolicyConfigController extends BaseController {
 	 * 导入Excel数据
 
 	 */
-	@RequiresPermissions("oa:mispolicy:oaMisPolicyConfig:import")
+	/*@RequiresPermissions("oa:mispolicy:oaMisPolicyConfig:import")*/
     @PostMapping("import")
    	public AjaxJson importFile(@RequestParam("file")MultipartFile file, HttpServletResponse response, HttpServletRequest request) {
 		try {
@@ -159,7 +159,7 @@ public class OaMisPolicyConfigController extends BaseController {
 	/**
 	 * 下载导入MIS Policy数据模板
 	 */
-	@RequiresPermissions("oa:mispolicy:oaMisPolicyConfig:import")
+	/*@RequiresPermissions("oa:mispolicy:oaMisPolicyConfig:import")*/
     @GetMapping("import/template")
      public AjaxJson importFileTemplate(HttpServletResponse response) {
 		try {

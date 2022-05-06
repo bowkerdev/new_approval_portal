@@ -6,6 +6,7 @@
 		a.id AS "id",
 		a.proc_def_key AS "procDefKey",
 		a.proc_ins_id AS "procInsId",
+		a.application_no AS "applicationNo",
 		a.site AS "site",
 		a.department AS "department",
 		a.userids AS "userids",
@@ -93,6 +94,7 @@
 			id,
 			proc_def_key,
 			proc_ins_id,
+			application_no,
 			site,
 			department,
 			userids,
@@ -126,6 +128,7 @@
 			#{id},
 			#{procDefKey},
 			#{procInsId},
+			getDateSeq('MIS-POLICY', #{site}, '%Y'), <!-- #{applicationNo}, -->
 			#{site},
 			#{department},
 			#{userids},

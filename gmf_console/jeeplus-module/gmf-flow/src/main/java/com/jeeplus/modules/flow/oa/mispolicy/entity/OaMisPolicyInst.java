@@ -21,6 +21,8 @@ public class OaMisPolicyInst extends DataEntity<OaMisPolicyInst> {
 	private String procDefKey;		// proc_def_key
 	@ExcelField(title="proc_ins_id", align=2, sort=2)
 	private String procInsId;		// proc_ins_id
+	@ExcelField(title="申请单号", align=2, sort=9)
+	private String applicationNo;		// 申请单号
 	@ExcelField(title="site", align=2, sort=3)
 	private String site;		// site
 	@ExcelField(title="department", align=2, sort=4)

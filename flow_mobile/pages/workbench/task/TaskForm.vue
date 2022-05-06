@@ -632,6 +632,8 @@
 				case '_flow_agree': // 同意
 					uni.showModal({
 						title: $i18nMy.t('确认同意？'),
+						confirmText: $i18nMy.t('确定'),
+						cancelText: $i18nMy.t('取消'),
 						content: '',
 						success: function (res) {
 							if (res.confirm) {
@@ -675,6 +677,8 @@
 					if (currentBtn.code == 'disagree') {
 						uni.showModal({
 							title: $i18nMy.t('确认不同意？'),
+							confirmText: $i18nMy.t('确定'),
+							cancelText: $i18nMy.t('取消'),
 							content: '',
 							success: function (res) {
 								if (res.confirm) {

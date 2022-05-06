@@ -173,18 +173,19 @@ function getParamToken() {
 }
 
 function deleteParamToken() {
-  debugger
-  var tmp = window.location.href.split("?")
-  var tmp2 = ["access_token", "refresh_token", "token_type", "expires_in"]
+  var tmp = window.location.href.split('?')
+  var tmp2 = ['access_token', 'refresh_token', 'token_type', 'expires_in', 'token']
   var paramList = []
   if (tmp.length > 1) {
     var needRedirect = false
-    var param = tmp[1].replace("?", "").split("&")
+    var param = tmp[1].replace('?', '').split('&')
     for (var i = 0; i < param.length; i++) {
-      var tmp3 = param[i].split("=")
+      var tmp3 = param[i].split('=')
       if (tmp3.length > 1) {
         if (tmp2.indexOf(tmp3[0]) > -1) {
-          Vue.cookie.set(tmp3[0], tmp3[1])
+          if (tmp3[0] != 'token') {
+            Vue.cookie.set(tmp3[0], tmp3[1])
+          }
           needRedirect = true
         } else {
           paramList.push(param[i])
@@ -192,19 +193,20 @@ function deleteParamToken() {
       }
     }
     if (needRedirect) {
-      setTimeout(()=>{window.location.href = tmp[0]+ "?" + paramList.join("&")},50)
+      setTimeout(() => {
+        window.location.href = tmp[0] + '?' + paramList.join('&')
+      }, 50)
       return true
     }
     return false
   }
-
 }
 
 /**
  * 判断当前路由类型, global: 全局路由, main: 主入口路由
  * @param {*} route 当前路由
  */
-function fnCurrentRouteType (route, globalRoutes = []) {
+function fnCurrentRouteType(route, globalRoutes = []) {
   let temp = []
   for (let i = 0; i < globalRoutes.length; i++) {
     if (route.path === globalRoutes[i].path) {
@@ -232,7 +234,7 @@ function fnAddDynamicMenuRoutes (menuList = [], routes = []) {
       menuList[i].href = menuList[i].href.replace(/[/]$/, '')
       const route = {
         path: menuList[i].href.split('?')[0],
-        fullPath : menuList[i].href,
+        fullPath: menuList[i].href,
         component: null,
         name: menuList[i].href.replace(/^\//g, '').replace(/[/]/g, '-').replace(/[?]/g, '-').replace(/&/g, '-').replace(/=/g, '-'),
         meta: {
@@ -247,14 +249,13 @@ function fnAddDynamicMenuRoutes (menuList = [], routes = []) {
       }
       // url以http[s]://开头, 通过iframe展示
       if (isURL(menuList[i].href)) {
-        if(menuList[i].href.indexOf("#{token}")){
-          var ssoToken = Vue.cookie.get(process.env.VUE_APP_SSO_TYPE+'_token')||""
-
-          menuList[i].href= menuList[i].href.replace("#{ssoToken}",ssoToken)
-          menuList[i].href= menuList[i].href.replace("#{ssoTokenType}",process.env.VUE_APP_SSO_TYPE)
-          if(menuList[i].href.indexOf("language") == -1){
-            menuList[i].href += (menuList[i].href.indexOf("?") == -1 ?"?" : "&")
-            menuList[i].href+="language="+Vue.config.lang
+        if (menuList[i].href.indexOf('#{token}')) {
+          var ssoToken = Vue.cookie.get(process.env.VUE_APP_SSO_TYPE + '_token') || ''
+          menuList[i].href = menuList[i].href.replace('#{ssoToken}', ssoToken)
+          menuList[i].href = menuList[i].href.replace('#{ssoTokenType}', process.env.VUE_APP_SSO_TYPE)
+          if (menuList[i].href.indexOf('language') == -1) {
+            menuList[i].href += (menuList[i].href.indexOf('?') == -1 ? '?' : '&')
+            menuList[i].href += 'language=' + Vue.config.lang
           }
         }
         route.path = '/' + route.path

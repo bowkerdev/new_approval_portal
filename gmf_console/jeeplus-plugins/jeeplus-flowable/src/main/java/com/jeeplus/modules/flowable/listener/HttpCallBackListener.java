@@ -84,6 +84,7 @@ public class HttpCallBackListener implements ExecutionListener {
     	String token=getToken("bowker_baseportal_token");
     	if(StringUtils.isNoneBlank(token)){
     		headers.put(JWTUtil.TOKEN,token );
+    		headers.put("Authorization","Bearer "+token );
     		headers.put(JWTUtil.TOKENTYPE,"bowker_baseportal" );
     	}
     	else{

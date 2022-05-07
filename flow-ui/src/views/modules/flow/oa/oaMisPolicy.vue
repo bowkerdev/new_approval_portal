@@ -154,7 +154,7 @@
       },
       initDepartment(department,oaMisPolicyInst){
         console.log(department)
-        var filterArr = ['id','createBy','createDate','department','updateBy','updateDate']
+        var filterArr = ['id','createBy','createDate','department','updateBy','updateDate','remarks','delFlag']
         var data = []
         var obj = this.$common.find(this.departmentDataList,function (e){return e.department == department})
         for(var key in obj){

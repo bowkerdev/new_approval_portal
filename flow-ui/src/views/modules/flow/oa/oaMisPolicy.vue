@@ -111,7 +111,6 @@
         departmentDataList:[],
         userDataList:[],
         itemsPolicyDataList:[],
-
       }
     },
     props: {
@@ -154,13 +153,19 @@
         console.log(_that.userDataList)
       },
       selectDepartment(value){
-        console.log(value)
+        this.initDepartment(value,null)
+      },
+      initDepartment(department,oaMisPolicyInst){
+        console.log(department)
         var filterArr = ['id','createBy','createDate','department','updateBy','updateDate']
         var data = []
-        var obj = this.$common.find(this.departmentDataList,function (e){return e.department == value})
+        var obj = this.$common.find(this.departmentDataList,function (e){return e.department == department})
         for(var key in obj){
           if(filterArr.indexOf(key) == -1){
             var tmp  = {department:JSON.parse(JSON.stringify(obj)),key:key,items:this.$i18nMy.t(key),policy:obj[key],states:'0',requirements:''}
+            if(null != oaMisPolicyInst){
+              tmp.requirements = oaMisPolicyInst[key] || ''
+            }
             data.push(tmp)
           }
         }
@@ -193,7 +198,7 @@
                 method: 'get'
               }).then(({data}) => {
                 _that.inputForm = _that.recover(_that.inputForm, data.oaMisPolicyInst)
-                _that.selectDepartment(_that.inputForm.department)
+                _that.initDepartment(_that.inputForm.department,data.oaMisPolicyInst)
                 if(null != data.oaMisPolicyInstUserids){
                   for(var i=0;i<data.oaMisPolicyInstUserids.length;i++){
                     data.oaMisPolicyInstUserids[i].userid = data.oaMisPolicyInstUserids[i].id

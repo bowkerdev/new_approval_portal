@@ -165,6 +165,9 @@
             var tmp  = {department:JSON.parse(JSON.stringify(obj)),key:key,items:this.$i18nMy.t(key),policy:obj[key],states:'0',requirements:''}
             if(null != oaMisPolicyInst){
               tmp.requirements = oaMisPolicyInst[key] || ''
+              if('' != tmp.requirements){
+                tmp.states='1'
+              }
             }
             data.push(tmp)
           }

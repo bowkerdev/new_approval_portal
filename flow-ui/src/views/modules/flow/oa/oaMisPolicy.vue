@@ -4,28 +4,28 @@
              label-width="140px" style="width: calc(100% - 25px);">
       <el-row :gutter="15">
         <el-col :span="12">
-          <el-form-item :label="$i18nMy.t('申请单号')" prop="applicationNo" :rules="[]">
+          <el-form-item :label="$i18nMy.t('申请单号')" label-width="220px" prop="applicationNo" :rules="[]">
             <el-input v-model="inputForm.applicationNo" :disabled='true' :placeholder="$i18nMy.t('系统自动生成')"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18nMy.t('申请人')" prop="createBy.name" :rules="[]">
+          <el-form-item :label="$i18nMy.t('申请人')" label-width="220px" prop="createBy.name" :rules="[]">
             <el-input v-model="inputForm.createBy.name" :disabled='true' :placeholder="$i18nMy.t('申请人')"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18nMy.t('申请时间')" prop="createDate" :rules="[]">
+          <el-form-item :label="$i18nMy.t('申请时间')" label-width="220px" prop="createDate" :rules="[]">
             <el-input v-model="inputForm.createDate" :disabled='true' :placeholder="$i18nMy.t('申请时间')"></el-input>
           </el-form-item>
         </el-col>
         <el-col  :span="12">
-          <el-form-item :label="$i18nMy.t('申请人部门')" prop="createByOffice.name"
+          <el-form-item :label="$i18nMy.t('申请人部门')" label-width="220px" prop="createByOffice.name"
                         :rules="[  ]">
             <el-input v-model="inputForm.createByOffice.name" :disabled='true' :placeholder="$i18nMy.t('申请人部门')"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18nMy.t('区域')" prop="site" :rules="[]">
+          <el-form-item :label="$i18nMy.t('区域')" label-width="220px" prop="site" :rules="[]">
             <el-select :disabled="(businessId || '') != ''" v-model="inputForm.site" :placeholder="$i18nMy.t('请选择区域')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('apply_site_code')" :key="item.value" :label="item.value" :value="item.value">
               </el-option>
@@ -33,7 +33,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18nMy.t('部门')" prop="department" :rules="[]">
+          <el-form-item :label="$i18nMy.t('部门')" label-width="220px" prop="department" :rules="[]">
             <el-select :disabled="(businessId || '') != ''" @change="selectDepartment" v-model="inputForm.department" :placeholder="$i18nMy.t('请选择部门')" style="width: 100%;">
               <el-option v-for="item in departmentDataList" :key="item.department" :label="item.department" :value="item.department">
               </el-option>
@@ -42,9 +42,14 @@
         </el-col>
       </el-row>
       <el-row :gutter="0">
+        <el-col :span="24">
+          <p style="text-align: left;margin: 10px 0px 10px 0px;font-size: 16px;font-weight: 500;">
+              {{$i18nMy.t('需求人员列表')}}
+          </p>
+        </el-col>
         <el-button :disabled="(businessId || '') != ''" size="mini" icon="el-icon-circle-plus" @click="addUser()">{{$i18nMy.t('新增')}}</el-button>
         <el-table :data="userDataList" size="small" :border="true" style="margin-top: 5px">
-          <el-table-column show-overflow-tooltip  :label="$i18nMy.t('工号')">
+          <el-table-column show-overflow-tooltip :label="$i18nMy.t('员工号')">
             <template  slot-scope="scope">
               <user-select v-if="scope.row.userid == ''" :disabled="(businessId || '') != ''" :value="scope.row.userid" @getValue='(value,name,data) => { selectUser(scope.$index,scope.row,data)}'></user-select>
               <user-select v-else :limit="1" :disabled="(businessId || '') != ''" :value="scope.row.userid" @getValue='(value,name,data) => { selectUser(scope.$index,scope.row,data)}'></user-select>
@@ -65,6 +70,11 @@
         </el-table>
       </el-row>
       <el-row :gutter="0">
+        <el-col :span="24">
+          <p style="text-align: left;margin: 10px 0px 10px 0px;font-size: 16px;font-weight: 500;">
+              {{$i18nMy.t('IT权限开通需求')}}
+          </p>
+        </el-col>
         <el-table ref="itemsPolicyTable" :data="itemsPolicyDataList" size="small" :border="true"  style="margin-top: 20px">
           <el-table-column prop="items"  show-overflow-tooltip  :label="$i18nMy.t('项目')"></el-table-column>
           <el-table-column prop="policy"  show-overflow-tooltip  :label="$i18nMy.t('政策')"></el-table-column>

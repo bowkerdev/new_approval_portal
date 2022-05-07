@@ -42,46 +42,46 @@
         </el-col>
       </el-row>
       <el-row :gutter="0">
-        <el-button :disabled="(businessId || '') != ''" size="mini" icon="el-icon-circle-plus" @click="addUser()">Add</el-button>
+        <el-button :disabled="(businessId || '') != ''" size="mini" icon="el-icon-circle-plus" @click="addUser()">{{$i18nMy.t('新增')}}</el-button>
         <el-table :data="userDataList" size="small" :border="true" style="margin-top: 5px">
-          <el-table-column show-overflow-tooltip  label="工号">
+          <el-table-column show-overflow-tooltip  :label="$i18nMy.t('工号')">
             <template  slot-scope="scope">
               <user-select v-if="scope.row.userid == ''" :disabled="(businessId || '') != ''" :value="scope.row.userid" @getValue='(value,name,data) => { selectUser(scope.$index,scope.row,data)}'></user-select>
               <user-select v-else :limit="1" :disabled="(businessId || '') != ''" :value="scope.row.userid" @getValue='(value,name,data) => { selectUser(scope.$index,scope.row,data)}'></user-select>
             </template>
           </el-table-column>
-          <el-table-column prop="name"  show-overflow-tooltip  label="名字"></el-table-column>
-          <el-table-column prop="email"  show-overflow-tooltip  label="AD邮箱"></el-table-column>
-          <el-table-column align="center" label="操作">
+          <el-table-column prop="name"  show-overflow-tooltip  :label="$i18nMy.t('名字')"></el-table-column>
+          <el-table-column prop="email"  show-overflow-tooltip  :label="$i18nMy.t('AD邮箱')"></el-table-column>
+          <el-table-column align="center" :label="$i18nMy.t('操作')">
             <template slot-scope="scope">
               <el-button
                 :disabled="(businessId || '') != ''"
                 size="mini"
                 type="danger"
                 icon="el-icon-delete-solid"
-                @click="deleteUser(scope.$index, scope.row)">Delete</el-button>
+                @click="deleteUser(scope.$index, scope.row)">{{$i18nMy.t('删除')}}</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-row>
       <el-row :gutter="0">
         <el-table ref="itemsPolicyTable" :data="itemsPolicyDataList" size="small" :border="true"  style="margin-top: 20px">
-          <el-table-column prop="items"  show-overflow-tooltip  label="项目"></el-table-column>
-          <el-table-column prop="policy"  show-overflow-tooltip  label="政策"></el-table-column>
-          <el-table-column prop="states"  show-overflow-tooltip  label="是否开通">
+          <el-table-column prop="items"  show-overflow-tooltip  :label="$i18nMy.t('项目')"></el-table-column>
+          <el-table-column prop="policy"  show-overflow-tooltip  :label="$i18nMy.t('政策')"></el-table-column>
+          <el-table-column prop="states"  show-overflow-tooltip  :label="$i18nMy.t('是否开通')">
             <template slot-scope="scope">
-              <el-radio  :disabled="(businessId || '') != ''" v-model="scope.row.states" @change="(e) => {if(scope.row.states == '1'){scope.row.requirements=''}}" label="1">YES</el-radio>
-              <el-radio :disabled="(businessId || '') != ''" v-model="scope.row.states" @change="(e) => {scope.row.requirements=''}" label="0">NO</el-radio>
+              <el-radio  :disabled="(businessId || '') != ''" v-model="scope.row.states" @change="(e) => {if(scope.row.states == '1'){scope.row.requirements=''}}" label="1">{{$i18nMy.t('是')}}</el-radio>
+              <el-radio :disabled="(businessId || '') != ''" v-model="scope.row.states" @change="(e) => {scope.row.requirements=''}" label="0">{{$i18nMy.t('否')}}</el-radio>
             </template>
           </el-table-column>
-          <el-table-column show-overflow-tooltip  label="需求描述">
+          <el-table-column show-overflow-tooltip  :label="$i18nMy.t('需求描述')">
             <template slot-scope="scope">
               <el-input v-model="scope.row.requirements"
                         :class="(scope.row.states == '1'&& (scope.row.requirements || '') == ''?'border-red':'')"
                         :disabled="!(scope.row.states == '1' && (businessId || '') == '')"
                         :placeholder="$i18nMy.t('请填写需求描述')"></el-input>
               <br>
-              <span v-if="scope.row.states == '1'&& (scope.row.requirements || '') == ''" style="color: red;">需求描述不能为空</span>
+              <span v-if="scope.row.states == '1'&& (scope.row.requirements || '') == ''" style="color: red;">{{$i18nMy.t('需求描述不能为空')}}</span>
             </template>
           </el-table-column>
         </el-table>
@@ -135,9 +135,6 @@
         this.misPolicyConfigList(query)
       },
       selectUser(index,row,data){
-        console.log(data)
-        console.log("序号"+index)
-        console.log(row)
         var _that = this
         var userDataList = JSON.parse(JSON.stringify(_that.userDataList))
         _that.userDataList.length = 0

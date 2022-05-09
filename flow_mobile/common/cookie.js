@@ -1,7 +1,7 @@
 // 非h5端不能使用
 
 function isSupportCookie() {
-	return !!(document)
+	return !!(document && (document.cookie !== undefined))
 }
 
 export function getAllCookieObject () {

@@ -6,6 +6,7 @@ const user = {
 	state:{
 		forcedLogin: false,
 		hasLogin: false,
+		hasSSOTokenFlag: false,
 		dictList: $dictUtils.getDictList(),
 		token:$auth.getUserToken() || null,
 		username:$auth.getUsername() || null,
@@ -46,6 +47,10 @@ const user = {
 			state.userInfo = null
 			$auth.removeUserInfo()
 			$auth.removeUserToken()
+		},
+		SET_SSO_TOKEN_FLAG(state, flag) {
+			console.log(flag)
+			state.hasSSOTokenFlag = flag
 		}
 	},
 	actions: {

@@ -4,7 +4,7 @@
              label-width="140px" style="width: calc(100% - 25px);">
       <el-row :gutter="15">
         <el-col :span="12">
-          <el-form-item :label="$i18nMy.t('申请单号')" label-width="220px" prop="applicationNo" :rules="[]">
+          <el-form-item :label="$i18nMy.t('申请单号')" label-width="150px" prop="applicationNo" :rules="[]">
             <el-input v-model="inputForm.applicationNo" :disabled='true' :placeholder="$i18nMy.t('系统自动生成')"></el-input>
           </el-form-item>
         </el-col>
@@ -14,7 +14,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18nMy.t('申请时间')" label-width="220px" prop="createDate" :rules="[]">
+          <el-form-item :label="$i18nMy.t('申请时间')" label-width="150px" prop="createDate" :rules="[]">
             <el-input v-model="inputForm.createDate" :disabled='true' :placeholder="$i18nMy.t('申请时间')"></el-input>
           </el-form-item>
         </el-col>
@@ -25,7 +25,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$i18nMy.t('区域')" label-width="220px" prop="site" :rules="[]">
+          <el-form-item :label="$i18nMy.t('区域')" label-width="150px" prop="site" :rules="[]">
             <el-select :disabled="(businessId || '') != ''" v-model="inputForm.site" :placeholder="$i18nMy.t('请选择区域')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('apply_site_code')" :key="item.value" :label="item.value" :value="item.value">
               </el-option>
@@ -43,7 +43,7 @@
       </el-row>
       <el-row :gutter="0">
         <el-col :span="24">
-          <p style="text-align: left;margin: 10px 0px 10px 0px;font-size: 16px;font-weight: 500;">
+          <p style="text-align: left;margin: 20px 0px 10px 0px;font-size: 16px;font-weight: bold;">
               {{$i18nMy.t('需求人员列表')}}
           </p>
         </el-col>
@@ -71,12 +71,12 @@
       </el-row>
       <el-row :gutter="0">
         <el-col :span="24">
-          <p style="text-align: left;margin: 10px 0px 10px 0px;font-size: 16px;font-weight: 500;">
+          <p style="text-align: left;margin: 20px 0px 10px 0px;font-size: 16px;font-weight: bold;">
               {{$i18nMy.t('IT权限开通需求')}}
           </p>
         </el-col>
         <el-table ref="itemsPolicyTable" :data="itemsPolicyDataList" size="small" :border="true"  style="margin-top: 20px">
-          <el-table-column prop="items"  show-overflow-tooltip  :label="$i18nMy.t('项目')"></el-table-column>
+          <el-table-column prop="items"  show-overflow-tooltip  :label="$i18nMy.t('IT权限')"></el-table-column>
           <el-table-column prop="policy"  show-overflow-tooltip  :label="$i18nMy.t('政策')"></el-table-column>
           <el-table-column prop="states"  show-overflow-tooltip  :label="$i18nMy.t('是否开通')">
             <template slot-scope="scope">
@@ -89,7 +89,7 @@
               <el-input v-model="scope.row.requirements"
                         :class="(scope.row.states == '1'&& (scope.row.requirements || '') == ''?'border-red':'')"
                         :disabled="!(scope.row.states == '1' && (businessId || '') == '')"
-                        :placeholder="$i18nMy.t('请填写需求描述')"></el-input>
+                        ></el-input>
               <br>
               <span v-if="scope.row.states == '1'&& (scope.row.requirements || '') == ''" style="color: red;">{{$i18nMy.t('需求描述不能为空')}}</span>
             </template>

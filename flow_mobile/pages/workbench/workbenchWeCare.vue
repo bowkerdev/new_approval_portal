@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-blue" backUrl="/pages/login/login" isBack="true">
+		<cu-custom bgColor="bg-blue" backUrl="/pages/login/login" :isBack="!hasSSOTokenFlag">
 			<block slot="backText">{{$i18nMy.t('返回')}}</block> 
 			<block slot="content" >{{$i18nMy.t('工作中心')}}</block>
 		</cu-custom>
@@ -87,7 +87,8 @@
 			};
 		}, 
 		computed: mapState({
-			 username: (state) => state.user.username
+			 username: (state) => state.user.username,
+			 hasSSOTokenFlag: (state) => state.user.hasSSOTokenFlag
 		}),
 	    async mounted() {
 			this.getTag();

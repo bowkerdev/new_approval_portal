@@ -20,6 +20,7 @@
 <script>
 	import * as $auth from "@/common/auth.js"
 	import {mapActions} from 'vuex'
+	import * as cookie from '@/common/cookie.js'
 
 	export default {
 		data() {
@@ -40,6 +41,9 @@
 					.then(({data})=>{
 						this.isLogin=false
 						if(data.success){
+							cookie.setCookieBy('ssoTokenType', e.ssoTokenType)
+							cookie.setCookieBy(e.ssoTokenType + '_token', token)
+							this.$store.commit('SET_SSO_TOKEN_FLAG', true)
 							this.$store.commit('SET_TOKEN',data.token);
 							this.refreshUserInfo();
 							uni.reLaunch({

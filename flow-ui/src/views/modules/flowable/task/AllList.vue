@@ -93,11 +93,13 @@
            <el-table-column
             prop="applyUserName"
             width="160"
+            show-overflow-tooltip
             :label="$i18nMy.t('流程发起人')">
           </el-table-column>
           <el-table-column
             prop="task.name"
             width="120"
+            show-overflow-tooltip
             :label="$i18nMy.t('当前环节')">
           </el-table-column>
           <el-table-column

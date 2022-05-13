@@ -34,9 +34,12 @@
 			getFormData (option){
 				var submitData={};
 				for(var i=0;i<option.length;i++){
-					submitData[option[i].model]=['table'].indexOf(option[i].type) > -1? 
-																			JSON.stringify(option[i].value): 
-																			option[i].value;
+					const optionItem = option[i]
+					// 隐藏字段不提交
+					if(optionItem['options'] && optionItem['options']['hidden']) { continue }
+					submitData[optionItem.model]=['table'].indexOf(optionItem.type) > -1? 
+																			JSON.stringify(optionItem.value): 
+																			optionItem.value;
 				}
 				return submitData;
 			},

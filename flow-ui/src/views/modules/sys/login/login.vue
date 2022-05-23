@@ -52,8 +52,8 @@
         productName: '',
         loading: false,
         inputForm: {
-          username: 'admin',
-          password: '123456',
+          username: '',
+          password: '',
           uuid: '',
           captcha: ''
         },

@@ -5,6 +5,7 @@ function resolve(dir) {
 }
 
 module.exports = {
+  outputDir: "flow-ui",
   publicPath: "./",
   productionSourceMap: false,
   chainWebpack: (config) => {

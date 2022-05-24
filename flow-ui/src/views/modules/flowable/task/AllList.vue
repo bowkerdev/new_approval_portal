@@ -65,7 +65,7 @@
 
           <el-table-column
             prop="vars.title"
-            width="200"
+            width="220"
            show-overflow-tooltip
             :label="$i18nMy.t('申请单号')">
                 <template slot-scope="scope">
@@ -75,7 +75,7 @@
 
           <el-table-column
             prop="processDefinitionName"
-            width="150"
+            width="200"
             :label="$i18nMy.t('流程名称')">
           </el-table-column>
           <el-table-column
@@ -92,15 +92,19 @@
           </el-table-column> -->
            <el-table-column
             prop="applyUserName"
+            width="160"
+            show-overflow-tooltip
             :label="$i18nMy.t('流程发起人')">
           </el-table-column>
           <el-table-column
             prop="task.name"
             width="120"
+            show-overflow-tooltip
             :label="$i18nMy.t('当前环节')">
           </el-table-column>
           <el-table-column
             prop="task.assigneeName"
+            width="160"
             show-overflow-tooltip
             :label="$i18nMy.t('当前处理人')">
           </el-table-column>
@@ -114,7 +118,7 @@
           </el-table-column>
           <el-table-column
             prop="task.createTime"
-            width="180"
+            width="160"
             show-overflow-tooltip
             :label="$i18nMy.t('申请时间')">
              <template slot-scope="scope">

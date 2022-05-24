@@ -382,9 +382,11 @@
 				  }).then(({data}) => {
 					if (data.success) {
 					  uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
-					  uni.navigateTo({
-						  url: '/pages/workbench/task/TodoList'
-					  })
+					  setTimeout(function(){
+					  	uni.navigateTo({
+					  		url: '/pages/workbench/task/TodoList'
+					  	})
+					  },1000)
 					  this.cc(data)
 					}
 				  })
@@ -398,9 +400,11 @@
 				}, (data) => {
 				  if (data.success) {
 					uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
-					uni.navigateTo({
-						url: '/pages/workbench/task/TodoList'
-					})
+					setTimeout(function(){
+						uni.navigateTo({
+							url: '/pages/workbench/task/TodoList'
+						})
+					},1000)
 					this.cc(data)
 				  }
 				})
@@ -442,9 +446,11 @@
 			  }).then(({data}) => {
 			    if (data.success) {
 			      uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
-			      uni.navigateTo({
-			      	url: '/pages/workbench/task/TodoList'
-			      })
+			      setTimeout(function(){
+			      	uni.navigateTo({
+			      		url: '/pages/workbench/task/TodoList'
+			      	})
+			      },1000)
 			      this.cc(data)
 			    }
 			  })
@@ -458,9 +464,11 @@
 			    }).then(({data}) => {
 			      if (data.success) {
 			        uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
-			        uni.navigateTo({
-			        	url: '/pages/workbench/task/TodoList'
-			        })
+			        setTimeout(function(){
+			        	uni.navigateTo({
+			        		url: '/pages/workbench/task/TodoList'
+			        	})
+			        },1000)
 			        this.cc(data)
 			      }
 			    })
@@ -512,9 +520,11 @@
 			  }
 			  this.$http.post('/flowable/task/transfer', {taskId: this.taskId, userId: userId}).then(({data}) => {
 				uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
-				uni.navigateTo({
-					url: '/pages/workbench/task/TodoList'
-				})
+				setTimeout(function(){
+					uni.navigateTo({
+						url: '/pages/workbench/task/TodoList'
+					})
+				},1000)
 			  })
 			},
 			// 委托
@@ -528,9 +538,11 @@
 			  }
 			  this.$http.post('/flowable/task/delegate', {taskId: this.taskId, userId: userId}).then(({data}) => {
 				uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
-				uni.navigateTo({
-					url: '/pages/workbench/task/TodoList'
-				})
+				setTimeout(function(){
+					uni.navigateTo({
+						url: '/pages/workbench/task/TodoList'
+					})
+				},1000)
 			  })
 			},
 			// 终止
@@ -596,9 +608,11 @@
 					this.$refs.form.submitTaskFormData(vars, this.procInsId, this.taskId, this.auditForm.assignee, this.auditForm, (data) => {
 					  if (data.success) {
 						uni.showToast({ title: $i18nMy.t('处理成功'), icon: "success" });
-						uni.navigateTo({
-							url: '/pages/workbench/task/TodoList'
-						})
+						setTimeout(function(){
+							uni.navigateTo({
+								url: '/pages/workbench/task/TodoList'
+							})
+						},1000)
 						//抄送
 						this.cc(data)
 					  }

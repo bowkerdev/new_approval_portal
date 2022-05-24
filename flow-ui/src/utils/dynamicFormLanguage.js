@@ -27,6 +27,7 @@ export default {
   },
   dealObj(obj,taskFormData){
     if(obj.options!=null&&!obj.options.hidden){
+      console.log(obj.type+" label："+obj.name)
       switch(obj.type){
         case 'html':{
           obj.options.defaultValue = this.dealHtml(obj.options.defaultValue);
@@ -42,6 +43,7 @@ export default {
         case 'date':
         case 'textarea':
         case 'input':
+        case 'imgupload':
         case 'fileupload':{
           if(obj.name!=null&&obj.name!=''){
             obj.name = _i18nMy.t(obj.name);

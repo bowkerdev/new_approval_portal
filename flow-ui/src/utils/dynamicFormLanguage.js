@@ -30,12 +30,17 @@ export default {
       console.log(obj.type+" label："+obj.name)
       switch(obj.type){
         case 'html':{
-          obj.options.defaultValue = this.dealHtml(obj.options.defaultValue);
+          if(obj.options.defaultValue) {
+            obj.options.defaultValue = _i18nMy.t(obj.options.defaultValue);
+          }
           this.setValue(taskFormData,obj )
           break ;
         }
         case 'text':{
-          obj.options.defaultValue = _i18nMy.t(obj.options.defaultValue);
+          if(obj.name){ obj.name = _i18nMy.t(obj.name) }
+          if(obj.options.defaultValue) {
+            obj.options.defaultValue = _i18nMy.t(obj.options.defaultValue);
+          }
           this.setValue(taskFormData,obj )
           break ;
         }

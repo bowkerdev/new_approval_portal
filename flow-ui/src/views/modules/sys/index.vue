@@ -97,12 +97,18 @@
                 prop="applyUserName"
                 show-overflow-tooltip
                 :label="$i18nMy.t('流程发起人')">
+                 <template slot-scope="scope">
+                   {{scope.row.applyUserName || scope.row.vars.userName}}
+                 </template>
               </el-table-column>
               <el-table-column
                width="120px"
                 prop="task.name"
                 show-overflow-tooltip
                 :label="$i18nMy.t('当前环节')">
+                <template slot-scope="scope">
+                  {{$i18nMy.t(scope.row.task.name)}}
+                </template>
               </el-table-column>
               <el-table-column
                 width="180px"
@@ -193,6 +199,9 @@
                   prop="task.name"
                   show-overflow-tooltip
                   :label="$i18nMy.t('当前环节')">
+                   <template slot-scope="scope">
+                     {{$i18nMy.t(scope.row.task.name)}}
+                   </template>
                 </el-table-column>
                  <el-table-column
                   prop="task.assignee"

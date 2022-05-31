@@ -22,6 +22,9 @@
 									</view>
 								</view>
 								<view class="text-sm text-grey ellipsis-description">
+									{{$i18nMy.t('审批类型')}}：{{row.processDefinitionName || '-' }}
+								</view>
+								<view class="text-sm text-grey ellipsis-description">
 									{{$i18nMy.t('任务')}}：{{row.name}}
 								</view>
 						</view>

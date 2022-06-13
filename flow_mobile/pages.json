@@ -269,7 +269,8 @@
 		"navigationBarBackgroundColor": "#0081ff",
 		"navigationBarTitleText": "Approval Portal",
 		"navigationStyle": "custom",
-		"navigationBarTextStyle": "white"
+		"navigationBarTextStyle": "white",
+		"dynamicRpx": true
 	},
 	"usingComponts": true,
 		"condition": { //模式配置，仅开发期间生效

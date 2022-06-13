@@ -190,7 +190,6 @@
 
 <style>
 	.ellipsis-description {
-		  font-size: 12px;
 		  line-height: $line-height-base;
 		  display: -webkit-box;/*作为弹性伸缩盒子模型显示*/
 		  -webkit-line-clamp: 1; /*显示的行数；如果要设置2行加...则设置为2*/

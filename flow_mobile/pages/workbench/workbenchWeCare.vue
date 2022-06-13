@@ -17,7 +17,7 @@
 					<view class="padding radius text-center shadow-blur bg-white" style="width: 100%;height: 100%;">
 						<view>
 							<text class="lg font-size-35 text-blue cuIcon-list"></text>
-							<view class="margin-top-sm text-Abc" style="font-size: 15px;">{{$i18nMy.t('待办任务')}}</view>
+							<view class="margin-top-sm text-Abc" style="font-size: 28rpx;">{{$i18nMy.t('待办任务')}}</view>
 						</view>
 						<view class="cu-tag badge">{{todoTag}}</view>
 					</view>
@@ -29,7 +29,7 @@
 					<view class="padding radius text-center shadow-blur bg-white" style="width: 100%;height: 100%;">
 						<view>
 							<text class="lg font-size-35 text-blue cuIcon-time"></text>
-							<view class="margin-top-sm text-Abc" style="font-size: 15px;">{{$i18nMy.t('已办任务')}}</view>
+							<view class="margin-top-sm text-Abc" style="font-size: 28rpx;">{{$i18nMy.t('已办任务')}}</view>
 						</view>
 						<view class="cu-tag badge">{{historicTag}}</view>
 					</view>

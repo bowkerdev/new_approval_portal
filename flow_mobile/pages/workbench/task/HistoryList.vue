@@ -29,14 +29,14 @@
 								</view>
 						</view>
 						<view @tap="toDetail(row)" class="action">
-							<view class="text-grey text-xs" > {{row.endTime  | formatDate}}</view>
-							<view class="text-red text-xs"  v-if="row.code === 0 || row.code === 3 || row.code === 4 || row.code === 5">
+							<view class="text-grey text-sm" > {{row.endTime  | formatDate}}</view>
+							<view class="text-red text-sm"  v-if="row.code === 0 || row.code === 3 || row.code === 4 || row.code === 5">
 								 {{row.status}}
 							</view>
-							<view class="text-orange  text-xs"  v-if="row.code === 1">
+							<view class="text-orange  text-sm"  v-if="row.code === 1">
 								 {{row.status}}
 							</view>
-							<view class=" text-green text-xs"  v-if="row.code === 2">
+							<view class=" text-green text-sm"  v-if="row.code === 2">
 								 {{row.status}}
 							</view>
 				
@@ -198,7 +198,6 @@
 
 <style>
 	.ellipsis-description {
-		  font-size: 12px;
 		  line-height: $line-height-base;
 		  display: -webkit-box;/*作为弹性伸缩盒子模型显示*/
 		  -webkit-line-clamp: 1; /*显示的行数；如果要设置2行加...则设置为2*/
@@ -208,9 +207,10 @@
 	}
 	
 	.cu-list.menu-avatar>.cu-item .content {
-		position: absolute;
-		left: 29px;
-		width: calc(100% - 77px);
+		position: relative;
+		left: auto;
+		padding: 16px;
+		width: calc(100% - 64px);
 		line-height: 1.6em;
 	}
 

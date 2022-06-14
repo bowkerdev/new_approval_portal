@@ -5,25 +5,25 @@
 				'html-group': item.type == 'html', 'table-type': item.type == 'table' }" 
 				v-if="item.readable" v-for="(item,index) in formData" :key="index"
 			>
-				<view class="" v-if="item.type == 'html'" >
+				<view class="title" v-if="item.type == 'html'" >
 					{{ $i18nMy.t(getHtmlText(item.options.defaultValue)) }}
 				</view>
 				<view class="title" v-if="('hideLabel' in item.options) && !item.options.hideLabel">
 					<text class="red-color " v-if="item.options.required">* </text> {{ $i18nMy.t(item.name)}}
 				</view>
-				<template v-if="item.type=='input'">				
+				<template v-if="item.type=='input' && ('hidden' in item.options) && !item.options.hidden">				
 					<!-- 普通输入框 -->
-					<input :placeholder='item.placeholder' :disabled="!item.writable"  v-model="item.value"></input>
+					<input  class="cu-form-content"  :placeholder='item.placeholder' :disabled="!item.writable"  v-model="item.value"></input>
 				</template>	
-				<template v-if="item.type=='textarea' || item.type=='editor'">
+				<template v-if="(item.type=='textarea' || item.type=='editor')  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 多行文本输入框 -->
 					<textarea maxlength="-1"  :placeholder='item.placeholder' :disabled="!item.writable"   v-model="item.value"></textarea>
 				</template>	
-				<template v-if="item.type=='number'">
+				<template v-if="item.type=='number'  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 普通输入框 -->
 					<input type="number" :placeholder='item.placeholder' :disabled="!item.writable"   v-model="item.value"></input>
 				</template>	
-				<template v-if="item.type=='radio'">
+				<template v-if="item.type=='radio'  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 单选框 -->
 				
 					<jp-radio-group  v-if="item.options.remote === 3"  v-model="item.value">
@@ -51,7 +51,7 @@
 						</label>
 					</jp-radio-group>
 				</template>	
-				<template v-if="item.type=='checkbox'">
+				<template v-if="item.type=='checkbox'  && ('hidden' in item.options) && !item.options.hidden">
 					<jp-checkbox-group v-if="item.options.remote === 3" v-model="item.value">
 						<label v-for="(option, index) in $dictUtils.getDictList(item.options.dictType)">
 							<view>
@@ -78,23 +78,23 @@
 						</label>
 					</jp-checkbox-group>
 				</template>	
-				<template v-if="item.type=='time'">
+				<template v-if="item.type=='time'  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 时间控件 -->
 					<jp-datetime-picker  v-model="item.value" :placeholder='item.placeholder' :disabled="!item.writable" mode="time"></jp-datetime-picker>
 				</template>	
-				<template v-if="item.type=='date'">
+				<template v-if="item.type=='date'  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 日期控件 -->
 					<jp-datetime-picker  v-model="item.value" :placeholder='item.placeholder' :disabled="!item.writable" mode="date"></jp-datetime-picker>
 				</template>	
-				<template v-if="item.type=='rate'">
+				<template v-if="item.type=='rate'  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 评分 -->
 					<uni-rate :size="18":disabled="!item.writable" :allowHalf="item.options.allowHalf" v-model="item.value" :max="item.options.max"/>
 				</template>	
-				<template v-if="item.type=='color'">
+				<template v-if="item.type=='color'  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 颜色选择框 -->
 					<jp-color-picker :disabled="!item.writable" v-model="item.value" ></jp-color-picker>
 				</template>	
-				<template v-if="item.type=='select'">
+				<template v-if="item.type=='select'  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 选择框 -->
 					<jp-picker :disabled="!item.writable" v-if="item.options.remote === 3" v-model="item.value" :range="$dictUtils.getDictList(item.options.dictType)">
 					</jp-picker>
@@ -103,39 +103,39 @@
 					<jp-picker :disabled="!item.writable" v-else v-model="item.value" rangeKey="value" :range="item.options.options">
 					</jp-picker>
 				</template>	
-				<template v-if="item.type=='switch'">
+				<template v-if="item.type=='switch'  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 开关 -->
 					<jp-switch :placeholder='item.placeholder' :disabled="!item.writable"   v-model="item.value"></jp-switch>
 				</template>	
-				<template v-if="item.type=='slider'">
+				<template v-if="item.type=='slider'  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 滑块 -->
 					<jp-slider  :placeholder='item.placeholder' :disabled="!item.writable"   v-model="item.value"></jp-slider>
 				</template>	
-				<template v-if="item.type=='text'">
+				<template v-if="item.type=='text'  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 普通输入框 -->
 					<text>{{item.value}}</text>
 				</template>
-				<template v-if="item.type=='imgupload' || item.type=='fileupload'">
+				<template v-if="(item.type=='imgupload' || item.type=='fileupload')  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 图片上传 -->
 					<jp-image-upload :disabled="!item.writable"   v-model="item.value"></jp-image-upload>
 				</template>	
-				<template v-if="item.type=='user'">
+				<template v-if="item.type=='user'  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 用户选择框 -->
 					<user-select  :disabled="!item.writable"   v-model="item.value"></user-select>
 				</template>	
-				<template v-if="item.type=='office'">
+				<template v-if="item.type=='office'  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 机构选择框 -->
 					<jp-office-select :disabled="!item.writable"   v-model="item.value"></jp-office-select>
 				</template>	
-				<template v-if="item.type=='area'">
+				<template v-if="item.type=='area'  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 普通输入框 -->
 					<jp-area-select :disabled="!item.writable"  v-model="item.value"></jp-area-select>
 				</template>	
-				<template v-if="item.type=='dict'">
+				<template v-if="item.type=='dict'  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 字典 -->
 					<jp-picker :disabled="!item.writable"  v-model="item.value" :range="$dictUtils.getDictList(item.options.dictType)"></jp-picker>
 				</template>	
-				<template v-if="item.type=='table'">
+				<template v-if="item.type=='table'  && ('hidden' in item.options) && !item.options.hidden">
 					<!-- 表格数据以对象形式展示 -->
 					<view class="table-row-card-list">
 						<view v-for="(tableRow, tableRowIndex) in item.value" :key="tableRowIndex" class="table-row-card-show">
@@ -231,6 +231,11 @@
 		padding-bottom: 12px; 
 		font-size: 13px;
 		color: #a8a8a8; 
+	}
+	.cu-form-group.html-group.margin-top,
+	.cu-form-group .title ,
+	.cu-form-group .cu-form-content{
+		font-size: 26upx;
 	}
 </style>
 

@@ -35,7 +35,7 @@
 						<view style="width: 100%;height: 100%;">
 							<view class="form-textarea-title wd-100">{{$i18nMy.t('审批意见')}}</view>
 							<view>
-								<textarea style="font-size: 12px; background-color: #fff4f4;" maxlength="1000"  v-model="auditForm.message" name="message" :placeholder="$i18nMy.t('请输入审批意见')"></textarea>
+								<textarea class="form-textarea-content" style="background-color: #fff4f4;" maxlength="1000"  v-model="auditForm.message" name="message" :placeholder="$i18nMy.t('请输入审批意见')"></textarea>
 							</view>
 						</view>
 					</view>
@@ -749,6 +749,10 @@
 		font-size: 12px;
 		margin-top: 15px;
 		margin-bottom: -10px;
+	}
+	.form-textarea-title,
+	.form-textarea-content{
+		font-size: 26upx;
 	}
 	/deep/.uni-scroll-view-content{
 	   transform:none !important;

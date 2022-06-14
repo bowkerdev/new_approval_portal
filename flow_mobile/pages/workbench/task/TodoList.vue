@@ -25,10 +25,10 @@
 										{{row.vars.title}}
 									</view>
 								</view>
-								<view class="text-sm text-grey ellipsis-description">
+								<view class="text-grey ellipsis-description">
 									{{$i18nMy.t('审批类型')}}：{{row.processDefinitionName || '-' }}
 								</view>
-								<view class="text-sm text-grey ellipsis-description">
+								<view class="text-grey ellipsis-description">
 									{{$i18nMy.t('当前环节')}}：{{row.task&&row.task.name}}
 								</view>
 						<!-- 		<view class="  text-sm">
@@ -40,8 +40,8 @@
 						
 						</view>
 						<view @tap="todo(row, index)" class="action">
-							<view class="text-grey text-xs" > {{row.task.createTime | formatDate}}</view>
-							<view class="  text-orange text-xs">
+							<view class="text-grey text-sm" > {{row.task.createTime | formatDate}}</view>
+							<view class="  text-orange text-sm">
 								{{$i18nMy.t('等待审核')}} 
 							</view>
 						</view>
@@ -244,7 +244,6 @@
 
 <style>
 	.ellipsis-description {
-		  font-size: 12px;
 		  line-height: $line-height-base;
 		  display: -webkit-box;/*作为弹性伸缩盒子模型显示*/
 		  -webkit-line-clamp: 1; /*显示的行数；如果要设置2行加...则设置为2*/
@@ -254,9 +253,10 @@
 	}
 	
 	.cu-list.menu-avatar>.cu-item .content {
-		position: absolute;
-		left: 29px;
-		width: calc(100% - 77px);
+		position: relative;
+		left: auto;
+		padding: 16px;
+		width: calc(100% - 64px);
 		line-height: 1.6em;
 	}
 

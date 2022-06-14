@@ -1212,7 +1212,7 @@ button.cuIcon.lg {
 	position: relative;
 	display: flex;
 	padding-right: 10upx;
-	height: 140upx;
+	height: 160upx;
 	background-color: #ffffff;
 	justify-content: flex-end;
 	align-items: center
@@ -2339,7 +2339,7 @@ button.cuIcon.lg {
 
 .cu-form-group input {
 	flex: 1;
-	font-size: 12px;
+	font-size: 26upx;
 	color: #555;
 	padding-right: 5px;
 }
@@ -3922,7 +3922,7 @@ scroll-view.cu-steps .cu-item {
     padding-right: 11px;
 }
 .ellipsis-description {
-	  font-size: 12px;
+	  font-size: 26upx;
 	  line-height: $line-height-base;
 	  display: -webkit-box;/*作为弹性伸缩盒子模型显示*/
 	  -webkit-line-clamp: 1; /*显示的行数；如果要设置2行加...则设置为2*/

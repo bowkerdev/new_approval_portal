@@ -160,7 +160,7 @@
                     }
                   },2000)
                   this.taskFormData.forEach((item) => {
-                    if (item.value != null) {
+                    if (item.value !== undefined) {
                       this.formData[`${item.id}`] = item.value
                     }
                     if (item.readable === true) {

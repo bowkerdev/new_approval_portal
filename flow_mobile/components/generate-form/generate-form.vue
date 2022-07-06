@@ -2,7 +2,7 @@
 	<view>
 		<form>
 			<view class="cu-form-group"  :class="{'margin-top': index===0, 'flex-col': ['table'].indexOf(item.type) > -1,
-				'html-group': item.type == 'html', 'table-type': item.type == 'table' }" 
+				'html-group': item.type == 'html', 'table-type': item.type == 'table', 'textarea-group': item.type == 'textarea' }" 
 				v-if="item.readable" v-for="(item,index) in formData" :key="index"
 			>
 				<view class="title" v-if="item.type == 'html'" >
@@ -271,7 +271,10 @@
 		padding-right: 0;
 		background-color: transparent;
 	}
-
+	
+	&.textarea-group {
+		align-items: flex-start;
+	}
   uni-checkbox-group{
 		text-align: right;
 	}
@@ -284,7 +287,8 @@
 		margin-left:7px;
 		margin-bottom: 7px;
 	}
-	.uni-textarea-textarea {
+	uni-textarea {
+		margin-top: 12px;
 		text-align: right;
 	}
 	

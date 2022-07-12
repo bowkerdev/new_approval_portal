@@ -1,47 +1,9 @@
 <template>
-  <fm-generate-form v-if="visible" :data="options" :edit="edit" class="readonly" :value="formData" ref="generateForm">
-    <template slot="qaRecordData" slot-scope="scope">
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <div>{{$i18nMy.t('Reason')}}</div>
-        </el-col>
-        <el-col :span="8">
-          <div>{{$i18nMy.t('Action')}}</div>
-        </el-col>
-        <el-col :span="8">
-          <div>{{$i18nMy.t('Prevention')}}</div>
-        </el-col>
-      </el-row>      
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-select class="mySelect" size="mini" v-model="scope.model.qaRecordData.qaReason" :placeholder="$i18nMy.t('请选择')"  style="">
-                <el-option v-for="item in qaReasonList"
-                  :key="item"
-                  :label="item"
-                  :value="item"
-                ></el-option>
-              </el-select> 
-        </el-col>
-        <el-col :span="8">
-                <el-select class="mySelect" size="mini" v-model="scope.model.qaRecordData.qaAction" :placeholder="$i18nMy.t('请选择')"  style="">
-                <el-option v-for="item in qaActionList"
-                  :key="item"
-                  :label="item"
-                  :value="item"
-                ></el-option>
-              </el-select> 
-        </el-col>
-        <el-col :span="8">
-                <el-select class="mySelect" size="mini" v-model="scope.model.qaRecordData.qaPrevention" :placeholder="$i18nMy.t('请选择')"  style="">
-                <el-option v-for="item in qaPreventionList"
-                  :key="item"
-                  :label="item"
-                  :value="item"
-                ></el-option>
-              </el-select> 
-        </el-col>
-      </el-row>
+<fm-generate-form v-if="visible" :data="options" :remote-option="dynamicData" :edit="edit" :value="formData"
+    ref="generateForm">
+    <template slot="qaRecordData" slot-scope="scope" >
     </template>
+
   </fm-generate-form>
 </template>
 
@@ -54,10 +16,12 @@ import Table from '../../../../pages/datav/option/components/table.vue'
   export default {
     data() {
       return {
-        qaReasonList:[],
-        qaActionList:[],
-        qaPreventionList:[],
         qaPullDownList:[],
+        dynamicData: {
+          qa_reason_options : [], // 单选框组 option data
+          qa_action_options : [], // 单选框组 option data
+          qa_prevention_options : [], // 单选框组 option data
+        },
         // 固定代码，不可以改 start
         options: {
           list: []
@@ -76,15 +40,16 @@ import Table from '../../../../pages/datav/option/components/table.vue'
           _that.qaPullDownList = data
           if (_that.qaPullDownList && _that.qaPullDownList.length > 0) {
             for (var i = 0; i < _that.qaPullDownList.length; i++) {
+               var item = {label:_that.qaPullDownList[i].value, value:_that.qaPullDownList[i].value};
               switch(_that.qaPullDownList[i].type){
                 case 'action':
-                  _that.qaActionList.push(_that.qaPullDownList[i].value);
+                  _that.dynamicData.qa_action_options.push(item);
                   break
                 case 'reason':
-                  _that.qaReasonList.push(_that.qaPullDownList[i].value);
+                   _that.dynamicData.qa_reason_options.push(item);
                   break
                 case 'prevention':
-                  _that.qaPreventionList.push(_that.qaPullDownList[i].value);
+                   _that.dynamicData.qa_prevention_options.push(item);
                   break
               }
             }
@@ -98,7 +63,7 @@ import Table from '../../../../pages/datav/option/components/table.vue'
       },
       // 20220628Ryder为了业务加了一个特殊判断 固定代码，不可以改 start
       createForm(options, formData, showArra, disabledArra, edit) {
-        debugger
+        // debugger
         this.options = options
         this.formData = formData
         this.visible = true
@@ -112,7 +77,7 @@ import Table from '../../../../pages/datav/option/components/table.vue'
           //加一个特殊业务判断
           if(formData.applySiteCode != 'BCA'){
             hideArra.push('qaRecordDataLabel');
-            hideArra.push('qaRecordData');
+            hideArra.push('qaRapList');
           }
           this.$refs.generateForm.hide(hideArra)
           this.$refs.generateForm.disabled(disabledArra, true)
@@ -130,5 +95,32 @@ import Table from '../../../../pages/datav/option/components/table.vue'
 </script>
 
 <style lang="scss">
+.extra-cut-approval-self-table {
+  &.el-table td, 
+  &.el-table th.is-leaf,
+  &.el-table--border td, 
+  &.el-table--border th, 
+  &.el-table--border, 
+  .el-table--group,
+  & .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
+    border-color: rgb(153, 153, 153);
+  }
+
+  & th{
+    color: #606266;
+  }
+
+  &.el-table--border {
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+  }
+
+  &.el-table th .cell {
+    white-space: initial;
+    word-break: break-word;
+  }
+}
 
 </style>

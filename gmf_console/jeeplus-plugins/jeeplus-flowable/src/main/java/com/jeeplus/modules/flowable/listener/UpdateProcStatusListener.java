@@ -34,15 +34,15 @@ public class UpdateProcStatusListener implements ExecutionListener {
     public void notify(DelegateExecution delegateExecution) {
     	init();
         String processInstanceId = delegateExecution.getProcessInstanceId();
+        String eventName = delegateExecution.getEventName();
         try {
-            HashMap flowMap = flowTaskService.getFlowMapPid(processInstanceId);
+            HashMap flowMap = flowTaskService.getFlowMapPid(processInstanceId,eventName);
             Map<String,Object> varsMap = (Map<String, Object>) flowMap.get("vars");
             if(varsMap!=null){
                 Object businessTableObj = varsMap.get("businessTable");
                 if(businessTableObj!=null && StringUtils.isNotBlank(businessTableObj.toString())){
                     String businessTable=businessTableObj.toString();
                     //执行更新操作
-                    String eventName = delegateExecution.getEventName();
                     if ("start".equals(eventName)) {
                         System.out.println("start=========");
                     }else if ("end".equals(eventName)) {

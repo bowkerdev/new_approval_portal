@@ -51,6 +51,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.jeeplus.common.utils.SpringContextHolder;
@@ -746,7 +747,7 @@ public class FlowTaskService extends BaseService {
 			// 如果下一环节的审批人和上一环节相同,那么下一环节会自动审批通过
 			for (IdentityLink identityLink : list){ 
 				if ("COMMENT__flow_agree".equals(flow.getComment().getCommentType()) && identityLink.getType().equals("assignee") && identityLink.getUserId().equals(vars.get("lastAssignee"))){
-					if(!"EC".equals(todo.getName()) && !"BOD".equals(todo.getName()) && !"modify PR".equals(todo.getName())){
+					if(!"EC".equals(todo.getName()) && !"BOD".equals(todo.getName()) && !"modify PR".equals(todo.getName()) && !todo.getName().startsWith("test")){
 						flow.setTaskId(todo.getId());
 						flow.getComment().setFullMessage("Skip for same approver");
 						flow.setTaskDefKey(todo.getTaskDefinitionKey());
@@ -1102,7 +1103,8 @@ public class FlowTaskService extends BaseService {
      * @return
      * @throws Exception
      */
-    public Map queryProcessState(String processInstanceId) throws Exception {
+    @SuppressWarnings("unchecked")
+	public Map queryProcessState(String processInstanceId) throws Exception {
         Map map = new HashMap ();
         // 通过流程实例ID查询流程实例
         ProcessInstance pi = runtimeService.createProcessInstanceQuery ()
@@ -1154,6 +1156,11 @@ public class FlowTaskService extends BaseService {
         }
     }
     
+   	@Transactional(readOnly = false)
+    public HashMap getFlowMapPid(String pid) throws Exception {
+    	return this.getFlowMapPid(pid, "end");
+    }
+    
     /**
      * 根据流程实例idPID获取流程信息 [流程定义procDefMap、流程节点信息procInsMap、流程变量信息vars]
      * @param pid 流程实例id
@@ -1161,18 +1168,17 @@ public class FlowTaskService extends BaseService {
      * @date 2020年3月14日21:01:57
      * @return
      */
-    @Transactional(readOnly = false)
-    public HashMap getFlowMapPid(String pid) throws Exception {
+    @SuppressWarnings("unchecked")
+	@Transactional(readOnly = false)
+    public HashMap getFlowMapPid(String pid,String eventName) throws Exception {
       HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery()
               .processInstanceId(pid).includeProcessVariables().orderByProcessInstanceStartTime().desc();
       List<HistoricProcessInstance> histList = query.list();
       HashMap map = new HashMap();
       if(histList!=null&&histList.size()>0){
         HistoricProcessInstance historicProcessInstance =histList.get(0);
-
         //查询流程状态 code=0
         Map state = queryProcessState(historicProcessInstance.getId());
-
         HashMap procInsMap = new HashMap();
         HashMap procDefMap = new HashMap();
         procInsMap.put("endTime", historicProcessInstance.getEndTime());
@@ -1185,6 +1191,10 @@ public class FlowTaskService extends BaseService {
         procDefMap.put("version", historicProcessInstance.getProcessDefinitionVersion());
         if(state.get("currentTask")!=null){
         	HashMap currentTask =(HashMap) state.get("currentTask");
+        	if (!"start".equals(eventName)) {
+        		Map<String, Object> vars = runtimeService.getVariables((String) currentTask.get("executionId"));
+             	map.put("vars",vars);
+            } 
         	if(StringUtils.isNoneBlank((String)currentTask.get("id"))){
         		List<TaskComment> commentList = this.getTaskComments ((String)currentTask.get("id"));
         		if(commentList.size()>0){

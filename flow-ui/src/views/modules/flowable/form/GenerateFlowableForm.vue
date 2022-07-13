@@ -179,7 +179,9 @@
                         (dataFieldType === 'blank' && dataField.defaultType !='String' ) ||
                         dataFieldType === 'select' ||
                         dataFieldType === 'fileupload')) {
-                      if (this.formData[key] && typeof this.formData[key] === 'string') {
+                      if (this.formData[key] && typeof this.formData[key] === 'string' &&
+                           ( this.formData[key].indexOf("{")==0 && this.formData[key].indexOf("}")==this.formData[key].length -1 )||
+                           ( this.formData[key].indexOf("[")==0 && this.formData[key].indexOf("]")==this.formData[key].length -1 )) {
                         this.formData[key] = JSON.parse(this.formData[key])
                       } else if (!this.formData[key]) {
                         this.formData[key] = []

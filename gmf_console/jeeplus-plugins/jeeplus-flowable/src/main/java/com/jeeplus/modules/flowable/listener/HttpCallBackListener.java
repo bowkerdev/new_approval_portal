@@ -112,7 +112,8 @@ public class HttpCallBackListener implements ExecutionListener {
         String processInstanceId = delegateExecution.getProcessInstanceId();
         try {
         	init();
-            HashMap flowMap = flowTaskService.getFlowMapPid(processInstanceId);
+        	String eventName = delegateExecution.getEventName();
+            HashMap flowMap = flowTaskService.getFlowMapPid(processInstanceId,eventName);
             JSONObject json=(JSONObject) JSON.toJSON(flowMap);
             log.setParam(json.toJSONString());
             if(flowMap.size()>0){

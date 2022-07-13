@@ -68,9 +68,12 @@ public class FlowableFormController extends BaseController {
      */
     @PostMapping("submitStartFormData")
     @CrossOrigin
-    public AjaxJson submitStartFormData(String assignee, String processDefinitionId, String title, @RequestParam("data") String data) {
+    public AjaxJson submitStartFormData(String assignee,@RequestParam("processDefinitionId") String processDefinitionId, String title, @RequestParam("data") String data) {
     	if (!processDefinitionId.contains(":")) {
-    		processDefinitionId = flowTaskService.getLatestProcessDefinitionId(processDefinitionId);
+    		String tmp=flowTaskService.getLatestProcessDefinitionId(processDefinitionId);
+    		if(!StringUtils.isBlank(tmp) ){
+    			processDefinitionId = tmp;
+    		}
     	}
         StartFormData formData = formService.getStartFormData(processDefinitionId);//拿取流程启动前的表单字段。
         List<FormProperty> formProperties = formData.getFormProperties();//获取表单字段值

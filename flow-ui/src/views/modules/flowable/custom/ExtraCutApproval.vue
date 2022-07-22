@@ -1,7 +1,7 @@
 <template>
 <fm-generate-form v-if="visible" :data="options" :remote-option="dynamicData" :edit="edit" :value="formData"
     ref="generateForm">
-    <template slot="qaRecordData" slot-scope="scope" >
+    <template slot="qaRecordData" slot-scope="" >
     </template>
 
   </fm-generate-form>
@@ -65,6 +65,10 @@ import Table from '../../../../pages/datav/option/components/table.vue'
       createForm(options, formData, showArra, disabledArra, edit) {
         // debugger
         this.options = options
+        formData.applicantDate = this.$common.parseTime(formData.applicantDate,'{y}-{m}-{d}')
+        formData.expectedDate = this.$common.parseTime(formData.expectedDate,'{y}-{m}-{d} {h}:{i}:{s}')
+        // formData.applicantDate = new Date(formData.applicantDate).pattern("yyyy-MM-dd");
+        // formData.expectedDate = new Date(formData.expectedDate).pattern("yyyy-MM-dd HH:mm:ss");
         this.formData = formData
         this.visible = true
         this.edit = edit

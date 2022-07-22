@@ -1,7 +1,7 @@
 <template>
 
 		<!-- 待用活动表单 -->
-		<active-form :formData="formData" ref="form" >								
+		<active-form :formData="formData" :procDefKey="procDefKey" ref="form" >								
 		</active-form>
 </template>
 
@@ -28,6 +28,10 @@
 				default:function(){
 					return []
 				}
+			},
+			procDefKey: {
+				type: String,
+				default: undefined
 			}
 		},
 

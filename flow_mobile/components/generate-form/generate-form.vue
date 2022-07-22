@@ -171,13 +171,54 @@
 
 <script>
 	import TableRowEditForm from './components/table-row-edit.vue'
+	import { getSqlDictList } from '@/api/dataset.js'
+	
 	export default {
 		name: 'activeForm',
 		components: { TableRowEditForm },
+		data() {
+			return {
+				hasFetchDict: false
+			}
+		},
 		watch:{
 			formData:{
 				handler (val) {
 					console.log(this.formData)
+					if (!(!this.hasFetchDict && val && val.length)) { return }
+					// extra cut获取特殊reason,action,prevention选项值
+					if(this.procDefKey == 'extra_cut_approval') {
+						uni.showLoading({ mask: true })
+						// key:接口数据对应的类型， value: 配置的model
+						const match = { "qaReason": "reason", "qaAction": "action", "qaPrevention": "prevention" }
+						const typeArr = Object.values(match)
+						const list = {} // { reason: [], action: [], prevention: [] }
+						typeArr.forEach(key => list[key] = [])
+						// 找到目标配置
+						const targetArr = this.formData.filter(item => item['model'] == 'qaRapList' && item['type'] == 'table')
+						
+						getSqlDictList('GET_EXTRA_CUT_QA_PULL_DOWN', {})
+							.then(({data}) => {
+								const { success, result } = data
+								if (success && result && result.length) {
+									// 分类存放查回来的值
+									result.forEach(item => {
+										const type = item['type']
+										if (typeArr.indexOf(type) == -1) { return }
+										list[type].push({ value: item['value'], label: item['value'] })
+									})
+								}
+							})
+							.catch(err => {
+								console.log('GET_EXTRA_CUT_QA_PULL_DOWN err')
+							})
+							.finally(() => {
+								uni.hideLoading()
+								this.hasFetchDict = true
+								this.resetSelectOption(match, targetArr, list)
+							})
+
+					}
 				},
 				immediate: true,
 				deep: false
@@ -189,9 +230,26 @@
 				default:function(){
 					return []
 				}
+			},
+			procDefKey: {
+				type: String,
+				default: undefined
 			}
 		},
 		methods: {
+			// 重置下拉选项
+			// match = { "qaReason": "reason", "qaAction": "action", "qaPrevention": "prevention" }
+			// list = { reason: [], action: [], prevention: [] }
+			resetSelectOption(match, targetArr, list) {
+				// 替换选项
+				if (!(targetArr && targetArr.length)) { return }
+				const colArr = targetArr[0]['tableColumns']
+				colArr.forEach(item => {
+					if (!item['options']) { item['options'] = {} }
+					const modelId = item['model'] //"qaReason" , "qaAction" , "qaPrevention"
+					item['options']['options'] = list[match[modelId]]
+				})
+			},
 			// table删除行
 			removeTableRow(tableRowArr, tableRowIndex) {
 				tableRowArr.splice(tableRowIndex, 1)

@@ -6,6 +6,8 @@
 </template>
 
 <script>
+	import { original_key } from '@/mixins/flowable.js'
+	
 	import activeForm from '@/components/generate-form/generate-form.vue';
 	var  graceChecker = require("@/common/graceChecker.js");
 	export default {	
@@ -36,10 +38,13 @@
 				for(var i=0;i<option.length;i++){
 					const optionItem = option[i]
 					// 隐藏字段不提交
+					// original_key存在时间转换的提交的时候，提交原时间戳
 					if(optionItem['options'] && optionItem['options']['hidden']) { continue }
-					submitData[optionItem.model]=['table'].indexOf(optionItem.type) > -1? 
-																			JSON.stringify(optionItem.value): 
-																			optionItem.value;
+					submitData[optionItem.model]=['table'].indexOf(optionItem.type) > -1
+																			? JSON.stringify(optionItem.value)
+																			: optionItem[original_key] !== undefined 
+																				? optionItem[original_key]
+																				: optionItem.value
 				}
 				return submitData;
 			},

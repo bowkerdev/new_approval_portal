@@ -287,7 +287,7 @@
 		line-height: 1.2;
 		padding-top: 12px;
 		padding-bottom: 12px; 
-		font-size: 13px;
+		font-size: 26upx;
 		color: #a8a8a8; 
 	}
 	.cu-form-group.html-group.margin-top,
@@ -315,12 +315,12 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		font-size: 16px;
+		font-size: 32upx;
 	}
 	&.html-group {
 		padding-top: 16px;
 		padding-bottom: 16px;
-		font-size: 15px;
+		font-size: 30upx;
 		font-weight: bold;
 	}
 	
@@ -376,14 +376,14 @@
 	}
 	.table-row-info-key {
 		color: #a8a8a8;
-		font-size: 13px;
+		font-size: 26upx;
 	}
 	.table-row-info-value {
 		margin-top: 2px;
 		max-width: 60%;
 		text-align: right;
 		color: #000;
-		font-size: 12px;
+		font-size: 24upx;
 		flex-shrink: 0;
 	}
 	.table-row-card-btns {

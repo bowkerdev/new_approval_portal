@@ -126,12 +126,12 @@
 	.label-key {
 		padding-right: 10px;
 		color: #a8a8a8;
-		font-size: 13px;
+		font-size: 26upx;
 	}
 	.input-wrap {
 		flex-grow: 1;
 		text-align: right;
-		font-size: 12px;
+		font-size: 24upx;
 		color: #000;
 	}
 	.popup-btn {

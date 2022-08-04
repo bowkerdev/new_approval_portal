@@ -1,8 +1,32 @@
 package com.jeeplus.modules.flowable.common.handler;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+
+import org.flowable.bpmn.model.Process;
+import org.flowable.engine.FormService;
+import org.flowable.engine.HistoryService;
+import org.flowable.engine.RepositoryService;
+import org.flowable.engine.RuntimeService;
+import org.flowable.engine.TaskService;
+import org.flowable.engine.delegate.DelegateExecution;
+import org.flowable.engine.form.FormProperty;
+import org.flowable.engine.form.TaskFormData;
+import org.flowable.task.api.Task;
+import org.flowable.task.api.history.HistoricTaskInstance;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.jeeplus.common.utils.Collections3;
 import com.jeeplus.common.utils.SpringContextHolder;
 import com.jeeplus.common.utils.StringUtils;
+import com.jeeplus.modules.database.datamodel.utils.DataSourceUtils;
 import com.jeeplus.modules.extension.entity.FlowAssignee;
 import com.jeeplus.modules.extension.entity.TaskDefExtension;
 import com.jeeplus.modules.extension.service.TaskDefExtensionService;
@@ -15,15 +39,6 @@ import com.jeeplus.modules.sys.service.PostService;
 import com.jeeplus.modules.sys.service.RoleService;
 import com.jeeplus.modules.sys.service.UserService;
 import com.jeeplus.modules.sys.utils.UserUtils;
-import org.flowable.bpmn.model.Process;
-import org.flowable.engine.HistoryService;
-import org.flowable.engine.RepositoryService;
-import org.flowable.engine.delegate.DelegateExecution;
-import org.flowable.task.api.history.HistoricTaskInstance;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
-
-import java.util.*;
 
 @Component
 public class MutiInstanceHandler {
@@ -103,8 +118,46 @@ public class MutiInstanceHandler {
                         candidateUserIds.add (UserUtils.getUser ().getId ());
                         break;
                     case "sql":
-                        Map userMap = SpringContextHolder.getBean (JdbcTemplate.class).queryForMap (flowAssignee.getValue ());
-                        candidateUserIds.add (userMap.get ("id").toString ());
+                        /*Map userMap = SpringContextHolder.getBean (JdbcTemplate.class).queryForMap (flowAssignee.getValue ());
+                        candidateUserIds.add (userMap.get ("id").toString ());*/
+                    	
+                    	FormService formService=SpringContextHolder.getBean (FormService.class); 
+                    	//TaskFormData formData= formService.getTaskFormData(task.getId());
+                    	Map<String, Object> vars = SpringContextHolder.getBean (RuntimeService.class).getVariables(execution.getId());
+                    	String sql=flowAssignee.getValue ();
+                    	Map<String,String>params=new HashMap<String, String>();
+                    	/*for(FormProperty f:formData.getFormProperties()){
+                    		params.put(f.getName(), f.getValue());
+                    	}*/
+						if(vars !=null){
+							for(Map.Entry<String, Object> v: vars.entrySet()){
+								if(v.getValue()!=null){
+									params.put(v.getKey(), v.getValue().toString());
+								}
+	            			}
+						}
+						String [] tmp=taskDefExtension.getTaskDefId().split("__");
+						if(tmp.length>0){
+							params.put("taskDefId", tmp[0]);
+						}
+                    	
+                    	if(sql.startsWith("sqlKey:")){
+                    		JSONArray userMaps= DataSourceUtils.getDataBySql(sql.substring(7), params);
+                    		for(int i=0;i<userMaps.size();i++ ){
+                    			JSONObject userMap = userMaps.getJSONObject(i);
+                            	candidateUserIds.add(userMap.getString("id"));
+                            }
+                    	}
+                    	else{
+                    		for(Map.Entry<String, String> v: params.entrySet()){
+                    			sql=sql.replaceAll("\\#\\{"+v.getKey()+"\\}", v.getValue());
+	            			}
+                    		List<Map<String, Object>>  userMaps = SpringContextHolder.getBean (JdbcTemplate.class).queryForList (sql);
+                            for(Map<String, Object>userMap:userMaps ){
+                            	candidateUserIds.add(String.valueOf(userMap.get ("id")));
+                            }
+                    	}
+                    	
                         break;
                     case "custom":
                         //根据你的自定义标记，请自行实现

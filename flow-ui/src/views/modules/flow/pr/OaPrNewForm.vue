@@ -127,14 +127,19 @@
              </el-option>
             </el-select>
           </el-form-item> -->
-          <el-form-item label-width="220px" :label="$i18nMy.t('技术支持部门')" prop="technicalAdvisor.id" :rules="[ ]">
-            <SelectTree ref="technicalAdvisor" v-if="ifSiteChange" :props="{
+          <el-form-item label-width="220px" :label="$i18nMy.t('技术支持部门')" prop="technicalAdvisor" :rules="[ ]">
+           <!-- <SelectTree ref="technicalAdvisor" v-if="ifSiteChange" :props="{
                     value: 'id',             // ID字段名
                     label: 'name',         // 显示名称
                     children: 'children'    // 子级字段名
                   }" :url="`/sys/office/treeData?type=2&parentCode=${inputForm.applySiteCode}`" :value="inputForm.technicalAdvisor.id" :clearable="true"
               :accordion="true" @getValue="(value, name) => {inputForm.technicalAdvisor.id=value; inputForm.technicalAdvisor.name=name}" />
-              <el-input v-if="!ifSiteChange" :placeholder="$i18nMy.t('请选择')" disabled></el-input>
+              <el-input v-if="!ifSiteChange" :placeholder="$i18nMy.t('请选择')" disabled></el-input> -->
+            <el-select v-model="inputForm.technicalAdvisor" :placeholder="$i18nMy.t('请选择')" style="width: 100%;" multiple>
+              <el-option v-for="item in $dictUtils.getDictList('technical_advisor')" :key="item.value" :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -156,7 +161,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label-width="220px" :label="$i18nMy.t('预算备注')" prop="budgetRemark" :rules="[]">
-              <el-input v-model="inputForm.budgetRemark" :placeholder="$i18nMy.t('请填写预算备注')" maxlength="30"></el-input>
+              <el-input type="textarea" v-model="inputForm.budgetRemark" :placeholder="$i18nMy.t('长度不超过300')" maxlength="300"></el-input>
             </el-form-item>
           </el-col>
         <!-- <el-col :span="12">
@@ -265,18 +270,20 @@
                   <span v-else>{{ row.item }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="itemDescription" v-if="index == 0" align="left" :label="$i18nMy.t('描述')">
+              <!-- <el-table-column prop="itemDescription" v-if="index == 0" align="left" :label="$i18nMy.t('描述')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-input  size="small" v-model="row.itemDescription" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
                   </template>
                   <span v-else>{{ row.itemDescription }}</span>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column prop="brandName" align="left" :label="$i18nMy.t('品牌')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
-                    <el-input  size="small" v-model="row.brandName" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                    <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
+                      <el-input  size="small" v-model="row.brandName" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                    </el-form>
                   </template>
                   <span v-else>{{ row.brandName }}</span>
                 </template>
@@ -284,12 +291,14 @@
               <el-table-column prop="modelNo" align="left" :label="$i18nMy.t('型号')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
-                    <el-input  size="small" v-model="row.modelNo" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                    <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
+                      <el-input  size="small" v-model="row.modelNo" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                    </el-form>
                   </template>
                   <span v-else>{{ row.modelNo }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="supplierName" v-if="index == 2" align="left" :label="$i18nMy.t('供应商名称')">
+              <el-table-column prop="supplierName" v-if="index == 1" align="left" :label="$i18nMy.t('供应商名称')">
                 <template slot-scope="{row}">
                   <!-- <template v-if="row.edit">
                     <el-input  size="small" :disabled="flowStage=='start'?true:false"  v-model="row.supplierName" placeholder="" ></el-input>
@@ -298,22 +307,22 @@
                   {{ row.supplierName }}
                 </template>
               </el-table-column>
-              <el-table-column prop="currency" width="70" v-if="index == 2" align="left" :label="$i18nMy.t('币种')">
+              <el-table-column prop="currency" width="70" v-if="index == 1" align="left" :label="$i18nMy.t('币种')">
                 <template slot-scope="{row}">
                   {{ row.currency }}
                 </template>
               </el-table-column>
-              <el-table-column prop="unitPrice" width="80" v-if="index == 2" align="right" :label="$i18nMy.t('单价')">
+              <el-table-column prop="unitPrice" width="80" v-if="index == 1" align="right" :label="$i18nMy.t('单价')">
                 <template slot-scope="{row}">
                     {{ $common.toThousands(row.unitPrice) }}
                 </template>
               </el-table-column>
-              <el-table-column prop="vat" width="60" v-if="index == 2" align="right" label="VAT%">
+              <el-table-column prop="vat" width="60" v-if="index == 1" align="right" label="VAT%">
                 <template slot-scope="{row}">
                   <span  v-if="row.vat !=null"> {{ row.vat }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="vatUnitPrice" width="140" v-if="index == 2" align="right" :label="$i18nMy.t('单价(含VAT)')">
+              <el-table-column prop="vatUnitPrice" width="140" v-if="index == 1" align="right" :label="$i18nMy.t('单价(含VAT)')">
                 <template slot-scope="{row}">
                     {{ $common.toThousands(row.vatUnitPrice) }}
                 </template>
@@ -324,15 +333,18 @@
                   <font color="red" style="font-weight: bold;">*</font>&nbsp;{{$i18nMy.t('数量')}}
                 </template>
                 <template slot-scope="{row}">
-                  <template v-if="row.edit">
+                  <template v-if="row.edit&&!isFA">
                     <el-input-number style="width: 75px;" size="small" :controls="false" v-model="row.quantity" :step="1"  :min="1" :max="10000" :label="$i18nMy.t('数量')"></el-input-number>
                   </template>
                   <span v-else>{{ $common.toThousands(row.quantity) }}</span>
                 </template>
               </el-table-column>
-              <!-- <el-table-column prop="uom" width="100" align="left" :label="'* '+$i18nMy.t('单位')">
+              <el-table-column prop="uom" width="100" align="left" >
+                <template slot="header">
+                  <font color="red" style="font-weight: bold;">*</font>&nbsp;{{$i18nMy.t('单位')}}
+                </template>
                 <template slot-scope="{row}">
-                  <template v-if="row.edit">
+                  <template v-if="row.edit&&!isFA">
                     <el-select  size="small" v-model="row.uom" placeholder="" style="width: 100%;">
                       <el-option v-for="item in $dictUtils.getDictList('purchasing_unit')" :key="item.value" :label="item.label"
                         :value="item.value">
@@ -341,8 +353,8 @@
                   </template>
                   <span v-else>{{row.uom}}</span>
                 </template>
-              </el-table-column> -->
-              <el-table-column prop="expectArrivalDate" width="150" v-if="index == 0||index == 2" align="right">
+              </el-table-column>
+              <el-table-column prop="expectArrivalDate" width="150" align="right">
                 <template slot="header">
                   <font color="red" style="font-weight: bold;">*</font>&nbsp;{{$i18nMy.t('预计到达时间')}}
                 </template>
@@ -356,7 +368,7 @@
                 </template>
               </el-table-column>
 
-              <el-table-column  v-if="index == 2" align="center" :label="$i18nMy.t('报价单币种')">
+              <el-table-column  v-if="index == 1" align="center" :label="$i18nMy.t('报价单币种')">
                 <template>
                   <el-table-column prop="docAmount" align="right" :label="$i18nMy.t('总数')">
                     <template slot-scope="{row}">
@@ -395,7 +407,7 @@
                 </template>
               </el-table-column>
 
-              <el-table-column v-if="index == 2" align="center" label="HKD" >
+              <el-table-column v-if="index == 1" align="center" label="HKD" >
                 <template>
                   <el-table-column prop="baseQuantity" align="right" :label="$i18nMy.t('总数')">
                     <template slot-scope="{row}">
@@ -417,9 +429,11 @@
 
               <el-table-column width="130" align="left" :label="$i18nMy.t('操作')" class-name="td-operate">
                 <template slot-scope="{row}">
-                  <el-button v-if="row.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(row)" style="float: left; "></el-button>
-                  <el-button v-if="!row.edit" type="primary" size="small" icon="el-icon-edit" @click="changeTabListGroup(row)" style="float: left; "></el-button>
-                  <el-button type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(row)" style="float: left; "></el-button>
+                  <el-form size="small" ref="inputFormFA" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
+                    <el-button v-if="row.edit"  type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(row)" style="float: left; "></el-button>
+                    <el-button v-if="!row.edit" type="primary" size="small" icon="el-icon-edit"  @click="changeTabListGroup(row)"  style="float: left; "></el-button>
+                  </el-form>
+                  <el-button type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(row)" style="margin-left:10px; float: left; "></el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -468,7 +482,10 @@
         parentPage: null,
         activeName:'0',
         ifSiteChange: false,
+        parentForm: '',
         isFC: false,
+        isFA: false,
+        status: '',
         isCopy: false,
         title: '',
         method: '',
@@ -477,7 +494,7 @@
         taskDefKey: '',
         flowStage:'start',
         detailInfo:[],
-        tabs:[$i18nMy.t('基础信息'),$i18nMy.t('技术信息'),$i18nMy.t('财务信息')],
+        tabs:[$i18nMy.t('基础信息'),/* $i18nMy.t('技术信息'), */$i18nMy.t('财务信息')],
         inputForm: {
           id: '',
           procDefKey: '',
@@ -500,10 +517,7 @@
           legalEntity: '',
           costCenter: '',
           assetGroup: '',
-          technicalAdvisor: {
-            id: '',
-            name: ''
-          },
+          technicalAdvisor: '',
           budgetType: '',
           approvedDate: '',
           isBudget: '',
@@ -575,6 +589,7 @@
               data
             }) => {
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
+              this.inputForm.technicalAdvisor = this.toArray(this.inputForm.technicalAdvisor)
               this.inputForm.procDefKey = query.procDefKey
               this.ifSiteChange = true;
               if (this.isCopy) {
@@ -583,7 +598,7 @@
               }
               if (!this.$common.isEmpty(this.inputForm.detailInfo)){
                 this.detailInfo = JSON.parse(this.inputForm.detailInfo)
-                this.activeName='2'
+                this.activeName='1'
               }
               this.loading = false
             })
@@ -596,12 +611,27 @@
         }
         this.procDefKey = query.procDefKey
         this.taskDefKey = query.taskDefKey + ''
+
         if (query.isFC) {
           this.isFC = query.isFC
         }
+        if (query.status) {
+          this.status = query.status
+        }
+        if (query.isFA) {
+          this.isFA = query.isFA
+        }
+        if (query.parentForm) {
+          this.parentForm = query.parentForm
+        }
         this.parentPage = parentPage
       },
-
+      toArray(str) {
+          if (typeof str === 'undefined' || str === null || str === "") {
+              return "";
+          }
+          return str.split(',');
+      },
       checkForm(){
         let rtnVal = true
         this.$refs['inputForm'].validate((valid) => {
@@ -654,6 +684,8 @@
         this.$refs['inputForm'].validate((valid) => {
           if (valid) {
             this.loading = true
+            this.inputForm.technicalAdvisor = this.inputForm.technicalAdvisor.toString()
+
             this.$http({
               url: `/flow/pr/oaPrNew/save`,
               method: 'post',
@@ -687,6 +719,8 @@
         this.$refs['inputFormSite'].validate((valid) => {
           if (valid) {
             this.loading = true
+            this.inputForm.technicalAdvisor = this.inputForm.technicalAdvisor.toString()
+
             this.$http({
               url: `/flow/pr/oaPrNew/save`,
               method: 'post',
@@ -741,14 +775,17 @@
         else if(this.$common.isEmpty(row.quantity)){
            this.$message.warning($i18nMy.t('数量') + $i18nMy.t('不能为空'))
         }
-        /* else if(this.$common.isEmpty(row.uom)){
+        else if(this.$common.isEmpty(row.uom)){
            this.$message.warning($i18nMy.t('单位') + $i18nMy.t('不能为空'))
-        } */
+        } 
         else if(this.$common.isEmpty(row.expectArrivalDate)){
            this.$message.warning($i18nMy.t('预计到达时间') + $i18nMy.t('不能为空'))
         }
         else{
           row.edit =false
+        }
+        if (this.parentPage) {
+          this.parentPage.updatePage2DataByDetailInfo()
         }
       },
       delTabListGroup(row){

@@ -69,14 +69,15 @@
           cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff" >
             <thead>
               <tr class="head-background-color head1-height">
-                <th style="min-width:100px;" colspan="2"><font color="red">*</font>{{$i18nMy.t('供应商名称')}}</th>
-                <th style="min-width:100px;" >{{$i18nMy.t('付款条件')}}</th>
-                <th width="100px"><font color="red">*</font>{{$i18nMy.t('币种')}}</th>
-                <th width="120px">{{$i18nMy.t('预计到货日期')}}</th>
-                <th >{{$i18nMy.t('总金额')}}</th>
-                <th colspan="2">{{$i18nMy.t('总金额(含VAT)')}}</th>
+                <th style="min-width:100px;" width="12%" colspan="3"><font color="red">*</font>{{$i18nMy.t('供应商名称')}}</th>
+                <th style="min-width:100px;" width="12%" colspan="1">{{$i18nMy.t('付款条件')}}</th>
+
+                <th width="8%" >{{$i18nMy.t('总金额')}}</th>
+                <th width="12%" colspan="2" >{{$i18nMy.t('总金额(含VAT)')}}</th>
+                <th width="120px"><font color="red">*</font>{{$i18nMy.t('币种')}}</th>
+                <th >{{$i18nMy.t('预计到货日期')}}</th>
                 <!-- <th>{{$i18nMy.t('预计最晚到货日期')}}</th> -->
-                <th colspan="2">{{$i18nMy.t('备注')}}</th>
+                <th width="10%" >{{$i18nMy.t('备注')}}</th>
                 <th><font color="red">*</font>{{$i18nMy.t('文件类型')}}</th>
                 <th colspan="3"><font color="red">*</font>{{$i18nMy.t('附件')}}</th>
                 <!-- <th><font color="red">*</font>{{$i18nMy.t('关联项目')}}</th>
@@ -87,23 +88,29 @@
             </thead>
             <tbody v-for="(item, index) in supplierInfo" :key="'index_'+index">
               <tr class="data-content" style="background-color: #fff3cf;">
-              <td colspan="2" :rowspan="item.docListSize" >
-                <el-input  size="small" v-if="item.edit" v-model="item.supplierName"  ></el-input>
-                <span v-else>
+              <td colspan="3" :rowspan="item.docListSize" >
+                <el-input type="textarea" size="small" v-if="item.edit" v-model="item.supplierName" maxlength="100" :placeholder="$i18nMy.t('长度不超过100')" ></el-input>
+                <span v-else class="my-span">
                   {{item.supplierName}}
                 </span>
               </td>
-              <td :rowspan="item.docListSize" >
-                <el-input  size="small" v-if="item.edit" v-model="item.paymentTerms"  ></el-input>
+              <td colspan="1" :rowspan="item.docListSize" >
+                <el-input type="textarea" size="small" v-if="item.edit" v-model="item.paymentTerms" maxlength="100" :placeholder="$i18nMy.t('长度不超过100')"></el-input>
                 <!-- <el-select size="small" v-model="item.paymentTerms"
                   v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in $dictUtils.getDictList('pr_payment_terms')" on :key="item.value" :label="item.label"
                     :value="item.value">
                   </el-option>
                 </el-select> -->
-                <span v-else>
+                <span v-else class="my-span">
                   {{item.paymentTerms}}
                 </span>
+              </td>
+              <td :rowspan="item.docListSize" class="my-right">
+                  {{$common.toThousands(item.originalPrice)}}
+              </td>
+              <td colspan="2" :rowspan="item.docListSize" class="my-right">
+                  {{$common.toThousands(item.originalVatPrice)}}
               </td>
               <td :rowspan="item.docListSize" >
                 <el-select @change="currencyChange(item)"  size="small" v-model="item.currency"
@@ -119,23 +126,15 @@
               <td :rowspan="item.docListSize" class="my-right">
                   {{item.expectArrivalDate}}
               </td>
-              <td :rowspan="item.docListSize" class="my-right">
-                  {{$common.toThousands(item.originalPrice)}}
-              </td>
-              <td colspan="2" :rowspan="item.docListSize" class="my-right">
-                  {{$common.toThousands(item.originalVatPrice)}}
-              </td>
-
               <!-- <td :rowspan="item.docListSize" class="my-right">
                   {{item.expectLastArrivalDate}}
               </td> -->
-              <td colspan="2" :rowspan="item.docListSize" style="min-width:100px;max-width:250px;" >
+              <td :rowspan="item.docListSize" style="min-width:100px;" >
                 <el-input type="textarea" v-if="item.edit" v-model="item.remarks" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')"></el-input>
-                <span style="word-break: break-all;" v-else>
+                <span class="my-span" v-else>
                   {{item.remarks}}
                 </span>
               </td>
-
               <td  style="width: 132px;">
                 <el-select  size="small" v-model="item.docList[0].documentType" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in $dictUtils.getDictList('pr_document_type')" :key="item.value" :label="item.label"
@@ -229,7 +228,7 @@
                         <el-button :disabled="!item.edit" style="padding: 5px 30px;" round size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
                       </el-upload>
                 </td>
-                <td >
+                <!-- <td >
                   <el-select  multiple size="small" v-model="item2.linkToItems" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                     <el-option v-for="item in detailInfo" :key="item.serialNumber" :label="item.serialNumber"
                       :value="item.serialNumber">
@@ -238,7 +237,7 @@
                   <span v-else>
                     {{item2.linkToItems.join(',')}}
                   </span>
-                </td>
+                </td> -->
                 <!-- <td >
                     {{item2.uploadedBy}}
                 </td>
@@ -255,27 +254,27 @@
                 </td>
               </tr>
               <tr class="head-background-color head2-height">
-                <td style="background-color: #FFFFFF;border:none"></td>
-                <td width="35px" class="first-td">{{$i18nMy.t('序号')}}</td>
-                <td>{{$i18nMy.t('物品')}}</td>
-                <td>{{$i18nMy.t('品牌名称')}}</td>
-                <td>{{$i18nMy.t('型号')}}</td>
+                <td width="1%"  style="background-color: #FFFFFF;border:none"></td>
+                <td width="2%" class="first-td">{{$i18nMy.t('序号')}}</td>
+                <td colspan="1">{{$i18nMy.t('物品')}}</span></td>
+                <td colspan="1">{{$i18nMy.t('品牌名称')}} - {{$i18nMy.t('型号')}}</td>
+                <!-- <td>{{$i18nMy.t('型号')}}</td> -->
                 <td width="105px">{{$i18nMy.t('单价')}}</td>
                 <td width="65px">VAT(%)</td>
                 <td width="105px">{{$i18nMy.t('单价(含VAT)')}}</td>
                 <td>{{$i18nMy.t('请求数量')}}</td>
-                <td><font color="red">*</font>MOQ</td>
-                <td width="135px" >{{$i18nMy.t('预计到货日期')}}</td>
+                <!-- <td><font color="red">*</font>MOQ</td> -->
+                <td width="170px" >{{$i18nMy.t('预计到货日期')}}</td>
                 <!-- <td>{{$i18nMy.t('预计最晚到货日期')}}</td> -->
                 <td width="45px" colspan="1"><font color="red">*</font>{{$i18nMy.t('采纳')}}</td>
-                <td width="" colspan="2"><font color="red">*</font>{{$i18nMy.t('原因')}}</td>
+                <td width="" colspan="5"><font color="red">*</font>{{$i18nMy.t('原因')}}</td>
               </tr>
               <tr class="data-content" v-for="(item3, index3) in item.detailInfo" :key="'index3_'+index3">
-                <td  style="background-color: #FFFFFF;border:none"></td>
+                <td style="background-color: #FFFFFF;border:none"></td>
                 <td class="first-td">{{item3.serialNumber}}</td>
-                <td> {{item3.item}} </td>
-                <td> {{item3.brandName}} </td>
-                <td> {{item3.modelNo}} </td>
+                <td colspan="1"><span class="my-span">{{item3.item}}</span></td>
+                <td colspan="1"><span class="my-span">{{item3.brandName}} - {{item3.modelNo}}</span></td>
+                <!-- <td> {{item3.modelNo}} </td> -->
                 <td class="my-right">
                   <el-input  v-on:input="calculationPrice(index)" v-only-num.float="item3"  size="small" v-if="item.edit" v-model="item3.unitPrice"  ></el-input>
                   <span v-else>
@@ -294,13 +293,13 @@
                     {{$common.toThousands(item3.vatUnitPrice)}}
                   </span>
                 </td>
-                <td class="my-right"> {{item3.quantity}} </td>
-                <td class="my-right">
+                <td> {{item3.quantity}} - {{item3.uom}}</td>
+                <!-- <td class="my-right">
                   <el-input v-on:input="calculationPrice(index)"  v-only-num="item3"  size="small" v-if="item.edit" v-model="item3.moq" ></el-input>
                   <span v-else>
                     {{$common.toThousands(item3.moq)}}
                   </span>
-                </td>
+                </td> -->
                 <td class="my-right">
                   <el-date-picker  size="small"  v-if="item.edit"  v-model="item3.expectArrivalDate" type="date"
                     value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('选择日期时间')">
@@ -319,18 +318,18 @@
                 </td> -->
 
                 <td colspan="1">
-                  <el-form size="small" :model="inputForm" ref="inputFormFC" :disabled="!((status=='start'&&procDefKey=='prpo')||parentForm=='TaskForm'&&isFA)" >
+                  <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!((status=='start'&&procDefKey=='prpo')||(parentForm=='TaskForm'&&isFA))" >
                     <el-checkbox @change="awardedChange(item,item3.serialNumber)" :disabled="item.edit"  v-model="item3.awarded" ></el-checkbox>
                   </el-form>
                 </td>
-                <td colspan="2">
-                  <el-form size="small" :model="inputForm" ref="inputFormFC" :disabled="!((status=='start'&&procDefKey=='prpo')||parentForm=='TaskForm'&&isFA)" >
-                      <el-input v-on:input="inputReason(index)" size="small" :placeholder="$i18nMy.t('请输入原因')" v-model="item3.reason" :disabled="item.edit||!((status=='start'&&procDefKey=='prpo')||parentForm=='TaskForm'&&isFA)" ></el-input>
+                <td colspan="5">
+                  <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!((status=='start'&&procDefKey=='prpo')||(parentForm=='TaskForm'&&isFA))" >
+                      <el-input type="textarea" v-on:input="inputReason(index)" size="small" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')" v-model="item3.reason" :disabled="item.edit||!((status=='start'&&procDefKey=='prpo')||(parentForm=='TaskForm'&&isFA))" ></el-input>
                   </el-form>
                 </td>
               </tr>
               <tr>
-                <td colspan="18" style="height: 1px;background-color:#EBEEF5"></td>
+                <td colspan="16" style="height: 1px;background-color:#EBEEF5"></td>
               </tr>
             </tbody>
           </table>
@@ -348,8 +347,7 @@
             <tr class="head-background-color">
               <th>{{$i18nMy.t('序号')}}</th>
               <th>{{$i18nMy.t('物品')}}</th>
-              <th>{{$i18nMy.t('品牌名称')}}</th>
-              <th>{{$i18nMy.t('型号')}}</th>
+              <th>{{$i18nMy.t('品牌名称')}} - {{$i18nMy.t('型号')}}</th>
               <th>{{$i18nMy.t('币种')}}</th>
               <th>{{$i18nMy.t('单价')}}</th>
               <th>VAT(%)</th>
@@ -360,20 +358,19 @@
               <th>{{$i18nMy.t('报价金额')}}</th>
               <th>{{$i18nMy.t('报价金额(增值税)')}}</th>
               <th>{{$i18nMy.t('港币金额')}}</th>
-              <th colspan="2">{{$i18nMy.t('港币金额(增值税)')}}</th>
+              <th>{{$i18nMy.t('港币金额(增值税)')}}</th>
             </tr>
           </thead>
           <tbody v-for="(item, index) in detailInfo">
             <tr class="data-content" style="background-color: #fff3cf;">
               <td>{{item.serialNumber}}</td>
-              <td>{{item.item}}</td>
-              <td>{{item.brandName}}</td>
-              <td>{{item.modelNo}}</td>
+              <td><span class="my-span">{{item.item}}</span></td>
+              <td><span class="my-span">{{item.brandName}} - {{item.modelNo}}</span></td>
               <td>{{item.currency}}</td>
               <td class="my-right">{{$common.toThousands(item.unitPrice)}}</td>
               <td class="my-right">{{$common.toThousands(item.vat)}}</td>
               <td class="my-right">{{$common.toThousands(item.vatUnitPrice)}}</td>
-              <td class="my-right">{{$common.toThousands(item.quantity)}}</td>
+              <td >{{$common.toThousands(item.quantity)}} - {{item.uom}}</td>
               <!-- <td>{{item.uom}}</td>
               <td class="my-right"></td> -->
               <td class="my-right">{{$common.toThousands(item.docAmount)}}</td>
@@ -383,7 +380,7 @@
                   {{$common.toThousands((item.docAmount*item.exRate).toFixed(2))}}
                 </span>
               </td>
-              <td colspan="2" class="my-right">
+              <td class="my-right">
                 <span v-if="!isNaN(item.docVatAmount*item.exRate)">
                   {{$common.toThousands((item.docVatAmount*item.exRate).toFixed(2))}}
                 </span>
@@ -391,14 +388,14 @@
             </tr>
             <tr class="head-background-color head2-height">
               <td style="background-color: #FFFFFF;border:none"></td>
-              <td class="first-td">{{$i18nMy.t('供应商名称')}}</td>
-              <td colspan="2">{{$i18nMy.t('付款条件')}}</td>
+              <td class="first-td" width="15%">{{$i18nMy.t('供应商名称')}}</td>
+              <td width="15%">{{$i18nMy.t('付款条件')}}</td>
               <td>{{$i18nMy.t('币种')}}</td>
               <td>{{$i18nMy.t('单价')}}</td>
               <td>VAT(%)</td>
               <td>{{$i18nMy.t('单价(含VAT)')}}</td>
-              <td>MOQ</td>
-              <td>{{$i18nMy.t('预计到货日期')}}</td>
+              <!-- <td>MOQ</td> -->
+              <td colspan="2">{{$i18nMy.t('预计到货日期')}}</td>
               <!-- <td>{{$i18nMy.t('预计最晚到货日期')}}</td>
               <td colspan="2">{{$i18nMy.t('相关文档')}}</td> -->
               <td>{{$i18nMy.t('采纳')}}</td>
@@ -406,14 +403,14 @@
             </tr>
             <tr class="data-content" v-for="(item, index) in supplierInfoByDetailInfo[item.item]" >
               <td style="background-color: #FFFFFF;border:none"></td>
-              <td class="first-td">{{item.supplierName}}</td>
-              <td colspan="2">{{item.paymentTerms}}</td>
+              <td class="first-td"><span class="my-span">{{item.supplierName}}</span></td>
+              <td ><span class="my-span">{{item.paymentTerms}}</span></td>
               <td >{{item.currency}}</td>
               <td class="my-right">{{$common.toThousands(item.unitPrice)}}</td>
               <td class="my-right">{{$common.toThousands(item.vat)}}</td>
               <td class="my-right">{{$common.toThousands(item.vatUnitPrice)}}</td>
-              <td class="my-right">{{item.moq}}</td>
-              <td class="my-right">{{item.expectArrivalDate}}</td>
+              <!-- <td class="my-right">{{item.moq}}</td> -->
+              <td colspan="2" class="my-right">{{item.expectArrivalDate}}</td>
               <!-- <td class="my-right">{{item.expectLastArrivalDate}}</td>
               <td colspan="2" >
                 <a v-for="(file, index2) in item.relatedQuotation"
@@ -423,7 +420,7 @@
                 </a>
               </td> -->
               <td ><el-checkbox :disabled="true" v-model="item.awarded"></el-checkbox></td>
-              <td colspan="2" width="150px">{{item.reason}}</td>
+              <td colspan="2" width="150px"><span class="my-span">{{item.reason}}</span></td>
             </tr>
           </tbody>
         </table>
@@ -689,6 +686,7 @@
         this.supplierInfo[index].docListSize=this.supplierInfo[index].docList.length+1
       },
       _getSupplierInfoByDetailInfo(supplierInfo){
+        debugger
         for(var i=0;i<supplierInfo.detailInfo.length;i++){
           var item=supplierInfo.detailInfo[i].item
           if(this.supplierInfoByDetailInfo[item]==null){
@@ -964,6 +962,12 @@
         this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
         this.inputForm.supplierInfo=JSON.stringify(this.supplierInfo)
         console.log(JSON.stringify(this.inputForm))
+      },
+      updateSupplierByDetailInfo(){
+        for(var j=0;j<this.supplierInfo.length;j++){
+          this.supplierInfo[j].detailInfo = JSON.parse(JSON.stringify(this.detailInfo))
+        }
+        this._getSupplierInfoByDetailInfoList()
       }
     }
   }
@@ -1035,6 +1039,11 @@
     font-size: 16px;
     font-weight: bold;
     color: #6a6a6a;
+  }
+  .my-span{
+     white-space:normal;
+     word-break:break-all;
+     word-wrap:break-word;
   }
 
   .data-content{

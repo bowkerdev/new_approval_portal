@@ -46,9 +46,21 @@
       init(query) {
         this.activeName='oaPrNewForm'
         this.businessId=query.businessId
+        if (query.taskDefKey && query.taskDefKey.indexOf('FC')>0){
+          this.isReadOnly=true
+          query.isFC = true
+        }
+        if (query.taskDefKey && query.taskDefKey.indexOf('FA')>0){
+          this.isReadOnly=true
+          query.isFA = true
+        }
         this.$refs.oaPrNewForm.init(query, this)
         this.$refs.oaPrNewFormForDoc.init(query)
         this.$refs.oaPrNewFormForSupplier.init(query)
+      },
+      updatePage2DataByDetailInfo(){
+        this.$refs.oaPrNewFormForSupplier.detailInfo=this.$refs.oaPrNewForm.detailInfo
+        this.$refs.oaPrNewFormForSupplier.updateSupplierByDetailInfo()
       },
       // 表单提交
       saveForm(callBack) {

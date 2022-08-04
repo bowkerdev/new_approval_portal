@@ -111,6 +111,10 @@
 
         }
       },
+     /* updatePage2Data(){
+        this.setPage2Data()
+        this.$refs.oaPrNewFormForSupplier._getSupplierInfoByDetailInfoList()
+      }, */
       init(query) {
         this.activeName='oaPrNewForm'
         this.businessId=query.businessId

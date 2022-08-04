@@ -212,6 +212,7 @@
       }
     },
     created () {
+      //document.body.style.zoom = 0.9
       this.allMenuList = JSON.parse(sessionStorage.getItem('allMenuList') || '[]')
       if (this.defaultLayout === 'top' || this.defaultLayout === 'dropdown-top') {
         this.topMenuActiveIndex = this.allMenuList[0].id

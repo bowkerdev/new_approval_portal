@@ -131,7 +131,7 @@
       <el-row :gutter="15" style="margin-right: 10px">
           <el-table :data="supplementaryDoc" height="300px" class="table" style="border: 1px solid #EBEEF5 !important ; margin-left: 10px">
             <el-table-column prop="serialNumber" width="50" align="right" :label="$i18nMy.t('序号')"> </el-table-column>
-            <el-table-column prop="documentType" width="220"  align="left" :label="$i18nMy.t('文件类型')"   >
+            <!-- <el-table-column prop="documentType" width="220"  align="left" :label="$i18nMy.t('文件类型')"   >
               <template slot-scope="{row}">
                 <template v-if="row.edit">
                   <el-select  size="small" v-model="row.documentType"  :placeholder="$i18nMy.t('请选择')">
@@ -142,7 +142,7 @@
                 </template>
                 <span v-else>{{ row.documentType }}</span>
               </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column prop="attachment" align="left" :label="$i18nMy.t('附件')"   >
               <template slot-scope="{row}">
                 <el-upload :class="row.attachment==''?'':'hide'"

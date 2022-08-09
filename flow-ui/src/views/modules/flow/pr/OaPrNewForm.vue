@@ -7,7 +7,7 @@
           <p style="text-align: center;margin-top: 20px;font-size: 26px;font-weight: bold;">
             Win Hanverky Group
           </p>
-          <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;"  v-if="procDefKey === 'prpo'">
+          <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;"  v-if="procDefKey === 'prpo' || procDefKey === 'pr'">
             {{$i18nMy.t('采购设备申请表（IT 设备）')}}<!-- Purchase Requisition Form -->
           </p>
           <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;"  v-if="procDefKey === 'prpo_non_it'">
@@ -252,7 +252,7 @@
 
       <el-row >
         <el-tabs type="border-card" v-model="activeName">
-          <el-tab-pane v-for="(item, index) in tabs" :label="item" :key ="index" style="overflow-x:auto;overflow-y:hidden ;">
+          <el-tab-pane v-for="(item, index) in tabs" :label="item" :key ="index" style="overflow-x:auto;overflow-y:hidden;">
            <el-row v-if="index==0">
              <el-button size="small" @click="addTabListGroup()" round type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px;padding: 5px 5px;" >
              </el-button>
@@ -265,19 +265,21 @@
                 </template>
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
-                    <el-input  size="small" v-model="row.item" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                    <el-input type="textarea" size="small" v-model="row.item" maxlength="100" :placeholder="$i18nMy.t('长度不超过100')" ></el-input>
                   </template>
                   <span v-else>{{ row.item }}</span>
                 </template>
               </el-table-column>
-              <!-- <el-table-column prop="itemDescription" v-if="index == 0" align="left" :label="$i18nMy.t('描述')">
+              <el-table-column prop="itemDescription" v-if="index == 0" align="left" :label="$i18nMy.t('描述')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
-                    <el-input  size="small" v-model="row.itemDescription" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                    <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
+                      <el-input type="textarea" size="small" v-model="row.itemDescription" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')" ></el-input>
+                    </el-form>
                   </template>
                   <span v-else>{{ row.itemDescription }}</span>
                 </template>
-              </el-table-column> -->
+              </el-table-column>
               <el-table-column prop="brandName" align="left" :label="$i18nMy.t('品牌')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
@@ -364,7 +366,7 @@
                       value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('选择日期时间')">
                     </el-date-picker>
                   </template>
-                  <span v-else>{{ row.expectArrivalDate }}</span>
+                  <span v-else>{{ $common.parseTime(row.expectArrivalDate, '{y}-{m}-{d}') }}</span>
                 </template>
               </el-table-column>
 
@@ -409,7 +411,7 @@
 
               <el-table-column v-if="index == 1" align="center" label="HKD" >
                 <template>
-                  <el-table-column prop="baseQuantity" align="right" :label="$i18nMy.t('总数')">
+                  <el-table-column prop="baseAmount" align="right" :label="$i18nMy.t('总数')">
                     <template slot-scope="{row}">
                       <span v-if="!isNaN(row.docAmount*row.exRate)">
                         {{$common.toThousands((row.docAmount*row.exRate).toFixed(2))}}
@@ -417,7 +419,7 @@
                     </template>
                   </el-table-column>
 
-                  <el-table-column width="120px" prop="baseVatQuantity" align="right" :label="$i18nMy.t('总数(VAT)')"   >
+                  <el-table-column width="120px" prop="baseVatAmount" align="right" :label="$i18nMy.t('总数(VAT)')"   >
                     <template slot-scope="{row}">
                       <span  v-if="!isNaN(row.docVatAmount*row.exRate)">
                         {{$common.toThousands((row.docVatAmount*row.exRate).toFixed(2))}}
@@ -427,7 +429,7 @@
                 </template>
               </el-table-column>
 
-              <el-table-column width="130" align="left" :label="$i18nMy.t('操作')" class-name="td-operate">
+              <el-table-column fixed="right" width="120" align="center" :label="$i18nMy.t('操作')" class-name="td-operate">
                 <template slot-scope="{row}">
                   <el-form size="small" ref="inputFormFA" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
                     <el-button v-if="row.edit"  type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(row)" style="float: left; "></el-button>
@@ -574,7 +576,7 @@
         this.inputForm.vat = null
       },
       init(query, parentPage) {
-
+debugger
         if (query&&query.businessId) {
           this.loading = true
           this.inputForm.id = (query.businessId).replace("__copy","")
@@ -598,7 +600,7 @@
               }
               if (!this.$common.isEmpty(this.inputForm.detailInfo)){
                 this.detailInfo = JSON.parse(this.inputForm.detailInfo)
-                this.activeName='1'
+                this.activeName='0'
               }
               this.loading = false
             })
@@ -612,14 +614,14 @@
         this.procDefKey = query.procDefKey
         this.taskDefKey = query.taskDefKey + ''
 
-        if (query.isFC) {
-          this.isFC = query.isFC
+        if (query.taskDefKey && query.taskDefKey.indexOf('FC')>0) {
+          this.isFC = true
+        }
+        if (query.taskDefKey && query.taskDefKey.indexOf('FA')>0) {
+          this.isFA = true
         }
         if (query.status) {
           this.status = query.status
-        }
-        if (query.isFA) {
-          this.isFA = query.isFA
         }
         if (query.parentForm) {
           this.parentForm = query.parentForm
@@ -777,13 +779,14 @@
         }
         else if(this.$common.isEmpty(row.uom)){
            this.$message.warning($i18nMy.t('单位') + $i18nMy.t('不能为空'))
-        } 
+        }
         else if(this.$common.isEmpty(row.expectArrivalDate)){
            this.$message.warning($i18nMy.t('预计到达时间') + $i18nMy.t('不能为空'))
         }
         else{
           row.edit =false
         }
+
         if (this.parentPage) {
           this.parentPage.updatePage2DataByDetailInfo()
         }
@@ -794,6 +797,10 @@
           this.detailInfo.splice(index, 1)
         }
         this._sortDetailInfo()
+
+        if (this.parentPage) {
+          this.parentPage.updatePage2DataByDetailInfo()
+        }
       },
       changeTabListGroup(row){
         row.edit =true

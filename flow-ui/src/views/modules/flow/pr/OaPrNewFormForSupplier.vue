@@ -7,7 +7,7 @@
           <p style="text-align: center;margin-top: 20px;font-size: 26px;font-weight: bold;">
             Win Hanverky Group
           </p>
-          <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;"  v-if="procDefKey === 'prpo'">
+          <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;"  v-if="procDefKey === 'prpo' || procDefKey === 'pr'">
             {{$i18nMy.t('采购设备申请表（IT 设备）')}}<!-- Purchase Requisition Form -->
           </p>
           <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;"  v-if="procDefKey === 'prpo_non_it'">
@@ -124,7 +124,7 @@
                 </span>
               </td>
               <td :rowspan="item.docListSize" class="my-right">
-                  {{item.expectArrivalDate}}
+                  {{$common.parseTime(item.expectArrivalDate, '{y}-{m}-{d}')}}
               </td>
               <!-- <td :rowspan="item.docListSize" class="my-right">
                   {{item.expectLastArrivalDate}}
@@ -305,7 +305,7 @@
                     value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('选择日期时间')">
                   </el-date-picker>
                   <span v-else>
-                    {{item3.expectArrivalDate}}
+                    {{$common.parseTime(item3.expectArrivalDate, '{y}-{m}-{d}')}}
                   </span>
                 </td>
                 <!-- <td class="my-right">
@@ -410,7 +410,7 @@
               <td class="my-right">{{$common.toThousands(item.vat)}}</td>
               <td class="my-right">{{$common.toThousands(item.vatUnitPrice)}}</td>
               <!-- <td class="my-right">{{item.moq}}</td> -->
-              <td colspan="2" class="my-right">{{item.expectArrivalDate}}</td>
+              <td colspan="2" class="my-right">{{$common.parseTime(item.expectArrivalDate, '{y}-{m}-{d}')}}</td>
               <!-- <td class="my-right">{{item.expectLastArrivalDate}}</td>
               <td colspan="2" >
                 <a v-for="(file, index2) in item.relatedQuotation"
@@ -572,11 +572,11 @@
         if (query.status) {
           this.status = query.status
         }
-        if (query.isFC) {
-          this.isFC = query.isFC
+        if (query.taskDefKey && query.taskDefKey.indexOf('FC')>0) {
+          this.isFC = true
         }
-        if (query.isFA) {
-          this.isFA = query.isFA
+        if (query.taskDefKey && query.taskDefKey.indexOf('FA')>0) {
+          this.isFA = true
         }
         if (query.parentForm) {
           this.parentForm = query.parentForm
@@ -622,7 +622,6 @@
             }
           }
         }
-        debugger
         if(awardedSize != this.detailInfo.length && this.procDefKey == 'prpo'){
           this.$message.warning($i18nMy.t('请选择供应商'))
           return false;
@@ -637,7 +636,7 @@
         this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
         this.inputForm.supplierInfo=JSON.stringify(this.supplierInfo)
         this.inputForm.totalBaseAmount=this.inputForm.exRate*this.inputForm.totalContractAmount
-        debugger
+
         this.$refs['inputForm'].validate((valid) => {
           if (valid) {
             this.loading = true
@@ -686,7 +685,6 @@
         this.supplierInfo[index].docListSize=this.supplierInfo[index].docList.length+1
       },
       _getSupplierInfoByDetailInfo(supplierInfo){
-        debugger
         for(var i=0;i<supplierInfo.detailInfo.length;i++){
           var item=supplierInfo.detailInfo[i].item
           if(this.supplierInfoByDetailInfo[item]==null){
@@ -698,17 +696,17 @@
             obj={}
             this.supplierInfoByDetailInfo[item].push(obj)
           }
-          obj.supplierName =supplierInfo.supplierName
-          obj.paymentTerms =supplierInfo.paymentTerms
-          obj.currency =supplierInfo.currency
-          obj.unitPrice=supplierInfo.detailInfo[i].unitPrice
-          obj.vat=supplierInfo.detailInfo[i].vat
-          obj.vatUnitPrice=supplierInfo.detailInfo[i].vatUnitPrice
-          obj.moq =supplierInfo.detailInfo[i].moq
-          obj.expectArrivalDate =supplierInfo.detailInfo[i].expectArrivalDate
-          obj.expectLastArrivalDate =supplierInfo.detailInfo[i].expectLastArrivalDate
-          obj.awarded =supplierInfo.detailInfo[i].awarded
-          obj.reason =supplierInfo.detailInfo[i].reason
+          obj.supplierName = supplierInfo.supplierName
+          obj.paymentTerms = supplierInfo.paymentTerms
+          obj.currency = supplierInfo.currency
+          obj.unitPrice= supplierInfo.detailInfo[i].unitPrice
+          obj.vat= supplierInfo.detailInfo[i].vat
+          obj.vatUnitPrice = supplierInfo.detailInfo[i].vatUnitPrice
+          obj.moq = supplierInfo.detailInfo[i].moq
+          obj.expectArrivalDate = supplierInfo.detailInfo[i].expectArrivalDate
+          obj.expectLastArrivalDate = supplierInfo.detailInfo[i].expectLastArrivalDate
+          obj.awarded = supplierInfo.detailInfo[i].awarded
+          obj.reason = supplierInfo.detailInfo[i].reason
           var fileList=[]
           var fileUrlList=[]
           for(var j=0;j<supplierInfo.docList.length;j++){
@@ -837,19 +835,20 @@
           this.supplierInfo[index].detailInfo[i].vat = parseFloat(this.supplierInfo[index].detailInfo[i].vat||"0")
           if(isNaN(this.supplierInfo[index].detailInfo[i].unitPrice) || this.supplierInfo[index].detailInfo[i].unitPrice == ''){
             this.supplierInfo[index].detailInfo[i].unitPrice = ''
+            this.supplierInfo[index].detailInfo[i].vatUnitPrice = ''
           }else{
             this.supplierInfo[index].detailInfo[i].vatUnitPrice = this.supplierInfo[index].detailInfo[i].unitPrice * (100+this.supplierInfo[index].detailInfo[i].vat)/100
           }
           if(isNaN(this.supplierInfo[index].detailInfo[i].vatUnitPrice)){
             this.supplierInfo[index].detailInfo[i].vatUnitPrice = ''
           }
-          if(isNaN(this.supplierInfo[index].detailInfo[i].moq)){
-            this.supplierInfo[index].detailInfo[i].moq = ''
+          if(isNaN(this.supplierInfo[index].detailInfo[i].quantity)){
+            this.supplierInfo[index].detailInfo[i].quantity = ''
           }
           originalPrice+=parseFloat(this.supplierInfo[index].detailInfo[i].unitPrice||"0")*
-            parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
+            parseInt(this.supplierInfo[index].detailInfo[i].quantity||"0")
           originalVatPrice+=parseFloat(this.supplierInfo[index].detailInfo[i].vatUnitPrice||"0")*
-            parseInt(this.supplierInfo[index].detailInfo[i].moq||"0")
+            parseInt(this.supplierInfo[index].detailInfo[i].quantity||"0")
         }
         originalPrice = parseFloat(originalPrice.toFixed(2))
         this.supplierInfo[index].originalPrice=originalPrice
@@ -963,11 +962,34 @@
         this.inputForm.supplierInfo=JSON.stringify(this.supplierInfo)
         console.log(JSON.stringify(this.inputForm))
       },
-      updateSupplierByDetailInfo(){
-        for(var j=0;j<this.supplierInfo.length;j++){
-          this.supplierInfo[j].detailInfo = JSON.parse(JSON.stringify(this.detailInfo))
+      updateSupplierByDetailInfo(){  // 用于处理page1的设备列表变更对page2的影响
+        for(var j=0; j<this.supplierInfo.length; j++){
+          var supplierDetailInfo = JSON.parse(JSON.stringify(this.detailInfo))
+          for(var i=0; i<supplierDetailInfo.length; i++){
+            for(var k=0; k<this.supplierInfo[j].detailInfo.length; k++){
+              // 在this.supplierInfo[j].detailInfo找到对应的item的k，用于处理page1中的detailInfo有增删的情况，
+              // 此时page1中的detailInfo与原this.supplierInfo[j].detailInfo的length可能不一致
+              if (supplierDetailInfo[i]['item'] == this.supplierInfo[j].detailInfo[k]['item']){
+                // debugger
+                for(var key in this.supplierInfo[j].detailInfo[k]){// 把this.supplierInfo[j].detailInfo['k']的专有值付给新的中间值supplierDetailInfo
+
+                  if (key == 'supplierName' || key == 'currency' || key == 'unitPrice' || key == 'vat' || key == 'vatUnitPrice' || key == 'expectArrivalDate'
+                    || key == 'docAmount' || key == 'docVatAmount' || key == 'baseAmount' || key == 'baseVatAmount' || key == 'awarded' || key == 'reason') {
+                      //if (key == 'brandName' || key == 'modelNo' || key == 'item' || key == 'quantity' || key == 'uom' || key == 'expectArrivalDate' ) {
+                        supplierDetailInfo[i][key] = this.supplierInfo[j].detailInfo[k][key]
+                        //this.supplierInfo[j].detailInfo[i][key] = this.detailInfo[i][key]
+                      //}
+                  }
+                }
+              }
+            }
+          }
+          this.supplierInfo[j].detailInfo = supplierDetailInfo //新的中间值supplierDetailInfo塞回this.supplierInfo[j].detailInfo
+          this.calculationPrice(j)
         }
-        this._getSupplierInfoByDetailInfoList()
+        this._getSupplierArrivalDate()  // 更新每个供应商的商品的最早到货时间
+        this._getSupplierInfoByDetailInfoList() // 更新商品（1）-供应商（N）表
+        this._updateDetailInfoDocUnitPrice()  // 更新商品（1）-供应商（N）表的总价格
       }
     }
   }

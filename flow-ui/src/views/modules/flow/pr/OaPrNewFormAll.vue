@@ -46,21 +46,19 @@
       init(query) {
         this.activeName='oaPrNewForm'
         this.businessId=query.businessId
-        if (query.taskDefKey && query.taskDefKey.indexOf('FC')>0){
+        if (query.taskDefKey && (query.taskDefKey.indexOf('FC')>0 || query.taskDefKey.indexOf('FA')>0)) { // 对FA、FC两个角色的特殊处理，只允许修改部分特定字段，其他大部分字段不能改
           this.isReadOnly=true
-          query.isFC = true
-        }
-        if (query.taskDefKey && query.taskDefKey.indexOf('FA')>0){
-          this.isReadOnly=true
-          query.isFA = true
         }
         this.$refs.oaPrNewForm.init(query, this)
         this.$refs.oaPrNewFormForDoc.init(query)
         this.$refs.oaPrNewFormForSupplier.init(query)
       },
       updatePage2DataByDetailInfo(){
+        // 更新第2页
         this.$refs.oaPrNewFormForSupplier.detailInfo=this.$refs.oaPrNewForm.detailInfo
         this.$refs.oaPrNewFormForSupplier.updateSupplierByDetailInfo()
+        // 更新第3页
+        this.$refs.oaPrNewFormForDoc.detailInfo=this.$refs.oaPrNewForm.detailInfo
       },
       // 表单提交
       saveForm(callBack) {

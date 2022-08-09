@@ -7,7 +7,7 @@
           <p style="text-align: center;margin-top: 20px;font-size: 26px;font-weight: bold;">
             Win Hanverky Group
           </p>
-          <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;"  v-if="procDefKey === 'prpo'">
+          <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;"  v-if="procDefKey === 'prpo' || procDefKey === 'pr'">
             {{$i18nMy.t('采购设备申请表（IT 设备）')}}<!-- Purchase Requisition Form -->
           </p>
           <p style="text-align: center;margin: 10px 0px 20px 0px;font-size: 16px;"  v-if="procDefKey === 'prpo_non_it'">
@@ -61,10 +61,13 @@
            <el-table-column prop="serialNumber" width="50" align="right" :label="$i18nMy.t('序号')"> </el-table-column>
            <el-table-column prop="item" align="left" :label="$i18nMy.t('物品')">
            </el-table-column>
-           <el-table-column prop="brandName" align="left" :label="$i18nMy.t('品牌')">
+           <el-table-column prop="brandName" align="left" :label="$i18nMy.t('品牌 - 型号')">
+             <template slot-scope="{row}">
+               {{row.brandName}} - {{row.modelNo}}
+             </template>
            </el-table-column>
-           <el-table-column prop="modelNo" align="left" :label="$i18nMy.t('型号')">
-           </el-table-column>
+           <!-- <el-table-column prop="modelNo" align="left" :label="$i18nMy.t('型号')">
+           </el-table-column> -->
            <el-table-column prop="unitPrice" width="100" align="right" :label="$i18nMy.t('单价')">
              <template slot-scope="{row}">
                {{$common.toThousands(row.unitPrice)}}
@@ -75,14 +78,14 @@
               <span  v-if="row.vat !=null"> {{ row.vat }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="vatUnitPrice"  width="120" align="right" :label="$i18nMy.t('单价(含VAT)')">
+          <el-table-column prop="vatUnitPrice"  width="160" align="right" :label="$i18nMy.t('单价(含VAT)')">
             <template slot-scope="{row}">
                 {{ $common.toThousands(row.vatUnitPrice) }}
             </template>
           </el-table-column>
-           <el-table-column prop="quantity" width="100" align="left" :label="$i18nMy.t('数量')">
+           <el-table-column prop="quantity" width="120" align="left" :label="$i18nMy.t('数量')">
              <template slot-scope="{row}">
-               {{$common.toThousands(row.quantity)}}
+               {{$common.toThousands(row.quantity)}} - {{row.uom}}
              </template>
            </el-table-column>
            <!-- <el-table-column prop="uom" width="100"  align="left" :label="$i18nMy.t('单位')">
@@ -103,14 +106,14 @@
            </el-table-column>
            <el-table-column align="center" :label="$i18nMy.t('HKD')" >
              <template>
-               <el-table-column prop="baseQuantity" width="100" align="left" :label="$i18nMy.t('总数')"   >
+               <el-table-column prop="baseAmount" width="100" align="left" :label="$i18nMy.t('总数')"   >
                 <template slot-scope="{row}">
                   <span v-if="!isNaN(row.docAmount*row.exRate)">
                     {{$common.toThousands((row.docAmount*row.exRate).toFixed(2))}}
                   </span>
                 </template>
                </el-table-column>
-               <el-table-column width="120" prop="baseVatQuantity" align="left" :label="$i18nMy.t('总数(VAT)')">
+               <el-table-column width="120" prop="baseVatAmount" align="left" :label="$i18nMy.t('总数(VAT)')">
                   <template slot-scope="{row}">
                     <span  v-if="!isNaN(row.docVatAmount*row.exRate)">
                       {{$common.toThousands((row.docVatAmount*row.exRate).toFixed(2))}}
@@ -142,29 +145,45 @@
                 </template>
                 <span v-else>{{ row.documentType }}</span>
               </template>
-            </el-table-column> -->
-            <el-table-column prop="attachment" align="left" :label="$i18nMy.t('附件')"   >
+            </el-table-column>
+            `${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr` -->
+            <el-table-column prop="attachment" align="left" :label="$i18nMy.t('附件')">
               <template slot-scope="{row}">
-                <el-upload :class="row.attachment==''?'':'hide'"
-                  :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
+                <el-upload :class="row.attachment.split('|').length<5?'':'hide'"
+                    :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
+                    :headers="{token: $cookie.get('token')}"
+                    :on-preview="(file, fileList) => {$window.open((file.response && file.response.url) || file.url)}"
+                    :on-success="(response, file, fileList) => {
+                      row.attachment = fileList.map(item => (item.response && item.response.url) || item.url).join('|')
+                    }"
+                    :on-remove="(file, fileList) => {
+                      row.attachment = fileList.map(item => (item.response && item.response.url) || item.url).join('|')
+                    }"
+                    :before-remove="(file, fileList) => {
+                      return $confirm(`${$i18nMy.t('确定移除')} ${file.name}?`)
+                    }"
+                    multiple
+                    :limit="5"
+                    :on-exceed="(files, fileList) =>{
+                      $message.warning( '当前限制选择 5 个文件' )
+                    }"
+                    :file-list="attachmentsArra[row.id]">
+                    <el-button :disabled="!row.edit" style="padding: 5px 30px;" round size="small" type="primary" >{{$i18nMy.t('选择文件')}}</el-button>
+                  </el-upload>
+
+                <!-- <el-upload :class="row.attachment==''?'':'hide'"
+                  action="#"
                       :headers="{token: $cookie.get('token')}"
-                      :on-preview="(file, fileList) => {$window.open((file.response && file.response.url) || file.url)}"
-                      :on-success="(response, file, fileList) => {
-                         row.attachment = fileList.map(item => (item.response && item.response.url) || item.url).join('|')
-                      }"
-                      :on-remove="(file, fileList) => {
-                        row.attachment =''
-                      }"
-                      :before-remove="(file, fileList) => {
-                        return $confirm(`${$i18nMy.t('确定移除')} ${file.name}?`)
-                      }"
-                      :limit="1"
-                      :on-exceed="(files, fileList) =>{
-                        $message.warning($common.stringFormat('当前限制选择 1 个文件，本次选择了 {0} 个文件，共选择了 {1} 个文件',files.length,files.length + fileList.length) )
-                      }"
-                      :file-list="attachmentsArra[row.id]">
-                      <el-button :disabled="!row.edit" style="padding: 5px 30px;" round size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
+                      :before-remove="beforeRemove"
+                      :before-upload="beforeUpload"
+                      :on-change="uploadChange"
+                      :auto-upload="false"
+                      :file-list="fileList"
+                      multiple
+                      >
+                      <el-button :disabled="!row.edit" style="padding: 5px 30px;" round size="small" type="primary" >{{$i18nMy.t('选择文件')}}</el-button>
                     </el-upload>
+                    <el-button :disabled="!row.edit" type="primary" style="padding: 5px 30px;" round size="small"  @click="submit">{{$i18nMy.t('上传')}}</el-button> -->
               </template>
             </el-table-column>
             <el-table-column prop="description" align="left" :label="$i18nMy.t('文件描述')">
@@ -291,15 +310,22 @@
                 this.inputForm.applicationNo = ''
               }
               this.detailInfo = JSON.parse(this.inputForm.detailInfo)
+
               if(!this.$common.isEmpty(this.inputForm.supplementaryDoc)){
                 this.supplementaryDoc = JSON.parse(this.inputForm.supplementaryDoc)
                 for(var i=0;i<this.supplementaryDoc.length;i++){
                   if(this.supplementaryDoc[i].id ==null){
                     this.supplementaryDoc[i].id = this.$common.uuid();
                   }
-                  var item=this.supplementaryDoc[i].attachment
-                  this.attachmentsArra[this.supplementaryDoc[i].id]=
-                    [{name: decodeURIComponent(item.substring(item.lastIndexOf('/') + 1)), url: item}]
+                  this.attachmentsArra[this.supplementaryDoc[i].id] = []
+                  let arr = this.supplementaryDoc[i].attachment.split("|")
+
+                  for (var j=0; j<arr.length; j++) {
+                    var item=arr[j] //this.supplementaryDoc[i].attachment
+                    console.log(item)
+                    this.attachmentsArra[this.supplementaryDoc[i].id].push({name: decodeURIComponent(item.substring(item.lastIndexOf('/') + 1)), url: item})
+                  }
+
                 }
               }
               this.loading = false
@@ -355,7 +381,44 @@
         }
         this.supplementaryDoc=this.supplementaryDoc.slice()
       },
+
+      /* beforeUpload(file) {
+            // 获取上传文件大小
+            const imgSize = Number(file.size / 1024 / 1024);
+            if (imgSize > 10) {
+              this.$msgbox({
+                title: '',
+                message: '文件大小不能超过10MB，请重新上传。',
+                type: 'warning',
+              });
+              return false;
+            }
+            return true;
+      },
+      beforeRemove(file, fileList) {
+         const index = fileList.indexOf(file);
+         this.delIndex = index;
+         this.fileIds.splice(this.delIndex, 1);
+      },
+      uploadChange(file, fileList) { // 这一步一定要写
+            this.fileList = fileList;
+      },
+      submit() {
+        debugger
+         if (this.fileList.length) { // 如果有上传文件
+              const formData = new FormData();
+              this.fileList.forEach((item) => {
+                  formData.append('files', item.raw); // 此处一定是append file.raw，files作为参数，是后端定义需要传的字段
+              });
+              this.$api.uploadFiles(formData).then((res) => { // 调用上传接口
+              });
+           }
+      }, */
+
       addTabListGroup(){
+        if (!this.checkForm()) {
+          return
+        }
         var uuid=this.$common.uuid()
         this.supplementaryDoc.push({
           id:uuid,

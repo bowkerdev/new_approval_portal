@@ -44,7 +44,7 @@ public class OaPrNew extends DataEntity<OaPrNew> {
 	private String requester;		// 请求者
 	@ExcelField(title="费用类型", dictType="expense_type", align=2, sort=14)
 	private String expenseType;		// 费用类型
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@ExcelField(title="要求到货时间", align=2, sort=15)
 	private Date expectArrivalDate;		// 要求到货时间
 	@ExcelField(title="签约公司", dictType="db_type", align=2, sort=16)
@@ -57,7 +57,7 @@ public class OaPrNew extends DataEntity<OaPrNew> {
 	private String technicalAdvisor;		// 技术支持部门
 	@ExcelField(title="预算类型", dictType="db_type", align=2, sort=20)
 	private String budgetType;		// 预算类型
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@ExcelField(title="审批通过日期", align=2, sort=21)
 	private Date approvedDate;		// 审批通过日期
 	@ExcelField(title="是否预算内", dictType="db_type", align=2, sort=22)

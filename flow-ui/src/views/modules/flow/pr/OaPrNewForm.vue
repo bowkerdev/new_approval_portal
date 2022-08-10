@@ -576,7 +576,6 @@
         this.inputForm.vat = null
       },
       init(query, parentPage) {
-debugger
         if (query&&query.businessId) {
           this.loading = true
           this.inputForm.id = (query.businessId).replace("__copy","")

@@ -165,7 +165,7 @@
                     multiple
                     :limit="5"
                     :on-exceed="(files, fileList) =>{
-                      $message.warning( '当前限制选择 5 个文件' )
+                      $message.warning(`${$i18nMy.t('当前限制选择 5 个文件')}`)
                     }"
                     :file-list="attachmentsArra[row.id]">
                     <el-button :disabled="!row.edit" style="padding: 5px 30px;" round size="small" type="primary" >{{$i18nMy.t('选择文件')}}</el-button>

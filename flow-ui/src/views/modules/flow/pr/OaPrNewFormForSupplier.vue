@@ -78,7 +78,7 @@
                 <th >{{$i18nMy.t('预计到货日期')}}</th>
                 <!-- <th>{{$i18nMy.t('预计最晚到货日期')}}</th> -->
                 <th width="10%" >{{$i18nMy.t('备注')}}</th>
-                <th><font color="red">*</font>{{$i18nMy.t('文件类型')}}</th>
+                <!-- <th><font color="red">*</font>{{$i18nMy.t('文件类型')}}</th> -->
                 <th colspan="3"><font color="red">*</font>{{$i18nMy.t('附件')}}</th>
                 <!-- <th><font color="red">*</font>{{$i18nMy.t('关联项目')}}</th>
                 <th>{{$i18nMy.t('上传者')}}</th>
@@ -88,13 +88,13 @@
             </thead>
             <tbody v-for="(item, index) in supplierInfo" :key="'index_'+index">
               <tr class="data-content" style="background-color: #fff3cf;">
-              <td colspan="3" :rowspan="item.docListSize" >
+              <td colspan="3"  >
                 <el-input type="textarea" size="small" v-if="item.edit" v-model="item.supplierName" maxlength="100" :placeholder="$i18nMy.t('长度不超过100')" ></el-input>
                 <span v-else class="my-span">
                   {{item.supplierName}}
                 </span>
               </td>
-              <td colspan="1" :rowspan="item.docListSize" >
+              <td colspan="1"  >
                 <el-input type="textarea" size="small" v-if="item.edit" v-model="item.paymentTerms" maxlength="100" :placeholder="$i18nMy.t('长度不超过100')"></el-input>
                 <!-- <el-select size="small" v-model="item.paymentTerms"
                   v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
@@ -106,13 +106,13 @@
                   {{item.paymentTerms}}
                 </span>
               </td>
-              <td :rowspan="item.docListSize" class="my-right">
+              <td  class="my-right">
                   {{$common.toThousands(item.originalPrice)}}
               </td>
-              <td colspan="2" :rowspan="item.docListSize" class="my-right">
+              <td colspan="2"  class="my-right">
                   {{$common.toThousands(item.originalVatPrice)}}
               </td>
-              <td :rowspan="item.docListSize" >
+              <td  >
                 <el-select @change="currencyChange(item)"  size="small" v-model="item.currency"
                   v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in $dictUtils.getDictList('pr_currency')" on :key="item.value" :label="item.label"
@@ -123,19 +123,19 @@
                   {{$dictUtils.getDictLabel("pr_currency",item.currency, '-')}}
                 </span>
               </td>
-              <td :rowspan="item.docListSize" class="my-right">
+              <td  class="my-right">
                   {{$common.parseTime(item.expectArrivalDate, '{y}-{m}-{d}')}}
               </td>
-              <!-- <td :rowspan="item.docListSize" class="my-right">
+              <!-- <td  class="my-right">
                   {{item.expectLastArrivalDate}}
               </td> -->
-              <td :rowspan="item.docListSize" style="min-width:100px;" >
+              <td  style="min-width:100px;" >
                 <el-input type="textarea" v-if="item.edit" v-model="item.remarks" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')"></el-input>
                 <span class="my-span" v-else>
                   {{item.remarks}}
                 </span>
               </td>
-              <td  style="width: 132px;">
+              <!-- <td  style="width: 132px;">
                 <el-select  size="small" v-model="item.docList[0].documentType" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in $dictUtils.getDictList('pr_document_type')" :key="item.value" :label="item.label"
                     :value="item.value">
@@ -144,9 +144,9 @@
                 <span v-else>
                   {{$dictUtils.getDictLabel("pr_document_type",item.docList[0].documentType, '-')}}
                 </span>
-              </td>
-              <td colspan="2"  style="max-width: 120px; min-width: 110px;">
-                <el-upload :class="item.docList[0].attachment==''?'':'hide'"
+              </td> -->
+              <td colspan="3"  style="max-width: 120px; min-width: 110px; text-align: left;">
+                <el-upload :class="item.docList[0].attachment.split('|').length<5?'':'hide'" :disabled="!item.edit"
                   :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
                       :headers="{token: $cookie.get('token')}"
                       :on-preview="(file, fileList) => {$window.open((file.response && file.response.url) || file.url)}"
@@ -154,18 +154,20 @@
                          item.docList[0].attachment = fileList.map(item => (item.response && item.response.url) || item.url).join('|')
                       }"
                       :on-remove="(file, fileList) => {
-                        item.docList[0].attachment =''
+                        //item.docList[0].attachment =''
+                         item.docList[0].attachment = fileList.map(item => (item.response && item.response.url) || item.url).join('|')
                       }"
                       :before-remove="(file, fileList) => {
                         // return $confirm($i18nMy.t('确定移除')+` ${file.name}?`)
                       }"
                       :before-upload = "beforeAvatarUpload"
-                      :limit="1"
+                      multiple
+                      :limit="5"
                       :on-exceed="(files, fileList) =>{
-                        $message.warning($common.stringFormat('当前限制选择 1 个文件，本次选择了 {0} 个文件，共选择了 {1} 个文件',files.length,files.length + fileList.length))
+                        $message.warning(`${$i18nMy.t('当前限制选择 5 个文件')}`)
                       }"
                       :file-list="attachmentsArra[item.id][item.docList[0].id]">
-                      <el-button :disabled="!item.edit" style="padding: 5px 30px;" round size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
+                      <el-button :disabled="!item.edit" style="padding: 5px 30px;" round size="small" type="primary" >{{$i18nMy.t('选择文件')}}</el-button>
                     </el-upload>
               </td>
               <!-- <td style="width: 80px;">
@@ -184,18 +186,18 @@
               <td class="my-right" style="width: 80px;">
                   {{item.docList[0].uploadedDate}}
               </td> -->
-              <td  width="30px">
+              <!-- <td  width="30px">
                 <el-button v-if="item.edit" :disabled="item.docList.length ==1" type="danger" size="small" icon="el-icon-minus" @click="delDoc(index,0)" class="operationButton"></el-button>
-              </td>
-              <td :rowspan="item.docListSize" width="60px">
-                <el-button v-if="item.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(index)" class="operationButton"></el-button>
-                <el-button v-if="!item.edit" type="primary" size="small" icon="el-icon-edit" @click="changeTabListGroup(index)" class="operationButton"></el-button>
-                <el-button v-if="item.edit" type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(index)" class="operationButton"></el-button>
+              </td> -->
+              <td  width="120px">
+                <el-button v-if="item.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(index)" class=""></el-button>
+                <el-button v-if="!item.edit" type="primary" size="small" icon="el-icon-edit" @click="changeTabListGroup(index)" class=""></el-button>
+                <el-button v-if="item.edit" type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(index)" class=""></el-button>
               </td>
               </tr>
 <!-- 第一行  -->
               <tr class="data-content"  style="background-color: #fff3cf;" v-for="(item2, index2) in item.docList.slice(1)" :key="'index2_'+index2"  >
-                <td >
+                <!-- <td >
                     <el-select  size="small" v-model="item2.documentType" v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                       <el-option v-for="item in $dictUtils.getDictList('pr_document_type')" :key="item.value" :label="item.label"
                         :value="item.value">
@@ -204,9 +206,9 @@
                     <span v-else>
                       {{$dictUtils.getDictLabel("pr_document_type",item2.documentType, '-')}}
                     </span>
-                </td>
-                <td colspan="2" style="max-width: 120px; min-width: 110px;" >
-                  <el-upload :class="item2.attachment==''?'':'hide'"
+                </td> -->
+                <td colspan="3" style="max-width: 120px; min-width: 110px; text-align: left;" >
+                  <el-upload :class="item2.attachment.split('|').length<5?'':'hide'" :disabled="!item.edit"
                     :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
                         :headers="{token: $cookie.get('token')}"
                         :on-preview="(file, fileList) => {$window.open((file.response && file.response.url) || file.url)}"
@@ -214,18 +216,20 @@
                            item2.attachment = fileList.map(item => (item.response && item.response.url) || item.url).join('|')
                         }"
                         :on-remove="(file, fileList) => {
-                          item2.attachment =''
+                           // item2.attachment =''
+                           item2.attachment = fileList.map(item => (item.response && item.response.url) || item.url).join('|')
                         }"
                         :before-remove="(file, fileList) => {
                           // return $confirm($i18nMy.t('确定移除')+` ${file.name}?`)
                         }"
                         :before-upload = "beforeAvatarUpload"
-                        :limit="1"
+                        multiple
+                        :limit="5"
                         :on-exceed="(files, fileList) =>{
-                          $message.warning($common.stringFormat('当前限制选择 1 个文件，本次选择了 {0} 个文件，共选择了 {1} 个文件',files.length,files.length + fileList.length))
+                          $message.warning(`${$i18nMy.t('当前限制选择 5 个文件')}`)
                         }"
                         :file-list="attachmentsArra[item.id][item2.id]">
-                        <el-button :disabled="!item.edit" style="padding: 5px 30px;" round size="small" type="primary" >{{$i18nMy.t('上传')}}</el-button>
+                        <el-button :disabled="!item.edit" style="padding: 5px 30px;" round size="small" type="primary" >{{$i18nMy.t('选择文件')}}</el-button>
                       </el-upload>
                 </td>
                 <!-- <td >
@@ -244,15 +248,15 @@
                 <td class="my-right">
                     {{item2.uploadedDate}}
                 </td> -->
-                <td class="width-50">
+                <!-- <td class="width-50">
                   <el-button v-if="item.edit" type="danger" size="small" icon="el-icon-minus" @click="delDoc(index,index2+1)" class="operationButton"></el-button>
-                </td>
+                </td> -->
               </tr>
-              <tr style="background-color: #fff3cf; border-bottom: 1px solid #EBEEF5;">
+              <!-- <tr style="background-color: #fff3cf; border-bottom: 1px solid #EBEEF5;">
                 <td colspan="7" style="padding: 5px 0px 5px 5px;">
                  <el-button size="small" :disabled="!item.edit" round @click="addDocList(index)" type="primary" icon="el-icon-plus" style="float: left;margin-left: 10px;padding: 5px 5px;" ></el-button>
                 </td>
-              </tr>
+              </tr> -->
               <tr class="head-background-color head2-height">
                 <td width="1%"  style="background-color: #FFFFFF;border:none"></td>
                 <td width="2%" class="first-td">{{$i18nMy.t('序号')}}</td>
@@ -546,13 +550,22 @@
                       if(this.supplierInfo[i].docList[j].id ==null){
                         this.supplierInfo[i].docList[j].id = this.$common.uuid();
                       }
-                      var item=this.supplierInfo[i].docList[j].attachment
+                      //var item = this.supplierInfo[i].docList[j].attachment
+                      let arr = this.supplierInfo[i].docList[j].attachment.split("|")
+
                       if(this.attachmentsArra[this.supplierInfo[i].id]==null){
                         this.attachmentsArra[this.supplierInfo[i].id]={}
                       }
+
                       if(this.attachmentsArra[this.supplierInfo[i].id][this.supplierInfo[i].docList[j].id]==null){
-                        this.attachmentsArra[this.supplierInfo[i].id][this.supplierInfo[i].docList[j].id]=
-                          [{name: decodeURIComponent(item.substring(item.lastIndexOf('/') + 1)), url: item}]
+                        /* this.attachmentsArra[this.supplierInfo[i].id][this.supplierInfo[i].docList[j].id]=
+                          [{name: decodeURIComponent(item.substring(item.lastIndexOf('/') + 1)), url: item}] */
+                          this.attachmentsArra[this.supplierInfo[i].id][this.supplierInfo[i].docList[j].id] = []
+                          for (var k=0; k<arr.length; k++) {
+                            var item=arr[k] //this.supplementaryDoc[i].attachment
+                            console.log(item)
+                            this.attachmentsArra[this.supplierInfo[i].id][this.supplierInfo[i].docList[j].id].push({name: decodeURIComponent(item.substring(item.lastIndexOf('/') + 1)), url: item})
+                          }
                       }
                     }
                   }
@@ -892,10 +905,11 @@
              this.$message.warning($i18nMy.t('币种不能为空'))
              return
           }
-          if(this.$common.isEmpty(this.supplierInfo[index].docList[i].documentType)){
+          /* if(this.$common.isEmpty(this.supplierInfo[index].docList[i].documentType)){
              this.$message.warning($i18nMy.t('文档类型不能为空'))
              return
-          }
+          } */
+          // debugger
           if(this.$common.isEmpty(this.supplierInfo[index].docList[i].attachment)){
              this.$message.warning($i18nMy.t('附件不能为空'))
              return

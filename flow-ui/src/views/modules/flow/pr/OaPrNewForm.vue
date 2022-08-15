@@ -36,13 +36,13 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('项目描述')" prop="projectName" :rules="[{required: true, message:$i18nMy.t('请填写项目描述'), trigger:'blur'}]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('项目描述')" prop="projectName" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
             <el-input v-model="inputForm.projectName" :placeholder="$i18nMy.t('请填写项目描述 (不超过200字符)')" maxlength="200"></el-input>
           </el-form-item>
         </el-col>
         <el-form size="small" :model="inputForm" ref="inputFormSite" :disabled="formReadOnly">
           <el-col :span="12">
-            <el-form-item label-width="220px" :label="$i18nMy.t('采购地区')" prop="applySiteCode" :rules="[{required: true, message:$i18nMy.t('采购地区不能为空'), trigger:'blur'}]">
+            <el-form-item label-width="220px" :label="$i18nMy.t('采购地区')" prop="applySiteCode" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
               <el-select v-model="inputForm.applySiteCode" :placeholder="$i18nMy.t('请选择')" style="width: 100%;" @change="siteChange">
                 <el-option v-for="item in $dictUtils.getDictList('apply_site_code')" :key="item.value" :label="item.label"
                   :value="item.value">
@@ -52,7 +52,7 @@
           </el-col>
         </el-form>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment.id" :rules="[{required: true, message:$i18nMy.t('用户部门不能为空'), trigger:'blur'}]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment.id" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
             <SelectTree ref="requesterDepartment" v-if="ifSiteChange" :props="{
                     value: 'id',             // ID字段名
                     label: 'name',         // 显示名称
@@ -68,7 +68,7 @@
           </el-form-item>
         </el-col> -->
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('费用类型')" prop="expenseType" :rules="[{required: true, message:$i18nMy.t('费用类型不能为空'), trigger:'blur'}
+          <el-form-item label-width="220px" :label="$i18nMy.t('费用类型')" prop="expenseType" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}
                  ]">
             <el-select v-model="inputForm.expenseType" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('expense_type')" :key="item.value" :label="item.label"
@@ -78,7 +78,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('要求到货时间')" prop="expectArrivalDate" :rules="[{required: true, message:$i18nMy.t('请输入要求到货时间'), trigger:'blur'}
+          <el-form-item label-width="220px" :label="$i18nMy.t('要求到货时间')" prop="expectArrivalDate" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}
                  ]">
             <el-date-picker v-model="inputForm.expectArrivalDate" type="date" style="width: 100%;" @change="checkExpectArrivalDate"
               value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('选择日期时间')">
@@ -88,7 +88,7 @@
 
         <el-form size="small" :model="inputForm" ref="inputFormFC" :disabled="!isFC&&procDefKey!='prpo'" v-if="formReadOnly || isFC || procDefKey=='prpo'" label-width="140px" >
           <el-col :span="12" >
-            <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: true, message:$i18nMy.t('签约方公司不能为空'), trigger:'blur'}
+            <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}
                    ]">
               <el-select v-model="inputForm.legalEntity" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;">
                 <el-option v-for="item in $dictUtils.getDictListWithKey('all_company')" :key="item.value" :label="item.label"
@@ -98,7 +98,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12" >
-            <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[{required: true, message:$i18nMy.t('成本中心不能为空'), trigger:'blur'}
+            <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}
                    ]">
               <el-select v-model="inputForm.costCenter" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;" >
                 <el-option v-for="item in $dictUtils.getDictListWithKey('cost_center')" :key="item.value" :label="item.label"
@@ -108,7 +108,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12" >
-            <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[{required: true, message:$i18nMy.t('固定资产类别不能为空'), trigger:'blur'}
+            <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}
                    ]">
               <el-select v-model="inputForm.assetGroup" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;">
                 <el-option v-for="item in $dictUtils.getDictListWithKey('asset_group')" :key="item.value" :label="item.label"
@@ -143,7 +143,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('申购优先级')" prop="requestRiority" :title="$i18nMy.t('requestRiorityDesc')" :rules="[{required: true, message:$i18nMy.t('申购优先级不能为空'), trigger:'blur'}]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('申购优先级')" prop="requestRiority" :title="$i18nMy.t('requestRiorityDesc')" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
             <el-select v-model="inputForm.requestRiority" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('request_priority')" :key="item.value" :label="item.label"
                 :value="item.value">
@@ -152,7 +152,7 @@
           </el-form-item>
         </el-col>
           <el-col :span="12">
-            <el-form-item style="height: 34px;" label-width="220px" :label="$i18nMy.t('是否预算内')" prop="isBudget" :rules="[{required: true, message:$i18nMy.t('是否预算内不能为空'), trigger:'blur'}]">
+            <el-form-item style="height: 34px;" label-width="220px" :label="$i18nMy.t('是否预算内')" prop="isBudget" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
               <el-radio-group v-model="inputForm.isBudget">
                 <el-radio v-for="item in $dictUtils.getDictList('yes_no')" :label="item.value" :key="item.value">
                   {{item.label}}</el-radio>
@@ -449,19 +449,19 @@
           </p>
         </el-col>
         <el-col :span="24">
-        <el-form-item class="updown" :label="$i18nMy.t('申购目的')" prop="purchasePurpose" :rules="[{required: true, message:$i18nMy.t('请填写申购目的'), trigger:'blur'}]">
+        <el-form-item class="updown" :label="$i18nMy.t('申购目的')" prop="purchasePurpose" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
           <el-input type="textarea" style="width: 100%;" v-model="inputForm.purchasePurpose" :placeholder="$i18nMy.t('请填写申购目的')"></el-input>
-          <a style="color: #005DF7; font-size: 12px; cursor: pointer;" @click="toDocPage"> → {{$i18nMy.t('前往[补充文件]页')}}</a>
+          <div style="color: #005DF7; font-size: 12px; cursor: pointer;" @click="toDocPage"> → {{$i18nMy.t('前往[补充文件]页')}}</div>
          </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item class="updown" :label="$i18nMy.t('投资回报分析')" prop="roi" :rules="[{required: true, message:$i18nMy.t('请填写ROI'), trigger:'blur'}]">
+          <el-form-item class="updown" :label="$i18nMy.t('投资回报分析')" prop="roi" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
             <el-input type="textarea" style="width: 100%;" v-model="inputForm.roi" :placeholder="$i18nMy.t('请填写ROI，如需上传附件，请在[补充文件]页中上传')"></el-input>
             <a style="color: #005DF7; font-size: 12px; cursor: pointer;" @click="toDocPage"> → {{$i18nMy.t('前往[补充文件]页')}}</a>
            </el-form-item>
         </el-col>
         <el-col :span="24" v-if="inputForm.isBudget!='1'" >
-          <el-form-item class="updown" :label="$i18nMy.t('预算外说明')" prop="noBudgetExplain" :rules="[{required: true, message:$i18nMy.t('请填写预算外说明'), trigger:'blur'}]">
+          <el-form-item class="updown" :label="$i18nMy.t('预算外说明')" prop="noBudgetExplain" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
             <el-input type="textarea" style="width: 100%;" v-model="inputForm.noBudgetExplain" :placeholder="$i18nMy.t('请填写预算外说明')"></el-input>
            </el-form-item>
         </el-col>
@@ -814,7 +814,7 @@
 </script>
 <style scoped lang = "less">
   .el-form-item {
-      margin-bottom: 12px;
+      margin-bottom: 15px;
   }
   .el-form-item__label {
     line-height: 25px;

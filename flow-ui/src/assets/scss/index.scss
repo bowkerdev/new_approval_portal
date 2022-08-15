@@ -1171,6 +1171,10 @@ span{
 .jp-sidebar--fold .FlowFormFooter {
   left: 64px;
 }
+.jp-sidebar--fold .FlowFormFooter.full-width,
+.FlowFormFooter.full-width {
+  left: 0;
+}
 .tags-view-container{
   width: calc(100% - 230px);
 }

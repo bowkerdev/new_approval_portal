@@ -117,13 +117,17 @@ img {
 
 /* Navbar
 ------------------------------ */
+.jp-navbar,
+.jp-navbar-height {
+  height: 60px;
+}
+
 .jp-navbar {
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
   z-index: 1024;
-  height: 60px;
   // box-shadow: 0 2px 4px rgba(0,0,0,.08);
   background: var(--defaultTheme);
     // background: -webkit-linear-gradient(90deg,#1d42ab,#2173dc,#1e93ff);

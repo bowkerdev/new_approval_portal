@@ -1,5 +1,5 @@
 <template>
-  <div class="top-menu-pane">
+  <div class="top-menu-pane jp-navbar-height">
     <el-button
       type="text"
       icon="el-icon-arrow-left"

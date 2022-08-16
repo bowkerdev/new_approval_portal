@@ -101,7 +101,7 @@
             <span class="el-dropdown-link">
               <!-- <img :src="(!photo || photo === '')?'/static/img/avatar.png':photo"> -->
               <i class="el-icon-user-solid"></i>
-              <span class="less-md-hide">{{ language }}</span>
+              <span class="less-md-hide">{{ userName }}</span>
             </span>
             <el-dropdown-menu slot="dropdown" style="margin-top: -10px;">
               <!-- <el-dropdown-item @click.native="updatePasswordHandle()">{{$i18nMy.t('修改密码')}}</el-dropdown-item> -->

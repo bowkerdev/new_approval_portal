@@ -85,7 +85,8 @@
         <el-menu-item class="jp-navbar__avatar">
           <el-dropdown :show-timeout="0" placement="bottom">
             <span class="el-dropdown-link">
-              <img :src="languageIcon" style="border-radius: 0px;width: 24px;"> {{ language }}
+              <img :src="languageIcon" style="border-radius: 0px;width: 24px;"> 
+              <span class="less-md-hide">{{ language }}</span>
             </span>
             <el-dropdown-menu slot="dropdown" style="margin-top: -10px;">
               <el-dropdown-item v-for="(item,i) in languageList" :key="i" @click.native="changeLanguage" :lang='item.lang'>
@@ -99,7 +100,8 @@
           <el-dropdown :show-timeout="0" placement="bottom">
             <span class="el-dropdown-link">
               <!-- <img :src="(!photo || photo === '')?'/static/img/avatar.png':photo"> -->
-              <i class="el-icon-user-solid"></i>{{ userName }}
+              <i class="el-icon-user-solid"></i>
+              <span class="less-md-hide">{{ language }}</span>
             </span>
             <el-dropdown-menu slot="dropdown" style="margin-top: -10px;">
               <!-- <el-dropdown-item @click.native="updatePasswordHandle()">{{$i18nMy.t('修改密码')}}</el-dropdown-item> -->
@@ -375,4 +377,10 @@
 .top-menu-wrap {
   display: flex;
 }
+@media (max-width: 992px) {
+  .less-md-hide {
+    display: none;
+  }
+}
+
 </style>

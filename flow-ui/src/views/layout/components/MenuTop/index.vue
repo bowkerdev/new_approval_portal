@@ -29,7 +29,7 @@
       type="text"
       icon="el-icon-arrow-right"
       class="move-btn next"
-      :disabled="leftWidth <= viewWidth"
+      :disabled="(baseMenuItemIndex == menuItemsWidth.length - 2) || leftWidth <= viewWidth"
       @click="moveNext"
     />
   </div>

@@ -76,10 +76,18 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .top-menu-type {
   border-top: 1px solid #FFF;
   background-color: inherit !important;
+
+  .el-menu--popup-bottom-start {
+    margin-top: 0;
+  }
+  ul.el-menu.el-menu--popup.el-menu--popup-right-start {
+    margin-left: 1px;
+    margin-right: 1px;
+  }
 }
 .nest-menu .el-submenu__title i.el-submenu__icon-arrow {
   color: inherit !important;

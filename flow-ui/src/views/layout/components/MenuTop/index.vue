@@ -158,6 +158,10 @@ export default {
   display: flex;
   background-color: transparent;
   transition: all .3s cubic-bezier(.645,.045,.355,1),border 0s,color .1s,font-size 0s;
+
+  & ::v-deep .el-submenu__title .el-submenu__icon-arrow {
+    right: 10px;
+  }
 }
 .move-btn {
   padding-left: 10px;
@@ -170,6 +174,11 @@ export default {
 .menu-scroll-wrap ::v-deep {
   .el-menu.el-menu--horizontal {
     border-bottom: none;
+  }
+  .el-menu-item, 
+  .el-submenu__title {
+    padding-left: 10px;
+    padding-right: 0;
   }
   .el-submenu,
   .el-menu-item, 

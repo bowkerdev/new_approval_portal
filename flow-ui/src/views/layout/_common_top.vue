@@ -255,7 +255,7 @@
       }) */
     },
     mounted () {
-      if (this.defaultLayout === 'top' || this.defaultLayout === 'dropdown-top') {
+      if (this.defaultLayout === 'top') {
         this.fixTopMenu()
       }
     },
@@ -273,7 +273,7 @@
         })
       },
       defaultLayout (val) {
-        if (this.defaultLayout === 'top' || this.defaultLayout === 'dropdown-top') {
+        if (this.defaultLayout === 'top') {
           let needSetLeft = true
           this.allMenuList.forEach((item) => {
             if (item.id === this.topMenuActiveIndex) {

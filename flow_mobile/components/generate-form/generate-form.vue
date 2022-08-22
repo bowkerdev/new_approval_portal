@@ -8,7 +8,7 @@
 				<view class="title" v-if="item.type == 'html'" >
 					{{ $i18nMy.t(getHtmlText(item.options.defaultValue)) }}
 				</view>
-				<view class="title" v-if="('hideLabel' in item.options) && !item.options.hideLabel">
+				<view class="title" v-if="item.options.hideLabel !== true">
 					<text class="red-color " v-if="item.options.required">* </text> {{ $i18nMy.t(item.name)}}
 				</view>
 				<template v-if="item.type=='input' && ('hidden' in item.options) && !item.options.hidden">				

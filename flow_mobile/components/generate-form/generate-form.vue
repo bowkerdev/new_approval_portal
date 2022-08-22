@@ -3,7 +3,7 @@
 		<form>
 			<view class="cu-form-group"  :class="{'margin-top': index===0, 'flex-col': ['table'].indexOf(item.type) > -1,
 				'html-group': item.type == 'html', 'table-type': item.type == 'table', 'textarea-group': item.type == 'textarea' }" 
-				v-if="item.readable" v-for="(item,index) in formData" :key="index"
+				v-if="isShow(item)" v-for="(item,index) in formData" :key="index"
 			>
 				<view class="title" v-if="item.type == 'html'" >
 					{{ $i18nMy.t(getHtmlText(item.options.defaultValue)) }}
@@ -237,6 +237,21 @@
 			}
 		},
 		methods: {
+			// 
+			isShow(config) {
+				const readable = config['readable']
+				const model = config['model']
+				// extra_cut_approval: qaRecordDataLabel,qaRapList仅在工厂为BCA的时候显示
+				if (this.procDefKey == 'extra_cut_approval' && readable 
+					&& ['qaRecordDataLabel', 'qaRapList'].indexOf(model) > -1
+				) {
+					// 获取工厂: applySiteCode
+					const targetList = this.formData.filter(item => item['model'] === 'applySiteCode')
+					const siteCode = targetList.length? targetList[0]['value']: undefined
+					return siteCode === 'BCA'
+				}
+				return readable
+			},
 			// 重置下拉选项
 			// match = { "qaReason": "reason", "qaAction": "action", "qaPrevention": "prevention" }
 			// list = { reason: [], action: [], prevention: [] }

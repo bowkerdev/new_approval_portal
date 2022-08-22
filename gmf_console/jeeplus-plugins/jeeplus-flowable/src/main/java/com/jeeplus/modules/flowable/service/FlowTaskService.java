@@ -1168,7 +1168,7 @@ public class FlowTaskService extends BaseService {
      * @date 2020年3月14日21:01:57
      * @return
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
 	@Transactional(readOnly = false)
     public HashMap getFlowMapPid(String pid,String eventName) throws Exception {
       HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery()
@@ -1191,10 +1191,10 @@ public class FlowTaskService extends BaseService {
         procDefMap.put("version", historicProcessInstance.getProcessDefinitionVersion());
         if(state.get("currentTask")!=null){
         	HashMap currentTask =(HashMap) state.get("currentTask");
-        	if (!"start".equals(eventName)) {
+        	//if (!"start".equals(eventName)) {
         		Map<String, Object> vars = runtimeService.getVariables((String) currentTask.get("executionId"));
              	map.put("vars",vars);
-            } 
+            //} 
         	if(StringUtils.isNoneBlank((String)currentTask.get("id"))){
         		List<TaskComment> commentList = this.getTaskComments ((String)currentTask.get("id"));
         		if(commentList.size()>0){

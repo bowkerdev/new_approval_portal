@@ -121,6 +121,9 @@
         }
         return json
       },
+      init(){
+
+      },
       createForm (id) {
         if (id) {
           this.loading = true
@@ -195,6 +198,7 @@
                       }
                     }
                   }
+                  debugger
                   if (!this.isCustom) {
                     let hideArra = this.$refs.generateForm.getDataBindFields().filter((field) => {
                       if (!showArra.includes(field)) {

@@ -7,7 +7,7 @@
   </fm-generate-form>
 </template>
 
-<!-- 
+<!--
 1.控制QA RAP显示
 2.给QA RAP赋值
  -->
@@ -63,7 +63,7 @@ import Table from '../../../../pages/datav/option/components/table.vue'
       },
       // 20220628Ryder为了业务加了一个特殊判断 固定代码，不可以改 start
       createForm(options, formData, showArra, disabledArra, edit) {
-        // debugger
+        debugger
         this.options = options
         this.formData = formData
         this.visible = true
@@ -74,6 +74,7 @@ import Table from '../../../../pages/datav/option/components/table.vue'
               return true
             }
           })
+          debugger
           //加一个特殊业务判断
           if(formData.applySiteCode != 'BCA'){
             hideArra.push('qaRecordDataLabel');
@@ -96,11 +97,11 @@ import Table from '../../../../pages/datav/option/components/table.vue'
 
 <style lang="scss">
 .extra-cut-approval-self-table {
-  &.el-table td, 
+  &.el-table td,
   &.el-table th.is-leaf,
-  &.el-table--border td, 
-  &.el-table--border th, 
-  &.el-table--border, 
+  &.el-table--border td,
+  &.el-table--border th,
+  &.el-table--border,
   .el-table--group,
   & .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
     border-color: rgb(153, 153, 153);

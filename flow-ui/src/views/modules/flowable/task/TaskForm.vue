@@ -248,7 +248,6 @@
     },
     methods: {
       handleRowClicked(row, column, event){
-        debugger
         this.docAddForm.selectedAssigneeLabel = row.step + '&nbsp;&nbsp;|&nbsp;&nbsp;' + row.assignee;
         this.docAddForm.selectedAssigneeId = row.userid;
         this.$refs.selectHisAssignee.hide();
@@ -265,7 +264,7 @@
       },
       initChildFrom(query){
         // query.parentForm = "TaskForm"
-        if(this.form !=null &&this.$refs.form.init !=null){
+        if(this.$refs.form !=null &&this.$refs.form.init !=null){
           this.$refs.form.init(query)
         }
         else{

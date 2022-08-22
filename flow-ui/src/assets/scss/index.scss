@@ -1915,3 +1915,11 @@ span{
 .el-table__fixed-right {
   height: 100% !important;
 }
+
+// 设计表单
+.widget-config-container .config-tab {
+  width: 50% !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

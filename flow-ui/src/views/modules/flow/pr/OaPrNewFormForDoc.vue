@@ -149,7 +149,7 @@
             `${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr` -->
             <el-table-column prop="attachment" align="left" :label="$i18nMy.t('附件')">
               <template slot-scope="{row}">
-                <el-upload :class="row.attachment.split('|').length<5?'':'hide'"
+                <el-upload :class="row.attachment.split('|').length<5?'':'hide'" :disabled="!row.edit"
                     :action="`${$http.BASE_URL}/sys/file/webupload/oss/upload?uploadPath=flow/pr`"
                     :headers="{token: $cookie.get('token')}"
                     :on-preview="(file, fileList) => {$window.open((file.response && file.response.url) || file.url)}"

@@ -8,7 +8,8 @@
       :popper-class="`jp-sidebar--${sidebarLayoutSkin}-popper top-menu-type`"
     >
       <template slot="title">
-        <menu-item-name :icon="item.icon" :title="item.name"  />
+        <!-- <menu-item-name :icon="item.icon" :title="item.name"  /> -->
+        <menu-item-name :title="item.name"/>
       </template>
       <menu-item
         v-for="child in item.children"
@@ -22,7 +23,8 @@
     <template v-else>
       <el-menu-item :index="item.id + ''" @click="gotoRouteHandle(item)">
         <template slot="title">
-          <menu-item-name :icon="item.icon" :title="item.name"  />
+          <!-- <menu-item-name :icon="item.icon" :title="item.name"  /> -->
+          <menu-item-name :title="item.name"/>
         </template>
       </el-menu-item>
     </template>
@@ -35,7 +37,7 @@ import { mapState } from 'vuex'
 
 export default {
   name: "MenuItem",
-  components: { 
+  components: {
     MenuItemName: () => import('./MenuItemName.vue')
   },
   props: {

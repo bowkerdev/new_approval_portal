@@ -12,6 +12,8 @@
 		b.END_TIME_ as "approvedDate",
 		a.remarks AS "remarks",
 		b.ACT_NAME_ as "flow.taskName",
+		b.ASSIGNEE_ as "flow.assignee",
+		concat(b.login_name, ' : ', b.name) as "flow.assigneeName",
 		if(a.proc_ins_id is not null, if( p.end_time_ is not null, '结束', '处理中'), '草稿')  as "status",
 		a.del_flag AS "delFlag",
 		a.proc_ins_id AS "procInsId",
@@ -61,10 +63,13 @@
 		LEFT JOIN sys_office createByOffice ON createByOffice.id = a.create_by_office
 		LEFT JOIN sys_office requesterDepartment ON requesterDepartment.id = a.requester_department 
 		LEFT JOIN act_hi_procinst p on p.PROC_INST_ID_ = a.proc_ins_id
-		left join (select * from act_hi_actinst as a1 
+		left join (select a1.ACT_NAME_,a1.END_TIME_,a1.PROC_INST_ID_,a2.name_,a2.TASK_DEF_KEY_,a2.ASSIGNEE_,a3.login_name,a3.name 
+					from act_hi_actinst as a1 
+						left join act_ru_task a2 on a2.PROC_INST_ID_=a1.PROC_INST_ID_ and a2.TASK_DEF_KEY_=a1.ACT_ID_ and a2.ASSIGNEE_ = a1.ASSIGNEE_
+						left join sys_user a3 on a3.id = a2.ASSIGNEE_
 					where act_type_ IN ( 'userTask', 'endEvent' ) 
 						and not exists (select 1 from act_hi_actinst where act_type_ IN ( 'userTask', 'endEvent' ) and PROC_INST_ID_=a1.PROC_INST_ID_ 
-						and (ifnull( END_TIME_, '2099-01-01' )>ifnull( a1.END_TIME_, '2099-01-01' ) or START_TIME_>a1.START_TIME_) ) limit 1
+						and (ifnull( END_TIME_, '2099-01-01' )>ifnull( a1.END_TIME_, '2099-01-01' ) or START_TIME_>a1.START_TIME_) )
 				  ) b on a.proc_ins_id = b.PROC_INST_ID_
 	</sql>
 

@@ -60,6 +60,7 @@
         </el-col>
       </el-row>
       <br/>
+      <el-form size="small" ref="inputFormFA" :disabled="!((status=='start')||(parentForm=='TaskForm'&&isFA))" >
       <el-row :gutter="0" v-if="procDefKey=='prpo'||status=='start'||parentForm=='TaskFormDetail'||isFA">
         <p style="float: left;" class="sub-title">
           {{$i18nMy.t('供应商报价和合同上传')}}
@@ -189,10 +190,10 @@
               <!-- <td  width="30px">
                 <el-button v-if="item.edit" :disabled="item.docList.length ==1" type="danger" size="small" icon="el-icon-minus" @click="delDoc(index,0)" class="operationButton"></el-button>
               </td> -->
-              <td  width="120px">
-                <el-button v-if="item.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(index)" class=""></el-button>
-                <el-button v-if="!item.edit" type="primary" size="small" icon="el-icon-edit" @click="changeTabListGroup(index)" class=""></el-button>
-                <el-button v-if="item.edit" type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(index)" class=""></el-button>
+              <td  width="120px" align="center" style="padding-left: 10px">
+                <el-button v-if="item.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(index)" style="float: left; "></el-button>
+                <el-button v-if="!item.edit" type="primary" size="small" icon="el-icon-edit" @click="changeTabListGroup(index)" style="float: left; "></el-button>
+                <el-button v-if="item.edit" type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(index)" style="margin-left:10px; float: left; "></el-button>
               </td>
               </tr>
 <!-- 第一行  -->
@@ -328,7 +329,7 @@
                 </td>
                 <td colspan="5">
                   <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!((status=='start'&&procDefKey=='prpo')||(parentForm=='TaskForm'&&isFA))" >
-                      <el-input type="textarea" v-on:input="inputReason(index)" size="small" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')" v-model="item3.reason" :disabled="item.edit||!((status=='start'&&procDefKey=='prpo')||(parentForm=='TaskForm'&&isFA))" ></el-input>
+                    <el-input type="textarea" v-on:input="inputReason(index)" size="small" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')" v-model="item3.reason" :disabled="item.edit||!((status=='start'&&procDefKey=='prpo')||(parentForm=='TaskForm'&&isFA))" ></el-input>
                   </el-form>
                 </td>
               </tr>
@@ -339,6 +340,7 @@
           </table>
         </div>
       </el-row>
+      </el-form>
       <br/>
       <el-row :gutter="0">
       <p class="sub-title">

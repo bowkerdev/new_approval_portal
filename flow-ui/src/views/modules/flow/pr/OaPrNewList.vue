@@ -227,6 +227,12 @@
         :label="$i18nMy.t('当前环节')">
       </el-table-column>
     <el-table-column
+        prop="flow.assigneeName"
+        show-overflow-tooltip
+        sortable="custom"
+        :label="$i18nMy.t('当前处理人')">
+      </el-table-column>
+    <el-table-column
         prop="status"
         show-overflow-tooltip
         sortable="custom"
@@ -253,7 +259,6 @@
     <el-table-column
         prop="totalContractAmount"
         align="right"
-        width="200"
         show-overflow-tooltip
         sortable="custom"
         :label="$i18nMy.t('合同总价')">
@@ -263,6 +268,7 @@
       </el-table-column>
       <el-table-column
         header-align="center"
+        fixed="right"
         align="center"
         :key="Math.random()"
         width="120"

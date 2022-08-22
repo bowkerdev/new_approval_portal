@@ -55,6 +55,9 @@
                  </el-option>
                 </el-select>
          </el-form-item>
+         <el-form-item prop="userGroupCode">
+                <el-input size="small" v-model="searchForm.userGroupCode" :placeholder="$i18nMy.t('组标识辅助码')" clearable></el-input>
+         </el-form-item>
          <el-form-item prop="user.id">
             <user-select :placeholder="$i18nMy.t('用户')"  :limit='1' size="small" :value="searchForm.user.id" @getValue='(value) => {searchForm.user.id=value}'></user-select>
          </el-form-item>
@@ -132,6 +135,9 @@
         show-overflow-tooltip
         sortable="custom"
         :label="$i18nMy.t('用户')">
+        <template slot-scope="scope">
+          {{scope.row.user.loginName}} : {{scope.row.user.name}}
+        </template>
       </el-table-column>
       <el-table-column
         header-align="center"

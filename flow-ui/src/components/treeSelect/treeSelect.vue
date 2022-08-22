@@ -111,6 +111,9 @@ export default {
         method: 'get'
       }).then(({data}) => {
         this.valueData = data.treeData
+        if (data.treeData && data.treeData.length==0) {
+          this.valueData = [{id: '-', name:'N/A', children:[], parentId: '0' }]
+        }
         this.setTreeList(this.valueData)
         this.$nextTick(() => {
           this.initHandle()

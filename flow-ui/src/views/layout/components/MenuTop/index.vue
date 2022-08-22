@@ -2,7 +2,7 @@
   <div class="top-menu-pane jp-navbar-height">
     <el-button
       type="text"
-      icon="el-icon-arrow-left"
+      icon="el-icon-caret-left"
       class="move-btn pre"
       :disabled="topMenutranslateX == 0"
       @click="movePre"
@@ -12,8 +12,9 @@
       <el-menu mode="horizontal" unique-opened
         :default-active="menuActiveName || 'home'"
         :background-color="defaultTheme"
-        text-color="#ababab"
-        active-text-color="#fff"
+        text-color="#b5b5b5"
+        active-text-color="#ffffff"
+        active-text-
         class="top-menu-list"
         :style="`transform: translateX(${topMenutranslateX}px);`"
       >
@@ -27,7 +28,7 @@
     </div>
     <el-button
       type="text"
-      icon="el-icon-arrow-right"
+      icon="el-icon-caret-right"
       class="move-btn next"
       :disabled="(baseMenuItemIndex == menuItemsWidth.length - 2) || leftWidth <= viewWidth"
       @click="moveNext"
@@ -175,13 +176,13 @@ export default {
   .el-menu.el-menu--horizontal {
     border-bottom: none;
   }
-  .el-menu-item, 
+  .el-menu-item,
   .el-submenu__title {
     padding-left: 10px;
     padding-right: 0;
   }
   .el-submenu,
-  .el-menu-item, 
+  .el-menu-item,
   .el-submenu__title {
     height: 100%;
     display: flex;

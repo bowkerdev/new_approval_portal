@@ -579,7 +579,7 @@ export default Vue.extend({
         params: {
           'pageNo': 1,
           'pageSize': 1000,
-          'category': '办公类',
+          'category': 'Self Service',
           ...this.searchForm
         }
       }).then(({data}) => {
@@ -674,7 +674,7 @@ export default Vue.extend({
         status: row.status
       }}).then(({data}) => {
         if (data.success) {
-          var param={parentForm: "TaskForm", formTitle: `${row.vars.title}`, title: `${row.vars.title}`, 
+          var param={parentForm: "TaskForm", formTitle: `${row.vars.title}`, title: `TD:${row.vars.title}`,
             ...pick(data.flow, 'formType', 'formReadOnly', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId', 'lastTaskDefKey')}
           this.$router.push({
             path: '/flowable/task/TaskForm',

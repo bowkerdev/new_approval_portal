@@ -52,7 +52,7 @@
           </el-col>
         </el-form>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment.id" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment.id" :rules="[{required: false, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
             <SelectTree ref="requesterDepartment" v-if="ifSiteChange" :props="{
                     value: 'id',             // ID字段名
                     label: 'name',         // 显示名称
@@ -85,8 +85,9 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-
-        <el-form size="small" :model="inputForm" ref="inputFormFC" :disabled="!isFC&&procDefKey!='prpo'" v-if="formReadOnly || isFC || procDefKey=='prpo'" label-width="140px" >
+        <el-form size="small" :model="inputForm" ref="inputFormFC"
+            :disabled="!(parentForm==='TaskForm'&&((procDefKey==='prpo_non_it'&&isFC) || (!formReadOnly&&procDefKey!='prpo_non_it')))"
+            v-if="formReadOnly || isFC || procDefKey!='prpo_non_it'" label-width="140px" >
           <el-col :span="12" >
             <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}
                    ]">
@@ -649,6 +650,15 @@
        }
        return rtnVal
       },
+      checkItemForm(){
+        for(var i=0;i<this.detailInfo.length;i++){
+          if(this.detailInfo[i].edit){
+            this.$message.warning($i18nMy.t('物品列表还有未保存的记录'))
+            return false
+          }
+        }
+        return true
+      },
       // 表单提交
       saveForm(callBack) {
         this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
@@ -656,11 +666,14 @@
            this.$message.warning($i18nMy.t('物品列表不能为空'))
            return ;
         }
-        for(var i=0;i<this.detailInfo.length;i++){
+        /* for(var i=0;i<this.detailInfo.length;i++){
           if(this.detailInfo[i].edit){
             this.$message.warning($i18nMy.t('物品列表还有未保存的记录'))
             return ;
           }
+        } */
+        if (!this.checkItemForm()) {
+          return
         }
 
         if(this.inputForm.totalBaseAmount>=2000 || this.inputForm.totalVatBaseAmount>=2000){
@@ -715,6 +728,9 @@
           this.$message.warning($i18nMy.t('采购地区不能为空'))
           return
         }
+        if (!this.checkItemForm()) {
+          return
+        }
         this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
 
         this.$refs['inputFormSite'].validate((valid) => {
@@ -766,6 +782,9 @@
         this.detailInfo=this.detailInfo.slice()
       },
       addTabListGroup(){
+        if (!this.checkItemForm()) {
+          return
+        }
         this.detailInfo.push({edit:true,serialNumber:this.detailInfo.length+1,quantity:1,uom:'QTY',expectArrivalDate:this.inputForm.expectArrivalDate})
         this.detailInfo=this.detailInfo.slice()
       },

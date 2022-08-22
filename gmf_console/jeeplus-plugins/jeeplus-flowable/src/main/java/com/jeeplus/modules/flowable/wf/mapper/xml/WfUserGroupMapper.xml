@@ -18,6 +18,7 @@
 		a.user AS "user.id",
 		company.name AS "company.name",
 		department.name AS "department.name",
+		user.login_name AS "user.loginName",
 		user.name AS "user.name"
 	</sql>
 
@@ -58,6 +59,13 @@
 					<if test="_databaseId == 'oracle'">'%'||#{userGroup}||'%'</if>
 					<if test="_databaseId == 'mssql'">'%'+#{userGroup}+'%'</if>
 					<if test="_databaseId == 'mysql'">concat('%',#{userGroup},'%')</if>
+			</if>
+			<if test="userGroupCode != null and userGroupCode != ''">
+				AND a.user_group_code LIKE
+				    <if test="_databaseId == 'postgre'">'%'||#{userGroupCode}||'%'</if>
+					<if test="_databaseId == 'oracle'">'%'||#{userGroupCode}||'%'</if>
+					<if test="_databaseId == 'mssql'">'%'+#{userGroupCode}+'%'</if>
+					<if test="_databaseId == 'mysql'">concat('%',#{userGroupCode},'%')</if>
 			</if>
 			<if test="user != null and user.id != null and user.id != ''">
 				AND a.user = #{user.id}

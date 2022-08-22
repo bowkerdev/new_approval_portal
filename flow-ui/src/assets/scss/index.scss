@@ -117,13 +117,17 @@ img {
 
 /* Navbar
 ------------------------------ */
+.jp-navbar,
+.jp-navbar-height {
+  height: 60px;
+}
+
 .jp-navbar {
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
   z-index: 1024;
-  height: 60px;
   // box-shadow: 0 2px 4px rgba(0,0,0,.08);
   background: var(--defaultTheme);
     // background: -webkit-linear-gradient(90deg,#1d42ab,#2173dc,#1e93ff);
@@ -898,7 +902,7 @@ span{
 .readonly .el-input.is-disabled .el-input__inner ,
 .readonly .el-textarea.is-disabled .el-textarea__inner ,
 .readonly .el-input.is-disabled .el-input__inner {
-    background-color: #f5f7fa8a;
+    background-color: #dddddd8a;
     border-color: #E4E7ED;
     color: #606266;
     cursor: initial;
@@ -1170,6 +1174,10 @@ span{
 }
 .jp-sidebar--fold .FlowFormFooter {
   left: 64px;
+}
+.jp-sidebar--fold .FlowFormFooter.full-width,
+.FlowFormFooter.full-width {
+  left: 0;
 }
 .tags-view-container{
   width: calc(100% - 230px);
@@ -1907,4 +1915,3 @@ span{
 .el-table__fixed-right {
   height: 100% !important;
 }
-

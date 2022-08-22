@@ -20,7 +20,10 @@
 			<scroll-view scroll-y class="page">
 			<view class="margin-top" :class="notBackgroundColor?'':' bg-white '">
 				  <component :formReadOnly="formReadOnly" :class="formReadOnly?'readonly':''"  ref="form" :businessId="businessId" :is="form"></component>
-				  <PreviewForm :formData="formData"  v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="true" ref="form"></PreviewForm>
+				  <PreviewForm :formData="formData"  v-if="formType !== '2'"  
+						:processDefinitionId="procDefId" :procDefKey="procDefKey" 
+						:edit="true" ref="form"
+					></PreviewForm>
 			</view>
 			<view class=" bg-white margin-top" v-if="!procInsId || taskId">
 				<form @submit="formSubmit">
@@ -125,7 +128,12 @@
 	import PrAppForm from '@/pages/workbench/form/PrAppForm'
 	import moment from 'moment'
 	var  graceChecker = require("@/common/graceChecker.js");
+	
+	import mixFlow from '@/mixins/flowable.js'
+	import { original_key } from '@/mixins/flowable.js'
+	
 	export default {
+		mixins: [mixFlow],
 		onLoad: function (option) {
 		    this.flow = JSON.parse(decodeURIComponent(option.flow));
 			this.procDefId = this.flow.procDefId
@@ -300,8 +308,10 @@
 									  input.value =  input.options.defaultValue
 								  } 
 							}else{
-								
-								 input.value =  input.options.defaultValue || ''
+								 let value = input.options.defaultValue || ''
+								  // 时间戳转换成格式化时间显示
+								 input.value = this.mix_transfterVal(input['model'], value)
+								 
 							}
 						}else{
 							if(this.isObjectValue(input)){
@@ -311,7 +321,8 @@
 									   input.value = item.value
 								   }
 							   }else{
-								   input.value = item.value
+									// 时间戳转换成格式化时间显示
+									input.value = this.mix_transfterVal(input['model'], item.value)
 							  }
 						}
 						

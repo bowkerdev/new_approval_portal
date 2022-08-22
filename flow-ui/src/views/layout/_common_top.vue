@@ -16,7 +16,10 @@
         </a>
       </h1>
     </div>
-    <div class="jp-navbar__body clearfix" style="overflow:hidden">
+    <div class="jp-navbar__body clearfix" 
+      :class="{'top-menu-wrap': defaultLayout == 'dropdown-top'}"
+      style="overflow:hidden"
+    >
 
       <el-menu
         class="jp-navbar__menu"
@@ -50,22 +53,9 @@
           </el-menu-item>
         </el-submenu>
       </el-menu>
-      <el-menu v-if="defaultLayout === 'dropdown-top'" class="jp-navbar__menu" style="border-right:0px">
-        <el-menu-item class="jp-navbar__avatar">
-        <el-dropdown v-for="menu in allMenuList"  @command="topGotoRouteHandle" style="color: #ffffff;font-weight: 400;    padding-right: 20px;">
-          <span >
-            <i :class="`${menu.icon} jp-sidebar__menu-icon`" style="display: inline-block!important;"></i>
-            {{menu.name}}
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item v-for="dropdownmenu in menu.children" :command="dropdownmenu">
-              {{dropdownmenu.name}}
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        </el-menu-item>
-      </el-menu>
-
+      <!-- 菜单放顶部 -->
+      <menu-top v-if="defaultLayout === 'dropdown-top'" />
+      
       <el-menu
         class="jp-navbar__menu jp-navbar__menu--right"
         mode="horizontal">
@@ -95,7 +85,8 @@
         <el-menu-item class="jp-navbar__avatar">
           <el-dropdown :show-timeout="0" placement="bottom">
             <span class="el-dropdown-link">
-              <img :src="languageIcon" style="border-radius: 0px;width: 24px;"> {{ language }}
+              <img :src="languageIcon" style="border-radius: 0px;width: 24px;"> 
+              <span class="less-md-hide">{{ language }}</span>
             </span>
             <el-dropdown-menu slot="dropdown" style="margin-top: -10px;">
               <el-dropdown-item v-for="(item,i) in languageList" :key="i" @click.native="changeLanguage" :lang='item.lang'>
@@ -109,7 +100,8 @@
           <el-dropdown :show-timeout="0" placement="bottom">
             <span class="el-dropdown-link">
               <!-- <img :src="(!photo || photo === '')?'/static/img/avatar.png':photo"> -->
-              <i class="el-icon-user-solid"></i>{{ userName }}
+              <i class="el-icon-user-solid"></i>
+              <span class="less-md-hide">{{ userName }}</span>
             </span>
             <el-dropdown-menu slot="dropdown" style="margin-top: -10px;">
               <!-- <el-dropdown-item @click.native="updatePasswordHandle()">{{$i18nMy.t('修改密码')}}</el-dropdown-item> -->
@@ -137,6 +129,8 @@
   import RouteSearch from '@/components/RouteSearch/search'
   import FullScreenRouteSearch from '@/components/RouteSearch/search-fullscreen'
 
+  import MenuTop from './components/MenuTop/index.vue'
+
   export default {
     data () {
       return {
@@ -158,7 +152,8 @@
       ColorPicker,
       NoticeIcon,
       RouteSearch,
-      FullScreenRouteSearch
+      FullScreenRouteSearch,
+      MenuTop
     },
     computed: {
       navbarLayoutType () {
@@ -212,8 +207,9 @@
       }
     },
     created () {
+      //document.body.style.zoom = 0.9
       this.allMenuList = JSON.parse(sessionStorage.getItem('allMenuList') || '[]')
-      if (this.defaultLayout === 'top' || this.defaultLayout === 'dropdown-top') {
+      if (this.defaultLayout === 'top') {
         this.topMenuActiveIndex = this.allMenuList[0].id
         this.showLeftMenu(this.allMenuList[0])
       } else {
@@ -259,7 +255,7 @@
       }) */
     },
     mounted () {
-      if (this.defaultLayout === 'top' || this.defaultLayout === 'dropdown-top') {
+      if (this.defaultLayout === 'top') {
         this.fixTopMenu()
       }
     },
@@ -277,7 +273,7 @@
         })
       },
       defaultLayout (val) {
-        if (this.defaultLayout === 'top' || this.defaultLayout === 'dropdown-top') {
+        if (this.defaultLayout === 'top') {
           let needSetLeft = true
           this.allMenuList.forEach((item) => {
             if (item.id === this.topMenuActiveIndex) {
@@ -376,3 +372,15 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+.top-menu-wrap {
+  display: flex;
+}
+@media (max-width: 992px) {
+  .less-md-hide {
+    display: none;
+  }
+}
+
+</style>

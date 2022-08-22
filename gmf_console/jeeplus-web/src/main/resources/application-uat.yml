@@ -47,8 +47,8 @@ spring:
         master:
           username: webapp
           password: '*Bowker#Mes@uat*'
-          url: jdbc:mysql://pc-3ns0heb66fl7ueo55.rwlb.rds.aliyuncs.com:3306/approval_uat?verifyServerCertificate=false&useSSL=false&requireSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&noAccessToProcedureBodies=true&serverTimezone=Asia/Shanghai
-          #url: jdbc:mysql://bowker-polar-uat.rwlb.rds.aliyuncs.com:3306/approval_uat?verifyServerCertificate=false&useSSL=false&requireSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&noAccessToProcedureBodies=true&serverTimezone=Asia/Shanghai
+          #url: jdbc:mysql://pc-3ns0heb66fl7ueo55.rwlb.rds.aliyuncs.com:3306/approval_uat?verifyServerCertificate=false&useSSL=false&requireSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&noAccessToProcedureBodies=true&serverTimezone=Asia/Shanghai
+          url: jdbc:mysql://bowker-polar-uat.rwlb.rds.aliyuncs.com:3306/approval_uat?verifyServerCertificate=false&useSSL=false&requireSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&noAccessToProcedureBodies=true&serverTimezone=Asia/Shanghai
           
           #username: zhimi
           #password: A4hw8#ZC

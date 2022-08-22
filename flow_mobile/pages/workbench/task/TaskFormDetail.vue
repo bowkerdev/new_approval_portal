@@ -21,7 +21,10 @@
 			<scroll-view scroll-y class="page">
 			<view class="margin-top" :class="notBackgroundColor?'':' bg-white '">
 				  <component :formReadOnly="formReadOnly" :class="formReadOnly?'readonly':''"  ref="form" :businessId="businessId" :is="form"></component>
-				  <PreviewForm :formData="formData"  v-if="formType !== '2'"  :processDefinitionId="procDefId" :edit="true" ref="form"></PreviewForm>
+				  <PreviewForm :formData="formData"  v-if="formType !== '2'"  
+						:processDefinitionId="procDefId" :procDefKey="procDefKey"
+						:edit="true" ref="form"
+					></PreviewForm>
 			</view>
 
 			<view class="cu-tabbar-height"></view>
@@ -76,7 +79,10 @@
 	import PreviewForm from '../form/GenerateFlowableForm'
 	import TestActivitiLeaveForm from '@/pages/test/activiti/TestActivitiLeaveForm.vue'
 	import PrAppForm from '@/pages/workbench/form/PrAppForm'
+	import mixFlow from '@/mixins/flowable.js'
+	import { original_key } from '@/mixins/flowable.js'
 	export default {
+		mixins: [mixFlow],
 		onLoad: function (option) {
 		    this.flow = JSON.parse(decodeURIComponent(option.flow));
 			this.procDefId = this.flow.procDefId
@@ -201,7 +207,8 @@
 								   input.value = item.value
 							   }
 						   }else{
-							   input.value = item.value
+								// 时间戳转换成格式化时间显示
+								input.value = this.mix_transfterVal(input['model'], item.value)
 						  }
 						input.readable = item.readable
 						input.writable = false

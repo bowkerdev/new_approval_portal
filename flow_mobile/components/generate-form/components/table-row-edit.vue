@@ -12,6 +12,21 @@
 					<template v-if="fieldItem.type=='input'">
 						<input class="input-wrap" v-model="editObj[fieldItem.model]" :placeholder="$i18nMy.t('请输入')"/>
 					</template>
+					<!-- 选择框 -->
+					<template v-if="fieldItem.type=='select'  && ('hidden' in fieldItem.options) && !fieldItem.options.hidden">
+						<jp-picker class="input-wrap" v-if="fieldItem.options.remote === 3" 
+							v-model="editObj[fieldItem['model']]" 
+							:range="$dictUtils.getDictList(fieldItem.options.dictType)"
+						/>
+						<jp-picker class="input-wrap" v-else-if="fieldItem.options.showLabel" 
+							v-model="editObj[fieldItem['model']]"
+							:range="fieldItem.options.options"
+						/>
+						<jp-picker class="input-wrap" v-else v-model="editObj[fieldItem['model']]" 
+							rangeKey="value" 
+							:range="fieldItem.options.options"
+						/>
+					</template>	
 					<template v-if="fieldItem.type=='text'">
 						<input class="input-wrap" disabled :placeholder="$i18nMy.t('文本，不可编辑')"/>
 					</template>
@@ -55,6 +70,7 @@
 			confirm() {
 				if (this.mode === 'add') {
 					this.item.value.push(this.editObj)
+					this.$forceUpdate()
 				}
 				this.show = false
 			}
@@ -69,7 +85,7 @@
 		right: 0;
 		top: 0;
 		left: 0;
-		z-index: 9999;
+		z-index: 998;
 		background-color: rgba(0, 0, 0, .7);
 	}
 	.edit-form-popup {
@@ -110,12 +126,12 @@
 	.label-key {
 		padding-right: 10px;
 		color: #a8a8a8;
-		font-size: 13px;
+		font-size: 26upx;
 	}
 	.input-wrap {
 		flex-grow: 1;
 		text-align: right;
-		font-size: 12px;
+		font-size: 24upx;
 		color: #000;
 	}
 	.popup-btn {
@@ -131,3 +147,4 @@
 		color: #b5b5b0;
 	}
 </style>
+

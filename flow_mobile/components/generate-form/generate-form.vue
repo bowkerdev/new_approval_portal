@@ -8,7 +8,7 @@
 				<view class="title" v-if="item.type == 'html'" >
 					{{ $i18nMy.t(getHtmlText(item.options.defaultValue)) }}
 				</view>
-				<view class="title" v-if="('hideLabel' in item.options) && !item.options.hideLabel">
+				<view class="title" v-if="item.options.hideLabel !== true">
 					<text class="red-color " v-if="item.options.required">* </text> {{ $i18nMy.t(item.name)}}
 				</view>
 				<template v-if="item.type=='input' && ('hidden' in item.options) && !item.options.hidden">				
@@ -171,13 +171,54 @@
 
 <script>
 	import TableRowEditForm from './components/table-row-edit.vue'
+	import { getSqlDictList } from '@/api/dataset.js'
+	
 	export default {
 		name: 'activeForm',
 		components: { TableRowEditForm },
+		data() {
+			return {
+				hasFetchDict: false
+			}
+		},
 		watch:{
 			formData:{
 				handler (val) {
 					console.log(this.formData)
+					if (!(!this.hasFetchDict && val && val.length)) { return }
+					// extra cut获取特殊reason,action,prevention选项值
+					if(this.procDefKey == 'extra_cut_approval') {
+						uni.showLoading({ mask: true })
+						// key:接口数据对应的类型， value: 配置的model
+						const match = { "qaReason": "reason", "qaAction": "action", "qaPrevention": "prevention" }
+						const typeArr = Object.values(match)
+						const list = {} // { reason: [], action: [], prevention: [] }
+						typeArr.forEach(key => list[key] = [])
+						// 找到目标配置
+						const targetArr = this.formData.filter(item => item['model'] == 'qaRapList' && item['type'] == 'table')
+						
+						getSqlDictList('GET_EXTRA_CUT_QA_PULL_DOWN', {})
+							.then(({data}) => {
+								const { success, result } = data
+								if (success && result && result.length) {
+									// 分类存放查回来的值
+									result.forEach(item => {
+										const type = item['type']
+										if (typeArr.indexOf(type) == -1) { return }
+										list[type].push({ value: item['value'], label: item['value'] })
+									})
+								}
+							})
+							.catch(err => {
+								console.log('GET_EXTRA_CUT_QA_PULL_DOWN err')
+							})
+							.finally(() => {
+								uni.hideLoading()
+								this.hasFetchDict = true
+								this.resetSelectOption(match, targetArr, list)
+							})
+
+					}
 				},
 				immediate: true,
 				deep: false
@@ -189,9 +230,26 @@
 				default:function(){
 					return []
 				}
+			},
+			procDefKey: {
+				type: String,
+				default: undefined
 			}
 		},
 		methods: {
+			// 重置下拉选项
+			// match = { "qaReason": "reason", "qaAction": "action", "qaPrevention": "prevention" }
+			// list = { reason: [], action: [], prevention: [] }
+			resetSelectOption(match, targetArr, list) {
+				// 替换选项
+				if (!(targetArr && targetArr.length)) { return }
+				const colArr = targetArr[0]['tableColumns']
+				colArr.forEach(item => {
+					if (!item['options']) { item['options'] = {} }
+					const modelId = item['model'] //"qaReason" , "qaAction" , "qaPrevention"
+					item['options']['options'] = list[match[modelId]]
+				})
+			},
 			// table删除行
 			removeTableRow(tableRowArr, tableRowIndex) {
 				tableRowArr.splice(tableRowIndex, 1)
@@ -229,7 +287,7 @@
 		line-height: 1.2;
 		padding-top: 12px;
 		padding-bottom: 12px; 
-		font-size: 13px;
+		font-size: 26upx;
 		color: #a8a8a8; 
 	}
 	.cu-form-group.html-group.margin-top,
@@ -257,12 +315,12 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		font-size: 16px;
+		font-size: 32upx;
 	}
 	&.html-group {
 		padding-top: 16px;
 		padding-bottom: 16px;
-		font-size: 15px;
+		font-size: 30upx;
 		font-weight: bold;
 	}
 	
@@ -318,14 +376,14 @@
 	}
 	.table-row-info-key {
 		color: #a8a8a8;
-		font-size: 13px;
+		font-size: 26upx;
 	}
 	.table-row-info-value {
 		margin-top: 2px;
 		max-width: 60%;
 		text-align: right;
 		color: #000;
-		font-size: 12px;
+		font-size: 24upx;
 		flex-shrink: 0;
 	}
 	.table-row-card-btns {

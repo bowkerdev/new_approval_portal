@@ -7,7 +7,7 @@
           </el-tab-pane>
           <el-tab-pane name="OaPrNewFormForSupplier" key="OaPrNewFormForSupplier">
             <span slot="label"><i class="el-icon-star-on"></i>{{$i18nMy.t('供应商报价和合同')}}</span>
-            <OaPrNewFormForSupplier :formReadOnly="isReadOnly"  ref="oaPrNewFormForSupplier" ></OaPrNewFormForSupplier>
+            <OaPrNewFormForSupplier :formReadOnly="isReadOnly" ref="oaPrNewFormForSupplier" ></OaPrNewFormForSupplier>
           </el-tab-pane>
           <el-tab-pane name="OaPrNewFormForDoc" key="OaPrNewFormForDoc" :label="$i18nMy.t('补充文件')" >
             <OaPrNewFormForDoc :formReadOnly="isReadOnly" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
@@ -67,15 +67,15 @@
         }
         else if(val=='OaPrNewFormForDoc'){// 点击第二个tab
           if(oldVal =='oaPrNewForm'){
-            this.setPage3Data()
+            this.setPage2Data()
           }
           else if(oldVal =='OaPrNewFormForSupplier'){
             this.setPage1Data()
           }
-          this.setPage2Data()
+          this.setPage3Data()
         }
         else if(val=='OaPrNewFormForSupplier'&&oldVal =='oaPrNewForm'){
-          this.setPage3Data()
+          this.setPage2Data()
         }
       }
     },
@@ -88,15 +88,10 @@
         }
       },
       setPage2Data(){
-        this.$refs.oaPrNewFormForDoc.inputForm=this.$refs.oaPrNewForm.inputForm
-        this.$refs.oaPrNewFormForDoc.detailInfo=this.$refs.oaPrNewForm.detailInfo
-        //setTimeout()
-      },
-      setPage3Data(){
         this.$refs.oaPrNewFormForSupplier.inputForm=this.$refs.oaPrNewForm.inputForm
         if(!this.compArray(this.$refs.oaPrNewFormForSupplier.detailInfo,this.$refs.oaPrNewForm.detailInfo)){
           console.log("清理数据")
-/*          this.$refs.oaPrNewFormForSupplier.supplierInfo = []
+/*        this.$refs.oaPrNewFormForSupplier.supplierInfo = []
           this.$refs.oaPrNewFormForSupplier.supplierInfoByDetailInfo = []
           for(var i=0;i<this.$refs.oaPrNewForm.detailInfo.length;i++){
             this.$refs.oaPrNewForm.detailInfo[i].supplierName =''
@@ -106,24 +101,31 @@
             this.$refs.oaPrNewForm.detailInfo[i].docAmount =''
             this.$refs.oaPrNewForm.detailInfo[i].docVatAmount =''
           } */
-          this.$refs.oaPrNewFormForSupplier.detailInfo=JSON.parse(
-            JSON.stringify(this.$refs.oaPrNewForm.detailInfo))
-
+          /* this.$refs.oaPrNewFormForSupplier.detailInfo = JSON.parse(JSON.stringify(this.$refs.oaPrNewForm.detailInfo))
+          this.$refs.oaPrNewFormForSupplier.updateSupplierByDetailInfo() */
+          this.updatePage2DataByDetailInfo()
         }
       },
+      setPage3Data(){
+        this.$refs.oaPrNewFormForDoc.inputForm=this.$refs.oaPrNewForm.inputForm
+        this.$refs.oaPrNewFormForDoc.detailInfo=this.$refs.oaPrNewForm.detailInfo
+        //setTimeout()
+      },
+      updatePage2DataByDetailInfo(){
+        this.$refs.oaPrNewFormForSupplier.detailInfo = JSON.parse(JSON.stringify(this.$refs.oaPrNewForm.detailInfo))
+        this.$refs.oaPrNewFormForSupplier.updateSupplierByDetailInfo()
+        this.setPage1Data()
+        this.setPage3Data()
+      },
+
       init(query) {
         this.activeName='oaPrNewForm'
         this.businessId=query.businessId
         if(query.readOnly) {
           this.isReadOnly=query.readOnly
         }
-        if (query.taskDefKey && query.taskDefKey.indexOf('FC')>0){
+        if (query.taskDefKey && (query.taskDefKey.indexOf('FC')>0 || query.taskDefKey.indexOf('FA')>0)) { // 对FA、FC两个角色的特殊处理，只允许修改部分特定字段，其他大部分字段不能改
           this.isReadOnly=true
-          query.isFC = true
-        }
-        if (query.taskDefKey && query.taskDefKey.indexOf('FA')>0){
-          this.isReadOnly=true
-          query.isFA = true
         }
         this.$refs.oaPrNewForm.init(query, this)
         this.$refs.oaPrNewFormForDoc.init(query)

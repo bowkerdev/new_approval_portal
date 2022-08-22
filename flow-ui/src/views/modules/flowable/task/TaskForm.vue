@@ -72,7 +72,7 @@
    </el-form>
 </el-card>
 <div style="height: 70px;"> </div>
-<div class="FlowFormFooter">
+<div class="FlowFormFooter" :class="{'full-width': defaultLayout == 'dropdown-top'}">
   <template v-for="(button, index) in buttons">
       <template  v-show="button.isHide === '0'">
         <el-button :type="buttonType(button.code)"  v-if="button.code !== '_flow_print'"  :key="index" @click="submit(button, buttons)"  v-noMoreClick plain>{{$i18nMy.t(button.name)}}</el-button>
@@ -248,6 +248,7 @@
     },
     methods: {
       handleRowClicked(row, column, event){
+        debugger
         this.docAddForm.selectedAssigneeLabel = row.step + '&nbsp;&nbsp;|&nbsp;&nbsp;' + row.assignee;
         this.docAddForm.selectedAssigneeId = row.userid;
         this.$refs.selectHisAssignee.hide();
@@ -705,6 +706,11 @@
           userIds: null,
           assignee: null
         }
+      }
+    },
+    computed: {
+      defaultLayout () {
+        return this.$store.state.config.defaultLayout
       }
     }
   }

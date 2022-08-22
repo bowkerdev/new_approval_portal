@@ -53,7 +53,7 @@ function error(res){
 		})
 	}
 }
-function httpService(url,method,data,header){
+export function httpService(url,method,data,header){
 	data = data || {};
 	header = header || {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'};
 	method = method || "GET";

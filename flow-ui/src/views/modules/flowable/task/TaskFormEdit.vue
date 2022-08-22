@@ -70,7 +70,7 @@
    </el-form>
 </el-card>
 
-<div class="FlowFormFooter">
+<div class="FlowFormFooter" :class="{'full-width': defaultLayout == 'dropdown-top'}">
 
   <template v-for="(button, index) in buttons">
       <template  v-show="button.isHide === '0'">
@@ -471,6 +471,11 @@
           userIds: null,
           assignee: null
         }
+      }
+    },
+    computed: {
+      defaultLayout () {
+        return this.$store.state.config.defaultLayout
       }
     }
   }

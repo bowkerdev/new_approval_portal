@@ -29,7 +29,7 @@
     </el-tab-pane>
   </el-tabs>
   <div  style="height:66px ;"></div>
-  <div  class="FlowFormFooter">
+  <div  class="FlowFormFooter" :class="{'full-width': defaultLayout == 'dropdown-top'}">
     <el-button type="primary" v-if="exportButton!=null" @click="exportData()"  v-noMoreClick plain>{{$i18nMy.t(exportButton.name)}}</el-button>
     <el-button type="primary"  @click="close()"  v-noMoreClick plain>{{$i18nMy.t('关闭')}}</el-button>
   </div>
@@ -202,6 +202,11 @@
         status: '',
         title: '',
         businessId: ''
+      }
+    },
+    computed: {
+      defaultLayout () {
+        return this.$store.state.config.defaultLayout
       }
     }
   }

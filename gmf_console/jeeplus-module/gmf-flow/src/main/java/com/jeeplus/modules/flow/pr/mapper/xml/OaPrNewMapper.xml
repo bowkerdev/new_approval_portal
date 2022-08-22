@@ -29,8 +29,7 @@
 		a.legal_entity AS "legalEntity",
 		a.cost_center AS "costCenter",
 		a.asset_group AS "assetGroup",
-		a.technical_advisor AS "technicalAdvisor.id",
-		technicalAdvisor.name AS "technicalAdvisor.name",
+		a.technical_advisor AS "technicalAdvisor",
 		a.budget_type AS "budgetType",
 		<!-- a.approved_date AS "approvedDate", -->
 		a.is_budget AS "isBudget",
@@ -60,13 +59,12 @@
 	<sql id="oaPrNewJoins">
 		LEFT JOIN sys_user createBy ON createBy.id = a.create_by
 		LEFT JOIN sys_office createByOffice ON createByOffice.id = a.create_by_office
-		LEFT JOIN sys_office requesterDepartment ON requesterDepartment.id = a.requester_department
-		LEFT JOIN sys_office technicalAdvisor ON technicalAdvisor.id = a.technical_advisor
+		LEFT JOIN sys_office requesterDepartment ON requesterDepartment.id = a.requester_department 
 		LEFT JOIN act_hi_procinst p on p.PROC_INST_ID_ = a.proc_ins_id
 		left join (select * from act_hi_actinst as a1 
 					where act_type_ IN ( 'userTask', 'endEvent' ) 
 						and not exists (select 1 from act_hi_actinst where act_type_ IN ( 'userTask', 'endEvent' ) and PROC_INST_ID_=a1.PROC_INST_ID_ 
-						and (ifnull( END_TIME_, '2099-01-01' )>ifnull( a1.END_TIME_, '2099-01-01' ) or START_TIME_>a1.START_TIME_))
+						and (ifnull( END_TIME_, '2099-01-01' )>ifnull( a1.END_TIME_, '2099-01-01' ) or START_TIME_>a1.START_TIME_) ) limit 1
 				  ) b on a.proc_ins_id = b.PROC_INST_ID_
 	</sql>
 
@@ -224,7 +222,7 @@
 			#{legalEntity},
 			#{costCenter},
 			#{assetGroup},
-			#{technicalAdvisor.id},
+			#{technicalAdvisor},
 			#{budgetType},
 			#{approvedDate},
 			#{isBudget},
@@ -266,7 +264,7 @@
 			legal_entity = #{legalEntity},
 			cost_center = #{costCenter},
 			asset_group = #{assetGroup},
-			technical_advisor = #{technicalAdvisor.id},
+			technical_advisor = #{technicalAdvisor},
 			budget_type = #{budgetType},
 			approved_date = #{approvedDate},
 			is_budget = #{isBudget},

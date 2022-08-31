@@ -140,6 +140,7 @@
                 this.form = _import(`modules/flowable/custom/${data.formDefinition.name}`)
               }
               // eslint-disable-next-line no-undef
+              debugger
               this.options = this.DynamicFormLanguage.simpleLanguageFrom(JSON.parse(json),this.taskFormData)
               this.setHtmlParam(this.options)
               this.dataBindMap.clear()
@@ -176,6 +177,7 @@
                   for (let key in this.formData) {
                     let dataField = this.dataBindMap.get(key)
                     let dataFieldType = dataField.type
+                    debugger
                     if (dataFieldType && (dataFieldType === 'checkbox' ||
                         dataFieldType === 'imgupload' ||
                         dataFieldType === 'table' ||
@@ -183,8 +185,8 @@
                         dataFieldType === 'select' ||
                         dataFieldType === 'fileupload')) {
                       if (this.formData[key] && typeof this.formData[key] === 'string' &&
-                           ( this.formData[key].indexOf("{")==0 && this.formData[key].indexOf("}")==this.formData[key].length -1 )||
-                           ( this.formData[key].indexOf("[")==0 && this.formData[key].indexOf("]")==this.formData[key].length -1 )) {
+                           ( this.formData[key].indexOf("{")==0 && this.formData[key].lastIndexOf("}")==this.formData[key].length -1 )||
+                           ( this.formData[key].indexOf("[")==0 && this.formData[key].lastIndexOf("]")==this.formData[key].length -1 )) {
                         this.formData[key] = JSON.parse(this.formData[key])
                       } else if (!this.formData[key]) {
                         this.formData[key] = []
@@ -198,7 +200,6 @@
                       }
                     }
                   }
-                  debugger
                   if (!this.isCustom) {
                     let hideArra = this.$refs.generateForm.getDataBindFields().filter((field) => {
                       if (!showArra.includes(field)) {
@@ -207,6 +208,7 @@
                     })
                     this.$refs.generateForm.hide(hideArra)
                     this.$refs.generateForm.disabled(disabledArra, true)
+                    debugger
                     this.$refs.generateForm.setData(this.formData)
                   } else {
                     this.createCustomForm(showArra,disabledArra)

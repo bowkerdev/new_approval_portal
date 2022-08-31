@@ -184,6 +184,7 @@
               ).then(({data}) => {
                 this.taskFormData = data.startFormData
                 _createForm(this)
+                debugger
               })
         } else {
           // 读取任务表单配置
@@ -192,9 +193,11 @@
               ).then(({data}) => {
                 this.taskFormData = data.taskFormData
                 _createForm(this)
+                debugger
               })
         }
       }
+      debugger
        // 读取按钮配置
       if (this.status === 'start') {
         if (this.formUrl.indexOf("flow/pr/")>0) { // 目前只有PR能保存草稿 Jack

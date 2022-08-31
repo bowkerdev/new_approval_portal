@@ -21,7 +21,8 @@ export default {
         obj2.value = obj.options.defaultValue
       }
       else{
-        debugger
+        // debugger
+        console.log(obj.model)
       }
     }
   },

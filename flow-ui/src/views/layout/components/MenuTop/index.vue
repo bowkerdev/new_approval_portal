@@ -14,7 +14,6 @@
         :background-color="defaultTheme"
         text-color="#b5b5b5"
         active-text-color="#ffffff"
-        active-text-
         class="top-menu-list"
         :style="`transform: translateX(${topMenutranslateX}px);`"
       >

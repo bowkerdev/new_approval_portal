@@ -412,6 +412,7 @@ public class FlowTaskService extends BaseService {
                     || BpmnXMLConstants.ELEMENT_EVENT_END.equals (histIns.getActivityType ())) {
                 // 获取流程发起人名称
                 Flow e = queryTaskState (histIns);
+                System.out.println(e.getDurationTime()); 
                 actList.add (e);
             }
         }

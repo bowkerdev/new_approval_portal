@@ -208,7 +208,12 @@ public class Flow extends DataEntity<Flow> {
 			return TimeUtils.toTimeString(histIns.getDurationInMillis()*1000*60).replace("天", "days ").replace("时", "hrs ").replace("分", "min ").replace("秒", "s");
 		}*/
 		if (histIns != null && histIns.getStartTime() != null && histIns.getEndTime() != null) {
-			return TimeUtils.toTimeString(histIns.getEndTime().getTime() - histIns.getStartTime().getTime()).replace("天", "days ").replace("时", "hrs ").replace("分", "min ").replace("秒", "s");
+			long times=histIns.getEndTime().getTime() - histIns.getStartTime().getTime()/1000;
+			long day = times/3600/24;
+			long hour =times%(3600*24)/3600;
+			long minute = times%(3600)/60;
+			long second = times%60;
+			return day+"days "+hour+"hrs "+minute+"min "+second+"s";
 		}		
 		return "";
 	}

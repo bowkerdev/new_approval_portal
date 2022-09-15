@@ -165,7 +165,6 @@
           if(this.formUrl === "/oa/borrowSampleOrderHead/form"){// 特殊处理版衣历史数据
             this.formUrl= '/flow/compatible/bs/borrowSampleOrder'
           }
-          debugger
           this.form = _import(`modules${this.formUrl}`)
         }
       } else { // 读取动态表单

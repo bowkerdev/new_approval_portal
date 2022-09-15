@@ -193,6 +193,14 @@
         if(this.activeName !='oaPrNewForm'){
           this.$refs.oaPrNewForm.detailInfo=this.$refs.oaPrNewFormForSupplier.detailInfo
         }
+        if(!this.$refs.oaPrNewFormForSupplier.checkSupplierList()){
+          this.activeName= 'OaPrNewFormForSupplier'
+          return
+        }
+        if(!this.$refs.oaPrNewFormForDoc.checkForm()){
+          this.activeName= 'OaPrNewFormForDoc'
+          return
+        }
         this.activeName= 'oaPrNewForm'
         this.$refs.oaPrNewForm.inputForm.supplierInfo=
           JSON.stringify(this.$refs.oaPrNewFormForSupplier.supplierInfo)

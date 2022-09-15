@@ -619,15 +619,18 @@
       },
 
       checkForm(){
-        if(this.supplierInfo.length ==0){
+        if(this.supplierInfo.length == 0){
            this.$message.warning($i18nMy.t('供应商列表不能为空'))
-           return false;
+           return false
         }
-        for(var i=0;i<this.supplierInfo.length;i++){
+        /* for(var i=0;i<this.supplierInfo.length;i++){
           if(this.supplierInfo[i].edit){
             this.$message.warning($i18nMy.t('供应商列表还有未保存的记录'))
             return false;
           }
+        } */
+        if (!this.checkSupplierList()) {
+          return false
         }
         var awardedSize=0
         for(var i=0;i<this.supplierInfo.length;i++){
@@ -637,12 +640,23 @@
             }
           }
         }
-        if(awardedSize != this.detailInfo.length && this.procDefKey == 'prpo'){
+        if(awardedSize != this.detailInfo.length && this.procDefKey == 'prpo'){ // IT资产流程
           this.$message.warning($i18nMy.t('请选择供应商'))
           return false;
         }
         return true
       },
+
+      checkSupplierList(){
+        for(var i=0; i<this.supplierInfo.length; i++){
+          if(this.supplierInfo[i].edit){
+            this.$message.warning($i18nMy.t('供应商列表还有未保存的记录'))
+            return false
+          }
+        }
+        return true
+      },
+      
       // 表单提交
       saveForm(callBack) {
         if(!this.checkForm()){

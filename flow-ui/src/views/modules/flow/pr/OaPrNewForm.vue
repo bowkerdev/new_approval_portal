@@ -576,7 +576,7 @@
         this.inputForm.baseCurrency= 'HKD'//this.$dictUtils.getDictList('pr_currency')[0].value
         this.inputForm.vat = null
       },
-      init(query, parentPage) { 
+      init(query, parentPage) {
         if (query&&query.businessId) {
           this.loading = true
           this.inputForm.id = (query.businessId).replace("__copy","")
@@ -749,6 +749,7 @@
               this.loading = false
               if (data && data.success) {
                  this.$message.success(data.msg)
+                 this.inputForm.technicalAdvisor = this.toArray(this.inputForm.technicalAdvisor)
                  callBack(data.businessTable, data.businessId)
               }
               else{
@@ -851,7 +852,9 @@
     text-align: right;
     width: 110px;
   }
-
+  .el-col.el-col-12 {
+    min-height:49px;
+  }
   .updown ::v-deep label{float:none !important;}
 
   .updown ::v-deep label+div{float:none !important;margin-left:0px !important;}

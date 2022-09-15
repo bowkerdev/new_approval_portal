@@ -405,7 +405,7 @@
       },
 
       start (param) {
-        let row = {id: param.flow.procDefId, name: "PRPO", key: "prpo"}
+        let row = {id: param.flow.procDefId, name: param.flow.procDefName, key: param.flow.procDefKey}
         // 读取流程表单
         let tabTitle = $i18nMy.t('发起流程') + '：' + $i18nMy.t(`${row.name}`)
         let processTitle = `Start Process : ${row.name}  ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} `

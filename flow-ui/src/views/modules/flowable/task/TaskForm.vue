@@ -165,6 +165,7 @@
           if(this.formUrl === "/oa/borrowSampleOrderHead/form"){// 特殊处理版衣历史数据
             this.formUrl= '/flow/compatible/bs/borrowSampleOrder'
           }
+          debugger
           this.form = _import(`modules${this.formUrl}`)
         }
       } else { // 读取动态表单
@@ -184,7 +185,6 @@
               ).then(({data}) => {
                 this.taskFormData = data.startFormData
                 _createForm(this)
-                debugger
               })
         } else {
           // 读取任务表单配置
@@ -193,11 +193,10 @@
               ).then(({data}) => {
                 this.taskFormData = data.taskFormData
                 _createForm(this)
-                debugger
               })
         }
       }
-      debugger
+
        // 读取按钮配置
       if (this.status === 'start') {
         if (this.formUrl.indexOf("flow/pr/")>0) { // 目前只有PR能保存草稿 Jack
@@ -266,7 +265,7 @@
         if (yellow.indexOf(code) > -1) { return 'warning' }
         return 'primary'
       },
-      initChildFrom(query){
+      /* initChildFrom(query){
         // query.parentForm = "TaskForm"
         if(this.$refs.form !=null &&this.$refs.form.init !=null){
           this.$refs.form.init(query)
@@ -274,6 +273,21 @@
         else{
           setTimeout(()=>{this.initChildFrom(query)},1000)
         }
+      }, */
+      initChildFrom(query){
+        // query.parentForm = "TaskForm"
+        if (this.formType === '2') { // 外置表单
+          if(this.form != null && this.$refs.form.init != null ){
+            this.$refs.form.init(query)
+            return
+          }
+        } else { // 动态表单
+          if(this.$refs.form != null && this.$refs.form.init != null){
+            this.$refs.form.init(query)
+            return
+          }
+        }
+        setTimeout(()=>{this.initChildFrom(query)},1000)
       },
       init () {
         this.taskSelectedTab = 'form-first'

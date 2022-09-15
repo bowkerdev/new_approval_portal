@@ -576,7 +576,7 @@
         this.inputForm.baseCurrency= 'HKD'//this.$dictUtils.getDictList('pr_currency')[0].value
         this.inputForm.vat = null
       },
-      init(query, parentPage) {
+      init(query, parentPage) { 
         if (query&&query.businessId) {
           this.loading = true
           this.inputForm.id = (query.businessId).replace("__copy","")
@@ -620,6 +620,7 @@
         if (query.taskDefKey && query.taskDefKey.indexOf('FA')>0) {
           this.isFA = true
         }
+
         if (query.status) {
           this.status = query.status
         }

@@ -39,7 +39,8 @@
             style="width:146%"
             type="textarea"
             :rows="3"
-            :placeholder="$i18nMy.t('请输入审批意见')"
+            maxlength="800"
+            :placeholder="$i18nMy.t('长度不超过800')"
             v-model="auditForm.message">
           </el-input>
       </el-form-item>

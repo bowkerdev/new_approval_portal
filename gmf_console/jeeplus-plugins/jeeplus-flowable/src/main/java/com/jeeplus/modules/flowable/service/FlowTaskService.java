@@ -1120,14 +1120,42 @@ public class FlowTaskService extends BaseService {
                 //执行实例
                 map.put ("code", 1);
                 map.put ("status", "运行中");
-                Task currentTask = taskService.createTaskQuery ().processInstanceId (processInstanceId).singleResult ();
-                HashMap taskMap = new HashMap ();
+                List<Task> currentTasks = taskService.createTaskQuery ().processInstanceId (processInstanceId).list();
+                String userId= UserUtils.getUser().getId();
+                Task currentTask =null;
+                if(StringUtils.isBlank(userId)){
+                	currentTask = currentTasks.get(0);
+                }
+                else{
+                	List<Task> tasks=currentTasks.stream().filter(c->userId.equals(c.getAssignee())).collect(Collectors.toList());
+                	if(tasks.size()==1){
+                		currentTask=tasks.get(0);
+                	}
+                	else{
+                		currentTask = currentTasks.get(0);
+                	}
+                }
+                HashMap<String,String> taskMap = new HashMap<String,String> ();
                 taskMap.put ("assignee", currentTask.getAssignee ());
                 taskMap.put ("id", currentTask.getId ());
                 taskMap.put ("name", currentTask.getName ());
                 taskMap.put ("executionId", currentTask.getExecutionId ());
                 taskMap.put ("taskDefinitionKey", currentTask.getTaskDefinitionKey ());
                 map.put ("currentTask", taskMap);
+                
+                if(currentTasks.size()>1){
+                	List<String> taskDefinitionKeys= currentTasks.stream().map(t->t.getTaskDefinitionKey()).collect(Collectors.toList());
+                	taskMap.put("taskDefinitionKeys", StringUtils.join(taskDefinitionKeys));
+                	
+                	List<String> assignees= currentTasks.stream().map(t->t.getAssignee()).collect(Collectors.toList());
+                	taskMap.put("assignees", StringUtils.join(assignees));
+                	
+                	List<String> ids= currentTasks.stream().map(t->t.getId()).collect(Collectors.toList());
+                	taskMap.put("ids", StringUtils.join(ids));
+                	
+                	List<String> names= currentTasks.stream().map(t->t.getName()).collect(Collectors.toList());
+                	taskMap.put("names", StringUtils.join(names));
+                }
                 return map;
             }
         } else {

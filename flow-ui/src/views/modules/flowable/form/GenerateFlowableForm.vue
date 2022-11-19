@@ -140,7 +140,6 @@
                 this.form = _import(`modules/flowable/custom/${data.formDefinition.name}`)
               }
               // eslint-disable-next-line no-undef
-              debugger
               this.options = this.DynamicFormLanguage.simpleLanguageFrom(JSON.parse(json),this.taskFormData)
               this.setHtmlParam(this.options)
               this.dataBindMap.clear()
@@ -177,7 +176,6 @@
                   for (let key in this.formData) {
                     let dataField = this.dataBindMap.get(key)
                     let dataFieldType = dataField.type
-                    debugger
                     if (dataFieldType && (dataFieldType === 'checkbox' ||
                         dataFieldType === 'imgupload' ||
                         dataFieldType === 'table' ||
@@ -208,7 +206,6 @@
                     })
                     this.$refs.generateForm.hide(hideArra)
                     this.$refs.generateForm.disabled(disabledArra, true)
-                    debugger
                     this.$refs.generateForm.setData(this.formData)
                   } else {
                     this.createCustomForm(showArra,disabledArra)

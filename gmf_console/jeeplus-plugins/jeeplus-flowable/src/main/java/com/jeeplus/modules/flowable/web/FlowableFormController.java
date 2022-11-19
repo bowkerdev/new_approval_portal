@@ -9,9 +9,13 @@ import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.flowable.common.email.SendEmailThread;
 import com.jeeplus.modules.flowable.entity.Flow;
+import com.jeeplus.modules.flowable.entity.TaskComment;
+import com.jeeplus.modules.flowable.service.FlowFormService;
 import com.jeeplus.modules.flowable.service.FlowTaskService;
 import com.jeeplus.modules.sys.utils.DictUtils;
 import com.jeeplus.modules.sys.utils.UserUtils;
+
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.flowable.bpmn.model.FlowElement;
 import org.flowable.bpmn.model.StartEvent;
@@ -20,18 +24,18 @@ import org.flowable.engine.*;
 import org.flowable.engine.form.FormProperty;
 import org.flowable.engine.form.StartFormData;
 import org.flowable.engine.form.TaskFormData;
+import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.flowable.variable.api.history.HistoricVariableInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 流程个人任务相关Controller
@@ -56,10 +60,34 @@ public class FlowableFormController extends BaseController {
 
     @Autowired
     private TaskService taskService;
+    
+    @Autowired
+    private FlowFormService flowFormService;
 
     @Autowired
     private IdentityService identityService;
 
+    @Autowired
+    private RuntimeService runtimeService;
+    
+    /**
+     * 提交表单
+     *
+     * @param processDefinitionId 流程定义ID
+     */
+    @PostMapping("submitStartFormDatas")
+    @CrossOrigin
+    public AjaxJson submitStartFormDatas(String assignee,
+    		@RequestParam("processDefinitionId") String processDefinitionId,  
+    		@RequestParam("datas") String datas) {
+    	if (!processDefinitionId.contains(":")) {
+    		String tmp=flowTaskService.getLatestProcessDefinitionId(processDefinitionId);
+    		if(!StringUtils.isBlank(tmp) ){
+    			processDefinitionId = tmp;
+    		}
+    	}
+    	return flowFormService.submitStartFormDatas(assignee, processDefinitionId, datas);
+    }
 
     /**
      * 提交表单
@@ -221,6 +249,49 @@ public class FlowableFormController extends BaseController {
     /**
      * 提交表单
      */
+	@PostMapping("submitTaskFormDatas")
+	@ResponseBody
+    public AjaxJson submitTaskFormDatas(@RequestBody(required=true) List<Map<String,Object>> param ) {
+		JSONArray jDatas=JSONArray.fromObject(param) ;
+    	List<Flow> flows=new ArrayList<Flow>();
+    	for(int indexJData =0 ;jDatas.size() >indexJData ;indexJData++ ){
+    		Flow flow =new Flow();
+    		JSONObject jData = jDatas.getJSONObject(indexJData);
+    		String applicationNo=jData.getString("applicationNo");
+    		String processInstanceId=jData.getString("processInstanceId");
+    		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+    					.processInstanceId(processInstanceId).singleResult();
+    		Task currentTask = taskService.createTaskQuery().processInstanceId(processInstanceId)
+    				.taskAssignee(UserUtils.getUser().getId()).singleResult();
+    		currentTask.getTaskDefinitionKey();
+    		flow.setTitle(applicationNo);
+    		currentTask.setAssignee(null);
+    		flow.setTask(currentTask);
+    		flow.setProcIns(processInstance);
+    		TaskComment taskComment = new TaskComment();
+    		JSONObject buttonObj=jData.getJSONObject("buttonObj");
+    		taskComment.setType(buttonObj.getString("code"));
+    		taskComment.setStatus(buttonObj.getString("name"));
+    		taskComment.setMessage(jData.getString("comments"));
+    		flow.setComment(taskComment);
+    		jData.remove("buttonObj");
+    		if(!jData.containsKey("disagree")){
+    			if("disagree".equals(buttonObj.getString("code"))){
+        			jData.put("disagree", true);
+        		}
+    			else{
+    				jData.put("disagree", false);
+    				jData.put(buttonObj.getString("code"), true);
+    			}
+    		}
+    		flows.add(flow);
+    	}
+    	return flowFormService.submitTaskFormDatas(flows, jDatas);
+    }
+    
+    /**
+     * 提交表单
+     */
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping("submitTaskFormData")
     public AjaxJson submitTaskFormData(Flow flow, @RequestParam("data") String data) {
@@ -237,9 +308,7 @@ public class FlowableFormController extends BaseController {
         }
 
         for(Object str: jData.keySet()){
-
           if(!noCommitValues.contains(str.toString())){
-              Object o = jData.get(str.toString());
               Object value = jData.get(str.toString());//拿取具体参数值
               formValues.put(str.toString(), value);    //将ID和value存入map中
           }

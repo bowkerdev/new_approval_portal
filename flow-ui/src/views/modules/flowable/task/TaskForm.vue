@@ -184,7 +184,6 @@
               ).then(({data}) => {
                 this.taskFormData = data.startFormData
                 _createForm(this)
-                debugger
               })
         } else {
           // 读取任务表单配置
@@ -193,11 +192,9 @@
               ).then(({data}) => {
                 this.taskFormData = data.taskFormData
                 _createForm(this)
-                debugger
               })
         }
       }
-      debugger
        // 读取按钮配置
       if (this.status === 'start') {
         if (this.formUrl.indexOf("flow/pr/")>0) { // 目前只有PR能保存草稿 Jack
@@ -251,7 +248,6 @@
     },
     methods: {
       handleRowClicked(row, column, event){
-        debugger
         this.docAddForm.selectedAssigneeLabel = row.step + '&nbsp;&nbsp;|&nbsp;&nbsp;' + row.assignee;
         this.docAddForm.selectedAssigneeId = row.userid;
         this.$refs.selectHisAssignee.hide();
@@ -268,12 +264,19 @@
       },
       initChildFrom(query){
         // query.parentForm = "TaskForm"
-        if(this.$refs.form !=null &&this.$refs.form.init !=null){
-          this.$refs.form.init(query)
+        if (this.formType === '2') {
+          if(this.form !=null){
+            this.$refs.form.init(query)
+            return
+          }
         }
         else{
-          setTimeout(()=>{this.initChildFrom(query)},1000)
+          if(this.$refs.form !=null &&this.$refs.form.init !=null){
+            this.$refs.form.init(query)
+            return
+          }
         }
+        setTimeout(()=>{this.initChildFrom(query)},1000)
       },
       init () {
         this.taskSelectedTab = 'form-first'
@@ -609,6 +612,7 @@
           cancelButtonText: $i18nMy.t('取消'),
           type: 'warning'
         }).then(() => {
+          debugger
           switch (currentBtn.code) {
             case '_flow_start': // 自动流程
               this.start(vars)

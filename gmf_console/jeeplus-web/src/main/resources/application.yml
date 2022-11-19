@@ -1,4 +1,4 @@
 spring:
   profiles:
-    active: uat
-    #active: development || production
+    active: development
+    #active: development || production || uat

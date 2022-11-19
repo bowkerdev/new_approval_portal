@@ -275,7 +275,8 @@
         :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <!-- <el-button v-if="hasPermission('flow:pr:oaPrNew:view')" type="text" icon="el-icon-view" size="small" @click="flowDetail(scope.row)">{{$i18nMy.t('查看')}}</el-button> -->
-          <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="text" icon="el-icon-edit" size="small" @click="copyToStart(scope.row)">{{$i18nMy.t('复制申请单')}}</el-button>
+          <el-button v-if="hasPermission('flow:pr:oaPrNew:edit') && searchForm.isDraft!='1'" type="text" icon="el-icon-edit" size="small" @click="copyToStart(scope.row)">{{$i18nMy.t('复制申请单')}}</el-button>
+          <el-button v-if="hasPermission('flow:pr:oaPrNew:edit') && searchForm.isDraft=='1'" type="text" icon="el-icon-edit" size="small" @click="start(scope.row)">{{$i18nMy.t('发起流程')}}</el-button>
           <!-- <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
           <el-button v-if="hasPermission('flow:pr:oaPrNew:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button> -->
         </template>
@@ -405,7 +406,7 @@
       },
 
       start (param) {
-        let row = {id: param.flow.procDefId, name: "PRPO", key: "prpo"}
+        let row = {id: param.flow.procDefId, name: param.flow.procDefName, key: param.flow.procDefKey}
         // 读取流程表单
         let tabTitle = $i18nMy.t('发起流程') + '：' + $i18nMy.t(`${row.name}`)
         let processTitle = `Start Process : ${row.name}  ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} `

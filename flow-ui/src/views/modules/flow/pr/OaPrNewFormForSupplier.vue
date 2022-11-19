@@ -96,7 +96,7 @@
                 </span>
               </td>
               <td colspan="1"  >
-                <el-input type="textarea" size="small" v-if="item.edit" v-model="item.paymentTerms" maxlength="100" :placeholder="$i18nMy.t('长度不超过100')"></el-input>
+                <el-input type="textarea" size="small" v-if="item.edit" v-model="item.paymentTerms" maxlength="800" :placeholder="$i18nMy.t('长度不超过800')"></el-input>
                 <!-- <el-select size="small" v-model="item.paymentTerms"
                   v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
                   <el-option v-for="item in $dictUtils.getDictList('pr_payment_terms')" on :key="item.value" :label="item.label"
@@ -281,7 +281,7 @@
                 <td colspan="1"><span class="my-span">{{item3.brandName}} - {{item3.modelNo}}</span></td>
                 <!-- <td> {{item3.modelNo}} </td> -->
                 <td class="my-right">
-                  <el-input  v-on:input="calculationPrice(index)" v-only-num.float="item3"  size="small" v-if="item.edit" v-model="item3.unitPrice"  ></el-input>
+                  <el-input  v-on:input="calculationPrice(index)" v-only-num.float="item3" disabled size="small" v-if="item.edit" v-model="item3.unitPrice"  ></el-input>
                   <span v-else>
                     {{$common.toThousands(item3.unitPrice)}}
                   </span>
@@ -619,15 +619,18 @@
       },
 
       checkForm(){
-        if(this.supplierInfo.length ==0){
+        if(this.supplierInfo.length == 0){
            this.$message.warning($i18nMy.t('供应商列表不能为空'))
-           return false;
+           return false
         }
-        for(var i=0;i<this.supplierInfo.length;i++){
+        /* for(var i=0;i<this.supplierInfo.length;i++){
           if(this.supplierInfo[i].edit){
             this.$message.warning($i18nMy.t('供应商列表还有未保存的记录'))
             return false;
           }
+        } */
+        if (!this.checkSupplierList()) {
+          return false
         }
         var awardedSize=0
         for(var i=0;i<this.supplierInfo.length;i++){
@@ -637,12 +640,23 @@
             }
           }
         }
-        if(awardedSize != this.detailInfo.length && this.procDefKey == 'prpo'){
+        if(awardedSize != this.detailInfo.length && this.procDefKey == 'prpo'){ // IT资产流程
           this.$message.warning($i18nMy.t('请选择供应商'))
           return false;
         }
         return true
       },
+
+      checkSupplierList(){
+        for(var i=0; i<this.supplierInfo.length; i++){
+          if(this.supplierInfo[i].edit){
+            this.$message.warning($i18nMy.t('供应商列表还有未保存的记录'))
+            return false
+          }
+        }
+        return true
+      },
+
       // 表单提交
       saveForm(callBack) {
         if(!this.checkForm()){
@@ -848,12 +862,21 @@
         var originalVatPrice =0
         for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
           this.supplierInfo[index].detailInfo[i].vat = parseFloat(this.supplierInfo[index].detailInfo[i].vat||"0")
+          /* 先输入不含税单价
           if(isNaN(this.supplierInfo[index].detailInfo[i].unitPrice) || this.supplierInfo[index].detailInfo[i].unitPrice == ''){
             this.supplierInfo[index].detailInfo[i].unitPrice = ''
             this.supplierInfo[index].detailInfo[i].vatUnitPrice = ''
           }else{
             this.supplierInfo[index].detailInfo[i].vatUnitPrice = this.supplierInfo[index].detailInfo[i].unitPrice * (100+this.supplierInfo[index].detailInfo[i].vat)/100
+          } */
+          /*先输入含税单价 start*/
+          if(isNaN(this.supplierInfo[index].detailInfo[i].vatUnitPrice) || this.supplierInfo[index].detailInfo[i].vatUnitPrice == ''){
+            this.supplierInfo[index].detailInfo[i].unitPrice = ''
+            this.supplierInfo[index].detailInfo[i].vatUnitPrice = ''
+          }else{
+            this.supplierInfo[index].detailInfo[i].unitPrice = parseFloat((this.supplierInfo[index].detailInfo[i].vatUnitPrice / ((100+this.supplierInfo[index].detailInfo[i].vat)/100)).toFixed(2))
           }
+          /*先输入含税单价 end*/
           if(isNaN(this.supplierInfo[index].detailInfo[i].vatUnitPrice)){
             this.supplierInfo[index].detailInfo[i].vatUnitPrice = ''
           }

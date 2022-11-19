@@ -39,7 +39,8 @@
             style="width:146%"
             type="textarea"
             :rows="3"
-            :placeholder="$i18nMy.t('请输入审批意见')"
+            maxlength="800"
+            :placeholder="$i18nMy.t('长度不超过800')"
             v-model="auditForm.message">
           </el-input>
       </el-form-item>
@@ -195,6 +196,7 @@
               })
         }
       }
+
        // 读取按钮配置
       if (this.status === 'start') {
         if (this.formUrl.indexOf("flow/pr/")>0) { // 目前只有PR能保存草稿 Jack
@@ -264,14 +266,13 @@
       },
       initChildFrom(query){
         // query.parentForm = "TaskForm"
-        if (this.formType === '2') {
-          if(this.form !=null){
+        if (this.formType === '2') { // 外置表单
+          if(this.form != null && this.$refs.form.init != null ){
             this.$refs.form.init(query)
             return
           }
-        }
-        else{
-          if(this.$refs.form !=null &&this.$refs.form.init !=null){
+        } else { // 动态表单
+          if(this.$refs.form != null && this.$refs.form.init != null){
             this.$refs.form.init(query)
             return
           }
@@ -612,7 +613,6 @@
           cancelButtonText: $i18nMy.t('取消'),
           type: 'warning'
         }).then(() => {
-          debugger
           switch (currentBtn.code) {
             case '_flow_start': // 自动流程
               this.start(vars)

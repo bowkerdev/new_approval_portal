@@ -136,7 +136,7 @@
                   }" :url="`/sys/office/treeData?type=2&parentCode=${inputForm.applySiteCode}`" :value="inputForm.technicalAdvisor.id" :clearable="true"
               :accordion="true" @getValue="(value, name) => {inputForm.technicalAdvisor.id=value; inputForm.technicalAdvisor.name=name}" />
               <el-input v-if="!ifSiteChange" :placeholder="$i18nMy.t('请选择')" disabled></el-input> -->
-            <el-select v-model="inputForm.technicalAdvisor" :placeholder="$i18nMy.t('请选择')" style="width: 100%;" multiple>
+            <el-select v-model="inputForm.technicalAdvisor" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;" multiple>
               <el-option v-for="item in $dictUtils.getDictList('technical_advisor')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
@@ -162,7 +162,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label-width="220px" :label="$i18nMy.t('预算备注')" prop="budgetRemark" :rules="[]">
-              <el-input type="textarea" v-model="inputForm.budgetRemark" :placeholder="$i18nMy.t('长度不超过300')" maxlength="300"></el-input>
+              <el-input type="textarea" v-model="inputForm.budgetRemark" :placeholder="$i18nMy.t('长度不超过500')" maxlength="500"></el-input>
             </el-form-item>
           </el-col>
         <!-- <el-col :span="12">
@@ -266,7 +266,7 @@
                 </template>
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
-                    <el-input type="textarea" size="small" v-model="row.item" maxlength="100" :placeholder="$i18nMy.t('长度不超过100')" ></el-input>
+                    <el-input type="textarea" size="small" v-model="row.item" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')" ></el-input>
                   </template>
                   <span v-else>{{ row.item }}</span>
                 </template>
@@ -275,7 +275,7 @@
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
-                      <el-input type="textarea" size="small" v-model="row.itemDescription" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')" ></el-input>
+                      <el-input type="textarea" size="small" v-model="row.itemDescription" maxlength="800" :placeholder="$i18nMy.t('长度不超过800')" ></el-input>
                     </el-form>
                   </template>
                   <span v-else>{{ row.itemDescription }}</span>
@@ -285,7 +285,7 @@
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
-                      <el-input  size="small" v-model="row.brandName" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                      <el-input  size="small" v-model="row.brandName" maxlength="50" :placeholder="$i18nMy.t('长度不超过50')" ></el-input>
                     </el-form>
                   </template>
                   <span v-else>{{ row.brandName }}</span>
@@ -295,7 +295,7 @@
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
-                      <el-input  size="small" v-model="row.modelNo" :placeholder="$i18nMy.t('请输入内容')" ></el-input>
+                      <el-input  size="small" v-model="row.modelNo" maxlength="100" :placeholder="$i18nMy.t('长度不超过100')" ></el-input>
                     </el-form>
                   </template>
                   <span v-else>{{ row.modelNo }}</span>
@@ -451,24 +451,24 @@
         </el-col>
         <el-col :span="24">
         <el-form-item class="updown" :label="$i18nMy.t('申购目的')" prop="purchasePurpose" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
-          <el-input type="textarea" style="width: 100%;" v-model="inputForm.purchasePurpose" :placeholder="$i18nMy.t('请填写申购目的')"></el-input>
+          <el-input type="textarea" style="width: 100%;" v-model="inputForm.purchasePurpose" maxlength="800" :placeholder="$i18nMy.t('长度不超过800')"></el-input>
           <div style="color: #005DF7; font-size: 12px; cursor: pointer;" @click="toDocPage"> → {{$i18nMy.t('前往[补充文件]页')}}</div>
          </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item class="updown" :label="$i18nMy.t('投资回报分析')" prop="roi" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
-            <el-input type="textarea" style="width: 100%;" v-model="inputForm.roi" :placeholder="$i18nMy.t('请填写ROI，如需上传附件，请在[补充文件]页中上传')"></el-input>
+            <el-input type="textarea" style="width: 100%;" v-model="inputForm.roi" maxlength="800" :placeholder="$i18nMy.t('长度不超过800')"></el-input>
             <a style="color: #005DF7; font-size: 12px; cursor: pointer;" @click="toDocPage"> → {{$i18nMy.t('前往[补充文件]页')}}</a>
            </el-form-item>
         </el-col>
         <el-col :span="24" v-if="inputForm.isBudget!='1'" >
           <el-form-item class="updown" :label="$i18nMy.t('预算外说明')" prop="noBudgetExplain" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
-            <el-input type="textarea" style="width: 100%;" v-model="inputForm.noBudgetExplain" :placeholder="$i18nMy.t('请填写预算外说明')"></el-input>
+            <el-input type="textarea" style="width: 100%;" v-model="inputForm.noBudgetExplain" maxlength="800" :placeholder="$i18nMy.t('长度不超过800')"></el-input>
            </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item class="updown" :label="$i18nMy.t('支付说明')" prop="paymentSpecial" :rules="[]">
-            <el-input type="textarea" style="width: 100%;" v-model="inputForm.paymentSpecial" :placeholder="$i18nMy.t('请填写支付说明')"></el-input>
+            <el-input type="textarea" style="width: 100%;" v-model="inputForm.paymentSpecial" maxlength="800" :placeholder="$i18nMy.t('长度不超过800')"></el-input>
            </el-form-item>
         </el-col>
       </el-row>
@@ -620,6 +620,7 @@
         if (query.taskDefKey && query.taskDefKey.indexOf('FA')>0) {
           this.isFA = true
         }
+
         if (query.status) {
           this.status = query.status
         }
@@ -748,6 +749,7 @@
               this.loading = false
               if (data && data.success) {
                  this.$message.success(data.msg)
+                 this.inputForm.technicalAdvisor = this.toArray(this.inputForm.technicalAdvisor)
                  callBack(data.businessTable, data.businessId)
               }
               else{
@@ -850,7 +852,9 @@
     text-align: right;
     width: 110px;
   }
-
+  .el-col.el-col-12 {
+    min-height:49px;
+  }
   .updown ::v-deep label{float:none !important;}
 
   .updown ::v-deep label+div{float:none !important;margin-left:0px !important;}

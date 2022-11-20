@@ -52,7 +52,7 @@
           </el-col>
         </el-form>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment" :rules="[{required: false, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment" :rules="[{required: ifIT, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
             <!-- <SelectTree ref="requesterDepartment" v-if="ifSiteChange" :props="{
                     value: 'id',             // ID字段名
                     label: 'name',         // 显示名称
@@ -490,6 +490,7 @@
         parentPage: null,
         activeName:'0',
         ifSiteChange: false,
+        ifIT: false,
         parentForm: '',
         isFC: false,
         isFA: false,
@@ -543,6 +544,7 @@
           totalVatBaseAmount:'',
           purchasePurpose: '',
           roi: '',
+          remarks: '',
           noBudgetExplain: '',
           paymentSpecial: '',
           detailInfo: '',
@@ -625,6 +627,9 @@
         this.procDefKey = query.procDefKey
         this.taskDefKey = query.taskDefKey + ''
 
+        if (this.procDefKey === 'prpo_non_it') {
+          this.ifIT = true
+        }
         if (query.taskDefKey && query.taskDefKey.indexOf('FC')>0) {
           this.isFC = true
         }

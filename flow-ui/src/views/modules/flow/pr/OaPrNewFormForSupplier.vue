@@ -970,9 +970,9 @@
           if(!this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].unitPrice)&&
              !this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vatUnitPrice)&&
              !this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vat)){
-                if(this.supplierInfo[index].detailInfo[i].vatUnitPrice!=
+                if(Math.abs(this.supplierInfo[index].detailInfo[i].vatUnitPrice -
                     (this.supplierInfo[index].detailInfo[i].unitPrice*
-                    (100+parseFloat(this.supplierInfo[index].detailInfo[i].vat||0))/100)){
+                    (100+parseFloat(this.supplierInfo[index].detailInfo[i].vat||0))/100))>0.1){
                   this.$message.warning($i18nMy.t('单价*(1+VAT) != 单价(VAT)'))
                   return
                 }

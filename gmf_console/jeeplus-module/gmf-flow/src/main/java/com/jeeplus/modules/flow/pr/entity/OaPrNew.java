@@ -38,8 +38,11 @@ public class OaPrNew extends DataEntity<OaPrNew> {
 	private String projectName;		// 项目名称
 	@ExcelField(title="所属工厂", dictType="db_type", align=2, sort=11)
 	private String applySiteCode;		// 所属工厂
-	@ExcelField(title="请求者部门", fieldType=Office.class, value="requesterDepartment.name", align=2, sort=12)
+	/*@ExcelField(title="请求者部门", fieldType=Office.class, value="requesterDepartment.name", align=2, sort=12)
 	private Office requesterDepartment;		// 请求者部门
+	 */	
+	@ExcelField(title="请求者部门", align=2, sort=12)
+	private String requesterDepartment;
 	@ExcelField(title="请求者", align=2, sort=13)
 	private String requester;		// 请求者
 	@ExcelField(title="费用类型", dictType="expense_type", align=2, sort=14)

@@ -9,7 +9,7 @@
      class="userDialog"
     :visible.sync="visible">
     <el-container style="height: 500px">
-      <div width="200px" style="margin-bottom: 10px;">
+      <!-- <div width="200px" style="margin-bottom: 10px;">
         <el-card class="org" width="200px">
           <div slot="header" class="clearfix">
             <el-input
@@ -35,17 +35,27 @@
             ref="officeTree">
           </el-tree>
         </el-card>
-      </div>
+      </div> -->
 
     <el-container width="200px">
       <el-header style="text-align: left; font-size: 12px;height:30px">
         <el-form size="small" :inline="true" ref="searchForm" :model="searchForm" @keyup.enter.native="refreshList()" @submit.native.prevent>
-            <el-form-item prop="loginName">
+          <el-form-item prop="company.id">
+            <el-select v-model="searchForm.company.id" :placeholder="$i18nMy.t('所属机构')" style="width: 100%;">
+              <el-option v-for="item in siteList" :key="item.value" :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+            <el-form-item style="margin-left: 10px;" prop="loginName">
               <el-input size="small" v-model="searchForm.loginName" :placeholder="$i18nMy.t('员工号')" clearable></el-input>
             </el-form-item>
             <el-form-item style="margin-left: 10px;" prop="name">
               <el-input size="small" v-model="searchForm.name" :placeholder="$i18nMy.t('姓名')" clearable></el-input>
             </el-form-item>
+            <!-- <el-form-item style="margin-left: 10px;" prop="companyEmail">
+              <el-input size="small" v-model="searchForm.companyEmail" :placeholder="$i18nMy.t('邮箱')" clearable></el-input>
+            </el-form-item> -->
             <el-form-item style="margin-left: 20px;">
               <el-button  type="primary" @click="refreshList()" size="small">{{$i18nMy.t('查询')}}</el-button>
               <el-button @click="resetSearch()" size="small">{{$i18nMy.t('重置')}}</el-button>
@@ -105,14 +115,14 @@
             min-width="90"
             :label="$i18nMy.t('用户名')">
           </el-table-column>
-          <el-table-column
-            prop="email"
+          <!-- <el-table-column
+            prop="companyEmail"
             header-align="center"
             align="center"
             sortable="custom"
             min-width="110"
             :label="$i18nMy.t('邮箱')">
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             prop="company.name"
             header-align="center"
@@ -185,11 +195,13 @@
           office: {
             id: ''
           },
-          name: ''
+          name: ''/* ,
+          companyEmail: '' */
         },
         filterText: '',
         dataListAllSelections: [],   // 所有选中的数据包含跨页数据
         dataListSelections: [],
+        siteList: [],
         idKey: 'id', // 标识列表数据中每一行的唯一键的名称(需要按自己的数据改一下)
         dataList: [],
         dynamicTags: [],
@@ -224,6 +236,10 @@
     methods: {
       init () {
         this.visible = true
+        let _that=this
+        this.$dictUtils.getSqlDictList('GET_OFFICE_SITE',{},function(data){
+          _that.siteList = data
+        })
         this.$nextTick(() => {
           this.dataListAllSelections = JSON.parse(JSON.stringify(this.selectData))
           this.refreshTree()
@@ -411,6 +427,8 @@
       resetSearch () {
         this.searchForm.company.id = ''
         this.searchForm.office.id = ''
+        this.searchForm.loginName = ''
+        this.searchForm.name = ''
         this.$refs.officeTree.setCurrentKey(null)
         this.$refs.searchForm.resetFields()
         this.refreshList()

@@ -33,8 +33,8 @@
           </el-col> -->
 
           <el-col :span="12">
-            <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment.name" :rules="[ ]">
-              <el-input v-model="inputForm.requesterDepartment.name" :disabled='true' ></el-input>
+            <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment" :rules="[ ]">
+              <el-input v-model="inputForm.requesterDepartment" :disabled='true' ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -242,10 +242,11 @@
           applicationNo: '',
           projectName: '',
           applySiteCode: '',
-          requesterDepartment: {
+          requesterDepartment: '',
+          /* requesterDepartment: {
             id: '',
             name: ''
-          },
+          }, */
           requester: '',
           expenseType: '',
           expectArrivalDate: '',

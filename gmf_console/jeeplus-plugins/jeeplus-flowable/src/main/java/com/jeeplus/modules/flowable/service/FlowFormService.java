@@ -13,10 +13,12 @@ import java.util.stream.Collectors;
 
 import org.flowable.engine.FormService;
 import org.flowable.engine.IdentityService;
+import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.form.FormProperty;
 import org.flowable.engine.form.StartFormData;
 import org.flowable.engine.form.TaskFormData;
+import org.flowable.identitylink.api.IdentityLinkInfo;
 import org.flowable.task.api.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.core.service.BaseService;
 import com.jeeplus.modules.flowable.common.email.SendEmailThread;
 import com.jeeplus.modules.flowable.entity.Flow;
+import com.jeeplus.modules.flowable.mapper.FlowMapper;
+import com.jeeplus.modules.sys.entity.User;
 import com.jeeplus.modules.sys.utils.DictUtils;
 import com.jeeplus.modules.sys.utils.UserUtils;
 
@@ -55,7 +59,7 @@ public class FlowFormService extends BaseService {
     @Autowired
     private IdentityService identityService;
 
-    @Transactional(readOnly = false)
+	@Transactional(readOnly = false)
     public AjaxJson submitStartFormDatas(String assignee, String processDefinitionId,String data) {
     	StartFormData formData = formService.getStartFormData(processDefinitionId);//拿取流程启动前的表单字段。
         List<FormProperty> formProperties = formData.getFormProperties();//获取表单字段值
@@ -95,13 +99,22 @@ public class FlowFormService extends BaseService {
             }
             String procInsId = formService.submitStartFormData(processDefinitionId,formValues).getId();//启动流程，提交表单
             procInfo.put("processInstanceId", procInsId);
-            //指定下一步处理人
-            List<Task> tasks = taskService.createTaskQuery().processInstanceId(procInsId).active().list();
+
+            List<Task> tasks = taskService.createTaskQuery().includeIdentityLinks().processInstanceId(procInsId).active().list();
+            List<Task> tasks2=tasks.stream().filter(t->t.getAssignee() ==null).collect(Collectors.toList());
+            Set<String> assignees2 =new HashSet<>();
+            for(Task t:tasks2){
+            	List<? extends IdentityLinkInfo> infos= t.getIdentityLinks();
+            	for(IdentityLinkInfo u:infos){
+            		assignees2.add(u.getUserId());
+            	}
+            }
             if(tasks.size()>0){
             	List<String> names= tasks.stream().map(t->t.getName()).collect(Collectors.toList());
-            	procInfo.put("names", StringUtils.join(names,","));
-            	List<String> assignees= tasks.stream().map(t->t.getAssignee()).collect(Collectors.toList());
-            	procInfo.put("assignee",String.format(",%s,", StringUtils.join(assignees,",")));
+            	procInfo.put("names",String.format(",%s,", StringUtils.join(names,",")));
+            	List<String> assignees= tasks.stream().filter(t->t.getAssignee()!=null).map(t->t.getAssignee()).collect(Collectors.toList());
+            	assignees2.addAll(assignees);
+            	procInfo.put("assignee",String.format(",%s,", StringUtils.join(assignees2,",")));
             }
             if(tasks.size()==1){
             	if(StringUtils.isNotBlank(assignee)){
@@ -117,7 +130,7 @@ public class FlowFormService extends BaseService {
         return AjaxJson.success(DictUtils.getLanguageLabel("操作成功", "")).put("procInfos", procInfos);
     }
     
-    @Transactional(readOnly = false)
+	@Transactional(readOnly = false)
     public AjaxJson submitTaskFormDatas(List<Flow> flows, JSONArray jDatas) {
     	List<JSONObject> procInfos=new ArrayList<JSONObject>();
         for(int indexJData =0 ;jDatas.size() >indexJData ;indexJData++ ){
@@ -143,21 +156,23 @@ public class FlowFormService extends BaseService {
             }
             formValues.put("assignee", "");// 避免jackson序列化错误
             flowTaskService.complete(flow, formValues );  //提交用户任务表单并且完成任务。
-            //指定下一步处理人
-            if(StringUtils.isNotBlank(flow.getAssignee ())){
-                Task task = taskService.createTaskQuery().processInstanceId(flow.getProcInsId ()).active().singleResult();
-                if(task != null){
-                    taskService.setAssignee(task.getId(), flow.getAssignee ());
-                }
+            
+            List<Task> tasks = taskService.createTaskQuery().includeIdentityLinks().processInstanceId(flow.getProcInsId()).active().list();
+            List<Task> tasks2=tasks.stream().filter(t->t.getAssignee() ==null).collect(Collectors.toList());
+            Set<String> assignees2 =new HashSet<>();
+            for(Task t:tasks2){
+            	List<? extends IdentityLinkInfo> infos= t.getIdentityLinks();
+            	for(IdentityLinkInfo u:infos){
+            		assignees2.add(u.getUserId());
+            	}
             }
-            List<Task> tasks = taskService.createTaskQuery().processInstanceId(flow.getProcInsId ()).active().list();
             JSONObject procInfo= new JSONObject();
             if(tasks.size()>0){
             	List<String> names= tasks.stream().map(t->t.getName()).collect(Collectors.toList());
-            	procInfo.put("names", StringUtils.join(names,","));
-            	List<String> assignees= tasks.stream().map(t->t.getAssignee()).collect(Collectors.toList());
-            	procInfo.put("assignee",String.format(",%s,", StringUtils.join(assignees,",")));
-            	procInfo.put("processInstanceId", flow.getProcInsId());
+            	procInfo.put("names",String.format(",%s,", StringUtils.join(names,",")));
+            	List<String> assignees= tasks.stream().filter(t->t.getAssignee()!=null).map(t->t.getAssignee()).collect(Collectors.toList());
+            	assignees2.addAll(assignees);
+            	procInfo.put("assignee",String.format(",%s,", StringUtils.join(assignees2,",")));
             }
             procInfos.add(procInfo);
             // 如满足邮件规则则发邮件

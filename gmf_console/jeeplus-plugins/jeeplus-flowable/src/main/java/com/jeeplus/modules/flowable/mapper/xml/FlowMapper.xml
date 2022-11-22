@@ -179,4 +179,9 @@
 	<select id="getProcessVar" resultType="java.lang.String">
 	    select getProcessVar(#{procInsId}, #{varName}) as value
 	</select>
+	
+	<select id="getIdentitylinkUserByTask" resultType="java.util.Map">
+		SELECT USER_ID_ userId 
+		from act_ru_identitylink where TASK_ID_ = #{taskId}  and TASK_ID_ is not null and PROC_INST_ID_ = #{instId}
+	</select>
 </mapper>

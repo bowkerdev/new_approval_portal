@@ -49,6 +49,8 @@ public interface FlowMapper extends BaseMapper<Flow> {
 
 	List<ActVo> findLastestHiActList(@Param("procInsId") String procInsId);
 
+	List<Map> getIdentitylinkUserByTask(@Param("taskId") String taskId,@Param("instId") String instId);
+	
 	List<Map> querySql(Map map);
 	 
 	int executeWriteSql(Map map);

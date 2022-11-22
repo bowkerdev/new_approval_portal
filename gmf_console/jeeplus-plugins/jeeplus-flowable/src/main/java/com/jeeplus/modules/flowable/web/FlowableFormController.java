@@ -261,9 +261,25 @@ public class FlowableFormController extends BaseController {
     		String processInstanceId=jData.getString("processInstanceId");
     		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
     					.processInstanceId(processInstanceId).singleResult();
-    		Task currentTask = taskService.createTaskQuery().processInstanceId(processInstanceId)
-    				.taskAssignee(UserUtils.getUser().getId()).singleResult();
-    		currentTask.getTaskDefinitionKey();
+    		List<Task> taskList = taskService.createTaskQuery().includeIdentityLinks().processInstanceId(processInstanceId).active().list();
+    		String userId=UserUtils.getUser().getId();
+    		Task currentTask=null;
+    		for(Task t:taskList){
+    			if(t.getAssignee()!=null&&t.getAssignee().equals(userId)){
+    				currentTask = t;
+    				break;
+    			}
+    			else{
+    				Long count=t.getIdentityLinks().stream().filter(t0->userId.equals(t0.getUserId())).count();
+    				if(count >0){
+    					currentTask = t;
+    					break;
+    				}
+    			}
+    		}
+    		if(currentTask == null){
+    			throw new RuntimeException("用户错误");
+    		}
     		flow.setTitle(applicationNo);
     		currentTask.setAssignee(null);
     		flow.setTask(currentTask);
@@ -272,18 +288,16 @@ public class FlowableFormController extends BaseController {
     		JSONObject buttonObj=jData.getJSONObject("buttonObj");
     		taskComment.setType(buttonObj.getString("code"));
     		taskComment.setStatus(buttonObj.getString("name"));
-    		taskComment.setMessage(jData.getString("comments"));
+    		taskComment.setMessage(jData.getString("comment"));
     		flow.setComment(taskComment);
     		jData.remove("buttonObj");
-    		if(!jData.containsKey("disagree")){
-    			if("disagree".equals(buttonObj.getString("code"))){
-        			jData.put("disagree", true);
-        		}
-    			else{
-    				jData.put("disagree", false);
-    				jData.put(buttonObj.getString("code"), true);
-    			}
+    		if("disagree".equals(buttonObj.getString("code"))){
+    			jData.put("disagree", true);
     		}
+			else{
+				jData.put("disagree", false);
+				jData.put(buttonObj.getString("code"), true);
+			}
     		flows.add(flow);
     	}
     	return flowFormService.submitTaskFormDatas(flows, jDatas);

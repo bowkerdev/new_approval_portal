@@ -52,14 +52,19 @@
           </el-col>
         </el-form>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment.id" :rules="[{required: false, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
-            <SelectTree ref="requesterDepartment" v-if="ifSiteChange" :props="{
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment" :rules="[{required: ifIT, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+            <!-- <SelectTree ref="requesterDepartment" v-if="ifSiteChange" :props="{
                     value: 'id',             // ID字段名
                     label: 'name',         // 显示名称
                     children: 'children'    // 子级字段名
                   }" :url="`/sys/office/treeData?type=2&parentCode=${inputForm.applySiteCode}`" :value="inputForm.requesterDepartment.id" :clearable="true"
               :accordion="true" @getValue="(value, name) => {inputForm.requesterDepartment.id=value; inputForm.requesterDepartment.name=name}" />
-              <el-input v-if="!ifSiteChange" :placeholder="$i18nMy.t('请选择')" disabled></el-input>
+              <el-input v-if="!ifSiteChange" :placeholder="$i18nMy.t('请选择')" disabled></el-input> -->
+              <el-select v-model="inputForm.requesterDepartment" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;" >
+                <el-option v-for="item in deptList" :key="item.value" :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
           </el-form-item>
         </el-col>
         <!-- <el-col :span="12">
@@ -485,6 +490,7 @@
         parentPage: null,
         activeName:'0',
         ifSiteChange: false,
+        ifIT: false,
         parentForm: '',
         isFC: false,
         isFA: false,
@@ -493,10 +499,11 @@
         title: '',
         method: '',
         loading: false,
+        deptList: [],
         procDefKey: '',
         taskDefKey: '',
         flowStage:'start',
-        detailInfo:[],
+        detailInfo: [],
         tabs:[$i18nMy.t('基础信息'),/* $i18nMy.t('技术信息'), */$i18nMy.t('财务信息')],
         inputForm: {
           id: '',
@@ -510,10 +517,11 @@
           applicationNo: '',
           projectName: '',
           applySiteCode: '',
-          requesterDepartment: {
+          requesterDepartment: '',
+          /* requesterDepartment: {
             id: '',
             name: ''
-          },
+          }, */
           requester: '',
           expenseType: '',
           expectArrivalDate: '',
@@ -536,6 +544,7 @@
           totalVatBaseAmount:'',
           purchasePurpose: '',
           roi: '',
+          remarks: '',
           noBudgetExplain: '',
           paymentSpecial: '',
           detailInfo: '',
@@ -559,9 +568,13 @@
     },
     methods: {
       siteChange(){
-        this.ifSiteChange = false;
+        this.ifSiteChange = false
+        let _that=this
+        this.$dictUtils.getSqlDictList('GET_DEPT_WITH_HEAD',{site: this.inputForm.applySiteCode},function(data){
+          _that.deptList = data
+        })
         this.$nextTick(() => {
-          this.ifSiteChange = true;
+          this.ifSiteChange = true
         })
       },
       initCreateBy(){
@@ -614,6 +627,9 @@
         this.procDefKey = query.procDefKey
         this.taskDefKey = query.taskDefKey + ''
 
+        if (this.procDefKey === 'prpo_non_it') {
+          this.ifIT = true
+        }
         if (query.taskDefKey && query.taskDefKey.indexOf('FC')>0) {
           this.isFC = true
         }

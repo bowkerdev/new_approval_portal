@@ -24,7 +24,9 @@
 		a.application_no AS "applicationNo",
 		a.project_name AS "projectName",
 		a.apply_site_code AS "applySiteCode",
-		a.requester_department AS "requesterDepartment.id",
+		a.requester_department AS "requesterDepartment",
+		<!-- a.requester_department AS "requesterDepartment.id",
+		requesterDepartment.name AS "requesterDepartment.name", -->
 		a.requester AS "requester",
 		a.expense_type AS "expenseType",
 		a.expect_arrival_date AS "expectArrivalDate",
@@ -54,14 +56,13 @@
 		a.supplier_info AS "supplierInfo",
 		createBy.name AS "createBy.name",
 		createBy.login_name AS "createBy.loginName",
-		createByOffice.name AS "createByOffice.name",
-		requesterDepartment.name AS "requesterDepartment.name"
+		createByOffice.name AS "createByOffice.name"		
 	</sql>
 
 	<sql id="oaPrNewJoins">
 		LEFT JOIN sys_user createBy ON createBy.id = a.create_by
 		LEFT JOIN sys_office createByOffice ON createByOffice.id = a.create_by_office
-		LEFT JOIN sys_office requesterDepartment ON requesterDepartment.id = a.requester_department 
+		<!-- LEFT JOIN sys_office requesterDepartment ON requesterDepartment.id = a.requester_department  -->
 		LEFT JOIN act_hi_procinst p on p.PROC_INST_ID_ = a.proc_ins_id
 		left join (select a1.ACT_NAME_,a1.END_TIME_,a1.PROC_INST_ID_,a2.name_,a2.TASK_DEF_KEY_,a2.ASSIGNEE_,a3.login_name,a3.name 
 					from act_hi_actinst as a1 
@@ -112,8 +113,11 @@
 			<if test="applySiteCode != null and applySiteCode != ''">
 				AND a.apply_site_code = #{applySiteCode}
 			</if>
-			<if test="requesterDepartment != null and requesterDepartment.id != null and requesterDepartment.id != ''">
+			<!-- <if test="requesterDepartment != null and requesterDepartment.id != null and requesterDepartment.id != ''">
 				AND a.requester_department = #{requesterDepartment.id}
+			</if> -->
+			<if test="requesterDepartment != null and requesterDepartment != ''">
+				AND a.requester_department = #{requesterDepartment}
 			</if>
 			<if test="expenseType != null and expenseType != ''">
 				AND a.expense_type = #{expenseType}
@@ -220,7 +224,7 @@
 			getDateSeq(#{procDefKey}, #{applySiteCode}, '%Y'), <!-- #{applicationNo}, -->
 			#{projectName},
 			#{applySiteCode},
-			#{requesterDepartment.id},
+			#{requesterDepartment},
 			#{requester},
 			#{expenseType},
 			#{expectArrivalDate},
@@ -262,7 +266,7 @@
 			<!-- application_no = #{applicationNo}, -->
 			project_name = #{projectName},
 			apply_site_code = #{applySiteCode},
-			requester_department = #{requesterDepartment.id},
+			requester_department = #{requesterDepartment},
 			requester = #{requester},
 			expense_type = #{expenseType},
 			expect_arrival_date = #{expectArrivalDate},

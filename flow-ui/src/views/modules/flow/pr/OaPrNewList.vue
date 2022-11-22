@@ -28,7 +28,7 @@
          <el-form-item prop="projectName">
                 <el-input size="small" v-model="searchForm.projectName" :placeholder="$i18nMy.t('项目描述')" clearable></el-input>
          </el-form-item>
-         <el-form-item prop="requesterDepartment.id">
+         <!-- <el-form-item prop="requesterDepartment.id">
             <SelectTree
                   ref="requesterDepartment.id"
                   v-if="ifSiteChange"
@@ -44,6 +44,13 @@
                   :clearable="true"
                   :accordion="true"
                   @getValue="(value) => {searchForm.requesterDepartment.id=value}"/>
+         </el-form-item> -->
+         <el-form-item prop="requesterDepartment">
+            <el-select size="small" v-model="searchForm.requesterDepartment" :placeholder="$i18nMy.t('请求者部门')" filterable clearable style="width: 100%;" >
+              <el-option v-for="item in deptList" :key="item.value" :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
          </el-form-item>
          <el-form-item prop="expenseType">
                   <el-select size="small" v-model="searchForm.expenseType" :placeholder="$i18nMy.t('费用类型')" clearable style="width: 100%;">
@@ -188,7 +195,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="requesterDepartment.name"
+        prop="requesterDepartment"
         show-overflow-tooltip
         sortable="custom"
         :label="$i18nMy.t('请求者部门')">
@@ -315,6 +322,7 @@
       return {
         ifSiteChange: true,
         visible:false,
+        deptList: [],
         searchForm: {
           isDraft: '',
           status: '',
@@ -322,9 +330,7 @@
           applicationNo: '',
           projectName: '',
           applySiteCode: '',
-          requesterDepartment: {
-            id: ''
-          },
+          requesterDepartment: '',
           expenseType: '',
           requestRiority: ''
         },
@@ -350,9 +356,13 @@
     },
     methods: {
       siteChange(){
-        this.ifSiteChange = false;
+        let _that=this
+        this.$dictUtils.getSqlDictList('GET_DEPT_WITH_HEAD',{site: this.searchForm.applySiteCode},function(data){
+          _that.deptList = data
+        })
+        this.ifSiteChange = false
         this.$nextTick(() => {
-          this.ifSiteChange = true;
+          this.ifSiteChange = true
         })
       },
       // 获取数据列表

@@ -31,8 +31,8 @@
         </el-col> -->
 
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment.name" :rules="[ ]">
-            <el-input v-model="inputForm.requesterDepartment.name" :disabled='true' ></el-input>
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment" :rules="[ ]">
+            <el-input v-model="inputForm.requesterDepartment" :disabled='true' ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -468,10 +468,11 @@
           applicationNo: '',
           projectName: '',
           applySiteCode: '',
-          requesterDepartment: {
+          requesterDepartment: '',
+          /* requesterDepartment: {
             id: '',
             name: ''
-          },
+          }, */
           requester: '',
           expenseType: '',
           expectArrivalDate: '',
@@ -969,9 +970,9 @@
           if(!this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].unitPrice)&&
              !this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vatUnitPrice)&&
              !this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vat)){
-                if(this.supplierInfo[index].detailInfo[i].vatUnitPrice!=
+                if(Math.abs(this.supplierInfo[index].detailInfo[i].vatUnitPrice -
                     (this.supplierInfo[index].detailInfo[i].unitPrice*
-                    (100+parseFloat(this.supplierInfo[index].detailInfo[i].vat||0))/100)){
+                    (100+parseFloat(this.supplierInfo[index].detailInfo[i].vat||0))/100))>0.1){
                   this.$message.warning($i18nMy.t('单价*(1+VAT) != 单价(VAT)'))
                   return
                 }

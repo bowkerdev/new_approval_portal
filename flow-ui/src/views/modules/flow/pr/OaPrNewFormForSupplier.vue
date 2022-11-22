@@ -60,8 +60,8 @@
         </el-col>
       </el-row>
       <br/>
-      <el-form size="small" ref="inputFormFA" :disabled="!((status=='start')||(parentForm=='TaskForm'&&isFA))" >
-      <el-row :gutter="0" v-if="procDefKey=='prpo'||status=='start'||parentForm=='TaskFormDetail'||isFA">
+      <el-form size="small" ref="inputFormFA" :disabled="!((status=='start')||(parentForm=='TaskForm'&&isFA)||(taskDefKey=='FormModify'))" >
+      <el-row :gutter="0" v-if="procDefKey=='prpo'||status=='start'||parentForm=='TaskFormDetail'||isFA||taskDefKey=='FormModify'">
         <p style="float: left;" class="sub-title">
           {{$i18nMy.t('供应商报价和合同上传')}}
         </p><div style="float: left;"><el-button size="small" :disabled="detailInfo.length==0" @click="addTabListGroup()" round  type="primary" icon="el-icon-plus" style="float: left;margin-top: 7px;margin-left: 10px;padding: 5px 5px;" ></el-button></div>
@@ -585,6 +585,7 @@
           Object.assign(this.$data, this.$options.data.call(this))
         }
         this.procDefKey = query.procDefKey
+        this.taskDefKey = query.taskDefKey
         if (query.status) {
           this.status = query.status
         }
@@ -641,7 +642,7 @@
             }
           }
         }
-        if(awardedSize != this.detailInfo.length && this.procDefKey == 'prpo'){ // IT资产流程
+        if(awardedSize != this.detailInfo.length && (this.procDefKey == 'prpo' || this.isFA)){ // IT资产流程
           this.$message.warning($i18nMy.t('请选择供应商'))
           return false;
         }

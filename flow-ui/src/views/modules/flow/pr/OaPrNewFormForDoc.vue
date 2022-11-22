@@ -204,7 +204,7 @@
             </el-table-column>
 
             <el-table-column width="120" align="left" :label="$i18nMy.t('操作')" class-name="td-operate">
-              <template slot-scope="{row}">
+              <template slot-scope="{row}" v-if="row.uploadedBy==$store.state.user.name">
                 <el-button  type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
                 <el-button v-if="row.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
                 <el-button v-if="!row.edit" type="primary" size="small" icon="el-icon-edit" @click="changeTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>

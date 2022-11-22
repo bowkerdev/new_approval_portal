@@ -79,7 +79,7 @@
 			<include refid="oaPrNewColumns"/>
 		FROM oa_pr_new a
 		<include refid="oaPrNewJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.id = #{id} limit 1
 	</select>
 
 	<select id="findList" resultType="OaPrNew" >

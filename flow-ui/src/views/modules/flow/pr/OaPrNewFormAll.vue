@@ -43,13 +43,13 @@
       //this.init()
     },
     methods: {
-      init(query) {
+      init(query, parent) {
         this.activeName='oaPrNewForm'
         this.businessId=query.businessId
         if (query.taskDefKey && (query.taskDefKey.indexOf('FC')>0 || query.taskDefKey.indexOf('FA')>0)) { // 对FA、FC两个角色的特殊处理，只允许修改部分特定字段，其他大部分字段不能改
           this.isReadOnly=true
         }
-        this.$refs.oaPrNewForm.init(query, this)
+        this.$refs.oaPrNewForm.init(query, this, parent)
         this.$refs.oaPrNewFormForDoc.init(query)
         this.$refs.oaPrNewFormForSupplier.init(query)
       },
@@ -63,6 +63,31 @@
       // 表单提交
       saveForm(callBack) {
         callBack("oa_pr_new", this.businessId)
+      },
+
+      // 表单提交
+      saveAsDraft(callBack) {
+/*        if(this.activeName !='oaPrNewForm'){
+          this.$refs.oaPrNewForm.detailInfo=this.$refs.oaPrNewFormForSupplier.detailInfo
+        }
+        if(!this.$refs.oaPrNewFormForSupplier.checkSupplierList()){
+          this.activeName= 'OaPrNewFormForSupplier'
+          return
+        }
+        if(!this.$refs.oaPrNewFormForDoc.checkForm()){
+          this.activeName= 'OaPrNewFormForDoc'
+          return
+        }
+        this.activeName= 'oaPrNewForm'
+        this.$refs.oaPrNewForm.inputForm.supplierInfo=
+          JSON.stringify(this.$refs.oaPrNewFormForSupplier.supplierInfo)
+
+        this.$refs.oaPrNewForm.inputForm.supplementaryDoc=
+          JSON.stringify(this.$refs.oaPrNewFormForDoc.supplementaryDoc)
+ */
+        this.$refs.oaPrNewForm.saveAsDraft((businessTable, businessId) => {
+           callBack(businessTable, businessId)
+        })
       }
     }
   }

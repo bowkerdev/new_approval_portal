@@ -488,6 +488,7 @@
     data() {
       return {
         parentPage: null,
+        topPage: null,
         activeName:'0',
         ifSiteChange: false,
         ifIT: false,
@@ -589,7 +590,7 @@
         this.inputForm.baseCurrency= 'HKD'//this.$dictUtils.getDictList('pr_currency')[0].value
         this.inputForm.vat = null
       },
-      init(query, parentPage) {
+      init(query, parentPage, topPage) {
         if (query&&query.businessId) {
           this.loading = true
           this.inputForm.id = (query.businessId).replace("__copy","")
@@ -604,6 +605,10 @@
               data
             }) => {
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
+              if (data.oaPrNew.remarks && data.oaPrNew.remarks.indexOf(this.taskDefKey+'##')==0) {
+                topPage.auditForm.message = (data.oaPrNew.remarks).replace(this.taskDefKey+'##','')
+              }
+
               this.inputForm.technicalAdvisor = this.toArray(this.inputForm.technicalAdvisor)
               this.inputForm.procDefKey = query.procDefKey
               this.ifSiteChange = true;
@@ -644,6 +649,7 @@
           this.parentForm = query.parentForm
         }
         this.parentPage = parentPage
+        this.topPage = topPage
       },
       toArray(str) {
           if (typeof str === 'undefined' || str === null || str === "") {
@@ -693,11 +699,11 @@
           return
         }
 
-        if(this.inputForm.totalBaseAmount>=2000 || this.inputForm.totalVatBaseAmount>=2000){
+        /* if(this.inputForm.totalBaseAmount>=2000 || this.inputForm.totalVatBaseAmount>=2000){
           this.inputForm.expenseType = 'CAPEX'
         } else {
           this.inputForm.expenseType = 'OPEX'
-        }
+        } */
 
         /* if(this.inputForm.expenseType=='OPEX'&&this.inputForm.totalBaseAmount>2000){
            this.$message.warning("OPEX "+$i18nMy.t('金额必须小于')+" 2,000HKD")
@@ -754,6 +760,7 @@
           if (valid) {
             this.loading = true
             this.inputForm.technicalAdvisor = this.inputForm.technicalAdvisor.toString()
+            this.inputForm.remarks = this.taskDefKey + '##' + this.topPage.auditForm.message
 
             this.$http({
               url: `/flow/pr/oaPrNew/save`,

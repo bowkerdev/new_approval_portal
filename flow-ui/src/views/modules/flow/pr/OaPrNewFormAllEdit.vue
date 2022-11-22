@@ -118,7 +118,7 @@
         this.setPage3Data()
       },
 
-      init(query) {
+      init(query, parent) {
         this.activeName='oaPrNewForm'
         this.businessId=query.businessId
         if(query.readOnly) {
@@ -127,7 +127,7 @@
         if (query.taskDefKey && (query.taskDefKey.indexOf('FC')>0 || query.taskDefKey.indexOf('FA')>0)) { // 对FA、FC两个角色的特殊处理，只允许修改部分特定字段，其他大部分字段不能改
           this.isReadOnly=true
         }
-        this.$refs.oaPrNewForm.init(query, this)
+        this.$refs.oaPrNewForm.init(query, this, parent)
         this.$refs.oaPrNewFormForDoc.init(query)
         this.$refs.oaPrNewFormForSupplier.init(query)
       },

@@ -34,7 +34,8 @@
             v-model="title">
           </el-input>
         </el-form-item>
-      <el-form-item  class="updown"  v-if="taskId"  :label="$i18nMy.t('审批信息')" prop="comment" >
+       <!-- <flow-step :historicTaskList="historicTaskList" style="margin-left:0px;width:146%"/> -->
+       <el-form-item  class="updown"  v-if="taskId"  :label="$i18nMy.t('审批信息')" prop="comment" >
           <el-input
             style="width:146%"
             type="textarea"
@@ -268,7 +269,7 @@
         // query.parentForm = "TaskForm"
         if (this.formType === '2') { // 外置表单
           if(this.form != null && this.$refs.form.init != null ){
-            this.$refs.form.init(query)
+            this.$refs.form.init(query,this)
             return
           }
         } else { // 动态表单

@@ -38,6 +38,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/flowable/model")
+@CrossOrigin
 public class FlowableModelController extends BaseController {
 
 	@Autowired

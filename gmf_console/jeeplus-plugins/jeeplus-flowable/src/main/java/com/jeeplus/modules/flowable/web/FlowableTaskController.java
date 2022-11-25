@@ -19,6 +19,7 @@ import org.flowable.engine.TaskService;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,6 +51,7 @@ import com.jeeplus.modules.sys.utils.UserUtils;
  */
 @RestController
 @RequestMapping("/flowable/task")
+@CrossOrigin(origins = "*", allowCredentials = "true",allowedHeaders = "*")
 public class FlowableTaskController extends BaseController {
 
     @Autowired

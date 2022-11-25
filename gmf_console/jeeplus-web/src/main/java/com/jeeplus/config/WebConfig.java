@@ -59,8 +59,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new FlowableHandlerInterceptor())
                     .addPathPatterns("/app/**");
     }
-
-
+    
     @Bean
     public LogInterceptor logInterceptor(){
         return new LogInterceptor();

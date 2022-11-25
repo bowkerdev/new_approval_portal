@@ -35,6 +35,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/flowable/process")
+@CrossOrigin
 public class FlowableProcessController extends BaseController {
 
     @Autowired

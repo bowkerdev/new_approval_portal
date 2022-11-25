@@ -11,6 +11,7 @@ import com.jeeplus.modules.flowable.service.FlowProcessService;
 import com.jeeplus.modules.flowable.vo.ProcessVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping("/flowable/process/history")
+@CrossOrigin
 public class FlowableProcessHistoryController extends BaseController {
 
     @Autowired

@@ -36,6 +36,7 @@ import com.jeeplus.modules.sys.utils.DictUtils;
  */
 @RestController
 @RequestMapping("/extension/listener")
+@CrossOrigin
 public class ListenerController extends BaseController {
 
 	@Autowired

@@ -26,6 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/extension/taskDefExtension")
+@CrossOrigin
 public class TaskDefExtensionController extends BaseController {
 
 	@Autowired

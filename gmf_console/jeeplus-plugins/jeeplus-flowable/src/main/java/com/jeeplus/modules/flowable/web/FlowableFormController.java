@@ -44,6 +44,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/flowable/form")
+@CrossOrigin(origins = "*", allowCredentials = "true",allowedHeaders = "*")
 public class FlowableFormController extends BaseController {
 
     @Autowired

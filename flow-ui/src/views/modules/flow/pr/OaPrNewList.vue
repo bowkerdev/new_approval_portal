@@ -253,6 +253,9 @@
         show-overflow-tooltip
         sortable="custom"
         :label="$i18nMy.t('申请时间')">
+        <template slot-scope="scope">
+          {{new Date(new Date(scope.row.createDate).getTime() + 8*3600*1000) | formatDate}}
+        </template>
       </el-table-column>
     <el-table-column
         prop="requestRiority"

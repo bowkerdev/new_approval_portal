@@ -222,10 +222,12 @@
   export default {
     data() {
       return {
+        topPage: null,
         title: '',
         method: '',
         loading: false,
         procDefKey: 'prpo',
+        taskDefKey: '',
         isCopy: false,
         flowStage:'start',
         detailInfo:[],
@@ -268,6 +270,7 @@
           totalVatBaseAmount:'',
           purchasePurpose: '',
           roi: '',
+          remarks: '',
           noBudgetExplain: '',
           paymentSpecial: '',
           detailInfo: '',
@@ -290,7 +293,7 @@
       //this.init()
     },
     methods: {
-      init(query) {
+      init(query, topPage) {
         this.supplementaryDoc=[]
         if (query&&query.businessId) {
           this.loading = true
@@ -306,6 +309,9 @@
               data
             }) => {
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
+              if (topPage && data.oaPrNew.remarks && data.oaPrNew.remarks.indexOf(query.taskDefKey+'##')==0) {
+                topPage.auditForm.message = (data.oaPrNew.remarks).replace(query.taskDefKey+'##','')
+              }
               if (this.isCopy) {
                 this.inputForm.id = ''
                 this.inputForm.applicationNo = ''
@@ -334,6 +340,8 @@
           })
         }
         this.procDefKey = query.procDefKey
+        this.taskDefKey = query.taskDefKey + ''
+        this.topPage = topPage
       },
       checkForm(){
         for(var i=0;i<this.supplementaryDoc.length;i++){
@@ -367,7 +375,43 @@
             }) => {
               this.loading = false
               if (data && data.success) {
-                 callBack(data.businessTable, data.businessId)
+                this.$message.success(data.msg)
+                callBack(data.businessTable, data.businessId)
+              }
+              else{
+                this.$message.error(data.msg)
+              }
+            })
+          }
+        })
+      },
+      saveAsDraft(callBack) {
+        if(this.supplementaryDoc.length ==0){// 单独打开时，必须上传
+           this.$message.warning($i18nMy.t('请上传文档'))
+           return ;
+        }
+        if(!this.checkForm()){
+          return
+        }
+        this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
+        this.inputForm.supplementaryDoc=JSON.stringify(this.supplementaryDoc)
+        this.$refs['inputForm'].validate((valid) => {
+          if (valid) {
+            this.loading = true
+            if (this.topPage.auditForm.message) {
+              this.inputForm.remarks = this.taskDefKey + '##' + this.topPage.auditForm.message
+            }
+            this.$http({
+              url: `/flow/pr/oaPrNew/save`,
+              method: 'post',
+              data: this.inputForm
+            }).then(({
+              data
+            }) => {
+              this.loading = false
+              if (data && data.success) {
+                this.$message.success(data.msg)
+                callBack(data.businessTable, data.businessId)
               }
               else{
                 this.$message.error(data.msg)

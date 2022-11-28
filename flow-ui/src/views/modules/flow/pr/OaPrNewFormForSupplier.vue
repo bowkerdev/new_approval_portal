@@ -447,6 +447,7 @@
         method: '',
         loading: false,
         procDefKey: 'prpo',
+        taskDefKey: '',
         parentForm: '',
         isFC: false,
         isFA: false,
@@ -803,7 +804,6 @@
                 this._setDetailInfoAmount(obj)
                 this.inputForm.totalContractAmount += (obj.docAmount||0)
                 this.inputForm.totalVatContractAmount += (obj.docVatAmount||0)
-
                 this.inputForm.totalVatBaseAmount +=
                   parseFloat((obj.exRate*(obj.docVatAmount||0)).toFixed(2))
                 this.inputForm.totalBaseAmount +=

@@ -36,6 +36,7 @@ import org.flowable.engine.history.HistoricProcessInstanceQuery;
 import org.flowable.engine.runtime.ActivityInstance;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.identitylink.api.IdentityLink;
+import org.flowable.identitylink.api.IdentityLinkInfo;
 import org.flowable.task.api.DelegationState;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.TaskQuery;
@@ -746,16 +747,19 @@ public class FlowTaskService extends BaseService {
 			}*/
 			
 			// 如果下一环节的审批人和上一环节相同,那么下一环节会自动审批通过
-			for (IdentityLink identityLink : list){ 
-				if ("COMMENT__flow_agree".equals(flow.getComment().getCommentType()) && identityLink.getType().equals("assignee") && identityLink.getUserId().equals(vars.get("lastAssignee"))){
-					if(!"EC".equals(todo.getName()) && !"BOD".equals(todo.getName()) && !"modify PR".equals(todo.getName()) && !todo.getName().startsWith("test")){
-						flow.setTaskId(todo.getId());
-						flow.getComment().setFullMessage("Skip for same approver");
-						flow.setTaskDefKey(todo.getTaskDefinitionKey());
-						this.complete(flow, vars);
+			if(!todo.getProcessDefinitionId().contains("QKPI_EXCEPTION")){
+				for (IdentityLink identityLink : list){ 
+					if ("COMMENT__flow_agree".equals(flow.getComment().getCommentType()) && identityLink.getType().equals("assignee") && identityLink.getUserId().equals(vars.get("lastAssignee"))){
+						if(!"EC".equals(todo.getName()) && !"BOD".equals(todo.getName()) && !"modify PR".equals(todo.getName()) && !todo.getName().startsWith("test")){
+							flow.setTaskId(todo.getId());
+							flow.getComment().setFullMessage("Skip for same approver");
+							flow.setTaskDefKey(todo.getTaskDefinitionKey());
+							this.complete(flow, vars);
+						}
 					}
 				}
 			}
+			
 		}
     }
 
@@ -1120,16 +1124,30 @@ public class FlowTaskService extends BaseService {
                 //执行实例
                 map.put ("code", 1);
                 map.put ("status", "运行中");
-                List<Task> currentTasks = taskService.createTaskQuery ().processInstanceId (processInstanceId).list();
+                List<Task> currentTasks = taskService.createTaskQuery ().includeIdentityLinks().processInstanceId (processInstanceId).active().list();
                 String userId= UserUtils.getUser().getId();
                 Task currentTask =null;
                 if(StringUtils.isBlank(userId)){
                 	currentTask = currentTasks.get(0);
                 }
                 else{
+                	for(Task t:currentTasks){
+                		if (userId.equals(t.getAssignee())){
+                			currentTask=t;
+                			break;
+                		}
+                		else{
+                			for(IdentityLinkInfo u0: t.getIdentityLinks()) {
+                				if(userId.equals(u0.getUserId())){
+                					currentTask=t;
+                        			break;
+                				}
+                			}
+                		}
+                	}
                 	List<Task> tasks=currentTasks.stream().filter(c->userId.equals(c.getAssignee())).collect(Collectors.toList());
                 	if(tasks.size()==1){
-                		currentTask=tasks.get(0);
+                		
                 	}
                 	else{
                 		currentTask = currentTasks.get(0);

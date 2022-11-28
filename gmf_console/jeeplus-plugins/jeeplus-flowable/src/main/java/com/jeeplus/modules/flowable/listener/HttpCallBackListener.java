@@ -155,12 +155,12 @@ public class HttpCallBackListener implements ExecutionListener {
                 		}            		
                 	}
                 	log.setParam(jsonString);
+                	log.setUrl(c.getUrl());
                 	if("console".equals(c.getUrl())){
                 		System.out.println(jsonString);
                 	}
                 	else{
                 		String res=HttpUtil.post(c.getUrl(), jsonString, headers);
-                		log.setUrl(c.getUrl());
                     	log.setIsSuccee("true");
                     	log.setReturnString(res);
                     	log.setExecTime(new Date().getTime()-d.getTime());
@@ -168,7 +168,7 @@ public class HttpCallBackListener implements ExecutionListener {
                 	}
                 }
                 if(!"console".equals(c.getUrl())){
-                	asynHttpLogService.save(log);
+                	this.saveLog(log);
                 }
             }
         } catch (Exception e) {
@@ -176,9 +176,17 @@ public class HttpCallBackListener implements ExecutionListener {
             log.setReturnString(e.getMessage());
             log.setIsSuccee("false");
         	log.setExecTime(new Date().getTime()-d.getTime());
-        	asynHttpLogService.save(log);
+        	this.saveLog(log);
         	throw new RuntimeException(e);
         }
         
     }
+    private void saveLog(AsynHttpLog log) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+	        	asynHttpLogService.save(log);
+			}
+		}).start();
+	}
 }

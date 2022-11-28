@@ -747,16 +747,19 @@ public class FlowTaskService extends BaseService {
 			}*/
 			
 			// 如果下一环节的审批人和上一环节相同,那么下一环节会自动审批通过
-			for (IdentityLink identityLink : list){ 
-				if ("COMMENT__flow_agree".equals(flow.getComment().getCommentType()) && identityLink.getType().equals("assignee") && identityLink.getUserId().equals(vars.get("lastAssignee"))){
-					if(!"EC".equals(todo.getName()) && !"BOD".equals(todo.getName()) && !"modify PR".equals(todo.getName()) && !todo.getName().startsWith("test")){
-						flow.setTaskId(todo.getId());
-						flow.getComment().setFullMessage("Skip for same approver");
-						flow.setTaskDefKey(todo.getTaskDefinitionKey());
-						this.complete(flow, vars);
+			if(!todo.getProcessDefinitionId().contains("QKPI_EXCEPTION")){
+				for (IdentityLink identityLink : list){ 
+					if ("COMMENT__flow_agree".equals(flow.getComment().getCommentType()) && identityLink.getType().equals("assignee") && identityLink.getUserId().equals(vars.get("lastAssignee"))){
+						if(!"EC".equals(todo.getName()) && !"BOD".equals(todo.getName()) && !"modify PR".equals(todo.getName()) && !todo.getName().startsWith("test")){
+							flow.setTaskId(todo.getId());
+							flow.getComment().setFullMessage("Skip for same approver");
+							flow.setTaskDefKey(todo.getTaskDefinitionKey());
+							this.complete(flow, vars);
+						}
 					}
 				}
 			}
+			
 		}
     }
 

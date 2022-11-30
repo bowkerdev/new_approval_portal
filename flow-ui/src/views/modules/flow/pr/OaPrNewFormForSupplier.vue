@@ -1104,9 +1104,10 @@
     color: #6a6a6a;
   }
   .my-span{
-     white-space:normal;
+     white-space:pre-wrap;
      word-break:break-all;
      word-wrap:break-word;
+     line-break: anywhere;
   }
 
   .data-content{

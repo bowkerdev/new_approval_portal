@@ -28,8 +28,10 @@ public interface FlowMapper extends BaseMapper<Flow> {
 
 	int updateProcStatusByProcInsId(@Param("procInsId") String procInsId, @Param("procStatus") String procStatus,
 			@Param("businessTable") String businessTable);
-
+	
 	String getSequence(@Param("seqName") String seqName, @Param("bizCode") String bizCode);
+
+	String checkIfExistProcInsIdByBusinessId(Flow act);
 
 	String getRemarks(@Param("procInsId") String procInsId, @Param("procDefKey") String procDefKey);
 

@@ -1106,6 +1106,7 @@
   .my-span{
      white-space:pre-wrap;
      word-break:keep-all;
+     word-wrap:anywhere;
      overflow-wrap: anywhere;
   }
 

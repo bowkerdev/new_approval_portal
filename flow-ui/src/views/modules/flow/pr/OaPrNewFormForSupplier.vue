@@ -95,7 +95,7 @@
                   {{item.supplierName}}
                 </span>
               </td>
-              <td colspan="1"  >
+              <td colspan="1" style="min-width: 200px;">
                 <el-input type="textarea" size="small" v-if="item.edit" v-model="item.paymentTerms" maxlength="800" :placeholder="$i18nMy.t('长度不超过800')"></el-input>
                 <!-- <el-select size="small" v-model="item.paymentTerms"
                   v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
@@ -168,7 +168,7 @@
                         $message.warning(`${$i18nMy.t('当前限制选择 5 个文件')}`)
                       }"
                       :file-list="attachmentsArra[item.id][item.docList[0].id]">
-                      <el-button :disabled="!item.edit" style="padding: 5px 30px;" round size="small" type="primary" >{{$i18nMy.t('选择文件')}}</el-button>
+                      <el-button :disabled="!item.edit" style="padding: 5px 5px;" round size="small" type="primary" >{{$i18nMy.t('选择文件')}}</el-button>
                     </el-upload>
               </td>
               <!-- <td style="width: 80px;">

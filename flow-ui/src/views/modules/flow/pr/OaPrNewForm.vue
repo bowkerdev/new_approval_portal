@@ -265,7 +265,7 @@
            </el-row>
            <el-table :data="detailInfo" height="300px" class="table" size="small" border  >
               <el-table-column prop="serialNumber" width="50" align="center" :label="$i18nMy.t('序号')"> </el-table-column>
-              <el-table-column prop="item" align="left" >
+              <el-table-column prop="item" min-width="280" align="left" >
                 <template slot="header">
                   <font color="red" style="font-weight: bold;">*</font>&nbsp;{{$i18nMy.t('物品')}}
                 </template>
@@ -273,37 +273,37 @@
                   <template v-if="row.edit">
                     <el-input type="textarea" size="small" v-model="row.item" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')" ></el-input>
                   </template>
-                  <span v-else>{{ row.item }}</span>
+                  <span v-else class="my-span">{{ row.item }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="itemDescription" v-if="index == 0" align="left" :label="$i18nMy.t('描述')">
+              <el-table-column prop="itemDescription" min-width="320" v-if="index == 0" align="left" :label="$i18nMy.t('描述')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
                       <el-input type="textarea" size="small" v-model="row.itemDescription" maxlength="800" :placeholder="$i18nMy.t('长度不超过800')" ></el-input>
                     </el-form>
                   </template>
-                  <span v-else>{{ row.itemDescription }}</span>
+                  <span v-else class="my-span">{{ row.itemDescription }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="brandName" align="left" :label="$i18nMy.t('品牌')">
+              <el-table-column prop="brandName" width="200" align="left" :label="$i18nMy.t('品牌')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
-                      <el-input  size="small" v-model="row.brandName" maxlength="50" :placeholder="$i18nMy.t('长度不超过50')" ></el-input>
+                      <el-input type="textarea" size="small" v-model="row.brandName" maxlength="50" :placeholder="$i18nMy.t('长度不超过50')" ></el-input>
                     </el-form>
                   </template>
-                  <span v-else>{{ row.brandName }}</span>
+                  <span v-else class="my-span">{{ row.brandName }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="modelNo" align="left" :label="$i18nMy.t('型号')">
+              <el-table-column prop="modelNo" width="200" align="left" :label="$i18nMy.t('型号')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
-                      <el-input  size="small" v-model="row.modelNo" maxlength="100" :placeholder="$i18nMy.t('长度不超过100')" ></el-input>
+                      <el-input type="textarea" size="small" v-model="row.modelNo" maxlength="100" :placeholder="$i18nMy.t('长度不超过100')" ></el-input>
                     </el-form>
                   </template>
-                  <span v-else>{{ row.modelNo }}</span>
+                  <span v-else class="my-span">{{ row.modelNo }}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="supplierName" v-if="index == 1" align="left" :label="$i18nMy.t('供应商名称')">
@@ -435,7 +435,7 @@
                 </template>
               </el-table-column>
 
-              <el-table-column fixed="right" width="120" align="center" :label="$i18nMy.t('操作')" class-name="td-operate">
+              <el-table-column width="120" align="center" :label="$i18nMy.t('操作')" class-name="td-operate">
                 <template slot-scope="{row}">
                   <el-form size="small" ref="inputFormFA" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
                     <el-button v-if="row.edit"  type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(row)" style="float: left; "></el-button>
@@ -810,7 +810,7 @@
         if (!this.checkItemForm()) {
           return
         }
-        this.detailInfo.push({edit:true,serialNumber:this.detailInfo.length+1,quantity:1,uom:'QTY',expectArrivalDate:this.inputForm.expectArrivalDate})
+        this.detailInfo.push({edit:true,serialNumber:this.detailInfo.length+1,quantity:1,uom:'PCS',expectArrivalDate:this.inputForm.expectArrivalDate})
         this.detailInfo=this.detailInfo.slice()
       },
       confirmTabListGroup(row){
@@ -878,6 +878,13 @@
   .el-col.el-col-12 {
     min-height:49px;
   }
+  .my-span{
+     white-space:pre-wrap;
+     word-break:break-all;
+     word-wrap:break-word;
+     line-break: anywhere;
+  }
+
   .updown ::v-deep label{float:none !important;}
 
   .updown ::v-deep label+div{float:none !important;margin-left:0px !important;}

@@ -189,9 +189,9 @@
             <el-table-column prop="description" align="left" :label="$i18nMy.t('文件描述')">
               <template slot-scope="{row}">
                 <template v-if="row.edit">
-                  <el-input  size="small" v-model="row.description" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')" ></el-input>
+                  <el-input type="textarea" size="small" v-model="row.description" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')" ></el-input>
                 </template>
-                <span v-else>{{ row.description }}</span>
+                <span v-else class="my-span">{{ row.description }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column prop="uploaderDepartment" width="180" align="left" :label="$i18nMy.t('上传者部门')"   >
@@ -509,5 +509,11 @@
   }
   .el-form-item {
       margin-bottom: 10px;
+  }
+  .my-span{
+     white-space:pre-wrap;
+     word-break:break-all;
+     word-wrap:break-word;
+     line-break: anywhere;
   }
 </style>

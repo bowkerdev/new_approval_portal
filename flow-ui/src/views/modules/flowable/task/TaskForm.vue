@@ -89,7 +89,7 @@
 <el-dialog :title="$i18nMy.t('请输入审批意见')" :visible.sync="dialogFormVisible">
   <el-form :model="docAddForm">
     <el-form-item :label="$i18nMy.t('审批意见')" label-width="200px">
-      <el-input v-model="docAddForm.docAddComment" auto-complete="off"></el-input>
+      <el-input type="textarea" v-model="docAddForm.docAddComment" maxlength="800" :placeholder="$i18nMy.t('长度不超过800')" auto-complete="off"></el-input>
     </el-form-item>
     <el-form-item :label="$i18nMy.t('资料补充人')" label-width="200px">
       <el-input v-model="docAddForm.selectedAssigneeId" v-show="false"></el-input>

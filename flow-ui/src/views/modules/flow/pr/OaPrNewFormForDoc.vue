@@ -512,8 +512,8 @@
   }
   .my-span{
      white-space:pre-wrap;
-     word-break:break-all;
-     word-wrap:break-word;
-     line-break: anywhere;
+     word-break:keep-all;
+     word-wrap:anywhere;
+     overflow-wrap: anywhere;
   }
 </style>

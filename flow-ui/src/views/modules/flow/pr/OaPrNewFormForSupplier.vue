@@ -67,7 +67,7 @@
         </p><div style="float: left;"><el-button size="small" :disabled="detailInfo.length==0" @click="addTabListGroup()" round  type="primary" icon="el-icon-plus" style="float: left;margin-top: 7px;margin-left: 10px;padding: 5px 5px;" ></el-button></div>
         <div style="width: 100%;overflow: auto; border:1px solid #EBEEF5">
           <table style="min-width: 100%;border-collapse: collapse; border:1px solid #EBEEF5" class="supplierTable"
-          cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff" >
+          cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff" v-for="(item, index) in supplierInfo" :key="'index_'+index">
             <thead>
               <tr class="head-background-color head1-height">
                 <th style="min-width:100px;" width="12%" colspan="3"><font color="red">*</font>{{$i18nMy.t('供应商名称')}}</th>
@@ -87,7 +87,7 @@
                 <th colspan="1">{{$i18nMy.t('操作')}}</th>
               </tr>
             </thead>
-            <tbody v-for="(item, index) in supplierInfo" :key="'index_'+index">
+            <tbody>
               <tr class="data-content" style="background-color: #fff3cf;">
               <td colspan="3"  >
                 <el-input type="textarea" size="small" v-if="item.edit" v-model="item.supplierName" maxlength="100" :placeholder="$i18nMy.t('长度不超过100')" ></el-input>

@@ -1105,9 +1105,8 @@
   }
   .my-span{
      white-space:pre-wrap;
-     word-break:break-all;
-     word-wrap:break-word;
-     line-break: anywhere;
+     word-break:keep-all;
+     overflow-wrap: anywhere;
   }
 
   .data-content{

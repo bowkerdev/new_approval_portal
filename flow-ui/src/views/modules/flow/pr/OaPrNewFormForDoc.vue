@@ -60,10 +60,13 @@
         <el-table :data="detailInfo" height="300px" class="table" size="small" style="border: 1px solid #EBEEF5 !important ; margin-left: 10px;">
            <el-table-column prop="serialNumber" width="50" align="right" :label="$i18nMy.t('序号')"> </el-table-column>
            <el-table-column prop="item" align="left" :label="$i18nMy.t('物品')">
+              <template slot-scope="{row}">
+                <span class="my-span">{{row.item}}</span>
+              </template>
            </el-table-column>
            <el-table-column prop="brandName" align="left" :label="$i18nMy.t('品牌 - 型号')">
              <template slot-scope="{row}">
-               {{row.brandName}} - {{row.modelNo}}
+               <span class="my-span">{{row.brandName}} - {{row.modelNo}}</span>
              </template>
            </el-table-column>
            <!-- <el-table-column prop="modelNo" align="left" :label="$i18nMy.t('型号')">
@@ -477,11 +480,10 @@
         this.attachmentsArra[uuid]=[]
       },
       confirmTabListGroup(row){
-        /* if(this.$common.isEmpty(row.documentType)){
-           this.$message.warning($i18nMy.t('文件类型不能为空'))
-        }
-        else */if(this.$common.isEmpty(row.attachment)){
+        if(this.$common.isEmpty(row.attachment)){
            this.$message.warning($i18nMy.t('文件不能为空'))
+        } else if(this.$common.isEmpty(row.description)){
+           this.$message.warning($i18nMy.t('文件描述不能为空'))
         }
         else{
           row.edit =false

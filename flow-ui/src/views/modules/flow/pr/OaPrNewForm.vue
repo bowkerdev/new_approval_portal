@@ -52,7 +52,7 @@
           </el-col>
         </el-form>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment" :rules="[{required: false, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
             <!-- <SelectTree ref="requesterDepartment" v-if="ifSiteChange" :props="{
                     value: 'id',             // ID字段名
                     label: 'name',         // 显示名称
@@ -60,7 +60,7 @@
                   }" :url="`/sys/office/treeData?type=2&parentCode=${inputForm.applySiteCode}`" :value="inputForm.requesterDepartment.id" :clearable="true"
               :accordion="true" @getValue="(value, name) => {inputForm.requesterDepartment.id=value; inputForm.requesterDepartment.name=name}" />
               <el-input v-if="!ifSiteChange" :placeholder="$i18nMy.t('请选择')" disabled></el-input> -->
-              <el-select v-model="inputForm.requesterDepartment" :placeholder="$i18nMy.t('请选择')" filterable clearable style="width: 100%;" >
+              <el-select v-model="inputForm.requesterDepartment" :placeholder="$i18nMy.t('请选择')" filterable allow-create clearable style="width: 100%;" >
                 <el-option v-for="item in deptList" :key="item.value" :label="item.label"
                   :value="item.value">
                 </el-option>

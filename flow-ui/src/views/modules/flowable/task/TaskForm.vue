@@ -1,5 +1,6 @@
 <template>
-<div style="height: 100%;overflow-y: auto;overflow-x: hidden;">
+  <!-- taskFromContainer: 滚动到表单错误信息点 -->
+<div id="taskFromContainer" style="height: 100%;overflow-y: auto;overflow-x: hidden;">
   <h4 style="text-align:center">{{title}}</h4>
 
   <el-tabs type="border-card" v-model="taskSelectedTab">

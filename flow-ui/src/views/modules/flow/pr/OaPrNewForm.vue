@@ -657,21 +657,34 @@
           }
           return str.split(',');
       },
-      checkForm(){
-        let rtnVal = true
-        this.$refs['inputForm'].validate((valid) => {
+      checkForm() {
+        let rtnVal = true;
+        let illegalAttr = [];
+        this.$refs['inputForm'].validate((valid, obj) => {
           if (!valid) {
             rtnVal = false
+            illegalAttr = Object.keys(obj)
           }
-       })
-       if (this.$refs['inputFormFC']) {
-         this.$refs['inputFormFC'].validate((valid) => {
-           if (!valid) {
-             rtnVal = false
-           }
-         })
-       }
-       return rtnVal
+        })
+        if (this.$refs['inputFormFC']) {
+          this.$refs['inputFormFC'].validate((valid, obj) => {
+            if (!valid) {
+              rtnVal = false
+              illegalAttr = illegalAttr.concat(Object.keys(obj))
+            }
+          })
+        }
+        // 有非法输入，滚动到错误的地方
+        if (illegalAttr.length) {
+          //  滚动到第一个地方
+          const key = illegalAttr[0];
+          const container = document.getElementById('taskFromContainer');
+          const domEl = document.querySelector("label[for=" + key +"]");
+          const domElTop = domEl.getBoundingClientRect().top;
+          // 94: 顶部固定栏， 40：预留margin
+          container.scrollTop = container.scrollTop + domElTop - 94 - 40;
+        }
+        return rtnVal
       },
       checkItemForm(){
         for(var i=0;i<this.detailInfo.length;i++){

@@ -553,6 +553,15 @@ public class FlowTaskService extends BaseService {
     @SuppressWarnings("unused")
     @Transactional(readOnly = false)
     public String startProcess(String procDefKey, String businessTable, String businessId, String title, Map<String, Object> vars) {
+    	// 检查业务表是否已有ProcInsId，防止重复提交的bug 
+        Flow act = new Flow ();
+        act.setBusinessTable (businessTable);// 业务表名
+        act.setBusinessId (businessId);  // 业务表ID
+        String existsProcInsId = flowMapper.checkIfExistProcInsIdByBusinessId(act);
+        if (!StringUtils.isEmpty(existsProcInsId)) {
+        	throw new RuntimeException("System error: PROC_INST_ID already exists");
+        }
+    	
         //String userId = UserUtils.getUser().getLoginName();//ObjectUtils.toString(UserUtils.getUser().getId())
         // 设置流程变量
         if (vars == null) {
@@ -602,9 +611,10 @@ public class FlowTaskService extends BaseService {
         ProcessInstance procIns = runtimeService.startProcessInstanceByKey (procDefKey, businessTable + ":" + businessId, vars);
 
         // 更新业务表流程实例ID
-        Flow act = new Flow ();
+        /*Flow act = new Flow ();
         act.setBusinessTable (businessTable);// 业务表名
         act.setBusinessId (businessId);  // 业务表ID
+        */     
         act.setProcInsId (procIns.getId ());
         act.setVars (vars);
         flowMapper.updateProcInsIdByBusinessId (act);

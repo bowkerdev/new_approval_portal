@@ -94,8 +94,7 @@
             :disabled="!(parentForm==='TaskForm'&&((procDefKey==='prpo_non_it'&&isFC) || (!formReadOnly&&procDefKey!='prpo_non_it')))"
             v-if="formReadOnly || isFC || procDefKey!='prpo_non_it'" label-width="140px" >
           <el-col :span="12" >
-            <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}
-                   ]">
+              <!-- <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}]">-->            <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[]">
               <el-select v-model="inputForm.legalEntity" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;">
                 <el-option v-for="item in $dictUtils.getDictListWithKey('all_company')" :key="item.value" :label="item.label"
                   :value="item.value">
@@ -104,8 +103,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12" >
-            <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}
-                   ]">
+            <!-- <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}]"> -->
+            <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[]">
               <el-select v-model="inputForm.costCenter" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;" >
                 <el-option v-for="item in $dictUtils.getDictListWithKey('cost_center')" :key="item.value" :label="item.label"
                   :value="item.value">
@@ -114,8 +113,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12" >
-            <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}
-                   ]">
+            <!-- <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}]"> -->
+            <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[]">
               <el-select v-model="inputForm.assetGroup" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;">
                 <el-option v-for="item in $dictUtils.getDictListWithKey('asset_group')" :key="item.value" :label="item.label"
                   :value="item.value">

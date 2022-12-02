@@ -97,11 +97,16 @@
         </el-menu-item>
 
         <el-menu-item class="jp-navbar__avatar">
-          <el-dropdown :show-timeout="0" placement="bottom">
-            <span class="el-dropdown-link">
-              <!-- <img :src="(!photo || photo === '')?'/static/img/avatar.png':photo"> -->
+          <el-dropdown :show-timeout="0" placement="bottom"
+            trigger="click"
+          >
+            <span class="el-dropdown-link"
+              style="display: flex; align-items: center; justify-content: center;"
+            >
               <i class="el-icon-user-solid"></i>
-              <span class="less-md-hide">{{ userName }}</span>
+              <el-tooltip class="item" effect="dark" :content="userName" placement="bottom-end">
+                <div class="less-md-hide user-name">{{ userName }}</div>
+              </el-tooltip>
             </span>
             <el-dropdown-menu slot="dropdown" style="margin-top: -10px;">
               <!-- <el-dropdown-item @click.native="updatePasswordHandle()">{{$i18nMy.t('修改密码')}}</el-dropdown-item> -->
@@ -381,6 +386,15 @@
   .less-md-hide {
     display: none;
   }
+}
+
+.user-name {
+  width: 100px;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 </style>

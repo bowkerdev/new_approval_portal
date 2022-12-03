@@ -23,7 +23,8 @@
         prop="histIns.activityName"
         :label="$i18nMy.t('任务')"
         width="180">
-        <template slot-scope="scope">
+        <template slot-scope="scope" >
+          <span v-if="scope.$index > 1 && scope.row.histIns.processInstanceId == processInstanceId && scope.row.histIns.activityName == 'Initial'" style="color: red;">Reactivate: </span>
           {{scope.row.histIns.activityName || scope.row.comment.status}}
         </template>
       </el-table-column>
@@ -76,7 +77,8 @@ export default {
     historicTaskList: {
       type: Array,
       default: []
-    }
+    },
+    processInstanceId: ''
   },
   computed: {
     historicTaskStepNodeList () {

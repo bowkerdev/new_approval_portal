@@ -285,8 +285,9 @@
         :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <!-- <el-button v-if="hasPermission('flow:pr:oaPrNew:view')" type="text" icon="el-icon-view" size="small" @click="flowDetail(scope.row)">{{$i18nMy.t('查看')}}</el-button> -->
-          <el-button v-if="hasPermission('flow:pr:oaPrNew:edit') && searchForm.isDraft!='1'" type="text" icon="el-icon-edit" size="small" @click="copyToStart(scope.row)">{{$i18nMy.t('复制申请单')}}</el-button>
+          <el-button v-if="hasPermission('flow:pr:oaPrNew:edit') && searchForm.isDraft!='1' && searchForm.isDraft!='2'" type="text" icon="el-icon-edit" size="small" @click="copyToStart(scope.row)">{{$i18nMy.t('复制申请单')}}</el-button>
           <el-button v-if="hasPermission('flow:pr:oaPrNew:edit') && searchForm.isDraft=='1'" type="text" icon="el-icon-edit" size="small" @click="start(scope.row)">{{$i18nMy.t('发起流程')}}</el-button>
+          <el-button v-if="hasPermission('flow:pr:oaPrNew:edit') && searchForm.isDraft=='2'" type="text" icon="el-icon-edit" size="small" @click="reopen(scope.row)">{{$i18nMy.t('激活流程')}}</el-button>
           <!-- <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
           <el-button v-if="hasPermission('flow:pr:oaPrNew:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button> -->
         </template>
@@ -355,6 +356,9 @@
       var _that=this;
 
       _that.searchForm.isDraft = (_that.$route.query.isDraft || '')
+      if (_that.searchForm.isDraft == '2') { //查已结束流程
+        _that.searchForm.status = 'End'
+      }
       this.refreshList()
     },
     methods: {
@@ -432,6 +436,24 @@
             this.$router.push({
               path: '/flowable/task/TaskForm',
               query: {parentForm: "TaskForm",procDefId: row.id, procDefKey: row.key, status: 'start', title: tabTitle, formType: data.flow.formType, formUrl: data.flow.formUrl, formTitle: processTitle, businessId: param.id}
+            })
+          }
+        })
+      },
+      reopen (param) {
+        let row = {id: param.flow.procDefId, name: param.flow.procDefName, key: param.flow.procDefKey}
+        // 读取流程表单
+        let tabTitle = $i18nMy.t('激活流程') + '：' + $i18nMy.t(`${row.name}`)
+        let processTitle = `Reopen Process : ${row.name}  ${this.moment(new Date()).format('YYYY-MM-DD HH:mm')} `
+
+        this.$http.get('/flowable/task/getTaskDef', {params: {
+          procDefId: row.id,
+          status: 'reopen'
+        }}).then(({data}) => {
+          if (data.success) {
+            this.$router.push({
+              path: '/flowable/task/TaskForm',
+              query: {parentForm: "TaskForm", readOnly: true, procDefId: row.id, procDefKey: row.key, status: 'reopen', title: tabTitle, formType: data.flow.formType, formUrl: data.flow.formUrl, formTitle: processTitle, businessId: param.id+"__copy"}
             })
           }
         })

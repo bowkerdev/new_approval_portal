@@ -379,6 +379,16 @@ public class FlowTaskService extends BaseService {
         }
         return page;
     }
+    
+    public List<Flow> historicTaskListWithOld(String procInsId) throws Exception {
+    	List<Flow> actList = Lists.newArrayList ();
+    	String oldProcInsId = flowMapper.getOldProcInsId(procInsId);
+    	if (!StringUtils.isBlank(oldProcInsId)) {
+    		actList.addAll(this.historicTaskList(oldProcInsId));
+    	}
+    	actList.addAll(this.historicTaskList(procInsId));
+    	return actList;
+    }
 
     /**
      * 获取流转历史任务列表
@@ -599,9 +609,12 @@ public class FlowTaskService extends BaseService {
         	vars.put("gm_approved_total_vat_base_amount", 0.00d);
         }
 
-
+        vars.put ("flow_is_reopen", "no"); // 用于判断PR流程是否是结束后再激活的流程 jack
         if (!StringUtils.isEmpty(String.valueOf(vars.get("application_no")))) {
     		vars.put (FlowableConstant.TITLE, vars.get("application_no"));
+    		if (String.valueOf(vars.get("application_no")).contains("-REOPEN"))  {
+    			vars.put ("flow_is_reopen", "yes");
+    		}
     	} else {
     		String seq = this.getSequence(StringUtils.upperCase(procDefKey), null);
     		vars.put (FlowableConstant.TITLE, seq);

@@ -612,8 +612,13 @@
               this.inputForm.procDefKey = query.procDefKey
               this.ifSiteChange = true;
               if (this.isCopy) {
-                this.inputForm.id = ''
-                this.inputForm.applicationNo = ''
+                if (query.status && query.status == "reopen") {
+                  this.inputForm.id = ''
+                  this.inputForm.applicationNo = this.inputForm.applicationNo + '-REOPEN'
+                }else {
+                  this.inputForm.id = ''
+                  this.inputForm.applicationNo = ''
+                }
               }
               if (!this.$common.isEmpty(this.inputForm.detailInfo)){
                 this.detailInfo = JSON.parse(this.inputForm.detailInfo)

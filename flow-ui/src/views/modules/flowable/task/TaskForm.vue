@@ -13,7 +13,7 @@
       <flow-time-line :historicTaskList="historicTaskList"/>
     </el-tab-pane> -->
     <el-tab-pane :label="$i18nMy.t('流转记录')" v-if="procInsId" name="form-forth">
-          <flow-step :historicTaskList="historicTaskList"/>
+          <flow-step :historicTaskList="historicTaskList" :processInstanceId="procInsId"/>
     </el-tab-pane>
     <el-tab-pane :label="$i18nMy.t('流程图')" v-if="procInsId&&hasPermission('flow:mytask:flowview')" name="form-third">
        <el-card class="box-card"  shadow="hover">
@@ -205,6 +205,11 @@
           this.buttons = [{code: '_flow_start', name: '启动', isHide: '0'}, {code: '_flow_save', name: '保存为草稿', isHide: '0'}]
         } else {
           this.buttons = [{code: '_flow_start', name: '启动', isHide: '0'}]
+        }
+        this.buttons.push({"name":"关闭","code":"_flow_close","isHide":"0"})
+      } else if (this.status === 'reopen') {
+        if (this.formUrl.indexOf("flow/pr/")>0) { // 只对PR流程有效
+          this.buttons = [{code: '_flow_reopen', name: '激活', isHide: '0'}]
         }
         this.buttons.push({"name":"关闭","code":"_flow_close","isHide":"0"})
       } else if (this.procDefKey && this.taskDefKey) {
@@ -617,6 +622,9 @@
         }).then(() => {
           switch (currentBtn.code) {
             case '_flow_start': // 自动流程
+              this.start(vars)
+              break
+            case '_flow_reopen': // 已结束的流程重新启动
               this.start(vars)
               break
             case '_flow_save': // 保存草稿

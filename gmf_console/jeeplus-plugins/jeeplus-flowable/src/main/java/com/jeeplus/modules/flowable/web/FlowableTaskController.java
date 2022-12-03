@@ -121,7 +121,7 @@ public class FlowableTaskController extends BaseController {
      */
     @GetMapping("historicTaskList")
     public AjaxJson historicTaskList(Flow flow) throws Exception {
-        List<Flow> historicTaskList = flowTaskService.historicTaskList (flow.getProcInsId());
+        List<Flow> historicTaskList = flowTaskService.historicTaskListWithOld (flow.getProcInsId());
         return AjaxJson.success().put("historicTaskList", historicTaskList);
     }
 

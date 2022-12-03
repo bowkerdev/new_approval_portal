@@ -37,6 +37,8 @@ public interface FlowMapper extends BaseMapper<Flow> {
 
 	String getProcessStatus(@Param("procInsId") String procInsId);
 	
+	String getOldProcInsId(@Param("procInsId") String procInsId);
+	
 	String getMsgId(@Param("procInsId") String procInsId);
 
 	String getProcessVar(@Param("procInsId") String procInsId, @Param("varName") String varName);

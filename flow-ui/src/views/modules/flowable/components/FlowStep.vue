@@ -25,12 +25,15 @@
         width="180">
         <template slot-scope="scope" >
           <span v-if="scope.$index > 1 && scope.row.histIns.processInstanceId == processInstanceId && scope.row.histIns.activityName == 'Initial'" style="color: red;">Reactivate: </span>
-          {{scope.row.histIns.activityName || scope.row.comment.status}}
+          <span class="my-span">{{scope.row.histIns.activityName || scope.row.comment.status}}</span>
         </template>
       </el-table-column>
       <el-table-column
         prop="assigneeName"
         :label="$i18nMy.t('执行人')">
+        <template slot-scope="scope" >
+          <span class="my-span">{{scope.row.assigneeName}}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="histIns.startTime"
@@ -117,3 +120,11 @@ export default {
   }
 }
 </script>
+<style scoped lang = "less">
+  .my-span{
+     white-space:pre-wrap;
+     word-break:keep-all;
+     word-wrap:anywhere;
+     overflow-wrap: anywhere;
+  }
+</style>

@@ -37,7 +37,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('项目描述')" prop="projectName" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
-            <el-input type="textarea" v-model="inputForm.projectName" :placeholder="$i18nMy.t('请填写项目描述 (不超过200字符)')" maxlength="200"></el-input>
+            <el-input type="textarea" v-model="inputForm.projectName" :placeholder="$i18nMy.t('长度不超过500')" maxlength="500"></el-input>
           </el-form-item>
         </el-col>
         <el-form size="small" :model="inputForm" ref="inputFormSite" :disabled="formReadOnly">

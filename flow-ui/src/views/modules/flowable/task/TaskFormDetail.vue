@@ -16,7 +16,7 @@
        <flow-time-line :historicTaskList="historicTaskList"/>
     </el-tab-pane> -->
     <el-tab-pane :label="$i18nMy.t('流转记录')" v-if="procInsId" name="form-forth">
-          <flow-step :historicTaskList="historicTaskList"/>
+          <flow-step :historicTaskList="historicTaskList" :processInstanceId="procInsId"/>
     </el-tab-pane>
     <el-tab-pane :label="$i18nMy.t('流程图')"  name="form-third">
        <el-card class="box-card"  shadow="hover">

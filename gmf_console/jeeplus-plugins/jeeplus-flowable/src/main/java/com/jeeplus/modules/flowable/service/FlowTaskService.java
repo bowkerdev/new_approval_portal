@@ -379,6 +379,16 @@ public class FlowTaskService extends BaseService {
         }
         return page;
     }
+    
+    public List<Flow> historicTaskListWithOld(String procInsId) throws Exception {
+    	List<Flow> actList = Lists.newArrayList ();
+    	String oldProcInsId = flowMapper.getOldProcInsId(procInsId);
+    	if (!StringUtils.isBlank(oldProcInsId)) {
+    		actList.addAll(this.historicTaskList(oldProcInsId));
+    	}
+    	actList.addAll(this.historicTaskList(procInsId));
+    	return actList;
+    }
 
     /**
      * 获取流转历史任务列表
@@ -553,6 +563,15 @@ public class FlowTaskService extends BaseService {
     @SuppressWarnings("unused")
     @Transactional(readOnly = false)
     public String startProcess(String procDefKey, String businessTable, String businessId, String title, Map<String, Object> vars) {
+    	// 检查业务表是否已有ProcInsId，防止重复提交的bug 
+        Flow act = new Flow ();
+        act.setBusinessTable (businessTable);// 业务表名
+        act.setBusinessId (businessId);  // 业务表ID
+        String existsProcInsId = flowMapper.checkIfExistProcInsIdByBusinessId(act);
+        if (!StringUtils.isEmpty(existsProcInsId)) {
+        	throw new RuntimeException("System error: PROC_INST_ID already exists");
+        }
+    	
         //String userId = UserUtils.getUser().getLoginName();//ObjectUtils.toString(UserUtils.getUser().getId())
         // 设置流程变量
         if (vars == null) {
@@ -590,9 +609,12 @@ public class FlowTaskService extends BaseService {
         	vars.put("gm_approved_total_vat_base_amount", 0.00d);
         }
 
-
+        vars.put ("flow_is_reopen", "no"); // 用于判断PR流程是否是结束后再激活的流程 jack
         if (!StringUtils.isEmpty(String.valueOf(vars.get("application_no")))) {
     		vars.put (FlowableConstant.TITLE, vars.get("application_no"));
+    		if (String.valueOf(vars.get("application_no")).contains("-REOPEN"))  {
+    			vars.put ("flow_is_reopen", "yes");
+    		}
     	} else {
     		String seq = this.getSequence(StringUtils.upperCase(procDefKey), null);
     		vars.put (FlowableConstant.TITLE, seq);
@@ -602,9 +624,10 @@ public class FlowTaskService extends BaseService {
         ProcessInstance procIns = runtimeService.startProcessInstanceByKey (procDefKey, businessTable + ":" + businessId, vars);
 
         // 更新业务表流程实例ID
-        Flow act = new Flow ();
+        /*Flow act = new Flow ();
         act.setBusinessTable (businessTable);// 业务表名
         act.setBusinessId (businessId);  // 业务表ID
+        */     
         act.setProcInsId (procIns.getId ());
         act.setVars (vars);
         flowMapper.updateProcInsIdByBusinessId (act);

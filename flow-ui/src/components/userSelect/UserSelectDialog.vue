@@ -163,7 +163,7 @@
       </el-main>
     </el-container>
 
-    <el-aside width="200px">
+    <el-aside width="300px">
       <el-tag
         :key="tag.id"
         v-for="tag in dataListAllSelections"

@@ -67,7 +67,7 @@
         </p><div style="float: left;"><el-button size="small" :disabled="detailInfo.length==0" @click="addTabListGroup()" round  type="primary" icon="el-icon-plus" style="float: left;margin-top: 7px;margin-left: 10px;padding: 5px 5px;" ></el-button></div>
         <div style="width: 100%;overflow: auto; border:1px solid #EBEEF5">
           <table style="min-width: 100%;border-collapse: collapse; border:1px solid #EBEEF5" class="supplierTable"
-          cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff" >
+          cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff" v-for="(item, index) in supplierInfo" :key="'index_'+index">
             <thead>
               <tr class="head-background-color head1-height">
                 <th style="min-width:100px;" width="12%" colspan="3"><font color="red">*</font>{{$i18nMy.t('供应商名称')}}</th>
@@ -87,7 +87,7 @@
                 <th colspan="1">{{$i18nMy.t('操作')}}</th>
               </tr>
             </thead>
-            <tbody v-for="(item, index) in supplierInfo" :key="'index_'+index">
+            <tbody>
               <tr class="data-content" style="background-color: #fff3cf;">
               <td colspan="3"  >
                 <el-input type="textarea" size="small" v-if="item.edit" v-model="item.supplierName" maxlength="100" :placeholder="$i18nMy.t('长度不超过100')" ></el-input>
@@ -95,7 +95,7 @@
                   {{item.supplierName}}
                 </span>
               </td>
-              <td colspan="1"  >
+              <td colspan="1" style="min-width: 200px;">
                 <el-input type="textarea" size="small" v-if="item.edit" v-model="item.paymentTerms" maxlength="800" :placeholder="$i18nMy.t('长度不超过800')"></el-input>
                 <!-- <el-select size="small" v-model="item.paymentTerms"
                   v-if="item.edit" :placeholder="$i18nMy.t('请选择')">
@@ -168,7 +168,7 @@
                         $message.warning(`${$i18nMy.t('当前限制选择 5 个文件')}`)
                       }"
                       :file-list="attachmentsArra[item.id][item.docList[0].id]">
-                      <el-button :disabled="!item.edit" style="padding: 5px 30px;" round size="small" type="primary" >{{$i18nMy.t('选择文件')}}</el-button>
+                      <el-button :disabled="!item.edit" style="padding: 5px 5px;" round size="small" type="primary" >{{$i18nMy.t('选择文件')}}</el-button>
                     </el-upload>
               </td>
               <!-- <td style="width: 80px;">
@@ -447,6 +447,7 @@
         method: '',
         loading: false,
         procDefKey: 'prpo',
+        taskDefKey: '',
         parentForm: '',
         isFC: false,
         isFA: false,
@@ -803,7 +804,6 @@
                 this._setDetailInfoAmount(obj)
                 this.inputForm.totalContractAmount += (obj.docAmount||0)
                 this.inputForm.totalVatContractAmount += (obj.docVatAmount||0)
-
                 this.inputForm.totalVatBaseAmount +=
                   parseFloat((obj.exRate*(obj.docVatAmount||0)).toFixed(2))
                 this.inputForm.totalBaseAmount +=
@@ -1104,9 +1104,10 @@
     color: #6a6a6a;
   }
   .my-span{
-     white-space:normal;
-     word-break:break-all;
-     word-wrap:break-word;
+     white-space:pre-wrap;
+     word-break:keep-all;
+     word-wrap:anywhere;
+     overflow-wrap: anywhere;
   }
 
   .data-content{

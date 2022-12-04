@@ -14,6 +14,17 @@
 		WHERE proc_ins_id = #{procInsId}
 	</update>
 	
+	<select id="checkIfExistProcInsIdByBusinessId" resultType="java.lang.String">
+		select b.PROC_INST_ID_ as procInsId from ${businessTable} a, act_hi_procinst b 
+		where id = #{businessId} and a.proc_ins_id = b.PROC_INST_ID_ limit 1
+	</select>
+	
+	
+	<select id="getOldProcInsId" resultType="java.lang.String">
+	    select proc_ins_id as old_proc_ins_id from oa_pr_new 
+	    where application_no in (select REPLACE(application_no,'-REOPEN','') as old_application_no from oa_pr_new where proc_ins_id = #{procInsId} and application_no like '%-REOPEN%') limit 1
+	</select>
+	
 	<select id="getSequence" resultType="java.lang.String">
 	    select getDateSeq(#{seqName}, #{bizCode}, '%Y') as seq
 	</select>

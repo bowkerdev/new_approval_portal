@@ -691,8 +691,9 @@ export default Vue.extend({
       })
     },
     detail (row) {
+      //debugger
       this.$http.get('/flowable/task/getTaskDef', {params: {
-        taskDefKey: row.taskDefinitionKey,
+        taskDefKey: 'ITChecker', // row.task.taskDefinitionKey,
         procInsId: row.processInstanceId,
         procDefId: row.processDefinitionId
       }}).then(({data}) => {

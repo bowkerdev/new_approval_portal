@@ -37,7 +37,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('项目描述')" prop="projectName" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
-            <el-input v-model="inputForm.projectName" :placeholder="$i18nMy.t('请填写项目描述 (不超过200字符)')" maxlength="200"></el-input>
+            <el-input type="textarea" v-model="inputForm.projectName" :placeholder="$i18nMy.t('长度不超过500')" maxlength="500"></el-input>
           </el-form-item>
         </el-col>
         <el-form size="small" :model="inputForm" ref="inputFormSite" :disabled="formReadOnly">
@@ -52,7 +52,7 @@
           </el-col>
         </el-form>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment" :rules="[{required: ifIT, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
             <!-- <SelectTree ref="requesterDepartment" v-if="ifSiteChange" :props="{
                     value: 'id',             // ID字段名
                     label: 'name',         // 显示名称
@@ -60,7 +60,7 @@
                   }" :url="`/sys/office/treeData?type=2&parentCode=${inputForm.applySiteCode}`" :value="inputForm.requesterDepartment.id" :clearable="true"
               :accordion="true" @getValue="(value, name) => {inputForm.requesterDepartment.id=value; inputForm.requesterDepartment.name=name}" />
               <el-input v-if="!ifSiteChange" :placeholder="$i18nMy.t('请选择')" disabled></el-input> -->
-              <el-select v-model="inputForm.requesterDepartment" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;" >
+              <el-select v-model="inputForm.requesterDepartment" :placeholder="$i18nMy.t('请选择')" filterable allow-create clearable style="width: 100%;" >
                 <el-option v-for="item in deptList" :key="item.value" :label="item.label"
                   :value="item.value">
                 </el-option>
@@ -94,8 +94,7 @@
             :disabled="!(parentForm==='TaskForm'&&((procDefKey==='prpo_non_it'&&isFC) || (!formReadOnly&&procDefKey!='prpo_non_it')))"
             v-if="formReadOnly || isFC || procDefKey!='prpo_non_it'" label-width="140px" >
           <el-col :span="12" >
-            <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}
-                   ]">
+              <!-- <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}]">-->            <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[]">
               <el-select v-model="inputForm.legalEntity" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;">
                 <el-option v-for="item in $dictUtils.getDictListWithKey('all_company')" :key="item.value" :label="item.label"
                   :value="item.value">
@@ -104,8 +103,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12" >
-            <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}
-                   ]">
+            <!-- <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}]"> -->
+            <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[]">
               <el-select v-model="inputForm.costCenter" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;" >
                 <el-option v-for="item in $dictUtils.getDictListWithKey('cost_center')" :key="item.value" :label="item.label"
                   :value="item.value">
@@ -114,8 +113,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12" >
-            <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}
-                   ]">
+            <!-- <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}]"> -->
+            <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[]">
               <el-select v-model="inputForm.assetGroup" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;">
                 <el-option v-for="item in $dictUtils.getDictListWithKey('asset_group')" :key="item.value" :label="item.label"
                   :value="item.value">
@@ -265,7 +264,7 @@
            </el-row>
            <el-table :data="detailInfo" height="300px" class="table" size="small" border  >
               <el-table-column prop="serialNumber" width="50" align="center" :label="$i18nMy.t('序号')"> </el-table-column>
-              <el-table-column prop="item" align="left" >
+              <el-table-column prop="item" min-width="280" align="left" >
                 <template slot="header">
                   <font color="red" style="font-weight: bold;">*</font>&nbsp;{{$i18nMy.t('物品')}}
                 </template>
@@ -273,37 +272,37 @@
                   <template v-if="row.edit">
                     <el-input type="textarea" size="small" v-model="row.item" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')" ></el-input>
                   </template>
-                  <span v-else>{{ row.item }}</span>
+                  <span v-else class="my-span">{{ row.item }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="itemDescription" v-if="index == 0" align="left" :label="$i18nMy.t('描述')">
+              <el-table-column prop="itemDescription" min-width="320" v-if="index == 0" align="left" :label="$i18nMy.t('描述')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
                       <el-input type="textarea" size="small" v-model="row.itemDescription" maxlength="800" :placeholder="$i18nMy.t('长度不超过800')" ></el-input>
                     </el-form>
                   </template>
-                  <span v-else>{{ row.itemDescription }}</span>
+                  <span v-else class="my-span">{{ row.itemDescription }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="brandName" align="left" :label="$i18nMy.t('品牌')">
+              <el-table-column prop="brandName" width="200" align="left" :label="$i18nMy.t('品牌')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
-                      <el-input  size="small" v-model="row.brandName" maxlength="50" :placeholder="$i18nMy.t('长度不超过50')" ></el-input>
+                      <el-input type="textarea" size="small" v-model="row.brandName" maxlength="50" :placeholder="$i18nMy.t('长度不超过50')" ></el-input>
                     </el-form>
                   </template>
-                  <span v-else>{{ row.brandName }}</span>
+                  <span v-else class="my-span">{{ row.brandName }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="modelNo" align="left" :label="$i18nMy.t('型号')">
+              <el-table-column prop="modelNo" width="200" align="left" :label="$i18nMy.t('型号')">
                 <template slot-scope="{row}">
                   <template v-if="row.edit">
                     <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
-                      <el-input  size="small" v-model="row.modelNo" maxlength="100" :placeholder="$i18nMy.t('长度不超过100')" ></el-input>
+                      <el-input type="textarea" size="small" v-model="row.modelNo" maxlength="100" :placeholder="$i18nMy.t('长度不超过100')" ></el-input>
                     </el-form>
                   </template>
-                  <span v-else>{{ row.modelNo }}</span>
+                  <span v-else class="my-span">{{ row.modelNo }}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="supplierName" v-if="index == 1" align="left" :label="$i18nMy.t('供应商名称')">
@@ -435,7 +434,7 @@
                 </template>
               </el-table-column>
 
-              <el-table-column fixed="right" width="120" align="center" :label="$i18nMy.t('操作')" class-name="td-operate">
+              <el-table-column width="120" align="center" :label="$i18nMy.t('操作')" class-name="td-operate">
                 <template slot-scope="{row}">
                   <el-form size="small" ref="inputFormFA" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
                     <el-button v-if="row.edit"  type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(row)" style="float: left; "></el-button>
@@ -605,16 +604,21 @@
               data
             }) => {
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
-              if (data.oaPrNew.remarks && data.oaPrNew.remarks.indexOf(this.taskDefKey+'##')==0) {
-                topPage.auditForm.message = (data.oaPrNew.remarks).replace(this.taskDefKey+'##','')
+              if (data.oaPrNew.remarks && data.oaPrNew.remarks.indexOf(query.taskDefKey+'##')==0) {
+                topPage.auditForm.message = (data.oaPrNew.remarks).replace(query.taskDefKey+'##','')
               }
-
+              this.inputForm.createDate = this.$common.formatTime(new Date(new Date(data.oaPrNew.createDate).getTime() + 8*3600*1000))
               this.inputForm.technicalAdvisor = this.toArray(this.inputForm.technicalAdvisor)
               this.inputForm.procDefKey = query.procDefKey
               this.ifSiteChange = true;
               if (this.isCopy) {
-                this.inputForm.id = ''
-                this.inputForm.applicationNo = ''
+                if (query.status && query.status == "reopen") {
+                  this.inputForm.id = ''
+                  this.inputForm.applicationNo = this.inputForm.applicationNo + '-REOPEN'
+                }else {
+                  this.inputForm.id = ''
+                  this.inputForm.applicationNo = ''
+                }
               }
               if (!this.$common.isEmpty(this.inputForm.detailInfo)){
                 this.detailInfo = JSON.parse(this.inputForm.detailInfo)
@@ -657,21 +661,34 @@
           }
           return str.split(',');
       },
-      checkForm(){
-        let rtnVal = true
-        this.$refs['inputForm'].validate((valid) => {
+      checkForm() {
+        let rtnVal = true;
+        let illegalAttr = [];
+        this.$refs['inputForm'].validate((valid, obj) => {
           if (!valid) {
             rtnVal = false
+            illegalAttr = Object.keys(obj)
           }
-       })
-       if (this.$refs['inputFormFC']) {
-         this.$refs['inputFormFC'].validate((valid) => {
-           if (!valid) {
-             rtnVal = false
-           }
-         })
-       }
-       return rtnVal
+        })
+        if (this.$refs['inputFormFC']) {
+          this.$refs['inputFormFC'].validate((valid, obj) => {
+            if (!valid) {
+              rtnVal = false
+              illegalAttr = illegalAttr.concat(Object.keys(obj))
+            }
+          })
+        }
+        // 有非法输入，滚动到错误的地方
+        if (illegalAttr.length) {
+          //  滚动到第一个地方
+          const key = illegalAttr[0];
+          const container = document.getElementById('taskFromContainer');
+          const domEl = document.querySelector("label[for=" + key +"]");
+          const domElTop = domEl.getBoundingClientRect().top;
+          // 94: 顶部固定栏， 40：预留margin
+          container.scrollTop = container.scrollTop + domElTop - 94 - 40;
+        }
+        return rtnVal
       },
       checkItemForm(){
         for(var i=0;i<this.detailInfo.length;i++){
@@ -810,7 +827,7 @@
         if (!this.checkItemForm()) {
           return
         }
-        this.detailInfo.push({edit:true,serialNumber:this.detailInfo.length+1,quantity:1,uom:'QTY',expectArrivalDate:this.inputForm.expectArrivalDate})
+        this.detailInfo.push({edit:true,serialNumber:this.detailInfo.length+1,quantity:1,uom:'PCS',expectArrivalDate:this.inputForm.expectArrivalDate})
         this.detailInfo=this.detailInfo.slice()
       },
       confirmTabListGroup(row){
@@ -878,6 +895,13 @@
   .el-col.el-col-12 {
     min-height:49px;
   }
+  .my-span{
+     white-space:pre-wrap;
+     word-break:keep-all;
+     word-wrap:anywhere;
+     overflow-wrap: anywhere;
+  }
+
   .updown ::v-deep label{float:none !important;}
 
   .updown ::v-deep label+div{float:none !important;margin-left:0px !important;}

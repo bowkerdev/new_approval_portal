@@ -60,10 +60,13 @@
         <el-table :data="detailInfo" height="300px" class="table" size="small" style="border: 1px solid #EBEEF5 !important ; margin-left: 10px;">
            <el-table-column prop="serialNumber" width="50" align="right" :label="$i18nMy.t('序号')"> </el-table-column>
            <el-table-column prop="item" align="left" :label="$i18nMy.t('物品')">
+              <template slot-scope="{row}">
+                <span class="my-span">{{row.item}}</span>
+              </template>
            </el-table-column>
            <el-table-column prop="brandName" align="left" :label="$i18nMy.t('品牌 - 型号')">
              <template slot-scope="{row}">
-               {{row.brandName}} - {{row.modelNo}}
+               <span class="my-span">{{row.brandName}} - {{row.modelNo}}</span>
              </template>
            </el-table-column>
            <!-- <el-table-column prop="modelNo" align="left" :label="$i18nMy.t('型号')">
@@ -189,9 +192,9 @@
             <el-table-column prop="description" align="left" :label="$i18nMy.t('文件描述')">
               <template slot-scope="{row}">
                 <template v-if="row.edit">
-                  <el-input  size="small" v-model="row.description" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')" ></el-input>
+                  <el-input type="textarea" size="small" v-model="row.description" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')" ></el-input>
                 </template>
-                <span v-else>{{ row.description }}</span>
+                <span v-else class="my-span">{{ row.description }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column prop="uploaderDepartment" width="180" align="left" :label="$i18nMy.t('上传者部门')"   >
@@ -222,10 +225,12 @@
   export default {
     data() {
       return {
+        topPage: null,
         title: '',
         method: '',
         loading: false,
         procDefKey: 'prpo',
+        taskDefKey: '',
         isCopy: false,
         flowStage:'start',
         detailInfo:[],
@@ -268,6 +273,7 @@
           totalVatBaseAmount:'',
           purchasePurpose: '',
           roi: '',
+          remarks: '',
           noBudgetExplain: '',
           paymentSpecial: '',
           detailInfo: '',
@@ -290,7 +296,7 @@
       //this.init()
     },
     methods: {
-      init(query) {
+      init(query, topPage) {
         this.supplementaryDoc=[]
         if (query&&query.businessId) {
           this.loading = true
@@ -306,6 +312,9 @@
               data
             }) => {
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
+              if (topPage && data.oaPrNew.remarks && data.oaPrNew.remarks.indexOf(query.taskDefKey+'##')==0) {
+                topPage.auditForm.message = (data.oaPrNew.remarks).replace(query.taskDefKey+'##','')
+              }
               if (this.isCopy) {
                 this.inputForm.id = ''
                 this.inputForm.applicationNo = ''
@@ -334,6 +343,8 @@
           })
         }
         this.procDefKey = query.procDefKey
+        this.taskDefKey = query.taskDefKey + ''
+        this.topPage = topPage
       },
       checkForm(){
         for(var i=0;i<this.supplementaryDoc.length;i++){
@@ -367,7 +378,43 @@
             }) => {
               this.loading = false
               if (data && data.success) {
-                 callBack(data.businessTable, data.businessId)
+                this.$message.success(data.msg)
+                callBack(data.businessTable, data.businessId)
+              }
+              else{
+                this.$message.error(data.msg)
+              }
+            })
+          }
+        })
+      },
+      saveAsDraft(callBack) {
+        if(this.supplementaryDoc.length ==0){// 单独打开时，必须上传
+           this.$message.warning($i18nMy.t('请上传文档'))
+           return ;
+        }
+        if(!this.checkForm()){
+          return
+        }
+        this.inputForm.detailInfo=JSON.stringify(this.detailInfo)
+        this.inputForm.supplementaryDoc=JSON.stringify(this.supplementaryDoc)
+        this.$refs['inputForm'].validate((valid) => {
+          if (valid) {
+            this.loading = true
+            if (this.topPage.auditForm.message) {
+              this.inputForm.remarks = this.taskDefKey + '##' + this.topPage.auditForm.message
+            }
+            this.$http({
+              url: `/flow/pr/oaPrNew/save`,
+              method: 'post',
+              data: this.inputForm
+            }).then(({
+              data
+            }) => {
+              this.loading = false
+              if (data && data.success) {
+                this.$message.success(data.msg)
+                callBack(data.businessTable, data.businessId)
               }
               else{
                 this.$message.error(data.msg)
@@ -433,11 +480,10 @@
         this.attachmentsArra[uuid]=[]
       },
       confirmTabListGroup(row){
-        /* if(this.$common.isEmpty(row.documentType)){
-           this.$message.warning($i18nMy.t('文件类型不能为空'))
-        }
-        else */if(this.$common.isEmpty(row.attachment)){
+        if(this.$common.isEmpty(row.attachment)){
            this.$message.warning($i18nMy.t('文件不能为空'))
+        } else if(this.$common.isEmpty(row.description)){
+           this.$message.warning($i18nMy.t('文件描述不能为空'))
         }
         else{
           row.edit =false
@@ -465,5 +511,11 @@
   }
   .el-form-item {
       margin-bottom: 10px;
+  }
+  .my-span{
+     white-space:pre-wrap;
+     word-break:keep-all;
+     word-wrap:anywhere;
+     overflow-wrap: anywhere;
   }
 </style>

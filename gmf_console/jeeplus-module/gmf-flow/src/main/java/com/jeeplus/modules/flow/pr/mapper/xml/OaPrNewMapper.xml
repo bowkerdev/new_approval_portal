@@ -221,7 +221,7 @@
 			#{delFlag},
 			#{procInsId},
 			#{procDefKey},
-			getDateSeq(#{procDefKey}, #{applySiteCode}, '%Y'), <!-- #{applicationNo}, -->
+			getDateSeqV2(#{procDefKey}, #{applySiteCode}, '%Y', #{applicationNo}), <!-- #{applicationNo}, -->
 			#{projectName},
 			#{applySiteCode},
 			#{requesterDepartment},

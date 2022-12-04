@@ -16,7 +16,7 @@
         </a>
       </h1>
     </div>
-    <div class="jp-navbar__body clearfix" 
+    <div class="jp-navbar__body clearfix"
       :class="{'top-menu-wrap': defaultLayout == 'dropdown-top'}"
       style="overflow:hidden"
     >
@@ -55,7 +55,7 @@
       </el-menu>
       <!-- 菜单放顶部 -->
       <menu-top v-if="defaultLayout === 'dropdown-top'" />
-      
+
       <el-menu
         class="jp-navbar__menu jp-navbar__menu--right"
         mode="horizontal">
@@ -85,7 +85,7 @@
         <el-menu-item class="jp-navbar__avatar">
           <el-dropdown :show-timeout="0" placement="bottom">
             <span class="el-dropdown-link">
-              <img :src="languageIcon" style="border-radius: 0px;width: 24px;"> 
+              <img :src="languageIcon" style="border-radius: 0px;width: 24px;">
               <span class="less-md-hide">{{ language }}</span>
             </span>
             <el-dropdown-menu slot="dropdown" style="margin-top: -10px;">
@@ -97,11 +97,12 @@
         </el-menu-item>
 
         <el-menu-item class="jp-navbar__avatar">
-          <el-dropdown :show-timeout="0" placement="bottom">
-            <span class="el-dropdown-link">
-              <!-- <img :src="(!photo || photo === '')?'/static/img/avatar.png':photo"> -->
+          <el-dropdown :show-timeout="0" placement="bottom" trigger="click" >
+            <span class="el-dropdown-link" style="display: flex; align-items: center; justify-content: center;" >
               <i class="el-icon-user-solid"></i>
-              <span class="less-md-hide">{{ userName }}</span>
+              <el-tooltip class="item" effect="dark" :content="userName" placement="bottom-end">
+                <div class="less-md-hide user-name">{{ userName }}</div>
+              </el-tooltip>
             </span>
             <el-dropdown-menu slot="dropdown" style="margin-top: -10px;">
               <!-- <el-dropdown-item @click.native="updatePasswordHandle()">{{$i18nMy.t('修改密码')}}</el-dropdown-item> -->
@@ -140,7 +141,7 @@
         topHideMenuList: [],
         allMenuList: [],
         languageList:[],
-        language: "中国 中文",
+        language: "中文",
         languageIcon: "/static/images/china.png",
         screenWidth: document.body.clientWidth,
         noticeTabs: [
@@ -185,7 +186,7 @@
       },
       userName: {
         get () {
-          return this.$store.state.user.name
+          return this.$store.state.user.loginName + ' - ' + this.$store.state.user.name
         }
       },
       photo: {
@@ -381,6 +382,15 @@
   .less-md-hide {
     display: none;
   }
+}
+
+.user-name {
+  width: 130px;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 </style>

@@ -13,7 +13,7 @@ Vue.config.lang = localStorage.getItem('lang') || 'en-US'
 var langList = [{
     lang: 'zh-CN',
     src: "/static/images/china.png",
-    text: "中国 中文"
+    text: "中文"
   },
   /* {
     lang: 'zh-TW',
@@ -23,7 +23,7 @@ var langList = [{
   {
     lang: 'en-US',
     src: "/static/images/united-kingdom.png",
-    text: "EN English"
+    text: "English"
   },
  /* {
     lang: 'vn',

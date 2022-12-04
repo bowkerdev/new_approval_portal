@@ -166,6 +166,7 @@
         }
         if (!this.$refs.oaPrNewForm.checkForm()) {
           this.activeName= 'oaPrNewForm'
+          this.$message.warning($i18nMy.t('请输入完整信息'))
           return ;
         }
         if(!this.$refs.oaPrNewFormForSupplier.checkForm()){

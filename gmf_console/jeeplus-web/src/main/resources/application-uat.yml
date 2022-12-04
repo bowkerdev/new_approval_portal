@@ -47,17 +47,10 @@ spring:
         master:
           username: webapp
           password: '*Bowker#Mes@uat*'
-          #url: jdbc:mysql://pc-3ns0heb66fl7ueo55.rwlb.rds.aliyuncs.com:3306/approval_uat?verifyServerCertificate=false&useSSL=false&requireSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&noAccessToProcedureBodies=true&serverTimezone=Asia/Shanghai
-          url: jdbc:mysql://bowker-polar-uat.rwlb.rds.aliyuncs.com:3306/approval_uat?verifyServerCertificate=false&useSSL=false&requireSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&noAccessToProcedureBodies=true&serverTimezone=Asia/Shanghai
+          url: jdbc:mysql://pc-3ns0heb66fl7ueo55.rwlb.rds.aliyuncs.com:3306/approval_uat?verifyServerCertificate=false&useSSL=false&requireSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&noAccessToProcedureBodies=true&serverTimezone=Asia/Shanghai
+          #url: jdbc:mysql://bowker-polar-uat.rwlb.rds.aliyuncs.com:3306/approval_uat?verifyServerCertificate=false&useSSL=false&requireSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&noAccessToProcedureBodies=true&serverTimezone=Asia/Shanghai
           
-          #username: zhimi
-          #password: A4hw8#ZC
-          #url: jdbc:mysql://rm-3nsd064vt280cmc06.mysql.rds.aliyuncs.com:3306/flow_v1?verifyServerCertificate=false&useSSL=false&requireSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&noAccessToProcedureBodies=true&serverTimezone=Asia/Shanghai
-          #username: webapp@hkgcomprd01
-          #password: Ob#prDu7&*nT
-          #url: jdbc:mysql://hkgcomprd01.mysql.database.azure.com:3306/approval?verifyServerCertificate=true&autoReconnect=true&useSSL=true&requireSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-          driver-class-name: com.mysql.cj.jdbc.Driver
-          
+
           #oracle database settings
           #            username: monitor
           #            password: monitor

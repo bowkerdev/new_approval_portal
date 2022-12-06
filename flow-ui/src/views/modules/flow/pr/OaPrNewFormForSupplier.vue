@@ -281,19 +281,19 @@
                 <td colspan="1"><span class="my-span">{{item3.brandName}} - {{item3.modelNo}}</span></td>
                 <!-- <td> {{item3.modelNo}} </td> -->
                 <td class="my-right">
-                  <el-input  v-on:input="calculationPrice(index)" v-only-num.float="item3" disabled size="small" v-if="item.edit" v-model="item3.unitPrice"  ></el-input>
+                  <el-input  v-on:input="calculationPrice(index,index3,1)" v-only-num.float="item3"  size="small" v-if="item.edit" v-model="item3.unitPrice"  ></el-input>
                   <span v-else>
                     {{$common.toThousands(item3.unitPrice)}}
                   </span>
                 </td>
                 <td class="my-right">
-                  <el-input  v-on:input="calculationPrice(index)" v-only-num.float="item3"  size="small" v-if="item.edit" v-model="item3.vat"  ></el-input>
+                  <el-input  v-on:input="calculationPrice(index,index3,2)" v-only-num.float="item3"  size="small" v-if="item.edit" v-model="item3.vat"  ></el-input>
                   <span v-else>
                     {{item3.vat}}
                   </span>
                 </td>
                 <td class="my-right">
-                  <el-input  v-on:input="calculationPrice(index)" v-only-num.float="item3"  size="small" v-if="item.edit" v-model="item3.vatUnitPrice"  ></el-input>
+                  <el-input  v-on:input="calculationPrice(index,index3,3)" v-only-num.float="item3"  size="small" v-if="item.edit" v-model="item3.vatUnitPrice"  ></el-input>
                   <span v-else>
                     {{$common.toThousands(item3.vatUnitPrice)}}
                   </span>
@@ -859,26 +859,36 @@
       inputReason(index){
         this._getSupplierInfoByDetailInfoList()
       },
-      calculationPrice(index){
+      calculationPrice(index,index3,type){
         var originalPrice =0
         var originalVatPrice =0
         for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
           this.supplierInfo[index].detailInfo[i].vat = parseFloat(this.supplierInfo[index].detailInfo[i].vat||"0")
-          /* 先输入不含税单价
-          if(isNaN(this.supplierInfo[index].detailInfo[i].unitPrice) || this.supplierInfo[index].detailInfo[i].unitPrice == ''){
-            this.supplierInfo[index].detailInfo[i].unitPrice = ''
-            this.supplierInfo[index].detailInfo[i].vatUnitPrice = ''
-          }else{
-            this.supplierInfo[index].detailInfo[i].vatUnitPrice = this.supplierInfo[index].detailInfo[i].unitPrice * (100+this.supplierInfo[index].detailInfo[i].vat)/100
-          } */
-          /*先输入含税单价 start*/
-          if(isNaN(this.supplierInfo[index].detailInfo[i].vatUnitPrice) || this.supplierInfo[index].detailInfo[i].vatUnitPrice == ''){
-            this.supplierInfo[index].detailInfo[i].unitPrice = ''
-            this.supplierInfo[index].detailInfo[i].vatUnitPrice = ''
-          }else{
-            this.supplierInfo[index].detailInfo[i].unitPrice = parseFloat((this.supplierInfo[index].detailInfo[i].vatUnitPrice / ((100+this.supplierInfo[index].detailInfo[i].vat)/100)).toFixed(2))
+          if(index3 !=null && type!=null && index3 == i && type != "2"){
+            this.supplierInfo[index].detailInfo[i].calculationType=type
           }
-          /*先输入含税单价 end*/
+          if(this.supplierInfo[index].detailInfo[i].calculationType == '1'){
+            /* 先输入不含税单价*/
+            if(isNaN(this.supplierInfo[index].detailInfo[i].unitPrice) || this.supplierInfo[index].detailInfo[i].unitPrice == ''){
+              this.supplierInfo[index].detailInfo[i].unitPrice = ''
+              this.supplierInfo[index].detailInfo[i].vatUnitPrice = ''
+            }else{
+              this.supplierInfo[index].detailInfo[i].vatUnitPrice = this.supplierInfo[index].detailInfo[i].unitPrice * (100+this.supplierInfo[index].detailInfo[i].vat)/100
+            }
+          }
+          else{
+            /*先输入含税单价 start*/
+            if(isNaN(this.supplierInfo[index].detailInfo[i].vatUnitPrice) || this.supplierInfo[index].detailInfo[i].vatUnitPrice == ''){
+              this.supplierInfo[index].detailInfo[i].unitPrice = ''
+              this.supplierInfo[index].detailInfo[i].vatUnitPrice = ''
+            }else{
+              this.supplierInfo[index].detailInfo[i].unitPrice = parseFloat((this.supplierInfo[index].detailInfo[i].vatUnitPrice / ((100+this.supplierInfo[index].detailInfo[i].vat)/100)).toFixed(2))
+            }
+          }
+
+          if(isNaN(this.supplierInfo[index].detailInfo[i].unitPrice)){
+            this.supplierInfo[index].detailInfo[i].unitPrice = ''
+          }
           if(isNaN(this.supplierInfo[index].detailInfo[i].vatUnitPrice)){
             this.supplierInfo[index].detailInfo[i].vatUnitPrice = ''
           }
@@ -1026,7 +1036,7 @@
             }
           }
           this.supplierInfo[j].detailInfo = supplierDetailInfo //新的中间值supplierDetailInfo塞回this.supplierInfo[j].detailInfo
-          this.calculationPrice(j)
+          this.calculationPrice(j,null,null)
         }
         this._getSupplierArrivalDate()  // 更新每个供应商的商品的最早到货时间
         this._getSupplierInfoByDetailInfoList() // 更新商品（1）-供应商（N）表

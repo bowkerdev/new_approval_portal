@@ -13,7 +13,7 @@
       <flow-time-line :historicTaskList="historicTaskList"/>
     </el-tab-pane> -->
     <el-tab-pane :label="$i18nMy.t('流转记录')" v-if="procInsId" name="form-forth">
-          <flow-step :historicTaskList="historicTaskList" :processInstanceId="procInsId"/>
+          <flow-step :historicTaskList="historicTaskList" :techAdvisorRoleMap="techAdvisorRoleMap" :processInstanceId="procInsId"/>
     </el-tab-pane>
     <el-tab-pane :label="$i18nMy.t('流程图')" v-if="procInsId&&hasPermission('flow:mytask:flowview')" name="form-third">
        <el-card class="box-card"  shadow="hover">
@@ -224,7 +224,16 @@
           }
         })
       }
-    // 读取历史任务列表
+      // 读取ADVISOR列表
+      if (this.formUrl.indexOf("flow/pr/")>0) {
+        let that_ = this
+        this.$dictUtils.getSqlDictList('GET_ADVISOR_ROLE_LIST',{},function(data){
+          for(var index in data){
+              that_.techAdvisorRoleMap[data[index].assignee] = data[index].role;
+          }
+        })
+      }
+      // 读取历史任务列表
       if (this.procInsId) {
         this.$http.get(`/flowable/task/historicTaskList?procInsId=${this.procInsId}`).then(({data}) => {
           this.historicTaskList = data.historicTaskList
@@ -331,7 +340,8 @@
       // 暂存草稿
       save () {
         this.$refs.form.saveAsDraft((businessTable, businessId) => {
-
+          this.$store.dispatch('tagsView/delView', {fullPath: this.$route.fullPath})
+          this.$router.push('/sys/index')
         })
       },
       // 启动流程
@@ -701,6 +711,7 @@
         status: '',
         title: '',
         businessId: '',
+        techAdvisorRoleMap: {},
         buttons: [],
         isCC: false,
         isAssign: false,

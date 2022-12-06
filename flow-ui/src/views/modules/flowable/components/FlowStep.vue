@@ -22,10 +22,13 @@
       <el-table-column
         prop="histIns.activityName"
         :label="$i18nMy.t('任务')"
-        width="180">
+        width="280">
         <template slot-scope="scope" >
           <span v-if="scope.$index > 1 && scope.row.histIns.processInstanceId == processInstanceId && scope.row.histIns.activityName == 'Initial'" style="color: red;">Reactivate: </span>
           <span class="my-span">{{scope.row.histIns.activityName || scope.row.comment.status}}</span>
+          <span v-if="scope.row.histIns.activityName == 'Tech. Advisor'">
+             : {{techAdvisorRoleMap[scope.row.assignee]}}
+          </span>
         </template>
       </el-table-column>
       <el-table-column
@@ -81,7 +84,8 @@ export default {
       type: Array,
       default: []
     },
-    processInstanceId: ''
+    processInstanceId: '',
+    techAdvisorRoleMap: {}
   },
   computed: {
     historicTaskStepNodeList () {

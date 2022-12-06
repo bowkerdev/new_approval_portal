@@ -16,7 +16,7 @@
        <flow-time-line :historicTaskList="historicTaskList"/>
     </el-tab-pane> -->
     <el-tab-pane :label="$i18nMy.t('流转记录')" v-if="procInsId" name="form-forth">
-          <flow-step :historicTaskList="historicTaskList" :processInstanceId="procInsId"/>
+          <flow-step :historicTaskList="historicTaskList" :techAdvisorRoleMap="techAdvisorRoleMap" :processInstanceId="procInsId"/>
     </el-tab-pane>
     <el-tab-pane :label="$i18nMy.t('流程图')"  name="form-third">
        <el-card class="box-card"  shadow="hover">
@@ -97,6 +97,16 @@
                 this.code = data.code
               })
 
+      // 读取ADVISOR列表
+      if (this.formUrl.indexOf("flow/pr/")>0) {
+        let that_ = this
+        this.$dictUtils.getSqlDictList('GET_ADVISOR_ROLE_LIST',{},function(data){
+          for(var index in data){
+              that_.techAdvisorRoleMap[data[index].assignee] = data[index].role;
+          }
+        })
+      }
+      
       this.$http.get(`/flowable/task/historicTaskList?procInsId=${this.procInsId}`).then(({data}) => {
         this.historicTaskList = data.historicTaskList
       })
@@ -201,7 +211,8 @@
         taskDefKey: '',
         status: '',
         title: '',
-        businessId: ''
+        businessId: '',
+        techAdvisorRoleMap: {}
       }
     },
     computed: {

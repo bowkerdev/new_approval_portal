@@ -616,7 +616,7 @@
               data
             }) => {
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
-              if (data.oaPrNew.remarks && data.oaPrNew.remarks.indexOf(query.taskDefKey+'##')==0) {
+              if (topPage && topPage.auditForm && data.oaPrNew.remarks && data.oaPrNew.remarks.indexOf(query.taskDefKey+'##')==0) {
                 topPage.auditForm.message = (data.oaPrNew.remarks).replace(query.taskDefKey+'##','')
               }
               this.inputForm.createDate = this.$common.formatTime(new Date(new Date(data.oaPrNew.createDate).getTime() + 8*3600*1000))

@@ -566,6 +566,18 @@
     activated() {
       //this.init()
     },
+    watch: {
+      'inputForm.technicalAdvisor': {
+        handler(newV,oldv) {
+          if(newV!=null&&newV.includes('Group SEA Manager')&&!newV.includes('Local SEA Manager')){
+            this.$message.warning(this.$i18nMy.t('必须先选择Local SEA Manager才能选择Group SEA Manager'))
+            this.$nextTick(() => {
+              this.inputForm.technicalAdvisor.splice(this.inputForm.technicalAdvisor.indexOf('Group SEA Manager'), 1);
+            })
+          }
+        }
+      }
+    },
     methods: {
       siteChange(){
         this.ifSiteChange = false

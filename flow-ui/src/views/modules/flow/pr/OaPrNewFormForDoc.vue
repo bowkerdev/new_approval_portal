@@ -357,10 +357,10 @@
       },
       // 表单提交
       saveForm(callBack) {
-        if(this.supplementaryDoc.length ==0){// 单独打开时，必须上传
+        /* if(this.supplementaryDoc.length ==0){// 单独打开时，必须上传
            this.$message.warning($i18nMy.t('请上传文档'))
            return ;
-        }
+        } */
         if(!this.checkForm()){
           return
         }
@@ -389,10 +389,10 @@
         })
       },
       saveAsDraft(callBack) {
-        if(this.supplementaryDoc.length ==0){// 单独打开时，必须上传
+        /* if(this.supplementaryDoc.length ==0){// 单独打开时，必须上传
            this.$message.warning($i18nMy.t('请上传文档'))
            return ;
-        }
+        } */
         if(!this.checkForm()){
           return
         }

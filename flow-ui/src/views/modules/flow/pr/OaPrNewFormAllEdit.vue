@@ -10,7 +10,8 @@
             <OaPrNewFormForSupplier :formReadOnly="isReadOnly" ref="oaPrNewFormForSupplier" ></OaPrNewFormForSupplier>
           </el-tab-pane>
           <el-tab-pane name="OaPrNewFormForDoc" key="OaPrNewFormForDoc" :label="$i18nMy.t('补充文件')" >
-            <OaPrNewFormForDoc :formReadOnly="isReadOnly" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
+            <!-- <OaPrNewFormForDoc :formReadOnly="isReadOnly" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc> -->
+            <OaPrNewFormForDoc :formReadOnly="false" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
           </el-tab-pane>
         </el-tabs>
   </div>
@@ -121,8 +122,9 @@
       init(query, parent) {
         this.activeName='oaPrNewForm'
         this.businessId=query.businessId
-        if(query.readOnly) {
-          this.isReadOnly=query.readOnly
+        
+        if(query.readOnly || query.formReadOnly) {
+          this.isReadOnly=query.readOnly || query.formReadOnly
         }
         if (query.taskDefKey && (query.taskDefKey.indexOf('FC')>0 || query.taskDefKey.indexOf('FA')>0)) { // 对FA、FC两个角色的特殊处理，只允许修改部分特定字段，其他大部分字段不能改
           this.isReadOnly=true

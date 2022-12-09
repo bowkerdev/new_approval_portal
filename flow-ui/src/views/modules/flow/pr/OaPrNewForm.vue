@@ -581,6 +581,7 @@
     methods: {
       siteChange(){
         this.ifSiteChange = false
+        this.inputForm.requesterDepartment = ''
         let _that=this
         this.$dictUtils.getSqlDictList('GET_DEPT_WITH_HEAD',{site: this.inputForm.applySiteCode},function(data){
           _that.deptList = data
@@ -623,6 +624,8 @@
               this.inputForm.technicalAdvisor = this.toArray(this.inputForm.technicalAdvisor)
               this.inputForm.procDefKey = query.procDefKey
               this.ifSiteChange = true;
+              this.siteChange()
+              this.inputForm.requesterDepartment = data.oaPrNew.requesterDepartment
               if (this.isCopy) {
                 if (query.status && query.status == "reopen") {
                   this.inputForm.id = ''

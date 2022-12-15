@@ -508,7 +508,7 @@
           if (data.success) {
             this.$router.push({
               path: '/flowable/task/TaskFormDetail',
-              query: {parentForm: "TaskFormDetail", readOnly: true, title: row.applicationNo, formTitle: row.applicationNo, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
+              query: {parentForm: "TaskFormDetail", readOnly: true, title: 'View:'+row.applicationNo, formTitle: row.applicationNo, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
             })
           }
         })

@@ -10,8 +10,7 @@
             <OaPrNewFormForSupplier :formReadOnly="isReadOnly" ref="oaPrNewFormForSupplier" ></OaPrNewFormForSupplier>
           </el-tab-pane>
           <el-tab-pane name="OaPrNewFormForDoc" key="OaPrNewFormForDoc" :label="$i18nMy.t('补充文件')" >
-            <!-- <OaPrNewFormForDoc :formReadOnly="isReadOnly" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc> -->
-            <OaPrNewFormForDoc :formReadOnly="false" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
+            <OaPrNewFormForDoc :formReadOnly="parentForm!='TaskForm'" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
           </el-tab-pane>
         </el-tabs>
   </div>
@@ -25,6 +24,7 @@
     data() {
       return {
         isReadOnly: false,
+        parentForm: '',
         activeName:'oaPrNewForm',
         title: '',
         method: '',
@@ -122,12 +122,14 @@
       init(query, parent) {
         this.activeName='oaPrNewForm'
         this.businessId=query.businessId
-        
         if(query.readOnly || query.formReadOnly) {
-          this.isReadOnly=query.readOnly || query.formReadOnly
+          this.isReadOnly = ( (query.readOnly || query.formReadOnly) == "true" )
         }
         if (query.taskDefKey && (query.taskDefKey.indexOf('FC')>0 || query.taskDefKey.indexOf('FA')>0)) { // 对FA、FC两个角色的特殊处理，只允许修改部分特定字段，其他大部分字段不能改
           this.isReadOnly=true
+        }
+        if(query.parentForm) {
+          this.parentForm = query.parentForm
         }
         this.$refs.oaPrNewForm.init(query, this, parent)
         this.$refs.oaPrNewFormForDoc.init(query)

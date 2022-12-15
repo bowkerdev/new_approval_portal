@@ -674,7 +674,7 @@ export default Vue.extend({
         status: row.status
       }}).then(({data}) => {
         if (data.success) {
-          var param={parentForm: "TaskForm", formTitle: `${row.vars.title}`, title: `TD:${row.vars.title}`,
+          var param={parentForm: "TaskForm", formTitle: `${row.vars.title}`, title: `Do:${row.vars.title}`,
             ...pick(data.flow, 'formType', 'formReadOnly', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId', 'lastTaskDefKey')}
           this.$router.push({
             path: '/flowable/task/TaskForm',
@@ -700,7 +700,7 @@ export default Vue.extend({
         if (data.success) {
           this.$router.push({
             path: '/flowable/task/TaskFormDetail',
-            query: {parentForm: "TaskFormDetail", readOnly: true, taskId: row.executionId, title: `${row.vars.title}`, formTitle: `${row.vars.title}`, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
+            query: {parentForm: "TaskFormDetail", readOnly: true, taskId: row.executionId, title: 'View:'+`${row.vars.title}`, formTitle: `${row.vars.title}`, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
           })
         }
       })

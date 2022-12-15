@@ -456,13 +456,12 @@
         <el-col :span="24">
         <el-form-item class="updown" :label="$i18nMy.t('申购目的')" prop="purchasePurpose" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
           <el-input type="textarea" style="width: 100%;" v-model="inputForm.purchasePurpose" maxlength="800" :placeholder="$i18nMy.t('长度不超过800')"></el-input>
-          <div style="color: #005DF7; font-size: 12px; cursor: pointer;" @click="toDocPage"> → {{$i18nMy.t('前往[补充文件]页')}}</div>
+          <!-- <div style="color: #005DF7; font-size: 12px; cursor: pointer;" @click="toDocPage"> → {{$i18nMy.t('前往[补充文件]页')}}</div> -->
          </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item class="updown" :label="$i18nMy.t('投资回报分析')" prop="roi" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
             <el-input type="textarea" style="width: 100%;" v-model="inputForm.roi" maxlength="800" :placeholder="$i18nMy.t('长度不超过800')"></el-input>
-            <a style="color: #005DF7; font-size: 12px; cursor: pointer;" @click="toDocPage"> → {{$i18nMy.t('前往[补充文件]页')}}</a>
            </el-form-item>
         </el-col>
         <el-col :span="24" v-if="inputForm.isBudget!='1'" >
@@ -477,6 +476,8 @@
         </el-col>
       </el-row>
     </el-form>
+    <br><div style="color: #005DF7; font-size: 12px; cursor: pointer; float: left; " @click="toSupplierPage"> → {{$i18nMy.t('前往[供应商报价和合同]页')}}</div>
+    <div style="color: #005DF7; font-size: 12px; cursor: pointer; float: left; margin-left: 50px;" @click="toDocPage"> → {{$i18nMy.t('前往[补充文件]页')}}</div>
   </div>
 </template>
 
@@ -660,9 +661,11 @@
         if (query.taskDefKey && query.taskDefKey.indexOf('FA')>0) {
           this.isFA = true
         }
-
         if (query.status) {
           this.status = query.status
+        }
+        if (this.taskDefKey == 'FormModify') {  // Modify PR 当做start处理
+          this.status = 'start'
         }
         if (query.parentForm) {
           this.parentForm = query.parentForm
@@ -879,6 +882,11 @@
       },
       changeTabListGroup(row){
         row.edit =true
+      },
+      toSupplierPage(){
+        if (this.parentPage) {
+          this.parentPage.activeName = 'OaPrNewFormForSupplier'
+        }
       },
       toDocPage(){
         if (this.parentPage) {

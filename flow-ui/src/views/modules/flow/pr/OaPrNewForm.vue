@@ -35,11 +35,7 @@
                 <el-input v-model="inputForm.createByOffice.name" :disabled='true' :placeholder="$i18nMy.t('申请人部门')"></el-input>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('项目描述')" prop="projectName" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
-            <el-input type="textarea" v-model="inputForm.projectName" :placeholder="$i18nMy.t('长度不超过500')" maxlength="500"></el-input>
-          </el-form-item>
-        </el-col>
+
         <el-form size="small" :model="inputForm" ref="inputFormSite" :disabled="formReadOnly">
           <el-col :span="12">
             <el-form-item label-width="220px" :label="$i18nMy.t('采购地区')" prop="applySiteCode" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
@@ -51,6 +47,11 @@
             </el-form-item>
           </el-col>
         </el-form>
+        <el-col :span="12">
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户姓名')" prop="requester" :rules="[{required: true, message:$i18nMy.t('请填写用户姓名'), trigger:'blur'}]">
+            <el-input v-model="inputForm.requester" :placeholder="$i18nMy.t('请填写用户姓名')" maxlength="30"></el-input>
+          </el-form-item>
+        </el-col>
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
             <!-- <SelectTree ref="requesterDepartment" v-if="ifSiteChange" :props="{
@@ -67,20 +68,16 @@
               </el-select>
           </el-form-item>
         </el-col>
-        <!-- <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('用户姓名')" prop="requester" :rules="[{required: true, message:$i18nMy.t('请填写用户姓名'), trigger:'blur'}]">
-            <el-input v-model="inputForm.requester" :placeholder="$i18nMy.t('请填写用户姓名')" maxlength="30"></el-input>
-          </el-form-item>
-        </el-col> -->
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('费用类型')" prop="expenseType" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}
-                 ]">
-            <el-select v-model="inputForm.expenseType" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
+          <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!((parentForm==='TaskForm'&&(isFC||isFA)))" >
+          <el-form-item label-width="220px" :label="$i18nMy.t('费用类型')" prop="expenseType" :rules="[{required: (parentForm==='TaskForm'&&(isFC||isFA)), message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+            <el-select v-model="inputForm.expenseType" :placeholder="$i18nMy.t('由FC编辑')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('expense_type')" :key="item.value" :label="item.label"
                 :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
+          </el-form>
         </el-col>
         <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('要求到货时间')" prop="expectArrivalDate" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}
@@ -90,39 +87,6 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-form size="small" :model="inputForm" ref="inputFormFC"
-            :disabled="!(parentForm==='TaskForm'&&((procDefKey==='prpo_non_it'&&isFC) || (!formReadOnly&&procDefKey!='prpo_non_it')))"
-            v-if="formReadOnly || isFC || procDefKey!='prpo_non_it'" label-width="140px" >
-          <el-col :span="12" >
-              <!-- <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}]">-->            <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[]">
-              <el-select v-model="inputForm.legalEntity" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;">
-                <el-option v-for="item in $dictUtils.getDictListWithKey('all_company')" :key="item.value" :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12" >
-            <!-- <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}]"> -->
-            <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[]">
-              <el-select v-model="inputForm.costCenter" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;" >
-                <el-option v-for="item in $dictUtils.getDictListWithKey('cost_center')" :key="item.value" :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12" >
-            <!-- <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}]"> -->
-            <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[]">
-              <el-select v-model="inputForm.assetGroup" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;">
-                <el-option v-for="item in $dictUtils.getDictListWithKey('asset_group')" :key="item.value" :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-form>
 
         <el-col :span="12" v-if="procDefKey === 'prpo_non_it'">
           <!-- <el-form-item label-width="220px" :label="$i18nMy.t('技术支持部门')" prop="technicalAdvisor" :rules="[ ]">
@@ -165,10 +129,48 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
+            <el-form-item label-width="220px" :label="$i18nMy.t('项目描述')" prop="projectName" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+              <el-input type="textarea" v-model="inputForm.projectName" :placeholder="$i18nMy.t('长度不超过500')" maxlength="500"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
             <el-form-item label-width="220px" :label="$i18nMy.t('预算备注')" prop="budgetRemark" :rules="[]">
               <el-input type="textarea" v-model="inputForm.budgetRemark" :placeholder="$i18nMy.t('长度不超过500')" maxlength="500"></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="12" >
+            <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" :rules="[{required: (parentForm==='TaskForm'&&isFA), message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+              <el-select v-model="inputForm.costCenter" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;" >
+                <el-option v-for="item in $dictUtils.getDictListWithKey('cost_center')" :key="item.value" :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12" >
+            <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!((parentForm==='TaskForm'&&isFA))" >
+            <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[{required: (parentForm==='TaskForm'&&isFA), message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+              <el-select v-model="inputForm.assetGroup" :placeholder="$i18nMy.t('由FA编辑')" filterable style="width: 100%;" >
+                <el-option v-for="item in $dictUtils.getDictListWithKey('asset_group')" :key="item.value" :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            </el-form>
+          </el-col>
+          <el-form size="small" :model="inputForm" ref="inputFormFC"
+              :disabled="!(parentForm==='TaskForm'&&((procDefKey==='prpo_non_it'&&isFC) || (!formReadOnly&&procDefKey!='prpo_non_it')))"  label-width="140px" >
+              <!-- v-if="formReadOnly || isFC || procDefKey!='prpo_non_it'" label-width="140px" > -->
+            <el-col :span="12" >
+                <!-- <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}]">-->            <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[]">
+                <el-select v-model="inputForm.legalEntity" :placeholder="$i18nMy.t('由FC编辑')" filterable style="width: 100%;">
+                  <el-option v-for="item in $dictUtils.getDictListWithKey('all_company')" :key="item.value" :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-form>
         <!-- <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('预算类型')" prop="budgetType" :rules="[]">
             <el-select v-model="inputForm.budgetType" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
@@ -825,12 +827,22 @@
       },
 
       checkExpectArrivalDate(){
+        if (this.inputForm.expectArrivalDate && this.inputForm.expectArrivalDate < this.inputForm.createDate) {
+          this.$message.warning($i18nMy.t('日期不能小于当前时间'))
+          this.inputForm.expectArrivalDate = ''
+        }
         for(var i=0;i<this.detailInfo.length;i++){
-          if (i==0) {
-            this.inputForm.expectArrivalDate = this.detailInfo[i].expectArrivalDate;
-          }
-          if (this.inputForm.expectArrivalDate=='' || this.detailInfo[i].expectArrivalDate < this.inputForm.expectArrivalDate) {
-            this.inputForm.expectArrivalDate = this.detailInfo[i].expectArrivalDate;
+          if (this.detailInfo[i].expectArrivalDate) {
+            if (this.detailInfo[i].expectArrivalDate < this.inputForm.createDate) {
+              this.$message.warning($i18nMy.t('日期不能小于当前时间'))
+              this.detailInfo[i].expectArrivalDate = ''
+            }
+            if (i==0) {
+              this.inputForm.expectArrivalDate = this.detailInfo[i].expectArrivalDate;
+            }
+            if (!this.inputForm.expectArrivalDate || this.detailInfo[i].expectArrivalDate < this.inputForm.expectArrivalDate) {
+              this.inputForm.expectArrivalDate = this.detailInfo[i].expectArrivalDate;
+            }
           }
         }
       },
@@ -875,6 +887,7 @@
           this.detailInfo.splice(index, 1)
         }
         this._sortDetailInfo()
+        this.checkExpectArrivalDate()
 
         if (this.parentPage) {
           this.parentPage.updatePage2DataByDetailInfo()

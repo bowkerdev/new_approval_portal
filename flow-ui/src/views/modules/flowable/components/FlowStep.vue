@@ -22,13 +22,12 @@
       <el-table-column
         prop="histIns.activityName"
         :label="$i18nMy.t('任务')"
-        width="280">
+        width="320">
         <template slot-scope="scope" >
-          <span v-if="scope.$index > 1 && scope.row.histIns.processInstanceId == processInstanceId && scope.row.histIns.activityName == 'Initial'" style="color: red;">Reactivate: </span>
-          <span class="my-span">{{scope.row.histIns.activityName || scope.row.comment.status}}</span>
-          <span v-if="scope.row.histIns.activityName == 'Tech. Advisor'">
-             : {{techAdvisorRoleMap[scope.row.assignee]}}
-          </span>
+          <span v-if="scope.$index > 1 && scope.row.histIns.processInstanceId == processInstanceId && scope.row.histIns.activityName == 'Initial'" style="color: red;" class="my-span">Reactivate: </span>
+          <span v-else-if="scope.row.histIns.activityId == 'TechAdvisor'" class="my-span">Tech. Advisor: {{parallelRoleMap[scope.row.assignee]}}</span>
+          <span v-else-if="scope.row.histIns.activityId == 'CeoOfficeOptionA' || scope.row.histIns.activityId == 'CeoOfficeOptionB'" class="my-span">{{parallelRoleMap[scope.row.assignee]}}</span>
+          <span v-else class="my-span">{{scope.row.histIns.activityName || scope.row.comment.status}}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -65,6 +64,11 @@
        <el-table-column
         prop="comment.message"
         :label="$i18nMy.t('审批意见')">
+        <template slot-scope="scope" >
+          <!-- <span v-if="parentForm != 'TaskForm' && !hasPermission('flow:pr:allCommnets') && (scope.row.histIns.activityId == 'GroupFA' || scope.row.histIns.activityId == 'GroupFC' || scope.row.histIns.activityId == 'CeoOffice' || scope.row.histIns.activityId == 'CeoOfficeOptionA' || scope.row.histIns.activityId == 'CeoOfficeOptionB' || scope.row.histIns.activityId == 'EC' || scope.row.histIns.activityId == 'BOD' || scope.row.histIns.activityId == 'CeoOfficeCfm' || scope.row.histIns.activityId == 'GroupFACfm')" class="my-span">******</span> -->
+          <span v-if="parentForm != 'TaskForm' && !hasPermission('flow:pr:allCommnets') && prTopMgmtLevelMap[scope.row.histIns.activityId]" class="my-span">******</span>
+          <span v-else class="my-span">{{scope.row.comment.message}}</span>
+        </template>
       </el-table-column>
        <!-- <el-table-column
         prop="durationTime"
@@ -85,7 +89,9 @@ export default {
       default: []
     },
     processInstanceId: '',
-    techAdvisorRoleMap: {}
+    parallelRoleMap: {},
+    prTopMgmtLevelMap: {},
+    parentForm: ''
   },
   computed: {
     historicTaskStepNodeList () {

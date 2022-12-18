@@ -13,7 +13,7 @@
       <flow-time-line :historicTaskList="historicTaskList"/>
     </el-tab-pane> -->
     <el-tab-pane :label="$i18nMy.t('流转记录')" v-if="procInsId" name="form-forth">
-          <flow-step :historicTaskList="historicTaskList" :techAdvisorRoleMap="techAdvisorRoleMap" :processInstanceId="procInsId"/>
+          <flow-step :historicTaskList="historicTaskList" :parallelRoleMap="parallelRoleMap" :parentForm="'TaskForm'" :prTopMgmtLevelMap="prTopMgmtLevelMap" :processInstanceId="procInsId"/>
     </el-tab-pane>
     <el-tab-pane :label="$i18nMy.t('流程图')" v-if="procInsId&&hasPermission('flow:mytask:flowview')" name="form-third">
        <el-card class="box-card"  shadow="hover">
@@ -224,14 +224,20 @@
           }
         })
       }
-      // 读取ADVISOR列表
+
       if (this.formUrl.indexOf("flow/pr/")>0) {
         let that_ = this
-        this.$dictUtils.getSqlDictList('GET_ADVISOR_ROLE_LIST',{},function(data){
+        // 读取并行节点的人员列表
+        this.$dictUtils.getSqlDictList('GET_PARALLEL_PR_ROLE_LIST',{},function(data){
           for(var index in data){
-              that_.techAdvisorRoleMap[data[index].assignee] = data[index].role;
+              that_.parallelRoleMap[data[index].assignee] = data[index].role
           }
         })
+        // top mgmt level 列表，用于控制comment是否可见的权限
+        let prTopMgmtLevelList = this.$dictUtils.getDictList('pr_top_mgmt_level')
+        for (var index in prTopMgmtLevelList) {
+          this.prTopMgmtLevelMap[prTopMgmtLevelList[index].value] = prTopMgmtLevelList[index].label
+        }
       }
       // 读取历史任务列表
       if (this.procInsId) {
@@ -711,7 +717,8 @@
         status: '',
         title: '',
         businessId: '',
-        techAdvisorRoleMap: {},
+        parallelRoleMap: {},
+        prTopMgmtLevelMap: {},
         buttons: [],
         isCC: false,
         isAssign: false,

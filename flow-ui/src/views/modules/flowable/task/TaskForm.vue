@@ -327,6 +327,19 @@
         })
         this.initChildFrom(this.$route.query)
       },
+      changeButtons () {
+        debugger
+        if (this.taskDefKey=="CeoOffice") { // BOD
+          let buttons2 = []
+          buttons2.push({"name":"To BOD","code":"_flow_agree","isHide":"0"})
+          for (var index in this.buttons) {
+            if (this.buttons[index].code != 'optionA' && this.buttons[index].code != 'optionB' && this.buttons[index].code != 'optionC'){
+              buttons2.push(this.buttons[index])
+            }
+          }
+          this.buttons = buttons2
+        }
+      },
       cc (data) {
         if (this.isCC && this.auditForm.userIds) {
           this.$refs['auditForm'].validate((valid) => {
@@ -631,7 +644,17 @@
         this.auditForm.type = currentBtn.code // 提交类型
         this.auditForm.status = currentBtn.name // 按钮文字
 
-        this.$confirm($i18nMy.t(`确定要`)+$i18nMy.t(currentBtn.name)+"?", $i18nMy.t('提示'), {
+        let cfmMsg = $i18nMy.t(`确定要`)+$i18nMy.t(currentBtn.name)+"?"
+
+        if (this.$refs.form.getTotalAmount) {
+          // this.$message.warning(this.taskDefKey);
+          if (this.taskDefKey == 'CeoOffice' && this.$refs.form.getTotalAmount() >= 1000000 && (currentBtn.code == 'optionA' || currentBtn.code == 'optionB')){
+            cfmMsg = "总金额大于HK1M，确定要执行"+$i18nMy.t(currentBtn.name)+"?"
+            // The total amount of the application exceeds HK$1M, are you sure to continue to the selected option?
+          }
+        }
+
+        this.$confirm(cfmMsg, $i18nMy.t('提示'), {
           confirmButtonText: $i18nMy.t('确定'),
           cancelButtonText: $i18nMy.t('取消'),
           type: 'warning'

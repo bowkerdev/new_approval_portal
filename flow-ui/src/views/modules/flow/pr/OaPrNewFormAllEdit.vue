@@ -192,7 +192,9 @@
            callBack(businessTable, businessId)
         })
       },
-
+      getTotalAmount() {
+        return this.$refs.oaPrNewForm.inputForm.totalVatBaseAmount;
+      },
       // 表单提交
       saveAsDraft(callBack) {
         if(this.activeName !='oaPrNewForm'){

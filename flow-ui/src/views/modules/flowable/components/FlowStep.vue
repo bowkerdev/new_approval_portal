@@ -66,7 +66,7 @@
         :label="$i18nMy.t('审批意见')">
         <template slot-scope="scope" >
           <!-- <span v-if="parentForm != 'TaskForm' && !hasPermission('flow:pr:allCommnets') && (scope.row.histIns.activityId == 'GroupFA' || scope.row.histIns.activityId == 'GroupFC' || scope.row.histIns.activityId == 'CeoOffice' || scope.row.histIns.activityId == 'CeoOfficeOptionA' || scope.row.histIns.activityId == 'CeoOfficeOptionB' || scope.row.histIns.activityId == 'EC' || scope.row.histIns.activityId == 'BOD' || scope.row.histIns.activityId == 'CeoOfficeCfm' || scope.row.histIns.activityId == 'GroupFACfm')" class="my-span">******</span> -->
-          <span v-if="parentForm != 'TaskForm' && !hasPermission('flow:pr:allCommnets') && prTopMgmtLevelMap[scope.row.histIns.activityId]" class="my-span">******</span>
+          <span v-if="scope.row.comment.message!='' && parentForm != 'TaskForm' && !hasPermission('flow:pr:allCommnets') && prTopMgmtLevelMap[scope.row.histIns.activityId]" class="my-span">******</span>
           <span v-else class="my-span">{{scope.row.comment.message}}</span>
         </template>
       </el-table-column>

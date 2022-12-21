@@ -69,7 +69,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!((parentForm==='TaskForm'&&(isFC||isFA)))" >
+          <el-form size="small" :model="inputForm" ref="inputFormFA3" :disabled="!((parentForm==='TaskForm'&&(isFC||isFA)))" >
           <el-form-item label-width="220px" :label="$i18nMy.t('费用类型')" prop="expenseType" :rules="[{required: (parentForm==='TaskForm'&&(isFC||isFA)), message:$i18nMy.t('不能为空'), trigger:'blur'}]">
             <el-select v-model="inputForm.expenseType" :placeholder="$i18nMy.t('由FC编辑')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('expense_type')" :key="item.value" :label="item.label"
@@ -138,8 +138,9 @@
               <el-input type="textarea" v-model="inputForm.budgetRemark" :placeholder="$i18nMy.t('长度不超过500')" maxlength="500"></el-input>
             </el-form-item>
           </el-col>
+          <el-form size="small" :model="inputForm" ref="inputFormFA1" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
           <el-col :span="12" >
-            <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" :rules="[{required: (parentForm==='TaskForm'&&isFA), message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+            <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
               <el-select v-model="inputForm.costCenter" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;" >
                 <el-option v-for="item in $dictUtils.getDictListWithKey('cost_center')" :key="item.value" :label="item.label"
                   :value="item.value">
@@ -147,8 +148,9 @@
               </el-select>
             </el-form-item>
           </el-col>
+          </el-form>
+          <el-form size="small" :model="inputForm" ref="inputFormFA2" :disabled="!((parentForm==='TaskForm'&&isFA))" >
           <el-col :span="12" >
-            <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!((parentForm==='TaskForm'&&isFA))" >
             <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[{required: (parentForm==='TaskForm'&&isFA), message:$i18nMy.t('不能为空'), trigger:'blur'}]">
               <el-select v-model="inputForm.assetGroup" :placeholder="$i18nMy.t('由FA编辑')" filterable style="width: 100%;" >
                 <el-option v-for="item in $dictUtils.getDictListWithKey('asset_group')" :key="item.value" :label="item.label"
@@ -156,8 +158,8 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            </el-form>
           </el-col>
+          </el-form>
           <el-form size="small" :model="inputForm" ref="inputFormFC"
               :disabled="!(parentForm==='TaskForm'&&((procDefKey==='prpo_non_it'&&isFC) || (!formReadOnly&&procDefKey!='prpo_non_it')))"  label-width="140px" >
               <!-- v-if="formReadOnly || isFC || procDefKey!='prpo_non_it'" label-width="140px" > -->
@@ -254,7 +256,6 @@
             </div>
           </el-form-item>
         </el-col>
-
       </el-row>
 
       <el-row >
@@ -508,6 +509,7 @@
         flowStage:'start',
         detailInfo: [],
         tabs:[$i18nMy.t('基础信息'),/* $i18nMy.t('技术信息'), */$i18nMy.t('财务信息')],
+        checkFormList:['inputFormFC','inputFormFA1','inputFormFA2','inputFormFA3','inputFormSite'],
         inputForm: {
           id: '',
           procDefKey: '',
@@ -577,6 +579,13 @@
             this.$nextTick(() => {
               this.inputForm.technicalAdvisor.splice(this.inputForm.technicalAdvisor.indexOf('Group SEA Manager'), 1);
             })
+          }
+        }
+      },
+      'inputForm.totalVatBaseAmount': {
+        handler(newV,oldv) {
+          if (newV!=null && newV>=5000000 && this.taskDefKey=="CeoOffice") {
+            this.topPage.changeButtons()
           }
         }
       }
@@ -690,14 +699,18 @@
             illegalAttr = Object.keys(obj)
           }
         })
-        if (this.$refs['inputFormFC']) {
-          this.$refs['inputFormFC'].validate((valid, obj) => {
-            if (!valid) {
-              rtnVal = false
-              illegalAttr = illegalAttr.concat(Object.keys(obj))
-            }
-          })
+
+        for (var index in this.checkFormList) {
+          if (this.$refs[this.checkFormList[index]]) {
+            this.$refs[this.checkFormList[index]].validate((valid, obj) => {
+              if (!valid) {
+                rtnVal = false
+                illegalAttr = illegalAttr.concat(Object.keys(obj))
+              }
+            })
+          }
         }
+
         // 有非法输入，滚动到错误的地方
         if (illegalAttr.length) {
           //  滚动到第一个地方
@@ -746,13 +759,14 @@
            this.$message.warning("OPEX "+$i18nMy.t('金额必须小于')+" 2,000HKD")
            return ;
         }*/
-
-        if (this.$refs['inputFormFC']) {
-          this.$refs['inputFormFC'].validate((valid) => {
-            if (!valid) {
-              return
-            }
-          })
+        for (var index in this.checkFormList) {
+          if (this.$refs[this.checkFormList[index]]) {
+            this.$refs[this.checkFormList[index]].validate((valid) => {
+              if (!valid) {
+                return
+              }
+            })
+          }
         }
 
         this.$refs['inputForm'].validate((valid) => {

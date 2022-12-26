@@ -1,77 +1,121 @@
 <template>
   <!-- taskFromContainer: 滚动到表单错误信息点 -->
-  <div id="taskFromContainer" style="height: 100%;overflow-y: auto;overflow-x: hidden;">
-    <h4 style="text-align:center">{{ title }}</h4>
+  <div style="height: 100%; display:flex; flex-direction: column;">
+    <div id="taskFromContainer" 
+      style="height: 100%;overflow-y: auto;overflow-x: hidden; flex-grow: 3;"
+    >
+      <h4 style="text-align:center">{{ title }}</h4>
 
-    <el-tabs type="border-card" v-model="taskSelectedTab">
-      <el-tab-pane :label="$i18nMy.t('表单信息')" name="form-first">
-        <component id="printForm" :formReadOnly="formReadOnly" v-if="formType === '2'"
-          :class="formReadOnly ? 'readonly' : ''" ref="form" :businessId="businessId" :is="form"></component>
+      <el-tabs type="border-card" v-model="taskSelectedTab">
+        <el-tab-pane :label="$i18nMy.t('表单信息')" name="form-first">
+          <component id="printForm" :formReadOnly="formReadOnly" v-if="formType === '2'"
+            :class="formReadOnly ? 'readonly' : ''" ref="form" :businessId="businessId" :is="form"></component>
 
-        <PreviewForm id="printForm" class="zm-preview-form-wrapper" v-if="formType !== '2'"
-          :processDefinitionId="procDefId" :edit="true" :taskFormData="taskFormData" ref="form" />
-      </el-tab-pane>
-      <!-- <el-tab-pane :label="$i18nMy.t('流程信息')" v-if="procInsId" name="form-second">
+          <PreviewForm id="printForm" class="zm-preview-form-wrapper" v-if="formType !== '2'"
+            :processDefinitionId="procDefId" :edit="true" :taskFormData="taskFormData" ref="form" />
+        </el-tab-pane>
+        <!-- <el-tab-pane :label="$i18nMy.t('流程信息')" v-if="procInsId" name="form-second">
       <flow-time-line :historicTaskList="historicTaskList"/>
     </el-tab-pane> -->
-      <el-tab-pane :label="$i18nMy.t('流转记录')" v-if="procInsId" name="form-forth">
-        <flow-step :historicTaskList="historicTaskList" :parallelRoleMap="parallelRoleMap" :parentForm="'TaskForm'"
-          :prTopMgmtLevelMap="prTopMgmtLevelMap" :processInstanceId="procInsId" />
-      </el-tab-pane>
-      <el-tab-pane :label="$i18nMy.t('流程图')" v-if="procInsId && hasPermission('flow:mytask:flowview')" name="form-third">
-        <el-card class="box-card" shadow="hover">
-          <div slot="header" class="clearfix">
-            <span>{{ $i18nMy.t('流程图') }}</span>
-          </div>
-          <flow-chart ref="chart1" v-if="procInsId" :processInstanceId="procInsId" />
-          <flow-chart ref="chart2" v-if="!procInsId" :processDefId="procDefId" />
-        </el-card>
-      </el-tab-pane>
-    </el-tabs>
+        <el-tab-pane :label="$i18nMy.t('流转记录')" v-if="procInsId" name="form-forth">
+          <flow-step :historicTaskList="historicTaskList" :parallelRoleMap="parallelRoleMap" :parentForm="'TaskForm'"
+            :prTopMgmtLevelMap="prTopMgmtLevelMap" :processInstanceId="procInsId" />
+        </el-tab-pane>
+        <el-tab-pane :label="$i18nMy.t('流程图')" v-if="procInsId && hasPermission('flow:mytask:flowview')"
+          name="form-third">
+          <el-card class="box-card" shadow="hover">
+            <div slot="header" class="clearfix">
+              <span>{{ $i18nMy.t('流程图') }}</span>
+            </div>
+            <flow-chart ref="chart1" v-if="procInsId" :processInstanceId="procInsId" />
+            <flow-chart ref="chart2" v-if="!procInsId" :processDefId="procDefId" />
+          </el-card>
+        </el-tab-pane>
+      </el-tabs>
 
-    <el-card style="margin-top:10px; margin-bottom:66px;" v-if="taskId">
-      <el-form size="small" :model="auditForm" ref="auditForm" label-width="120px" style="margin-left: 45px;">
-        <el-col :span="16">
-          <el-form-item v-if="!procInsId" :label="$i18nMy.t('流程标题')" prop="title" v-show="false">
-            <el-input :placeholder="$i18nMy.t('请输入流程标题')" v-model="title">
-            </el-input>
-          </el-form-item>
-          <!-- <flow-step :historicTaskList="historicTaskList" style="margin-left:0px;width:146%"/> -->
-          <el-form-item class="updown" v-if="taskId" :label="$i18nMy.t('审批信息')" prop="comment">
-            <el-input style="width:146%" type="textarea" :rows="3" maxlength="800" :placeholder="$i18nMy.t('长度不超过800')"
-              v-model="auditForm.message">
-            </el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="16" v-show="false">
-          <el-form-item>
-            <el-checkbox v-model="isCC">{{ $i18nMy.t('是否抄送') }}</el-checkbox>
-          </el-form-item>
-        </el-col>
-        <el-col :span="16">
-          <el-form-item v-if="isCC" :rules="[
+      <el-card style="margin-top:10px; margin-bottom:66px;" v-if="taskId">
+        <el-form size="small" :model="auditForm" ref="auditForm" label-width="120px" style="margin-left: 45px;">
+          <el-col :span="16">
+            <el-form-item v-if="!procInsId" :label="$i18nMy.t('流程标题')" prop="title" v-show="false">
+              <el-input :placeholder="$i18nMy.t('请输入流程标题')" v-model="title">
+              </el-input>
+            </el-form-item>
+            <!-- <flow-step :historicTaskList="historicTaskList" style="margin-left:0px;width:146%"/> -->
+            <el-form-item class="updown" v-if="taskId" :label="$i18nMy.t('审批信息')" prop="comment">
+              <el-input style="width:146%" type="textarea" :rows="3" maxlength="800"
+                :placeholder="$i18nMy.t('长度不超过800')" v-model="auditForm.message">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16" v-show="false">
+            <el-form-item>
+              <el-checkbox v-model="isCC">{{ $i18nMy.t('是否抄送') }}</el-checkbox>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16">
+            <el-form-item v-if="isCC" :rules="[
   { required: true, message: $i18nMy.t('用户不能为空'), trigger: 'blur' }
 ]" prop="userIds" :label="$i18nMy.t('抄送给')">
-            <user-select :value="auditForm.userIds" @getValue='(value) => { auditForm.userIds = value }'>></user-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="16" v-if="false">
-          <el-form-item label-width="155px" style="margin-top: 10px;">
-            <el-checkbox v-model="isAssign">{{ $i18nMy.t('指定下一步处理者(不设置就使用默认处理人)') }}</el-checkbox>
-          </el-form-item>
-        </el-col>
-        <el-col :span="16" v-if="false">
-          <el-form-item label-width="180px" v-if="isAssign" :rules="[
+              <user-select :value="auditForm.userIds"
+                @getValue='(value) => { auditForm.userIds = value }'>></user-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16" v-if="false">
+            <el-form-item label-width="155px" style="margin-top: 10px;">
+              <el-checkbox v-model="isAssign">{{ $i18nMy.t('指定下一步处理者(不设置就使用默认处理人)') }}</el-checkbox>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16" v-if="false">
+            <el-form-item label-width="180px" v-if="isAssign" :rules="[
   { required: true, message: $i18nMy.t('用户不能为空'), trigger: 'blur' }
 ]" prop="assignee" :label="$i18nMy.t('指定')">
-            <user-select :limit="1" :value="auditForm.assignee"
-              @getValue='(value) => { auditForm.assignee = value }'>></user-select>
-          </el-form-item>
-        </el-col>
+              <user-select :limit="1" :value="auditForm.assignee"
+                @getValue='(value) => { auditForm.assignee = value }'>></user-select>
+            </el-form-item>
+          </el-col>
 
-      </el-form>
-    </el-card>
-    <div style="height: 70px;"> </div>
+        </el-form>
+      </el-card>
+      <task-back-nodes ref="taskBackNodes" @getBackTaskDefKey="back" />
+      <user-select-dialog title="选择转办用户" ref="transferUserSelectDialog" :limit="1"
+        @doSubmit="selectUsersToTransferTask"></user-select-dialog>
+      <user-select-dialog title="选择委派用户" ref="delegateUserSelectDialog" :limit="1"
+        @doSubmit="selectUsersToDelateTask"></user-select-dialog>
+      <user-select-dialog title="选择加签用户" ref="addSignTaskUserSelectDialog"
+        @doSubmit="selectUsersToAddSignTask"></user-select-dialog>
+      <el-dialog :title="$i18nMy.t('请输入审批意见')" :visible.sync="dialogFormVisible">
+        <el-form :model="docAddForm">
+          <el-form-item :label="$i18nMy.t('审批意见')" label-width="200px">
+            <el-input type="textarea" v-model="docAddForm.docAddComment" maxlength="800"
+              :placeholder="$i18nMy.t('长度不超过800')" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item :label="$i18nMy.t('资料补充人')" label-width="200px">
+            <el-input v-model="docAddForm.selectedAssigneeId" v-show="false"></el-input>
+            <el-dropdown trigger="click" ref="selectHisAssignee" placement="bottom-start">
+              <span class="el-dropdown-link">
+                <span v-html="docAddForm.selectedAssigneeLabel"></span><i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-table size="mini" stripe="true" :data="hisAssigneeList" style="width: 100%"
+                  @row-click="handleRowClicked">
+                  <el-table-column prop="step" label="Step" width="250">
+                  </el-table-column>
+                  <el-table-column prop="assignee" label="Assignee" width="350">
+                  </el-table-column>
+                  <el-table-column prop="starttime" label="加入时间" width="200">
+                  </el-table-column>
+                </el-table>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">{{ $i18nMy.t('取消') }}</el-button>
+          <el-button type="primary" @click="doDocAdd">{{ $i18nMy.t('确定') }}</el-button>
+        </div>
+      </el-dialog>
+    </div>
+    
     <div class="FlowFormFooter" :class="{ 'full-width': defaultLayout == 'dropdown-top' }">
       <template v-for="(button, index) in buttons">
         <template v-show="button.isHide === '0'">
@@ -82,45 +126,8 @@
         </template>
       </template>
     </div>
-    <task-back-nodes ref="taskBackNodes" @getBackTaskDefKey="back" />
-    <user-select-dialog title="选择转办用户" ref="transferUserSelectDialog" :limit="1"
-      @doSubmit="selectUsersToTransferTask"></user-select-dialog>
-    <user-select-dialog title="选择委派用户" ref="delegateUserSelectDialog" :limit="1"
-      @doSubmit="selectUsersToDelateTask"></user-select-dialog>
-    <user-select-dialog title="选择加签用户" ref="addSignTaskUserSelectDialog"
-      @doSubmit="selectUsersToAddSignTask"></user-select-dialog>
-    <el-dialog :title="$i18nMy.t('请输入审批意见')" :visible.sync="dialogFormVisible">
-      <el-form :model="docAddForm">
-        <el-form-item :label="$i18nMy.t('审批意见')" label-width="200px">
-          <el-input type="textarea" v-model="docAddForm.docAddComment" maxlength="800"
-            :placeholder="$i18nMy.t('长度不超过800')" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item :label="$i18nMy.t('资料补充人')" label-width="200px">
-          <el-input v-model="docAddForm.selectedAssigneeId" v-show="false"></el-input>
-          <el-dropdown trigger="click" ref="selectHisAssignee" placement="bottom-start">
-            <span class="el-dropdown-link">
-              <span v-html="docAddForm.selectedAssigneeLabel"></span><i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-table size="mini" stripe="true" :data="hisAssigneeList" style="width: 100%"
-                @row-click="handleRowClicked">
-                <el-table-column prop="step" label="Step" width="250">
-                </el-table-column>
-                <el-table-column prop="assignee" label="Assignee" width="350">
-                </el-table-column>
-                <el-table-column prop="starttime" label="加入时间" width="200">
-                </el-table-column>
-              </el-table>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">{{ $i18nMy.t('取消') }}</el-button>
-        <el-button type="primary" @click="doDocAdd">{{ $i18nMy.t('确定') }}</el-button>
-      </div>
-    </el-dialog>
   </div>
+
 </template>
 
 <script>
@@ -783,5 +790,19 @@ export default {
 .updown ::v-deep label+div {
   float: none !important;
   margin-left: 0px !important;
+}
+
+.FlowFormFooter {
+  position: static;
+  padding-top: 10px;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.FlowFormFooter button {
+  margin-bottom: 10px;
 }
 </style>

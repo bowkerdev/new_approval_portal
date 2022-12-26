@@ -38,7 +38,7 @@
 
         <el-form size="small" :model="inputForm" ref="inputFormSite" :disabled="formReadOnly">
           <el-col :span="12">
-            <el-form-item label-width="220px" :label="$i18nMy.t('采购地区')" prop="applySiteCode" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+            <el-form-item label-width="220px" :label="$i18nMy.t('采购地区')" prop="applySiteCode" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'change'}]">
               <el-select v-model="inputForm.applySiteCode" :placeholder="$i18nMy.t('请选择')" style="width: 100%;" @change="siteChange">
                 <el-option v-for="item in $dictUtils.getDictList('apply_site_code')" :key="item.value" :label="item.label"
                   :value="item.value">
@@ -53,7 +53,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'change'}]">
             <!-- <SelectTree ref="requesterDepartment" v-if="ifSiteChange" :props="{
                     value: 'id',             // ID字段名
                     label: 'name',         // 显示名称
@@ -112,7 +112,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('申购优先级')" prop="requestRiority" :title="$i18nMy.t('requestRiorityDesc')" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('申购优先级')" prop="requestRiority" :title="$i18nMy.t('requestRiorityDesc')" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'change'}]">
             <el-select v-model="inputForm.requestRiority" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('request_priority')" :key="item.value" :label="item.label"
                 :value="item.value">
@@ -121,7 +121,7 @@
           </el-form-item>
         </el-col>
           <el-col :span="12">
-            <el-form-item style="height: 34px;" label-width="220px" :label="$i18nMy.t('是否预算内')" prop="isBudget" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+            <el-form-item style="height: 34px;" label-width="220px" :label="$i18nMy.t('是否预算内')" prop="isBudget" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'change'}]">
               <el-radio-group v-model="inputForm.isBudget">
                 <el-radio v-for="item in $dictUtils.getDictList('yes_no')" :label="item.value" :key="item.value">
                   {{item.label}}</el-radio>
@@ -140,7 +140,7 @@
           </el-col>
           <el-form size="small" :model="inputForm" ref="inputFormFA1" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
           <el-col :span="12" >
-            <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+            <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'change'}]">
               <el-select v-model="inputForm.costCenter" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;" >
                 <el-option v-for="item in $dictUtils.getDictListWithKey('cost_center')" :key="item.value" :label="item.label"
                   :value="item.value">

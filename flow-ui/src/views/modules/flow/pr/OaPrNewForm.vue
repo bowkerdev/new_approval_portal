@@ -70,7 +70,7 @@
         </el-col>
         <el-col :span="12">
           <el-form size="small" :model="inputForm" ref="inputFormFA3" :disabled="!((parentForm==='TaskForm'&&(isFC||isFA)))" >
-          <el-form-item label-width="220px" :label="$i18nMy.t('费用类型')" prop="expenseType" :rules="[{required: (parentForm==='TaskForm'&&(isFC||isFA)), message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+          <el-form-item label-width="220px" :label="$i18nMy.t('费用类型')" prop="expenseType" :rules="[{required: (parentForm==='TaskForm'&&(isFC||isFA)), message:$i18nMy.t('不能为空'), trigger:'change'}]">
             <el-select v-model="inputForm.expenseType" :placeholder="$i18nMy.t('由FC编辑')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('expense_type')" :key="item.value" :label="item.label"
                 :value="item.value">
@@ -615,6 +615,16 @@
         this.inputForm.vat = null
       },
       init(query, parentPage, topPage) {
+        
+        // 重置表单
+        this.$refs.inputForm.resetFields();
+        this.checkFormList.forEach(formRef => {
+          const refEl = this.$refs[formRef]
+          if (refEl) {
+            refEl.resetFields();
+          }
+        });
+
         if (query&&query.businessId) {
           this.loading = true
           this.inputForm.id = (query.businessId).replace("__copy","")

@@ -88,6 +88,9 @@
             JSON.stringify(this.$refs.oaPrNewFormForSupplier.detailInfo))
         }
       },
+      getOaPrNewFormData(){
+        return this.$refs.oaPrNewForm.inputForm
+      },
       setPage2Data(){
         this.$refs.oaPrNewFormForSupplier.inputForm=this.$refs.oaPrNewForm.inputForm
         if(!this.compArray(this.$refs.oaPrNewFormForSupplier.detailInfo,this.$refs.oaPrNewForm.detailInfo)){
@@ -113,6 +116,7 @@
         //setTimeout()
       },
       updatePage2DataByDetailInfo(){
+        debugger
         this.$refs.oaPrNewFormForSupplier.detailInfo = JSON.parse(JSON.stringify(this.$refs.oaPrNewForm.detailInfo))
         this.$refs.oaPrNewFormForSupplier.updateSupplierByDetailInfo()
         this.setPage1Data()

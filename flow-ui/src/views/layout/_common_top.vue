@@ -355,14 +355,8 @@
           }).then(({data}) => {
             if (data && data.success) {
               clearLoginInfo()
-              if (process.env.VUE_APP_SSO_LOGIN === 'true') {
-                if(process.env.VUE_APP_SSO_TYPE=="cas"){
-                  let service = window.location.protocol + '//' + window.location.host + '/'
-                  window.location.href = `${process.env.VUE_APP_CAS_SERVER}/logout?service=${service}`
-                }
-                else{
-                  window.location.href = process.env.VUE_APP_SSO_SERVER
-                }
+              if (process.env.VUE_APP_SSO_LOGIN == 'true') {
+                window.location.href = process.env.VUE_APP_SSO_SERVER
               } else {
                 this.$router.replace({name: 'login'})
               }

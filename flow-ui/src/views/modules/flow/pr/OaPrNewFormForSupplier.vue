@@ -579,6 +579,11 @@
               this._getSupplierArrivalDate()
               this._updateDetailInfoDocUnitPrice()
               // -------end--------
+              var tmpInputForm = this.parentForm.getOaPrNewFormData()
+              if(tmpInputForm !=null &&tmpInputForm.id !=null){
+                this.inputForm = this.parentForm.getOaPrNewFormData()
+              }
+             
               this.loading = false
             })
           })
@@ -646,6 +651,20 @@
         if(awardedSize != this.detailInfo.length && (this.procDefKey == 'prpo' || this.isFA)){ // IT资产流程
           this.$message.warning($i18nMy.t('请选择供应商'))
           return false;
+        }
+        for(var key in this.supplierInfoByDetailInfo){
+          var oneList= this.supplierInfoByDetailInfo[key]
+          var isNull=true;
+          for(var i=0;i<oneList.length;i++){
+            if(oneList[i].unitPrice !=''&& oneList[i].unitPrice !=null &&
+               oneList[i].vatUnitPrice !=''&& oneList[i].vatUnitPrice !=null ){
+              isNull = false
+            }
+          }
+          if(isNull){
+            // TDDO 添加提示语
+            return false
+          }
         }
         return true
       },

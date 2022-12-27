@@ -446,6 +446,7 @@
         title: '',
         method: '',
         loading: false,
+        parentPage:null,
         procDefKey: 'prpo',
         taskDefKey: '',
         parentForm: '',
@@ -518,7 +519,7 @@
       //this.init({})
     },
     methods: {
-      init(query) {
+      init(query,parentPage) {
         this.$dictUtils.getSqlDictList('GET_T2_EXCHANGE_RATE',{},(data1) => {
           this.exRateT2List = data1
         })
@@ -579,11 +580,11 @@
               this._getSupplierArrivalDate()
               this._updateDetailInfoDocUnitPrice()
               // -------end--------
-              var tmpInputForm = this.parentForm.getOaPrNewFormData()
+              var tmpInputForm = this.parentPage.getOaPrNewFormData()
               if(tmpInputForm !=null &&tmpInputForm.id !=null){
-                this.inputForm = this.parentForm.getOaPrNewFormData()
+                this.inputForm = this.parentPage.getOaPrNewFormData()
               }
-             
+
               this.loading = false
             })
           })
@@ -604,6 +605,7 @@
         if (query.parentForm) {
           this.parentForm = query.parentForm
         }
+        this.parentPage = parentPage
       },
       currencyChange(obj){
         if(this.supplierInfo.length>0&&

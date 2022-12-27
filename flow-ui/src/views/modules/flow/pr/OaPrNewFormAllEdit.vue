@@ -137,7 +137,7 @@
         }
         this.$refs.oaPrNewForm.init(query, this, parent)
         this.$refs.oaPrNewFormForDoc.init(query)
-        this.$refs.oaPrNewFormForSupplier.init(query)
+        this.$refs.oaPrNewFormForSupplier.init(query,this)
       },
       compArray(arr1,arr2){
         if(arr1.length != arr2.length){

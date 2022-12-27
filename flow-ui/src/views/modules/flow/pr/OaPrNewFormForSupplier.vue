@@ -664,7 +664,7 @@
             }
           }
           if(isNull){
-            // TDDO 添加提示语
+            this.$message.warning($i18nMy.t('每个物品至少要有一个报价'))
             return false
           }
         }
@@ -979,6 +979,7 @@
         }
         /* var unitPriceNull=0
         var vatUnitPriceNull=0 */
+        var isNull=true;
         for(var i=0;i<this.supplierInfo[index].detailInfo.length;i++){
           /* if(this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].unitPrice)){
              unitPriceNull++
@@ -1002,13 +1003,19 @@
           if(!this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].unitPrice)&&
              !this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vatUnitPrice)&&
              !this.$common.isEmpty(this.supplierInfo[index].detailInfo[i].vat)){
+                isNull = false
                 if(Math.abs(this.supplierInfo[index].detailInfo[i].vatUnitPrice -
                     (this.supplierInfo[index].detailInfo[i].unitPrice*
                     (100+parseFloat(this.supplierInfo[index].detailInfo[i].vat||0))/100))>0.1){
                   this.$message.warning($i18nMy.t('单价*(1+VAT) != 单价(VAT)'))
                   return
                 }
-             }
+          }
+        }
+
+        if(isNull){
+          this.$message.warning($i18nMy.t('至少要有一个报价'))
+          return false
         }
         /* if(!(unitPriceNull==0||vatUnitPriceNull==0)){
           this.$message.warning($i18nMy.t('单价不能为空'))

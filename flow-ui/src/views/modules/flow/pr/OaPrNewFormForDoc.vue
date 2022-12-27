@@ -480,6 +480,7 @@
         this.attachmentsArra[uuid]=[]
       },
       confirmTabListGroup(row){
+        row.uploadedDate = this.$common.formatTime(new Date())
         if(this.$common.isEmpty(row.attachment)){
            this.$message.warning($i18nMy.t('文件不能为空'))
         } else if(this.$common.isEmpty(row.description)){

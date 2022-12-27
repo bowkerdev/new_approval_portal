@@ -46,7 +46,7 @@
                 :label="$i18nMy.t('优先级')">
                     <template slot-scope="scope">
                       <i v-if="scope.row.vars.request_riority==='high'" style="color: #ff0004;" class="el-icon-warning"></i>
-                      <i v-if="scope.row.vars.request_riority==='middle'" style="color: #ffce38;" class="el-icon-warning"></i>
+                      <i v-if="scope.row.vars.request_riority==='medium'" style="color: #ffce38;" class="el-icon-warning"></i>
                       <i v-if="scope.row.vars.request_riority==='low'" style="color: #1eb163;" class="el-icon-warning"></i>
                     </template>
               </el-table-column>

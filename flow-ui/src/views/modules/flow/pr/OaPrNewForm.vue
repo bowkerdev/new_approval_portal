@@ -731,6 +731,17 @@
           // 94: 顶部固定栏， 40：预留margin
           container.scrollTop = container.scrollTop + domElTop - 94 - 40;
         }
+
+        if(!rtnVal){
+          this.$message.warning($i18nMy.t('请输入完整信息'))
+          return false
+        }
+
+        if(this.detailInfo.length == 0){
+          this.$message.warning($i18nMy.t('物品列表不能为空'))
+          return false
+        }
+        
         return rtnVal
       },
       checkItemForm(){

@@ -176,7 +176,6 @@
       <el-table-column
           prop="flow.procDefName"
           show-overflow-tooltip
-          sortable="custom"
           :label="$i18nMy.t('流程名称')">
         </el-table-column>
     <el-table-column
@@ -230,13 +229,11 @@
     <el-table-column
         prop="flow.taskName"
         show-overflow-tooltip
-        sortable="custom"
         :label="$i18nMy.t('当前环节')">
       </el-table-column>
     <el-table-column
         prop="flow.assigneeName"
         show-overflow-tooltip
-        sortable="custom"
         :label="$i18nMy.t('当前处理人')">
       </el-table-column>
     <el-table-column
@@ -288,8 +285,8 @@
           <el-button v-if="hasPermission('flow:pr:oaPrNew:edit') && searchForm.isDraft!='1' && searchForm.isDraft!='2'" type="text" icon="el-icon-edit" size="small" @click="copyToStart(scope.row)">{{$i18nMy.t('复制申请单')}}</el-button>
           <el-button v-if="hasPermission('flow:pr:oaPrNew:edit') && searchForm.isDraft=='1'" type="text" icon="el-icon-edit" size="small" @click="start(scope.row)">{{$i18nMy.t('发起流程')}}</el-button>
           <el-button v-if="hasPermission('flow:pr:oaPrNew:edit') && searchForm.isDraft=='2'" type="text" icon="el-icon-edit" size="small" @click="reopen(scope.row)">{{$i18nMy.t('激活流程')}}</el-button>
-          <!-- <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button>
-          <el-button v-if="hasPermission('flow:pr:oaPrNew:del')" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button> -->
+          <!-- <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button> -->
+          <el-button v-if="hasPermission('flow:pr:oaPrNew:del') && searchForm.isDraft=='1'" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
         </template>
       </el-table-column> -->
     </el-table>

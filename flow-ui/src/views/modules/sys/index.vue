@@ -6,7 +6,7 @@
 
           <el-row>
             <el-col :span="6" v-for="data in dataList2" :key="data.id">
-              <el-card class="box-card" style="margin:5px 10px 5px 0px">
+              <el-card class="box-card" v-if="hasPermission(data.key)" style="margin:5px 10px 5px 0px">
                   <div class="actCard" @click="start(data)">
                     <!-- <img src='@/assets/img/Scheme.png'/> -->
                     <div class="yuan1" :class="getRandomColor()">{{data.name.substring(0,1)}}</div>

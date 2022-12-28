@@ -926,6 +926,8 @@
 
         originalVatPrice = parseFloat(originalVatPrice.toFixed(2))
         this.supplierInfo[index].originalVatPrice=originalVatPrice
+        
+        this.supplierInfo.splice(this.supplierInfo.length)
 
       },
       _getSupplierArrivalDate(){

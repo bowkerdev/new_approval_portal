@@ -18,7 +18,8 @@ export default {
       外观配置
     */
     defaultTheme: localStorage.getItem('defaultTheme') || defaultThemeColor, // 默认主题
-    defaultLayout: localStorage.getItem('defaultLayout'),
+    // new approval portal默认为dropdown-top
+    defaultLayout: localStorage.getItem('defaultLayout') || 'dropdown-top',
     productName: '', // 产品名称
     logo: '' // 产品logo: '',
 

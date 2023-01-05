@@ -191,7 +191,16 @@
           </el-form-item>
         </el-col> -->
       </el-row>
-      <el-row :gutter="15">
+      <el-row :gutter="15" v-if="!canViewTotalAmount()">
+        <el-col :span="15">
+          <el-form-item label-width="220px" :label="$i18nMy.t('总金额')" prop="contractCurrency" :rules="[]">
+              <div>
+                {{ $i18nMy.t('正在谈判审核中') }}
+              </div>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="15" v-if="canViewTotalAmount()">
         <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('合同总价')" prop="contractCurrency" :rules="[
                  ]">
@@ -216,7 +225,7 @@
         <el-col :span="3">
           <el-form-item label-width="10px"  :rules="[]">
             <div class="myformText2" v-if="(inputForm.totalVatContractAmount||'')!=''">
-              {{$common.toThousands(inputForm.totalVatContractAmount.toFixed(2))}}(VAT)
+              {{$common.toThousands(inputForm.totalVatContractAmount.toFixed(2))}}({{$i18nMy.t('含VAT')}})
             </div>
             <div v-else>
               -
@@ -228,8 +237,6 @@
             {{inputForm.exRate||'-'}}
           </el-form-item>
         </el-col>
-
-
 
         <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('基础币种总价')" prop="baseCurrency" :rules="[ ]">
@@ -249,11 +256,16 @@
         <el-col :span="3">
           <el-form-item label-width="10px"   prop="totalVatBaseAmount" :rules="[]">
             <div class="myformText2" v-if="inputForm.totalVatBaseAmount !=null&&inputForm.totalVatBaseAmount !=''"  >
-              {{$common.toThousands(inputForm.totalVatBaseAmount.toFixed(2))}}(VAT)
+              {{$common.toThousands(inputForm.totalVatBaseAmount.toFixed(2))}}({{$i18nMy.t('含VAT')}})
             </div>
             <div v-else>
               -
             </div>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12" v-if="inputForm.oldTotalVatBaseAmount != inputForm.totalVatBaseAmount">
+          <el-form-item label-width="220px" :label="$i18nMy.t('提示')" style="color: red;">
+            {{getTotalAmtChangeMsg()}}
           </el-form-item>
         </el-col>
       </el-row>
@@ -308,13 +320,13 @@
                   <span v-else class="my-span">{{ row.modelNo }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="supplierName" v-if="index == 1" align="left" :label="$i18nMy.t('供应商名称')">
+              <el-table-column prop="supplierName" width="200" v-if="index == 1" align="left" :label="$i18nMy.t('供应商名称')">
                 <template slot-scope="{row}">
                   <!-- <template v-if="row.edit">
                     <el-input  size="small" :disabled="flowStage=='start'?true:false"  v-model="row.supplierName" placeholder="" ></el-input>
                   </template>
                   <span v-else>{{ row.supplierName }}</span> -->
-                  {{ row.supplierName }}
+                  <span class="my-span">{{ row.supplierName }}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="currency" width="70" v-if="index == 1" align="left" :label="$i18nMy.t('币种')">
@@ -322,7 +334,7 @@
                   {{ row.currency }}
                 </template>
               </el-table-column>
-              <el-table-column prop="unitPrice" width="80" v-if="index == 1" align="right" :label="$i18nMy.t('单价')">
+              <el-table-column prop="unitPrice" width="120" v-if="index == 1" align="right" :label="$i18nMy.t('单价')">
                 <template slot-scope="{row}">
                     {{ $common.toThousands(row.unitPrice) }}
                 </template>
@@ -380,7 +392,7 @@
 
               <el-table-column  v-if="index == 1" align="center" :label="$i18nMy.t('报价单币种')">
                 <template>
-                  <el-table-column prop="docAmount" align="right" :label="$i18nMy.t('总数')">
+                  <el-table-column width="120px" prop="docAmount" align="right" :label="$i18nMy.t('总数')">
                     <template slot-scope="{row}">
                       <!-- <template v-if="row.edit">
                         <el-input  size="small" v-only-num.float="row"
@@ -391,7 +403,7 @@
                           {{ $common.toThousands(row.docAmount.toFixed(2)) }}
                         </span>
                       </span> -->
-                      <span v-if="(row.docAmount||'')!=''">
+                      <span v-if="canViewTotalAmount() && (row.docAmount||'')!=''">
                         {{ $common.toThousands(row.docAmount.toFixed(2)) }}
                       </span>
                     </template>
@@ -408,7 +420,7 @@
                           {{ $common.toThousands(row.docVatAmount.toFixed(2)) }}
                         </span>
                       </span> -->
-                      <span v-if="(row.docVatAmount||'')!=''">
+                      <span v-if="canViewTotalAmount() && (row.docVatAmount||'')!=''">
                         {{ $common.toThousands(row.docVatAmount.toFixed(2)) }}
                       </span>
                     </template>
@@ -419,9 +431,9 @@
 
               <el-table-column v-if="index == 1" align="center" label="HKD" >
                 <template>
-                  <el-table-column prop="baseAmount" align="right" :label="$i18nMy.t('总数')">
+                  <el-table-column width="120px" prop="baseAmount" align="right" :label="$i18nMy.t('总数')">
                     <template slot-scope="{row}">
-                      <span v-if="!isNaN(row.docAmount*row.exRate)">
+                      <span v-if="canViewTotalAmount() && !isNaN(row.docAmount*row.exRate)">
                         {{$common.toThousands((row.docAmount*row.exRate).toFixed(2))}}
                       </span>
                     </template>
@@ -429,7 +441,7 @@
 
                   <el-table-column width="120px" prop="baseVatAmount" align="right" :label="$i18nMy.t('总数(VAT)')"   >
                     <template slot-scope="{row}">
-                      <span  v-if="!isNaN(row.docVatAmount*row.exRate)">
+                      <span  v-if="canViewTotalAmount() && !isNaN(row.docVatAmount*row.exRate)">
                         {{$common.toThousands((row.docVatAmount*row.exRate).toFixed(2))}}
                       </span>
                     </template>
@@ -506,6 +518,7 @@
         deptList: [],
         procDefKey: '',
         taskDefKey: '',
+        processStatus: '',
         flowStage:'start',
         detailInfo: [],
         tabs:[$i18nMy.t('基础信息'),/* $i18nMy.t('技术信息'), */$i18nMy.t('财务信息')],
@@ -547,6 +560,7 @@
           baseCurrency: '',
           totalBaseAmount: '',
           totalVatBaseAmount:'',
+          oldTotalVatBaseAmount:'',
           purchasePurpose: '',
           roi: '',
           remarks: '',
@@ -602,6 +616,16 @@
           this.ifSiteChange = true
         })
       },
+      getTotalAmtChangeMsg(){
+        if (this.inputForm.oldTotalVatBaseAmount != this.inputForm.totalVatBaseAmount){
+          return $i18nMy.t('总金额变更前:') + this.inputForm.oldTotalVatBaseAmount + ', ' + $i18nMy.t('变更后:') + this.inputForm.totalVatBaseAmount +', '+ $i18nMy.t('变更幅度:') + this.getTotalAmtChangeRate()
+        }else{
+          return ''
+        }
+      },
+      getTotalAmtChangeRate(){
+        return (((this.inputForm.totalVatBaseAmount/this.inputForm.oldTotalVatBaseAmount) - 1)*100).toFixed(1) + "%"
+      },
       initCreateBy(){
         if(this.$common.isEmpty(this.$store.state.user.id)){
           setTimeout(this.initCreateBy,500)
@@ -615,7 +639,6 @@
         this.inputForm.vat = null
       },
       init(query, parentPage, topPage) {
-        
         // 重置表单
         this.$refs.inputForm.resetFields();
         this.checkFormList.forEach(formRef => {
@@ -642,6 +665,7 @@
               if (topPage && topPage.auditForm && data.oaPrNew.remarks && data.oaPrNew.remarks.indexOf(query.taskDefKey+'##')==0) {
                 topPage.auditForm.message = (data.oaPrNew.remarks).replace(query.taskDefKey+'##','')
               }
+              this.inputForm.oldTotalVatBaseAmount = data.oaPrNew.totalVatBaseAmount // 保存原始总金额，用于判断变更幅度是否大于5%
               this.inputForm.createDate = this.$common.formatTime(new Date(new Date(data.oaPrNew.createDate).getTime() + 8*3600*1000))
               this.inputForm.technicalAdvisor = this.toArray(this.inputForm.technicalAdvisor)
               this.inputForm.procDefKey = query.procDefKey
@@ -685,6 +709,9 @@
         if (query.status) {
           this.status = query.status
         }
+        if (query.processStatus) {
+          this.processStatus = query.processStatus
+        }
         if (this.taskDefKey == 'FormModify') {  // Modify PR 当做start处理
           this.status = 'start'
         }
@@ -699,6 +726,9 @@
               return "";
           }
           return str.split(',');
+      },
+      canViewTotalAmount() {
+        return (this.topPage && !this.topPage.isAfterL13) || this.processStatus=='结束' || this.hasPermission('flow:pr:geL13') || (this.hasPermission('flow:pr:L11-12') && this.inputForm.totalVatBaseAmount && this.inputForm.totalVatBaseAmount < 10000)
       },
       checkForm() {
         let rtnVal = true;
@@ -741,7 +771,7 @@
           this.$message.warning($i18nMy.t('物品列表不能为空'))
           return false
         }
-        
+
         return rtnVal
       },
       checkItemForm(){
@@ -961,7 +991,7 @@
   }
   .myformText2{
     text-align: right;
-    width: 110px;
+    width: 160px;
   }
   .el-col.el-col-12 {
     min-height:49px;

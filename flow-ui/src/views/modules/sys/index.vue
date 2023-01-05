@@ -45,9 +45,11 @@
                 show-overflow-tooltip
                 :label="$i18nMy.t('优先级')">
                     <template slot-scope="scope">
-                      <i v-if="scope.row.vars.request_riority==='high'" style="color: #ff0004;" class="el-icon-warning"></i>
-                      <i v-if="scope.row.vars.request_riority==='medium'" style="color: #ffce38;" class="el-icon-warning"></i>
-                      <i v-if="scope.row.vars.request_riority==='low'" style="color: #1eb163;" class="el-icon-warning"></i>
+                      <el-tooltip class="item" effect="dark" :content="$dictUtils.getDictLabel('request_priority', scope.row.vars.request_riority, scope.row.vars.request_riority)" placement="top">
+                        <i v-if="scope.row.vars.request_riority==='high'" style="color: #ff0004;" class="el-icon-warning"></i>
+                        <i v-if="scope.row.vars.request_riority==='medium'" style="color: #ffce38;" class="el-icon-warning"></i>
+                        <i v-if="scope.row.vars.request_riority==='low'" style="color: #1eb163;" class="el-icon-warning"></i>
+                      </el-tooltip>
                     </template>
               </el-table-column>
               <el-table-column
@@ -700,7 +702,7 @@ export default Vue.extend({
         if (data.success) {
           this.$router.push({
             path: '/flowable/task/TaskFormDetail',
-            query: {parentForm: "TaskFormDetail", readOnly: true, taskId: row.executionId, title: 'View:'+`${row.vars.title}`, formTitle: `${row.vars.title}`, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
+            query: {parentForm: "TaskFormDetail", readOnly: true, taskId: row.executionId, title: 'View:'+`${row.vars.title}`, formTitle: `${row.vars.title}`, processStatus: `${row.status}`, ...pick(data.flow, 'formType', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId')}
           })
         }
       })

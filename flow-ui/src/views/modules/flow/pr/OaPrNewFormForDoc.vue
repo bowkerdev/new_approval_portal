@@ -95,13 +95,13 @@
            </el-table-column> -->
            <el-table-column  align="center" :label="$i18nMy.t('报价单币种')">
              <template>
-               <el-table-column prop="docAmount" width="100"  align="left" :label="$i18nMy.t('总数')">
-                 <template slot-scope="{row}">
+               <el-table-column prop="docAmount" width="100"  align="left" :label="$i18nMy.t('总数')" >
+                 <template slot-scope="{row}" v-if="canViewTotalAmount()">
                    {{$common.toThousands(row.docAmount)}}
                  </template>
                </el-table-column>
                <el-table-column prop="docVatAmount" width="120" align="left" :label="$i18nMy.t('总数(VAT)')">
-                 <template slot-scope="{row}">
+                 <template slot-scope="{row}" v-if="canViewTotalAmount()">
                    {{$common.toThousands(row.docVatAmount)}}
                  </template>
                </el-table-column>
@@ -110,15 +110,15 @@
            <el-table-column align="center" :label="$i18nMy.t('HKD')" >
              <template>
                <el-table-column prop="baseAmount" width="100" align="left" :label="$i18nMy.t('总数')"   >
-                <template slot-scope="{row}">
-                  <span v-if="!isNaN(row.docAmount*row.exRate)">
+                <template slot-scope="{row}" v-if="canViewTotalAmount()">
+                  <span v-if="canViewTotalAmount() && !isNaN(row.docAmount*row.exRate)">
                     {{$common.toThousands((row.docAmount*row.exRate).toFixed(2))}}
                   </span>
                 </template>
                </el-table-column>
                <el-table-column width="120" prop="baseVatAmount" align="left" :label="$i18nMy.t('总数(VAT)')">
                   <template slot-scope="{row}">
-                    <span  v-if="!isNaN(row.docVatAmount*row.exRate)">
+                    <span v-if="canViewTotalAmount() && !isNaN(row.docVatAmount*row.exRate)">
                       {{$common.toThousands((row.docVatAmount*row.exRate).toFixed(2))}}
                     </span>
                   </template>
@@ -136,7 +136,11 @@
       </el-row>
       <el-row :gutter="15" style="margin-right: 10px">
           <el-table :data="supplementaryDoc" height="300px" class="table" style="border: 1px solid #EBEEF5 !important ; margin-left: 10px">
-            <el-table-column prop="serialNumber" width="50" align="right" :label="$i18nMy.t('序号')"> </el-table-column>
+            <el-table-column prop="serialNumber" width="50" align="right" :label="$i18nMy.t('序号')">
+              <template slot-scope="scope">
+                {{scope.$index+1}}
+              </template>
+            </el-table-column>
             <!-- <el-table-column prop="documentType" width="220"  align="left" :label="$i18nMy.t('文件类型')"   >
               <template slot-scope="{row}">
                 <template v-if="row.edit">
@@ -231,6 +235,7 @@
         loading: false,
         procDefKey: 'prpo',
         taskDefKey: '',
+        processStatus: '',
         isCopy: false,
         flowStage:'start',
         detailInfo:[],
@@ -278,7 +283,8 @@
           paymentSpecial: '',
           detailInfo: '',
           supplementaryDoc: '',
-          supplierInfo: ''
+          supplierInfo: '',
+          tmpOldRow: null
         }
       }
     },
@@ -323,6 +329,10 @@
 
               if(!this.$common.isEmpty(this.inputForm.supplementaryDoc)){
                 this.supplementaryDoc = JSON.parse(this.inputForm.supplementaryDoc)
+                this.supplementaryDoc.sort(function(x, y){
+                    return y.uploadedDate.localeCompare(x.uploadedDate)
+                })
+
                 for(var i=0;i<this.supplementaryDoc.length;i++){
                   if(this.supplementaryDoc[i].id ==null){
                     this.supplementaryDoc[i].id = this.$common.uuid();
@@ -335,16 +345,22 @@
                     console.log(item)
                     this.attachmentsArra[this.supplementaryDoc[i].id].push({name: decodeURIComponent(item.substring(item.lastIndexOf('/') + 1)), url: item})
                   }
-
                 }
               }
               this.loading = false
             })
           })
         }
+        if (query.processStatus) {
+          this.processStatus = query.processStatus
+        }
         this.procDefKey = query.procDefKey
         this.taskDefKey = query.taskDefKey + ''
         this.topPage = topPage
+      },
+
+      canViewTotalAmount(){
+        return (this.topPage && !this.topPage.isAfterL13) || this.processStatus=='结束' || this.hasPermission('flow:pr:geL13') || (this.hasPermission('flow:pr:L11-12') && this.topPage && this.topPage.$refs.form.getTotalAmount && this.topPage.$refs.form.getTotalAmount() < 10000)
       },
       checkForm(){
         for(var i=0;i<this.supplementaryDoc.length;i++){
@@ -468,7 +484,7 @@
           return
         }
         var uuid=this.$common.uuid()
-        this.supplementaryDoc.push({
+        this.supplementaryDoc.unshift({
           id:uuid,
           edit:true,
           serialNumber:this.supplementaryDoc.length+1,
@@ -480,7 +496,6 @@
         this.attachmentsArra[uuid]=[]
       },
       confirmTabListGroup(row){
-        row.uploadedDate = this.$common.formatTime(new Date())
         if(this.$common.isEmpty(row.attachment)){
            this.$message.warning($i18nMy.t('文件不能为空'))
         } else if(this.$common.isEmpty(row.description)){
@@ -488,6 +503,18 @@
         }
         else{
           row.edit =false
+          if (this.tmpOldRow != JSON.stringify(row)) {
+            row.uploadedDate = this.$common.formatTime(new Date())
+            this.supplementaryDoc.sort(function(x, y){
+                return y.uploadedDate.localeCompare(x.uploadedDate);
+            });
+            this.attachmentsArra[row.id] = []
+            let arr = row.attachment.split("|")
+            for (var j=0; j<arr.length; j++) {
+              var item=arr[j]
+              this.attachmentsArra[row.id].push({name: decodeURIComponent(item.substring(item.lastIndexOf('/') + 1)), url: item})
+            }
+          }
         }
       },
       delTabListGroup(row){
@@ -495,9 +522,10 @@
         if (index > -1) {
           this.supplementaryDoc.splice(index, 1)
         }
-        this._sortDetailInfo()
+        // this._sortDetailInfo()
       },
       changeTabListGroup(row){
+        this.tmpOldRow = JSON.stringify(row)
         row.edit =true
       }
     }

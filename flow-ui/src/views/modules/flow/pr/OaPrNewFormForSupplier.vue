@@ -65,9 +65,13 @@
         <p style="float: left;" class="sub-title">
           {{$i18nMy.t('供应商报价和合同上传')}}
         </p><div style="float: left;"><el-button size="small" :disabled="detailInfo.length==0" @click="addTabListGroup()" round  type="primary" icon="el-icon-plus" style="float: left;margin-top: 7px;margin-left: 10px;padding: 5px 5px;" ></el-button></div>
+        <br>
+        <div style="width: 100%;overflow: auto; font-size: 10pt; color: blue; padding-bottom: 5px;">
+          {{$i18nMy.t('供应商报价和合同上传特别说明')}}
+        </div>
         <div style="width: 100%;overflow: auto; border:1px solid #EBEEF5">
           <table style="min-width: 100%;border-collapse: collapse; border:1px solid #EBEEF5" class="supplierTable"
-          cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff" v-for="(item, index) in supplierInfo" :key="'index_'+index">
+          cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff" v-for="(item, index) in supplierInfo" :key="'index_'+index" v-if="canViewSupplier(item)">
             <thead>
               <tr class="head-background-color head1-height">
                 <th style="min-width:100px;" width="12%" colspan="3"><font color="red">*</font>{{$i18nMy.t('供应商名称')}}</th>
@@ -271,8 +275,8 @@
                 <!-- <td><font color="red">*</font>MOQ</td> -->
                 <td width="170px" >{{$i18nMy.t('预计到货日期')}}</td>
                 <!-- <td>{{$i18nMy.t('预计最晚到货日期')}}</td> -->
-                <td width="45px" colspan="1"><font color="red">*</font>{{$i18nMy.t('采纳')}}</td>
-                <td width="" colspan="5"><font color="red">*</font>{{$i18nMy.t('原因')}}</td>
+                <td width="45px" colspan="1"><font color="red" v-if="(status=='start')||(parentForm=='TaskForm'&&isFA)">*</font>{{$i18nMy.t('采纳')}}</td>
+                <td width="" colspan="5"><font color="red" v-if="(status=='start')||(parentForm=='TaskForm'&&isFA)">*</font>{{$i18nMy.t('原因')}}</td>
               </tr>
               <tr class="data-content" v-for="(item3, index3) in item.detailInfo" :key="'index3_'+index3">
                 <td style="background-color: #FFFFFF;border:none"></td>
@@ -323,13 +327,13 @@
                 </td> -->
 
                 <td colspan="1">
-                  <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!((status=='start'&&procDefKey=='prpo')||(parentForm=='TaskForm'&&isFA))" >
+                  <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!((status=='start')||(parentForm=='TaskForm'&&isFA))" v-if="canViewTotalAmount()">
                     <el-checkbox @change="awardedChange(item,item3.serialNumber)" :disabled="item.edit"  v-model="item3.awarded" ></el-checkbox>
                   </el-form>
                 </td>
                 <td colspan="5">
-                  <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!((status=='start'&&procDefKey=='prpo')||(parentForm=='TaskForm'&&isFA))" >
-                    <el-input type="textarea" v-on:input="inputReason(index)" size="small" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')" v-model="item3.reason" :disabled="item.edit||!((status=='start'&&procDefKey=='prpo')||(parentForm=='TaskForm'&&isFA))" ></el-input>
+                  <el-form size="small" :model="inputForm" ref="inputFormFA" :disabled="!((status=='start')||(parentForm=='TaskForm'&&isFA))" v-if="canViewTotalAmount()">
+                    <el-input type="textarea" v-on:input="inputReason(index)" size="small" maxlength="300" :placeholder="$i18nMy.t('长度不超过300')" v-model="item3.reason" :disabled="item.edit||!((status=='start')||(parentForm=='TaskForm'&&isFA))" ></el-input>
                   </el-form>
                 </td>
               </tr>
@@ -379,15 +383,15 @@
               <td >{{$common.toThousands(item.quantity)}} - {{item.uom}}</td>
               <!-- <td>{{item.uom}}</td>
               <td class="my-right"></td> -->
-              <td class="my-right">{{$common.toThousands(item.docAmount)}}</td>
-              <td class="my-right">{{$common.toThousands(item.docVatAmount)}}</td>
+              <td class="my-right"><span v-if="canViewTotalAmount()">{{$common.toThousands(item.docAmount)}}</span></td>
+              <td class="my-right"><span v-if="canViewTotalAmount()">{{$common.toThousands(item.docVatAmount)}}</span></td>
               <td class="my-right">
-                <span v-if="!isNaN(item.docAmount*item.exRate)">
+                <span v-if="canViewTotalAmount() && !isNaN(item.docAmount*item.exRate)">
                   {{$common.toThousands((item.docAmount*item.exRate).toFixed(2))}}
                 </span>
               </td>
               <td class="my-right">
-                <span v-if="!isNaN(item.docVatAmount*item.exRate)">
+                <span v-if="canViewTotalAmount() && !isNaN(item.docVatAmount*item.exRate)">
                   {{$common.toThousands((item.docVatAmount*item.exRate).toFixed(2))}}
                 </span>
               </td>
@@ -407,13 +411,13 @@
               <td>{{$i18nMy.t('采纳')}}</td>
               <td colspan="2" width="150px">{{$i18nMy.t('原因')}}</td>
             </tr>
-            <tr class="data-content" v-for="(item, index) in supplierInfoByDetailInfo[item.item]" >
+            <tr class="data-content" v-for="(item, index) in supplierInfoByDetailInfo[item.item]" v-if="canViewSupplier(item)" >
               <td style="background-color: #FFFFFF;border:none"></td>
               <td class="first-td"><span class="my-span">{{item.supplierName}}</span></td>
               <td ><span class="my-span">{{item.paymentTerms}}</span></td>
               <td >{{item.currency}}</td>
               <td class="my-right">{{$common.toThousands(item.unitPrice)}}</td>
-              <td class="my-right">{{$common.toThousands(item.vat)}}</td>
+              <td class="my-right">{{$common.toThousands(item.vat) || 0}}</td>
               <td class="my-right">{{$common.toThousands(item.vatUnitPrice)}}</td>
               <!-- <td class="my-right">{{item.moq}}</td> -->
               <td colspan="2" class="my-right">{{$common.parseTime(item.expectArrivalDate, '{y}-{m}-{d}')}}</td>
@@ -425,8 +429,8 @@
                   {{file}}
                 </a>
               </td> -->
-              <td ><el-checkbox :disabled="true" v-model="item.awarded"></el-checkbox></td>
-              <td colspan="2" width="150px"><span class="my-span">{{item.reason}}</span></td>
+              <td ><el-checkbox :disabled="true" v-model="item.awarded" v-if="canViewTotalAmount()"></el-checkbox></td>
+              <td colspan="2" width="150px" ><span class="my-span" v-if="canViewTotalAmount()">{{item.reason}}</span></td>
             </tr>
           </tbody>
         </table>
@@ -446,9 +450,11 @@
         title: '',
         method: '',
         loading: false,
-        parentPage:null,
+        parentPage: null,
+        topPage: null,
         procDefKey: 'prpo',
         taskDefKey: '',
+        processStatus: '',
         parentForm: '',
         isFC: false,
         isFA: false,
@@ -519,7 +525,7 @@
       //this.init({})
     },
     methods: {
-      init(query,parentPage) {
+      init(query, parentPage, topPage) {
         this.$dictUtils.getSqlDictList('GET_T2_EXCHANGE_RATE',{},(data1) => {
           this.exRateT2List = data1
         })
@@ -605,8 +611,41 @@
         if (query.parentForm) {
           this.parentForm = query.parentForm
         }
+        if (query.processStatus) {
+          this.processStatus = query.processStatus
+        }
         this.parentPage = parentPage
+        this.topPage = topPage
       },
+
+      canViewSupplier(item){
+        if (this.hasPermission('flow:pr:geL13')) {
+          return true
+        } else {
+          if (this.processStatus == '结束') {
+            var preferredQuotation = false
+            if (item.detailInfo) {
+              for(var j=0;j<item.detailInfo.length;j++){
+                if(item.detailInfo[j].awarded){
+                  preferredQuotation = true
+                  break
+                }
+              }
+            } else if (item.awarded) {
+              preferredQuotation = item.awarded
+            }
+            return preferredQuotation
+          } else {
+            return !item.updateRole || (item.updateRole&&item.updateRole!='GroupFA'&&item.updateRole!='GroupFA_2') // L1 version
+          }
+        }
+        // return !item.updateRole || (item.updateRole&&item.updateRole!='GroupFA'&&item.updateRole!='GroupFA_2') /* L1 version */ || (item.updateRole&&(item.updateRole=='GroupFA'||item.updateRole=='GroupFA_2') && this.hasPermission('flow:pr:geL13')) /* L13 version */|| preferredQuotation
+      },
+
+      canViewTotalAmount(){
+        return (this.topPage && !this.topPage.isAfterL13) || this.processStatus=='结束' || this.hasPermission('flow:pr:geL13') || (this.hasPermission('flow:pr:L11-12') && this.topPage && this.topPage.$refs.form.getTotalAmount && this.topPage.$refs.form.getTotalAmount() < 10000)
+      },
+
       currencyChange(obj){
         if(this.supplierInfo.length>0&&
           !this.$common.isEmpty(obj.currency)){
@@ -650,7 +689,7 @@
             }
           }
         }
-        if(awardedSize != this.detailInfo.length && (this.procDefKey == 'prpo' || this.isFA)){ // IT资产流程
+        if(awardedSize != this.detailInfo.length /* && (this.procDefKey == 'prpo' || this.isFA) */){ // IT资产流程
           this.$message.warning($i18nMy.t('请选择供应商'))
           return false;
         }
@@ -715,7 +754,7 @@
         var obj={attachment:'',documentType:"Quotation",uploadedBy:this.$store.state.user.loginName,uploadedDate:this.$common.formatDate(new Date())}
         var uuid=this.$common.uuid();
         this.attachmentsArra[uuid]={}
-        var tmpObj = {id: uuid, edit:true,docListSize:2,docList:[obj],detailInfo:JSON.parse(JSON.stringify(this.detailInfo))}
+        var tmpObj = {id: uuid, edit:true, updateBy: this.$store.state.user.loginName, updateRole:this.taskDefKey, docListSize:2,docList:[obj],detailInfo:JSON.parse(JSON.stringify(this.detailInfo))}
         for(var i=0;i<tmpObj.detailInfo.length;i++){
           tmpObj.detailInfo[i].moq=1
           tmpObj.detailInfo[i].vat=parseFloat(this.inputForm.vat||0)
@@ -752,6 +791,7 @@
           obj.supplierName = supplierInfo.supplierName
           obj.paymentTerms = supplierInfo.paymentTerms
           obj.currency = supplierInfo.currency
+          obj.updateRole = supplierInfo.updateRole
           obj.unitPrice= supplierInfo.detailInfo[i].unitPrice
           obj.vat= supplierInfo.detailInfo[i].vat
           obj.vatUnitPrice = supplierInfo.detailInfo[i].vatUnitPrice
@@ -926,7 +966,7 @@
 
         originalVatPrice = parseFloat(originalVatPrice.toFixed(2))
         this.supplierInfo[index].originalVatPrice=originalVatPrice
-        
+
         this.supplierInfo.splice(this.supplierInfo.length)
 
       },
@@ -1023,13 +1063,20 @@
           this.$message.warning($i18nMy.t('单价不能为空'))
           return
         } */
+
         this.supplierInfo[index].edit =false
         this._getSupplierInfoByDetailInfoList()
         this._updateDetailInfoDocUnitPrice()
         this._getSupplierArrivalDate()
         this.detailInfo.splice(this.detailInfo.length) // 触发更新
         this.supplierInfo.splice(this.supplierInfo.length)
-
+        
+        if (this.taskDefKey == 'GroupFA_2') {
+          var alertMsg = this.topPage.$refs.form.getTotalAmtChangeMsg()
+          if (alertMsg!=''){
+            this.$message.warning(alertMsg)
+          }
+        }
       },
       delTabListGroup(index){
         this.supplierInfo.splice(index, 1)

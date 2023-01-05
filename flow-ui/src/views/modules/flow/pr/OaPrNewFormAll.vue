@@ -1,13 +1,13 @@
 <template>
   <div style="height: 100%">
         <el-tabs  type="border-card" v-model="activeName">
-          <el-tab-pane :label="$i18nMy.t('主要信息')"  name="oaPrNewForm" key="oaPrNewForm">
+          <el-tab-pane :label="$i18nMy.t('主要信息')" name="oaPrNewForm" key="oaPrNewForm">
             <OaPrNewForm :formReadOnly="true"  ref="oaPrNewForm" ></OaPrNewForm>
           </el-tab-pane>
-          <el-tab-pane :label="$i18nMy.t('供应商报价和合同')"  name="OaPrNewFormForSupplier" key="OaPrNewFormForSupplier">
+          <el-tab-pane :label="$i18nMy.t('供应商报价和合同')" name="OaPrNewFormForSupplier" key="OaPrNewFormForSupplier">
             <OaPrNewFormForSupplier :formReadOnly="true" ref="oaPrNewFormForSupplier" ></OaPrNewFormForSupplier>
           </el-tab-pane>
-          <el-tab-pane :label="$i18nMy.t('补充文件')"  name="OaPrNewFormForDoc" key="OaPrNewFormForDoc">
+          <el-tab-pane :label="$i18nMy.t('补充文件')" name="OaPrNewFormForDoc" key="OaPrNewFormForDoc">
             <OaPrNewFormForDoc :formReadOnly="true" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
           </el-tab-pane>
         </el-tabs>

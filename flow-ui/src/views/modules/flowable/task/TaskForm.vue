@@ -1,7 +1,7 @@
 <template>
   <!-- taskFromContainer: 滚动到表单错误信息点 -->
   <div style="height: 100%; display:flex; flex-direction: column;">
-    <div id="taskFromContainer" 
+    <div id="taskFromContainer"
       style="height: 100%;overflow-y: auto;overflow-x: hidden; flex-grow: 3;"
     >
       <h4 style="text-align:center">{{ title }}</h4>
@@ -15,8 +15,8 @@
             :processDefinitionId="procDefId" :edit="true" :taskFormData="taskFormData" ref="form" />
         </el-tab-pane>
         <!-- <el-tab-pane :label="$i18nMy.t('流程信息')" v-if="procInsId" name="form-second">
-      <flow-time-line :historicTaskList="historicTaskList"/>
-    </el-tab-pane> -->
+          <flow-time-line :historicTaskList="historicTaskList"/>
+        </el-tab-pane> -->
         <el-tab-pane :label="$i18nMy.t('流转记录')" v-if="procInsId" name="form-forth">
           <flow-step :historicTaskList="historicTaskList" :parallelRoleMap="parallelRoleMap" :parentForm="'TaskForm'"
             :prTopMgmtLevelMap="prTopMgmtLevelMap" :processInstanceId="procInsId" />
@@ -98,11 +98,11 @@
               <el-dropdown-menu slot="dropdown">
                 <el-table size="mini" stripe="true" :data="hisAssigneeList" style="width: 100%"
                   @row-click="handleRowClicked">
-                  <el-table-column prop="step" label="Step" width="250">
+                  <el-table-column prop="step" :label="$i18nMy.t('任务')" width="250">
                   </el-table-column>
-                  <el-table-column prop="assignee" label="Assignee" width="350">
+                  <el-table-column prop="assignee" :label="$i18nMy.t('执行人')" width="350">
                   </el-table-column>
-                  <el-table-column prop="starttime" label="加入时间" width="200">
+                  <el-table-column prop="starttime" :label="$i18nMy.t('处理时间')" width="200">
                   </el-table-column>
                 </el-table>
               </el-dropdown-menu>
@@ -115,7 +115,7 @@
         </div>
       </el-dialog>
     </div>
-    
+
     <div class="FlowFormFooter" :class="{ 'full-width': defaultLayout == 'dropdown-top' }">
       <template v-for="(button, index) in buttons">
         <template v-show="button.isHide === '0'">
@@ -242,6 +242,16 @@ export default {
     if (this.procInsId) {
       this.$http.get(`/flowable/task/historicTaskList?procInsId=${this.procInsId}`).then(({ data }) => {
         this.historicTaskList = data.historicTaskList
+
+        if (this.formUrl.indexOf("flow/pr/") > 0) {
+          this.isAfterL13 = false
+          for (var index in this.historicTaskList) { // 检查是否大于L13
+            if (this.historicTaskList[index].histIns.activityId == 'GroupFA'){
+              this.isAfterL13 = true
+              break
+            }
+          }
+        }
       })
     }
   },
@@ -279,9 +289,9 @@ export default {
     buttonType(code) {
       var red = ['disagree', '_flow_reject', '_flow_back_modify', '_flow_stop']
       if (red.indexOf(code) > -1) { return 'danger' }
-      var green = ['_flow_agree', '_flow_back_last_approver']
+      var green = ['_flow_start','_flow_agree', '_flow_back_last_approver', 'optionA', 'optionB', 'optionC']
       if (green.indexOf(code) > -1) { return 'success' }
-      var yellow = ['_flow_back_on_hold']
+      var yellow = ['_flow_back_doc_add','_flow_back_on_hold']
       if (yellow.indexOf(code) > -1) { return 'warning' }
       return 'primary'
     },
@@ -321,13 +331,12 @@ export default {
       this.auditForm.userIds = null
       this.auditForm.message = ''
       let _that = this
-      this.$dictUtils.getSqlDictList('GET_FLOW_HIS_ASSIGNEE', { procInsId: this.procInsId }, function (data) {
+      this.$dictUtils.getSqlDictList('GET_FLOW_HIS_ASSIGNEE', { procInsId: this.procInsId, userId: this.$store.state.user.id }, function (data) {
         _that.hisAssigneeList = data
       })
       this.initChildFrom(this.$route.query)
     },
     changeButtons() {
-      debugger
       if (this.taskDefKey == "CeoOffice") { // BOD
         let buttons2 = []
         buttons2.push({ "name": "To BOD", "code": "_flow_agree", "isHide": "0" })
@@ -489,7 +498,7 @@ export default {
     onHold() {
       this.$http.post('/flowable/task/back', {
         taskId: this.taskId,
-        backTaskDefKey: 'CeoOffice__OnHold',
+        backTaskDefKey: this.taskDefKey + '_OnHold',
         procInsId: this.procInsId,
         ...this.auditForm
       }).then(({ data }) => {
@@ -645,18 +654,28 @@ export default {
       this.auditForm.status = currentBtn.name // 按钮文字
 
       let cfmMsg = $i18nMy.t(`确定要`) + $i18nMy.t(currentBtn.name) + "?"
-
+      let msgDatas = [], h = this.$createElement
       if (this.$refs.form.getTotalAmount) {
         // this.$message.warning(this.taskDefKey);
         if (this.taskDefKey == 'CeoOffice' && this.$refs.form.getTotalAmount() >= 1000000 && (currentBtn.code == 'optionA' || currentBtn.code == 'optionB')) {
-          cfmMsg = "总金额大于HK1M，确定要执行" + $i18nMy.t(currentBtn.name) + "?"
+          cfmMsg = $i18nMy.t("总金额大于HK1M，确定要执行") + $i18nMy.t(currentBtn.name) + "?"
           // The total amount of the application exceeds HK$1M, are you sure to continue to the selected option?
         }
+
+        if (this.$refs.form.getOldTotalAmount && this.taskDefKey == 'GroupFA_2' && this.$refs.form.getTotalAmount() != this.$refs.form.getOldTotalAmount()) {
+          //var rate = (this.$refs.form.getTotalAmount()/this.$refs.form.getOldTotalAmount()) - 1
+          cfmMsg = this.$refs.form.getTotalAmtChangeMsg() + ", " + $i18nMy.t("确定要") + $i18nMy.t(currentBtn.name) + "?"
+        }
+      }
+      msgDatas.push(h('p', null, cfmMsg))
+
+      if (currentBtn.code == '_flow_stop' && this.procDefKey == 'prpo_non_it') {
+        msgDatas.push(h('p', null, $i18nMy.t("流程终止操作说明")))
       }
 
-      this.$confirm(cfmMsg, $i18nMy.t('提示'), {
-        confirmButtonText: $i18nMy.t('确定'),
-        cancelButtonText: $i18nMy.t('取消'),
+      this.$confirm(h('div', null, msgDatas), $i18nMy.t('提示'), {
+        confirmButtonText: $i18nMy.t('是'),
+        cancelButtonText: $i18nMy.t('否'),
         type: 'warning'
       }).then(() => {
         switch (currentBtn.code) {
@@ -745,6 +764,7 @@ export default {
       buttons: [],
       isCC: false,
       isAssign: false,
+      isAfterL13: false,  // pr only
       printObj: {
         id: 'printForm',
         popTitle: '',

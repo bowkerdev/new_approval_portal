@@ -333,7 +333,10 @@
           applySiteCode: '',
           requesterDepartment: '',
           expenseType: '',
-          requestRiority: ''
+          requestRiority: '',
+          createBy: {
+            id: ''
+          }
         },
         dataList: [],
         pageNo: 1,
@@ -351,6 +354,9 @@
     },
     activated () {
       var _that=this;
+      if (!this.hasPermission('flow:pr:geL13')){
+        _that.searchForm.createBy.id = this.$store.state.user.id
+      }
 
       _that.searchForm.isDraft = (_that.$route.query.isDraft || '')
       if (_that.searchForm.isDraft == '2') { //查已结束流程

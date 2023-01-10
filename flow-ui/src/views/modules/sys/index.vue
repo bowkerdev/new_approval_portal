@@ -496,7 +496,7 @@ export default Vue.extend({
         	id: "PR_draft",
         	"url": "/flow/pr/OaPrNewList?isDraft=1&title=我的草稿",
         	"name": "My Draft",
-          "permission": "flow:pr:oaPrNew:list"
+          "permission": "flow:pr:oaPrNew:list:draft"
         }
       ],
 

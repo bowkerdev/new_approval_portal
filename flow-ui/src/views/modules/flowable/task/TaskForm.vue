@@ -385,7 +385,7 @@ export default {
           }).then(({ data }) => {
             if (data.success) {
               this.$message.success(data.msg)
-              this.$utils.sendEmail(data.procInsId, this)
+              //this.$utils.sendEmail(data.procInsId, this)
               this.$store.dispatch('tagsView/delView', { fullPath: this.$route.fullPath })
               //this.$router.push('/flowable/task/TodoList')
               this.$router.push('/sys/index')
@@ -605,7 +605,7 @@ export default {
           }).then(({ data }) => {
             if (data.success) {
               this.$message.success(data.msg)
-              this.$utils.sendEmail(data.procInsId, this)
+              //this.$utils.sendEmail(data.procInsId, this)
               this.$store.dispatch('tagsView/delView', { fullPath: this.$route.fullPath })
               //this.$router.push('/flowable/task/TodoList')
               this.$router.push('/sys/index')

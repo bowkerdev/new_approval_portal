@@ -47,48 +47,8 @@
             </el-form-item>
           </el-col>
         </el-form>
-        <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('用户姓名')" prop="requester" :rules="[{required: true, message:$i18nMy.t('请填写用户姓名'), trigger:'blur'}]">
-            <el-input v-model="inputForm.requester" :placeholder="$i18nMy.t('请填写用户姓名')" maxlength="30"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'change'}]">
-            <!-- <SelectTree ref="requesterDepartment" v-if="ifSiteChange" :props="{
-                    value: 'id',             // ID字段名
-                    label: 'name',         // 显示名称
-                    children: 'children'    // 子级字段名
-                  }" :url="`/sys/office/treeData?type=2&parentCode=${inputForm.applySiteCode}`" :value="inputForm.requesterDepartment.id" :clearable="true"
-              :accordion="true" @getValue="(value, name) => {inputForm.requesterDepartment.id=value; inputForm.requesterDepartment.name=name}" />
-              <el-input v-if="!ifSiteChange" :placeholder="$i18nMy.t('请选择')" disabled></el-input> -->
-              <el-select v-model="inputForm.requesterDepartment" :placeholder="$i18nMy.t('请选择')" filterable allow-create clearable style="width: 100%;" >
-                <el-option v-for="item in deptList" :key="item.value" :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form size="small" :model="inputForm" ref="inputFormFA3" :disabled="!((parentForm==='TaskForm'&&(isFC||isFA)))" >
-          <el-form-item label-width="220px" :label="$i18nMy.t('费用类型')" prop="expenseType" :rules="[{required: (parentForm==='TaskForm'&&(isFC||isFA)), message:$i18nMy.t('不能为空'), trigger:'change'}]">
-            <el-select v-model="inputForm.expenseType" :placeholder="$i18nMy.t('由FC编辑')" style="width: 100%;">
-              <el-option v-for="item in $dictUtils.getDictList('expense_type')" :key="item.value" :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          </el-form>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label-width="220px" :label="$i18nMy.t('要求到货时间')" prop="expectArrivalDate" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}
-                 ]">
-            <el-date-picker v-model="inputForm.expectArrivalDate" type="date" style="width: 100%;" @change="checkExpectArrivalDate"
-              value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('选择日期时间')">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
-
-        <el-col :span="12" v-if="procDefKey === 'prpo_non_it'">
+        <!-- <el-col :span="12" v-if="procDefKey === 'prpo_non_it'"> -->
+        <el-col :span="12" >
           <!-- <el-form-item label-width="220px" :label="$i18nMy.t('技术支持部门')" prop="technicalAdvisor" :rules="[ ]">
             <el-select v-model="inputForm.technicalAdvisor" :placeholder="$i18nMy.t('请选择')" style="width: 100%;" clearable>
              <el-option v-for="item in $dictUtils.getDictList('technical_advisor')" :key="item.value" :label="item.label"
@@ -112,6 +72,72 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户姓名')" prop="requester" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+            <el-input v-model="inputForm.requester" :placeholder="$i18nMy.t('请填写用户姓名')" maxlength="30"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-form size="small" :model="inputForm" ref="inputFormFC"
+            :disabled="!(parentForm==='TaskForm'&&((procDefKey==='prpo_non_it'&&isFC) || (!formReadOnly&&procDefKey!='prpo_non_it')))"  label-width="140px" >
+            <!-- v-if="formReadOnly || isFC || procDefKey!='prpo_non_it'" label-width="140px" > -->
+          <el-col :span="12" >
+              <!-- <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}]">-->
+              <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[]">
+              <el-select v-model="inputForm.legalEntity" :placeholder="$i18nMy.t('由FC编辑')" filterable style="width: 100%;" :clearable="true">
+                <el-option v-for="item in $dictUtils.getDictListWithKey('all_company')" :key="item.value" :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-form>
+        <el-col :span="12">
+          <el-form-item label-width="220px" :label="$i18nMy.t('用户部门')" prop="requesterDepartment" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'change'}]">
+            <!-- <SelectTree ref="requesterDepartment" v-if="ifSiteChange" :props="{
+                    value: 'id',             // ID字段名
+                    label: 'name',         // 显示名称
+                    children: 'children'    // 子级字段名
+                  }" :url="`/sys/office/treeData?type=2&parentCode=${inputForm.applySiteCode}`" :value="inputForm.requesterDepartment.id" :clearable="true"
+              :accordion="true" @getValue="(value, name) => {inputForm.requesterDepartment.id=value; inputForm.requesterDepartment.name=name}" />
+              <el-input v-if="!ifSiteChange" :placeholder="$i18nMy.t('请选择')" disabled></el-input> -->
+              <el-select v-model="inputForm.requesterDepartment" :placeholder="$i18nMy.t('请选择')" filterable allow-create clearable style="width: 100%;" >
+                <el-option v-for="item in deptList" :key="item.value" :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form size="small" :model="inputForm" ref="inputFormFA3" :disabled="!((parentForm==='TaskForm'&&isFC))" >
+          <el-form-item label-width="220px" :label="$i18nMy.t('费用类型')" prop="expenseType" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'change'}]">
+            <el-select v-model="inputForm.expenseType" :placeholder="$i18nMy.t('由FC编辑')" style="width: 100%;" :clearable="true">
+              <el-option v-for="item in $dictUtils.getDictList('expense_type')" :key="item.value" :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          </el-form>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label-width="220px" :label="$i18nMy.t('要求到货时间')" prop="expectArrivalDate" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}
+                 ]">
+            <el-date-picker v-model="inputForm.expectArrivalDate" type="date" style="width: 100%;" @change="checkExpectArrivalDate"
+              value-format="yyyy-MM-dd" :placeholder="$i18nMy.t('选择日期时间')">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-form size="small" :model="inputForm" ref="inputFormFA2" :disabled="!((parentForm==='TaskForm'&&isFA))" >
+        <el-col :span="12" >
+          <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[{required: (parentForm==='TaskForm'&&isFA), message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+            <el-select v-model="inputForm.assetGroup" :placeholder="$i18nMy.t('由FA编辑')" filterable style="width: 100%;" :clearable="true">
+              <el-option v-for="item in $dictUtils.getDictListWithKey('asset_group')" :key="item.value" :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        </el-form>
+
+        <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('申购优先级')" prop="requestRiority" :title="$i18nMy.t('requestRiorityDesc')" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'change'}]">
             <el-select v-model="inputForm.requestRiority" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
               <el-option v-for="item in $dictUtils.getDictList('request_priority')" :key="item.value" :label="item.label"
@@ -120,6 +146,24 @@
             </el-select>
           </el-form-item>
         </el-col>
+
+        <el-form size="small" :model="inputForm" ref="inputFormFA1" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
+        <el-col :span="12" >
+          <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'change'}]">
+            <el-select v-model="inputForm.costCenter" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;" :clearable="true">
+              <el-option v-for="item in $dictUtils.getDictListWithKey('cost_center')" :key="item.value" :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        </el-form>
+        <el-col :span="12">
+          <el-form-item label-width="220px" :label="$i18nMy.t('项目描述')" prop="projectName" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+            <el-input type="textarea" v-model="inputForm.projectName" :autosize="{minRows: 4}" :placeholder="$i18nMy.t('长度不超过500')" maxlength="500"></el-input>
+          </el-form-item>
+        </el-col>
+
           <el-col :span="12">
             <el-form-item style="height: 34px;" label-width="220px" :label="$i18nMy.t('是否预算内')" prop="isBudget" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'change'}]">
               <el-radio-group v-model="inputForm.isBudget">
@@ -128,51 +172,13 @@
               </el-radio-group>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label-width="220px" :label="$i18nMy.t('项目描述')" prop="projectName" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'blur'}]">
-              <el-input type="textarea" v-model="inputForm.projectName" :placeholder="$i18nMy.t('长度不超过500')" maxlength="500"></el-input>
-            </el-form-item>
-          </el-col>
+
           <el-col :span="12">
             <el-form-item label-width="220px" :label="$i18nMy.t('预算备注')" prop="budgetRemark" :rules="[]">
               <el-input type="textarea" v-model="inputForm.budgetRemark" :placeholder="$i18nMy.t('长度不超过500')" maxlength="500"></el-input>
             </el-form-item>
           </el-col>
-          <el-form size="small" :model="inputForm" ref="inputFormFA1" :disabled="!(status==='start'||(parentForm==='TaskForm'&&isFA))" >
-          <el-col :span="12" >
-            <el-form-item  label-width="220px" :label="$i18nMy.t('成本中心')" prop="costCenter" :rules="[{required: true, message:$i18nMy.t('不能为空'), trigger:'change'}]">
-              <el-select v-model="inputForm.costCenter" :placeholder="$i18nMy.t('请选择')" filterable style="width: 100%;" >
-                <el-option v-for="item in $dictUtils.getDictListWithKey('cost_center')" :key="item.value" :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          </el-form>
-          <el-form size="small" :model="inputForm" ref="inputFormFA2" :disabled="!((parentForm==='TaskForm'&&isFA))" >
-          <el-col :span="12" >
-            <el-form-item label-width="220px" :label="$i18nMy.t('固定资产类别')" prop="assetGroup" :rules="[{required: (parentForm==='TaskForm'&&isFA), message:$i18nMy.t('不能为空'), trigger:'blur'}]">
-              <el-select v-model="inputForm.assetGroup" :placeholder="$i18nMy.t('由FA编辑')" filterable style="width: 100%;" >
-                <el-option v-for="item in $dictUtils.getDictListWithKey('asset_group')" :key="item.value" :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          </el-form>
-          <el-form size="small" :model="inputForm" ref="inputFormFC"
-              :disabled="!(parentForm==='TaskForm'&&((procDefKey==='prpo_non_it'&&isFC) || (!formReadOnly&&procDefKey!='prpo_non_it')))"  label-width="140px" >
-              <!-- v-if="formReadOnly || isFC || procDefKey!='prpo_non_it'" label-width="140px" > -->
-            <el-col :span="12" >
-                <!-- <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}]">-->            <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[]">
-                <el-select v-model="inputForm.legalEntity" :placeholder="$i18nMy.t('由FC编辑')" filterable style="width: 100%;">
-                  <el-option v-for="item in $dictUtils.getDictListWithKey('all_company')" :key="item.value" :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-form>
+
         <!-- <el-col :span="12">
           <el-form-item label-width="220px" :label="$i18nMy.t('预算类型')" prop="budgetType" :rules="[]">
             <el-select v-model="inputForm.budgetType" :placeholder="$i18nMy.t('请选择')" style="width: 100%;">
@@ -191,7 +197,16 @@
           </el-form-item>
         </el-col> -->
       </el-row>
-      <el-row :gutter="15">
+      <el-row :gutter="15" v-if="!canViewTotalAmount()">
+        <el-col :span="15">
+          <el-form-item label-width="220px" :label="$i18nMy.t('总金额')" prop="contractCurrency" :rules="[]">
+              <div>
+                {{ $i18nMy.t('正在谈判审核中') }}
+              </div>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="15" v-if="canViewTotalAmount()">
         <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('合同总价')" prop="contractCurrency" :rules="[
                  ]">
@@ -216,7 +231,7 @@
         <el-col :span="3">
           <el-form-item label-width="10px"  :rules="[]">
             <div class="myformText2" v-if="(inputForm.totalVatContractAmount||'')!=''">
-              {{$common.toThousands(inputForm.totalVatContractAmount.toFixed(2))}}(VAT)
+              {{$common.toThousands(inputForm.totalVatContractAmount.toFixed(2))}}({{$i18nMy.t('含VAT')}})
             </div>
             <div v-else>
               -
@@ -228,8 +243,6 @@
             {{inputForm.exRate||'-'}}
           </el-form-item>
         </el-col>
-
-
 
         <el-col :span="6">
           <el-form-item label-width="220px" :label="$i18nMy.t('基础币种总价')" prop="baseCurrency" :rules="[ ]">
@@ -249,11 +262,16 @@
         <el-col :span="3">
           <el-form-item label-width="10px"   prop="totalVatBaseAmount" :rules="[]">
             <div class="myformText2" v-if="inputForm.totalVatBaseAmount !=null&&inputForm.totalVatBaseAmount !=''"  >
-              {{$common.toThousands(inputForm.totalVatBaseAmount.toFixed(2))}}(VAT)
+              {{$common.toThousands(inputForm.totalVatBaseAmount.toFixed(2))}}({{$i18nMy.t('含VAT')}})
             </div>
             <div v-else>
               -
             </div>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12" v-if="inputForm.oldTotalVatBaseAmount != inputForm.totalVatBaseAmount">
+          <el-form-item label-width="220px" :label="$i18nMy.t('提示')" style="color: red;">
+            {{getTotalAmtChangeMsg()}}
           </el-form-item>
         </el-col>
       </el-row>
@@ -308,13 +326,13 @@
                   <span v-else class="my-span">{{ row.modelNo }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="supplierName" v-if="index == 1" align="left" :label="$i18nMy.t('供应商名称')">
+              <el-table-column prop="supplierName" width="200" v-if="index == 1" align="left" :label="$i18nMy.t('供应商名称')">
                 <template slot-scope="{row}">
                   <!-- <template v-if="row.edit">
                     <el-input  size="small" :disabled="flowStage=='start'?true:false"  v-model="row.supplierName" placeholder="" ></el-input>
                   </template>
                   <span v-else>{{ row.supplierName }}</span> -->
-                  {{ row.supplierName }}
+                  <span class="my-span">{{ row.supplierName }}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="currency" width="70" v-if="index == 1" align="left" :label="$i18nMy.t('币种')">
@@ -322,7 +340,7 @@
                   {{ row.currency }}
                 </template>
               </el-table-column>
-              <el-table-column prop="unitPrice" width="80" v-if="index == 1" align="right" :label="$i18nMy.t('单价')">
+              <el-table-column prop="unitPrice" width="120" v-if="index == 1" align="right" :label="$i18nMy.t('单价')">
                 <template slot-scope="{row}">
                     {{ $common.toThousands(row.unitPrice) }}
                 </template>
@@ -380,7 +398,7 @@
 
               <el-table-column  v-if="index == 1" align="center" :label="$i18nMy.t('报价单币种')">
                 <template>
-                  <el-table-column prop="docAmount" align="right" :label="$i18nMy.t('总数')">
+                  <el-table-column width="120px" prop="docAmount" align="right" :label="$i18nMy.t('总数')">
                     <template slot-scope="{row}">
                       <!-- <template v-if="row.edit">
                         <el-input  size="small" v-only-num.float="row"
@@ -391,7 +409,7 @@
                           {{ $common.toThousands(row.docAmount.toFixed(2)) }}
                         </span>
                       </span> -->
-                      <span v-if="(row.docAmount||'')!=''">
+                      <span v-if="canViewTotalAmount() && (row.docAmount||'')!=''">
                         {{ $common.toThousands(row.docAmount.toFixed(2)) }}
                       </span>
                     </template>
@@ -408,7 +426,7 @@
                           {{ $common.toThousands(row.docVatAmount.toFixed(2)) }}
                         </span>
                       </span> -->
-                      <span v-if="(row.docVatAmount||'')!=''">
+                      <span v-if="canViewTotalAmount() && (row.docVatAmount||'')!=''">
                         {{ $common.toThousands(row.docVatAmount.toFixed(2)) }}
                       </span>
                     </template>
@@ -419,9 +437,9 @@
 
               <el-table-column v-if="index == 1" align="center" label="HKD" >
                 <template>
-                  <el-table-column prop="baseAmount" align="right" :label="$i18nMy.t('总数')">
+                  <el-table-column width="120px" prop="baseAmount" align="right" :label="$i18nMy.t('总数')">
                     <template slot-scope="{row}">
-                      <span v-if="!isNaN(row.docAmount*row.exRate)">
+                      <span v-if="canViewTotalAmount() && !isNaN(row.docAmount*row.exRate)">
                         {{$common.toThousands((row.docAmount*row.exRate).toFixed(2))}}
                       </span>
                     </template>
@@ -429,7 +447,7 @@
 
                   <el-table-column width="120px" prop="baseVatAmount" align="right" :label="$i18nMy.t('总数(VAT)')"   >
                     <template slot-scope="{row}">
-                      <span  v-if="!isNaN(row.docVatAmount*row.exRate)">
+                      <span  v-if="canViewTotalAmount() && !isNaN(row.docVatAmount*row.exRate)">
                         {{$common.toThousands((row.docVatAmount*row.exRate).toFixed(2))}}
                       </span>
                     </template>
@@ -506,6 +524,7 @@
         deptList: [],
         procDefKey: '',
         taskDefKey: '',
+        processStatus: '',
         flowStage:'start',
         detailInfo: [],
         tabs:[$i18nMy.t('基础信息'),/* $i18nMy.t('技术信息'), */$i18nMy.t('财务信息')],
@@ -547,6 +566,7 @@
           baseCurrency: '',
           totalBaseAmount: '',
           totalVatBaseAmount:'',
+          oldTotalVatBaseAmount:'',
           purchasePurpose: '',
           roi: '',
           remarks: '',
@@ -602,6 +622,16 @@
           this.ifSiteChange = true
         })
       },
+      getTotalAmtChangeMsg(){
+        if (this.inputForm.oldTotalVatBaseAmount != this.inputForm.totalVatBaseAmount){
+          return $i18nMy.t('总金额变更前:') + this.inputForm.oldTotalVatBaseAmount + ', ' + $i18nMy.t('变更后:') + this.inputForm.totalVatBaseAmount +', '+ $i18nMy.t('变更幅度:') + this.getTotalAmtChangeRate()
+        }else{
+          return ''
+        }
+      },
+      getTotalAmtChangeRate(){
+        return (((this.inputForm.totalVatBaseAmount/this.inputForm.oldTotalVatBaseAmount) - 1)*100).toFixed(1) + "%"
+      },
       initCreateBy(){
         if(this.$common.isEmpty(this.$store.state.user.id)){
           setTimeout(this.initCreateBy,500)
@@ -615,7 +645,6 @@
         this.inputForm.vat = null
       },
       init(query, parentPage, topPage) {
-        
         // 重置表单
         this.$refs.inputForm.resetFields();
         this.checkFormList.forEach(formRef => {
@@ -642,6 +671,7 @@
               if (topPage && topPage.auditForm && data.oaPrNew.remarks && data.oaPrNew.remarks.indexOf(query.taskDefKey+'##')==0) {
                 topPage.auditForm.message = (data.oaPrNew.remarks).replace(query.taskDefKey+'##','')
               }
+              this.inputForm.oldTotalVatBaseAmount = data.oaPrNew.totalVatBaseAmount // 保存原始总金额，用于判断变更幅度是否大于5%
               this.inputForm.createDate = this.$common.formatTime(new Date(new Date(data.oaPrNew.createDate).getTime() + 8*3600*1000))
               this.inputForm.technicalAdvisor = this.toArray(this.inputForm.technicalAdvisor)
               this.inputForm.procDefKey = query.procDefKey
@@ -676,7 +706,7 @@
         if (this.procDefKey === 'prpo_non_it') {
           this.ifIT = true
         }
-        if (query.taskDefKey && query.taskDefKey.indexOf('FC')>0) {
+        if (query.taskDefKey && query.taskDefKey.indexOf('FactoryFC')>=0) {
           this.isFC = true
         }
         if (query.taskDefKey && query.taskDefKey.indexOf('FA')>0) {
@@ -684,6 +714,9 @@
         }
         if (query.status) {
           this.status = query.status
+        }
+        if (query.processStatus) {
+          this.processStatus = query.processStatus
         }
         if (this.taskDefKey == 'FormModify') {  // Modify PR 当做start处理
           this.status = 'start'
@@ -699,6 +732,9 @@
               return "";
           }
           return str.split(',');
+      },
+      canViewTotalAmount() {
+        return (this.topPage && !this.topPage.isAfterL13) || this.processStatus=='结束' || this.hasPermission('flow:pr:geL13') || (this.hasPermission('flow:pr:L11-12') && this.inputForm.totalVatBaseAmount && this.inputForm.totalVatBaseAmount < 10000)
       },
       checkForm() {
         let rtnVal = true;
@@ -741,7 +777,7 @@
           this.$message.warning($i18nMy.t('物品列表不能为空'))
           return false
         }
-        
+
         return rtnVal
       },
       checkItemForm(){
@@ -961,7 +997,7 @@
   }
   .myformText2{
     text-align: right;
-    width: 110px;
+    width: 180px;
   }
   .el-col.el-col-12 {
     min-height:49px;

@@ -9,6 +9,7 @@
             <span slot="label"><i class="el-icon-star-on"></i>{{$i18nMy.t('供应商报价和合同')}}</span>
             <OaPrNewFormForSupplier :formReadOnly="isReadOnly" ref="oaPrNewFormForSupplier" ></OaPrNewFormForSupplier>
           </el-tab-pane>
+
           <el-tab-pane name="OaPrNewFormForDoc" key="OaPrNewFormForDoc" :label="$i18nMy.t('补充文件')" >
             <OaPrNewFormForDoc :formReadOnly="parentForm!='TaskForm'" ref="oaPrNewFormForDoc" ></OaPrNewFormForDoc>
           </el-tab-pane>
@@ -29,7 +30,7 @@
         title: '',
         method: '',
         loading: false,
-        businessId:"",
+        businessId: '',
         detailInfoEdit:false
       }
     },
@@ -115,8 +116,7 @@
         this.$refs.oaPrNewFormForDoc.detailInfo=this.$refs.oaPrNewForm.detailInfo
         //setTimeout()
       },
-      updatePage2DataByDetailInfo(){
-        debugger
+      updatePage2DataByDetailInfo(){ 
         this.$refs.oaPrNewFormForSupplier.detailInfo = JSON.parse(JSON.stringify(this.$refs.oaPrNewForm.detailInfo))
         this.$refs.oaPrNewFormForSupplier.updateSupplierByDetailInfo()
         this.setPage1Data()
@@ -136,8 +136,8 @@
           this.parentForm = query.parentForm
         }
         this.$refs.oaPrNewForm.init(query, this, parent)
-        this.$refs.oaPrNewFormForDoc.init(query)
-        this.$refs.oaPrNewFormForSupplier.init(query,this)
+        this.$refs.oaPrNewFormForDoc.init(query, parent)
+        this.$refs.oaPrNewFormForSupplier.init(query, this, parent)
       },
       compArray(arr1,arr2){
         if(arr1.length != arr2.length){
@@ -196,7 +196,13 @@
         })
       },
       getTotalAmount() {
-        return this.$refs.oaPrNewForm.inputForm.totalVatBaseAmount;
+        return this.$refs.oaPrNewForm.inputForm.totalVatBaseAmount
+      },
+      getOldTotalAmount() {
+        return this.$refs.oaPrNewForm.inputForm.oldTotalVatBaseAmount
+      },
+      getTotalAmtChangeMsg() {
+        return this.$refs.oaPrNewForm.getTotalAmtChangeMsg()
       },
       // 表单提交
       saveAsDraft(callBack) {

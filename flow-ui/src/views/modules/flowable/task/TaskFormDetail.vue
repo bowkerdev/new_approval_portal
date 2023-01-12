@@ -115,6 +115,17 @@
 
       this.$http.get(`/flowable/task/historicTaskList?procInsId=${this.procInsId}`).then(({data}) => {
         this.historicTaskList = data.historicTaskList
+
+        if (this.formUrl.indexOf("flow/pr/") > 0) {
+          debugger
+          this.isAfterL13 = false
+          for (var index in this.historicTaskList) { // 检查是否大于L13
+            if (this.historicTaskList[index].histIns.activityId == 'GroupFA'){
+              this.isAfterL13 = true
+              break
+            }
+          }
+        }
       })
     },
     components: {
@@ -139,7 +150,7 @@
       initChildFrom(query){
         // query.parentForm = "TaskFormDetail"
         if(this.form !=null &&this.$refs.form.init !=null){
-          this.$refs.form.init(query)
+          this.$refs.form.init(query, this)
         }
         else{
           setTimeout(()=>{this.initChildFrom(query)},1000)
@@ -215,6 +226,7 @@
         taskId: '',
         taskFormData: [],
         taskDefKey: '',
+        isAfterL13: false,  // pr only
         status: '',
         title: '',
         businessId: '',

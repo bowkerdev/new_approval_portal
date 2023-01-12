@@ -331,16 +331,31 @@ public class FlowTaskService extends BaseService {
             histTaskQuery.processVariableValueLike (FlowableConstant.TITLE, "%" + act.getTitle () + "%");
         }
 
-        // 查询总数
-        page.setCount (histTaskQuery.count ());
-        page.initialize ();
-
         // 查询列表
-        List<HistoricTaskInstance> histList = Lists.newArrayList ();
+        List<HistoricTaskInstance> histList0 = histTaskQuery.list ();
+        List<HistoricTaskInstance> histList = Lists.newArrayList (); 
+        HashMap hm = new HashMap();
+        
+        for (HistoricTaskInstance histTask : histList0) { // 去重，只留最新一条
+        	if (!"1".equals(hm.get(histTask.getProcessInstanceId()))) {
+        		hm.put(histTask.getProcessInstanceId(), "1");
+        		histList.add(histTask);
+        	}
+        }
+        
+        // 查询总数
+        page.setCount (histList.size ());
+        page.initialize ();
+        
         if (page.getMaxResults () == -1) {
-            histList = histTaskQuery.list ();
+            // histList = histTaskQuery.list ();
         } else {
-            histList = histTaskQuery.listPage (page.getFirstResult (), page.getMaxResults ());
+            // histList = histTaskQuery.listPage (page.getFirstResult (), page.getMaxResults ());
+        	int maxIndex = page.getFirstResult () + page.getMaxResults ();
+        	if (maxIndex > histList.size()) {
+        		maxIndex = histList.size();
+        	}
+        	histList = histList.subList(page.getFirstResult (), maxIndex);
         }
 
         for (HistoricTaskInstance histTask : histList) {
@@ -370,7 +385,7 @@ public class FlowTaskService extends BaseService {
                 hisTaskVo.setStatus (comment.getStatus ());
             }
             
-            // update by jack 20210914
+            // update by jaydon 20210914
             hisTaskVo.setStatus (flowMapper.getProcessStatus(histTask.getProcessInstanceId()));
             
             hisTaskVo.setRemarks(flowMapper.getRemarks(histTask.getProcessInstanceId(), StringUtils.split(histTask.getProcessDefinitionId(),":")[0])); 
@@ -649,6 +664,16 @@ public class FlowTaskService extends BaseService {
         }
     }
 
+    
+    /* TODO
+     * private void logBizTable(Flow flow) {
+    	if (StringUtils.isBlank(flow.getBusinessTable()) || StringUtils.isBlank(flow.getBusinessId()) || StringUtils.isBlank(flow.getTaskId()) ) { //参数不全
+    		return;
+    	}
+    	
+    	if (flow.getBusinessTable().equals("oa_pr_new")) { // 目前只对 PR 流程做特殊处理 
+    	}
+    }*/
 
     /**
      * 删除任务
@@ -691,6 +716,7 @@ public class FlowTaskService extends BaseService {
         
         //设置外置表单的流程变量
         this.setVarByTable(flow.getBusinessTable(), flow.getBusinessId(), vars);
+        // this.logBizTable(flow); // TODO 
 
         vars.put("lastTaskDefKey", flow.getTaskDefKey());  
         vars.put("lastAssignee", UserUtils.getUser().getId()); // 设置为上一环节审批人,如果下一环节的审批人和上一环节相同,那么下一环节会自动审批通过
@@ -979,7 +1005,7 @@ public class FlowTaskService extends BaseService {
         if(StringUtils.isBlank (task.getAssignee ())){
             taskService.claim (taskId, UserUtils.getUser ().getId ());
         }
-        if ("FormModify".equals(backTaskDefKey) || "DocAdd".equals(backTaskDefKey) || "CeoOffice__OnHold".equals(backTaskDefKey)) {
+        if ("FormModify".equals(backTaskDefKey) || "DocAdd".equals(backTaskDefKey) || backTaskDefKey.contains("_OnHold")) {
         	taskService.addComment (taskId, task.getProcessInstanceId (), comment.getCommentType (), comment.getFullMessage ());
             managementService.executeCommand (new BackUserTaskCmd (runtimeService,
                     taskId, backTaskDefKey));

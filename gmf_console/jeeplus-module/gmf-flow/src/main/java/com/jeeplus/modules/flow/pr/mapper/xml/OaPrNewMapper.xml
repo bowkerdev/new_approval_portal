@@ -131,6 +131,9 @@
 		    <if test="status != null and status != '' and status == 'End'">
 				and p.end_time_ is not null
 		    </if>
+		    <if test="createBy != null and createBy.id != null and createBy.id != ''">
+				and (a.create_by = #{createBy.id} or exists (select 1 from act_hi_taskinst h where a.proc_ins_id = h.PROC_INST_ID_ and ASSIGNEE_ = #{createBy.id}))
+		    </if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy == 'flow.taskName asc'">

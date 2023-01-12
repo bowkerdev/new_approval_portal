@@ -278,7 +278,7 @@
         fixed="right"
         align="center"
         :key="Math.random()"
-        width="120"
+        width="220"
         :label="$i18nMy.t('操作')">
         <template  slot-scope="scope">
           <!-- <el-button v-if="hasPermission('flow:pr:oaPrNew:view')" type="text" icon="el-icon-view" size="small" @click="flowDetail(scope.row)">{{$i18nMy.t('查看')}}</el-button> -->
@@ -333,7 +333,10 @@
           applySiteCode: '',
           requesterDepartment: '',
           expenseType: '',
-          requestRiority: ''
+          requestRiority: '',
+          createBy: {
+            id: ''
+          }
         },
         dataList: [],
         pageNo: 1,
@@ -351,6 +354,9 @@
     },
     activated () {
       var _that=this;
+      if (!this.hasPermission('flow:pr:geL13')){
+        _that.searchForm.createBy.id = this.$store.state.user.id
+      }
 
       _that.searchForm.isDraft = (_that.$route.query.isDraft || '')
       if (_that.searchForm.isDraft == '2') { //查已结束流程
@@ -515,9 +521,9 @@
         let ids = id || this.dataListSelections.map(item => {
           return item.id
         }).join(',')
-        this.$confirm(`确定删除所选项吗?`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm($i18nMy.t(`确定删除所选项吗`)+'?', $i18nMy.t('提示'), {
+          confirmButtonText: $i18nMy.t('是'),
+          cancelButtonText: $i18nMy.t('否'),
           type: 'warning'
         }).then(() => {
           this.loading = true

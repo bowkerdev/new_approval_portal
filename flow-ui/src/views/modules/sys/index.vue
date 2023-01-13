@@ -676,7 +676,7 @@ export default Vue.extend({
         status: row.status
       }}).then(({data}) => {
         if (data.success) {
-          var param={parentForm: "TaskForm", formTitle: `${row.vars.title}`, title: `Do:${row.vars.title}`,
+          var param={parentForm: "TaskForm", formTitle: `${row.vars.title}`, title: `Do:${row.vars.title}`, applyUserId: `${row.vars.applyUserId}`,
             ...pick(data.flow, 'formType', 'formReadOnly', 'formUrl', 'procDefKey', 'taskDefKey', 'procInsId', 'procDefId', 'taskId', 'status', 'title', 'businessId', 'lastTaskDefKey')}
           this.$router.push({
             path: '/flowable/task/TaskForm',

@@ -53,9 +53,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="16">
-            <el-form-item v-if="isCC" :rules="[
-  { required: true, message: $i18nMy.t('用户不能为空'), trigger: 'blur' }
-]" prop="userIds" :label="$i18nMy.t('抄送给')">
+            <el-form-item v-if="isCC" :rules="[{ required: true, message: $i18nMy.t('用户不能为空'), trigger: 'blur' }]" prop="userIds" :label="$i18nMy.t('抄送给')">
               <user-select :value="auditForm.userIds"
                 @getValue='(value) => { auditForm.userIds = value }'>></user-select>
             </el-form-item>
@@ -66,9 +64,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="16" v-if="false">
-            <el-form-item label-width="180px" v-if="isAssign" :rules="[
-  { required: true, message: $i18nMy.t('用户不能为空'), trigger: 'blur' }
-]" prop="assignee" :label="$i18nMy.t('指定')">
+            <el-form-item label-width="180px" v-if="isAssign" :rules="[{ required: true, message: $i18nMy.t('用户不能为空'), trigger: 'blur' }]" prop="assignee" :label="$i18nMy.t('指定')">
               <user-select :limit="1" :value="auditForm.assignee"
                 @getValue='(value) => { auditForm.assignee = value }'>></user-select>
             </el-form-item>
@@ -96,13 +92,13 @@
                 <span v-html="docAddForm.selectedAssigneeLabel"></span><i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-table size="mini" stripe="true" :data="hisAssigneeList" style="width: 100%"
+                <el-table size="mini" :stripe="true" :data="hisAssigneeList" style="width: 100%"
                   @row-click="handleRowClicked">
                   <el-table-column prop="step" :label="$i18nMy.t('任务')" width="250">
                   </el-table-column>
                   <el-table-column prop="assignee" :label="$i18nMy.t('执行人')" width="350">
                   </el-table-column>
-                  <el-table-column prop="starttime" :label="$i18nMy.t('处理时间')" width="200">
+                  <el-table-column prop="endtime" :label="$i18nMy.t('处理时间')" width="200">
                   </el-table-column>
                 </el-table>
               </el-dropdown-menu>
@@ -219,6 +215,9 @@ export default {
       }).then(({ data }) => {
         if (data.success) {
           this.buttons = data.taskDefExtension.flowButtonList
+          if (this.taskDefKey == 'DocAdd' && this.$store.state.user.id == this.applyUserId) {
+            this.buttons.push({ "name": "终止", "code": "_flow_stop", "isHide": "0" })
+          }
           this.buttons.push({ "name": "关闭", "code": "_flow_close", "isHide": "0" })
         }
       })
@@ -238,6 +237,7 @@ export default {
         this.prTopMgmtLevelMap[prTopMgmtLevelList[index].value] = prTopMgmtLevelList[index].label
       }
     }
+
     // 读取历史任务列表
     if (this.procInsId) {
       this.$http.get(`/flowable/task/historicTaskList?procInsId=${this.procInsId}`).then(({ data }) => {
@@ -254,6 +254,7 @@ export default {
         }
       })
     }
+
   },
   components: {
     UserSelect,
@@ -320,6 +321,7 @@ export default {
       this.taskDefKey = this.$route.query.taskDefKey
       this.status = this.$route.query.status
       this.title = this.$route.query.formTitle
+      this.applyUserId = this.$route.query.applyUserId
       this.printObj.popTitle = this.title
       this.businessId = this.$route.query.businessId
       this.procInsId = this.$route.query.procInsId
@@ -488,6 +490,7 @@ export default {
         if (data.success) {
           this.$message.success(data.msg)
           this.$store.dispatch('tagsView/delView', { fullPath: this.$route.fullPath })
+          this.dialogFormVisible = false
           //this.$router.push('/flowable/task/TodoList')
           this.$router.push('/sys/index')
           this.cc(data)
@@ -654,6 +657,7 @@ export default {
       this.auditForm.status = currentBtn.name // 按钮文字
 
       let cfmMsg = $i18nMy.t(`确定要`) + $i18nMy.t(currentBtn.name) + "?"
+      let cfmMsgs = []
       let msgDatas = [], h = this.$createElement
       if (this.$refs.form.getTotalAmount) {
         // this.$message.warning(this.taskDefKey);
@@ -665,9 +669,16 @@ export default {
         if (this.$refs.form.getOldTotalAmount && this.taskDefKey == 'GroupFA_2' && this.$refs.form.getTotalAmount() != this.$refs.form.getOldTotalAmount()) {
           //var rate = (this.$refs.form.getTotalAmount()/this.$refs.form.getOldTotalAmount()) - 1
           cfmMsg = this.$refs.form.getTotalAmtChangeMsg() + ", " + $i18nMy.t("确定要") + $i18nMy.t(currentBtn.name) + "?"
+          cfmMsgs = cfmMsg.split(", ")
         }
       }
-      msgDatas.push(h('p', null, cfmMsg))
+      if (cfmMsgs.length == 0){
+        msgDatas.push(h('p', null, cfmMsg))
+      }else{
+        for (var index in cfmMsgs) {
+          msgDatas.push(h('p', null, cfmMsgs[index]))
+        }
+      }
 
       if (currentBtn.code == '_flow_stop' && this.procDefKey == 'prpo_non_it') {
         msgDatas.push(h('p', null, $i18nMy.t("流程终止操作说明")))
@@ -759,6 +770,7 @@ export default {
       status: '',
       title: '',
       businessId: '',
+      applyUserId: '',
       parallelRoleMap: {},
       prTopMgmtLevelMap: {},
       buttons: [],

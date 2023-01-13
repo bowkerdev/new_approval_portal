@@ -280,15 +280,15 @@
         :key="Math.random()"
         width="220"
         :label="$i18nMy.t('操作')">
-        <template  slot-scope="scope">
+        <template slot-scope="scope">
           <!-- <el-button v-if="hasPermission('flow:pr:oaPrNew:view')" type="text" icon="el-icon-view" size="small" @click="flowDetail(scope.row)">{{$i18nMy.t('查看')}}</el-button> -->
-          <el-button v-if="hasPermission('flow:pr:oaPrNew:edit') && searchForm.isDraft!='1' && searchForm.isDraft!='2'" type="text" icon="el-icon-edit" size="small" @click="copyToStart(scope.row)">{{$i18nMy.t('复制申请单')}}</el-button>
+          <el-button v-if="hasPermission('flow:pr:oaPrNew:edit') && searchForm.isDraft!='1' && searchForm.isDraft!='2' && (scope.row.createBy.id==$store.state.user.id || $store.state.user.id==1)" type="text" icon="el-icon-edit" size="small" @click="copyToStart(scope.row)">{{$i18nMy.t('复制申请单')}}</el-button>
           <el-button v-if="hasPermission('flow:pr:oaPrNew:edit') && searchForm.isDraft=='1'" type="text" icon="el-icon-edit" size="small" @click="start(scope.row)">{{$i18nMy.t('发起流程')}}</el-button>
           <el-button v-if="hasPermission('flow:pr:oaPrNew:edit') && searchForm.isDraft=='2'" type="text" icon="el-icon-edit" size="small" @click="reopen(scope.row)">{{$i18nMy.t('激活流程')}}</el-button>
           <!-- <el-button v-if="hasPermission('flow:pr:oaPrNew:edit')" type="text" icon="el-icon-edit" size="small" @click="edit(scope.row.id)">{{$i18nMy.t('修改')}}</el-button> -->
           <el-button v-if="hasPermission('flow:pr:oaPrNew:del') && searchForm.isDraft=='1'" type="text"  icon="el-icon-delete" size="small" @click="del(scope.row.id)">{{$i18nMy.t('删除')}}</el-button>
         </template>
-      </el-table-column> -->
+      </el-table-column>
     </el-table>
     <el-pagination
       @size-change="sizeChangeHandle"

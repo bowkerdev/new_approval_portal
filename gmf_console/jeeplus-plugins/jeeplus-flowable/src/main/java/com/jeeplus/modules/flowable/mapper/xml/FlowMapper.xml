@@ -190,6 +190,10 @@
 	<select id="getProcessVar" resultType="java.lang.String">
 	    select getProcessVar(#{procInsId}, #{varName}) as value
 	</select>
+	<select id="checkIfSkip" resultType="java.lang.String">
+	    select checkIfSkip(#{procInsId}, #{taskDefKey}, #{assignee}) as flag
+	</select>
+	
 	
 	<select id="getIdentitylinkUserByTask" resultType="java.util.Map">
 		SELECT USER_ID_ userId 

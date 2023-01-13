@@ -61,7 +61,8 @@
       </el-row>
       <br/>
       <el-form size="small" ref="inputFormFA" :disabled="!((status=='start')||(parentForm=='TaskForm'&&isFA)||(taskDefKey=='FormModify'))" >
-      <el-row :gutter="0" v-if="procDefKey=='prpo'||status=='start'||parentForm=='TaskFormDetail'||isFA||taskDefKey=='FormModify'">
+      <!-- <el-row :gutter="0" v-if="procDefKey=='prpo'||status=='start'||parentForm=='TaskFormDetail'||isFA||taskDefKey=='FormModify'"> -->
+      <el-row :gutter="0">
         <p style="float: left;" class="sub-title">
           {{$i18nMy.t('供应商报价和合同上传')}}
         </p><div style="float: left;"><el-button size="small" :disabled="detailInfo.length==0" @click="addTabListGroup()" round  type="primary" icon="el-icon-plus" style="float: left;margin-top: 7px;margin-left: 10px;padding: 5px 5px;" ></el-button></div>
@@ -350,6 +351,9 @@
       <p class="sub-title">
         {{$i18nMy.t('中标供应商和更新的单价详细信息')}}
       </p>
+      <!-- <div style="width: 100%;overflow: auto; font-size: 10pt; color: blue; padding-bottom: 5px;" v-if="!(procDefKey=='prpo'||status=='start'||parentForm=='TaskFormDetail'||isFA||taskDefKey=='FormModify')">
+        {{$i18nMy.t('供应商报价和合同上传特别说明')}}
+      </div> -->
       <div style="width: 100%;overflow: auto;" >
         <table style="min-width: 100%;border-collapse: collapse; border:1px solid #EBEEF5" class="supplierTable"
          cellspacing="0" bordercolor="#EBEEF5" bgcolor="#fff">
@@ -1000,6 +1004,14 @@
            this.$message.warning($i18nMy.t('供应商不能为空'))
            return
         }
+        for(var i=0;i<this.supplierInfo.length;i++){
+          debugger 
+          if (this.supplierInfo[index].supplierName == this.supplierInfo[i].supplierName && index!=i) {
+            this.$message.warning($i18nMy.t('供应商名称不能重复'))
+            return
+          }
+        }
+
         for(var i=0;i<this.supplierInfo[index].docList.length;i++){
           if(this.$common.isEmpty(this.supplierInfo[index].currency)){
              this.$message.warning($i18nMy.t('币种不能为空'))
@@ -1070,7 +1082,7 @@
         this._getSupplierArrivalDate()
         this.detailInfo.splice(this.detailInfo.length) // 触发更新
         this.supplierInfo.splice(this.supplierInfo.length)
-        
+
         if (this.taskDefKey == 'GroupFA_2') {
           var alertMsg = this.topPage.$refs.form.getTotalAmtChangeMsg()
           if (alertMsg!=''){

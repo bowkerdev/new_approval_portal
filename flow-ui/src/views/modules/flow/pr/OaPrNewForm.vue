@@ -80,8 +80,8 @@
             :disabled="!(parentForm==='TaskForm'&&((procDefKey==='prpo_non_it'&&isFC) || (!formReadOnly&&procDefKey!='prpo_non_it')))"  label-width="140px" >
             <!-- v-if="formReadOnly || isFC || procDefKey!='prpo_non_it'" label-width="140px" > -->
           <el-col :span="12" >
-              <!-- <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}]">-->
-              <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[]">
+              <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[{required: (parentForm==='TaskForm'&&isFC), message:$i18nMy.t('不能为空'), trigger:'blur'}]">
+              <!-- <el-form-item label-width="220px" :label="$i18nMy.t('签约方公司')" prop="legalEntity" :rules="[]"> -->
               <el-select v-model="inputForm.legalEntity" :placeholder="$i18nMy.t('由FC编辑')" filterable style="width: 100%;" :clearable="true">
                 <el-option v-for="item in $dictUtils.getDictListWithKey('all_company')" :key="item.value" :label="item.label"
                   :value="item.value">
@@ -269,7 +269,7 @@
             </div>
           </el-form-item>
         </el-col>
-        <el-col :span="12" v-if="inputForm.oldTotalVatBaseAmount != inputForm.totalVatBaseAmount">
+        <el-col :span="12" v-if="taskDefKey=='GroupFA_2' && inputForm.oldTotalVatBaseAmount != inputForm.totalVatBaseAmount">
           <el-form-item label-width="220px" :label="$i18nMy.t('提示')" style="color: red;">
             {{getTotalAmtChangeMsg()}}
           </el-form-item>
@@ -624,7 +624,7 @@
       },
       getTotalAmtChangeMsg(){
         if (this.inputForm.oldTotalVatBaseAmount != this.inputForm.totalVatBaseAmount){
-          return $i18nMy.t('总金额变更前:') + this.inputForm.oldTotalVatBaseAmount + ', ' + $i18nMy.t('变更后:') + this.inputForm.totalVatBaseAmount +', '+ $i18nMy.t('变更幅度:') + this.getTotalAmtChangeRate()
+          return $i18nMy.t('总金额变更前:') + $common.toThousands(this.inputForm.oldTotalVatBaseAmount.toFixed(2)) + ', ' + $i18nMy.t('变更后:') + $common.toThousands(this.inputForm.totalVatBaseAmount.toFixed(2)) +', ' + $i18nMy.t('变更幅度:') + this.getTotalAmtChangeRate() + '(' + ((this.inputForm.oldTotalVatBaseAmount < this.inputForm.totalVatBaseAmount)?'increased':'decreased') + ')'
         }else{
           return ''
         }

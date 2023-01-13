@@ -732,11 +732,14 @@ public class FlowTaskService extends BaseService {
         	vars.put("gm_approved_total_base_amount", Double.valueOf(String.valueOf(task.getProcessVariables().get("total_base_amount")))); 
         	vars.put("gm_approved_total_vat_base_amount", Double.valueOf(String.valueOf(task.getProcessVariables().get("total_vat_base_amount")))); 
         }
-                
+        
         if (!UserUtils.getUser().getId().equals(task.getAssignee())) { //my delegate 
-        	taskService.setVariableLocal(flow.getTaskId (), "owner", task.getAssignee());
-        	taskService.setAssignee(flow.getTaskId(), UserUtils.getUser().getId());
+        	if ( !flow.getComment().getFullMessage().contains("Skip for same approver") ) {
+	        	taskService.setVariableLocal(flow.getTaskId (), "owner", task.getAssignee());
+	        	taskService.setAssignee(flow.getTaskId(), UserUtils.getUser().getId());
+            }
         }
+        
         // owner不为空说明可能存在委托任务
         if (StringUtils.isNotBlank (task.getOwner ())) {
             DelegationState delegationState = task.getDelegationState ();
@@ -796,10 +799,10 @@ public class FlowTaskService extends BaseService {
 			}*/
 			
 			// 如果下一环节的审批人和上一环节相同,那么下一环节会自动审批通过
-			if(!todo.getProcessDefinitionId().contains("QKPI_EXCEPTION")){
+			if (todo.getProcessDefinitionId().startsWith("prpo")) {
 				for (IdentityLink identityLink : list){ 
 					if ("COMMENT__flow_agree".equals(flow.getComment().getCommentType()) && identityLink.getType().equals("assignee") && identityLink.getUserId().equals(vars.get("lastAssignee"))){
-						if(!"EC".equals(todo.getName()) && !"BOD".equals(todo.getName()) && !"modify PR".equals(todo.getName()) && !todo.getName().startsWith("test")){
+						if (StringUtils.isEmpty(DictUtils.getDictLabel(todo.getName(), "cannot_skip_step", ""))) {
 							flow.setTaskId(todo.getId());
 							flow.getComment().setFullMessage("Skip for same approver");
 							flow.setTaskDefKey(todo.getTaskDefinitionKey());
@@ -1021,7 +1024,53 @@ public class FlowTaskService extends BaseService {
             managementService.executeCommand (new BackUserTaskCmd (runtimeService,
                     taskId, backTaskDefKey));
         }
+        
+        this.triggerAferComplete(task, comment);
     }
+    
+	private void triggerAferComplete(Task task, TaskComment comment) {
+		// 如果候选人只有一个，自动签收任务
+		TaskQuery testQuery = taskService.createTaskQuery().processInstanceId(task.getProcessInstanceId());
+		List<Task> todoList = testQuery.list();
+		for (Task todo : todoList) {
+			List<IdentityLink> list = taskService.getIdentityLinksForTask(todo.getId());
+			// 如果下一环节的审批人和上一环节相同,那么下一环节会自动审批通过
+			if (todo.getProcessDefinitionId().startsWith("prpo")) {
+				for (IdentityLink identityLink : list) {
+					String flag = flowMapper.checkIfSkip(task.getProcessInstanceId(), todo.getTaskDefinitionKey(),
+							identityLink.getUserId());
+					if (!"1".equals(flag)) {
+						if (StringUtils.isEmpty(DictUtils.getDictLabel(todo.getName(), "cannot_skip_step", ""))) {
+							Flow flow = new Flow();
+							flow.setTaskId(todo.getId());
+							comment.setFullMessage("Skip for same approver");
+							comment.setCommentType("COMMENT__flow_agree");
+							comment.setStatus("Approve");
+							flow.setComment(comment); 
+							flow.setTaskDefKey(todo.getTaskDefinitionKey());
+							flow.setProcInsId(task.getProcessInstanceId());
+							flow.setProcDefId(task.getProcessDefinitionId());
+							flow.setBusinessTable("oa_pr_new");
+
+							Map map = new HashMap();
+							map.put("sql", "select id from oa_pr_new where proc_ins_id = '"
+									+ task.getProcessInstanceId() + "'");
+							List<Map> bizList = flowMapper.querySql(map);
+							if (bizList != null && bizList.size() > 0) {
+								Map bizMap = bizList.get(0);
+								flow.setBusinessId((String) bizMap.get("id"));
+							} else {
+								throw new RuntimeException("System error: cannot find oa_pr_new data");
+							}
+
+							this.complete(flow, Maps.newHashMap());
+						}
+					}
+				}
+			}
+
+		}
+	}
 
 
     /**

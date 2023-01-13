@@ -210,9 +210,9 @@
             <el-table-column prop="uploadedDate" width="180"  align="left" :label="$i18nMy.t('上传日期')"   >
             </el-table-column>
 
-            <el-table-column width="120" align="left" :label="$i18nMy.t('操作')" class-name="td-operate">
-              <template slot-scope="{row}" v-if="row.uploadedBy==$store.state.user.name">
-                <el-button  type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
+            <el-table-column width="140" align="left" :label="$i18nMy.t('操作')" class-name="td-operate">
+              <template slot-scope="{row}" v-if="row.uploadedBy==$store.state.user.name && row.uploadedDate>oldDataMaxDate">
+                <el-button type="danger" size="small" icon="el-icon-delete" @click="delTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
                 <el-button v-if="row.edit" type="success" size="small" icon="el-icon-check" @click="confirmTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
                 <el-button v-if="!row.edit" type="primary" size="small" icon="el-icon-edit" @click="changeTabListGroup(row)" style="float: right;margin-left: 5px;"></el-button>
               </template>
@@ -240,6 +240,7 @@
         flowStage:'start',
         detailInfo:[],
         supplementaryDoc:[],
+        oldDataMaxDate: '',
         attachmentsArra:{},
         inputForm: {
           id: '',
@@ -327,6 +328,7 @@
               }
               this.detailInfo = JSON.parse(this.inputForm.detailInfo)
 
+
               if(!this.$common.isEmpty(this.inputForm.supplementaryDoc)){
                 this.supplementaryDoc = JSON.parse(this.inputForm.supplementaryDoc)
                 this.supplementaryDoc.sort(function(x, y){
@@ -335,7 +337,10 @@
 
                 for(var i=0;i<this.supplementaryDoc.length;i++){
                   if(this.supplementaryDoc[i].id ==null){
-                    this.supplementaryDoc[i].id = this.$common.uuid();
+                    this.supplementaryDoc[i].id = this.$common.uuid()
+                  }
+                  if (this.oldDataMaxDate == '' || this.supplementaryDoc[i].uploadedDate > this.oldDataMaxDate){
+                    this.oldDataMaxDate = this.supplementaryDoc[i].uploadedDate
                   }
                   this.attachmentsArra[this.supplementaryDoc[i].id] = []
                   let arr = this.supplementaryDoc[i].attachment.split("|")
@@ -346,7 +351,7 @@
                     this.attachmentsArra[this.supplementaryDoc[i].id].push({name: decodeURIComponent(item.substring(item.lastIndexOf('/') + 1)), url: item})
                   }
                 }
-              }
+              } 
               this.loading = false
             })
           })

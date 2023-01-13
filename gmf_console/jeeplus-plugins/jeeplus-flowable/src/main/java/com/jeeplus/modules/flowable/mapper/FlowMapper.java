@@ -48,6 +48,8 @@ public interface FlowMapper extends BaseMapper<Flow> {
 	List<ProcessVo> findAllList(ProcessVo processVo);
 
 	String getLatestProcessDefinitionId(@Param("procDefKey") String procDefKey);
+	
+	String checkIfSkip(@Param("procInsId") String procInsId, @Param("taskDefKey") String taskDefKey, @Param("assignee") String assignee);
 
 	List<ProcessVo> findHistoryList(ProcessVo entity);
 

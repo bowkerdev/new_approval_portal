@@ -801,7 +801,8 @@ public class FlowTaskService extends BaseService {
 			// 如果下一环节的审批人和上一环节相同,那么下一环节会自动审批通过
 			if (todo.getProcessDefinitionId().startsWith("prpo")) {
 				for (IdentityLink identityLink : list){ 
-					if ("COMMENT__flow_agree".equals(flow.getComment().getCommentType()) && identityLink.getType().equals("assignee") && identityLink.getUserId().equals(vars.get("lastAssignee"))){
+					// if ("COMMENT__flow_agree".equals(flow.getComment().getCommentType()) && identityLink.getType().equals("assignee") && identityLink.getUserId().equals(vars.get("lastAssignee"))){
+					if (!StringUtils.isEmpty(DictUtils.getDictLabel(flow.getComment().getCommentType(), "agree_action", "")) && identityLink.getType().equals("assignee") && identityLink.getUserId().equals(vars.get("lastAssignee"))){
 						if (StringUtils.isEmpty(DictUtils.getDictLabel(todo.getName(), "cannot_skip_step", ""))) {
 							flow.setTaskId(todo.getId());
 							flow.getComment().setFullMessage("Skip for same approver");

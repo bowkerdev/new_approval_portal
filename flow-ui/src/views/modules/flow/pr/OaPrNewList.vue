@@ -354,10 +354,6 @@
     },
     activated () {
       var _that=this;
-      if (!this.hasPermission('flow:pr:geL13')){
-        _that.searchForm.createBy.id = this.$store.state.user.id
-      }
-
       _that.searchForm.isDraft = (_that.$route.query.isDraft || '')
       if (_that.searchForm.isDraft == '2') { //查已结束流程
         _that.searchForm.status = 'End'
@@ -377,6 +373,13 @@
       },
       // 获取数据列表
       refreshList () {
+        if (!this.hasPermission('flow:pr:geL13')){
+          if (!this.$store.state.user.id) {
+            return
+          }
+          this.searchForm.createBy.id = this.$store.state.user.id
+        }
+
         this.loading = true
         this.$http({
           url: '/flow/pr/oaPrNew/list',

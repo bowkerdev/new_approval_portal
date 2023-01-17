@@ -605,7 +605,11 @@
       'inputForm.totalVatBaseAmount': {
         handler(newV,oldv) {
           if (newV!=null && newV>=5000000 && this.taskDefKey=="CeoOffice") {
-            this.topPage.changeButtons()
+            this.topPage.changeButtons("ge5M")
+          } else if (this.topPage.isReApproval) {
+            this.topPage.changeButtons("reApproval")
+          } else {
+            this.topPage.changeButtons("common")
           }
         }
       }

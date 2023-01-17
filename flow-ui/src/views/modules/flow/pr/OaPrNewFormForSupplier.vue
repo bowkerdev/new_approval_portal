@@ -547,6 +547,7 @@
             }).then(({
               data
             }) => {
+              topPage.isButtonShow = true
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
               if (this.isCopy) {
                 this.inputForm.id = ''
@@ -1004,13 +1005,15 @@
            this.$message.warning($i18nMy.t('供应商不能为空'))
            return
         }
-        for(var i=0;i<this.supplierInfo.length;i++){
-          debugger 
+
+        // Connie 提出允许供应商名重复便于后续数据分析，建议用户在remarks字段做重录说明 2023-01-16
+        /* for(var i=0;i<this.supplierInfo.length;i++){
+          debugger
           if (this.supplierInfo[index].supplierName == this.supplierInfo[i].supplierName && index!=i) {
             this.$message.warning($i18nMy.t('供应商名称不能重复'))
             return
           }
-        }
+        } */
 
         for(var i=0;i<this.supplierInfo[index].docList.length;i++){
           if(this.$common.isEmpty(this.supplierInfo[index].currency)){

@@ -309,7 +309,8 @@ export function syncDownloadPost (url, params,pThis) {
     withCredentials:false,
     headers:{'Content-Type': 'application/json; charset=utf-8',
     "token":ssoToken,
-    "tokenType":tokenType
+    "tokenType":tokenType,
+	"language":localStorage.getItem('lang')||'en-US'
     },
     data:param
   }).then(response => {

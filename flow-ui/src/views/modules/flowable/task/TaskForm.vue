@@ -112,8 +112,8 @@
       </el-dialog>
     </div>
 
-    <div class="FlowFormFooter" :class="{ 'full-width': defaultLayout == 'dropdown-top' }">
-      <template v-for="(button, index) in buttons">
+    <div class="FlowFormFooter" :class="{ 'full-width': defaultLayout == 'dropdown-top' }" v-if="isButtonShow">
+      <template v-for="(button, index) in buttons" >
         <template v-show="button.isHide === '0'">
           <el-button :type="buttonType(button.code)" v-if="button.code !== '_flow_print'" :key="index"
             @click="submit(button, buttons)" v-noMoreClick plain>{{ $i18nMy.t(button.name) }}</el-button>
@@ -121,6 +121,9 @@
             @click="submit(button, buttons)" v-noMoreClick plain>{{ $i18nMy.t(button.name) }}</el-button>
         </template>
       </template>
+    </div>
+    <div class="FlowFormFooter" :class="{ 'full-width': defaultLayout == 'dropdown-top' }" v-else="isButtonShow">
+      <div style="height:40px; color: gray; margin-top: 10px; font-size: 10pt;"> {{ $i18nMy.t('界面正在加载中，请稍后...') }}</div>
     </div>
   </div>
 
@@ -214,11 +217,17 @@ export default {
         }
       }).then(({ data }) => {
         if (data.success) {
-          this.buttons = data.taskDefExtension.flowButtonList
-          if (this.taskDefKey == 'DocAdd' && this.$store.state.user.id == this.applyUserId) {
-            this.buttons.push({ "name": "终止", "code": "_flow_stop", "isHide": "0" })
+          if (this.formUrl.indexOf("flow/pr/") > 0 && this.taskDefKey == 'CeoOffice') { // 很特殊，按钮需要界面加载完成后出现
+            this.buttonsBackup = data.taskDefExtension.flowButtonList
+            this.buttonsBackup.push({ "name": "关闭", "code": "_flow_close", "isHide": "0" })
+          } else {
+            this.buttons = data.taskDefExtension.flowButtonList
+            if (this.taskDefKey == 'DocAdd' && this.$store.state.user.id == this.applyUserId) {
+              this.buttons.push({ "name": "终止", "code": "_flow_stop", "isHide": "0" })
+            }
+            this.buttons.push({ "name": "关闭", "code": "_flow_close", "isHide": "0" })
           }
-          this.buttons.push({ "name": "关闭", "code": "_flow_close", "isHide": "0" })
+
         }
       })
     }
@@ -236,6 +245,8 @@ export default {
       for (var index in prTopMgmtLevelList) {
         this.prTopMgmtLevelMap[prTopMgmtLevelList[index].value] = prTopMgmtLevelList[index].label
       }
+    } else {
+      this.isButtonShow = true
     }
 
     // 读取历史任务列表
@@ -248,6 +259,9 @@ export default {
           for (var index in this.historicTaskList) { // 检查是否大于L13
             if (this.historicTaskList[index].histIns.activityId == 'GroupFA'){
               this.isAfterL13 = true
+            } else if (this.historicTaskList[index].histIns.activityId == 'GroupFA_2'){
+              this.isAfterL13 = true
+              this.isReApproval = true
               break
             }
           }
@@ -290,7 +304,7 @@ export default {
     buttonType(code) {
       var red = ['disagree', '_flow_reject', '_flow_back_modify', '_flow_stop']
       if (red.indexOf(code) > -1) { return 'danger' }
-      var green = ['_flow_start','_flow_agree', '_flow_back_last_approver', 'optionA', 'optionB', 'optionC']
+      var green = ['_flow_start','_flow_agree', '_flow_back_last_approver', 'optionA', 'optionB', 'optionC', 'optionD', 'optionE']
       if (green.indexOf(code) > -1) { return 'success' }
       var yellow = ['_flow_back_doc_add','_flow_back_on_hold']
       if (yellow.indexOf(code) > -1) { return 'warning' }
@@ -338,15 +352,35 @@ export default {
       })
       this.initChildFrom(this.$route.query)
     },
-    changeButtons() {
-      if (this.taskDefKey == "CeoOffice") { // BOD
+    changeButtons(flag) {
+      if (this.taskDefKey == "CeoOffice") {
         let buttons2 = []
-        buttons2.push({ "name": "To BOD", "code": "_flow_agree", "isHide": "0" })
-        for (var index in this.buttons) {
-          if (this.buttons[index].code != 'optionA' && this.buttons[index].code != 'optionB' && this.buttons[index].code != 'optionC') {
-            buttons2.push(this.buttons[index])
+
+        if (flag == "ge5M") {
+          buttons2.push({ "name": "To BOD", "code": "_flow_agree", "isHide": "0" })
+          for (var index in this.buttonsBackup) {
+            if (this.buttonsBackup[index].code != 'optionA'
+              && this.buttonsBackup[index].code != 'optionB'
+              && this.buttonsBackup[index].code != 'optionC'
+              && this.buttonsBackup[index].code != 'optionD'
+              && this.buttonsBackup[index].code != 'optionE') {
+              buttons2.push(this.buttonsBackup[index])
+            }
+          }
+        } else if (flag == "reApproval") {
+          for (var index in this.buttonsBackup) {
+            if (this.buttonsBackup[index].code != 'optionB') { // To CEO & CFO & OD
+              buttons2.push(this.buttonsBackup[index])
+            }
+          }
+        } else {
+          for (var index in this.buttonsBackup) {
+            if (this.buttonsBackup[index].code != 'optionD' && this.buttonsBackup[index].code != 'optionE') {
+              buttons2.push(this.buttonsBackup[index])
+            }
           }
         }
+
         this.buttons = buttons2
       }
     },
@@ -475,6 +509,10 @@ export default {
       this.dialogFormVisible = true
     },
     doDocAdd() {
+      if (this.docAddForm.selectedAssigneeId == "") {
+        this.$message.warning($i18nMy.t("请选择资料补充人"))
+        return
+      }
       this.auditForm.assignee = this.docAddForm.selectedAssigneeId
       if (this.auditForm.message == "") {
         this.auditForm.message = this.docAddForm.docAddComment
@@ -774,9 +812,12 @@ export default {
       parallelRoleMap: {},
       prTopMgmtLevelMap: {},
       buttons: [],
+      buttonsBackup: [],
       isCC: false,
+      isButtonShow: false,
       isAssign: false,
       isAfterL13: false,  // pr only
+      isReApproval: false,  // pr only
       printObj: {
         id: 'printForm',
         popTitle: '',

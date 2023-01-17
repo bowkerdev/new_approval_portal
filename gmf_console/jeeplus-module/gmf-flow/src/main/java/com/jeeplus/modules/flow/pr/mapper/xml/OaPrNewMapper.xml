@@ -70,7 +70,8 @@
 						left join sys_user a3 on a3.id = a2.ASSIGNEE_
 					where act_type_ IN ( 'userTask', 'endEvent' ) 
 						and not exists (select 1 from act_hi_actinst where act_type_ IN ( 'userTask', 'endEvent' ) and PROC_INST_ID_=a1.PROC_INST_ID_ 
-						and (ifnull( END_TIME_, '2099-01-01' )>ifnull( a1.END_TIME_, '2099-01-01' ) or START_TIME_>a1.START_TIME_) )
+						and (ifnull( END_TIME_, '2099-01-01' )>ifnull( a1.END_TIME_, '2099-01-01' ) or START_TIME_>a1.START_TIME_) ) 
+				    group by a1.PROC_INST_ID_
 				  ) b on a.proc_ins_id = b.PROC_INST_ID_
 	</sql>
 

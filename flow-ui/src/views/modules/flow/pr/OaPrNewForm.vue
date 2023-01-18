@@ -269,7 +269,7 @@
             </div>
           </el-form-item>
         </el-col>
-        <el-col :span="12" v-if="taskDefKey=='GroupFA_2' && inputForm.oldTotalVatBaseAmount != inputForm.totalVatBaseAmount">
+        <el-col :span="12" v-if="parentForm==='TaskForm' && hasPermission('flow:pr:geL13') && inputForm.oldTotalVatBaseAmount != inputForm.totalVatBaseAmount">
           <el-form-item label-width="220px" :label="$i18nMy.t('提示')" style="color: red;">
             {{getTotalAmtChangeMsg()}}
           </el-form-item>
@@ -604,6 +604,9 @@
       },
       'inputForm.totalVatBaseAmount': {
         handler(newV,oldv) {
+          if (!this.topPage.changeButtons) {
+            return
+          }
           if (newV!=null && newV>=5000000 && this.taskDefKey=="CeoOffice") {
             this.topPage.changeButtons("ge5M")
           } else if (this.topPage.isReApproval) {
@@ -648,7 +651,7 @@
         this.inputForm.baseCurrency= 'HKD'//this.$dictUtils.getDictList('pr_currency')[0].value
         this.inputForm.vat = null
       },
-      init(query, parentPage, topPage) {
+      init(query, parentPage, topPage, data) {
         // 重置表单
         this.$refs.inputForm.resetFields();
         this.checkFormList.forEach(formRef => {
@@ -658,52 +661,8 @@
           }
         });
 
-        if (query&&query.businessId) {
-          this.loading = true
-          this.inputForm.id = (query.businessId).replace("__copy","")
-          if (this.inputForm.id != query.businessId){ // copy
-            this.isCopy = true
-          }
-          this.$nextTick(() => {
-            this.$http({
-              url: `/flow/pr/oaPrNew/queryById?id=${this.inputForm.id}`,
-              method: 'get'
-            }).then(({
-              data
-            }) => {
-              this.inputForm = this.recover(this.inputForm, data.oaPrNew)
-              if (topPage && topPage.auditForm && data.oaPrNew.remarks && data.oaPrNew.remarks.indexOf(query.taskDefKey+'##')==0) {
-                topPage.auditForm.message = (data.oaPrNew.remarks).replace(query.taskDefKey+'##','')
-              }
-              this.inputForm.oldTotalVatBaseAmount = data.oaPrNew.totalVatBaseAmount // 保存原始总金额，用于判断变更幅度是否大于5%
-              this.inputForm.createDate = this.$common.formatTime(new Date(new Date(data.oaPrNew.createDate).getTime() + 8*3600*1000))
-              this.inputForm.technicalAdvisor = this.toArray(this.inputForm.technicalAdvisor)
-              this.inputForm.procDefKey = query.procDefKey
-              this.ifSiteChange = true;
-              this.siteChange()
-              this.inputForm.requesterDepartment = data.oaPrNew.requesterDepartment
-              if (this.isCopy) {
-                if (query.status && query.status == "reopen") {
-                  this.inputForm.id = ''
-                  this.inputForm.applicationNo = this.inputForm.applicationNo + '-REOPEN'
-                }else {
-                  this.inputForm.id = ''
-                  this.inputForm.applicationNo = ''
-                }
-              }
-              if (!this.$common.isEmpty(this.inputForm.detailInfo)){
-                this.detailInfo = JSON.parse(this.inputForm.detailInfo)
-                this.activeName='0'
-              }
-              this.loading = false
-            })
-          })
-        }
-        else{
-          Object.assign(this.$data, this.$options.data.call(this))
-          this.inputForm.procDefKey = query.procDefKey
-          this.initCreateBy()
-        }
+        Object.assign(this.$data, this.$options.data.call(this))
+
         this.procDefKey = query.procDefKey
         this.taskDefKey = query.taskDefKey + ''
 
@@ -730,6 +689,58 @@
         }
         this.parentPage = parentPage
         this.topPage = topPage
+
+        if (query&&query.businessId) {
+          this.loading = true
+          this.inputForm.id = (query.businessId).replace("__copy","")
+          if (this.inputForm.id != query.businessId){ // copy
+            this.isCopy = true
+          }
+
+          // 处理 data start
+          this.inputForm = this.recover(this.inputForm, data.oaPrNew)
+          if (topPage && topPage.auditForm && data.oaPrNew.remarks && data.oaPrNew.remarks.indexOf(query.taskDefKey+'##')==0) {
+            topPage.auditForm.message = (data.oaPrNew.remarks).replace(query.taskDefKey+'##','')
+          }
+
+          this.inputForm.oldTotalVatBaseAmount = data.oaPrNew.totalVatBaseAmount  // 保存原始总金额，用于判断变更幅度是否大于5%
+
+          if (this.hasPermission('flow:pr:geL13') && !this.isFA) {
+            let _that=this
+            this.$dictUtils.getSqlDictList('GET_OLD_TOTAL_AMOUNT', {procInsId: data.oaPrNew.procInsId}, function(data1){
+              if (data1.length > 0) {
+                _that.inputForm.oldTotalVatBaseAmount = data1[0].oldTotalAmount
+              }
+            })
+          }
+
+          // this.inputForm.createDate = this.$common.formatTime(new Date(new Date(data.oaPrNew.createDate).getTime() + 8*3600*1000))
+          this.inputForm.technicalAdvisor = this.toArray(this.inputForm.technicalAdvisor)
+          this.inputForm.procDefKey = query.procDefKey
+          this.ifSiteChange = true;
+          this.siteChange()
+          this.inputForm.requesterDepartment = data.oaPrNew.requesterDepartment
+          if (this.isCopy) {
+            if (query.status && query.status == "reopen") {
+              this.inputForm.id = ''
+              this.inputForm.applicationNo = this.inputForm.applicationNo + '-REOPEN'
+            }else {
+              this.inputForm.id = ''
+              this.inputForm.applicationNo = ''
+            }
+          }
+          if (!this.$common.isEmpty(this.inputForm.detailInfo)){
+            this.detailInfo = JSON.parse(this.inputForm.detailInfo)
+            this.activeName='0'
+          }
+          this.loading = false
+          // 处理 data end
+        }
+        else{
+          this.inputForm.procDefKey = query.procDefKey
+          this.initCreateBy()
+        }
+
       },
       toArray(str) {
           if (typeof str === 'undefined' || str === null || str === "") {

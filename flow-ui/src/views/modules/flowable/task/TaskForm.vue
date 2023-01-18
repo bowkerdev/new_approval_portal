@@ -217,22 +217,16 @@ export default {
         }
       }).then(({ data }) => {
         if (data.success) {
-          if (this.formUrl.indexOf("flow/pr/") > 0 && this.taskDefKey == 'CeoOffice') { // 很特殊，按钮需要界面加载完成后出现
-            this.buttonsBackup = data.taskDefExtension.flowButtonList
-            this.buttonsBackup.push({ "name": "关闭", "code": "_flow_close", "isHide": "0" })
-          } else {
-            this.buttons = data.taskDefExtension.flowButtonList
-            if (this.taskDefKey == 'DocAdd' && this.$store.state.user.id == this.applyUserId) {
-              this.buttons.push({ "name": "终止", "code": "_flow_stop", "isHide": "0" })
-            }
-            this.buttons.push({ "name": "关闭", "code": "_flow_close", "isHide": "0" })
+          this.buttons = data.taskDefExtension.flowButtonList
+          if (this.taskDefKey == 'DocAdd' && this.$store.state.user.id == this.applyUserId) {
+            this.buttons.push({ "name": "终止", "code": "_flow_stop", "isHide": "0" })
           }
-
+          this.buttons.push({ "name": "关闭", "code": "_flow_close", "isHide": "0" })
         }
       })
     }
 
-    if (this.formUrl.indexOf("flow/pr/") > 0) {
+    if (this.status != 'start' && this.formUrl.indexOf("flow/pr/") > 0) {
       let that_ = this
       // 读取并行节点的人员列表
       this.$dictUtils.getSqlDictList('GET_PARALLEL_PR_ROLE_LIST', {}, function (data) {
@@ -245,7 +239,9 @@ export default {
       for (var index in prTopMgmtLevelList) {
         this.prTopMgmtLevelMap[prTopMgmtLevelList[index].value] = prTopMgmtLevelList[index].label
       }
-    } else {
+    }
+
+    if (this.status === 'start' || this.formUrl.indexOf("flow/pr/") < 0 || this.formUrl.indexOf("OaPrNewFormForDoc") > 0 ) {
       this.isButtonShow = true
     }
 
@@ -302,13 +298,7 @@ export default {
     },
 
     buttonType(code) {
-      var red = ['disagree', '_flow_reject', '_flow_back_modify', '_flow_stop']
-      if (red.indexOf(code) > -1) { return 'danger' }
-      var green = ['_flow_start','_flow_agree', '_flow_back_last_approver', 'optionA', 'optionB', 'optionC', 'optionD', 'optionE']
-      if (green.indexOf(code) > -1) { return 'success' }
-      var yellow = ['_flow_back_doc_add','_flow_back_on_hold']
-      if (yellow.indexOf(code) > -1) { return 'warning' }
-      return 'primary'
+      return this.$dictUtils.getDictLabel("button_color", code, "primary")
     },
     initChildFrom(query) {
       // query.parentForm = "TaskForm"
@@ -358,25 +348,25 @@ export default {
 
         if (flag == "ge5M") {
           buttons2.push({ "name": "To BOD", "code": "_flow_agree", "isHide": "0" })
-          for (var index in this.buttonsBackup) {
-            if (this.buttonsBackup[index].code != 'optionA'
-              && this.buttonsBackup[index].code != 'optionB'
-              && this.buttonsBackup[index].code != 'optionC'
-              && this.buttonsBackup[index].code != 'optionD'
-              && this.buttonsBackup[index].code != 'optionE') {
-              buttons2.push(this.buttonsBackup[index])
+          for (var index in this.buttons) {
+            if (this.buttons[index].code != 'optionA'
+              && this.buttons[index].code != 'optionB'
+              && this.buttons[index].code != 'optionC'
+              && this.buttons[index].code != 'optionD'
+              && this.buttons[index].code != 'optionE') {
+              buttons2.push(this.buttons[index])
             }
           }
         } else if (flag == "reApproval") {
-          for (var index in this.buttonsBackup) {
-            if (this.buttonsBackup[index].code != 'optionB') { // To CEO & CFO & OD
-              buttons2.push(this.buttonsBackup[index])
+          for (var index in this.buttons) {
+            if (this.buttons[index].code != 'optionB') { // To CEO & CFO & OD
+              buttons2.push(this.buttons[index])
             }
           }
         } else {
-          for (var index in this.buttonsBackup) {
-            if (this.buttonsBackup[index].code != 'optionD' && this.buttonsBackup[index].code != 'optionE') {
-              buttons2.push(this.buttonsBackup[index])
+          for (var index in this.buttons) {
+            if (this.buttons[index].code != 'optionD' && this.buttons[index].code != 'optionE') {
+              buttons2.push(this.buttons[index])
             }
           }
         }
@@ -812,7 +802,6 @@ export default {
       parallelRoleMap: {},
       prTopMgmtLevelMap: {},
       buttons: [],
-      buttonsBackup: [],
       isCC: false,
       isButtonShow: false,
       isAssign: false,

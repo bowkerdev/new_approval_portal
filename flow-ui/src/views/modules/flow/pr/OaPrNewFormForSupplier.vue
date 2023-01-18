@@ -529,25 +529,44 @@
       //this.init({})
     },
     methods: {
-      init(query, parentPage, topPage) {
+      init(query, parentPage, topPage, data) {
+        Object.assign(this.$data, this.$options.data.call(this))
+        this.procDefKey = query.procDefKey
+        this.taskDefKey = query.taskDefKey
+        if (query.status) {
+          this.status = query.status
+        }
+        if (query.taskDefKey && query.taskDefKey.indexOf('FC')>0) {
+          this.isFC = true
+        }
+        if (query.taskDefKey && query.taskDefKey.indexOf('FA')>0) {
+          this.isFA = true
+        }
+        if (query.parentForm) {
+          this.parentForm = query.parentForm
+        }
+        if (query.processStatus) {
+          this.processStatus = query.processStatus
+        }
+        this.parentPage = parentPage
+        this.topPage = topPage
+
         this.$dictUtils.getSqlDictList('GET_T2_EXCHANGE_RATE',{},(data1) => {
           this.exRateT2List = data1
         })
         if (query&&query.businessId) {
-          Object.assign(this.$data, this.$options.data.call(this))
           this.loading = true
           this.inputForm.id = (query.businessId).replace("__copy","")
           if (this.inputForm.id != query.businessId){ // copy
             this.isCopy = true
           }
-          this.$nextTick(() => {
+          /* this.$nextTick(() => {
             this.$http({
               url: `/flow/pr/oaPrNew/queryById?id=${this.inputForm.id}`,
               method: 'get'
             }).then(({
               data
-            }) => {
-              topPage.isButtonShow = true
+            }) => { */
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
               if (this.isCopy) {
                 this.inputForm.id = ''
@@ -595,32 +614,12 @@
               if(tmpInputForm !=null &&tmpInputForm.id !=null){
                 this.inputForm = this.parentPage.getOaPrNewFormData()
               }
-
+              topPage.isButtonShow = true
               this.loading = false
-            })
-          })
-        }else{
-          Object.assign(this.$data, this.$options.data.call(this))
-        }
-        this.procDefKey = query.procDefKey
-        this.taskDefKey = query.taskDefKey
-        if (query.status) {
-          this.status = query.status
-        }
-        if (query.taskDefKey && query.taskDefKey.indexOf('FC')>0) {
-          this.isFC = true
-        }
-        if (query.taskDefKey && query.taskDefKey.indexOf('FA')>0) {
-          this.isFA = true
-        }
-        if (query.parentForm) {
-          this.parentForm = query.parentForm
-        }
-        if (query.processStatus) {
-          this.processStatus = query.processStatus
-        }
-        this.parentPage = parentPage
-        this.topPage = topPage
+            /* })
+          }) */
+        } 
+
       },
 
       canViewSupplier(item){
@@ -883,15 +882,18 @@
 
         this.inputForm.totalVatBaseAmount = parseFloat(this.inputForm.totalVatBaseAmount.toFixed(2))
         this.inputForm.totalBaseAmount = parseFloat(this.inputForm.totalBaseAmount.toFixed(2))
-        this.inputForm.contractCurrency =  this.detailInfo[0].currency
-        this.inputForm.exRate = this.detailInfo[0].exRate
-        for(var i=0;i< this.detailInfo.length;i++){
-          if(this.detailInfo[i].currency !=null &&
-             this.detailInfo[i].currency != this.inputForm.contractCurrency){
-            this.inputForm.contractCurrency="other"
-            this.inputForm.exRate=null
-            this.inputForm.totalVatContractAmount = ""
-            this.inputForm.totalContractAmount = ""
+
+        if (this.detailInfo.length > 0) {
+          this.inputForm.contractCurrency =  this.detailInfo[0].currency
+          this.inputForm.exRate = this.detailInfo[0].exRate
+          for(var i=0;i< this.detailInfo.length;i++){
+            if(this.detailInfo[i].currency !=null &&
+               this.detailInfo[i].currency != this.inputForm.contractCurrency){
+              this.inputForm.contractCurrency="other"
+              this.inputForm.exRate=null
+              this.inputForm.totalVatContractAmount = ""
+              this.inputForm.totalContractAmount = ""
+            }
           }
         }
       },

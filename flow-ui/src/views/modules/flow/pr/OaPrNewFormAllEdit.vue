@@ -116,7 +116,7 @@
         this.$refs.oaPrNewFormForDoc.detailInfo=this.$refs.oaPrNewForm.detailInfo
         //setTimeout()
       },
-      updatePage2DataByDetailInfo(){ 
+      updatePage2DataByDetailInfo(){
         this.$refs.oaPrNewFormForSupplier.detailInfo = JSON.parse(JSON.stringify(this.$refs.oaPrNewForm.detailInfo))
         this.$refs.oaPrNewFormForSupplier.updateSupplierByDetailInfo()
         this.setPage1Data()
@@ -125,7 +125,7 @@
 
       init(query, parent) {
         this.activeName='oaPrNewForm'
-        this.businessId=query.businessId
+        this.businessId=(query.businessId).replace("__copy","")
         if(query.readOnly || query.formReadOnly) {
           this.isReadOnly = ( (query.readOnly || query.formReadOnly) == "true" )
         }
@@ -135,9 +135,23 @@
         if(query.parentForm) {
           this.parentForm = query.parentForm
         }
-        this.$refs.oaPrNewForm.init(query, this, parent)
-        this.$refs.oaPrNewFormForDoc.init(query, parent)
-        this.$refs.oaPrNewFormForSupplier.init(query, this, parent)
+
+        this.$refs.oaPrNewForm.loading = true
+        this.$refs.oaPrNewFormForDoc.loading = true
+        this.$refs.oaPrNewFormForSupplier.loading = true
+        this.$nextTick(() => {
+          this.$http({
+            url: `/flow/pr/oaPrNew/queryById?id=${this.businessId}`,
+            method: 'get'
+          }).then(({
+            data
+          }) => {
+            this.$refs.oaPrNewForm.init(query, this, parent, data)
+            this.$refs.oaPrNewFormForDoc.init(query, parent, data)
+            this.$refs.oaPrNewFormForSupplier.init(query, this, parent, data)
+          })
+        })
+
       },
       compArray(arr1,arr2){
         if(arr1.length != arr2.length){

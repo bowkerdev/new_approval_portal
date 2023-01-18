@@ -665,15 +665,17 @@ public class FlowTaskService extends BaseService {
     }
 
     
-    /* TODO
-     * private void logBizTable(Flow flow) {
+    private void logBizTable(Flow flow) {
     	if (StringUtils.isBlank(flow.getBusinessTable()) || StringUtils.isBlank(flow.getBusinessId()) || StringUtils.isBlank(flow.getTaskId()) ) { //参数不全
     		return;
     	}
     	
-    	if (flow.getBusinessTable().equals("oa_pr_new")) { // 目前只对 PR 流程做特殊处理 
+    	if (flow.getBusinessTable().equals("oa_pr_new")) { // 目前只对 PR 流程做特殊处理, 日志表名 为 flow.getBusinessTable() + "_log", 以log_id为pk， int自增长，最后两个字段为冗余task_id和task_def_key，以保证统一性
+    		Map map = new HashMap();
+            map.put("sql", "insert into "+flow.getBusinessTable()+"_log select null, a.*, '"+flow.getTaskId()+"', '"+flow.getTaskDefKey()+"' from "+flow.getBusinessTable()+" a where a.id = '"+flow.getBusinessId()+"'" );
+    		flowMapper.executeWriteSql(map);
     	}
-    }*/
+    }
 
     /**
      * 删除任务
@@ -716,7 +718,7 @@ public class FlowTaskService extends BaseService {
         
         //设置外置表单的流程变量
         this.setVarByTable(flow.getBusinessTable(), flow.getBusinessId(), vars);
-        // this.logBizTable(flow); // TODO 
+        this.logBizTable(flow); // TODO
 
         vars.put("lastTaskDefKey", flow.getTaskDefKey());  
         vars.put("lastAssignee", UserUtils.getUser().getId()); // 设置为上一环节审批人,如果下一环节的审批人和上一环节相同,那么下一环节会自动审批通过

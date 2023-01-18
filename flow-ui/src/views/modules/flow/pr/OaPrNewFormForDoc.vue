@@ -303,21 +303,28 @@
       //this.init()
     },
     methods: {
-      init(query, topPage) {
+      init(query, topPage, data) {
         this.supplementaryDoc=[]
+        if (query.processStatus) {
+          this.processStatus = query.processStatus
+        }
+        this.procDefKey = query.procDefKey
+        this.taskDefKey = query.taskDefKey + ''
+        this.topPage = topPage
+        
         if (query&&query.businessId) {
           this.loading = true
           this.inputForm.id = (query.businessId).replace("__copy","")
           if (this.inputForm.id != query.businessId){ // copy
             this.isCopy = true
           }
-          this.$nextTick(() => {
+          /* this.$nextTick(() => {
             this.$http({
               url: `/flow/pr/oaPrNew/queryById?id=${this.inputForm.id}`,
               method: 'get'
             }).then(({
               data
-            }) => {
+            }) => { */
               this.inputForm = this.recover(this.inputForm, data.oaPrNew)
               if (topPage && data.oaPrNew.remarks && data.oaPrNew.remarks.indexOf(query.taskDefKey+'##')==0) {
                 topPage.auditForm.message = (data.oaPrNew.remarks).replace(query.taskDefKey+'##','')
@@ -351,17 +358,12 @@
                     this.attachmentsArra[this.supplementaryDoc[i].id].push({name: decodeURIComponent(item.substring(item.lastIndexOf('/') + 1)), url: item})
                   }
                 }
-              } 
+              }
               this.loading = false
-            })
-          })
+            /* })
+          }) */
         }
-        if (query.processStatus) {
-          this.processStatus = query.processStatus
-        }
-        this.procDefKey = query.procDefKey
-        this.taskDefKey = query.taskDefKey + ''
-        this.topPage = topPage
+        
       },
 
       canViewTotalAmount(){

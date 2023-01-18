@@ -85,6 +85,9 @@ public class OaPrNew extends DataEntity<OaPrNew> {
 	private Double totalBaseAmount;		// 基础币种总价
 	@ExcelField(title="基础币种总价(VAT)", align=2, sort=29)
 	private Double totalVatBaseAmount;		// 基础币种总价
+	
+	private Double oldTotalVatBaseAmount;
+	
 	@ExcelField(title="申购目的", align=2, sort=30)
 	private String purchasePurpose;		// 申购目的
 	@ExcelField(title="ROI", align=2, sort=31)

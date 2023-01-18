@@ -47,6 +47,7 @@
 		a.base_currency AS "baseCurrency",
 		a.total_base_amount AS "totalBaseAmount",
 		a.total_vat_base_amount AS "totalVatBaseAmount",
+		<!-- (select total_vat_base_amount from oa_pr_new_log where proc_ins_id = a.proc_ins_id and log_id &lt; (select max(log_id) from oa_pr_new_log where proc_ins_id = a.proc_ins_id and task_def_key = 'GroupFA_2') order by log_id desc limit 1) AS "oldTotalVatBaseAmount", -->
 		a.purchase_purpose AS "purchasePurpose",
 		a.roi AS "roi",
 		a.no_budget_explain AS "noBudgetExplain",

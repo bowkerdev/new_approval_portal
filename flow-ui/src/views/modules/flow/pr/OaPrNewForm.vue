@@ -692,7 +692,7 @@
 
         if (query&&query.businessId) {
           this.loading = true
-          this.inputForm.id = (query.businessId).replace("__copy","")
+          this.inputForm.id = (query.businessId+"").replace("__copy","")
           if (this.inputForm.id != query.businessId){ // copy
             this.isCopy = true
           }

@@ -125,7 +125,7 @@
 
       init(query, parent) {
         this.activeName='oaPrNewForm'
-        this.businessId=(query.businessId).replace("__copy","")
+        this.businessId=(query.businessId+"").replace("__copy","")
         if(query.readOnly || query.formReadOnly) {
           this.isReadOnly = ( (query.readOnly || query.formReadOnly) == "true" )
         }

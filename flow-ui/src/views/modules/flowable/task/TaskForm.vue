@@ -253,11 +253,22 @@ export default {
         if (this.formUrl.indexOf("flow/pr/") > 0) {
           this.isAfterL13 = false
           for (var index in this.historicTaskList) { // 检查是否大于L13
+            /* if(index==this.historicTaskList.length-1){
+              this.oldDataMaxDate = data.historicTaskList[index].histIns.startTime
+            } */
             if (this.historicTaskList[index].histIns.activityId == 'GroupFA'){
               this.isAfterL13 = true
             } else if (this.historicTaskList[index].histIns.activityId == 'GroupFA_2'){
               this.isAfterL13 = true
               this.isReApproval = true
+              if (this.taskDefKey == 'CeoOffice_2') {
+                for (var index in this.buttons) {
+                  if (this.buttons[index].code == '_flow_agree') {
+                    this.buttons[index].name = 'Confirm to proceed'
+                    break
+                  }
+                }
+              }
               break
             }
           }
@@ -802,6 +813,7 @@ export default {
       parallelRoleMap: {},
       prTopMgmtLevelMap: {},
       buttons: [],
+      oldDataMaxDate: '',
       isCC: false,
       isButtonShow: false,
       isAssign: false,

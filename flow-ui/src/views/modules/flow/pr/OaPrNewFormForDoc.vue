@@ -311,7 +311,9 @@
         this.procDefKey = query.procDefKey
         this.taskDefKey = query.taskDefKey + ''
         this.topPage = topPage
-        
+
+        this.oldDataMaxDate = this.$common.formatTime(data.oaPrNew.beginCreateDate)
+        //this.oldDataMaxDate = this.$common.formatTime(topPage.oldDataMaxDate)
         if (query&&query.businessId) {
           this.loading = true
           this.inputForm.id = (query.businessId+"").replace("__copy","")
@@ -335,7 +337,6 @@
               }
               this.detailInfo = JSON.parse(this.inputForm.detailInfo)
 
-
               if(!this.$common.isEmpty(this.inputForm.supplementaryDoc)){
                 this.supplementaryDoc = JSON.parse(this.inputForm.supplementaryDoc)
                 this.supplementaryDoc.sort(function(x, y){
@@ -346,9 +347,7 @@
                   if(this.supplementaryDoc[i].id ==null){
                     this.supplementaryDoc[i].id = this.$common.uuid()
                   }
-                  if (this.oldDataMaxDate == '' || this.supplementaryDoc[i].uploadedDate > this.oldDataMaxDate){
-                    this.oldDataMaxDate = this.supplementaryDoc[i].uploadedDate
-                  }
+
                   this.attachmentsArra[this.supplementaryDoc[i].id] = []
                   let arr = this.supplementaryDoc[i].attachment.split("|")
 
@@ -363,7 +362,7 @@
             /* })
           }) */
         }
-        
+
       },
 
       canViewTotalAmount(){

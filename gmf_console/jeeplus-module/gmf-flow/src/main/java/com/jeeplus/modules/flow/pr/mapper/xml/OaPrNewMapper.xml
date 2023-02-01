@@ -10,6 +10,7 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate", 
 		b.END_TIME_ as "approvedDate",
+		b.create_time_ as "beginCreateDate",
 		a.remarks AS "remarks",
 		b.ACT_NAME_ as "flow.taskName",
 		b.ASSIGNEE_ as "flow.assignee",
@@ -65,7 +66,7 @@
 		LEFT JOIN sys_office createByOffice ON createByOffice.id = a.create_by_office
 		<!-- LEFT JOIN sys_office requesterDepartment ON requesterDepartment.id = a.requester_department  -->
 		LEFT JOIN act_hi_procinst p on p.PROC_INST_ID_ = a.proc_ins_id
-		left join (select a1.ACT_NAME_,a1.END_TIME_,a1.PROC_INST_ID_,a2.name_,a2.TASK_DEF_KEY_,a2.ASSIGNEE_,a3.login_name,a3.name 
+		left join (select a1.ACT_NAME_,a1.END_TIME_,a1.PROC_INST_ID_,a2.name_,a2.TASK_DEF_KEY_,a2.ASSIGNEE_,a3.login_name,a3.name,a2.create_time_
 					from act_hi_actinst as a1 
 						left join act_ru_task a2 on a2.PROC_INST_ID_=a1.PROC_INST_ID_ and a2.TASK_DEF_KEY_=a1.ACT_ID_ and a2.ASSIGNEE_ = a1.ASSIGNEE_
 						left join sys_user a3 on a3.id = a2.ASSIGNEE_
